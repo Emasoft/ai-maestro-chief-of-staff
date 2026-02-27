@@ -8,6 +8,8 @@ user-invocable: true
 
 # Notify Agents Command
 
+> **Constraint — Team Boundary:** Notifies own team agents only. Cannot directly message members of other closed teams.
+
 Send notifications to specific agents or all agents before or after operations via the AI Maestro messaging API.
 
 ## Usage
@@ -33,7 +35,7 @@ For each target agent, send a notification message using the `agent-messaging` s
 | Argument | Required | Description |
 |----------|----------|-------------|
 | `--agents <names>` | Yes* | Comma-separated list of agent names to notify |
-| `--all` | Yes* | Notify all registered agents (alternative to --agents) |
+| `--all` | Yes* | Notify all own-team agents (alternative to --agents) |
 | `--operation <type>` | Yes | Type of operation (e.g., `skill-install`, `restart`, `update`) |
 | `--message <text>` | Yes | Notification message text |
 | `--require-ack` | No | Wait for acknowledgment from each agent |
@@ -107,7 +109,7 @@ For each target agent, send a notification message using the `agent-messaging` s
 
 This command is implemented by:
 
-1. **Resolving target agents**: if `--all` is specified, use the `ai-maestro-agents-management` skill to list all agents; otherwise use the explicit agent list
+1. **Resolving target agents**: if `--all` is specified, use the `ai-maestro-agents-management` skill to list all own-team agents; otherwise use the explicit agent list (must be within own team)
 2. **Sending notifications**: for each target agent, send a message using the `agent-messaging` skill with the operation type and message content
 3. **Polling for acknowledgments** (if `--require-ack`): use the `agent-messaging` skill to check for incoming acknowledgment messages from each agent
 

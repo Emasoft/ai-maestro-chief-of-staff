@@ -165,10 +165,10 @@ Copy this checklist and track your progress:
 
 ```bash
 # Step 1: Add marketplace (first time only)
-claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro
 
 # Step 2: Install plugin
-claude plugin install perfect-skill-suggester@ai-maestro-plugins
+claude plugin install perfect-skill-suggester@ai-maestro
 
 # Step 3: Verify installation
 claude plugin list | grep perfect-skill-suggester
@@ -310,6 +310,17 @@ See [references/plugin-validation.md](references/plugin-validation.md) Section 3
 
 **Steps:** Use the `ai-maestro-agents-management` skill to manage plugins on remote agents.
 
+### GovernanceRequest Pipeline (Remote Operations)
+
+For agents on a **different host or different team**, do NOT use direct CLI commands. Instead, submit a `configure-agent` GovernanceRequest through the governance pipeline:
+
+1. Build the GovernanceRequest with `type: "configure-agent"`, the target agent, and the `ConfigOperationType` (`add-plugin`, `remove-plugin`, etc.)
+2. Submit via the governance pipeline (the governance system routes, approves, and executes)
+3. Monitor the request status for completion or rejection
+4. Verify the operation result once approved and executed
+
+**Local (same host, same team)** operations remain direct using the `ai-maestro-agents-management` skill as described below.
+
 **Related documentation:**
 
 #### Remote Plugin Management ([references/remote-plugin-management.md](references/remote-plugin-management.md))
@@ -330,7 +341,7 @@ See [references/plugin-validation.md](references/plugin-validation.md) Section 3
 
 Use the `ai-maestro-agents-management` skill for each step:
 
-1. **Add marketplace** to remote agent `backend-api` with source `github:Emasoft/ai-maestro-plugins` (auto-restarts agent)
+1. **Add marketplace** to remote agent `backend-api` with source `bundled with AI Maestro` (auto-restarts agent)
 2. **Install plugin** `perfect-skill-suggester` on agent `backend-api` (auto-restarts agent)
 3. **List plugins** on agent `backend-api` to verify installation
 4. **Uninstall plugin** `my-old-plugin` from agent `backend-api` if no longer needed

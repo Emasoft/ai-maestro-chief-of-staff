@@ -67,8 +67,8 @@ Select the appropriate agent type based on the task requirements. AMCOS chooses 
 
 ### Step 2: Setup Plugin for Agent
 
-Copy the plugin from the **ai-maestro-plugins marketplace cache** to the agent's local folder:
-- **Source**: `$HOME/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<latest-version>/`
+Copy the plugin from the **AI Maestro distribution cache** to the agent's local folder:
+- **Source**: `$HOME/.claude/plugins/cache/ai-maestro/<plugin-name>/<latest-version>/`
 - **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
 
 Create the destination directory and copy the plugin files.
@@ -130,7 +130,7 @@ Copy this checklist and track your progress:
 ### Example: Creating an Orchestrator for svgbbox Project
 
 1. Set variables: session name `eoa-svgbbox-orchestrator`, plugin `ai-maestro-orchestrator-agent`
-2. Copy plugin from marketplace cache (`$HOME/.claude/plugins/cache/ai-maestro-plugins/ai-maestro-orchestrator-agent/<latest-version>/`) to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent/`
+2. Copy plugin from marketplace cache (`$HOME/.claude/plugins/cache/ai-maestro/ai-maestro-orchestrator-agent/<latest-version>/`) to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent/`
 3. Use the `ai-maestro-agents-management` skill to create a new agent:
    - **Name**: `eoa-svgbbox-orchestrator`
    - **Directory**: `~/agents/eoa-svgbbox-orchestrator`

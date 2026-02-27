@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# TODO: Migrate to AI Maestro REST API (POST /api/agents/register, etc.)
+# Current implementation uses ai-maestro-agents-management skill
 """
 amcos_spawn_agent.py - Spawn a new AI Maestro agent session.
 
@@ -23,13 +25,13 @@ from typing import Any
 def get_marketplace_plugin_path(plugin_name: str) -> Path | None:
     """Get the path to a marketplace-installed plugin.
 
-    Plugins are installed from ai-maestro-plugins marketplace to:
-    ~/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<version>/
+    Plugins are installed from AI Maestro distribution to:
+    ~/.claude/plugins/cache/ai-maestro/<plugin-name>/<version>/
 
     Returns the latest version path, or None if not installed.
     """
     cache_dir = (
-        Path.home() / ".claude" / "plugins" / "cache" / "ai-maestro-plugins" / plugin_name
+        Path.home() / ".claude" / "plugins" / "cache" / "ai-maestro" / plugin_name
     )
     if not cache_dir.exists():
         return None
@@ -42,7 +44,7 @@ def get_marketplace_plugin_path(plugin_name: str) -> Path | None:
 
 
 def install_marketplace_plugin(plugin_name: str, agent_dir: Path) -> bool:
-    """Install a plugin from ai-maestro-plugins marketplace to agent's local folder.
+    """Install a plugin from AI Maestro distribution to agent's local folder.
 
     Args:
         plugin_name: Name of the plugin (e.g., 'ai-maestro-orchestrator-agent')
@@ -165,8 +167,8 @@ def main() -> int:
     if args.plugins:
         plugins_list = [p.strip() for p in args.plugins.split(",") if p.strip()]
 
-    # Install plugins from ai-maestro-plugins marketplace to agent's local folder
-    # Plugins are fetched from: ~/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<version>/
+    # Install plugins from AI Maestro distribution to agent's local folder
+    # Plugins are fetched from: ~/.claude/plugins/cache/ai-maestro/<plugin-name>/<version>/
     plugins_installed = []
     plugins_failed = []
     for plugin in plugins_list:
@@ -180,7 +182,7 @@ def main() -> int:
             "status": "error",
             "message": f"Failed to install plugins from marketplace: {plugins_failed}",
             "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            "hint": "Ensure plugins are installed via: claude plugin install <name>@ai-maestro-plugins",
+            "hint": "Ensure plugins are installed via: claude plugin install <name>@ai-maestro",
             "plugins_installed": plugins_installed,
             "plugins_failed": plugins_failed,
         }

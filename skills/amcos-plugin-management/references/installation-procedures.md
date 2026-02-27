@@ -56,12 +56,12 @@ Before installing plugins from a marketplace, you must first register the market
 **Procedure:**
 
 ```bash
-claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro
 ```
 
 **Expected Output:**
 ```
-Marketplace added successfully: ai-maestro-plugins
+Marketplace added successfully: ai-maestro
 ```
 
 **Verification:**
@@ -90,7 +90,7 @@ claude plugin install <plugin-name>@<marketplace-name> --scope local
 **Example:**
 
 ```bash
-claude plugin install perfect-skill-suggester@ai-maestro-plugins --scope local
+claude plugin install perfect-skill-suggester@ai-maestro --scope local
 ```
 
 **What happens:**
@@ -101,7 +101,7 @@ claude plugin install perfect-skill-suggester@ai-maestro-plugins --scope local
 
 **Expected Output:**
 ```
-Installing perfect-skill-suggester@ai-maestro-plugins...
+Installing perfect-skill-suggester@ai-maestro...
 Downloaded version 1.2.2
 Plugin installed successfully (scope: local)
 ```
@@ -130,7 +130,7 @@ claude plugin list | grep <plugin-name>
 **Expected Output:**
 
 ```
-perfect-skill-suggester@ai-maestro-plugins (enabled, v1.2.2, scope: local)
+perfect-skill-suggester@ai-maestro (enabled, v1.2.2, scope: local)
 ```
 
 **Verification Checklist:**
@@ -255,7 +255,7 @@ Plugin scope determines where the plugin configuration is stored and who can acc
 **Example:**
 
 ```
-~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/1.2.2/
+~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/1.2.2/
 ```
 
 **Important Notes:**
@@ -370,7 +370,7 @@ claude plugin enable <plugin-name>@<marketplace-name> --scope local
 **Example:**
 
 ```bash
-claude plugin enable perfect-skill-suggester@ai-maestro-plugins --scope local
+claude plugin enable perfect-skill-suggester@ai-maestro --scope local
 ```
 
 **What happens:**
@@ -380,7 +380,7 @@ claude plugin enable perfect-skill-suggester@ai-maestro-plugins --scope local
 
 **Expected Output:**
 ```
-Plugin enabled: perfect-skill-suggester@ai-maestro-plugins (scope: local)
+Plugin enabled: perfect-skill-suggester@ai-maestro (scope: local)
 Restart Claude Code to apply changes.
 ```
 
@@ -399,7 +399,7 @@ claude plugin disable <plugin-name>@<marketplace-name> --scope local
 **Example:**
 
 ```bash
-claude plugin disable perfect-skill-suggester@ai-maestro-plugins --scope local
+claude plugin disable perfect-skill-suggester@ai-maestro --scope local
 ```
 
 **What happens:**
@@ -409,7 +409,7 @@ claude plugin disable perfect-skill-suggester@ai-maestro-plugins --scope local
 
 **Expected Output:**
 ```
-Plugin disabled: perfect-skill-suggester@ai-maestro-plugins (scope: local)
+Plugin disabled: perfect-skill-suggester@ai-maestro (scope: local)
 Restart Claude Code to apply changes.
 ```
 
@@ -459,21 +459,21 @@ claude plugin list | grep <plugin-name>
 **Example:**
 
 ```bash
-claude plugin marketplace update ai-maestro-plugins
-claude plugin uninstall perfect-skill-suggester@ai-maestro-plugins
-claude plugin install perfect-skill-suggester@ai-maestro-plugins --scope local
+claude plugin marketplace update ai-maestro
+claude plugin uninstall perfect-skill-suggester@ai-maestro
+claude plugin install perfect-skill-suggester@ai-maestro --scope local
 claude plugin list | grep perfect-skill-suggester
 ```
 
 **Expected Output:**
 ```
-Marketplace updated: ai-maestro-plugins
-Plugin uninstalled: perfect-skill-suggester@ai-maestro-plugins
-Installing perfect-skill-suggester@ai-maestro-plugins...
+Marketplace updated: ai-maestro
+Plugin uninstalled: perfect-skill-suggester@ai-maestro
+Installing perfect-skill-suggester@ai-maestro...
 Downloaded version 1.2.3
 Plugin installed successfully (scope: local)
 
-perfect-skill-suggester@ai-maestro-plugins (enabled, v1.2.3, scope: local)
+perfect-skill-suggester@ai-maestro (enabled, v1.2.3, scope: local)
 ```
 
 **Critical Notes:**
@@ -508,9 +508,9 @@ claude plugin list | grep <plugin-name>
 **Example:**
 
 ```bash
-rm -rf ~/.claude/plugins/cache/ai-maestro-plugins/
-claude plugin uninstall perfect-skill-suggester@ai-maestro-plugins
-claude plugin install perfect-skill-suggester@ai-maestro-plugins --scope local
+rm -rf ~/.claude/plugins/cache/ai-maestro/
+claude plugin uninstall perfect-skill-suggester@ai-maestro
+claude plugin install perfect-skill-suggester@ai-maestro --scope local
 claude plugin list | grep perfect-skill-suggester
 ```
 
@@ -539,7 +539,7 @@ claude plugin marketplace update --all
 **Example:**
 
 ```bash
-claude plugin marketplace update ai-maestro-plugins
+claude plugin marketplace update ai-maestro
 ```
 
 **What happens:**
@@ -549,7 +549,7 @@ claude plugin marketplace update ai-maestro-plugins
 
 **Expected Output:**
 ```
-Updating marketplace: ai-maestro-plugins
+Updating marketplace: ai-maestro
 Fetched latest metadata
 Marketplace updated successfully
 ```
@@ -576,7 +576,7 @@ claude plugin uninstall <plugin-name>@<marketplace-name>
 **Example:**
 
 ```bash
-claude plugin uninstall perfect-skill-suggester@ai-maestro-plugins
+claude plugin uninstall perfect-skill-suggester@ai-maestro
 ```
 
 **What happens:**
@@ -586,7 +586,7 @@ claude plugin uninstall perfect-skill-suggester@ai-maestro-plugins
 
 **Expected Output:**
 ```
-Plugin uninstalled: perfect-skill-suggester@ai-maestro-plugins
+Plugin uninstalled: perfect-skill-suggester@ai-maestro
 Restart Claude Code to apply changes.
 ```
 
@@ -618,10 +618,10 @@ rm -rf ~/.claude/plugins/cache/<marketplace-name>/
 
 ```bash
 # Remove specific version
-rm -rf ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/1.2.2/
+rm -rf ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/1.2.2/
 
 # Remove all versions
-rm -rf ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/
+rm -rf ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/
 ```
 
 **When to Use:**
@@ -656,7 +656,7 @@ claude plugin validate /path/to/local/plugin
 **Example:**
 
 ```bash
-claude plugin validate ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/1.2.2/
+claude plugin validate ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/1.2.2/
 ```
 
 **What it checks:**
@@ -668,7 +668,7 @@ claude plugin validate ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-
 
 **Expected Output:**
 ```
-Validating plugin at: ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/1.2.2/
+Validating plugin at: ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/1.2.2/
 ✓ plugin.json is valid
 ✓ Directory structure is correct
 ✓ Hook configuration is valid
@@ -749,10 +749,10 @@ cat ~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/.claude-plugin/plug
 ```bash
 # Installed version
 claude plugin list | grep perfect-skill-suggester
-# Output: perfect-skill-suggester@ai-maestro-plugins (enabled, v1.2.2, scope: local)
+# Output: perfect-skill-suggester@ai-maestro (enabled, v1.2.2, scope: local)
 
 # Latest available
-cat ~/.claude/plugins/cache/ai-maestro-plugins/marketplace.json | jq '.plugins."perfect-skill-suggester".version'
+cat ~/.claude/plugins/cache/ai-maestro/marketplace.json | jq '.plugins."perfect-skill-suggester".version'
 # Output: "1.2.3"
 ```
 
@@ -783,7 +783,7 @@ ls ~/.claude/plugins/cache/<marketplace-name>/<plugin-name>/
 **Example:**
 
 ```bash
-ls ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/
+ls ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/
 # Output: 1.2.1/ 1.2.2/
 ```
 
@@ -817,17 +817,17 @@ ls ~/.claude/plugins/cache/<marketplace>/<plugin>/
 ```bash
 # Current version is 1.2.2
 claude plugin list | grep perfect-skill-suggester
-# Output: perfect-skill-suggester@ai-maestro-plugins (enabled, v1.2.2, scope: local)
+# Output: perfect-skill-suggester@ai-maestro (enabled, v1.2.2, scope: local)
 
 # Check cached versions
-ls ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/
+ls ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/
 # Output: 1.2.1/ 1.2.2/
 
 # Remove old version
-rm -rf ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/1.2.1/
+rm -rf ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/1.2.1/
 
 # Verify cleanup
-ls ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/
+ls ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/
 # Output: 1.2.2/
 
 # Restart Claude Code (required!)
@@ -850,7 +850,7 @@ After updating from 1.2.1 to 1.2.2:
 
 ```
 PreToolUse:Write operation blocked by hook:
-can't open file '~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/1.2.1/scripts/hook.py': No such file or directory
+can't open file '~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/1.2.1/scripts/hook.py': No such file or directory
 ```
 
 **Root Cause:**
@@ -885,7 +885,7 @@ After update, `claude plugin list` still shows old version:
 
 ```bash
 claude plugin list | grep perfect-skill-suggester
-# Output: perfect-skill-suggester@ai-maestro-plugins (enabled, v1.2.1, scope: local)
+# Output: perfect-skill-suggester@ai-maestro (enabled, v1.2.1, scope: local)
 ```
 
 But marketplace shows version 1.2.2 is available.
@@ -894,25 +894,25 @@ But marketplace shows version 1.2.2 is available.
 
 ```bash
 # Check what's actually cached
-ls ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/
+ls ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/
 # Output: 1.2.1/ 1.2.2/
 
 # Check settings file
 cat .claude/settings.local.json | jq '.plugins.enabled'
-# Output: ["perfect-skill-suggester@ai-maestro-plugins"]
+# Output: ["perfect-skill-suggester@ai-maestro"]
 ```
 
 **Solution:**
 
 ```bash
 # Step 1: Clear entire plugin cache
-rm -rf ~/.claude/plugins/cache/ai-maestro-plugins/perfect-skill-suggester/
+rm -rf ~/.claude/plugins/cache/ai-maestro/perfect-skill-suggester/
 
 # Step 2: Update marketplace
-claude plugin marketplace update ai-maestro-plugins
+claude plugin marketplace update ai-maestro
 
 # Step 3: Reinstall
-claude plugin install perfect-skill-suggester@ai-maestro-plugins --scope local
+claude plugin install perfect-skill-suggester@ai-maestro --scope local
 
 # Step 4: Verify
 claude plugin list | grep perfect-skill-suggester

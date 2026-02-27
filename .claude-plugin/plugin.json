@@ -1,7 +1,8 @@
 {
   "name": "ai-maestro-chief-of-staff",
-  "version": "1.3.9",
-  "description": "Multi-project agent management - staff planning, lifecycle, approval workflows, failure recovery. Requires AI Maestro for inter-agent messaging.",
+  "version": "2.0.0",
+  "description": "Per-team agent management - staff planning, lifecycle, governance workflows, failure recovery. Requires AI Maestro v0.26.0+.",
+  "minMaestroVersion": "0.26.0",
   "author": {
     "name": "Emasoft",
     "email": "713559+Emasoft@users.noreply.github.com"
@@ -12,7 +13,7 @@
     "./agents/amcos-chief-of-staff-main-agent.md",
     "./agents/amcos-staff-planner.md",
     "./agents/amcos-lifecycle-manager.md",
-    "./agents/amcos-project-coordinator.md",
+    "./agents/amcos-team-coordinator.md",
     "./agents/amcos-plugin-configurator.md",
     "./agents/amcos-skill-validator.md",
     "./agents/amcos-resource-monitor.md",

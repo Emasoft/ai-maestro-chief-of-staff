@@ -2,85 +2,50 @@
 """
 AMCOS Team Registry Manager
 
-Manages team registries for multi-project agent coordination.
-Creates, updates, and publishes team-registry.json files.
+Manages team registries via the AI Maestro REST API.
+Creates, updates, and queries teams and their agent memberships.
 
 Usage:
     python amcos_team_registry.py create --team <name> --repo <url> [--project-board <url>]
-    python amcos_team_registry.py add-agent --team <name> --agent <agent-json>
+    python amcos_team_registry.py add-agent --team <name> --agent-name <name> --role <role> --plugin <plugin> --host <host>
     python amcos_team_registry.py remove-agent --team <name> --agent-name <name>
     python amcos_team_registry.py update-status --team <name> --agent-name <name> --status <status>
-    python amcos_team_registry.py list --team <name>
-    python amcos_team_registry.py publish --team <name> --repo-path <path>
-    python amcos_team_registry.py validate --team <name>
+    python amcos_team_registry.py list [--team <name>]
 """
 
 import argparse
 import json
-import subprocess
+import os
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
-# Organization-wide agents (not team-specific)
-ORGANIZATION_AGENTS = [
-    {
-        "name": "eama-assistant-manager",
-        "role": "manager",
-        "plugin": "ai-maestro-assistant-manager-agent",
-        "host": "macbook-main",
-        "ai_maestro_address": "eama-assistant-manager",
-        "note": "Organization-wide, not team-specific",
-    },
-    {
-        "name": "amcos-chief-of-staff",
-        "role": "chief-of-staff",
-        "plugin": "ai-maestro-chief-of-staff",
-        "host": "macbook-main",
-        "ai_maestro_address": "amcos-chief-of-staff",
-        "note": "Organization-wide, not team-specific",
-    },
-]
+import requests
 
-# Default shared agents
-DEFAULT_SHARED_AGENTS = [
-    {
-        "name": "ai-maestro-integrator",
-        "role": "integrator",
-        "plugin": "ai-maestro-integrator-agent",
-        "host": "server-ci-01",
-        "ai_maestro_address": "ai-maestro-integrator",
-        "note": "Shared across multiple teams",
-    }
-]
+
+# API base URL from environment, default to localhost
+API_BASE = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
 
 
 # Role constraints for team composition validation.
-# "programmer" is the first role in the "implementer" category - agents that produce
-# concrete deliverables. Future implementer roles (documenter, 2d-artist, 3d-artist,
-# video-maker, ui-designer, etc.) will each get their own entry here when their
-# plugins are created.
-# Role constraints - typed for mypy
+# All worker roles map to governance role "member".
 class RoleConstraint:
     """Role constraint data."""
 
-    def __init__(self, min_count: int, max_count: int, plugin: str):
+    def __init__(self, min_count: int, max_count: int, plugin: str, governance_role: str = "member"):
         self.min = min_count
         self.max = max_count
         self.plugin = plugin
+        # Governance role used when registering the agent with the API
+        self.governance_role = governance_role
 
 
 ROLE_CONSTRAINTS: dict[str, RoleConstraint] = {
-    "orchestrator": RoleConstraint(1, 1, "ai-maestro-orchestrator-agent"),
-    "architect": RoleConstraint(1, 1, "ai-maestro-architect-agent"),
-    "integrator": RoleConstraint(0, 10, "ai-maestro-integrator-agent"),
-    "programmer": RoleConstraint(1, 20, "ai-maestro-programmer-agent"),
+    "orchestrator": RoleConstraint(1, 1, "ai-maestro-orchestrator-agent", "member"),
+    "architect": RoleConstraint(1, 1, "ai-maestro-architect-agent", "member"),
+    "integrator": RoleConstraint(0, 10, "ai-maestro-integrator-agent", "member"),
+    "programmer": RoleConstraint(1, 20, "ai-maestro-programmer-agent", "member"),
 }
-
-# AMCOS state directory
-AMCOS_STATE_DIR = Path.home() / ".ecos"
-TEAMS_REGISTRY_FILE = AMCOS_STATE_DIR / "all-teams.json"
 
 
 def get_timestamp() -> str:
@@ -88,20 +53,25 @@ def get_timestamp() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def load_all_teams() -> dict[str, Any]:
-    """Load the master list of all teams."""
-    AMCOS_STATE_DIR.mkdir(parents=True, exist_ok=True)
-    if TEAMS_REGISTRY_FILE.exists():
-        with open(TEAMS_REGISTRY_FILE, encoding="utf-8") as f:
-            return cast(dict[str, Any], json.load(f))
-    return {"teams": {}, "last_updated": get_timestamp()}
+def _api_url(path: str) -> str:
+    """Build full API URL from a relative path."""
+    return f"{API_BASE}{path}"
 
 
-def save_all_teams(data: dict[str, Any]) -> None:
-    """Save the master list of all teams."""
-    data["last_updated"] = get_timestamp()
-    with open(TEAMS_REGISTRY_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+def _handle_response(resp: requests.Response, context: str) -> dict[str, Any]:
+    """Check HTTP response and return parsed JSON, or raise on error."""
+    if not resp.ok:
+        # Try to extract error message from response body
+        try:
+            body = resp.json()
+            detail = body.get("error") or body.get("detail") or body.get("message") or json.dumps(body)
+        except Exception:
+            detail = resp.text or resp.reason
+        raise RuntimeError(f"{context}: HTTP {resp.status_code} - {detail}")
+    # Some endpoints may return empty body on success (e.g. DELETE 204)
+    if resp.status_code == 204 or not resp.content:
+        return {}
+    return resp.json()
 
 
 def validate_team_name(name: str) -> tuple[bool, str]:
@@ -113,344 +83,149 @@ def validate_team_name(name: str) -> tuple[bool, str]:
     if len(parts) < 3:
         return False, "Team name must be: <repo-name>-<project-type>-team"
 
-    # Check uniqueness
-    all_teams = load_all_teams()
-    if name in all_teams["teams"]:
-        return False, f"Team name '{name}' already exists"
-
     return True, "Valid"
 
 
-def create_team_registry(
-    team_name: str, repo_url: str, project_board_url: str | None = None
-) -> dict[str, Any]:
-    """Create a new team registry."""
-
-    # Validate team name
+def create_team(team_name: str, repo_url: str, project_board_url: str | None = None) -> dict[str, Any]:
+    """Create a new team via the AI Maestro REST API."""
+    # Validate team name format locally before hitting the API
     valid, msg = validate_team_name(team_name)
     if not valid:
         raise ValueError(msg)
 
-    timestamp = get_timestamp()
-
-    registry = {
-        "$schema": "https://ai-maestro.github.io/schemas/team-registry.v1.json",
-        "version": "1.0.0",
-        "team": {
-            "name": team_name,
-            "project": {
-                "repository": repo_url,
-                "github_project": project_board_url,
-                "created_by": "eama-assistant-manager",
-                "created_at": timestamp,
-            },
-            "created_by": "amcos-chief-of-staff",
-            "created_at": timestamp,
-        },
-        "agents": [],
-        "shared_agents": DEFAULT_SHARED_AGENTS.copy(),
-        "organization_agents": ORGANIZATION_AGENTS.copy(),
-        "github_bot": {
-            "username": "ai-maestro-bot",
-            "type": "shared-bot-account",
-            "note": "All GitHub operations use this account. Real agent identity tracked in commit messages and PR bodies.",
-        },
-        "contacts_last_updated": timestamp,
-        "contacts_updated_by": "amcos-chief-of-staff",
-    }
-
-    # Register in master list
-    all_teams = load_all_teams()
-    all_teams["teams"][team_name] = {
+    payload: dict[str, Any] = {
+        "name": team_name,
         "repository": repo_url,
-        "created_at": timestamp,
-        "agent_count": 0,
+        "created_by": "amcos-chief-of-staff",
     }
-    save_all_teams(all_teams)
+    if project_board_url:
+        payload["github_project"] = project_board_url
 
-    return registry
+    resp = requests.post(_api_url("/api/teams"), json=payload, timeout=30)
+    return _handle_response(resp, f"Create team '{team_name}'")
 
 
-def add_agent_to_registry(
-    registry: dict[str, Any],
+def add_agent(
+    team_id: str,
     agent_name: str,
     role: str,
     plugin: str,
     host: str,
     ai_maestro_address: str | None = None,
 ) -> dict[str, Any]:
-    """Add an agent to the team registry."""
-
-    # Validate role
+    """Add an agent to a team via the AI Maestro REST API."""
+    # Validate role locally
     if role not in ROLE_CONSTRAINTS:
-        raise ValueError(
-            f"Invalid role: {role}. Valid roles: {list(ROLE_CONSTRAINTS.keys())}"
-        )
+        raise ValueError(f"Invalid role: {role}. Valid roles: {list(ROLE_CONSTRAINTS.keys())}")
 
     # Check plugin matches role
     expected_plugin = ROLE_CONSTRAINTS[role].plugin
     if plugin != expected_plugin:
-        raise ValueError(
-            f"Role '{role}' requires plugin '{expected_plugin}', got '{plugin}'"
-        )
-
-    # Check role count constraints
-    current_count = sum(1 for a in registry["agents"] if a["role"] == role)
-    max_count = ROLE_CONSTRAINTS[role].max
-    if current_count >= max_count:
-        raise ValueError(
-            f"Cannot add more '{role}' agents. Max: {max_count}, Current: {current_count}"
-        )
-
-    # Check agent name uniqueness
-    existing_names = [a["name"] for a in registry["agents"]]
-    if agent_name in existing_names:
-        raise ValueError(f"Agent name '{agent_name}' already exists in team")
+        raise ValueError(f"Role '{role}' requires plugin '{expected_plugin}', got '{plugin}'")
 
     # Default AI Maestro address to agent name
     if ai_maestro_address is None:
         ai_maestro_address = agent_name
 
-    agent_entry = {
+    payload = {
         "name": agent_name,
         "role": role,
+        "governance_role": ROLE_CONSTRAINTS[role].governance_role,
         "plugin": plugin,
         "host": host,
         "ai_maestro_address": ai_maestro_address,
         "status": "active",
-        "assigned_at": get_timestamp(),
     }
 
-    registry["agents"].append(agent_entry)
-    registry["contacts_last_updated"] = get_timestamp()
-    registry["contacts_updated_by"] = "amcos-chief-of-staff"
-
-    return registry
+    resp = requests.post(_api_url(f"/api/teams/{team_id}/agents"), json=payload, timeout=30)
+    return _handle_response(resp, f"Add agent '{agent_name}' to team '{team_id}'")
 
 
-def remove_agent_from_registry(
-    registry: dict[str, Any], agent_name: str
-) -> dict[str, Any]:
-    """Remove an agent from the team registry."""
-
-    # Find agent
-    agent_idx = None
-    for i, agent in enumerate(registry["agents"]):
-        if agent["name"] == agent_name:
-            agent_idx = i
-            break
-
-    if agent_idx is None:
-        raise ValueError(f"Agent '{agent_name}' not found in team")
-
-    # Check role constraints
-    role = registry["agents"][agent_idx]["role"]
-    current_count = sum(1 for a in registry["agents"] if a["role"] == role)
-    min_count = ROLE_CONSTRAINTS[role].min
-
-    if current_count <= min_count:
-        raise ValueError(
-            f"Cannot remove '{role}' agent. Min required: {min_count}, Current: {current_count}"
-        )
-
-    # Remove
-    registry["agents"].pop(agent_idx)
-    registry["contacts_last_updated"] = get_timestamp()
-    registry["contacts_updated_by"] = "amcos-chief-of-staff"
-
-    return registry
+def remove_agent(team_id: str, agent_id: str) -> dict[str, Any]:
+    """Remove an agent from a team via the AI Maestro REST API."""
+    resp = requests.delete(_api_url(f"/api/teams/{team_id}/agents/{agent_id}"), timeout=30)
+    return _handle_response(resp, f"Remove agent '{agent_id}' from team '{team_id}'")
 
 
-def update_agent_status(
-    registry: dict[str, Any], agent_name: str, new_status: str
-) -> dict[str, Any]:
-    """Update agent status in the registry."""
-
-    valid_statuses = ["active", "hibernated", "offline", "terminated"]
-    if new_status not in valid_statuses:
-        raise ValueError(f"Invalid status: {new_status}. Valid: {valid_statuses}")
-
-    # Find agent
-    found = False
-    for agent in registry["agents"]:
-        if agent["name"] == agent_name:
-            agent["status"] = new_status
-            agent["status_updated_at"] = get_timestamp()
-            found = True
-            break
-
-    if not found:
-        raise ValueError(f"Agent '{agent_name}' not found in team")
-
-    registry["contacts_last_updated"] = get_timestamp()
-    registry["contacts_updated_by"] = "amcos-chief-of-staff"
-
-    return registry
+def update_team(team_id: str, updates: dict[str, Any]) -> dict[str, Any]:
+    """Update a team via the AI Maestro REST API."""
+    resp = requests.patch(_api_url(f"/api/teams/{team_id}"), json=updates, timeout=30)
+    return _handle_response(resp, f"Update team '{team_id}'")
 
 
-def validate_registry(registry: dict[str, Any]) -> list[str]:
-    """Validate a team registry for completeness and constraints."""
-    errors: list[str] = []
-
-    # Check required fields
-    if "team" not in registry:
-        errors.append("Missing 'team' section")
-    elif "name" not in registry["team"]:
-        errors.append("Missing team name")
-
-    if "agents" not in registry:
-        errors.append("Missing 'agents' section")
-        return errors
-
-    # Check role constraints
-    role_counts: dict[str, int] = {}
-    for agent in registry["agents"]:
-        role = agent.get("role", "unknown")
-        role_counts[role] = role_counts.get(role, 0) + 1
-
-        # Check required fields
-        required_fields = [
-            "name",
-            "role",
-            "plugin",
-            "host",
-            "ai_maestro_address",
-            "status",
-        ]
-        for field in required_fields:
-            if field not in agent:
-                errors.append(
-                    f"Agent '{agent.get('name', 'unknown')}' missing field: {field}"
-                )
-
-    # Check min/max constraints
-    for role, constraints in ROLE_CONSTRAINTS.items():
-        count = role_counts.get(role, 0)
-        min_required = constraints.min
-        max_allowed = constraints.max
-        if count < min_required:
-            errors.append(f"Too few '{role}' agents: {count} < {min_required} (min)")
-        if count > max_allowed:
-            errors.append(f"Too many '{role}' agents: {count} > {max_allowed} (max)")
-
-    return errors
+def list_teams() -> dict[str, Any]:
+    """List all teams via the AI Maestro REST API."""
+    resp = requests.get(_api_url("/api/teams"), timeout=30)
+    return _handle_response(resp, "List teams")
 
 
-def publish_registry_to_repo(registry: dict[str, Any], repo_path: str) -> str:
-    """Publish team registry to the git repository."""
-
-    repo_path_obj = Path(repo_path)
-    ai_maestro_dir = repo_path_obj / ".ai-maestro"
-    ai_maestro_dir.mkdir(parents=True, exist_ok=True)
-
-    registry_file = ai_maestro_dir / "team-registry.json"
-
-    with open(registry_file, "w", encoding="utf-8") as f:
-        json.dump(registry, f, indent=2)
-
-    # Git add and commit
-    try:
-        subprocess.run(
-            ["git", "add", str(registry_file)],
-            cwd=repo_path,
-            check=True,
-            capture_output=True,
-        )
-
-        team_name = registry["team"]["name"]
-        subprocess.run(
-            ["git", "commit", "-m", f"[AMCOS] Update team registry for {team_name}"],
-            cwd=repo_path,
-            check=True,
-            capture_output=True,
-        )
-
-        return f"Published to {registry_file} and committed"
-    except subprocess.CalledProcessError as e:
-        return f"Saved to {registry_file} but git commit failed: {e.stderr.decode()}"
+def get_team_by_name(team_name: str) -> dict[str, Any] | None:
+    """Find a team by name from the API. Returns the team dict or None."""
+    data = list_teams()
+    teams = data.get("teams", [])
+    for team in teams:
+        if team.get("name") == team_name:
+            return team
+    return None
 
 
-def list_team_agents(registry: dict[str, Any]) -> str:
-    """Format team agents as a readable list."""
+def _resolve_team_id(team_name: str) -> str:
+    """Resolve a team name to its API id. Raises if not found."""
+    team = get_team_by_name(team_name)
+    if team is None:
+        raise ValueError(f"Team '{team_name}' not found")
+    # The API may use 'id', '_id', or 'name' as identifier
+    return str(team.get("id") or team.get("_id") or team["name"])
 
+
+def _resolve_agent_id(team: dict[str, Any], agent_name: str) -> str:
+    """Resolve an agent name to its API id within a team. Raises if not found."""
+    agents = team.get("agents", [])
+    for agent in agents:
+        if agent.get("name") == agent_name:
+            return str(agent.get("id") or agent.get("_id") or agent["name"])
+    raise ValueError(f"Agent '{agent_name}' not found in team '{team.get('name', '?')}'")
+
+
+def format_team_list(team: dict[str, Any]) -> str:
+    """Format a single team's agents as a readable list."""
     lines = []
-    team_name = registry["team"]["name"]
+    team_name = team.get("name", "unknown")
     lines.append(f"Team: {team_name}")
-    lines.append(f"Repository: {registry['team']['project']['repository']}")
+    lines.append(f"Repository: {team.get('repository', 'N/A')}")
     lines.append("")
-    lines.append("Team Agents:")
+    lines.append("Agents:")
     lines.append("-" * 80)
     lines.append(f"{'Name':<25} {'Role':<15} {'Host':<20} {'Status':<10}")
     lines.append("-" * 80)
 
-    for agent in registry["agents"]:
+    for agent in team.get("agents", []):
         lines.append(
-            f"{agent['name']:<25} {agent['role']:<15} {agent['host']:<20} {agent['status']:<10}"
+            f"{agent.get('name', '?'):<25} {agent.get('role', '?'):<15} "
+            f"{agent.get('host', '?'):<20} {agent.get('status', '?'):<10}"
         )
 
     lines.append("")
-    lines.append("Shared Agents:")
-    lines.append("-" * 80)
-    for agent in registry.get("shared_agents", []):
-        lines.append(
-            f"{agent['name']:<25} {agent['role']:<15} {agent['host']:<20} (shared)"
-        )
-
-    lines.append("")
-    lines.append("Organization Agents:")
-    lines.append("-" * 80)
-    for agent in registry.get("organization_agents", []):
-        lines.append(
-            f"{agent['name']:<25} {agent['role']:<15} {agent['host']:<20} (org-wide)"
-        )
-
-    lines.append("")
-    lines.append(f"Last Updated: {registry['contacts_last_updated']}")
-    lines.append(f"Updated By: {registry['contacts_updated_by']}")
-
+    lines.append(f"Last Updated: {team.get('contacts_last_updated', 'N/A')}")
     return "\n".join(lines)
 
 
-def notify_team_of_registry_update(
-    registry: dict[str, Any], changes: list[dict[str, str]]
-) -> None:
-    """Send AMP CLI notifications to all team agents about registry update."""
+def format_all_teams(data: dict[str, Any]) -> str:
+    """Format all teams as a readable summary."""
+    teams = data.get("teams", [])
+    if not teams:
+        return "No teams registered."
 
-    for agent in registry["agents"]:
-        if agent["status"] != "active":
-            continue
-
-        subject = "[REGISTRY UPDATE] Team contacts updated"
-        message_text = (
-            f"Team registry has been updated. Please pull latest changes. "
-            f"Team: {registry['team']['name']}. "
-            f"Changes: {json.dumps(changes)}"
-        )
-        recipient = agent["ai_maestro_address"]
-
-        try:
-            subprocess.run(
-                [
-                    "amp-send",
-                    recipient,
-                    subject,
-                    message_text,
-                    "--priority",
-                    "normal",
-                    "--type",
-                    "registry-update",
-                ],
-                capture_output=True,
-                text=True,
-                timeout=30,
-            )
-        except Exception as e:
-            print(f"Warning: Failed to notify {agent['name']}: {e}", file=sys.stderr)
+    lines = []
+    for team in teams:
+        lines.append(format_team_list(team))
+        lines.append("")
+    return "\n".join(lines)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="AMCOS Team Registry Manager",
+        description="AMCOS Team Registry Manager (REST API)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -464,30 +239,29 @@ Examples:
         --agent-name svgbbox-programmer-001 --role programmer \\
         --plugin ai-maestro-programmer-agent --host macbook-dev-01
 
+    # Remove an agent
+    python amcos_team_registry.py remove-agent --team svgbbox-library-team \\
+        --agent-name svgbbox-programmer-001
+
     # Update agent status
     python amcos_team_registry.py update-status --team svgbbox-library-team \\
-        --agent-name svgbbox-impl-01 --status hibernated
+        --agent-name svgbbox-programmer-001 --status hibernated
 
-    # List team
+    # List all teams
+    python amcos_team_registry.py list
+
+    # List a specific team
     python amcos_team_registry.py list --team svgbbox-library-team
-
-    # Validate
-    python amcos_team_registry.py validate --team svgbbox-library-team
-
-    # Publish to repo
-    python amcos_team_registry.py publish --team svgbbox-library-team \\
-        --repo-path /path/to/repo
         """,
     )
 
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # Create command
-    create_parser = subparsers.add_parser("create", help="Create a new team registry")
+    create_parser = subparsers.add_parser("create", help="Create a new team")
     create_parser.add_argument("--team", required=True, help="Team name")
     create_parser.add_argument("--repo", required=True, help="GitHub repository URL")
     create_parser.add_argument("--project-board", help="GitHub Projects board URL")
-    create_parser.add_argument("--output", help="Output file path")
 
     # Add agent command
     add_parser = subparsers.add_parser("add-agent", help="Add agent to team")
@@ -496,142 +270,95 @@ Examples:
     add_parser.add_argument("--role", required=True, help="Agent role")
     add_parser.add_argument("--plugin", required=True, help="Plugin name")
     add_parser.add_argument("--host", required=True, help="Host machine")
-    add_parser.add_argument(
-        "--address", help="AI Maestro address (default: agent name)"
-    )
-    add_parser.add_argument(
-        "--registry-file", required=True, help="Path to registry file"
-    )
+    add_parser.add_argument("--address", help="AI Maestro address (default: agent name)")
 
     # Remove agent command
     remove_parser = subparsers.add_parser("remove-agent", help="Remove agent from team")
     remove_parser.add_argument("--team", required=True, help="Team name")
-    remove_parser.add_argument(
-        "--agent-name", required=True, help="Agent name to remove"
-    )
-    remove_parser.add_argument(
-        "--registry-file", required=True, help="Path to registry file"
-    )
+    remove_parser.add_argument("--agent-name", required=True, help="Agent name to remove")
 
     # Update status command
     status_parser = subparsers.add_parser("update-status", help="Update agent status")
     status_parser.add_argument("--team", required=True, help="Team name")
     status_parser.add_argument("--agent-name", required=True, help="Agent name")
     status_parser.add_argument("--status", required=True, help="New status")
-    status_parser.add_argument(
-        "--registry-file", required=True, help="Path to registry file"
-    )
 
     # List command
-    list_parser = subparsers.add_parser("list", help="List team agents")
-    list_parser.add_argument(
-        "--registry-file", required=True, help="Path to registry file"
-    )
-
-    # Validate command
-    validate_parser = subparsers.add_parser("validate", help="Validate team registry")
-    validate_parser.add_argument(
-        "--registry-file", required=True, help="Path to registry file"
-    )
-
-    # Publish command
-    publish_parser = subparsers.add_parser("publish", help="Publish registry to repo")
-    publish_parser.add_argument(
-        "--registry-file", required=True, help="Path to registry file"
-    )
-    publish_parser.add_argument(
-        "--repo-path", required=True, help="Path to git repository"
-    )
-    publish_parser.add_argument(
-        "--notify", action="store_true", help="Notify team agents"
-    )
+    list_parser = subparsers.add_parser("list", help="List teams and agents")
+    list_parser.add_argument("--team", help="Team name (omit to list all teams)")
 
     args = parser.parse_args()
 
     try:
         if args.command == "create":
-            registry = create_team_registry(args.team, args.repo, args.project_board)
-            output = args.output or f"{args.team}-registry.json"
-            with open(output, "w", encoding="utf-8") as f:
-                json.dump(registry, f, indent=2)
-            print(f"Created team registry: {output}")
+            result = create_team(args.team, args.repo, args.project_board)
+            print(f"Created team: {args.team}")
+            print(json.dumps(result, indent=2))
             return 0
 
         elif args.command == "add-agent":
-            with open(args.registry_file, encoding="utf-8") as f:
-                registry = json.load(f)
-
-            registry = add_agent_to_registry(
-                registry,
+            team_id = _resolve_team_id(args.team)
+            result = add_agent(
+                team_id,
                 args.agent_name,
                 args.role,
                 args.plugin,
                 args.host,
                 args.address,
             )
-
-            with open(args.registry_file, "w", encoding="utf-8") as f:
-                json.dump(registry, f, indent=2)
-            print(f"Added agent {args.agent_name} to team")
+            print(f"Added agent '{args.agent_name}' to team '{args.team}'")
+            print(json.dumps(result, indent=2))
             return 0
 
         elif args.command == "remove-agent":
-            with open(args.registry_file, encoding="utf-8") as f:
-                registry = json.load(f)
-
-            registry = remove_agent_from_registry(registry, args.agent_name)
-
-            with open(args.registry_file, "w", encoding="utf-8") as f:
-                json.dump(registry, f, indent=2)
-            print(f"Removed agent {args.agent_name} from team")
+            team = get_team_by_name(args.team)
+            if team is None:
+                raise ValueError(f"Team '{args.team}' not found")
+            team_id = str(team.get("id") or team.get("_id") or team["name"])
+            agent_id = _resolve_agent_id(team, args.agent_name)
+            remove_agent(team_id, agent_id)
+            print(f"Removed agent '{args.agent_name}' from team '{args.team}'")
             return 0
 
         elif args.command == "update-status":
-            with open(args.registry_file, encoding="utf-8") as f:
-                registry = json.load(f)
+            team = get_team_by_name(args.team)
+            if team is None:
+                raise ValueError(f"Team '{args.team}' not found")
+            team_id = str(team.get("id") or team.get("_id") or team["name"])
 
-            registry = update_agent_status(registry, args.agent_name, args.status)
+            valid_statuses = ["active", "hibernated", "offline", "terminated"]
+            if args.status not in valid_statuses:
+                raise ValueError(f"Invalid status: {args.status}. Valid: {valid_statuses}")
 
-            with open(args.registry_file, "w", encoding="utf-8") as f:
-                json.dump(registry, f, indent=2)
-            print(f"Updated {args.agent_name} status to {args.status}")
+            # Use PATCH on the team to update the agent's status
+            agent_id = _resolve_agent_id(team, args.agent_name)
+            # Update via the team agents endpoint - PATCH the agent within the team
+            resp = requests.patch(
+                _api_url(f"/api/teams/{team_id}/agents/{agent_id}"),
+                json={"status": args.status, "status_updated_at": get_timestamp()},
+                timeout=30,
+            )
+            _handle_response(resp, f"Update status of '{args.agent_name}'")
+            print(f"Updated '{args.agent_name}' status to '{args.status}'")
             return 0
 
         elif args.command == "list":
-            with open(args.registry_file, encoding="utf-8") as f:
-                registry = json.load(f)
-            print(list_team_agents(registry))
-            return 0
-
-        elif args.command == "validate":
-            with open(args.registry_file, encoding="utf-8") as f:
-                registry = json.load(f)
-
-            errors = validate_registry(registry)
-            if errors:
-                print("Validation FAILED:")
-                for error in errors:
-                    print(f"  - {error}")
-                return 1
+            if args.team:
+                team = get_team_by_name(args.team)
+                if team is None:
+                    raise ValueError(f"Team '{args.team}' not found")
+                print(format_team_list(team))
             else:
-                print("Validation PASSED")
-                return 0
-
-        elif args.command == "publish":
-            with open(args.registry_file, encoding="utf-8") as f:
-                registry = json.load(f)
-
-            result = publish_registry_to_repo(registry, args.repo_path)
-            print(result)
-
-            if args.notify:
-                notify_team_of_registry_update(
-                    registry, [{"action": "registry_published"}]
-                )
-                print("Notified team agents")
-
+                data = list_teams()
+                print(format_all_teams(data))
             return 0
 
+    except requests.ConnectionError:
+        print(f"Error: Cannot connect to AI Maestro API at {API_BASE}", file=sys.stderr)
+        return 1
+    except requests.Timeout:
+        print(f"Error: Request to AI Maestro API timed out", file=sys.stderr)
+        return 1
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         return 1

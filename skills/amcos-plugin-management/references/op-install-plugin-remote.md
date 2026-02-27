@@ -52,7 +52,7 @@ Use the `ai-maestro-agents-management` skill to list available agents and check 
 
 ### Step 2: Add Marketplace to Remote Agent (If Needed)
 
-Use the `ai-maestro-agents-management` skill to add a marketplace to the target agent (e.g., `github:Emasoft/ai-maestro-plugins`).
+Use the `ai-maestro-agents-management` skill to add a marketplace to the target agent (e.g., `bundled with AI Maestro`).
 
 **Note**: This auto-restarts the agent.
 

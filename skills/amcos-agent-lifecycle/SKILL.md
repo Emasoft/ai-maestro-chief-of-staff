@@ -243,8 +243,8 @@ Use the `ai-maestro-agents-management` skill to create a new agent:
 
 **Plugin Setup (Before Spawning):**
 
-AMCOS copies plugins from the **ai-maestro-plugins marketplace cache** to the agent's local folder:
-- **Source**: `$HOME/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<latest-version>/`
+AMCOS copies plugins from the **AI Maestro distribution cache** to the agent's local folder:
+- **Source**: `$HOME/.claude/plugins/cache/ai-maestro/<plugin-name>/<latest-version>/`
 - **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
 
 **Notes:**
@@ -434,6 +434,27 @@ See [references/hibernation-procedures.md](references/hibernation-procedures.md)
 - [Success Criteria](references/success-criteria.md) - Success/completion criteria for lifecycle operations
 - [Record-Keeping](references/record-keeping.md) - Formats for logging lifecycle operations
 - [CLI Reference](references/cli-reference.md) - Complete CLI command reference for lifecycle management
+
+---
+
+## AI Maestro REST API
+
+Agent lifecycle operations can be performed via the AI Maestro REST API. The base URL defaults to `$AIMAESTRO_API` (typically `http://localhost:23000`).
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/agents/register` | Register a new agent |
+| `POST` | `/api/agents/{id}/hibernate` | Hibernate an active agent |
+| `POST` | `/api/agents/{id}/wake` | Wake a hibernated agent |
+| `DELETE` | `/api/agents/{id}` | Terminate and remove an agent |
+| `GET` | `/api/agents` | List all registered agents |
+| `GET` | `/api/agents/{id}/health` | Health check for a specific agent |
+
+### Host Awareness
+
+Cross-host operations require GovernanceRequest. Reference GovernanceSyncMessage for state replication.
 
 ---
 

@@ -169,7 +169,7 @@ done
 
 ## Example
 
-**Scenario:** Coordinate PSS, CPV, and EPM marketplace update.
+**Scenario:** Coordinate PSS, CPV, and AI Maestro distribution marketplace update.
 
 ```markdown
 ## Cross-Project Coordination Plan
@@ -177,24 +177,24 @@ done
 ### Projects Involved
 1. claude-plugins-validation (CPV) - validation logic
 2. perfect-skill-suggester (PSS) - uses CPV
-3. ai-maestro-plugins-marketplace (EPM) - contains both as submodules
+3. ai-maestro-marketplace (AI Maestro distribution) - contains both as submodules
 
 ### Dependency Chain
-CPV → PSS → EPM
+CPV → PSS → AI Maestro distribution
 
 ### Execution Steps
 1. Update CPV validation logic
 2. Run CPV tests (blocking checkpoint)
 3. Update PSS to use new CPV
 4. Run PSS tests (blocking checkpoint)
-5. Update EPM submodules to latest
+5. Update AI Maestro distribution submodules to latest
 6. Run marketplace validation (final checkpoint)
 7. Publish updates
 
 ### Checkpoints
 - After step 2: CPV stable
 - After step 4: PSS stable
-- After step 6: EPM stable
+- After step 6: AI Maestro distribution stable
 ```
 
 ## Error Handling

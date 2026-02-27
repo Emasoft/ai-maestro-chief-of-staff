@@ -1,33 +1,89 @@
 # Team Registry Specification
 
-**Version**: 1.1.0
-**Last Updated**: 2026-02-07
+> **SUPERSEDED**: The file-based `.ai-maestro/team-registry.json` approach is superseded.
+> Team registries are now managed exclusively via the **AI Maestro REST API**.
 
-This document specifies the format and location of team registries, agent contacts, and naming conventions.
+**Version**: 2.0.0
+**Last Updated**: 2026-02-27
+
+This document specifies the team registry API, agent registration, and naming conventions for the AMCOS plugin.
 
 ---
 
 ## Overview
 
-Every project team maintains a **Team Registry** file that contains:
-- Team identification
-- Agent roster with contact details
-- Role assignments
-- Communication addresses
-
-This file is **git-tracked** and stored in the repository, ensuring all team members have access.
+Team registries are managed centrally through the **AI Maestro REST API**. There are no local JSON files to maintain. All team and agent data is stored server-side and accessed via HTTP endpoints.
 
 ---
 
-## File Location
+## API Endpoints
+
+### Teams
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/teams` | Create a new team |
+| `GET` | `/api/teams` | List all teams |
+| `PATCH` | `/api/teams/[id]` | Update a team |
+| `DELETE` | `/api/teams/[id]` | Delete a team |
+
+### Agents
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/agents/register` | Register an agent to a team |
+| `GET` | `/api/teams/[id]/agents` | List agents in a team |
+
+### Base URL
 
 ```
-<repository-root>/
-└── .ai-maestro/
-    └── team-registry.json
+$AIMAESTRO_API  (default: http://localhost:23000)
 ```
 
-**Why `.ai-maestro/`**: This directory contains all AI Maestro agent system configuration for the project.
+---
+
+## API Usage Examples
+
+### Create a Team
+
+```bash
+curl -X POST "$AIMAESTRO_API/api/teams" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "svgbbox-library-team",
+    "repository": "https://github.com/Emasoft/svgbbox",
+    "github_project": "https://github.com/orgs/Emasoft/projects/12",
+    "created_by": "amcos-chief-of-staff"
+  }'
+```
+
+### Register an Agent to a Team
+
+```bash
+curl -X POST "$AIMAESTRO_API/api/agents/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "team_id": "svgbbox-library-team",
+    "name": "svgbbox-orchestrator",
+    "role": "manager",
+    "plugin": "ai-maestro-orchestrator-agent",
+    "host": "macbook-dev-01"
+  }'
+```
+
+### List Team Agents
+
+```bash
+curl -s "$AIMAESTRO_API/api/teams/svgbbox-library-team/agents" | jq .
+```
+
+### Update a Team
+
+```bash
+curl -X PATCH "$AIMAESTRO_API/api/teams/svgbbox-library-team" \
+  -H "Content-Type: application/json" \
+  -d '{"github_project": "https://github.com/orgs/Emasoft/projects/15"}'
+```
 
 ---
 
@@ -58,153 +114,7 @@ This file is **git-tracked** and stored in the repository, ensuring all team mem
 
 ### Uniqueness Requirement
 
-Team names must be **globally unique** across all projects managed by AMCOS. AMCOS maintains a master list of all team names to prevent collisions.
-
----
-
-## Team Registry Format (team-registry.json)
-
-```json
-{
-  "$schema": "https://ai-maestro.github.io/schemas/team-registry.v1.json",
-  "version": "1.0.0",
-  "team": {
-    "name": "svgbbox-library-team",
-    "project": {
-      "repository": "https://github.com/Emasoft/svgbbox",
-      "github_project": "https://github.com/orgs/Emasoft/projects/12",
-      "created_by": "eama-assistant-manager",
-      "created_at": "2026-02-03T10:00:00Z"
-    },
-    "created_by": "amcos-chief-of-staff",
-    "created_at": "2026-02-03T10:30:00Z"
-  },
-  "agents": [
-    {
-      "name": "svgbbox-orchestrator",
-      "role": "orchestrator",
-      "plugin": "ai-maestro-orchestrator-agent",
-      "host": "macbook-dev-01",
-      "ai_maestro_address": "svgbbox-orchestrator",
-      "status": "active",
-      "assigned_at": "2026-02-03T10:30:00Z"
-    },
-    {
-      "name": "svgbbox-architect",
-      "role": "architect",
-      "plugin": "ai-maestro-architect-agent",
-      "host": "macbook-dev-01",
-      "ai_maestro_address": "svgbbox-architect",
-      "status": "active",
-      "assigned_at": "2026-02-03T10:30:00Z"
-    },
-    {
-      "name": "svgbbox-impl-01",
-      "role": "implementer",
-      "plugin": "ai-maestro-implementer-agent",
-      "host": "macbook-dev-01",
-      "ai_maestro_address": "svgbbox-impl-01",
-      "status": "active",
-      "assigned_at": "2026-02-03T10:35:00Z"
-    },
-    {
-      "name": "svgbbox-impl-02",
-      "role": "implementer",
-      "plugin": "ai-maestro-implementer-agent",
-      "host": "macbook-dev-02",
-      "ai_maestro_address": "svgbbox-impl-02",
-      "status": "active",
-      "assigned_at": "2026-02-03T10:35:00Z"
-    },
-    {
-      "name": "svgbbox-tester-01",
-      "role": "tester",
-      "plugin": "ai-maestro-tester-agent",
-      "host": "macbook-dev-01",
-      "ai_maestro_address": "svgbbox-tester-01",
-      "status": "active",
-      "assigned_at": "2026-02-03T10:40:00Z"
-    }
-  ],
-  "shared_agents": [
-    {
-      "name": "ai-maestro-integrator",
-      "role": "integrator",
-      "plugin": "ai-maestro-integrator-agent",
-      "host": "server-ci-01",
-      "ai_maestro_address": "ai-maestro-integrator",
-      "note": "Shared across multiple teams"
-    }
-  ],
-  "organization_agents": [
-    {
-      "name": "eama-assistant-manager",
-      "role": "manager",
-      "plugin": "ai-maestro-assistant-manager-agent",
-      "host": "macbook-main",
-      "ai_maestro_address": "eama-assistant-manager",
-      "note": "Organization-wide, not team-specific"
-    },
-    {
-      "name": "amcos-chief-of-staff",
-      "role": "chief-of-staff",
-      "plugin": "ai-maestro-chief-of-staff",
-      "host": "macbook-main",
-      "ai_maestro_address": "amcos-chief-of-staff",
-      "note": "Organization-wide, not team-specific"
-    }
-  ],
-  "github_bot": {
-    "username": "ai-maestro-bot",
-    "type": "shared-bot-account",
-    "note": "All GitHub operations use this account. Real agent identity tracked in commit messages and PR bodies."
-  },
-  "contacts_last_updated": "2026-02-03T10:45:00Z",
-  "contacts_updated_by": "amcos-chief-of-staff"
-}
-```
-
----
-
-## Field Definitions
-
-### Team Section
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | Yes | Unique team name (format: `<repo>-<type>-team`) |
-| `project.repository` | string | Yes | GitHub repository URL |
-| `project.github_project` | string | No | GitHub Projects board URL |
-| `project.created_by` | string | Yes | Agent that created the project |
-| `project.created_at` | ISO8601 | Yes | Project creation timestamp |
-| `created_by` | string | Yes | Agent that created the team (always AMCOS) |
-| `created_at` | ISO8601 | Yes | Team creation timestamp |
-
-### Agent Entry
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `name` | string | Yes | Unique agent name |
-| `role` | string | Yes | Agent role (see Role Types below) |
-| `plugin` | string | Yes | Plugin name the agent uses |
-| `host` | string | Yes | Host machine identifier |
-| `ai_maestro_address` | string | Yes | Address for AI Maestro messaging |
-| `status` | string | Yes | `active`, `hibernated`, `offline`, `terminated` |
-| `assigned_at` | ISO8601 | Yes | When agent was assigned to team |
-| `note` | string | No | Optional notes |
-
-### Role Types
-
-| Role | Plugin | Count per Team | Description |
-|------|--------|----------------|-------------|
-| `manager` | ai-maestro-assistant-manager-agent | 0 (org-wide) | User interface, approvals |
-| `chief-of-staff` | ai-maestro-chief-of-staff | 0 (org-wide) | Agent lifecycle |
-| `orchestrator` | ai-maestro-orchestrator-agent | **Exactly 1** | Task management, kanban, agent replacement, remote coordination, messaging templates |
-| `architect` | ai-maestro-architect-agent | **Exactly 1** | Design documents |
-| `integrator` | ai-maestro-integrator-agent | 1+ (can be shared) | PR review, merge, CI/CD pipeline, release management, quality gates, kanban sync |
-| `implementer` | ai-maestro-implementer-agent | 1+ | Code implementation |
-| `tester` | ai-maestro-tester-agent | 0+ | Testing, QA |
-| `devops` | ai-maestro-devops-agent | 0+ | CI/CD, deployment |
+Team names must be **globally unique** across all projects managed by AMCOS. The API enforces uniqueness on creation.
 
 ---
 
@@ -244,66 +154,69 @@ Team names must be **globally unique** across all projects managed by AMCOS. AMC
 
 ---
 
-## How to Send Messages
+## Role Types
 
-Every agent can look up contact information from `team-registry.json`:
+| Role | Plugin | Scope | Description |
+|------|--------|-------|-------------|
+| `manager` | ai-maestro-assistant-manager-agent | Organization-wide | User interface, approvals |
+| `chief-of-staff` | ai-maestro-chief-of-staff | Organization-wide | Agent lifecycle, team management |
+| `member` | ai-maestro-*-agent | Per-team | Any team member (orchestrator, architect, implementer, tester, devops, integrator) |
 
-```python
-import json
+### Governance Roles
 
-def get_agent_address(agent_name: str, registry_path: str = ".ai-maestro/team-registry.json") -> str:
-    """Get AI Maestro address for an agent."""
-    with open(registry_path, encoding="utf-8") as f:
-        registry = json.load(f)
+These are the AI Maestro governance roles used in the API:
 
-    # Check team agents
-    for agent in registry["agents"]:
-        if agent["name"] == agent_name:
-            return agent["ai_maestro_address"]
+| Governance Role | Description |
+|-----------------|-------------|
+| `manager` | Organization-level authority. Approvals, user interface. |
+| `chief-of-staff` | Organization-level operations. Agent lifecycle, team registry management. |
+| `member` | Team-level. All agents assigned to a team are members with a functional sub-role. |
 
-    # Check shared agents
-    for agent in registry.get("shared_agents", []):
-        if agent["name"] == agent_name:
-            return agent["ai_maestro_address"]
+### Functional Sub-Roles (for `member` agents)
 
-    # Check organization agents
-    for agent in registry.get("organization_agents", []):
-        if agent["name"] == agent_name:
-            return agent["ai_maestro_address"]
-
-    raise ValueError(f"Agent not found: {agent_name}")
-
-# Example: Look up orchestrator address
-address = get_agent_address("svgbbox-orchestrator")
-# Returns: "svgbbox-orchestrator"
-
-# Then use the `agent-messaging` skill to send a message to this address.
-```
+| Sub-Role | Plugin | Count per Team | Description |
+|----------|--------|----------------|-------------|
+| `orchestrator` | ai-maestro-orchestrator-agent | **Exactly 1** | Task management, kanban, coordination |
+| `architect` | ai-maestro-architect-agent | **Exactly 1** | Design documents |
+| `integrator` | ai-maestro-integrator-agent | 1+ (can be shared) | PR review, merge, CI/CD, release |
+| `implementer` | ai-maestro-implementer-agent | 1+ | Code implementation |
+| `tester` | ai-maestro-tester-agent | 0+ | Testing, QA |
+| `devops` | ai-maestro-devops-agent | 0+ | CI/CD, deployment |
 
 ---
 
-## Message Format with Agent Identity
+## Messaging via AMP Protocol
 
-All AI Maestro messages must include full agent identity. Send using the `agent-messaging` skill:
+All inter-agent messaging uses the **AMP protocol** via the official scripts in `~/.local/bin/`.
 
-- **Sender**: The sending agent's name (e.g., `svgbbox-impl-01`)
-- **Recipient**: The target agent's name looked up from the team registry (e.g., `svgbbox-orchestrator`)
-- **Subject**: "[PROGRESS] Task #42: Login fix 80% complete"
-- **Priority**: `normal`
-- **Content**: Include the following fields:
-  - `type`: `progress-report`
-  - `message`: "Login fix implementation 80% complete. Running tests now."
-  - `sender_identity`: A nested structure containing:
-    - `name`: The sending agent's name (e.g., `svgbbox-impl-01`)
-    - `role`: The agent's role (e.g., `implementer`)
-    - `plugin`: The plugin name (e.g., `ai-maestro-implementer-agent`)
-    - `host`: The host machine identifier (e.g., `macbook-dev-01`)
-    - `team`: The team name (e.g., `svgbbox-library-team`)
-  - `task_reference`: A nested structure containing:
-    - `issue_number`: The GitHub issue number (e.g., 42)
-    - `issue_url`: Full URL to the GitHub issue
+### Send a Message
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+```bash
+amp-send.sh --to svgbbox-orchestrator \
+  --subject "[PROGRESS] Task #42: Login fix 80% complete" \
+  --priority normal \
+  --type progress-report \
+  --message "Login fix implementation 80% complete. Running tests now."
+```
+
+### Check Inbox
+
+```bash
+amp-inbox.sh
+```
+
+### Read a Message
+
+```bash
+amp-read.sh --id <message-id>
+```
+
+### Reply to a Message
+
+```bash
+amp-reply.sh --id <message-id> \
+  --message "Acknowledged. Proceed with merge when tests pass."
+```
 
 ---
 
@@ -319,7 +232,7 @@ Fix login validation bug
 - Added unit tests
 
 Agent: svgbbox-impl-01
-Role: implementer
+Role: member/implementer
 Plugin: ai-maestro-implementer-agent
 Host: macbook-dev-01
 Team: svgbbox-library-team
@@ -348,7 +261,7 @@ Fix login validation bug
 | Field | Value |
 |-------|-------|
 | Agent | svgbbox-impl-01 |
-| Role | implementer |
+| Role | member/implementer |
 | Plugin | ai-maestro-implementer-agent |
 | Host | macbook-dev-01 |
 | Team | svgbbox-library-team |
@@ -358,44 +271,32 @@ Fix login validation bug
 
 ---
 
-## AMCOS Responsibilities for Team Registry
+## AMCOS Responsibilities
 
-1. **Create team-registry.json** when creating a new team
-2. **Add agents** to the registry when assigning to team
-3. **Update status** when agents hibernate/wake/terminate
-4. **Commit and push** registry changes to GitHub
-5. **Notify all team agents** when registry changes
+1. **Create teams** via `POST /api/teams`
+2. **Register agents** via `POST /api/agents/register`
+3. **Update agent status** when agents hibernate/wake/terminate via `PATCH /api/teams/[id]`
+4. **Notify all team agents** of registry changes via AMP:
 
-### Registry Update Message
-
-When AMCOS updates the registry, it sends a notification to all team agents using the `agent-messaging` skill:
-
-- **Sender**: `amcos-chief-of-staff`
-- **Recipient**: Each team agent (sent individually to all agents in the registry)
-- **Subject**: "[REGISTRY UPDATE] Team contacts updated"
-- **Priority**: `normal`
-- **Content**: Include the following fields:
-  - `type`: `registry-update`
-  - `message`: "Team registry has been updated. Please pull latest changes."
-  - `changes`: List of changes made, each with:
-    - `action`: One of `added`, `removed`, or `status_change`
-    - `agent`: The affected agent name
-    - `new_status`: New status value (only for `status_change` actions)
-  - `registry_commit`: The git commit hash of the registry update
-
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+```bash
+amp-send.sh --to svgbbox-orchestrator \
+  --subject "[REGISTRY UPDATE] Team contacts updated" \
+  --priority normal \
+  --type registry-update \
+  --message "Agent svgbbox-impl-03 added to team. Query API for current roster."
+```
 
 ---
 
 ## Validation Rules
 
-1. **Team name must be unique** across all projects
-2. **Agent name must be unique** within the team
+1. **Team name must be unique** across all projects (enforced by API)
+2. **Agent name must be unique** within the team (enforced by API)
 3. **Exactly one orchestrator** per team
 4. **Exactly one architect** per team
 5. **At least one implementer** per team
 6. **All agents must have valid AI Maestro addresses**
-7. **Organization agents cannot be assigned to teams**
+7. **Organization agents (manager, chief-of-staff) cannot be assigned to teams**
 
 ---
 
@@ -414,20 +315,20 @@ All projects use the canonical **8-column kanban system** on GitHub Projects:
 | Done | `done` | `status:done` |
 | Blocked | `blocked` | `status:blocked` |
 
-For full kanban workflow details, task routing rules, and code format rules, see **FULL_PROJECT_WORKFLOW.md**.
+For full kanban workflow details, see **FULL_PROJECT_WORKFLOW.md**.
 
 ---
 
 ## Quick Reference: Who to Message
 
-| When I need to... | Message this agent | Address lookup |
-|-------------------|--------------------|----------------|
-| Report task progress | Orchestrator | `registry.agents[role=orchestrator]` |
-| Ask design questions | Architect | `registry.agents[role=architect]` |
-| Submit PR for review | Integrator | `registry.shared_agents[role=integrator]` |
-| Request approval | Manager | `registry.organization_agents[role=manager]` |
-| Report agent issues | Chief of Staff | `registry.organization_agents[role=chief-of-staff]` |
-| Message teammate | By name | `registry.agents[name=<name>]` |
+| When I need to... | Message this agent | How to find address |
+|-------------------|--------------------|---------------------|
+| Report task progress | Orchestrator | `GET /api/teams/[id]/agents` filter by sub-role |
+| Ask design questions | Architect | `GET /api/teams/[id]/agents` filter by sub-role |
+| Submit PR for review | Integrator | `GET /api/teams/[id]/agents` filter by sub-role |
+| Request approval | Manager | `amp-send.sh --to eama-assistant-manager` |
+| Report agent issues | Chief of Staff | `amp-send.sh --to amcos-chief-of-staff` |
+| Message teammate | By name | `amp-send.sh --to <agent-name>` |
 
 ---
 

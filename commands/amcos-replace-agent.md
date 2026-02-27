@@ -8,6 +8,8 @@ user-invocable: true
 
 # Replace Agent Command
 
+> **Constraint — Team Boundary:** Replacement must be within the same team. Cross-team replacement requires TransferRequest.
+
 Replace a failed, terminated, or unhealthy agent with a new one. This command orchestrates a full replacement workflow including approval, handoff generation, and work transfer.
 
 ## Usage

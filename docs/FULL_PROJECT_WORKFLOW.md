@@ -1,9 +1,9 @@
 # Full Project Workflow: From Requirements to Delivery
 
-**Version**: 1.1.0
-**Last Updated**: 2026-02-07
+**Version**: 2.0.0
+**Last Updated**: 2026-02-27
 
-This document describes the complete workflow for how the AI Maestro agent system handles a project from initial requirements to delivery. All agents must understand this workflow to coordinate effectively.
+This document describes the complete workflow for how the AI Maestro agent system handles a project from initial requirements to delivery. AMCOS (AI Maestro Chief of Staff) is **team-scoped**: it manages agents within ONE team only. Cross-team operations require GovernanceRequests. All inter-agent messaging uses the AMP protocol.
 
 ---
 
@@ -11,55 +11,71 @@ This document describes the complete workflow for how the AI Maestro agent syste
 
 ```
 USER
-  │
-  ▼
-EAMA (Manager) ◄────────────────────────────────────────────┐
-  │                                                          │
-  │ 1. Creates project                                       │
-  │ 2. Sends requirements to AMCOS                            │
-  ▼                                                          │
-AMCOS (Chief of Staff)                                        │
-  │                                                          │
-  │ 3. Evaluates project, suggests team                      │
-  │ 4. Creates/assigns agents                                │
-  │ 5. Notifies EAMA: team ready                             │
-  ▼                                                          │
-EAMA ─────────────────────────────────────────────────────►  │
-  │                                                          │
-  │ 6. Sends requirements to EAA                             │
-  ▼                                                          │
-EAA (Architect)                                              │
-  │                                                          │
-  │ 7. Creates design document                               │
-  │ 8. Sends design to EAMA                                  │
-  ▼                                                          │
-EAMA ◄──── USER APPROVAL ─────────────────────────────────►  │
-  │                                                          │
-  │ 9. Sends approved design to EOA                          │
-  ▼                                                          │
-EOA (Orchestrator)                                           │
-  │                                                          │
-  │ 10. Splits design into tasks                             │
-  │ 11. Creates task-requirements-documents                  │
-  │ 12. Adds tasks to kanban                                 │
-  │ 13. Assigns tasks to agents                              │
-  ▼                                                          │
-IMPLEMENTER AGENTS ◄───────────────────────────────────────► │
-  │                                                          │
-  │ 14. Work on tasks                                        │
-  │ 15. Submit PRs                                           │
-  ▼                                                          │
-EIA (Integrator)                                             │
-  │                                                          │
-  │ 16. Reviews PRs                                          │
-  │ 17. Merges or rejects                                    │
-  ▼                                                          │
-EOA ◄─────────────────────────────────────────────────────►  │
-  │                                                          │
-  │ 18. Reports to EAMA                                      │
-  │ 19. Assigns next tasks                                   │
-  └──────────────────────────────────────────────────────────┘
+  |
+  v
+EAMA (Manager) <--------------------------------------------+
+  |                                                          |
+  | 1. Creates project                                       |
+  | 2. Sends requirements to AMCOS                           |
+  v                                                          |
+AMCOS (Chief of Staff) [TEAM-SCOPED]                         |
+  |                                                          |
+  | 3. Evaluates project, suggests team                      |
+  | 4. Creates/assigns agents (within own team)              |
+  | 5. Notifies EAMA: team ready                             |
+  v                                                          |
+EAMA ---->                                                   |
+  |                                                          |
+  | 6. Sends requirements to EAA                             |
+  v                                                          |
+EAA (Architect)                                              |
+  |                                                          |
+  | 7. Creates design document                               |
+  | 8. Sends design to EAMA                                  |
+  v                                                          |
+EAMA <--- USER APPROVAL --->                                 |
+  |                                                          |
+  | 9. Sends approved design to EOA                          |
+  v                                                          |
+EOA (Orchestrator)                                           |
+  |                                                          |
+  | 10. Splits design into tasks                             |
+  | 11. Creates task-requirements-documents                  |
+  | 12. Adds tasks to kanban                                 |
+  | 13. Assigns tasks to agents                              |
+  v                                                          |
+IMPLEMENTER AGENTS <------>                                  |
+  |                                                          |
+  | 14. Work on tasks                                        |
+  | 15. Submit PRs                                           |
+  v                                                          |
+EIA (Integrator)                                             |
+  |                                                          |
+  | 16. Reviews PRs                                          |
+  | 17. Merges or rejects                                    |
+  v                                                          |
+EOA <---->                                                   |
+  |                                                          |
+  | 18. Reports to EAMA                                      |
+  | 19. Assigns next tasks                                   |
+  +----------------------------------------------------------+
 ```
+
+---
+
+## Team Scope and Cross-Team Operations
+
+AMCOS operates strictly within **one team boundary**:
+
+| Operation | Scope | Mechanism |
+|-----------|-------|-----------|
+| Create/remove agents | Own team only | Direct AMP messages |
+| Reassign agents within team | Own team only | Direct AMP messages |
+| Request agents from another team | Cross-team | GovernanceRequest to target AMCOS |
+| Offer agents to another team | Cross-team | GovernanceRequest to requesting AMCOS |
+| Query another team's status | Cross-team | GovernanceRequest via EAMA |
+
+All cross-team GovernanceRequests must be approved by both teams' managers (EAMA).
 
 ---
 
@@ -82,9 +98,9 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 ### Task Routing
 
-- **Small tasks**: In Progress → AI Review → Merge/Release → Done
-- **Big tasks**: In Progress → AI Review → Human Review → Merge/Release → Done
-- **Human Review** is requested via EAMA (Assistant Manager asks the user to test/review)
+- **Small tasks**: In Progress -> AI Review -> Merge/Release -> Done
+- **Big tasks**: In Progress -> AI Review -> Human Review -> Merge/Release -> Done
+- **Human Review** is requested via EAMA (Manager asks the user to test/review)
 - **Blocked** can be set from any column; task returns to its previous column when unblocked
 
 ### Code Format Rules
@@ -103,21 +119,22 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 **Actor**: EAMA (Manager)
 **Action**:
 - Create a new project in a new GitHub repository (or in an existing repository)
-- Send the requirements to the Chief of Staff (AMCOS)
+- Send the requirements to the Chief of Staff (AMCOS) via AMP
 
 **Communication**:
 - GitHub: Create repository, create initial issue with requirements
-- AI Maestro: Message to AMCOS with project details and requirements
+- AMP: Message to AMCOS with project details and requirements
 
 #### Step 2: Chief of Staff Evaluates Project
 **Actor**: AMCOS (Chief of Staff)
 **Action**:
 - Evaluate the project requirements
 - Analyze complexity, technologies involved, timeline
-- Suggest an optimal team of agents to the Manager
+- Suggest an optimal team of agents (from own team roster) to the Manager
+- If specialized agents are needed from other teams: prepare GovernanceRequest
 
 **Communication**:
-- AI Maestro: Send team proposal to EAMA with justification
+- AMP: Send team proposal to EAMA with justification
 
 #### Step 3: Team Discussion and Approval
 **Actor**: EAMA (Manager) + AMCOS (Chief of Staff)
@@ -125,21 +142,22 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 - Manager discusses the team proposal with Chief of Staff
 - Negotiate team composition if needed
 - Manager ultimately approves a team proposal
+- If cross-team agents needed: EAMA initiates GovernanceRequests
 
 **Communication**:
-- AI Maestro: Back-and-forth messages until agreement
+- AMP: Back-and-forth messages until agreement
 
 #### Step 4: Team Creation
 **Actor**: AMCOS (Chief of Staff)
 **Action**:
-- Create the agents needed for the project team
-- OR move agents from other projects to the new project team
-- Configure each agent with appropriate skills and plugins for their role
+- Create the agents needed for the project team (within own team scope)
+- OR reassign agents from other projects within the same team
+- Configure each agent with appropriate `ai-maestro-*` skills and plugins for their role
 - Assign agents to the project team
 
 **Communication**:
-- AI Maestro: Coordination messages during agent creation
-- AI Maestro: Onboarding messages to each new agent
+- AMP: Coordination messages during agent creation
+- AMP: Onboarding messages to each new agent
 
 #### Step 5: Team Ready Notification
 **Actor**: AMCOS (Chief of Staff)
@@ -148,7 +166,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 - Provide team roster with agent names and roles
 
 **Communication**:
-- AI Maestro: Team ready notification to EAMA
+- AMP: Team ready notification to EAMA
 
 ---
 
@@ -157,14 +175,14 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 #### Step 6: Requirements to Architect
 **Actor**: EAMA (Manager)
 **Action**:
-- Send the requirements to the Architect agent (EAA)
+- Send the requirements to the Architect agent (EAA) via AMP
 - Expand the requirements with more details
 - Include the list of team member names in the requirements
 - Assign to the Architect the task of developing the design document
 
 **Communication**:
 - GitHub: Create issue with requirements, assign label for EAA
-- AI Maestro: Message to EAA with full requirements and team roster
+- AMP: Message to EAA with full requirements and team roster
 
 #### Step 7: Design Document Creation
 **Actor**: EAA (Architect)
@@ -179,7 +197,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 **Communication**:
 - GitHub: Update issue with progress
-- AI Maestro: Progress updates to EAMA
+- AMP: Progress updates to EAMA
 
 #### Step 8: Design Submission
 **Actor**: EAA (Architect)
@@ -188,7 +206,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 **Communication**:
 - GitHub: Attach design document to issue, mark ready for review
-- AI Maestro: Notification to EAMA that design is ready
+- AMP: Notification to EAMA that design is ready
 
 #### Step 9: Design Approval
 **Actor**: EAMA (Manager) + USER
@@ -200,7 +218,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 **Communication**:
 - GitHub: Issue comments with design and approval status
-- AI Maestro: Message to EOA with approved design
+- AMP: Message to EOA with approved design
 
 ---
 
@@ -244,20 +262,20 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 **Communication**:
 - GitHub: Create issues, add to project, set fields
-- AI Maestro: Notification to each agent about their first assigned task
+- AMP: Notification to each agent about their first assigned task
 
 #### Step 14: Agent Clarification
 **Actor**: EOA (Orchestrator) + IMPLEMENTER AGENTS
 **Action**:
-- Send to each agent a notification using the `agent-messaging` skill that their first task has been assigned
+- Send to each agent a notification via AMP that their first task has been assigned
 - Ask each agent if they need clarifications
 - The Orchestrator is the team lead with full project understanding (along with Architect)
 
 **Communication**:
-- AI Maestro: Task assignment messages with clarification request
+- AMP: Task assignment messages with clarification request
 
 #### Step 15: Feedback and Design Updates (if needed)
-**Actor**: IMPLEMENTER AGENTS → EOA → EAA
+**Actor**: IMPLEMENTER AGENTS -> EOA -> EAA
 **Action**:
 - If agents reply presenting problems or improvement suggestions:
   - Orchestrator evaluates the feedback
@@ -266,9 +284,9 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
   - Architect sends updated design to Orchestrator
 
 **Communication**:
-- AI Maestro: Feedback from agents to EOA
-- AI Maestro: Design change request from EOA to EAA
-- AI Maestro: Updated design from EAA to EOA
+- AMP: Feedback from agents to EOA
+- AMP: Design change request from EOA to EAA
+- AMP: Updated design from EAA to EOA
 
 #### Step 16: Task Updates from Design Changes
 **Actor**: EOA (Orchestrator)
@@ -282,7 +300,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 **Communication**:
 - GitHub: Update issue attachments
-- AI Maestro: Change notifications to affected agents
+- AMP: Change notifications to affected agents
 
 ---
 
@@ -295,7 +313,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 - Report status of being "in development" to Orchestrator
 
 **Communication**:
-- AI Maestro: Status update to EOA
+- AMP: Status update to EOA
 
 #### Step 18: Kanban Status Update
 **Actor**: EOA (Orchestrator)
@@ -306,16 +324,16 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 - GitHub: Update project item status
 
 #### Step 19: Task Completion
-**Actor**: IMPLEMENTER AGENTS → EOA
+**Actor**: IMPLEMENTER AGENTS -> EOA
 **Action**:
-- When an implementer agent finishes a task, notify the Orchestrator
+- When an implementer agent finishes a task, notify the Orchestrator via AMP
 - Orchestrator discusses and asks questions to ensure truly completed
 - If OK: Orchestrator gives approval to do the pull-request
 - Implementer creates PR
 
 **Communication**:
-- AI Maestro: Completion notification from agent to EOA
-- AI Maestro: Approval to PR from EOA to agent
+- AMP: Completion notification from agent to EOA
+- AMP: Approval to PR from EOA to agent
 - GitHub: PR created
 
 ---
@@ -325,11 +343,11 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 #### Step 20: PR Review Request
 **Actor**: EOA (Orchestrator)
 **Action**:
-- Send message using the `agent-messaging` skill to Integrator agent (EIA) to evaluate all PRs of completed tasks
+- Send AMP message to Integrator agent (EIA) to evaluate all PRs of completed tasks
 - Request merge if they pass all checks
 
 **Communication**:
-- AI Maestro: PR review request to EIA
+- AMP: PR review request to EIA
 - GitHub: PR ready for review
 
 #### Step 21: PR Evaluation
@@ -343,10 +361,10 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 **Communication**:
 - GitHub: PR review comments, approval/rejection
-- AI Maestro: Report to EOA with pass/fail details
+- AMP: Report to EOA with pass/fail details
 
 #### Step 22: Handling Failed PRs
-**Actor**: EOA (Orchestrator) → IMPLEMENTER AGENTS
+**Actor**: EOA (Orchestrator) -> IMPLEMENTER AGENTS
 **Action**:
 - Evaluate Integrator report about each task PR
 - Communicate to agents the issues and shortcomings
@@ -357,7 +375,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 - If OK: implementer agent resumes work on task
 
 **Communication**:
-- AI Maestro: Feedback and instructions to agents
+- AMP: Feedback and instructions to agents
 - GitHub: Update task status
 
 ---
@@ -376,8 +394,8 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 **Communication**:
 - GitHub: Update project item status through kanban columns
-- AI Maestro: Completion report to EAMA
-- AI Maestro: New task assignment to agent
+- AMP: Completion report to EAMA
+- AMP: New task assignment to agent
 
 #### Step 24: Iteration
 **Action**:
@@ -390,19 +408,22 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 
 ## Communication Matrix
 
+All messaging uses the **AMP (Agent Messaging Protocol)**.
+
 | From | To | Channel | Purpose |
 |------|-----|---------|---------|
-| EAMA | AMCOS | AI Maestro | Requirements, team requests |
-| AMCOS | EAMA | AI Maestro | Team proposals, status updates |
-| EAMA | EAA | GitHub + AI Maestro | Requirements, design requests |
-| EAA | EAMA | GitHub + AI Maestro | Design documents |
-| EAMA | EOA | GitHub + AI Maestro | Approved designs |
-| EOA | Agents | GitHub + AI Maestro | Task assignments |
-| Agents | EOA | AI Maestro | Status updates, questions |
-| EOA | EAA | AI Maestro | Design change requests |
-| EOA | EIA | AI Maestro | PR review requests |
-| EIA | EOA | AI Maestro | PR review results |
-| EOA | EAMA | AI Maestro | Completion reports |
+| EAMA | AMCOS | AMP | Requirements, team requests |
+| AMCOS | EAMA | AMP | Team proposals, status updates |
+| AMCOS | Other AMCOS | AMP + GovernanceRequest | Cross-team agent transfers |
+| EAMA | EAA | GitHub + AMP | Requirements, design requests |
+| EAA | EAMA | GitHub + AMP | Design documents |
+| EAMA | EOA | GitHub + AMP | Approved designs |
+| EOA | Agents | GitHub + AMP | Task assignments |
+| Agents | EOA | AMP | Status updates, questions |
+| EOA | EAA | AMP | Design change requests |
+| EOA | EIA | AMP | PR review requests |
+| EIA | EOA | AMP | PR review results |
+| EOA | EAMA | AMP | Completion reports |
 
 ---
 
@@ -411,9 +432,9 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 | Role | Creates | Manages | Cannot Do |
 |------|---------|---------|-----------|
 | **EAMA** | Projects | Approvals, user communication | Task assignment |
-| **AMCOS** | Agents, teams | Agent lifecycle | Task assignment, projects |
+| **AMCOS** | Agents, teams (own team only) | Agent lifecycle within team | Task assignment, projects, cross-team ops without GovernanceRequest |
 | **EAA** | Designs | Architecture | Task assignment |
-| **EOA** | Tasks, plans | Kanban, agent coordination | Agents, projects |
+| **EOA** | Tasks, plans | Kanban, agent coordination | Agent creation, projects |
 | **EIA** | Nothing | PR reviews, merges | Task assignment |
 | **Agents** | Code, PRs | Their assigned tasks | Everything else |
 
@@ -443,29 +464,7 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 - **Task-Requirements-Document**: Created by EOA for each task
 - **Design-Change-Request**: Created by EOA when agents suggest improvements
 - **PR Review Report**: Created by EIA for each PR
-
----
-
-## Wave 1-7 Skill Additions (2026-02-06 — 2026-02-07)
-
-The following skills were added to EIA and EOA plugins, integrating techniques from the DOCS_AND_SCRIPTS reference collection:
-
-### EIA (Integrator) New Skills
-- **eia-ci-cd-pipeline**: CI/CD pipeline management, GitHub Actions workflows
-- **eia-pr-review-workflow**: PR review automation, code quality checks
-- **eia-release-management**: Version management, changelog generation, release automation
-- **eia-quality-gates**: Code quality enforcement, linting, type checking
-- **eia-github-projects-sync**: GitHub Projects kanban synchronization
-- **eia-kanban-management**: Kanban column management and task routing
-
-### EOA (Orchestrator) New Skills
-- **eoa-agent-replacement**: Agent failure detection and replacement protocols
-- **eoa-remote-agent-coordinator**: Remote agent coordination and multi-host management
-- **eoa-messaging-templates**: Standardized AI Maestro message templates
-- **eoa-orchestration-patterns**: Task distribution, load balancing, dependency management
-- **eoa-module-management**: Module lifecycle and dependency tracking
-
-These skills integrate CI/CD best practices, PR review workflows, release automation, quality gates, and multi-agent coordination patterns into the AI Maestro ecosystem.
+- **GovernanceRequest**: Created by AMCOS for cross-team agent operations
 
 ---
 

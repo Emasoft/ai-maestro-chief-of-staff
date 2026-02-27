@@ -204,25 +204,25 @@ python scripts/amcos_sync_github_projects.py --project skill-factory --direction
 ### Projects Involved
 1. perfect-skill-suggester (PSS)
 2. claude-plugins-validation (CPV)
-3. ai-maestro-plugins-marketplace (EPM)
+3. ai-maestro-marketplace (AI Maestro distribution)
 
 ### Dependency Chain
 PSS depends on CPV for validation
-EPM depends on PSS and CPV as submodules
+AI Maestro distribution depends on PSS and CPV as submodules
 
 ### Coordination Steps
 1. Update CPV validation logic
 2. Run CPV tests (blocking)
 3. Update PSS to use new CPV
 4. Run PSS tests (blocking)
-5. Update EPM submodules
+5. Update AI Maestro distribution submodules
 6. Run marketplace validation
 7. Publish all three
 
 ### Checkpoints
 - After step 2: CPV stable
 - After step 4: PSS stable
-- After step 6: EPM stable
+- After step 6: AI Maestro distribution stable
 ```
 
 ## Operational Procedures

@@ -244,9 +244,9 @@ projects = [
         "metadata": {"tags": ["plugin", "validation"]}
     },
     {
-        "project_id": "ai-maestro-plugins-marketplace",
+        "project_id": "ai-maestro-marketplace",
         "name": "AI Maestro Plugins",
-        "path": "/Users/dev/Code/SKILL_FACTORY/OUTPUT_SKILLS/ai-maestro-plugins-marketplace",
+        "path": "/Users/dev/Code/SKILL_FACTORY/OUTPUT_SKILLS/ai-maestro-marketplace",
         "status": "active",
         "priority": "medium",
         "metadata": {

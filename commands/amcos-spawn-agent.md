@@ -95,7 +95,7 @@ After spawning, install plugins for the agent using the `ai-maestro-agents-manag
 - **Operation**: install plugin on agent
 - **Agent**: the newly spawned agent name
 - **Plugin**: the plugin to install (e.g., `ai-maestro-chief-of-staff`)
-- **Marketplace**: add marketplace first if needed (e.g., `github:Emasoft/ai-maestro-plugins`)
+- **Marketplace**: add marketplace first if needed (e.g., `bundled with AI Maestro`)
 
 **Verify**: plugin appears in the agent's plugin list after restart.
 

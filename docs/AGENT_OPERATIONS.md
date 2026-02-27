@@ -1,6 +1,8 @@
 # AGENT_OPERATIONS.md - AMCOS Chief of Staff
 
 **SINGLE SOURCE OF TRUTH** for AMCOS (AI Maestro Chief of Staff) agent operations.
+**SCOPE**: TEAM-SCOPED. Each AMCOS instance manages exactly ONE team.
+**Distribution**: Bundled with AI Maestro v0.26.0+.
 
 ---
 
@@ -26,15 +28,58 @@
 | Role | Prefix | Example Session Name |
 |------|--------|---------------------|
 | Chief of Staff | `amcos-` | `amcos-chief-of-staff-one` |
-| Orchestrator | `eoa-` | `eoa-svgbbox-orchestrator` |
-| Architect | `eaa-` | `eaa-project-alpha-architect` |
-| Integrator | `eia-` | `eia-feature-reviewer` |
-| Manager | `eama-` | `eama-user-interface` |
-| Programmer | (none) | `svgbbox-programmer-001` |
+| Orchestrator | `amcos-orch-` | `amcos-orch-svgbbox` |
+| Architect | `amcos-arch-` | `amcos-arch-project-alpha` |
+| Integrator | `amcos-intg-` | `amcos-intg-feature-reviewer` |
+| Manager | `amcos-mgr-` | `amcos-mgr-user-interface` |
+| Programmer | `amcos-prog-` | `amcos-prog-svgbbox-001` |
 
 ---
 
-## 2. Plugin Paths
+## 2. AI Maestro Governance
+
+### 2.1 Team Scope
+
+AMCOS is a **per-team** Chief of Staff. Each AMCOS instance:
+- Manages exactly ONE team
+- Has authority only over agents assigned to its team
+- Cannot spawn, hibernate, or terminate agents belonging to other teams
+- Cannot reassign agents to other teams without a GovernanceRequest
+
+### 2.2 Communication Restrictions
+
+AMCOS can only send messages to:
+
+| Target | Allowed | Example |
+|--------|---------|---------|
+| MANAGER (parent) | Yes | `amcos-mgr-user-interface` |
+| Other COS agents | Yes | `amcos-chief-of-staff-two` |
+| Own team members | Yes | `amcos-orch-svgbbox`, `amcos-prog-svgbbox-001` |
+| Unassigned agents | Yes | Agents not yet assigned to any team |
+| Other teams' agents | **No** | Must use GovernanceRequest |
+
+### 2.3 GovernanceRequest
+
+Cross-team operations require a GovernanceRequest sent to the MANAGER:
+
+| Operation | Requires GovernanceRequest |
+|-----------|---------------------------|
+| Message agent in another team | Yes |
+| Borrow agent from another team | Yes |
+| Share resources across teams | Yes |
+| Spawn agent for own team | No |
+| Message own team members | No |
+
+**GovernanceRequest format** (sent via `agent-messaging` skill):
+- **Recipient**: MANAGER session name
+- **Subject**: `GovernanceRequest: <operation>`
+- **Content type**: `request`
+- **Priority**: `high`
+- **Body**: operation description, justification, target team/agent
+
+---
+
+## 3. Plugin Paths
 
 **Environment Variables**:
 - `${CLAUDE_PLUGIN_ROOT}` - Set by Claude Code when plugin loaded via `--plugin-dir`
@@ -58,14 +103,14 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 **Plugin Sources**:
 | Context | Plugin Source |
 |---------|--------------|
-| **Marketplace** | `~/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<version>/` |
+| **AI Maestro Distribution** | `~/.claude/plugins/cache/ai-maestro/<plugin-name>/<version>/` |
 | **Agent Local** | `~/agents/<session-name>/.claude/plugins/<plugin-name>/` |
 
-**CRITICAL**: AMCOS installs plugins from the ai-maestro-plugins marketplace cache to the agent's local `.claude/plugins/` folder!
+**CRITICAL**: AMCOS installs plugins from the AI Maestro distribution cache (`~/.claude/plugins/cache/ai-maestro/`) to the agent's local `.claude/plugins/` folder.
 
 ---
 
-## 3. Agent Directory Structure (FLAT)
+## 4. Agent Directory Structure (FLAT)
 
 **Architecture**: FLAT (no nesting, all agents at same level)
 
@@ -81,7 +126,7 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 │               ├── skills/
 │               ├── commands/
 │               └── hooks/
-├── eoa-svgbbox-orchestrator/
+├── amcos-orch-svgbbox/
 │   └── .claude/
 │       └── plugins/
 │           └── ai-maestro-orchestrator-agent/
@@ -91,22 +136,22 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 │               ├── skills/
 │               ├── commands/
 │               └── hooks/
-├── eaa-project-alpha-architect/
+├── amcos-arch-project-alpha/
 │   └── .claude/
 │       └── plugins/
 │           └── ai-maestro-architect-agent/
 │               └── ...
-├── eia-feature-reviewer/
+├── amcos-intg-feature-reviewer/
 │   └── .claude/
 │       └── plugins/
 │           └── ai-maestro-integrator-agent/
 │               └── ...
-├── svgbbox-programmer-001/
+├── amcos-prog-svgbbox-001/
 │   └── .claude/
 │       └── plugins/
 │           └── ai-maestro-programmer-agent/
 │               └── ...
-└── eama-user-interface/
+└── amcos-mgr-user-interface/
     └── .claude/
         └── plugins/
             └── ai-maestro-assistant-manager-agent/
@@ -121,19 +166,19 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 
 ---
 
-## 4. Spawn Procedure
+## 5. Spawn Procedure
 
-### 4.1 Copy Plugin First
+### 5.1 Copy Plugin First
 
 **CRITICAL**: Always copy plugin to agent's local directory before spawning!
 
-The plugin must be copied from the marketplace cache to the agent's local `.claude/plugins/` directory:
-- **Source**: `$HOME/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<latest-version>/`
+The plugin must be copied from the AI Maestro distribution cache to the agent's local `.claude/plugins/` directory:
+- **Source**: `$HOME/.claude/plugins/cache/ai-maestro/<plugin-name>/<latest-version>/`
 - **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
 
 **Verify**: the copied plugin contains `.claude-plugin/plugin.json`.
 
-### 4.2 Spawn Command
+### 5.2 Spawn Command
 
 Use the `ai-maestro-agents-management` skill to create a new agent:
 - **Name**: `<role-prefix>-<descriptive>` (the session name)
@@ -155,44 +200,44 @@ Use the `ai-maestro-agents-management` skill to create a new agent:
 
 **Verify**: the new agent appears in the agent list with "online" status.
 
-### 4.3 Role to Plugin/Agent Mapping
+### 5.3 Role to Plugin/Agent Mapping
 
 | Role | Plugin | --agent Flag | Prefix |
 |------|--------|--------------|--------|
 | Chief of Staff | `ai-maestro-chief-of-staff` | `amcos-chief-of-staff-main-agent` | `amcos-` |
-| Orchestrator | `ai-maestro-orchestrator-agent` | `eoa-orchestrator-main-agent` | `eoa-` |
-| Architect | `ai-maestro-architect-agent` | `eaa-architect-main-agent` | `eaa-` |
-| Integrator | `ai-maestro-integrator-agent` | `eia-integrator-main-agent` | `eia-` |
-| Manager | `ai-maestro-assistant-manager-agent` | `eama-assistant-manager-main-agent` | `eama-` |
-| Programmer | `ai-maestro-programmer-agent` | `epa-programmer-main-agent` | (none) |
+| Orchestrator | `ai-maestro-orchestrator-agent` | `amcos-orchestrator-main-agent` | `amcos-orch-` |
+| Architect | `ai-maestro-architect-agent` | `amcos-architect-main-agent` | `amcos-arch-` |
+| Integrator | `ai-maestro-integrator-agent` | `amcos-integrator-main-agent` | `amcos-intg-` |
+| Manager | `ai-maestro-assistant-manager-agent` | `amcos-assistant-manager-main-agent` | `amcos-mgr-` |
+| Programmer | `ai-maestro-programmer-agent` | `amcos-programmer-main-agent` | `amcos-prog-` |
 
-### 4.4 Example: Spawn Orchestrator
+### 5.4 Example: Spawn Orchestrator
 
-1. Copy `ai-maestro-orchestrator-agent` plugin from marketplace cache to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent/`
+1. Copy `ai-maestro-orchestrator-agent` plugin from AI Maestro distribution cache to `$HOME/agents/amcos-orch-svgbbox/.claude/plugins/ai-maestro-orchestrator-agent/`
 2. Use the `ai-maestro-agents-management` skill to create a new agent:
-   - **Name**: `eoa-svgbbox-orchestrator`
-   - **Directory**: `$HOME/agents/eoa-svgbbox-orchestrator`
+   - **Name**: `amcos-orch-svgbbox`
+   - **Directory**: `$HOME/agents/amcos-orch-svgbbox`
    - **Task**: "Orchestrate development of svgbbox library features"
    - **Plugin**: `ai-maestro-orchestrator-agent`
-   - **Agent**: `eoa-orchestrator-main-agent`
+   - **Agent**: `amcos-orchestrator-main-agent`
 
-**Verify**: agent `eoa-svgbbox-orchestrator` appears online in the agent list.
+**Verify**: agent `amcos-orch-svgbbox` appears online in the agent list.
 
-### 4.5 Example: Spawn Programmer
+### 5.5 Example: Spawn Programmer
 
-1. Copy `ai-maestro-programmer-agent` plugin from marketplace cache to `$HOME/agents/svgbbox-programmer-001/.claude/plugins/ai-maestro-programmer-agent/`
+1. Copy `ai-maestro-programmer-agent` plugin from AI Maestro distribution cache to `$HOME/agents/amcos-prog-svgbbox-001/.claude/plugins/ai-maestro-programmer-agent/`
 2. Use the `ai-maestro-agents-management` skill to create a new agent:
-   - **Name**: `svgbbox-programmer-001` (Programmers use project-based naming)
-   - **Directory**: `$HOME/agents/svgbbox-programmer-001`
+   - **Name**: `amcos-prog-svgbbox-001`
+   - **Directory**: `$HOME/agents/amcos-prog-svgbbox-001`
    - **Task**: "Implement authentication module for svgbbox library"
    - **Plugin**: `ai-maestro-programmer-agent`
-   - **Agent**: `epa-programmer-main-agent`
+   - **Agent**: `amcos-programmer-main-agent`
 
-**Verify**: agent `svgbbox-programmer-001` appears online in the agent list.
+**Verify**: agent `amcos-prog-svgbbox-001` appears online in the agent list.
 
 ---
 
-## 5. Wake Procedure (Hibernated Agent)
+## 6. Wake Procedure (Hibernated Agent)
 
 **When to use**: Agent was hibernated (tmux session exists but detached)
 
@@ -209,7 +254,7 @@ Use the `ai-maestro-agents-management` skill to wake the agent:
 
 ---
 
-## 6. Hibernate Procedure
+## 7. Hibernate Procedure
 
 **When to use**: Temporarily pause agent, preserve state
 
@@ -229,7 +274,7 @@ Use the `ai-maestro-agents-management` skill to hibernate the agent:
 
 ---
 
-## 7. Terminate Procedure
+## 8. Terminate Procedure
 
 **When to use**: Permanently stop agent, clean up resources
 
@@ -251,7 +296,7 @@ Use the `ai-maestro-agents-management` skill to terminate (delete) the agent:
 
 ---
 
-## 8. Plugin Mutual Exclusivity
+## 9. Plugin Mutual Exclusivity
 
 **CRITICAL RULE**: Each Claude Code instance can only have ONE role plugin loaded at a time!
 
@@ -262,45 +307,23 @@ Use the `ai-maestro-agents-management` skill to terminate (delete) the agent:
 - Agent definitions can conflict
 
 **Implications**:
-- ❌ CANNOT load `ai-maestro-chief-of-staff` + `ai-maestro-orchestrator-agent` in same session
-- ❌ CANNOT reference skills from other plugins (e.g., EIA skill in EOA session)
-- ✅ MUST spawn separate agent with correct plugin for cross-role operations
-- ✅ MUST use AI Maestro messaging for cross-plugin communication
+- CANNOT load `ai-maestro-chief-of-staff` + `ai-maestro-orchestrator-agent` in same session
+- CANNOT reference skills from other plugins (e.g., Integrator skill in Orchestrator session)
+- MUST spawn separate agent with correct plugin for cross-role operations
+- MUST use AI Maestro messaging for cross-plugin communication
 
 **Self-Contained Plugins**:
-Each plugin must include:
-- All skills needed for that role
-- All commands for that role
-- All agents for that role
-- All hooks for that role
+Each plugin must include all skills, commands, agents, and hooks needed for that role.
 
 **Cross-Plugin Communication**: AI Maestro messages ONLY!
 
-**Example Violations**:
-```bash
-# WRONG: Load two role plugins
-claude --plugin-dir ~/plugins/ai-maestro-chief-of-staff \
-       --plugin-dir ~/plugins/ai-maestro-orchestrator-agent
-
-# WRONG: Reference other plugin's skill
-/learn eoa-two-phase-orchestration  # eoa- skill in amcos- session
-
-# WRONG: Use other plugin's command
-/eoa-initiate  # eoa- command in amcos- session
-```
-
-**Correct Approach**:
-- **One plugin per session**: Load only ONE role plugin when launching Claude Code
-- **Spawn separate agent for other role**: Use the `ai-maestro-agents-management` skill to create a new agent with its own role plugin
-- **Cross-role communication**: Use the `agent-messaging` skill to send messages between agents
-
 ---
 
-## 9. Inter-Agent Messaging
+## 10. Inter-Agent Messaging
 
 All messaging operations use the `agent-messaging` skill. Never use explicit API calls or command-line tools directly.
 
-### 9.1 Send Message
+### 10.1 Send Message
 
 Use the `agent-messaging` skill to send a message:
 - **Recipient**: the target agent session name
@@ -323,237 +346,140 @@ Use the `agent-messaging` skill to send a message:
 | `response` | Reply to a request | "PR #42 approved" |
 | `notification` | Inform about event | "Tests completed, 3 failures" |
 
-### 9.2 Check Inbox
+### 10.2 Check Inbox / Mark Read
 
-Use the `agent-messaging` skill to check for unread messages.
+Use the `agent-messaging` skill to check for unread messages or mark a message as read.
 
-### 9.3 Mark Message Read
+### 10.3 Message Workflow Example
 
-Use the `agent-messaging` skill to mark a message as read.
+1. **AMCOS sends task to Orchestrator** via `agent-messaging`:
+   - Recipient: `amcos-orch-svgbbox` | Subject: "Implement Feature X" | Priority: `high`
 
-### 9.4 Message Workflow Example
+2. **Orchestrator acknowledges** via `agent-messaging`:
+   - Recipient: `amcos-chief-of-staff-one` | Subject: "Re: Implement Feature X" | Priority: `normal`
 
-1. **AMCOS sends task to Orchestrator** using the `agent-messaging` skill:
-   - **Recipient**: `eoa-svgbbox-orchestrator`
-   - **Subject**: "Implement Feature X"
-   - **Content**: request with feature requirements
-   - **Priority**: `high`
-
-2. **Orchestrator acknowledges** using the `agent-messaging` skill:
-   - **Recipient**: `amcos-chief-of-staff-one`
-   - **Subject**: "Re: Implement Feature X"
-   - **Content**: response acknowledging and providing ETA
-   - **Priority**: `normal`
-
-3. **Orchestrator reports completion** using the `agent-messaging` skill:
-   - **Recipient**: `amcos-chief-of-staff-one`
-   - **Subject**: "Re: Implement Feature X"
-   - **Content**: notification that implementation is complete with PR reference
-   - **Priority**: `normal`
+3. **Orchestrator reports completion** via `agent-messaging`:
+   - Recipient: `amcos-chief-of-staff-one` | Subject: "Re: Implement Feature X" | Priority: `normal`
 
 ---
 
-## 10. Skill References
+## 11. Skill References
 
-### 10.1 Correct Format
+### 11.1 Correct Format
 
-**Reference skills by folder name only**:
-```markdown
-See skill: **amcos-agent-lifecycle**
+Reference skills by folder name only:
+```
+See skill: amcos-agent-lifecycle
 ```
 
-**In commands/agents, use just the skill name**:
+In commands/agents, use just the skill name:
 ```yaml
 skills:
   - amcos-agent-lifecycle
   - amcos-task-delegation
 ```
 
-### 10.2 NEVER Use Paths
+### 11.2 Rules
 
-❌ **WRONG**:
-```markdown
-See skill: ../skills/amcos-agent-lifecycle/SKILL.md
-See skill: ${CLAUDE_PLUGIN_ROOT}/skills/amcos-agent-lifecycle/SKILL.md
-See skill: /full/path/to/skills/amcos-agent-lifecycle/SKILL.md
-```
-
-### 10.3 NEVER Reference Other Plugins' Skills
-
-❌ **WRONG** (in AMCOS session):
-```yaml
-skills:
-  - eoa-two-phase-orchestration  # This is EOA skill, not AMCOS!
-  - eaa-architecture-design  # This is EAA skill, not AMCOS!
-```
-
-✅ **CORRECT** (in AMCOS session):
-```yaml
-skills:
-  - amcos-agent-lifecycle  # AMCOS skill
-  - amcos-task-delegation  # AMCOS skill
-```
-
-### 10.4 Skill Discovery
-
-Claude Code resolves skill names using:
-1. Plugin's `skills/` directory
-2. Skill folder names (not SKILL.md content)
-3. Skill frontmatter `name` field (optional)
-
-**Example**: If skill is at `skills/amcos-agent-lifecycle/`, reference as `amcos-agent-lifecycle`.
+- NEVER use file paths to reference skills
+- NEVER reference other plugins' skills from an AMCOS session
+- Claude Code resolves skill names using the plugin's `skills/` directory and folder names
 
 ---
 
-## 11. AMCOS-Specific Responsibilities
+## 12. AMCOS-Specific Responsibilities
 
-### 11.1 Creation
+### 12.1 Creation
 
-**AMCOS is created by EAMA (Manager) only!**
+**AMCOS is created by the MANAGER only!**
 
-- User interacts with EAMA (Manager) first
-- EAMA assesses if task requires orchestration
-- EAMA spawns AMCOS for complex multi-agent coordination
+- User interacts with MANAGER first
+- MANAGER assesses if task requires orchestration
+- MANAGER spawns AMCOS for complex multi-agent coordination within a team
 
-### 11.2 Agent Creation Authority
+### 12.2 Agent Creation Authority
 
-**AMCOS creates**:
-1. **Orchestrator** (`eoa-`) - Coordinates task execution
-2. **Architect** (`eaa-`) - Designs system architecture
-3. **Integrator** (`eia-`) - Reviews code, runs quality gates
-4. **Programmer** (`epa-`) - Implements code tasks
+**AMCOS creates** (within its team only):
+| Role | Prefix |
+|------|--------|
+| Orchestrator | `amcos-orch-` |
+| Architect | `amcos-arch-` |
+| Integrator | `amcos-intg-` |
+| Programmer | `amcos-prog-` |
 
 **AMCOS does NOT create**:
-- Manager (`eama-`) - Only user creates Manager
+- Manager - Only user creates Manager
 - Other AMCOS instances - Only Manager creates AMCOS
 
 **Implementer Category**: "Implementer" is an umbrella term for all agents that produce concrete deliverables. The Programmer is the first implementer role. Future implementer roles (each with its own plugin) may include: Documenter, 2D Artist, 3D Artist, Video Maker, Sound FX Artist, Music Maker, UI Designer, Copywriter, Interactive Storytelling, Marketing, App Store Optimization, SEO, and Financial agents.
 
-### 11.3 Session Naming Responsibility
+### 12.3 Session Naming Responsibility
 
-**AMCOS chooses unique session names** for all agents it creates!
-
-**Naming Strategy**:
+**AMCOS chooses unique session names** for all agents it creates:
 ```bash
-# Format: <role-prefix>-<project>-<role>[-number]
-# Examples:
-eoa-svgbbox-orchestrator
-eaa-svgbbox-architect
-eia-svgbbox-integrator
-
-# If multiple needed:
-eoa-svgbbox-orchestrator-1
-eoa-svgbbox-orchestrator-2
+# Format: amcos-<role-short>-<project>[-number]
+amcos-orch-svgbbox
+amcos-arch-svgbbox
+amcos-intg-svgbbox
+amcos-prog-svgbbox-001
+amcos-prog-svgbbox-002
 ```
 
 **Uniqueness Check**: Before spawning, use the `ai-maestro-agents-management` skill to list all agents and verify the chosen session name is not already in use. If the name exists, append a number suffix.
 
-### 11.4 Lifecycle Management
+### 12.4 Lifecycle Management
 
-**AMCOS monitors agent health**: Use the `ai-maestro-agents-management` skill to check agent status, heartbeat timestamps, message backlog, and last activity time (every 5 minutes).
+- **Monitor agent health**: Check agent status, heartbeat, message backlog, last activity (every 5 min)
+- **Hibernate idle agents**: If idle for 30+ minutes with no pending tasks
+- **Terminate completed agents**: After work is done and verified
 
-**AMCOS hibernates idle agents**: If an agent has been idle for more than 30 minutes with no pending tasks, use the `ai-maestro-agents-management` skill to hibernate it.
+All operations use the `ai-maestro-agents-management` skill.
 
-**AMCOS terminates completed agents**: After work is done and verified, use the `ai-maestro-agents-management` skill to terminate the agent (with confirmation).
-
-### 11.5 Task Delegation Flow
+### 12.5 Task Delegation Flow
 
 ```
 User Request
-     ↓
-   EAMA (Manager)
-     ↓ (spawns if complex)
-   AMCOS (Chief of Staff)
-     ↓
-     ├─→ EOA (Orchestrator) ─→ Implementation agents
-     ├─→ EAA (Architect) ─→ Design agents
-     └─→ EIA (Integrator) ─→ Review agents
+     |
+   MANAGER
+     | (spawns if complex)
+   AMCOS (Chief of Staff) -- TEAM-SCOPED
+     |
+     +---> Orchestrator (amcos-orch-*) ---> Implementation agents
+     +---> Architect (amcos-arch-*) ---> Design agents
+     +---> Integrator (amcos-intg-*) ---> Review agents
 ```
 
 **AMCOS coordination responsibilities**:
 1. Assess task complexity and requirements
-2. Choose which agents to spawn (Orchestrator, Architect, Integrator)
-3. Assign unique session names
-4. Copy plugins to agent directories
+2. Choose which agents to spawn
+3. Assign unique session names with `amcos-` prefix
+4. Copy plugins from AI Maestro distribution cache to agent directories
 5. Spawn agents with appropriate flags
-6. Send initial task prompts via AI Maestro
+6. Send initial task prompts via AI Maestro messaging
 7. Monitor agent progress and health
-8. Coordinate cross-agent communication
+8. Coordinate cross-agent communication (within team scope)
 9. Hibernate idle agents
 10. Terminate completed agents
-11. Report final results back to EAMA
+11. Report final results back to MANAGER
 
 ---
 
-## 12. Troubleshooting
+## 13. Troubleshooting
 
-### 12.1 Agent Won't Spawn
-
-**Symptom**: Agent creation fails
-
-**Check**:
-1. Session name already exists? Check with `tmux list-sessions`
-2. Agent registry running? Use the `ai-maestro-agents-management` skill to list agents
-3. Plugin exists at path? Check `~/agents/<session-name>/.claude/plugins/<plugin-name>/.claude-plugin/plugin.json`
-4. Claude Code binary accessible? Check with `which claude`
-
-### 12.2 Agent Can't Find Skills
-
-**Symptom**: Skill reference fails
-
-**Check**:
-```bash
-# 1. Skill exists in plugin?
-ls -la ~/agents/<session-name>/.claude/plugins/<plugin-name>/skills/
-
-# 2. Skill folder name matches reference?
-# Reference: amcos-agent-lifecycle
-# Folder: skills/amcos-agent-lifecycle/
-
-# 3. SKILL.md exists?
-cat ~/agents/<session-name>/.claude/plugins/<plugin-name>/skills/amcos-agent-lifecycle/SKILL.md
-```
-
-**Fix**: Use skill folder name only, no paths!
-
-### 12.3 Cross-Plugin Skill References Fail
-
-**Symptom**: Agent in AMCOS session tries to use EOA skill
-
-**Why**: Plugin mutual exclusivity - can't reference other plugin's skills
-
-**Fix**: Spawn a separate agent with the correct plugin using the `ai-maestro-agents-management` skill, then send the task via the `agent-messaging` skill.
-
-### 12.4 Plugin Hooks Conflict
-
-**Symptom**: Duplicate PreToolUse hooks error
-
-**Cause**: Two plugins with same hook loaded (violates mutual exclusivity)
-
-**Check**:
-```bash
-# How many --plugin-dir flags?
-ps aux | grep "claude.*--plugin-dir" | grep <session-name>
-```
-
-**Fix**: Only load ONE role plugin per agent!
-
-### 12.5 Messages Not Received
-
-**Symptom**: Agent doesn't receive messages
-
-**Check**:
-1. Agent registered? Use the `ai-maestro-agents-management` skill to verify agent exists
-2. Messages in inbox? Use the `agent-messaging` skill to check for unread messages
-3. Message poll hook working? Check plugin's `hooks/hooks.json` for UserPromptSubmit hook
-
-**Fix**: Ensure the messaging hook is loaded (check plugin's hooks.json)
+| Symptom | Check | Fix |
+|---------|-------|-----|
+| Agent won't spawn | Session name exists? Plugin at path? Claude binary accessible? | Use unique name; verify `.claude-plugin/plugin.json` exists |
+| Agent can't find skills | Skill folder exists in plugin? Folder name matches reference? | Use skill folder name only, no paths |
+| Cross-plugin skill fails | Referencing another plugin's skill | Spawn separate agent with correct plugin; use messaging |
+| Hook conflicts | Multiple `--plugin-dir` flags | Load only ONE role plugin per agent |
+| Messages not received | Agent registered? Messaging hook in `hooks.json`? | Verify registration; check hook configuration |
+| Cross-team message blocked | Recipient in another team | Submit GovernanceRequest to MANAGER |
 
 ---
 
-## 13. Quick Reference
+## 14. Quick Reference
 
-All operations below use intent-based skill references:
+All operations use intent-based skill references:
 
 | Operation | Skill | Intent |
 |-----------|-------|--------|
@@ -569,7 +495,7 @@ All operations below use intent-based skill references:
 
 ---
 
-## Kanban Column System
+## 15. Kanban Column System
 
 All projects use the canonical **8-column kanban system** on GitHub Projects:
 
@@ -585,12 +511,12 @@ All projects use the canonical **8-column kanban system** on GitHub Projects:
 | Blocked | `blocked` | `status:blocked` |
 
 **Task routing**:
-- Small tasks: In Progress → AI Review → Merge/Release → Done
-- Big tasks: In Progress → AI Review → Human Review → Merge/Release → Done
+- Small tasks: In Progress -> AI Review -> Merge/Release -> Done
+- Big tasks: In Progress -> AI Review -> Human Review -> Merge/Release -> Done
 
 ---
 
-## Scripts Reference
+## 16. Scripts Reference
 
 | Script | Purpose |
 |--------|---------|
@@ -599,15 +525,6 @@ All projects use the canonical **8-column kanban system** on GitHub Projects:
 | `scripts/amcos_heartbeat_check.py` | Agent heartbeat monitoring |
 | `scripts/amcos_team_registry.py` | Team registry management |
 | `scripts/amcos_download.py` | Plugin download utility |
-
----
-
-## Recent Changes (2026-02-07)
-
-- Added 8-column canonical kanban system across all shared docs
-- Added Unicode compliance check (step 4) to pre-push hook
-- Added `encoding="utf-8"` to all Python file operations
-- Synchronized FULL_PROJECT_WORKFLOW.md, TEAM_REGISTRY_SPECIFICATION.md, ROLE_BOUNDARIES.md across all plugins
 
 ---
 

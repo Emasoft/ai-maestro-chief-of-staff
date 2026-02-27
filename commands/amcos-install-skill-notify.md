@@ -86,10 +86,10 @@ Phase 4: POST-INSTALLATION VERIFICATION
 /amcos-install-skill-notify --agent helper-python --skill data-validation --wait-for-ok
 
 # Install marketplace skill without waiting
-/amcos-install-skill-notify --agent frontend-ui --marketplace ai-maestro-plugins/perfect-skill-suggester
+/amcos-install-skill-notify --agent frontend-ui --marketplace ai-maestro/perfect-skill-suggester
 
 # Global installation with wait
-/amcos-install-skill-notify --global --marketplace ai-maestro-plugins/code-quality --wait-for-ok
+/amcos-install-skill-notify --global --marketplace ai-maestro/code-quality --wait-for-ok
 
 # Quick install (no wait)
 /amcos-install-skill-notify --agent data-processor --skill formatting-tools

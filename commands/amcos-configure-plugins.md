@@ -54,7 +54,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 ### Add a plugin to an agent
 
 ```bash
-/amcos-configure-plugins libs-svg-svgbbox --add perfect-skill-suggester@ai-maestro-plugins
+/amcos-configure-plugins libs-svg-svgbbox --add perfect-skill-suggester@ai-maestro
 ```
 
 ### Remove a plugin
@@ -92,7 +92,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 ╠════════════════════════════════════════════════════════════════╣
 ║ ACTIONS PERFORMED                                              ║
 ╠════════════════════════════════════════════════════════════════╣
-║ [+] Added: perfect-skill-suggester@ai-maestro-plugins (local)     ║
+║ [+] Added: perfect-skill-suggester@ai-maestro (local)     ║
 ║ [-] Removed: old-deprecated-plugin                             ║
 ╠════════════════════════════════════════════════════════════════╣
 ║ CURRENT PLUGINS                                                ║

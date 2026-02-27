@@ -8,6 +8,8 @@ user-invocable: true
 
 # Broadcast Notification Command
 
+> **Constraint — Team Boundary:** Broadcasts to own team agents only. Cross-team broadcast requires GovernanceRequest.
+
 Send a notification to multiple agents simultaneously with filtering options by agent names, role, or project assignment.
 
 ## Usage
@@ -184,7 +186,7 @@ When agents receive the notification:
 ## Role Wildcards
 
 Special role values:
-- `*` - All agents in registry
+- `*` - All agents in own team
 - `helper` - Helper agents
 - `specialist` - Specialist agents
 - `orchestrator` - Orchestrator agents

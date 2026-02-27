@@ -599,7 +599,7 @@ Examples:
   python amcos_notification_protocol.py broadcast --subject "Update" --message "System maintenance" --priority high
 
   # Install skill with notification workflow
-  python amcos_notification_protocol.py install-skill --agent agent1 --skill my-skill --marketplace ai-maestro-plugins
+  python amcos_notification_protocol.py install-skill --agent agent1 --skill my-skill --marketplace ai-maestro
         """,
     )
 

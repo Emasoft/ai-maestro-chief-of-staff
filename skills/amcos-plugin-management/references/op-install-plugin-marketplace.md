@@ -51,14 +51,14 @@ version: 1.0.0
 claude plugin marketplace list
 
 # If marketplace not registered, add it
-claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro
 ```
 
 ### Step 2: Check Plugin Availability
 
 ```bash
 # Update marketplace cache
-claude plugin marketplace update ai-maestro-plugins
+claude plugin marketplace update ai-maestro
 
 # List available plugins
 claude plugin search <plugin-name>
@@ -71,7 +71,7 @@ claude plugin search <plugin-name>
 claude plugin install <plugin-name>@<marketplace-name>
 
 # Example
-claude plugin install ai-maestro-orchestrator-agent@ai-maestro-plugins
+claude plugin install ai-maestro-orchestrator-agent@ai-maestro
 ```
 
 ### Step 4: Verify Installation
@@ -129,17 +129,17 @@ Copy this checklist and track your progress:
 
 ```bash
 # Step 1: Add marketplace (first time only)
-claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro
 
 # Step 2: Update cache
-claude plugin marketplace update ai-maestro-plugins
+claude plugin marketplace update ai-maestro
 
 # Step 3: Install
-claude plugin install perfect-skill-suggester@ai-maestro-plugins
+claude plugin install perfect-skill-suggester@ai-maestro
 
 # Step 4: Verify
 claude plugin list | grep perfect-skill-suggester
-# Output: perfect-skill-suggester@ai-maestro-plugins 1.2.3 enabled
+# Output: perfect-skill-suggester@ai-maestro 1.2.3 enabled
 
 # Step 5: RESTART Claude Code
 exit
@@ -156,7 +156,7 @@ exit
 
 ```bash
 # Install
-claude plugin install ai-maestro-orchestrator-agent@ai-maestro-plugins
+claude plugin install ai-maestro-orchestrator-agent@ai-maestro
 
 # Verify
 claude plugin list | grep ai-maestro-orchestrator-agent

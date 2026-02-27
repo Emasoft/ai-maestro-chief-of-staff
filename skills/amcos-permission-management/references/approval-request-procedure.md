@@ -305,7 +305,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: `eama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Plugin Install: perfect-skill-suggester`
 - **Priority**: `high`
-- **Content**: type `approval_request`, message: "Requesting approval to install skill suggestion plugin". Include `request_id`: "plugin_install-req-2025-02-02-001", `operation`: "plugin_install", `details`: { `plugin_name`: "perfect-skill-suggester", `version`: "1.2.2", `source`: "ai-maestro-plugins", `capability`: "AI-analyzed skill activation based on task context", `security_implications`: "Runs hooks on prompt submission. No network access required." }, `justification`: "Skill activation currently manual. PSS automates skill matching to improve agent efficiency."
+- **Content**: type `approval_request`, message: "Requesting approval to install skill suggestion plugin". Include `request_id`: "plugin_install-req-2025-02-02-001", `operation`: "plugin_install", `details`: { `plugin_name`: "perfect-skill-suggester", `version`: "1.2.2", `source`: "ai-maestro", `capability`: "AI-analyzed skill activation based on task context", `security_implications`: "Runs hooks on prompt submission. No network access required." }, `justification`: "Skill activation currently manual. PSS automates skill matching to improve agent efficiency."
 
 ---
 

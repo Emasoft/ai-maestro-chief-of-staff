@@ -2,9 +2,11 @@
 
 Reference for all inter-agent message templates used by AI Maestro Chief of Staff (AMCOS).
 
+All messages use the AMP protocol via `amp-send.sh`. Never call the HTTP API directly.
+
 ## Contents
 
-- [1. Standard Message Format](#1-standard-message-format)
+- [1. Standard Message Format (AMP)](#1-standard-message-format-amp)
 - [2. When Requesting Approval from EAMA](#2-when-requesting-approval-from-eama)
 - [3. When Escalating Issues to EAMA](#3-when-escalating-issues-to-eama)
 - [4. When Notifying Agents of Upcoming Operations](#4-when-notifying-agents-of-upcoming-operations)
@@ -16,75 +18,51 @@ Reference for all inter-agent message templates used by AI Maestro Chief of Staf
 
 ---
 
-## 1. Standard Message Format
+## 1. Standard Message Format (AMP)
 
-All messages are sent using the `agent-messaging` skill. Each message includes:
+All messages are sent using `amp-send.sh`. Messages are automatically Ed25519-signed by the AMP transport layer.
 
-- **Recipient**: the target agent session name
-- **Subject**: descriptive subject line
-- **Priority**: `urgent`, `high`, `normal`, or `low`
-- **Content**: structured object with `type` and `message` fields, plus additional fields as needed
+**Setup (once per agent):**
+```bash
+amp-init.sh --auto
+```
+
+**Base send command:**
+```bash
+amp-send.sh --to <recipient> --subject "<subject>" --priority <priority> --type <type> --message "<message>"
+```
+
+**Priority values:** `urgent`, `high`, `normal`, `low`
 
 ---
 
 ## 2. When Requesting Approval from EAMA
 
-**Use case:** Before spawning, terminating, or replacing agents. AMCOS requires approval for resource allocation and destructive operations.
+**Use case:** Before spawning, terminating, or replacing agents.
 
-**When to use:**
-- Before spawning new agents (unless autonomous mode is ON and within limits)
-- Before terminating agents (destructive operation)
-- Before replacing failed agents (involves terminate + spawn)
-- Before installing plugins on agents (changes agent capabilities)
+```bash
+amp-send.sh --to eama-main \
+  --subject "APPROVAL REQUIRED: <operation_type>" \
+  --priority normal \
+  --type approval_request \
+  --message "Operation: <description>. Target: <agent>. Justification: <reason>. Risk: <low|medium|high>. Rollback: <plan>. Request-ID: <uuid>. Timeout: 120s"
+```
 
-Use the `agent-messaging` skill to send a message:
-- **Recipient**: `eama-main`
-- **Subject**: `APPROVAL REQUIRED: <operation_type>`
-- **Priority**: `normal`
-- **Content**: type `approval_request`, including:
-  - Description of the requested operation
-  - Requester session name
-  - Target agent or resource
-  - Justification for the operation
-  - Risk level (low, medium, high)
-  - Rollback plan
-  - Unique request ID
-  - Timeout in seconds (default 120)
-
-**Expected response fields:**
-- `decision`: `approved` | `rejected` | `revision_needed`
-- `reason`: Explanation of decision
-- `conditions`: Any conditions attached to approval (optional)
+**Expected response fields:** `decision` (approved|rejected|revision_needed), `reason`, `conditions` (optional).
 
 ---
 
 ## 3. When Escalating Issues to EAMA
 
-**Use case:** When issues occur outside AMCOS authority or require human intervention.
+**Use case:** Issues outside AMCOS authority or requiring human intervention.
 
-**When to escalate:**
-- Agent spawn failure after 3 attempts
-- Resource exhaustion (memory/disk/CPU)
-- Approval timeout for critical operations
-- GitHub API failure (persistent)
-- Plugin installation failure
-- Agent communication failure
-- Cross-project dependency conflict
-
-Use the `agent-messaging` skill to send a message:
-- **Recipient**: `eama-assistant-manager`
-- **Subject**: `[ESCALATION] <SITUATION_TYPE>`
-- **Priority**: based on severity (see table below)
-- **Content**: type `escalation`, including:
-  - Description of the issue
-  - Situation type
-  - Severity (low, medium, high, critical)
-  - Affected resources list
-  - Number of attempts made
-  - Last error details
-  - Recommended action
-  - Whether user decision is required
-  - Unique escalation ID
+```bash
+amp-send.sh --to eama-assistant-manager \
+  --subject "[ESCALATION] <SITUATION_TYPE>" \
+  --priority <urgent|high|normal> \
+  --type escalation \
+  --message "Issue: <description>. Severity: <low|medium|high|critical>. Affected: <resources>. Attempts: <N>. Last error: <details>. Recommended action: <action>. User decision required: <yes|no>. Escalation-ID: <uuid>"
+```
 
 **Escalation Priority Guidelines:**
 
@@ -101,142 +79,85 @@ Use the `agent-messaging` skill to send a message:
 
 ## 4. When Notifying Agents of Upcoming Operations
 
-**Use case:** Before hibernating, terminating, or moving an agent. Give the agent time to save state.
+**Use case:** Before hibernating, terminating, or moving an agent.
 
-**When to use:**
-- Before hibernating agent (30s notice)
-- Before terminating agent (30s notice)
-- Before moving agent to different project (60s notice)
+```bash
+amp-send.sh --to <target-agent> \
+  --subject "NOTICE: <operation_type> in <seconds>s" \
+  --priority high \
+  --type operation_notice \
+  --message "Operation: <description>. Type: <hibernate|terminate|move>. Countdown: <seconds>s. Save your work and reply with 'ok' when ready."
+```
 
-Use the `agent-messaging` skill to send a message:
-- **Recipient**: the target agent session name
-- **Subject**: `NOTICE: <operation_type> in <seconds>s`
-- **Priority**: `high`
-- **Content**: type `operation_notice`, including:
-  - Description of the upcoming operation
-  - Operation type (hibernate, terminate, move)
-  - Countdown in seconds
-
-**Standard countdown times:**
-- Hibernation: 30 seconds
-- Termination: 30 seconds
-- Project move: 60 seconds
+**Standard countdown times:** Hibernation: 30s, Termination: 30s, Project move: 60s.
 
 ---
 
 ## 5. When Reporting Operation Results
 
-**Use case:** After completing spawn, terminate, hibernate, wake operations. Report back to requester.
+**Use case:** After completing spawn, terminate, hibernate, wake operations.
 
-**When to use:**
-- After successful agent spawn
-- After failed agent spawn (with rollback details)
-- After agent termination (success or failure)
-- After hibernation or wake operations
-- After any operation requested by another agent
+```bash
+amp-send.sh --to <requesting-agent> \
+  --subject "RESULT: <operation_type> - <SUCCESS|FAILED>" \
+  --priority <normal|high> \
+  --type operation_result \
+  --message "Operation: <description>. Status: <success|failure|partial>. Target: <resource>. Duration: <ms>ms. Error: <details or none>"
+```
 
-Use the `agent-messaging` skill to send a message:
-- **Recipient**: the requesting agent session name
-- **Subject**: `RESULT: <operation_type> - <SUCCESS|FAILED>`
-- **Priority**: `normal` (success) or `high` (failure)
-- **Content**: type `operation_result`, including:
-  - Operation description and outcome
-  - Operation type
-  - Status (success, failure, partial)
-  - Target resource
-  - Duration in milliseconds
-  - Error details (if failed)
-
-**Status values:**
-- `success`: Operation completed successfully
-- `failure`: Operation failed (include error details)
-- `partial`: Operation partially completed (include details)
+**Priority:** `normal` for success, `high` for failure.
 
 ---
 
 ## 6. When Notifying EOA of New Agent Availability
 
-**Use case:** After spawning agent and adding to team. Inform the orchestrator that a new team member is ready.
+**Use case:** After spawning agent and adding to team.
 
-**When to use:**
-- After successfully spawning new agent
-- After adding agent to team registry
-- After verifying agent responds to health check
-
-Use the `agent-messaging` skill to send a message:
-- **Recipient**: the project orchestrator session name
-- **Subject**: `NEW AGENT: <agent_name> available`
-- **Priority**: `normal`
-- **Content**: type `team_update`, including:
-  - Agent name
-  - Assigned role
-  - Capabilities list
-  - Working directory path
-  - Team registry path
-  - Note that agent is ready to receive task assignments
-
-**Standard roles:**
-- `developer`: Code implementation
-- `test-engineer`: Testing and quality assurance
-- `deploy-agent`: Deployment and release
-- `debug-specialist`: Debugging and investigation
-- `code-reviewer`: Code review and quality gates
+```bash
+amp-send.sh --to <orchestrator-session> \
+  --subject "NEW AGENT: <agent_name> available" \
+  --priority normal \
+  --type team_update \
+  --message "Agent: <name>. Role: <role>. Capabilities: <list>. Working dir: <path>. Registry: <path>. Agent is ready for task assignments."
+```
 
 ---
 
 ## 7. When Requesting Team Status from EOA
 
-**Use case:** Checking current status of all team members. Used for monitoring and resource planning.
+**Use case:** Checking current status of all team members.
 
-**When to use:**
-- Before deciding to spawn new agent (check if existing agents available)
-- During periodic health checks
-- When user requests team status report
-- Before hibernating idle agents
-
-Use the `agent-messaging` skill to send a message:
-- **Recipient**: the project orchestrator session name
-- **Subject**: `REQUEST: Team status report`
-- **Priority**: `normal`
-- **Content**: type `status_request`, including:
-  - Request for active agents, hibernated agents, in-progress tasks, idle agents
-  - Unique request ID for tracking
-
-**Expected response format:**
-The orchestrator should respond with type `status_response` including lists of active agents, hibernated agents, in-progress tasks, and idle agents.
+```bash
+amp-send.sh --to <orchestrator-session> \
+  --subject "REQUEST: Team status report" \
+  --priority normal \
+  --type status_request \
+  --message "Requesting: active agents, hibernated agents, in-progress tasks, idle agents. Request-ID: <uuid>"
+```
 
 ---
 
 ## 8. When Broadcasting Team Updates
 
-**Use case:** Informing all team members of registry changes. Used when team composition changes.
+**Use case:** Informing all team members of registry changes.
 
-**When to use:**
-- After adding new agent to team
-- After removing agent from team
-- After updating agent roles
-- After team registry structure changes
+Send to each team member individually:
 
-Use the `agent-messaging` skill to send a message to each team member:
-- **Recipient**: each agent in the team (comma-separated or individual messages)
-- **Subject**: `TEAM UPDATE: <update_description>`
-- **Priority**: `normal`
-- **Content**: type `team_broadcast`, including:
-  - Description of the update
-  - Team registry path
-  - Action to take (e.g., `refresh_registry`, `update_roles`, `member_removed`, `member_added`)
+```bash
+for agent in <agent1> <agent2> <agent3>; do
+  amp-send.sh --to "$agent" \
+    --subject "TEAM UPDATE: <update_description>" \
+    --priority normal \
+    --type team_broadcast \
+    --message "Update: <description>. Registry: <path>. Action: <refresh_registry|update_roles|member_removed|member_added>"
+done
+```
 
-**Broadcast actions:**
-- `refresh_registry`: Re-read team registry file
-- `update_roles`: Role assignments changed
-- `member_removed`: Agent removed from team
-- `member_added`: New agent added to team
+**Broadcast actions:** `refresh_registry`, `update_roles`, `member_removed`, `member_added`.
 
 ---
 
 ## 9. Message Type Reference
-
-**Quick reference for all message types used by AMCOS:**
 
 | Message Type | Purpose | Priority | Response Expected |
 |--------------|---------|----------|-------------------|
@@ -249,25 +170,20 @@ Use the `agent-messaging` skill to send a message to each team member:
 | `team_broadcast` | Notify all team members | `normal` | No |
 | `health_check` | Verify agent is responsive | `normal` | Yes (timeout: 30s) |
 
-**Message priority guidelines:**
-- `urgent`: Immediate attention required (< 5 min response)
-- `high`: Important, handle soon (< 15 min response)
-- `normal`: Standard priority (< 60 min response)
+**Priority guidelines:**
+- `urgent`: Immediate attention (< 5 min response)
+- `high`: Handle soon (< 15 min response)
+- `normal`: Standard (< 60 min response)
 - `low`: Non-critical, handle when convenient
-
-**Timeout recommendations:**
-- Approval requests: 120 seconds
-- Status requests: 60 seconds
-- Health checks: 30 seconds
-- Escalations: Varies by severity (2-30 minutes)
 
 ---
 
 ## Notes
 
+- **Always use `amp-send.sh`** -- never call the HTTP API directly
+- **Ed25519 signing** is automatic via `amp-send.sh` (keypair from `amp-init.sh --auto`)
 - **Always use full session names** (e.g., `amcos-chief-of-staff`, not `ecos`)
 - **Always generate unique request IDs** for operations requiring tracking
 - **Always specify rollback plan** in approval requests
-- **Always include duration** in operation results (helps performance tracking)
-- **Always use `type` field** in content object for message routing
-- **Multiple recipients**: Send individual messages to each recipient, or use comma-separated list in recipient field
+- **Always include duration** in operation results
+- **Always use `type` field** in content for message routing

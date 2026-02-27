@@ -43,12 +43,12 @@ Projects that share code:
 
 **Example:**
 ```
-ai-maestro-plugins-marketplace
+ai-maestro-marketplace
 ├── perfect-skill-suggester (submodule)
 └── claude-plugins-validation (submodule)
 ```
 
-Changes to PSS require EPM to update its submodule.
+Changes to PSS require AI Maestro distribution to update its submodule.
 
 ### 3.2.2 Data dependencies
 
@@ -115,7 +115,7 @@ Cannot run both test suites simultaneously
 
 ### Related Projects
 - claude-plugins-validation (code dependency - uses validator)
-- ai-maestro-plugins-marketplace (code dependency - submodule)
+- ai-maestro-marketplace (code dependency - submodule)
 
 ### Resources
 - test-engineer-01 (shared with CPV)
@@ -136,7 +136,7 @@ Cannot run both test suites simultaneously
 │  └──┬──┘         └──┬──┘            │
 │     │               │               │
 │     │    ┌─────┐    │               │
-│     └───►│ EPM │◄───┘               │
+│     └───►│ AI Maestro distribution │◄───┘               │
 │          └─────┘                    │
 │                                     │
 │  Legend:                            │
@@ -170,14 +170,14 @@ Cannot run both test suites simultaneously
 - Duration: 4 hours
 - Checkpoint: PSS tests pass
 
-### Phase 3: Update EPM (Depends on Phases 1 & 2)
+### Phase 3: Update AI Maestro distribution (Depends on Phases 1 & 2)
 - Agent: devops-epm
 - Duration: 1 hour
 - Checkpoint: Marketplace validation passes
 
 ### Sync Points
 - After Phase 1: Notify PSS agent
-- After Phase 2: Notify EPM agent
+- After Phase 2: Notify AI Maestro distribution agent
 - After Phase 3: Notify Chief of Staff
 ```
 
@@ -283,7 +283,7 @@ Projects waiting for each other.
 
 ### Example: Three-Project Release
 
-**Scenario:** Release new version of PSS requires updating CPV and EPM.
+**Scenario:** Release new version of PSS requires updating CPV and AI Maestro distribution.
 
 **Coordination Plan:**
 
@@ -293,7 +293,7 @@ Projects waiting for each other.
 ### Projects
 - CPV: claude-plugins-validation (dependency)
 - PSS: perfect-skill-suggester (primary)
-- EPM: ai-maestro-plugins-marketplace (consumer)
+- AI Maestro distribution: ai-maestro-marketplace (consumer)
 
 ### Phases
 
@@ -310,17 +310,17 @@ Projects waiting for each other.
 - Checkpoint: PSS tests pass
 - Push to GitHub
 
-**Phase 3: EPM Update (1h)**
-- Update PSS submodule in EPM
-- Update CPV submodule in EPM
+**Phase 3: AI Maestro distribution Update (1h)**
+- Update PSS submodule in AI Maestro distribution
+- Update CPV submodule in AI Maestro distribution
 - Run marketplace validation
-- Checkpoint: EPM validation pass
+- Checkpoint: AI Maestro distribution validation pass
 - Push to GitHub
 
 ### Checkpoints
 1. After CPV: `cpv_tests_pass`
 2. After PSS: `pss_tests_pass`
-3. After EPM: `epm_validation_pass`
+3. After AI Maestro distribution: `epm_validation_pass`
 
 ### Final: All three repos updated and consistent
 ```

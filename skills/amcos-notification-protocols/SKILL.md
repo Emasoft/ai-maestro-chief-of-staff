@@ -22,16 +22,26 @@ Notification protocols ensure agents are properly informed about operations that
 ## Prerequisites
 
 Before using this skill, ensure:
-1. AI Maestro messaging system is running
-2. Target agents are registered and reachable
-3. Notification templates are available
+1. AI Maestro messaging system is running with AMP protocol
+2. AMP is initialized: run `amp-init.sh --auto` (registers agent, generates Ed25519 keypair for message signing)
+3. Target agents are registered and reachable
+4. Notification templates are AMP-compatible (see message templates reference)
 
 ## Instructions
 
 1. Identify the notification type needed
-2. Select appropriate notification template
-3. Send notification using the `agent-messaging` skill
+2. Select appropriate AMP-compatible notification template
+3. Send notification using `amp-send.sh` exclusively (do NOT use direct HTTP API calls)
 4. Verify delivery and acknowledgment
+
+## AMP Protocol Compliance
+
+All notifications MUST use the AMP (Agent Messaging Protocol) transport:
+
+- **Send**: Use `amp-send.sh` for all outbound messages. Never call the HTTP API directly.
+- **Signing**: All messages are Ed25519-signed automatically by `amp-send.sh`. The keypair is generated during `amp-init.sh --auto`.
+- **Templates**: All message templates in `references/ai-maestro-message-templates.md` are AMP-formatted and use `amp-send.sh`.
+- **Setup**: Run `amp-init.sh --auto` once per agent to initialize AMP (agent registration + Ed25519 key generation).
 
 ## Output
 
