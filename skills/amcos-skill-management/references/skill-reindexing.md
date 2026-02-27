@@ -159,7 +159,7 @@ Analyzes skills for relationships:
   "name": "amcos-staff-planning",
   "co_usage": {
     "prerequisites": ["amcos-session-memory-library"],
-    "related": ["amcos-agent-lifecycle", "amcos-multi-project"],
+    "related": ["amcos-agent-lifecycle"],
     "alternatives": []
   }
 }
@@ -199,7 +199,7 @@ Analyzes skills for relationships:
   },
   "categories": {
     "orchestration": ["amcos-staff-planning", "amcos-agent-lifecycle"],
-    "planning": ["amcos-staff-planning", "amcos-multi-project"]
+    "planning": ["amcos-staff-planning"]
   }
 }
 ```

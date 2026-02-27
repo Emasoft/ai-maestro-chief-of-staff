@@ -22,6 +22,7 @@ You monitor system resources (CPU, memory, disk, Claude Code instance count) and
 | cpu_threshold_percent | 80% | Block spawns + alert |
 | memory_threshold_percent | 85% | Block spawns + alert |
 | disk_threshold_percent | 90% | Block spawns + alert |
+| **AMP Messaging** | Use `amp-send.sh` for all inter-agent communication | — |
 
 ## Required Reading
 

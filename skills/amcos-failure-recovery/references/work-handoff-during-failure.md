@@ -182,7 +182,7 @@ If AMCOS has any historical data about the failed agent's work, use it:
 **From task tracking:**
 ```bash
 jq --arg task "task-001" '.tasks[] | select(.task_id == $task)' \
-  $CLAUDE_PROJECT_DIR/.ecos/agent-health/task-tracking.json
+  $CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json
 ```
 
 **From git history:**
@@ -345,7 +345,7 @@ jq --arg task "task-001" --arg status "completed" '
   .status = $status |
   .completed_by = "apps-svgplayer-development (emergency handoff)" |
   .completed_at = (now | strftime("%Y-%m-%dT%H:%M:%SZ"))
-' $CLAUDE_PROJECT_DIR/.ecos/agent-health/task-tracking.json > temp.json && mv temp.json $CLAUDE_PROJECT_DIR/.ecos/agent-health/task-tracking.json
+' $CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json > temp.json && mv temp.json $CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json
 ```
 
 **2. Request GitHub Project update from EOA:**

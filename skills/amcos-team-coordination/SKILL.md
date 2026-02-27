@@ -201,7 +201,7 @@ I need an architect, an orchestrator, and two programmers."
     - eoa-auth-service-orchestrator (Orchestrator) - ACTIVE
     - auth-service-programmer-001 (Programmer) - ACTIVE
     - auth-service-programmer-002 (Programmer) - ACTIVE
-  Registry: .ai-maestro/team-registry.json updated
+  Team registry updated via REST API
   Messages sent: 4 role assignments delivered
 ```
 

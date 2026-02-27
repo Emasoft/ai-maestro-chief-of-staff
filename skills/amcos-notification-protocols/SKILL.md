@@ -385,7 +385,7 @@ See [references/failure-notifications.md](references/failure-notifications.md) S
 
 1. **Always notify before disruptive operations** - Never surprise agents with interruptions
 2. **Use acknowledgment protocol for critical operations** - Wait for "ok" before proceeding
-3. **Send reminders at 30s, 60s, 90s** - Give agents multiple chances to respond
+3. **Send reminders at 15s, 30s, 45s** - Give agents multiple chances to respond
 4. **Proceed after 2 minute timeout** - Do not wait indefinitely
 5. **Log timeout occurrences** - Track agents that did not respond
 6. **Send post-operation confirmations** - Let agents verify success

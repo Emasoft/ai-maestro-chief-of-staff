@@ -90,14 +90,14 @@ DOCUMENT_TYPE_MAP: dict[str, tuple[str, str | None]] = {
 def get_storage_root(project_root: Path | None = None) -> Path:
     """Get the AMCOS storage root directory."""
     if project_root:
-        return project_root / ".ecos" / "received"
+        return project_root / ".amcos" / "received"
 
     env_root = os.environ.get("AMCOS_STORAGE_ROOT")
     if env_root:
         return Path(env_root)
 
     cwd = Path.cwd()
-    return cwd / ".ecos" / "received"
+    return cwd / ".amcos" / "received"
 
 
 def init_storage(project_root: Path) -> None:
@@ -126,11 +126,11 @@ def init_storage(project_root: Path) -> None:
 
     # Update .gitignore if in git repo
     gitignore_path = project_root / ".gitignore"
-    gitignore_entry = "\n# AMCOS Document Storage (local cache)\n.ecos/\n!.ecos/.gitkeep\n"
+    gitignore_entry = "\n# AMCOS Document Storage (local cache)\n.amcos/\n!.amcos/.gitkeep\n"
 
     if gitignore_path.exists():
         content = gitignore_path.read_text(encoding="utf-8")
-        if ".ecos/" not in content:
+        if ".amcos/" not in content:
             with gitignore_path.open("a", encoding="utf-8") as f:
                 f.write(gitignore_entry)
             print(f"Updated {gitignore_path}")

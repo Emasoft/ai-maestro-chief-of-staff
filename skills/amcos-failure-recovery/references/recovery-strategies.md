@@ -76,7 +76,7 @@ Use this strategy when:
 
 ### 3.3.2 Implementation Procedure
 
-1. **Log the wait decision** to the recovery log at `$CLAUDE_PROJECT_DIR/.ecos/agent-health/recovery-log.jsonl`
+1. **Log the wait decision** to the recovery log at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/recovery-log.jsonl`
 
 2. **Set a timer for the retry interval** (see backoff schedule below)
 

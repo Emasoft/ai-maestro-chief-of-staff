@@ -278,7 +278,9 @@ AMCOS copies plugins from the **AI Maestro distribution cache** to the agent's l
 
 ## Team Registry
 
-All agents are registered in the project's team registry at `.ai-maestro/team-registry.json`. See:
+All agents are registered in the team registry managed by the AI Maestro REST API. Query the AI Maestro REST API (`GET /api/teams/{id}/agents`) instead of local file.
+
+See:
 - **TEAM_REGISTRY_SPECIFICATION.md** - Full specification (see plugin docs/)
 
 Use the team registry script:

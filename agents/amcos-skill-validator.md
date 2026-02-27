@@ -22,6 +22,7 @@ You validate skills against the AgentSkills OpenSpec standard and coordinate wit
 | **PSS Coordination** | Always trigger `/pss-reindex-skills` after successful validation |
 | **Error Reporting** | Include remediation steps in all failure reports |
 | **Scope Boundary** | Validate structure only; do not modify skill content |
+| **AMP Messaging** | Use `amp-send.sh` for all inter-agent communication |
 
 ## Required Reading
 

@@ -37,7 +37,7 @@ When an agent is being terminated, clear all its issue assignments and return is
 
 - GitHub CLI (`gh`) installed and authenticated
 - Agent name (session name) being terminated
-- Write access to `.ai-maestro/team-registry.json`
+- Access to AI Maestro REST API (`$AIMAESTRO_API`, default `http://localhost:23000`)
 
 ## Procedure
 
@@ -60,7 +60,9 @@ done
 ### Step 3: Remove Agent from Team Registry
 
 ```bash
-jq 'del(.agents["'$AGENT_NAME'"])' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
+curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT_NAME" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "terminated"}'
 ```
 
 ### Step 4: Verify No Issues Remain Assigned
@@ -94,8 +96,10 @@ for ISSUE in $AGENT_ISSUES; do
   echo "Cleared assignment from issue #$ISSUE"
 done
 
-# Step 3: Remove from registry
-jq 'del(.agents["implementer-1"])' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
+# Step 3: Remove from registry via REST API
+curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "terminated"}'
 
 # Step 4: Verify
 gh issue list --label "assign:implementer-1"
@@ -108,7 +112,7 @@ gh issue list --label "assign:implementer-1"
 |-------|-------|----------|
 | No issues found | Agent had no assignments | Continue with registry removal |
 | Label removal fails | Network or permission issue | Retry after brief delay |
-| Registry file missing | Path incorrect | Create registry if needed |
+| Registry API error | AI Maestro API down | Check API is running at `$AIMAESTRO_API` |
 
 ## Considerations
 

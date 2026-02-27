@@ -364,10 +364,10 @@ Copy this checklist and track your progress:
 
 | Data | Location |
 |------|----------|
-| Heartbeat configuration | `$CLAUDE_PROJECT_DIR/.ecos/agent-health/heartbeat-config.json` |
-| Task tracking | `$CLAUDE_PROJECT_DIR/.ecos/agent-health/task-tracking.json` |
-| Incident log | `$CLAUDE_PROJECT_DIR/.ecos/agent-health/incident-log.jsonl` |
-| Recovery log | `$CLAUDE_PROJECT_DIR/.ecos/agent-health/recovery-log.jsonl` |
+| Heartbeat configuration | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/heartbeat-config.json` |
+| Task tracking | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json` |
+| Incident log | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl` |
+| Recovery log | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/recovery-log.jsonl` |
 | Handoff documents | `$CLAUDE_PROJECT_DIR/thoughts/shared/handoffs/AGENT_NAME/` |
 | Emergency handoffs | `$CLAUDE_PROJECT_DIR/thoughts/shared/handoffs/emergency/` |
 

@@ -86,7 +86,7 @@ Transient failures should resolve within **5 minutes** without intervention. If 
 
 ```bash
 # Log the transient failure
-echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"agent\": \"AGENT_NAME\", \"type\": \"transient\", \"symptoms\": \"missed_heartbeat\", \"resolved\": false}" >> $CLAUDE_PROJECT_DIR/.ecos/agent-health/incident-log.jsonl
+echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"agent\": \"AGENT_NAME\", \"type\": \"transient\", \"symptoms\": \"missed_heartbeat\", \"resolved\": false}" >> $CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl
 
 # Increase monitoring frequency for next 10 minutes
 # (Handled by AMCOS scheduler - no manual action needed)
@@ -274,7 +274,7 @@ All failures MUST be recorded in the incident log for pattern analysis and post-
 
 **Incident log location:**
 ```
-$CLAUDE_PROJECT_DIR/.ecos/agent-health/incident-log.jsonl
+$CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl
 ```
 
 **Incident record format:**
@@ -315,7 +315,7 @@ echo '{
   "time_to_recovery": null,
   "escalated_to": null,
   "notes": ""
-}' >> $CLAUDE_PROJECT_DIR/.ecos/agent-health/incident-log.jsonl
+}' >> $CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl
 ```
 
 ---

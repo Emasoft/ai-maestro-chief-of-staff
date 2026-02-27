@@ -26,7 +26,7 @@ procedure: "support-skill"
 
 ## Purpose
 
-Ensure the team registry at `.ai-maestro/team-registry.json` stays synchronized with GitHub issue assignment labels. Detect and resolve discrepancies.
+Ensure the team registry (via AI Maestro REST API) stays synchronized with GitHub issue assignment labels. Detect and resolve discrepancies.
 
 ## When to Use
 
@@ -38,7 +38,7 @@ Ensure the team registry at `.ai-maestro/team-registry.json` stays synchronized 
 ## Prerequisites
 
 - GitHub CLI (`gh`) installed and authenticated
-- Write access to `.ai-maestro/team-registry.json`
+- Access to AI Maestro REST API (`$AIMAESTRO_API`, default `http://localhost:23000`)
 - `jq` installed for JSON processing
 
 ## Procedure
@@ -46,16 +46,16 @@ Ensure the team registry at `.ai-maestro/team-registry.json` stays synchronized 
 ### Step 1: Load Current Registry
 
 ```bash
-REGISTRY=$(cat .ai-maestro/team-registry.json)
-AGENTS=$(echo $REGISTRY | jq -r '.agents | keys[]')
+REGISTRY=$(curl -s "$AIMAESTRO_API/api/teams/default/agents")
+AGENTS=$(echo $REGISTRY | jq -r '.[].name')
 ```
 
 ### Step 2: For Each Agent, Compare Registry vs Labels
 
 ```bash
 for AGENT in $AGENTS; do
-  # Get issues from registry
-  REGISTERED=$(echo $REGISTRY | jq -r '.agents["'$AGENT'"].current_issues | sort | .[]' 2>/dev/null)
+  # Get issues from registry via REST API
+  REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/$AGENT" | jq -r '.current_issues | sort | .[]' 2>/dev/null)
 
   # Get issues from GitHub labels
   LABELED=$(gh issue list --label "assign:$AGENT" --json number --jq '.[].number' | sort)
@@ -85,8 +85,10 @@ for AGENT in $AGENTS; do
   # Get actual labeled issues
   LABELED_ISSUES=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
 
-  # Update registry
-  jq '.agents["'$AGENT'"].current_issues = '"$LABELED_ISSUES"'' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
+  # Update registry via REST API
+  curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT" \
+    -H "Content-Type: application/json" \
+    -d '{"current_issues": '"$LABELED_ISSUES"'}'
 done
 ```
 
@@ -101,12 +103,12 @@ ALL_ASSIGN_LABELS=$(gh label list --json name --jq '.[] | select(.name | startsw
 for LABEL in $ALL_ASSIGN_LABELS; do
   AGENT_NAME=$(echo $LABEL | sed 's/assign://')
 
-  # Check if agent exists in registry
-  EXISTS=$(jq '.agents["'$AGENT_NAME'"]' .ai-maestro/team-registry.json)
+  # Check if agent exists in registry via REST API
+  EXISTS=$(curl -s "$AIMAESTRO_API/api/agents/$AGENT_NAME" | jq -r '.name // empty')
 
-  if [ "$EXISTS" = "null" ]; then
+  if [ -z "$EXISTS" ]; then
     echo "WARNING: Label '$LABEL' exists but agent not in registry"
-    # Either add agent to registry or remove labels
+    # Either register agent or remove labels
   fi
 done
 ```
@@ -126,8 +128,8 @@ echo "Sync completed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> docs_dev/sync-log.txt
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 echo "Labeled: $LABELED"
 
-# Get registered issues
-REGISTERED=$(jq -r '.agents["implementer-1"].current_issues | sort | .[]' .ai-maestro/team-registry.json)
+# Get registered issues via REST API
+REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq -r '.current_issues | sort | .[]')
 echo "Registered: $REGISTERED"
 
 # Compare
@@ -135,9 +137,11 @@ if [ "$LABELED" = "$REGISTERED" ]; then
   echo "SYNC OK: Registry matches labels"
 else
   echo "SYNC NEEDED: Discrepancy detected"
-  # Update registry
+  # Update registry via REST API
   LABELED_JSON=$(gh issue list --label "assign:implementer-1" --state open --json number --jq '[.[].number]')
-  jq '.agents["implementer-1"].current_issues = '"$LABELED_JSON"'' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
+  curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
+    -H "Content-Type: application/json" \
+    -d '{"current_issues": '"$LABELED_JSON"'}'
 fi
 ```
 
@@ -149,20 +153,19 @@ For scheduled sync, create a script:
 #!/bin/bash
 # scripts/amcos_sync_labels.sh
 
-REGISTRY_FILE=".ai-maestro/team-registry.json"
+AIMAESTRO_API="${AIMAESTRO_API:-http://localhost:23000}"
 
-# Backup current registry
-cp $REGISTRY_FILE "${REGISTRY_FILE}.bak"
-
-# Get all agents
-AGENTS=$(jq -r '.agents | keys[]' $REGISTRY_FILE)
+# Get all agents from registry via REST API
+AGENTS=$(curl -s "$AIMAESTRO_API/api/teams/default/agents" | jq -r '.[].name')
 
 for AGENT in $AGENTS; do
   # Get labeled issues (open only)
   LABELED=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
 
-  # Update registry
-  jq '.agents["'"$AGENT"'"].current_issues = '"$LABELED"'' $REGISTRY_FILE > temp.json && mv temp.json $REGISTRY_FILE
+  # Update registry via REST API
+  curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT" \
+    -H "Content-Type: application/json" \
+    -d '{"current_issues": '"$LABELED"'}'
 done
 
 echo "Sync complete: $(date)"
@@ -172,7 +175,7 @@ echo "Sync complete: $(date)"
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| jq parse error | Malformed JSON | Restore from backup, fix manually |
+| JSON parse error | Malformed API response | Check AI Maestro API health at `$AIMAESTRO_API` |
 | gh rate limited | Too many API calls | Wait and retry with exponential backoff |
-| Registry file missing | Path incorrect or deleted | Create new registry from labels |
-| Permission denied | File not writable | Check file permissions |
+| Registry API unreachable | AI Maestro API down | Verify API is running at `$AIMAESTRO_API` |
+| Agent not found | Agent not registered | Register agent with `POST $AIMAESTRO_API/api/agents/register` |

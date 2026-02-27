@@ -41,7 +41,7 @@ version: 1.0.0
 - The `ai-maestro-agents-management` skill is available
 - The `agent-messaging` skill is available
 - tmux is installed for session management
-- Team registry location is writable (`.ai-maestro/team-registry.json`)
+- Team registry API is accessible (`$AIMAESTRO_API/api/teams`)
 - Plugin for the agent role is installed in marketplace cache
 
 ## Procedure

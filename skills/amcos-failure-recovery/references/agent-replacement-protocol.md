@@ -120,7 +120,7 @@ Even when the agent cannot be recovered, some work products may be salvageable:
 | Local uncommitted changes | Agent's working directory | May be lost if disk corrupted |
 | Log files | `/var/log/` or project `logs/` | Copy if host accessible |
 | Conversation history | Claude session | Lost if session terminated |
-| Task tracking files | `$CLAUDE_PROJECT_DIR/.ecos/` | Copy if accessible |
+| Task tracking files | `$CLAUDE_PROJECT_DIR/.amcos/` | Copy if accessible |
 | Handoff documents | `thoughts/shared/handoffs/` | Likely preserved in git |
 
 ### 4.3.3 Preserving Git Commits and Logs
@@ -136,7 +136,7 @@ ssh USER@HOST "cd /path/to/agent/project && git log -1 --oneline" 2>/dev/null
 
 **Step 2: Document the last known state**
 
-Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.ecos/agent-health/artifacts-AGENT_NAME.md` documenting the git state, preserved logs, and lost artifacts.
+Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/artifacts-AGENT_NAME.md` documenting the git state, preserved logs, and lost artifacts.
 
 ---
 
@@ -389,7 +389,7 @@ After acknowledgment, use the `agent-messaging` skill to verify understanding:
 
 ### 4.8.1 Updating Incident Log
 
-Record the complete incident with resolution in the incident log at `$CLAUDE_PROJECT_DIR/.ecos/agent-health/incident-log.jsonl`.
+Record the complete incident with resolution in the incident log at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl`.
 
 ### 4.8.2 Notifying Manager of Completion
 
@@ -410,8 +410,8 @@ Move old agent's records to archive:
 
 ```bash
 # Archive old agent configuration
-mv $CLAUDE_PROJECT_DIR/.ecos/agent-health/heartbeat-config.json.backup-AGENT_NAME \
-   $CLAUDE_PROJECT_DIR/.ecos/archive/agents/
+mv $CLAUDE_PROJECT_DIR/.amcos/agent-health/heartbeat-config.json.backup-AGENT_NAME \
+   $CLAUDE_PROJECT_DIR/.amcos/archive/agents/
 
 # Keep incident log intact (do not archive)
 ```

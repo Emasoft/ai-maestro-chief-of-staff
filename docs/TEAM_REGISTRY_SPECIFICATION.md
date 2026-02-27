@@ -65,7 +65,8 @@ curl -X POST "$AIMAESTRO_API/api/agents/register" \
   -d '{
     "team_id": "svgbbox-library-team",
     "name": "svgbbox-orchestrator",
-    "role": "manager",
+    "role": "member",
+    "sub_role": "orchestrator",
     "plugin": "ai-maestro-orchestrator-agent",
     "host": "macbook-dev-01"
   }'
@@ -159,7 +160,7 @@ Team names must be **globally unique** across all projects managed by AMCOS. The
 | Role | Plugin | Scope | Description |
 |------|--------|-------|-------------|
 | `manager` | ai-maestro-assistant-manager-agent | Organization-wide | User interface, approvals |
-| `chief-of-staff` | ai-maestro-chief-of-staff | Organization-wide | Agent lifecycle, team management |
+| `chief-of-staff` | ai-maestro-chief-of-staff | Per-team | Agent lifecycle, team management (one per team) |
 | `member` | ai-maestro-*-agent | Per-team | Any team member (orchestrator, architect, implementer, tester, devops, integrator) |
 
 ### Governance Roles
@@ -169,7 +170,7 @@ These are the AI Maestro governance roles used in the API:
 | Governance Role | Description |
 |-----------------|-------------|
 | `manager` | Organization-level authority. Approvals, user interface. |
-| `chief-of-staff` | Organization-level operations. Agent lifecycle, team registry management. |
+| `chief-of-staff` | Team-level operations. Agent lifecycle, team registry management. One COS per team. |
 | `member` | Team-level. All agents assigned to a team are members with a functional sub-role. |
 
 ### Functional Sub-Roles (for `member` agents)
@@ -275,7 +276,7 @@ Fix login validation bug
 
 1. **Create teams** via `POST /api/teams`
 2. **Register agents** via `POST /api/agents/register`
-3. **Update agent status** when agents hibernate/wake/terminate via `PATCH /api/teams/[id]`
+3. **Update agent status** when agents hibernate/wake/terminate via `PATCH /api/agents/[id]`
 4. **Notify all team agents** of registry changes via AMP:
 
 ```bash
@@ -296,7 +297,7 @@ amp-send.sh --to svgbbox-orchestrator \
 4. **Exactly one architect** per team
 5. **At least one implementer** per team
 6. **All agents must have valid AI Maestro addresses**
-7. **Organization agents (manager, chief-of-staff) cannot be assigned to teams**
+7. **Manager agent is organization-wide; chief-of-staff is assigned one per team**
 
 ---
 

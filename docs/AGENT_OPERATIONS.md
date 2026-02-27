@@ -15,7 +15,7 @@
 **Examples**:
 - `amcos-chief-of-staff-one`
 - `amcos-project-alpha`
-- `amcos-svgbbox-coordinator`
+- `amcos-orch-svgbbox`
 
 **Critical Rules**:
 - Session name = AI Maestro registry identity (how agents message each other)

@@ -357,7 +357,7 @@ Examples:
         print(f"Error: Cannot connect to AI Maestro API at {API_BASE}", file=sys.stderr)
         return 1
     except requests.Timeout:
-        print(f"Error: Request to AI Maestro API timed out", file=sys.stderr)
+        print("Error: Request to AI Maestro API timed out", file=sys.stderr)
         return 1
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

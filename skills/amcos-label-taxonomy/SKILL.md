@@ -26,7 +26,7 @@ This skill provides the label taxonomy relevant to the Chief of Staff Agent (AMC
 2. Understanding of agent role prefixes (amcos-, eoa-, eia-, eaa-, eama-)
 3. Read **AGENT_OPERATIONS.md** in docs/ folder for session naming
 4. GitHub CLI (`gh`) installed and authenticated
-5. Access to team registry at `.ai-maestro/team-registry.json`
+5. Access to AI Maestro REST API (`$AIMAESTRO_API`, default `http://localhost:23000`)
 
 ---
 
@@ -47,7 +47,7 @@ Copy this checklist and track your progress:
 - [ ] Remove conflicting labels if needed
 - [ ] Apply new label via `gh issue edit --add-label`
 - [ ] Verify label appears correctly
-- [ ] Update `.ai-maestro/team-registry.json` if agent assignment changed
+- [ ] Update team registry via AI Maestro REST API if agent assignment changed
 
 ---
 
@@ -59,7 +59,7 @@ Copy this checklist and track your progress:
 | Label Removed | Old label removed before new one | `status:pending` removed |
 | Status Updated | Issue status changed via label | `status:in-progress` applied |
 | Verification | Confirmation of label state | Labels: assign:implementer-1, status:todo, priority:high |
-| Registry Synced | Team registry updated to match labels | `current_issues: [42, 43]` in team-registry.json |
+| Registry Synced | Team registry updated to match labels | `current_issues: [42, 43]` updated via REST API |
 
 ---
 
@@ -70,7 +70,7 @@ Copy this checklist and track your progress:
 | Label not found | Label doesn't exist in repo | Create label first with `gh label create` |
 | Permission denied | Insufficient repo access | Verify GitHub token has repo scope |
 | Duplicate assign labels | Multiple assign:* labels on issue | Remove old assign label before adding new |
-| Registry out of sync | Labels don't match team-registry.json | Run sync check script to reconcile |
+| Registry out of sync | Labels don't match team registry | Run sync check via REST API to reconcile |
 | gh CLI not authenticated | GitHub token expired or missing | Run `gh auth login` |
 | Issue not found | Invalid issue number | Verify issue exists with `gh issue list` |
 
@@ -89,8 +89,10 @@ gh issue edit 42 --add-label "assign:implementer-1"
 # Step 2: Update status from backlog to ready
 gh issue edit 42 --remove-label "status:backlog" --add-label "status:todo"
 
-# Step 3: Update team registry
-jq '.agents["implementer-1"].current_issues += [42]' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
+# Step 3: Update team registry via REST API
+curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
+  -H "Content-Type: application/json" \
+  -d '{"current_issues": [42]}'
 
 # Step 4: Verify
 gh issue view 42 --json labels --jq '.labels[].name'
@@ -111,8 +113,10 @@ for ISSUE in $AGENT_ISSUES; do
   echo "Cleared assignment from issue #$ISSUE"
 done
 
-# Step 3: Update team registry
-jq 'del(.agents["implementer-1"])' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
+# Step 3: Remove agent from team registry via REST API
+curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "terminated"}'
 
 # Step 4: Verify no issues remain assigned
 gh issue list --label "assign:implementer-1"
@@ -246,28 +250,22 @@ gh issue edit $ISSUE_NUMBER --remove-label "assign:$AGENT_NAME" --add-label "ass
 
 ## Agent Registry and Labels
 
-AMCOS maintains the team registry at `.ai-maestro/team-registry.json`. Labels should be synchronized:
+AMCOS maintains the team registry via the AI Maestro REST API. Labels should be synchronized with the registry:
 
-```json
-{
-  "agents": {
-    "implementer-1": {
-      "session_name": "code-impl-01",
-      "status": "active",
-      "current_issues": [42, 43]  // Should match assign:implementer-1 labels
-    }
-  }
-}
+```bash
+# Query agent info from registry via REST API
+curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq .
+# Returns: {"session_name": "code-impl-01", "status": "active", "current_issues": [42, 43]}
 ```
 
 ### Sync Check
 
 ```bash
-# Find issues assigned to agent
+# Find issues assigned to agent from GitHub labels
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 
-# Compare with registry
-REGISTERED=$(jq -r '.agents["implementer-1"].current_issues | sort | .[]' .ai-maestro/team-registry.json)
+# Compare with registry (via REST API)
+REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq -r '.current_issues | sort | .[]')
 
 # Should match
 ```
@@ -281,7 +279,7 @@ Step-by-step runbooks for executing individual label management operations. Use 
 - [op-assign-agent-to-issue.md](references/op-assign-agent-to-issue.md) - **Assign Agent to Issue**: Assign a newly spawned or existing agent to a GitHub issue by applying the assignment label, updating status from backlog to ready, and updating the team registry
 - [op-terminate-agent-clear-assignments.md](references/op-terminate-agent-clear-assignments.md) - **Terminate Agent and Clear Assignments**: When an agent is being terminated, find all its assigned issues, remove assignment labels, return issues to backlog, and remove agent from team registry
 - [op-handle-blocked-agent.md](references/op-handle-blocked-agent.md) - **Handle Blocked Agent**: When an agent reports it's blocked on an issue, update the issue status to blocked, add a comment explaining the blocker, determine escalation level, and optionally escalate to human
-- [op-sync-registry-with-labels.md](references/op-sync-registry-with-labels.md) - **Sync Registry with Labels**: Ensure the team registry at `.ai-maestro/team-registry.json` stays synchronized with GitHub issue assignment labels by detecting and resolving discrepancies
+- [op-sync-registry-with-labels.md](references/op-sync-registry-with-labels.md) - **Sync Registry with Labels**: Ensure the team registry (via AI Maestro REST API) stays synchronized with GitHub issue assignment labels by detecting and resolving discrepancies
 
 ## Quick Reference
 

@@ -138,7 +138,7 @@ def check_handoffs(cwd: str) -> tuple[int, list[str]]:
         Tuple of (count, list of handoff descriptions)
     """
     pending: list[str] = []
-    handoffs_dir = Path(cwd) / ".claude" / "ecos" / "handoffs"
+    handoffs_dir = Path(cwd) / ".claude" / "amcos" / "handoffs"
 
     if handoffs_dir.exists() and handoffs_dir.is_dir():
         for handoff_file in handoffs_dir.glob("*.md"):

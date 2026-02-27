@@ -626,7 +626,7 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s create --type spawn --agent my-agent --reason "Need for task X" --requester ecos
+  %(prog)s create --type spawn --agent my-agent --reason "Need for task X" --requester amcos-chief-of-staff
   %(prog)s status --id 12345678-1234-1234-1234-123456789abc
   %(prog)s list --status pending
   %(prog)s respond --id 12345678-1234-1234-1234-123456789abc --decision approved --comment "Go ahead"
@@ -646,7 +646,7 @@ Examples:
     create_parser.add_argument("--agent", required=True, help="Agent or resource name")
     create_parser.add_argument("--reason", required=True, help="Reason for the request")
     create_parser.add_argument(
-        "--requester", default="ecos", help="Requesting agent name (default: ecos)"
+        "--requester", default="amcos-chief-of-staff", help="Requesting agent name (default: amcos-chief-of-staff)"
     )
 
     # Status command

@@ -51,7 +51,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
 1. **Review failed agent's task queue**
    ```bash
    # Check progress tracking
-   cat $CLAUDE_PROJECT_DIR/.ecos/agent-health/task-tracking.json | jq '.tasks[] | select(.agent == "FAILED_AGENT")'
+   cat $CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json | jq '.tasks[] | select(.agent == "FAILED_AGENT")'
    ```
 
 2. **Identify tasks with critical deadlines**

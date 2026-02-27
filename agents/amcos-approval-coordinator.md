@@ -25,6 +25,7 @@ You manage **GovernanceRequest** workflows. You submit requests to `POST /api/v1
 | **Rate Limit Awareness** | Respect API 429 responses; back off exponentially |
 | **Audit Everything** | Log all state transitions to audit trail |
 | **Timeout Enforcement** | 60s reminder → 90s urgent → 120s auto-action |
+| **AMP Messaging** | Use `amp-send.sh` for all inter-agent communication |
 
 ---
 

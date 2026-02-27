@@ -31,6 +31,7 @@ You detect agent failures and coordinate recovery workflows across the AI Maestr
 | ALWAYS notify affected agents before recovery | Send AI Maestro warning message first |
 | ALWAYS notify orchestrator (EOA) when tasks need reassignment | Tasks cannot be orphaned |
 | ALWAYS log all recovery actions | Write to `$CLAUDE_PROJECT_DIR/thoughts/shared/recovery-log.json` |
+| **AMP Messaging** | Use `amp-send.sh` for all inter-agent communication |
 
 ## Failure Classifications
 

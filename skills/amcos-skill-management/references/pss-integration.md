@@ -121,7 +121,6 @@ Keywords "role", "capacity", "staffing", "templates" now indexed.
 ## Related Skills
 
 - **amcos-agent-lifecycle** - For spawning assessed agents
-- **amcos-multi-project** - For cross-project staffing
 ```
 
 PSS extracts these relationships during indexing.

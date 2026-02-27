@@ -88,7 +88,7 @@ For **critical operations** (risk_level=critical), the manager provides a govern
 - API validates password before transitioning to `approved` state
 - Never log or store the password after submission
 
-## Core Procedures
+## Instructions
 
 ### PROCEDURE 1: Submit GovernanceRequest
 
@@ -147,6 +147,48 @@ audit_trail:
 ```
 
 **Audit file location:** `docs_dev/audit/amcos-governance-{date}.yaml`
+
+## Output
+
+Successful GovernanceRequest approval returns:
+
+```json
+{
+  "requestId": "gov-req-20260227-abc123",
+  "status": "dual-approved",
+  "operation": "spawn",
+  "approvals": {
+    "sourceManager": {"approved": true, "at": "2026-02-27T10:31:00Z"},
+    "targetManager": {"approved": true, "at": "2026-02-27T10:32:00Z"}
+  }
+}
+```
+
+Failed or rejected requests return `status: "rejected"` with a `reason` field.
+
+## Examples
+
+### Example 1: Spawn Agent (Local, Same Team)
+
+```
+PROCEDURE 1 → POST /api/v1/governance/requests
+  operation: spawn, scope: local, agent: worker-impl-03
+PROCEDURE 2 → Poll: pending → local-approved (sourceManager approved in 15s)
+Result: status=dual-approved (local ops need only sourceManager)
+→ Proceed with agent spawn
+```
+
+### Example 2: Cross-Team Plugin Install
+
+```
+PROCEDURE 1 → POST /api/v1/governance/requests
+  operation: configure-agent, scope: cross-team
+  sourceTeam: svgbbox-library-team, targetTeam: maestro-api-team
+PROCEDURE 2 → Poll: pending → local-approved → remote-approved → dual-approved
+PROCEDURE 3 → 60s reminder sent to targetManager (no response yet)
+Result: status=dual-approved after 75s
+→ Proceed with plugin install on remote agent
+```
 
 ## Error Handling
 

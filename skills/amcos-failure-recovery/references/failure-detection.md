@@ -81,7 +81,7 @@ AMCOS maintains heartbeat configuration per agent based on their assigned role a
 
 **Configuration storage**: AMCOS stores heartbeat configuration in a local tracking file at:
 ```
-$CLAUDE_PROJECT_DIR/.ecos/agent-health/heartbeat-config.json
+$CLAUDE_PROJECT_DIR/.amcos/agent-health/heartbeat-config.json
 ```
 
 Example configuration:
@@ -165,7 +165,7 @@ Always correlate with heartbeat data before escalating.
 
 AMCOS tracks all assigned tasks with expected completion times. The tracking file is at:
 ```
-$CLAUDE_PROJECT_DIR/.ecos/agent-health/task-tracking.json
+$CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json
 ```
 
 Example entry:

@@ -25,6 +25,7 @@ You configure Claude Code plugins locally for agents, installing them project-by
 | **Notification** | Always notify affected agent via AI Maestro after configuration |
 | **No Hot-Reload** | Plugin changes never apply to running sessions |
 | **GovernanceRequest for Remote** | Remote config operations (different host or different team) MUST use GovernanceRequest API. Local (same host, same team) config remains direct. |
+| **AMP Messaging** | Use `amp-send.sh` for all inter-agent communication |
 
 ## GovernanceRequest API (Remote Config Operations)
 

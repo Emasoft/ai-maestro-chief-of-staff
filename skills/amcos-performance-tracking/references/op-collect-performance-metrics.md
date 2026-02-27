@@ -112,7 +112,7 @@ When a task completes, record:
 
 ```bash
 # Example: Calculate completion rate for an agent
-cat $CLAUDE_PROJECT_DIR/.ecos/metrics/task-completions.jsonl | \
+cat $CLAUDE_PROJECT_DIR/.amcos/metrics/task-completions.jsonl | \
   jq -s '[.[] | select(.agent == "AGENT_NAME")] | {
     total: length,
     completed: [.[] | select(.completed_at != null)] | length,
@@ -143,7 +143,7 @@ Before using metrics:
 Save to performance data directory:
 
 ```
-$CLAUDE_PROJECT_DIR/.ecos/metrics/
+$CLAUDE_PROJECT_DIR/.amcos/metrics/
   task-completions.jsonl
   quality-records.jsonl
   efficiency-records.jsonl
@@ -174,7 +174,7 @@ DURATION="$3"
 ESTIMATE="$4"
 FIRST_PASS="$5"
 
-METRICS_FILE="$CLAUDE_PROJECT_DIR/.ecos/metrics/task-completions.jsonl"
+METRICS_FILE="$CLAUDE_PROJECT_DIR/.amcos/metrics/task-completions.jsonl"
 
 jq -n \
   --arg agent "$AGENT" \

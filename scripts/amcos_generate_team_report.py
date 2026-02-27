@@ -2,26 +2,28 @@
 """
 amcos_generate_team_report.py - Generate team assignments report.
 
-Aggregates data across all .ai-maestro/team-registry.json files found in the
-project tree and generates a report with team summaries, agent assignments,
-role coverage, and unassigned roles.
+Fetches team data from the AI Maestro REST API (GET $AIMAESTRO_API/api/teams)
+and generates a report with team summaries, agent assignments, role coverage,
+and unassigned roles.
 
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    amcos_generate_team_report.py [--project-root PATH] [--output FILE]
-        [--format text|json|md]
+    amcos_generate_team_report.py [--output FILE] [--format text|json|md]
 
 Exit codes:
     0 - Success
-    1 - Error (directory not found, parse error)
+    1 - Error (API unavailable, parse error)
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -31,8 +33,7 @@ from typing import Any
 # Constants
 # ---------------------------------------------------------------------------
 
-REGISTRY_FILENAME = "team-registry.json"
-REGISTRY_DIR = ".ai-maestro"
+DEFAULT_API_BASE = "http://localhost:23000"
 
 # All roles that should be filled in a complete team
 ALL_ROLES = frozenset({
@@ -47,57 +48,49 @@ VALID_FORMATS = ("text", "json", "md")
 
 
 # ---------------------------------------------------------------------------
-# Registry discovery and parsing
+# API data fetching
 # ---------------------------------------------------------------------------
 
 
-def find_registries(project_root: Path) -> list[Path]:
-    """Find all team-registry.json files under the project root.
+def fetch_teams_from_api(api_base: str) -> list[dict[str, Any]]:
+    """Fetch team data from the AI Maestro REST API.
 
-    Searches for .ai-maestro/team-registry.json in the project root and all
-    immediate subdirectories (one level deep).
-
-    Args:
-        project_root: Root directory to search.
-
-    Returns:
-        List of paths to found registry files.
-    """
-    found: list[Path] = []
-
-    # Check project root itself
-    root_registry = project_root / REGISTRY_DIR / REGISTRY_FILENAME
-    if root_registry.exists():
-        found.append(root_registry)
-
-    # Check immediate subdirectories
-    if project_root.is_dir():
-        for child in sorted(project_root.iterdir()):
-            if not child.is_dir():
-                continue
-            if child.name.startswith("."):
-                continue
-            candidate = child / REGISTRY_DIR / REGISTRY_FILENAME
-            if candidate.exists():
-                found.append(candidate)
-
-    return found
-
-
-def parse_registry(path: Path) -> dict[str, Any] | None:
-    """Parse a team-registry.json file.
+    Calls GET {api_base}/api/teams and returns the list of team objects.
 
     Args:
-        path: Path to the registry file.
+        api_base: Base URL of the AI Maestro API (e.g. http://localhost:23000).
 
     Returns:
-        Parsed registry dict, or None on error.
+        List of team dicts returned by the API.
+
+    Raises:
+        SystemExit: If the API is unreachable or returns an unexpected response.
     """
+    url = f"{api_base}/api/teams"
     try:
-        content = path.read_text(encoding="utf-8")
-        return json.loads(content)  # type: ignore[no-any-return]
-    except (OSError, json.JSONDecodeError, UnicodeDecodeError):
-        return None
+        req = urllib.request.Request(url, headers={"Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            raw = resp.read().decode("utf-8")
+    except urllib.error.URLError as exc:
+        print(f"ERROR: Cannot connect to AI Maestro API at {url}: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        print(f"ERROR: Invalid JSON from API at {url}: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    # API may return a plain list or a wrapper object with a "teams" key
+    if isinstance(data, list):
+        return data  # type: ignore[return-value]
+    if isinstance(data, dict):
+        teams = data.get("teams", data.get("data", []))
+        if isinstance(teams, list):
+            return teams  # type: ignore[return-value]
+
+    print(f"ERROR: Unexpected API response structure from {url}", file=sys.stderr)
+    sys.exit(1)
 
 
 # ---------------------------------------------------------------------------
@@ -106,12 +99,12 @@ def parse_registry(path: Path) -> dict[str, Any] | None:
 
 
 def aggregate_registries(
-    registries: list[tuple[Path, dict[str, Any]]],
+    registries: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    """Aggregate data from multiple team registries.
+    """Aggregate data from multiple team registries fetched from the API.
 
     Args:
-        registries: List of (path, parsed_data) tuples.
+        registries: List of team dicts returned by the AI Maestro API.
 
     Returns:
         Aggregated report data dict.
@@ -122,8 +115,8 @@ def aggregate_registries(
     agent_assignments: dict[str, list[str]] = {}  # agent_name -> list of team names
     all_filled_roles: set[str] = set()
 
-    for path, data in registries:
-        team_name = data.get("team_name", data.get("name", path.parent.parent.name))
+    for data in registries:
+        team_name = data.get("team_name", data.get("name", "unknown"))
         agents = data.get("agents", data.get("roster", []))
         project = data.get("project", data.get("repository", ""))
 
@@ -155,10 +148,12 @@ def aggregate_registries(
             agent_assignments[agent_name].append(team_name)
 
         missing_roles = sorted(ALL_ROLES - team_roles)
+        # Use the API-provided team id or name as the identifier
+        team_id = data.get("id", data.get("team_id", team_name))
 
         team_summaries.append({
             "team_name": team_name,
-            "registry_path": str(path),
+            "team_id": str(team_id),
             "project": project,
             "agent_count": len(agents),
             "agents": team_agent_names,
@@ -221,7 +216,7 @@ def format_markdown(report: dict[str, Any]) -> str:
         lines.append("")
         if team["project"]:
             lines.append(f"- **Project**: {team['project']}")
-        lines.append(f"- **Registry**: `{team['registry_path']}`")
+        lines.append(f"- **Team ID**: `{team['team_id']}`")
         lines.append(f"- **Agent count**: {team['agent_count']}")
         lines.append(f"- **Roles filled**: {', '.join(team['roles_filled']) if team['roles_filled'] else 'none'}")
         if team["roles_missing"]:
@@ -315,13 +310,13 @@ def main() -> int:
         Exit code: 0 for success, 1 for error.
     """
     parser = argparse.ArgumentParser(
-        description="Generate team assignments report from all team registries"
+        description="Generate team assignments report from the AI Maestro REST API"
     )
     parser.add_argument(
-        "--project-root",
+        "--api",
         type=str,
         default=None,
-        help="Project root directory to search (defaults to current directory)",
+        help=f"AI Maestro API base URL (defaults to $AIMAESTRO_API or {DEFAULT_API_BASE})",
     )
     parser.add_argument(
         "--output",
@@ -346,25 +341,23 @@ def main() -> int:
 
     args = parser.parse_args()
 
-    project_root = Path(args.project_root) if args.project_root else Path.cwd()
-    if not project_root.is_dir():
-        result = {"success": False, "error": f"Not a directory: {project_root}"}
-        print(json.dumps(result, indent=2))
-        return 1
+    # Resolve API base URL: CLI flag > env var > default
+    api_base = args.api or os.environ.get("AIMAESTRO_API", DEFAULT_API_BASE)
+    api_base = api_base.rstrip("/")
 
     if args.verbose:
-        print(f"Searching for team registries in: {project_root}", file=sys.stderr)
+        print(f"Fetching team data from: {api_base}/api/teams", file=sys.stderr)
 
-    # Find registries
-    registry_paths = find_registries(project_root)
+    # Fetch teams from the REST API (exits on connection error)
+    teams = fetch_teams_from_api(api_base)
 
     if args.verbose:
-        print(f"Found {len(registry_paths)} registry file(s)", file=sys.stderr)
+        print(f"Received {len(teams)} team(s) from API", file=sys.stderr)
 
-    if not registry_paths:
+    if not teams:
         result = {
             "success": True,
-            "warning": "No team-registry.json files found",
+            "warning": "No teams returned by the API",
             "report": {
                 "total_teams": 0,
                 "total_agents": 0,
@@ -377,27 +370,11 @@ def main() -> int:
         if args.format == "json":
             print(json.dumps(result, indent=2))
         else:
-            print("No team-registry.json files found under the project root.")
+            print("No teams returned by the AI Maestro API.")
         return 0
 
-    # Parse registries
-    registries: list[tuple[Path, dict[str, Any]]] = []
-    for path in registry_paths:
-        if args.verbose:
-            print(f"  Parsing: {path}", file=sys.stderr)
-        data = parse_registry(path)
-        if data is None:
-            print(f"WARNING: Failed to parse {path}", file=sys.stderr)
-            continue
-        registries.append((path, data))
-
-    if not registries:
-        result_err = {"success": False, "error": "All registry files failed to parse"}
-        print(json.dumps(result_err, indent=2))
-        return 1
-
     # Aggregate
-    report = aggregate_registries(registries)
+    report = aggregate_registries(teams)
 
     # Format output
     if args.format == "json":

@@ -50,7 +50,7 @@ Gather metrics for the agent being analyzed:
 
 ```bash
 # Get all task completions for an agent
-cat $CLAUDE_PROJECT_DIR/.ecos/metrics/task-completions.jsonl | \
+cat $CLAUDE_PROJECT_DIR/.amcos/metrics/task-completions.jsonl | \
   jq -s '[.[] | select(.agent == "AGENT_NAME")]'
 ```
 
