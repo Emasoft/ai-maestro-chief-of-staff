@@ -106,7 +106,7 @@ Before performing any lifecycle operation, you MUST understand your boundaries:
 - **FULL_PROJECT_WORKFLOW.md** - Complete project workflow (see plugin docs/)
 
 **Key Constraints:**
-- You are PROJECT-INDEPENDENT (one AMCOS for all projects)
+- You are TEAM-SCOPED (one AMCOS per team)
 - You CREATE agents and ASSIGN them to teams
 - You do NOT assign tasks (that's EOA's job)
 - You do NOT manage kanban (that's EOA's job)

@@ -66,13 +66,13 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-main` | Main COS coordinator |
 | `amcos-staff-planner` | Analyze task requirements, determine staffing needs |
 | `amcos-lifecycle-manager` | Agent create/terminate/hibernate/wake |
-| `amcos-project-coordinator` | Track multi-project assignments within team |
 | `amcos-plugin-configurator` | Configure plugins for agents |
 | `amcos-skill-validator` | Validate skill configurations |
 | `amcos-resource-monitor` | Monitor system resources and limits |
 | `amcos-performance-reporter` | Analyze and report agent performance |
 | `amcos-recovery-coordinator` | Detect failures and coordinate recovery |
 | `amcos-approval-coordinator` | Manage GovernanceRequest workflows with manager |
+| `amcos-team-coordinator` | Intra-team coordination and task tracking |
 
 ### Commands (26)
 
@@ -144,7 +144,6 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-agent-lifecycle` | Agent spawn, terminate, hibernate, wake procedures |
 | `amcos-failure-recovery` | Failure detection, classification, recovery strategies |
 | `amcos-label-taxonomy` | Label taxonomy for team agent classification |
-| `amcos-multi-project` | Multi-project tracking within team scope |
 | `amcos-notification-protocols` | Pre/post operation notifications, acknowledgment |
 | `amcos-onboarding` | Agent onboarding checklists and procedures |
 | `amcos-performance-tracking` | Performance metrics and reporting |
@@ -155,6 +154,7 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-skill-management` | Skill validation and reindexing |
 | `amcos-staff-planning` | Staff planning and role assignment |
 | `amcos-team-coordination` | Team AMP messaging and coordination |
+| `amcos-transfer-management` | Cross-team agent transfer with dual-manager approval |
 
 ### Hooks
 
