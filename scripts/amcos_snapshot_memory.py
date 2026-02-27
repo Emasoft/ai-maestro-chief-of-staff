@@ -85,7 +85,9 @@ def create_snapshot(project_root: Path, reason: str, label: str | None = None) -
     dir_name = now.strftime("%Y-%m-%d-%H%M%S")
     if label:
         # Sanitize label: lowercase, replace spaces/special chars with hyphens
-        safe_label = "".join(c if c.isalnum() or c == "-" else "-" for c in label.lower()).strip("-")
+        safe_label = "".join(
+            c if c.isalnum() or c == "-" else "-" for c in label.lower()
+        ).strip("-")
         if safe_label:
             dir_name = f"{dir_name}-{safe_label}"
 
@@ -139,21 +141,25 @@ def list_snapshots(project_root: Path) -> list[dict]:
                 results.append(meta)
             except (json.JSONDecodeError, OSError):
                 # Snapshot directory exists but metadata is corrupt -- include basic info
-                results.append({
+                results.append(
+                    {
+                        "dir_name": entry.name,
+                        "path": str(entry),
+                        "timestamp": "unknown",
+                        "reason": "(metadata corrupt or missing)",
+                        "label": "",
+                    }
+                )
+        else:
+            results.append(
+                {
                     "dir_name": entry.name,
                     "path": str(entry),
                     "timestamp": "unknown",
-                    "reason": "(metadata corrupt or missing)",
+                    "reason": "(no metadata.json)",
                     "label": "",
-                })
-        else:
-            results.append({
-                "dir_name": entry.name,
-                "path": str(entry),
-                "timestamp": "unknown",
-                "reason": "(no metadata.json)",
-                "label": "",
-            })
+                }
+            )
 
     return results
 
@@ -179,7 +185,9 @@ def restore_snapshot(project_root: Path, snapshot_path: Path) -> None:
 
     missing = [f for f in MEMORY_FILES if not (snapshot_path / f).exists()]
     if missing:
-        raise FileNotFoundError(f"Snapshot is incomplete, missing: {', '.join(missing)}")
+        raise FileNotFoundError(
+            f"Snapshot is incomplete, missing: {', '.join(missing)}"
+        )
 
     for filename in MEMORY_FILES:
         src = snapshot_path / filename
@@ -266,7 +274,9 @@ def main() -> int:
     # Create snapshot (--reason was provided)
     print("Creating snapshot of memory files...")
     try:
-        snapshot_dir = create_snapshot(project_root, reason=args.reason, label=args.label)
+        snapshot_dir = create_snapshot(
+            project_root, reason=args.reason, label=args.label
+        )
     except FileNotFoundError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1
@@ -275,7 +285,9 @@ def main() -> int:
     meta_path = snapshot_dir / METADATA_FILENAME
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     for filename, size in meta["file_sizes"].items():
-        print(f"  {filename}: {size} bytes (sha256: {meta['file_hashes'][filename][:16]}...)")
+        print(
+            f"  {filename}: {size} bytes (sha256: {meta['file_hashes'][filename][:16]}...)"
+        )
     return 0
 
 

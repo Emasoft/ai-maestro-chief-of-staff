@@ -237,9 +237,9 @@ pending --> approved --> executing --> completed
 
 **Terminal states**: rejected, timeout, completed, rolled_back (no further transitions)
 
-### 3.2 Pending approvals file structure
+### 3.2 Pending approvals request structure
 
-**Location**: `$CLAUDE_PROJECT_DIR/thoughts/shared/pending-approvals.json`
+**Source**: `curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending"` (AI Maestro REST API, not file-based)
 
 ```json
 {
@@ -268,15 +268,14 @@ When a request receives a decision or times out:
 
 1. **Remove from `pending` array**
 2. **Add to `history` array** with final status
-3. **Update file atomically** (write temp file, then rename)
+3. **Update via REST API** (AI Maestro handles persistence)
 
 ```bash
-# Example: Move request to history
-jq --arg rid "AR-1706795200-abc123" \
-   --arg status "approved" \
-   '.history += [(.pending[] | select(.request_id == $rid) | . + {status: $status})] | .pending |= map(select(.request_id != $rid))' \
-   pending-approvals.json > pending-approvals.json.tmp && \
-   mv pending-approvals.json.tmp pending-approvals.json
+# Uses AI Maestro REST API (not file-based)
+# Example: Move request to history (update decision status)
+curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-1706795200-abc123" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "approved"}'
 ```
 
 ---
@@ -359,14 +358,13 @@ Use the `agent-messaging` skill to send reminder messages:
 
 ### 5.3 Tracking reminder count and elapsed time
 
-Update `pending-approvals.json` after each reminder:
+Update the request via REST API after each reminder (AI Maestro REST API, not file-based):
 
-```json
-{
-  "request_id": "AR-1706795200-abc123",
-  "last_reminder_at": "2026-02-01T12:00:30Z",
-  "reminder_count": 1
-}
+```bash
+# Uses AI Maestro REST API (not file-based)
+curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-1706795200-abc123" \
+  -H "Content-Type: application/json" \
+  -d "{\"last_reminder_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"reminder_count\": 1}"
 ```
 
 **Fields to update**:
@@ -392,8 +390,8 @@ Is type "critical_operation"?
 For types: `agent_spawn`, `agent_terminate`, `agent_replace`, `plugin_install`
 
 **Procedure**:
-1. Update status to "timeout" in pending-approvals.json
-2. Move request to history
+1. Update status to "timeout" via REST API: `curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-xxx" -H "Content-Type: application/json" -d '{"status": "timeout"}'`
+2. Move request to history (handled by AI Maestro on status update)
 3. Log timeout to audit trail
 4. Notify requester via AI Maestro:
    ```
@@ -480,8 +478,11 @@ If validation fails: Log error, notify EAMA of invalid decision message.
 
 For approved decision:
 ```bash
+# Uses AI Maestro REST API (not file-based)
 # Update status to "approved"
-jq --arg rid "AR-xxx" '.pending |= map(if .request_id == $rid then . + {status: "approved"} else . end)' pending-approvals.json
+curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-xxx" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "approved", "decided_by": "manager", "reason": "Team needs additional developer"}'
 
 # Log to audit trail
 echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [AR-xxx] [DECIDE] decision=approved by=manager reason=\"Team needs additional developer\"" >> approval-audit.log
@@ -496,8 +497,11 @@ echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [AR-xxx] [DECIDE] decision=approved by=
 After approval received:
 
 ```bash
+# Uses AI Maestro REST API (not file-based)
 # Update status to "executing"
-jq --arg rid "AR-xxx" '.pending |= map(if .request_id == $rid then . + {status: "executing"} else . end)' pending-approvals.json
+curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-xxx" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "executing"}'
 ```
 
 ### 8.2 Delegating execution to appropriate AMCOS agent

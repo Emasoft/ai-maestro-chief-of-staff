@@ -241,7 +241,9 @@ Always log errors immediately to In-Flight Errors.
     return True
 
 
-def validate_progress(config: MemoryConfig, verbose: bool = False) -> tuple[bool, list[str]]:
+def validate_progress(
+    config: MemoryConfig, verbose: bool = False
+) -> tuple[bool, list[str]]:
     """Deep validation of progress.md: task state consistency, timestamps, dependencies."""
     issues: list[str] = []
     if not config.progress_path.exists():
@@ -299,13 +301,27 @@ def validate_progress(config: MemoryConfig, verbose: bool = False) -> tuple[bool
     # Check for task state consistency (look for status markers)
     task_states = re.findall(r"\*\*([\w]+)\*\*:", content)
     valid_states = {
-        "System", "Progress", "Decision", "Error", "Focus",
-        "Complete", "Started", "Blocked", "Resumed", "Created",
-        "Updated", "Deployed", "Fixed", "Merged", "Released",
+        "System",
+        "Progress",
+        "Decision",
+        "Error",
+        "Focus",
+        "Complete",
+        "Started",
+        "Blocked",
+        "Resumed",
+        "Created",
+        "Updated",
+        "Deployed",
+        "Fixed",
+        "Merged",
+        "Released",
     }
     for state in task_states:
         if state not in valid_states and verbose:
-            issues.append(f"Uncommon task state marker: **{state}**: (not in standard set)")
+            issues.append(
+                f"Uncommon task state marker: **{state}**: (not in standard set)"
+            )
 
     # Summary stats
     entry_count = len(timestamp_entries)
@@ -321,7 +337,9 @@ def validate_progress(config: MemoryConfig, verbose: bool = False) -> tuple[bool
 
 def _create_parser() -> argparse.ArgumentParser:
     """Create argument parser for CLI."""
-    parser = argparse.ArgumentParser(description="AI Maestro Chief of Staff Memory File Management")
+    parser = argparse.ArgumentParser(
+        description="AI Maestro Chief of Staff Memory File Management"
+    )
     parser.add_argument("--memory-root", type=Path, default=Path("design/memory"))
     sub = parser.add_subparsers(dest="command", required=True)
 

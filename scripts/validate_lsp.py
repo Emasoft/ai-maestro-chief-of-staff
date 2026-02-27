@@ -72,15 +72,21 @@ class ValidationReport:
         """Add an info message."""
         self.add("INFO", message, file)
 
-    def minor(self, message: str, file: str | None = None, line: int | None = None) -> None:
+    def minor(
+        self, message: str, file: str | None = None, line: int | None = None
+    ) -> None:
         """Add a minor issue."""
         self.add("MINOR", message, file, line)
 
-    def major(self, message: str, file: str | None = None, line: int | None = None) -> None:
+    def major(
+        self, message: str, file: str | None = None, line: int | None = None
+    ) -> None:
         """Add a major issue."""
         self.add("MAJOR", message, file, line)
 
-    def critical(self, message: str, file: str | None = None, line: int | None = None) -> None:
+    def critical(
+        self, message: str, file: str | None = None, line: int | None = None
+    ) -> None:
         """Add a critical issue."""
         self.add("CRITICAL", message, file, line)
 
@@ -166,7 +172,9 @@ def validate_env_var_syntax(value: str, report: ValidationReport, context: str) 
             default = match.group(2)
 
             if default is None and var_name not in PLUGIN_ENV_VARS:
-                report.info(f"Env var ${{{var_name}}} has no default value in {context}")
+                report.info(
+                    f"Env var ${{{var_name}}} has no default value in {context}"
+                )
 
 
 def validate_path_value(
@@ -177,7 +185,9 @@ def validate_path_value(
 ) -> None:
     """Validate a path value in LSP configuration."""
     if is_absolute_path(value):
-        report.major(f"Absolute path found in {context}: {value} - use ${{CLAUDE_PLUGIN_ROOT}} for portability")
+        report.major(
+            f"Absolute path found in {context}: {value} - use ${{CLAUDE_PLUGIN_ROOT}} for portability"
+        )
         return
 
     validate_env_var_syntax(value, report, context)
@@ -214,7 +224,9 @@ def validate_lsp_server(
             report.critical(f"Server {server_name} 'command' must be a string")
         else:
             # Check if command is known language server
-            cmd_base = Path(command).name if "/" in command or "\\" in command else command
+            cmd_base = (
+                Path(command).name if "/" in command or "\\" in command else command
+            )
             if cmd_base in KNOWN_LANGUAGE_SERVERS.values():
                 report.passed(f"Server {server_name} uses known LSP: {cmd_base}")
 
@@ -231,7 +243,9 @@ def validate_lsp_server(
             elif command in ("npx", "node", "python", "python3"):
                 report.passed(f"Server {server_name} uses runtime: {command}")
             else:
-                report.info(f"Server {server_name} command '{command}' not found in PATH")
+                report.info(
+                    f"Server {server_name} command '{command}' not found in PATH"
+                )
 
             validate_path_value(command, report, f"{ctx}:command", plugin_root)
 
@@ -273,7 +287,9 @@ def validate_lsp_server(
     if "initializationOptions" in config:
         init_opts = config["initializationOptions"]
         if not isinstance(init_opts, dict):
-            report.major(f"Server {server_name} 'initializationOptions' must be an object")
+            report.major(
+                f"Server {server_name} 'initializationOptions' must be an object"
+            )
 
     # Validate settings
     if "settings" in config:
@@ -456,7 +472,9 @@ def print_results(report: ValidationReport, verbose: bool = False) -> None:
     if report.exit_code == 0:
         print(f"{colors['PASSED']}✓ All LSP checks passed{colors['RESET']}")
     else:
-        status_color = colors[["PASSED", "CRITICAL", "MAJOR", "MINOR"][report.exit_code]]
+        status_color = colors[
+            ["PASSED", "CRITICAL", "MAJOR", "MINOR"][report.exit_code]
+        ]
         print(f"{status_color}✗ Issues found{colors['RESET']}")
 
     print()

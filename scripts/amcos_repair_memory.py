@@ -226,7 +226,9 @@ def _ensure_required_sections(content: str, file_stem: str) -> tuple[str, list[s
     for section_header in required:
         if section_header not in content:
             # Append the missing section at the end
-            content = content.rstrip("\n") + f"\n\n{section_header}\n\nNo entries yet.\n"
+            content = (
+                content.rstrip("\n") + f"\n\n{section_header}\n\nNo entries yet.\n"
+            )
             fixes.append(f"Added missing section: '{section_header}'")
 
     return content, fixes
@@ -256,11 +258,13 @@ def repair_memory(project_root: Path, dry_run: bool, verbose: bool) -> RepairRep
 
     # Step 1: Check and create memory directory
     if not memory_dir.exists():
-        report.actions.append(RepairAction(
-            file="design/memory/",
-            description="Created missing memory directory",
-            severity="warning",
-        ))
+        report.actions.append(
+            RepairAction(
+                file="design/memory/",
+                description="Created missing memory directory",
+                severity="warning",
+            )
+        )
         if not dry_run:
             try:
                 memory_dir.mkdir(parents=True, exist_ok=True)
@@ -280,11 +284,13 @@ def repair_memory(project_root: Path, dry_run: bool, verbose: bool) -> RepairRep
     for stem, path in file_map.items():
         if not path.exists():
             template_content = TEMPLATES[stem].format(timestamp=timestamp)
-            report.actions.append(RepairAction(
-                file=str(path.relative_to(project_root)),
-                description="Created missing file from template",
-                severity="warning",
-            ))
+            report.actions.append(
+                RepairAction(
+                    file=str(path.relative_to(project_root)),
+                    description="Created missing file from template",
+                    severity="warning",
+                )
+            )
             if not dry_run:
                 if not _write_file(path, template_content):
                     report.unrecoverable.append(f"Cannot create {path}")
@@ -299,15 +305,19 @@ def repair_memory(project_root: Path, dry_run: bool, verbose: bool) -> RepairRep
         if not content.strip():
             # File exists but is empty -- recreate from template
             template_content = TEMPLATES[stem].format(timestamp=timestamp)
-            report.actions.append(RepairAction(
-                file=str(path.relative_to(project_root)),
-                description="Recreated empty file from template",
-                severity="warning",
-            ))
+            report.actions.append(
+                RepairAction(
+                    file=str(path.relative_to(project_root)),
+                    description="Recreated empty file from template",
+                    severity="warning",
+                )
+            )
             if not dry_run:
                 _write_file(path, template_content)
             if verbose:
-                print(f"{'[DRY-RUN] Would recreate' if dry_run else 'RECREATED'}: {path} (was empty)")
+                print(
+                    f"{'[DRY-RUN] Would recreate' if dry_run else 'RECREATED'}: {path} (was empty)"
+                )
             continue
 
         all_fixes: list[str] = []
@@ -327,14 +337,18 @@ def repair_memory(project_root: Path, dry_run: bool, verbose: bool) -> RepairRep
         # Write back if anything changed
         if all_fixes:
             for fix_desc in all_fixes:
-                report.actions.append(RepairAction(
-                    file=str(path.relative_to(project_root)),
-                    description=fix_desc,
-                    severity="info",
-                ))
+                report.actions.append(
+                    RepairAction(
+                        file=str(path.relative_to(project_root)),
+                        description=fix_desc,
+                        severity="info",
+                    )
+                )
             if not dry_run:
                 if not _write_file(path, content):
-                    report.unrecoverable.append(f"Cannot write repaired content to {path}")
+                    report.unrecoverable.append(
+                        f"Cannot write repaired content to {path}"
+                    )
             if verbose:
                 prefix = "[DRY-RUN] Would apply" if dry_run else "APPLIED"
                 print(f"{prefix} {len(all_fixes)} fix(es) to {path}:")

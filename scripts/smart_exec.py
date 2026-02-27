@@ -49,6 +49,7 @@ from typing import Dict, List, Optional, Tuple
 # Data model
 # ----------------------------
 
+
 @dataclass(frozen=True)
 class ToolSpec:
     # What user types (logical name)
@@ -75,31 +76,64 @@ TOOL_DB: Dict[str, ToolSpec] = {
     "pyright": ToolSpec("pyright", "python", package="pyright", command="pyright"),
     "sqlfluff": ToolSpec("sqlfluff", "python", package="sqlfluff", command="sqlfluff"),
     "yamllint": ToolSpec("yamllint", "python", package="yamllint", command="yamllint"),
-
     # ---- Node tools (npm) ----
     "eslint": ToolSpec("eslint", "node", package="eslint", command="eslint"),
     "prettier": ToolSpec("prettier", "node", package="prettier", command="prettier"),
-    "stylelint": ToolSpec("stylelint", "node", package="stylelint", command="stylelint"),
+    "stylelint": ToolSpec(
+        "stylelint", "node", package="stylelint", command="stylelint"
+    ),
     "htmlhint": ToolSpec("htmlhint", "node", package="htmlhint", command="htmlhint"),
-    "markdownlint-cli2": ToolSpec("markdownlint-cli2", "node", package="markdownlint-cli2", command="markdownlint-cli2"),
+    "markdownlint-cli2": ToolSpec(
+        "markdownlint-cli2",
+        "node",
+        package="markdownlint-cli2",
+        command="markdownlint-cli2",
+    ),
     "textlint": ToolSpec("textlint", "node", package="textlint", command="textlint"),
     "jsonlint": ToolSpec("jsonlint", "node", package="jsonlint", command="jsonlint"),
-    "yaml-lint": ToolSpec("yaml-lint", "node", package="yaml-lint", command="yaml-lint"),
+    "yaml-lint": ToolSpec(
+        "yaml-lint", "node", package="yaml-lint", command="yaml-lint"
+    ),
     "biome": ToolSpec("biome", "node", package="@biomejs/biome", command="biome"),
-    "@biomejs/biome": ToolSpec("@biomejs/biome", "node", package="@biomejs/biome", command="biome"),
-    "spectral": ToolSpec("spectral", "node", package="@stoplight/spectral", command="spectral"),
-    "@stoplight/spectral": ToolSpec("@stoplight/spectral", "node", package="@stoplight/spectral", command="spectral"),
+    "@biomejs/biome": ToolSpec(
+        "@biomejs/biome", "node", package="@biomejs/biome", command="biome"
+    ),
+    "spectral": ToolSpec(
+        "spectral", "node", package="@stoplight/spectral", command="spectral"
+    ),
+    "@stoplight/spectral": ToolSpec(
+        "@stoplight/spectral", "node", package="@stoplight/spectral", command="spectral"
+    ),
     # npm-package-json-lint: CLI name != package name
-    "npm-package-json-lint": ToolSpec("npm-package-json-lint", "node", package="npm-package-json-lint", command="npmPkgJsonLint"),
-    "npmPkgJsonLint": ToolSpec("npmPkgJsonLint", "node", package="npm-package-json-lint", command="npmPkgJsonLint"),
-    "sort-package-json": ToolSpec("sort-package-json", "node", package="sort-package-json", command="sort-package-json"),
+    "npm-package-json-lint": ToolSpec(
+        "npm-package-json-lint",
+        "node",
+        package="npm-package-json-lint",
+        command="npmPkgJsonLint",
+    ),
+    "npmPkgJsonLint": ToolSpec(
+        "npmPkgJsonLint",
+        "node",
+        package="npm-package-json-lint",
+        command="npmPkgJsonLint",
+    ),
+    "sort-package-json": ToolSpec(
+        "sort-package-json",
+        "node",
+        package="sort-package-json",
+        command="sort-package-json",
+    ),
     "tsc": ToolSpec("tsc", "node", package="typescript", command="tsc"),
-
     # ---- Deno built-ins ----
-    "deno-lint": ToolSpec("deno-lint", "deno_builtin", package=None, command="lint", prefer_latest=False),
-    "deno-fmt": ToolSpec("deno-fmt", "deno_builtin", package=None, command="fmt", prefer_latest=False),
-    "deno-check": ToolSpec("deno-check", "deno_builtin", package=None, command="check", prefer_latest=False),
-
+    "deno-lint": ToolSpec(
+        "deno-lint", "deno_builtin", package=None, command="lint", prefer_latest=False
+    ),
+    "deno-fmt": ToolSpec(
+        "deno-fmt", "deno_builtin", package=None, command="fmt", prefer_latest=False
+    ),
+    "deno-check": ToolSpec(
+        "deno-check", "deno_builtin", package=None, command="check", prefer_latest=False
+    ),
     # ---- Native-ish tools (prefer wrappers; docker fallback included) ----
     "shellcheck": ToolSpec(
         "shellcheck",
@@ -120,12 +154,28 @@ TOOL_DB: Dict[str, ToolSpec] = {
         "native",
         package=None,
         command="xmllint",
-        docker=("alpine", ["sh", "-lc", "apk add --no-cache libxml2-utils >/dev/null && xmllint --noout"]),
+        docker=(
+            "alpine",
+            [
+                "sh",
+                "-lc",
+                "apk add --no-cache libxml2-utils >/dev/null && xmllint --noout",
+            ],
+        ),
     ),
-
     # ---- PowerShell module tools ----
-    "PSScriptAnalyzer": ToolSpec("PSScriptAnalyzer", "powershell_module", package="PSScriptAnalyzer", command="Invoke-ScriptAnalyzer"),
-    "Invoke-ScriptAnalyzer": ToolSpec("Invoke-ScriptAnalyzer", "powershell_module", package="PSScriptAnalyzer", command="Invoke-ScriptAnalyzer"),
+    "PSScriptAnalyzer": ToolSpec(
+        "PSScriptAnalyzer",
+        "powershell_module",
+        package="PSScriptAnalyzer",
+        command="Invoke-ScriptAnalyzer",
+    ),
+    "Invoke-ScriptAnalyzer": ToolSpec(
+        "Invoke-ScriptAnalyzer",
+        "powershell_module",
+        package="PSScriptAnalyzer",
+        command="Invoke-ScriptAnalyzer",
+    ),
 }
 
 
@@ -142,6 +192,7 @@ PRIORITY: Dict[str, List[str]] = {
 # ----------------------------
 # Executor detection
 # ----------------------------
+
 
 def which(cmd: str) -> Optional[str]:
     return shutil.which(cmd)
@@ -172,7 +223,9 @@ def detect_executors() -> Dict[str, bool]:
 
 def get_version(cmd: List[str]) -> Optional[str]:
     try:
-        p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        p = subprocess.run(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
+        )
         if p.returncode != 0:
             return None
         out = (p.stdout or "").strip().splitlines()
@@ -204,15 +257,25 @@ def executor_versions() -> Dict[str, Optional[str]]:
     if have("docker"):
         v["docker"] = get_version(["docker", "--version"])
     if have("pwsh"):
-        v["pwsh"] = get_version(["pwsh", "-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"])
+        v["pwsh"] = get_version(
+            ["pwsh", "-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"]
+        )
     if have("powershell"):
-        v["powershell"] = get_version(["powershell", "-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"])
+        v["powershell"] = get_version(
+            [
+                "powershell",
+                "-NoProfile",
+                "-Command",
+                "$PSVersionTable.PSVersion.ToString()",
+            ]
+        )
     return v
 
 
 # ----------------------------
 # Command builders
 # ----------------------------
+
 
 def bunx_argv(pkg: str, cmd: str, tool_args: List[str]) -> List[str]:
     # Bun supports -p/--package for package != command. (see: https://bun.com/docs/pm/bunx )
@@ -246,13 +309,17 @@ def npm_exec_argv(pkg: str, cmd: str, tool_args: List[str]) -> List[str]:
     return ["npm", "exec", "--yes", f"--package={pkg}", "--", cmd] + tool_args
 
 
-def deno_npm_argv(pkg: str, cmd: str, tool_args: List[str], latest: bool = True) -> List[str]:
+def deno_npm_argv(
+    pkg: str, cmd: str, tool_args: List[str], latest: bool = True
+) -> List[str]:
     ver = "@latest" if latest else ""
     spec = f"npm:{pkg}{ver}"
     return ["deno", "run", "-A", spec, "--", cmd] + tool_args
 
 
-def uvx_argv(pkg: str, cmd: str, tool_args: List[str], latest: bool = True) -> List[str]:
+def uvx_argv(
+    pkg: str, cmd: str, tool_args: List[str], latest: bool = True
+) -> List[str]:
     # uvx TOOL@latest ... (when pkg==cmd), else uvx --from <pkg> <cmd> ...
     if have("uvx"):
         if pkg == cmd:
@@ -280,7 +347,11 @@ def deno_builtin_argv(subcmd: str, tool_args: List[str]) -> List[str]:
 
 def docker_argv(image: str, prefix: List[str], tool_args: List[str]) -> List[str]:
     cwd = os.getcwd()
-    return ["docker", "run", "--rm", "-v", f"{cwd}:/w", "-w", "/w", image] + prefix + tool_args
+    return (
+        ["docker", "run", "--rm", "-v", f"{cwd}:/w", "-w", "/w", image]
+        + prefix
+        + tool_args
+    )
 
 
 def ps_quote(s: str) -> str:
@@ -288,7 +359,9 @@ def ps_quote(s: str) -> str:
     return "'" + s.replace("'", "''") + "'"
 
 
-def powershell_module_argv(module: str, cmdlet: str, cmdlet_args: List[str]) -> List[str]:
+def powershell_module_argv(
+    module: str, cmdlet: str, cmdlet_args: List[str]
+) -> List[str]:
     """
     Download module to temp dir, import it, run cmdlet.
     """
@@ -312,14 +385,19 @@ Import-Module $psd1 -Force | Out-Null
 # Selection logic
 # ----------------------------
 
+
 def resolve_tool(tool_name: str) -> ToolSpec:
     if tool_name in TOOL_DB:
         return TOOL_DB[tool_name]
     # Default guess: node (common for random CLIs); can be overridden via --ecosystem.
-    return ToolSpec(name=tool_name, ecosystem="node", package=tool_name, command=tool_name)
+    return ToolSpec(
+        name=tool_name, ecosystem="node", package=tool_name, command=tool_name
+    )
 
 
-def build_argv_for_executor(executor: str, spec: ToolSpec, tool_args: List[str]) -> Optional[List[str]]:
+def build_argv_for_executor(
+    executor: str, spec: ToolSpec, tool_args: List[str]
+) -> Optional[List[str]]:
     cmd = spec.command or spec.name
     pkg = spec.package or spec.name
 
@@ -329,7 +407,11 @@ def build_argv_for_executor(executor: str, spec: ToolSpec, tool_args: List[str])
     if executor in ("uvx", "uv"):
         if spec.ecosystem != "python":
             return None
-        return uvx_argv(pkg, cmd, tool_args, latest=spec.prefer_latest) if (have("uvx") or have("uv")) else None
+        return (
+            uvx_argv(pkg, cmd, tool_args, latest=spec.prefer_latest)
+            if (have("uvx") or have("uv"))
+            else None
+        )
 
     if executor == "pipx":
         if spec.ecosystem != "python":
@@ -389,7 +471,9 @@ def build_argv_for_executor(executor: str, spec: ToolSpec, tool_args: List[str])
     return None
 
 
-def choose_best(spec: ToolSpec, tool_args: List[str], executors: Dict[str, bool]) -> Tuple[List[str], str]:
+def choose_best(
+    spec: ToolSpec, tool_args: List[str], executors: Dict[str, bool]
+) -> Tuple[List[str], str]:
     # Prefer direct if already available (fast, avoids downloads)
     direct_cmd = spec.command or spec.name
     if have(direct_cmd):
@@ -406,27 +490,36 @@ def choose_best(spec: ToolSpec, tool_args: List[str], executors: Dict[str, bool]
         if argv is not None:
             return argv, "docker"
 
-    raise RuntimeError(f"No suitable executor found for tool '{spec.name}' (ecosystem={spec.ecosystem}).")
+    raise RuntimeError(
+        f"No suitable executor found for tool '{spec.name}' (ecosystem={spec.ecosystem})."
+    )
 
 
 # ----------------------------
 # CLI
 # ----------------------------
 
+
 def parse_args(argv: List[str]) -> argparse.Namespace:
     p = argparse.ArgumentParser(prog="smart_exec.py")
     sub = p.add_subparsers(dest="subcmd", required=True)
 
     p_run = sub.add_parser("run", help="Run a tool using the best available executor")
-    p_run.add_argument("--dry-run", action="store_true", help="Print command and exit without running")
-    p_run.add_argument("--json", action="store_true", help="Print selection info as JSON to stdout")
+    p_run.add_argument(
+        "--dry-run", action="store_true", help="Print command and exit without running"
+    )
+    p_run.add_argument(
+        "--json", action="store_true", help="Print selection info as JSON to stdout"
+    )
     p_run.add_argument(
         "--ecosystem",
         choices=["python", "node", "native", "deno_builtin", "powershell_module"],
         help="Override the tool ecosystem classification",
     )
     p_run.add_argument("tool", help="Tool to run (e.g. ruff, eslint, shellcheck)")
-    p_run.add_argument("tool_args", nargs=argparse.REMAINDER, help="Arguments passed to the tool")
+    p_run.add_argument(
+        "tool_args", nargs=argparse.REMAINDER, help="Arguments passed to the tool"
+    )
 
     p_which = sub.add_parser("which", help="Show how the runner would execute a tool")
     p_which.add_argument(
@@ -438,7 +531,9 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
     p_which.add_argument("tool", help="Tool to resolve")
     p_which.add_argument("tool_args", nargs=argparse.REMAINDER)
 
-    sub.add_parser("executors", help="List detected executors (availability + versions)")
+    sub.add_parser(
+        "executors", help="List detected executors (availability + versions)"
+    )
     p_db = sub.add_parser("db", help="List known tools in the built-in database")
     p_db.add_argument("--json", action="store_true")
 
@@ -450,7 +545,11 @@ def main(argv: List[str]) -> int:
     ex = detect_executors()
 
     if ns.subcmd == "executors":
-        info = {"available": ex, "versions": executor_versions(), "platform": platform.platform()}
+        info = {
+            "available": ex,
+            "versions": executor_versions(),
+            "platform": platform.platform(),
+        }
         print(json.dumps(info, indent=2))
         return 0
 
@@ -461,7 +560,9 @@ def main(argv: List[str]) -> int:
         else:
             for k in sorted(TOOL_DB):
                 t = TOOL_DB[k]
-                print(f"{k:24} ecosystem={t.ecosystem:16} package={t.package or '-':22} command={t.command or '-'}")
+                print(
+                    f"{k:24} ecosystem={t.ecosystem:16} package={t.package or '-':22} command={t.command or '-'}"
+                )
         return 0
 
     # which/run

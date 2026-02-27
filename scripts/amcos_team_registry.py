@@ -20,7 +20,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-import requests
+import urllib.error
+import urllib.request
 
 
 # API base URL from environment, default to localhost
@@ -32,7 +33,13 @@ API_BASE = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
 class RoleConstraint:
     """Role constraint data."""
 
-    def __init__(self, min_count: int, max_count: int, plugin: str, governance_role: str = "member"):
+    def __init__(
+        self,
+        min_count: int,
+        max_count: int,
+        plugin: str,
+        governance_role: str = "member",
+    ):
         self.min = min_count
         self.max = max_count
         self.plugin = plugin
@@ -58,20 +65,51 @@ def _api_url(path: str) -> str:
     return f"{API_BASE}{path}"
 
 
-def _handle_response(resp: requests.Response, context: str) -> dict[str, Any]:
-    """Check HTTP response and return parsed JSON, or raise on error."""
-    if not resp.ok:
-        # Try to extract error message from response body
-        try:
-            body = resp.json()
-            detail = body.get("error") or body.get("detail") or body.get("message") or json.dumps(body)
-        except Exception:
-            detail = resp.text or resp.reason
-        raise RuntimeError(f"{context}: HTTP {resp.status_code} - {detail}")
-    # Some endpoints may return empty body on success (e.g. DELETE 204)
-    if resp.status_code == 204 or not resp.content:
+def _make_request(
+    url: str,
+    method: str,
+    body: dict[str, Any] | None = None,
+    timeout: int = 30,
+) -> Any:
+    """Build and send an HTTP request via urllib, returning the response object."""
+    headers: dict[str, str] = {"Accept": "application/json"}
+    data: bytes | None = None
+    if body is not None:
+        # Encode JSON body and set content-type header
+        data = json.dumps(body).encode("utf-8")
+        headers["Content-Type"] = "application/json"
+    req = urllib.request.Request(url, data=data, headers=headers, method=method)
+    # urlopen raises HTTPError for 4xx/5xx, which we catch at the call sites
+    return urllib.request.urlopen(req, timeout=timeout)  # type: ignore[return-value]
+
+
+def _handle_urllib_response(
+    resp: Any, status_code: int, _context: str
+) -> dict[str, Any]:
+    """Parse a successful urllib response body into a dict."""
+    # Some endpoints return empty body on success (e.g. DELETE 204)
+    if status_code == 204:
         return {}
-    return resp.json()
+    raw = resp.read()
+    if not raw:
+        return {}
+    return json.loads(raw.decode("utf-8"))
+
+
+def _handle_http_error(exc: urllib.error.HTTPError, context: str) -> dict[str, Any]:
+    """Extract error detail from an HTTPError and raise RuntimeError."""
+    try:
+        raw = exc.read()
+        body = json.loads(raw.decode("utf-8")) if raw else {}
+        detail = (
+            body.get("error")
+            or body.get("detail")
+            or body.get("message")
+            or json.dumps(body)
+        )
+    except Exception:
+        detail = exc.reason or str(exc)
+    raise RuntimeError(f"{context}: HTTP {exc.code} - {detail}")
 
 
 def validate_team_name(name: str) -> tuple[bool, str]:
@@ -86,7 +124,9 @@ def validate_team_name(name: str) -> tuple[bool, str]:
     return True, "Valid"
 
 
-def create_team(team_name: str, repo_url: str, project_board_url: str | None = None) -> dict[str, Any]:
+def create_team(
+    team_name: str, repo_url: str, project_board_url: str | None = None
+) -> dict[str, Any]:
     """Create a new team via the AI Maestro REST API."""
     # Validate team name format locally before hitting the API
     valid, msg = validate_team_name(team_name)
@@ -101,8 +141,12 @@ def create_team(team_name: str, repo_url: str, project_board_url: str | None = N
     if project_board_url:
         payload["github_project"] = project_board_url
 
-    resp = requests.post(_api_url("/api/teams"), json=payload, timeout=30)
-    return _handle_response(resp, f"Create team '{team_name}'")
+    url = _api_url("/api/teams")
+    try:
+        resp = _make_request(url, "POST", body=payload)
+        return _handle_urllib_response(resp, resp.status, f"Create team '{team_name}'")
+    except urllib.error.HTTPError as exc:
+        return _handle_http_error(exc, f"Create team '{team_name}'")
 
 
 def add_agent(
@@ -116,12 +160,16 @@ def add_agent(
     """Add an agent to a team via the AI Maestro REST API."""
     # Validate role locally
     if role not in ROLE_CONSTRAINTS:
-        raise ValueError(f"Invalid role: {role}. Valid roles: {list(ROLE_CONSTRAINTS.keys())}")
+        raise ValueError(
+            f"Invalid role: {role}. Valid roles: {list(ROLE_CONSTRAINTS.keys())}"
+        )
 
     # Check plugin matches role
     expected_plugin = ROLE_CONSTRAINTS[role].plugin
     if plugin != expected_plugin:
-        raise ValueError(f"Role '{role}' requires plugin '{expected_plugin}', got '{plugin}'")
+        raise ValueError(
+            f"Role '{role}' requires plugin '{expected_plugin}', got '{plugin}'"
+        )
 
     # Default AI Maestro address to agent name
     if ai_maestro_address is None:
@@ -137,26 +185,47 @@ def add_agent(
         "status": "active",
     }
 
-    resp = requests.post(_api_url(f"/api/teams/{team_id}/agents"), json=payload, timeout=30)
-    return _handle_response(resp, f"Add agent '{agent_name}' to team '{team_id}'")
+    url = _api_url(f"/api/teams/{team_id}/agents")
+    try:
+        resp = _make_request(url, "POST", body=payload)
+        return _handle_urllib_response(
+            resp, resp.status, f"Add agent '{agent_name}' to team '{team_id}'"
+        )
+    except urllib.error.HTTPError as exc:
+        return _handle_http_error(exc, f"Add agent '{agent_name}' to team '{team_id}'")
 
 
 def remove_agent(team_id: str, agent_id: str) -> dict[str, Any]:
     """Remove an agent from a team via the AI Maestro REST API."""
-    resp = requests.delete(_api_url(f"/api/teams/{team_id}/agents/{agent_id}"), timeout=30)
-    return _handle_response(resp, f"Remove agent '{agent_id}' from team '{team_id}'")
+    url = _api_url(f"/api/teams/{team_id}/agents/{agent_id}")
+    context = f"Remove agent '{agent_id}' from team '{team_id}'"
+    try:
+        resp = _make_request(url, "DELETE")
+        return _handle_urllib_response(resp, resp.status, context)
+    except urllib.error.HTTPError as exc:
+        return _handle_http_error(exc, context)
 
 
 def update_team(team_id: str, updates: dict[str, Any]) -> dict[str, Any]:
     """Update a team via the AI Maestro REST API."""
-    resp = requests.patch(_api_url(f"/api/teams/{team_id}"), json=updates, timeout=30)
-    return _handle_response(resp, f"Update team '{team_id}'")
+    url = _api_url(f"/api/teams/{team_id}")
+    context = f"Update team '{team_id}'"
+    try:
+        resp = _make_request(url, "PATCH", body=updates)
+        return _handle_urllib_response(resp, resp.status, context)
+    except urllib.error.HTTPError as exc:
+        return _handle_http_error(exc, context)
 
 
 def list_teams() -> dict[str, Any]:
     """List all teams via the AI Maestro REST API."""
-    resp = requests.get(_api_url("/api/teams"), timeout=30)
-    return _handle_response(resp, "List teams")
+    url = _api_url("/api/teams")
+    context = "List teams"
+    try:
+        resp = _make_request(url, "GET")
+        return _handle_urllib_response(resp, resp.status, context)
+    except urllib.error.HTTPError as exc:
+        return _handle_http_error(exc, context)
 
 
 def get_team_by_name(team_name: str) -> dict[str, Any] | None:
@@ -184,7 +253,9 @@ def _resolve_agent_id(team: dict[str, Any], agent_name: str) -> str:
     for agent in agents:
         if agent.get("name") == agent_name:
             return str(agent.get("id") or agent.get("_id") or agent["name"])
-    raise ValueError(f"Agent '{agent_name}' not found in team '{team.get('name', '?')}'")
+    raise ValueError(
+        f"Agent '{agent_name}' not found in team '{team.get('name', '?')}'"
+    )
 
 
 def format_team_list(team: dict[str, Any]) -> str:
@@ -270,12 +341,16 @@ Examples:
     add_parser.add_argument("--role", required=True, help="Agent role")
     add_parser.add_argument("--plugin", required=True, help="Plugin name")
     add_parser.add_argument("--host", required=True, help="Host machine")
-    add_parser.add_argument("--address", help="AI Maestro address (default: agent name)")
+    add_parser.add_argument(
+        "--address", help="AI Maestro address (default: agent name)"
+    )
 
     # Remove agent command
     remove_parser = subparsers.add_parser("remove-agent", help="Remove agent from team")
     remove_parser.add_argument("--team", required=True, help="Team name")
-    remove_parser.add_argument("--agent-name", required=True, help="Agent name to remove")
+    remove_parser.add_argument(
+        "--agent-name", required=True, help="Agent name to remove"
+    )
 
     # Update status command
     status_parser = subparsers.add_parser("update-status", help="Update agent status")
@@ -328,17 +403,24 @@ Examples:
 
             valid_statuses = ["active", "hibernated", "offline", "terminated"]
             if args.status not in valid_statuses:
-                raise ValueError(f"Invalid status: {args.status}. Valid: {valid_statuses}")
+                raise ValueError(
+                    f"Invalid status: {args.status}. Valid: {valid_statuses}"
+                )
 
             # Use PATCH on the team to update the agent's status
             agent_id = _resolve_agent_id(team, args.agent_name)
             # Update via the team agents endpoint - PATCH the agent within the team
-            resp = requests.patch(
-                _api_url(f"/api/teams/{team_id}/agents/{agent_id}"),
-                json={"status": args.status, "status_updated_at": get_timestamp()},
-                timeout=30,
-            )
-            _handle_response(resp, f"Update status of '{args.agent_name}'")
+            patch_url = _api_url(f"/api/teams/{team_id}/agents/{agent_id}")
+            patch_ctx = f"Update status of '{args.agent_name}'"
+            try:
+                patch_resp = _make_request(
+                    patch_url,
+                    "PATCH",
+                    body={"status": args.status, "status_updated_at": get_timestamp()},
+                )
+                _handle_urllib_response(patch_resp, patch_resp.status, patch_ctx)
+            except urllib.error.HTTPError as exc:
+                _handle_http_error(exc, patch_ctx)
             print(f"Updated '{args.agent_name}' status to '{args.status}'")
             return 0
 
@@ -353,11 +435,12 @@ Examples:
                 print(format_all_teams(data))
             return 0
 
-    except requests.ConnectionError:
-        print(f"Error: Cannot connect to AI Maestro API at {API_BASE}", file=sys.stderr)
-        return 1
-    except requests.Timeout:
-        print("Error: Request to AI Maestro API timed out", file=sys.stderr)
+    except urllib.error.URLError as e:
+        # URLError covers connection failures (including timeouts via socket.timeout)
+        print(
+            f"Error: Cannot connect to AI Maestro API at {API_BASE}: {e.reason}",
+            file=sys.stderr,
+        )
         return 1
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

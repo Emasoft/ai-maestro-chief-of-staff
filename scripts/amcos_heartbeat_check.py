@@ -120,13 +120,15 @@ def parse_agents_heartbeats(content: str) -> list[dict[str, Any]]:
                         heartbeat_str = parts[3]
                         heartbeat_dt = parse_timestamp(heartbeat_str)
 
-                        agents.append({
-                            "name": parts[0],
-                            "role": parts[1],
-                            "status": parts[2],
-                            "heartbeat": heartbeat_str,
-                            "heartbeat_dt": heartbeat_dt
-                        })
+                        agents.append(
+                            {
+                                "name": parts[0],
+                                "role": parts[1],
+                                "status": parts[2],
+                                "heartbeat": heartbeat_str,
+                                "heartbeat_dt": heartbeat_dt,
+                            }
+                        )
 
     return agents
 
@@ -152,26 +154,30 @@ def check_unresponsive_agents(agents: list[dict[str, Any]]) -> list[dict[str, An
         heartbeat_dt = agent.get("heartbeat_dt")
         if heartbeat_dt is None:
             # No valid heartbeat timestamp - consider unresponsive
-            unresponsive.append({
-                "name": agent["name"],
-                "role": agent["role"],
-                "status": agent["status"],
-                "last_heartbeat": agent["heartbeat"],
-                "seconds_since": "unknown"
-            })
+            unresponsive.append(
+                {
+                    "name": agent["name"],
+                    "role": agent["role"],
+                    "status": agent["status"],
+                    "last_heartbeat": agent["heartbeat"],
+                    "seconds_since": "unknown",
+                }
+            )
         else:
             # Check if heartbeat is stale
             delta = (now - heartbeat_dt).total_seconds()
             if delta > HEARTBEAT_TIMEOUT:
                 minutes = int(delta / 60)
-                unresponsive.append({
-                    "name": agent["name"],
-                    "role": agent["role"],
-                    "status": agent["status"],
-                    "last_heartbeat": agent["heartbeat"],
-                    "seconds_since": int(delta),
-                    "minutes_since": minutes
-                })
+                unresponsive.append(
+                    {
+                        "name": agent["name"],
+                        "role": agent["role"],
+                        "status": agent["status"],
+                        "last_heartbeat": agent["heartbeat"],
+                        "seconds_since": int(delta),
+                        "minutes_since": minutes,
+                    }
+                )
 
     return unresponsive
 
@@ -260,13 +266,15 @@ def main() -> int:
                     agents = []
                     for a in api_agents:
                         hb = a.get("lastHeartbeat", "")
-                        agents.append({
-                            "name": a.get("name", "unknown"),
-                            "role": a.get("role", "member"),
-                            "status": a.get("status", "unknown"),
-                            "heartbeat": hb,
-                            "heartbeat_dt": parse_timestamp(hb) if hb else None,
-                        })
+                        agents.append(
+                            {
+                                "name": a.get("name", "unknown"),
+                                "role": a.get("role", "member"),
+                                "status": a.get("status", "unknown"),
+                                "heartbeat": hb,
+                                "heartbeat_dt": parse_timestamp(hb) if hb else None,
+                            }
+                        )
         except (urllib.error.URLError, OSError, json.JSONDecodeError, KeyError):
             pass  # Fall back to state file data already parsed
 
@@ -278,7 +286,7 @@ def main() -> int:
         # Output as JSON with systemMessage for Claude to see
         output = {
             "systemMessage": warning,
-            "continue": True  # Don't block, just warn
+            "continue": True,  # Don't block, just warn
         }
         print(json.dumps(output))
 

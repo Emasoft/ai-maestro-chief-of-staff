@@ -74,7 +74,7 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-approval-coordinator` | Manage GovernanceRequest workflows with manager |
 | `amcos-team-coordinator` | Intra-team coordination and task tracking |
 
-### Commands (26)
+### Commands (23)
 
 #### Agent Lifecycle
 
@@ -85,15 +85,7 @@ AMCOS (Chief of Staff) ---- one per team
 | `/amcos-terminate-agent` | Terminate agent (requires governance approval) |
 | `/amcos-hibernate-agent` | Hibernate agent |
 | `/amcos-wake-agent` | Wake hibernated agent |
-
-#### Project Management
-
-| Command | Description |
-|---------|-------------|
-| `/amcos-list-projects` | List team-managed projects |
-| `/amcos-add-project` | Add project to team management |
-| `/amcos-remove-project` | Remove project from team management |
-| `/amcos-assign-project` | Assign agent to project within team |
+| `/amcos-transfer-agent` | Transfer agent to another team (requires dual-manager approval) |
 
 #### Plugin/Skill Management
 
@@ -156,14 +148,15 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-team-coordination` | Team AMP messaging and coordination |
 | `amcos-transfer-management` | Cross-team agent transfer with dual-manager approval |
 
-### Hooks
+### Hooks (5)
 
 | Hook | Event | Purpose |
 |------|-------|---------|
-| `amcos-memory-load` | SessionStart | Load session memory at startup |
-| `amcos-memory-save` | SessionEnd | Save session memory on exit |
-| `amcos-heartbeat` | UserPromptSubmit | Check team agent health |
-| `amcos-stop-check` | Stop | Verify all work complete before exit |
+| `amcos-session-start` | SessionStart | Load session memory, initialize agent tracking, check resources |
+| `amcos-session-end` | SessionEnd | Save session memory and context on exit |
+| `amcos-resource-check` | UserPromptSubmit | Check system resources before processing |
+| `amcos-heartbeat-check` | UserPromptSubmit | Check heartbeat status of active agents |
+| `amcos-stop-check` | Stop | Block exit until coordination work is complete |
 
 ## Installation
 

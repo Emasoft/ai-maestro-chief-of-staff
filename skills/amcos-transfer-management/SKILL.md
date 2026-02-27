@@ -129,6 +129,21 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/{id}/approve" \
 
 After rejection, notify all involved parties via AMP that the transfer has been denied.
 
+### Transfer Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify agent and target team
+- [ ] Verify agent is in current team roster
+- [ ] Create TransferRequest with justification
+- [ ] Submit GovernanceRequest to source manager
+- [ ] Wait for source manager approval
+- [ ] Submit GovernanceRequest to target manager
+- [ ] Wait for target manager approval (dual-approved)
+- [ ] Execute transfer: remove from source team, add to target team
+- [ ] Notify both COS agents of completion
+- [ ] Update local audit trail
+
 ## Output
 
 | Operation | Expected Output |

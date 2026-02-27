@@ -31,9 +31,7 @@ VALID_UUID_PREFIXES = ("REQ", "SPEC", "ARCH", "PDR", "HAND", "MEM", "DEC", "GUUI
 
 # Regex that matches the full UUID format (prefix is one of VALID_UUID_PREFIXES,
 # date part is exactly 8 digits, sequence part is exactly 4 digits)
-UUID_PATTERN = re.compile(
-    r"^(" + "|".join(VALID_UUID_PREFIXES) + r")-(\d{8})-(\d{4})$"
-)
+UUID_PATTERN = re.compile(r"^(" + "|".join(VALID_UUID_PREFIXES) + r")-(\d{8})-(\d{4})$")
 
 # Valid status values (compared case-insensitively)
 VALID_STATUSES = {
@@ -153,7 +151,9 @@ def validate_type(value):
     Returns an error message string if invalid, or None if valid.
     """
     if value.lower() not in VALID_TYPES:
-        return f"Invalid type '{value}' (must be one of: {', '.join(sorted(VALID_TYPES))})"
+        return (
+            f"Invalid type '{value}' (must be one of: {', '.join(sorted(VALID_TYPES))})"
+        )
     return None
 
 
@@ -383,7 +383,12 @@ def main():
         md_files = find_md_files(args.path)
     except (FileNotFoundError, ValueError) as exc:
         if args.output_format == "json":
-            output = {"total": 0, "passed": 0, "failed": 0, "errors": [{"file": args.path, "error": str(exc)}]}
+            output = {
+                "total": 0,
+                "passed": 0,
+                "failed": 0,
+                "errors": [{"file": args.path, "error": str(exc)}],
+            }
             sys.stdout.write(json.dumps(output, indent=2) + "\n")
         else:
             sys.stdout.write(f"ERROR: {exc}\n")

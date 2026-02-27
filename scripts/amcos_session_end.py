@@ -105,9 +105,7 @@ def update_timestamp(content: str) -> str:
     """
     timestamp = get_timestamp()
     return re.sub(
-        r"\*\*Last Updated\*\*:\s*[^\n]+",
-        f"**Last Updated**: {timestamp}",
-        content
+        r"\*\*Last Updated\*\*:\s*[^\n]+", f"**Last Updated**: {timestamp}", content
     )
 
 
@@ -148,14 +146,13 @@ def add_session_end_entry(content: str, session_id: str) -> str:
         else:
             new_history = new_entry
 
-        content = (
-            content[:header_end] +
-            new_history + "\n" +
-            content[next_section:]
-        )
+        content = content[:header_end] + new_history + "\n" + content[next_section:]
     else:
         # Add Session History section at the end
-        content = content.rstrip() + f"\n\n## Session History\n\n### {timestamp}\n- Session {session_short} ended\n"
+        content = (
+            content.rstrip()
+            + f"\n\n## Session History\n\n### {timestamp}\n- Session {session_short} ended\n"
+        )
 
     return content
 
@@ -183,11 +180,7 @@ def clear_stale_alerts(content: str) -> str:
             next_section = len(content)
 
         # Replace with "None"
-        content = (
-            content[:header_end] +
-            "\n- None\n" +
-            content[next_section:]
-        )
+        content = content[:header_end] + "\n- None\n" + content[next_section:]
 
     return content
 

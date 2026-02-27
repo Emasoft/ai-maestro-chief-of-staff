@@ -97,14 +97,17 @@ Use the `agent-messaging` skill to send the approval request message to EAMA wit
 ### Step 5: Register Pending Approval
 
 ```bash
-# Add to pending approvals file
-PENDING_FILE="docs_dev/pending-approvals.json"
-jq '.pending["'"$REQUEST_ID"'"] = {
-  "operation": "'"$OPERATION_TYPE"'",
-  "target": "'"$TARGET"'",
-  "requested_at": "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'",
-  "status": "pending"
-}' $PENDING_FILE > temp.json && mv temp.json $PENDING_FILE
+# Uses AI Maestro REST API (not file-based)
+# Register the pending approval request via REST API
+curl -s -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"request_id\": \"$REQUEST_ID\",
+    \"operation\": \"$OPERATION_TYPE\",
+    \"target\": \"$TARGET\",
+    \"requested_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+    \"status\": \"pending\"
+  }"
 ```
 
 ### Step 6: Await Response

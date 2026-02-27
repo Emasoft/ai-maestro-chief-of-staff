@@ -40,14 +40,19 @@ Handle situations where approval requests do not receive timely responses, inclu
 
 - Pending approval request with known request ID
 - The `agent-messaging` skill is available
-- Tracking file at `docs_dev/pending-approvals.json`
+- AI Maestro governance API accessible at `$AIMAESTRO_API/api/v1/governance/requests`
 - Audit log at `docs_dev/audit/`
 
 ## Procedure
 
 ### Step 1: Check Request Age
 
-Read the pending approvals tracking file (`docs_dev/pending-approvals.json`). Look up the request by its `REQUEST_ID`. Calculate the elapsed time since `requested_at` timestamp.
+Query the governance API for the request by its `REQUEST_ID`. Calculate the elapsed time since `requested_at` timestamp.
+
+```bash
+# Uses AI Maestro REST API (not file-based)
+curl -s "$AIMAESTRO_API/api/v1/governance/requests/$REQUEST_ID" | jq '{request_id: .request_id, requested_at: .requested_at, status: .status}'
+```
 
 ### Step 2: Send Reminder at 60 Seconds
 

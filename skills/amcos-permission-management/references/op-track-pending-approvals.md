@@ -39,21 +39,18 @@ Maintain tracking of all outstanding approval requests to manage multiple concur
 
 ## Prerequisites
 
-- Pending approvals tracking file at `docs_dev/pending-approvals.json`
+- AI Maestro running with governance API accessible at `$AIMAESTRO_API/api/v1/governance/requests`
 - Request IDs from submitted approval requests
 - AI Maestro for checking responses
 
 ## Procedure
 
-### Step 1: Initialize Tracking File
+### Step 1: Verify Governance API Accessible
 
 ```bash
-PENDING_FILE="docs_dev/pending-approvals.json"
-mkdir -p docs_dev
-
-if [ ! -f "$PENDING_FILE" ]; then
-  echo '{"pending": {}, "resolved": []}' > $PENDING_FILE
-fi
+# Uses AI Maestro REST API (not file-based)
+# Verify the governance API is reachable
+curl -s -o /dev/null -w "%{http_code}" "$AIMAESTRO_API/api/v1/governance/requests?status=pending"
 ```
 
 ### Step 2: Register New Request
@@ -65,34 +62,39 @@ REQUEST_ID="$1"
 OPERATION="$2"
 TARGET="$3"
 
-jq '.pending["'"$REQUEST_ID"'"] = {
-  "operation": "'"$OPERATION"'",
-  "target": "'"$TARGET"'",
-  "requested_at": "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'",
-  "status": "pending",
-  "reminder_sent": false,
-  "urgent_sent": false
-}' $PENDING_FILE > temp.json && mv temp.json $PENDING_FILE
+# Uses AI Maestro REST API (not file-based)
+curl -s -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"request_id\": \"$REQUEST_ID\",
+    \"operation\": \"$OPERATION\",
+    \"target\": \"$TARGET\",
+    \"requested_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+    \"status\": \"pending\",
+    \"reminder_sent\": false,
+    \"urgent_sent\": false
+  }"
 ```
 
 ### Step 3: Check Pending Requests Status
 
 ```bash
+# Uses AI Maestro REST API (not file-based)
 # List all pending requests
-jq '.pending | to_entries[] | {
-  id: .key,
-  operation: .value.operation,
-  target: .value.target,
-  requested_at: .value.requested_at,
-  age_seconds: (now - (.value.requested_at | fromdateiso8601))
-}' $PENDING_FILE
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending" | jq '.[] | {
+  id: .request_id,
+  operation: .operation,
+  target: .target,
+  requested_at: .requested_at
+}'
 ```
 
 ### Step 4: Poll for Responses
 
 ```bash
+# Uses AI Maestro REST API (not file-based)
 # Get all pending request IDs
-PENDING_IDS=$(jq -r '.pending | keys[]' $PENDING_FILE)
+PENDING_IDS=$(curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending" | jq -r '.[].request_id')
 
 for REQUEST_ID in $PENDING_IDS; do
   # Check AI Maestro inbox for response
@@ -103,8 +105,10 @@ for REQUEST_ID in $PENDING_IDS; do
     DECISION=$(echo $RESPONSE | jq -r '.content.decision')
     echo "Response received for $REQUEST_ID: $DECISION"
 
-    # Update tracking
-    jq '.pending["'"$REQUEST_ID"'"].status = "'"$DECISION"'"' $PENDING_FILE > temp.json && mv temp.json $PENDING_FILE
+    # Update status via REST API
+    curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/$REQUEST_ID" \
+      -H "Content-Type: application/json" \
+      -d "{\"status\": \"$DECISION\"}"
   fi
 done
 ```
@@ -112,19 +116,14 @@ done
 ### Step 5: Check for Timeouts
 
 ```bash
+# Uses AI Maestro REST API (not file-based)
 # Find requests older than 60 seconds without reminder
-NEEDS_REMINDER=$(jq -r '.pending | to_entries[] | select(
-  (now - (.value.requested_at | fromdateiso8601)) > 60 and
-  .value.reminder_sent == false and
-  .value.status == "pending"
-) | .key' $PENDING_FILE)
+NEEDS_REMINDER=$(curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending&reminder_sent=false&min_age_seconds=60" \
+  | jq -r '.[].request_id')
 
 # Find requests older than 90 seconds without urgent
-NEEDS_URGENT=$(jq -r '.pending | to_entries[] | select(
-  (now - (.value.requested_at | fromdateiso8601)) > 90 and
-  .value.urgent_sent == false and
-  .value.status == "pending"
-) | .key' $PENDING_FILE)
+NEEDS_URGENT=$(curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending&urgent_sent=false&min_age_seconds=90" \
+  | jq -r '.[].request_id')
 
 echo "Needs reminder: $NEEDS_REMINDER"
 echo "Needs urgent: $NEEDS_URGENT"
@@ -139,30 +138,32 @@ REQUEST_ID="$1"
 DECISION="$2"
 DECIDED_BY="$3"
 
-# Move from pending to resolved
-RESOLVED_ENTRY=$(jq '.pending["'"$REQUEST_ID"'"] + {
-  "decision": "'"$DECISION"'",
-  "decided_at": "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'",
-  "decided_by": "'"$DECIDED_BY"'"
-}' $PENDING_FILE)
-
-jq 'del(.pending["'"$REQUEST_ID"'"]) | .resolved += ['"$RESOLVED_ENTRY"']' $PENDING_FILE > temp.json && mv temp.json $PENDING_FILE
+# Uses AI Maestro REST API (not file-based)
+# Update the request with decision and move to resolved
+curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/$REQUEST_ID" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"status\": \"$DECISION\",
+    \"decided_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+    \"decided_by\": \"$DECIDED_BY\"
+  }"
 ```
 
 ### Step 7: Generate Status Report
 
 ```bash
+# Uses AI Maestro REST API (not file-based)
 # Count pending by type
 echo "=== Pending Approvals Status ==="
-jq -r '.pending | group_by(.operation) | map({
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending" | jq -r 'group_by(.operation) | map({
   operation: .[0].operation,
-  count: length,
-  oldest_seconds: (now - ([.[].requested_at | fromdateiso8601] | min))
-}) | .[]' $PENDING_FILE
+  count: length
+}) | .[] | "\(.operation): \(.count) pending"'
 
 # Recent resolutions
 echo "=== Recent Resolutions ==="
-jq -r '.resolved | sort_by(.decided_at) | reverse | .[0:5] | .[] | "\(.operation) \(.target): \(.decision)"' $PENDING_FILE
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=resolved&limit=5" \
+  | jq -r '.[] | "\(.operation) \(.target): \(.status)"'
 ```
 
 ## Example
@@ -170,33 +171,19 @@ jq -r '.resolved | sort_by(.decided_at) | reverse | .[0:5] | .[] | "\(.operation
 **Scenario:** Track multiple pending approvals for spawn, terminate, and plugin install.
 
 ```bash
-# Initialize
-PENDING_FILE="docs_dev/pending-approvals.json"
+# Uses AI Maestro REST API (not file-based)
 
 # Current state after multiple requests
-cat $PENDING_FILE
-# {
-#   "pending": {
-#     "abc-123": {
-#       "operation": "spawn",
-#       "target": "implementer-2",
-#       "requested_at": "2025-02-05T10:00:00Z",
-#       "status": "pending"
-#     },
-#     "def-456": {
-#       "operation": "terminate",
-#       "target": "test-runner-1",
-#       "requested_at": "2025-02-05T10:01:00Z",
-#       "status": "pending"
-#     }
-#   },
-#   "resolved": []
-# }
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending"
+# Returns JSON array of pending requests:
+# [
+#   {"request_id": "abc-123", "operation": "spawn", "target": "implementer-2", "requested_at": "2025-02-05T10:00:00Z", "status": "pending"},
+#   {"request_id": "def-456", "operation": "terminate", "target": "test-runner-1", "requested_at": "2025-02-05T10:01:00Z", "status": "pending"}
+# ]
 
-# Check for aged requests needing escalation
-jq '.pending | to_entries[] | select(
-  (now - (.value.requested_at | fromdateiso8601)) > 60
-) | {id: .key, operation: .value.operation, age: (now - (.value.requested_at | fromdateiso8601))}' $PENDING_FILE
+# Check for aged requests needing escalation (older than 60s)
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending&min_age_seconds=60" \
+  | jq '.[] | {id: .request_id, operation: .operation}'
 ```
 
 ## Tracking State Schema
@@ -230,10 +217,10 @@ jq '.pending | to_entries[] | select(
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| File not found | First run or deleted | Initialize empty tracking file |
-| JSON parse error | Corrupted file | Restore from backup or reinitialize |
-| Request ID not found | Already resolved or never registered | Check resolved list |
-| Concurrent updates | Multiple writers | Use file locking or atomic updates |
+| API unreachable (non-200) | AI Maestro not running | Start AI Maestro service, retry |
+| JSON parse error from API | Malformed response | Check AI Maestro logs for errors |
+| Request ID not found (404) | Already resolved or never registered | Query resolved requests endpoint |
+| Concurrent updates | Multiple concurrent PATCH requests | AI Maestro handles atomicity server-side |
 
 ## Notes
 

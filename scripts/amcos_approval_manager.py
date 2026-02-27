@@ -47,20 +47,24 @@ GOVERNANCE_API_PATH = "/api/v1/governance/requests"
 API_TIMEOUT = 10
 
 # Extended status values matching GovernanceRequest state machine
-VALID_STATUSES = frozenset({
-    "pending",
-    "local-approved",
-    "remote-approved",
-    "dual-approved",
-    "executed",
-    "rejected",
-})
+VALID_STATUSES = frozenset(
+    {
+        "pending",
+        "local-approved",
+        "remote-approved",
+        "dual-approved",
+        "executed",
+        "rejected",
+    }
+)
 
 # Terminal statuses — no further transitions possible
 TERMINAL_STATUSES = frozenset({"executed", "rejected"})
 
 # Statuses that count as "approved" for backward compatibility
-APPROVED_STATUSES = frozenset({"local-approved", "remote-approved", "dual-approved", "executed"})
+APPROVED_STATUSES = frozenset(
+    {"local-approved", "remote-approved", "dual-approved", "executed"}
+)
 
 
 # ---------------------------------------------------------------------------
@@ -77,14 +81,19 @@ class GovernanceAPI:
         self.available = True  # set to False on connection failure
 
     def _request(
-        self, method: str, path: str = "", body: Optional[dict[str, Any]] = None,
+        self,
+        method: str,
+        path: str = "",
+        body: Optional[dict[str, Any]] = None,
         query: Optional[dict[str, str]] = None,
     ) -> Optional[dict[str, Any]]:
         """Send an HTTP request to the governance API. Returns parsed JSON or None on failure."""
         url = self.base_url + path
         if query:
             # Build query string from dict
-            params = "&".join(f"{k}={urllib.parse.quote(v)}" for k, v in query.items() if v)
+            params = "&".join(
+                f"{k}={urllib.parse.quote(v)}" for k, v in query.items() if v
+            )
             if params:
                 url += "?" + params
 
@@ -112,12 +121,18 @@ class GovernanceAPI:
                 error_body = json.loads(exc.read().decode("utf-8"))
             except (json.JSONDecodeError, AttributeError):
                 error_body = {"error": exc.reason, "status": exc.code}
-            print(f"WARNING: API error {exc.code} on {method} {url}: {error_body}", file=sys.stderr)
+            print(
+                f"WARNING: API error {exc.code} on {method} {url}: {error_body}",
+                file=sys.stderr,
+            )
             return None
         except (urllib.error.URLError, OSError, json.JSONDecodeError) as exc:
             # API unreachable — degrade to YAML-only
             self.available = False
-            print(f"WARNING: API unreachable ({exc}). Falling back to local YAML.", file=sys.stderr)
+            print(
+                f"WARNING: API unreachable ({exc}). Falling back to local YAML.",
+                file=sys.stderr,
+            )
             return None
 
     def submit(self, request_data: dict[str, Any]) -> Optional[dict[str, Any]]:
@@ -128,12 +143,16 @@ class GovernanceAPI:
         """GET a GovernanceRequest by ID."""
         return self._request("GET", path=f"/{request_id}")
 
-    def update(self, request_id: str, updates: dict[str, Any]) -> Optional[dict[str, Any]]:
+    def update(
+        self, request_id: str, updates: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """PATCH a GovernanceRequest (e.g., to approve/reject)."""
         return self._request("PATCH", path=f"/{request_id}", body=updates)
 
     def list_requests(
-        self, status: Optional[str] = None, requester: Optional[str] = None,
+        self,
+        status: Optional[str] = None,
+        requester: Optional[str] = None,
     ) -> Optional[list[dict[str, Any]]]:
         """GET GovernanceRequests with optional filters."""
         query: dict[str, str] = {}
@@ -283,7 +302,7 @@ def yaml_to_dict(yaml_str: str) -> dict[str, Any]:
         if ":" in stripped:
             colon_idx = stripped.index(":")
             key = stripped[:colon_idx].strip()
-            value_part = stripped[colon_idx + 1:].strip()
+            value_part = stripped[colon_idx + 1 :].strip()
 
             if value_part == "":
                 list_key = key
@@ -338,7 +357,9 @@ def get_timestamp() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def save_yaml_mirror(request_id: str, data: dict[str, Any], pending: bool = True) -> Path:
+def save_yaml_mirror(
+    request_id: str, data: dict[str, Any], pending: bool = True
+) -> Path:
     """Save an approval request to local YAML file (audit trail)."""
     ensure_directories()
     root = get_project_root()
@@ -394,10 +415,15 @@ def list_local_yaml(directory: str) -> list[dict[str, Any]]:
 
 
 def send_amp_message(
-    to: str, subject: str, content: dict[str, Any], priority: str = "normal",
+    to: str,
+    subject: str,
+    content: dict[str, Any],
+    priority: str = "normal",
 ) -> bool:
     """Send a message via AMP CLI (amp-send)."""
-    msg_type = content.get("type", "request") if isinstance(content, dict) else "request"
+    msg_type = (
+        content.get("type", "request") if isinstance(content, dict) else "request"
+    )
     message = (
         content.get("message", json.dumps(content))
         if isinstance(content, dict)
@@ -406,7 +432,16 @@ def send_amp_message(
 
     try:
         result = subprocess.run(
-            ["amp-send", to, subject, message, "--priority", priority, "--type", str(msg_type)],
+            [
+                "amp-send",
+                to,
+                subject,
+                message,
+                "--priority",
+                priority,
+                "--type",
+                str(msg_type),
+            ],
             capture_output=True,
             text=True,
             timeout=30,
@@ -421,7 +456,9 @@ def send_amp_message(
 # ---------------------------------------------------------------------------
 
 
-def merge_api_and_yaml(api_data: Optional[dict[str, Any]], yaml_data: Optional[dict[str, Any]]) -> dict[str, Any]:
+def merge_api_and_yaml(
+    api_data: Optional[dict[str, Any]], yaml_data: Optional[dict[str, Any]]
+) -> dict[str, Any]:
     """Merge API and YAML data. API state takes priority for status/decision fields."""
     if api_data is None and yaml_data is None:
         return {}
@@ -439,7 +476,14 @@ def merge_api_and_yaml(api_data: Optional[dict[str, Any]], yaml_data: Optional[d
     # Both exist — API wins for authoritative fields, YAML fills in extras
     result = dict(yaml_data)
     # API overwrites these authoritative fields
-    for key in ("status", "decision", "decided_by", "decided_at", "decision_comment", "updated_at"):
+    for key in (
+        "status",
+        "decision",
+        "decided_by",
+        "decided_at",
+        "decision_comment",
+        "updated_at",
+    ):
         if key in api_data and api_data[key] is not None:
             result[key] = api_data[key]
     result["api_synced"] = True
@@ -470,7 +514,9 @@ def create_request(
     timestamp = get_timestamp()
 
     # Session name for COS identification
-    session_name = os.environ.get("AIMAESTRO_AGENT", os.environ.get("SESSION_NAME", requester))
+    session_name = os.environ.get(
+        "AIMAESTRO_AGENT", os.environ.get("SESSION_NAME", requester)
+    )
 
     # Build the GovernanceRequest payload (matches API contract)
     request_data: dict[str, Any] = {
@@ -562,7 +608,11 @@ def get_request(api: GovernanceAPI, request_id: str) -> dict[str, Any]:
     merged = merge_api_and_yaml(api_data, yaml_data)
 
     if not merged:
-        return {"success": False, "error": f"Request {request_id} not found", "status": "not_found"}
+        return {
+            "success": False,
+            "error": f"Request {request_id} not found",
+            "status": "not_found",
+        }
 
     # Update local YAML to reflect API state if needed
     if api_data is not None and yaml_data is not None:
@@ -618,35 +668,39 @@ def list_requests(api: GovernanceAPI, status_filter: str = "pending") -> dict[st
     merged: list[dict[str, Any]] = []
 
     for api_req in api_requests:
-        merged.append({
-            "request_id": api_req.get("request_id"),
-            "operation_type": api_req.get("operation_type", api_req.get("type")),
-            "agent_name": api_req.get("agent_name", ""),
-            "status": api_req.get("status"),
-            "requester": api_req.get("requester"),
-            "created_at": api_req.get("created_at"),
-            "decision": api_req.get("decision"),
-            "decided_at": api_req.get("decided_at"),
-            "api_synced": True,
-            "_source": "api",
-        })
+        merged.append(
+            {
+                "request_id": api_req.get("request_id"),
+                "operation_type": api_req.get("operation_type", api_req.get("type")),
+                "agent_name": api_req.get("agent_name", ""),
+                "status": api_req.get("status"),
+                "requester": api_req.get("requester"),
+                "created_at": api_req.get("created_at"),
+                "decision": api_req.get("decision"),
+                "decided_at": api_req.get("decided_at"),
+                "api_synced": True,
+                "_source": "api",
+            }
+        )
 
     # Add local-only requests (not in API)
     for local_req in local_requests:
         req_id = local_req.get("request_id")
         if req_id and req_id not in api_ids:
-            merged.append({
-                "request_id": req_id,
-                "operation_type": local_req.get("operation_type"),
-                "agent_name": local_req.get("agent_name"),
-                "status": local_req.get("status"),
-                "requester": local_req.get("requester"),
-                "created_at": local_req.get("created_at"),
-                "decision": local_req.get("decision"),
-                "decided_at": local_req.get("decided_at"),
-                "api_synced": local_req.get("api_synced", False),
-                "_source": "local-only",
-            })
+            merged.append(
+                {
+                    "request_id": req_id,
+                    "operation_type": local_req.get("operation_type"),
+                    "agent_name": local_req.get("agent_name"),
+                    "status": local_req.get("status"),
+                    "requester": local_req.get("requester"),
+                    "created_at": local_req.get("created_at"),
+                    "decision": local_req.get("decision"),
+                    "decided_at": local_req.get("decided_at"),
+                    "api_synced": local_req.get("api_synced", False),
+                    "_source": "local-only",
+                }
+            )
 
     # Sort by created_at (newest first)
     merged.sort(key=lambda x: x.get("created_at", ""), reverse=True)
@@ -680,7 +734,10 @@ def respond_to_request(
     elif decision in VALID_STATUSES:
         api_status = decision
     else:
-        return {"success": False, "error": f"Invalid decision: {decision}. Use 'approved' or 'rejected'."}
+        return {
+            "success": False,
+            "error": f"Invalid decision: {decision}. Use 'approved' or 'rejected'.",
+        }
 
     timestamp = get_timestamp()
     update_payload = {
@@ -706,7 +763,10 @@ def respond_to_request(
         if is_terminal:
             move_yaml_to_completed(request_id)
     elif not api_synced:
-        return {"success": False, "error": f"Request {request_id} not found (API unreachable, no local copy)"}
+        return {
+            "success": False,
+            "error": f"Request {request_id} not found (API unreachable, no local copy)",
+        }
 
     # Step 3: Notify requester via AMP
     requester = (yaml_data or {}).get("requester", "unknown")
@@ -744,7 +804,9 @@ def respond_to_request(
 
 
 def wait_for_decision(
-    api: GovernanceAPI, request_id: str, timeout_seconds: int = 120,
+    api: GovernanceAPI,
+    request_id: str,
+    timeout_seconds: int = 120,
 ) -> dict[str, Any]:
     """Poll for a GovernanceRequest decision. Checks API first, then local YAML."""
     start_time = time.time()
@@ -871,52 +933,99 @@ Examples:
 
     # Global flags
     parser.add_argument(
-        "--api-only", action="store_true",
+        "--api-only",
+        action="store_true",
         help="Skip local YAML entirely (pure API mode)",
     )
     parser.add_argument(
-        "--offline", action="store_true",
+        "--offline",
+        action="store_true",
         help="Skip API entirely (pure YAML mode, for testing)",
     )
     parser.add_argument(
-        "--api-url", type=str, default=None,
+        "--api-url",
+        type=str,
+        default=None,
         help=f"AI Maestro API base URL (default: $AIMAESTRO_API or {DEFAULT_API_BASE})",
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # create
-    create_parser = subparsers.add_parser("create", help="Submit a new GovernanceRequest")
-    create_parser.add_argument("--type", required=True, help="Operation type (spawn, deploy, terminate, etc.)")
+    create_parser = subparsers.add_parser(
+        "create", help="Submit a new GovernanceRequest"
+    )
+    create_parser.add_argument(
+        "--type", required=True, help="Operation type (spawn, deploy, terminate, etc.)"
+    )
     create_parser.add_argument("--agent", required=True, help="Agent or resource name")
-    create_parser.add_argument("--reason", required=True, help="Justification for the request")
-    create_parser.add_argument("--requester", default="amcos-chief-of-staff", help="Requesting agent")
-    create_parser.add_argument("--scope", default="local", choices=["local", "cross-team"], help="Operation scope")
-    create_parser.add_argument("--risk", default="low", choices=["low", "medium", "high", "critical"], help="Risk level")
-    create_parser.add_argument("--source-cos", default=None, help="Source COS session name")
-    create_parser.add_argument("--source-manager", default=None, help="Source manager session name")
-    create_parser.add_argument("--target-cos", default=None, help="Target COS (cross-team)")
-    create_parser.add_argument("--target-manager", default=None, help="Target manager (cross-team)")
+    create_parser.add_argument(
+        "--reason", required=True, help="Justification for the request"
+    )
+    create_parser.add_argument(
+        "--requester", default="amcos-chief-of-staff", help="Requesting agent"
+    )
+    create_parser.add_argument(
+        "--scope",
+        default="local",
+        choices=["local", "cross-team"],
+        help="Operation scope",
+    )
+    create_parser.add_argument(
+        "--risk",
+        default="low",
+        choices=["low", "medium", "high", "critical"],
+        help="Risk level",
+    )
+    create_parser.add_argument(
+        "--source-cos", default=None, help="Source COS session name"
+    )
+    create_parser.add_argument(
+        "--source-manager", default=None, help="Source manager session name"
+    )
+    create_parser.add_argument(
+        "--target-cos", default=None, help="Target COS (cross-team)"
+    )
+    create_parser.add_argument(
+        "--target-manager", default=None, help="Target manager (cross-team)"
+    )
 
     # status
-    status_parser = subparsers.add_parser("status", help="Check GovernanceRequest status")
+    status_parser = subparsers.add_parser(
+        "status", help="Check GovernanceRequest status"
+    )
     status_parser.add_argument("--id", required=True, help="Request ID")
 
     # list
     list_parser = subparsers.add_parser("list", help="List GovernanceRequests")
-    list_parser.add_argument("--status", default="pending", choices=["pending", "all"], help="Filter (default: pending)")
+    list_parser.add_argument(
+        "--status",
+        default="pending",
+        choices=["pending", "all"],
+        help="Filter (default: pending)",
+    )
 
     # respond
-    respond_parser = subparsers.add_parser("respond", help="Approve or reject a GovernanceRequest")
+    respond_parser = subparsers.add_parser(
+        "respond", help="Approve or reject a GovernanceRequest"
+    )
     respond_parser.add_argument("--id", required=True, help="Request ID")
-    respond_parser.add_argument("--decision", required=True, choices=["approved", "rejected"], help="Decision")
+    respond_parser.add_argument(
+        "--decision", required=True, choices=["approved", "rejected"], help="Decision"
+    )
     respond_parser.add_argument("--comment", required=True, help="Decision comment")
-    respond_parser.add_argument("--decided-by", default="user", help="Who decided (default: user)")
+    respond_parser.add_argument(
+        "--decided-by", default="user", help="Who decided (default: user)"
+    )
 
     # wait
-    wait_parser = subparsers.add_parser("wait", help="Wait for a decision on a GovernanceRequest")
+    wait_parser = subparsers.add_parser(
+        "wait", help="Wait for a decision on a GovernanceRequest"
+    )
     wait_parser.add_argument("--id", required=True, help="Request ID")
-    wait_parser.add_argument("--timeout", type=int, default=120, help="Timeout in seconds (default: 120)")
+    wait_parser.add_argument(
+        "--timeout", type=int, default=120, help="Timeout in seconds (default: 120)"
+    )
 
     # sync
     subparsers.add_parser("sync", help="Sync local-only requests to the API")
@@ -963,7 +1072,9 @@ Examples:
             decided_by=args.decided_by,
         )
     elif args.command == "wait":
-        result = wait_for_decision(api, request_id=args.id, timeout_seconds=args.timeout)
+        result = wait_for_decision(
+            api, request_id=args.id, timeout_seconds=args.timeout
+        )
     elif args.command == "sync":
         result = sync_local_to_api(api)
 

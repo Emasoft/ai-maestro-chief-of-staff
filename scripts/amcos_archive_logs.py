@@ -161,7 +161,10 @@ def archive_file(file_path: Path, archive_root: Path, verbose: bool = False) -> 
             counter += 1
 
     if verbose:
-        print(f"  {file_path.name} -> {dest.relative_to(archive_root.parent)}", file=sys.stderr)
+        print(
+            f"  {file_path.name} -> {dest.relative_to(archive_root.parent)}",
+            file=sys.stderr,
+        )
 
     # Move the file (shutil.move preserves metadata on same filesystem)
     shutil.move(str(file_path), str(dest))
@@ -237,7 +240,10 @@ def main() -> int:
 
     if args.verbose:
         print(f"Scanning: {logs_dir}", file=sys.stderr)
-        print(f"Cutoff: {cutoff.strftime('%Y-%m-%d %H:%M:%S UTC')} ({args.days} days ago)", file=sys.stderr)
+        print(
+            f"Cutoff: {cutoff.strftime('%Y-%m-%d %H:%M:%S UTC')} ({args.days} days ago)",
+            file=sys.stderr,
+        )
 
     # Find old files
     old_files = find_old_logs(logs_dir, cutoff)
@@ -269,21 +275,28 @@ def main() -> int:
         if args.dry_run:
             month_label = mtime.strftime("%Y-%m")
             if args.verbose:
-                print(f"  [DRY RUN] Would archive: {file_path.name} ({format_size(size)}) -> archive/{month_label}/", file=sys.stderr)
-            archived_files.append({
-                "name": file_path.name,
-                "size": format_size(size),
-                "modified": mtime.isoformat(),
-                "destination": f"archive/{month_label}/{file_path.name}",
-            })
+                print(
+                    f"  [DRY RUN] Would archive: {file_path.name} ({format_size(size)}) -> archive/{month_label}/",
+                    file=sys.stderr,
+                )
+            archived_files.append(
+                {
+                    "name": file_path.name,
+                    "size": format_size(size),
+                    "modified": mtime.isoformat(),
+                    "destination": f"archive/{month_label}/{file_path.name}",
+                }
+            )
         else:
             dest = archive_file(file_path, archive_root, verbose=args.verbose)
-            archived_files.append({
-                "name": file_path.name,
-                "size": format_size(size),
-                "modified": mtime.isoformat(),
-                "destination": str(dest),
-            })
+            archived_files.append(
+                {
+                    "name": file_path.name,
+                    "size": format_size(size),
+                    "modified": mtime.isoformat(),
+                    "destination": str(dest),
+                }
+            )
 
         total_size += size
         archived_count += 1

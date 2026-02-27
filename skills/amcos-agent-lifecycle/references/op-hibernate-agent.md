@@ -162,7 +162,7 @@ For agent `dev-frontend-bob`:
 | State capture failed | Storage full or permissions | Free space or fix permissions on ~/.ai-maestro/agent-states/ |
 | Hibernation command fails | tmux session issue | Check tmux status, try manual session suspend |
 | Agent not responding | Agent crashed or hung | Force hibernation, check logs for errors |
-| Registry update fails | Registry locked or corrupt | Retry, or manually edit team-registry.json |
+| Registry update fails | AI Maestro API error | Retry, or use `curl -s "$AIMAESTRO_API/api/teams"` to verify state |
 
 ## Related Operations
 

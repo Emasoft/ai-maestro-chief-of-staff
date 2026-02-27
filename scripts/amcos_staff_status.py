@@ -71,7 +71,9 @@ def parse_yaml_block(content: str, block_name: str) -> list[dict[str, Any]]:
 
     # Parse each item (indicated by ### or - with yaml-like structure)
     item_pattern = r"^### ([^\n]+)\n(.*?)(?=\n### |\Z)"
-    for item_match in re.finditer(item_pattern, block_content, re.MULTILINE | re.DOTALL):
+    for item_match in re.finditer(
+        item_pattern, block_content, re.MULTILINE | re.DOTALL
+    ):
         item_name = item_match.group(1).strip()
         item_body = item_match.group(2)
 
@@ -180,9 +182,7 @@ def main() -> int:
     Returns:
         Exit code: 0 for success, 1 for error
     """
-    parser = argparse.ArgumentParser(
-        description="Get status of all managed agents"
-    )
+    parser = argparse.ArgumentParser(description="Get status of all managed agents")
     parser.add_argument(
         "--project",
         "-p",

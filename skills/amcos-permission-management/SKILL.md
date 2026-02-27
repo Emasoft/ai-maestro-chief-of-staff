@@ -153,6 +153,18 @@ audit_trail:
 
 **Audit file location:** `docs_dev/audit/amcos-governance-{date}.yaml`
 
+### Quick Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify operation requiring approval and risk level
+- [ ] Submit GovernanceRequest via API (`POST /api/v1/governance/requests`)
+- [ ] Send AMP notification to manager
+- [ ] Wait for manager decision (poll API or use `amcos_approval_manager.py wait`)
+- [ ] On approval: execute the operation
+- [ ] On rejection: log reason and notify requester
+- [ ] Update local YAML audit trail
+
 ## Output
 
 Successful GovernanceRequest approval returns:

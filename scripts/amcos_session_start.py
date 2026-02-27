@@ -129,12 +129,14 @@ def parse_active_agents(content: str) -> list[dict[str, str]]:
                 if header_passed and "_No agents" not in line:
                     parts = [p.strip() for p in line.split("|")[1:-1]]
                     if len(parts) >= 4:
-                        agents.append({
-                            "name": parts[0],
-                            "role": parts[1],
-                            "status": parts[2],
-                            "heartbeat": parts[3]
-                        })
+                        agents.append(
+                            {
+                                "name": parts[0],
+                                "role": parts[1],
+                                "status": parts[2],
+                                "heartbeat": parts[3],
+                            }
+                        )
 
     return agents
 
@@ -197,7 +199,7 @@ def format_status_summary(
     agents: list[dict[str, str]],
     tasks: list[str],
     alerts: list[str],
-    session_count: int
+    session_count: int,
 ) -> str:
     """Format staff status into a system message summary.
 
@@ -221,7 +223,9 @@ def format_status_summary(
         lines.append("\nACTIVE AGENTS:")
         for agent in agents:
             status_icon = "+" if agent["status"].lower() == "active" else "?"
-            lines.append(f"  [{status_icon}] {agent['name']} ({agent['role']}) - {agent['status']}")
+            lines.append(
+                f"  [{status_icon}] {agent['name']} ({agent['role']}) - {agent['status']}"
+            )
     else:
         lines.append("\nNo active agents registered.")
 
@@ -262,14 +266,13 @@ def increment_session_count(content: str) -> str:
         old_count = int(match.group(1))
         new_count = old_count + 1
         content = content.replace(
-            f"**Session Count**: {old_count}",
-            f"**Session Count**: {new_count}"
+            f"**Session Count**: {old_count}", f"**Session Count**: {new_count}"
         )
     else:
         # Add session count if missing
         content = content.replace(
             "# Chief of Staff State\n",
-            "# Chief of Staff State\n\n**Session Count**: 1\n"
+            "# Chief of Staff State\n\n**Session Count**: 1\n",
         )
 
     return content
@@ -333,10 +336,9 @@ def main() -> int:
 
     # Update last updated timestamp
     import re
+
     content = re.sub(
-        r"\*\*Last Updated\*\*:\s*[^\n]+",
-        f"**Last Updated**: {timestamp}",
-        content
+        r"\*\*Last Updated\*\*:\s*[^\n]+", f"**Last Updated**: {timestamp}", content
     )
 
     # Save updated state

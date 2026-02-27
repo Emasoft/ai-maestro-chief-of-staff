@@ -38,10 +38,9 @@ version: 1.0.0
 
 ## Prerequisites
 
-- Team registry file exists at `.ai-maestro/team-registry.json`
-- `amcos_team_registry.py` script is available
-- Write permissions to registry file
-- AI Maestro is running (for broadcasting updates)
+- AI Maestro is running (registry managed via REST API)
+- `amcos_team_registry.py` script is available (wraps REST API)
+- Team exists in AI Maestro (verify with `curl -s "$AIMAESTRO_API/api/teams"`)
 
 ## Procedure
 
@@ -113,12 +112,14 @@ uv run python scripts/amcos_team_registry.py publish \
 
 This sends a `registry-update` message to all registered agents.
 
-### Step 5: Backup Registry (Recommended)
+### Step 5: Verify Registry State (Recommended)
 
-After significant changes:
+After significant changes, confirm via REST API:
 
 ```bash
-cp .ai-maestro/team-registry.json .ai-maestro/team-registry.backup.$(date +%Y%m%d%H%M%S).json
+# Uses AI Maestro REST API (not file-based)
+# Verify current team registry state
+curl -s "$AIMAESTRO_API/api/teams" | jq '.[] | {name: .name, members: (.members | length)}'
 ```
 
 ## Checklist

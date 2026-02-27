@@ -66,12 +66,14 @@ def _parse_frontmatter(content: str) -> dict[str, str]:
         if not line or line.startswith("#"):
             continue
         # Match key: value (with optional quotes around value)
-        kv_match = re.match(r'^([a-zA-Z_][a-zA-Z0-9_-]*)\s*:\s*(.*)$', line)
+        kv_match = re.match(r"^([a-zA-Z_][a-zA-Z0-9_-]*)\s*:\s*(.*)$", line)
         if kv_match:
             key = kv_match.group(1).strip()
             value = kv_match.group(2).strip()
             # Strip surrounding quotes if present
-            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+            if (value.startswith('"') and value.endswith('"')) or (
+                value.startswith("'") and value.endswith("'")
+            ):
                 value = value[1:-1]
             result[key] = value
 
@@ -210,7 +212,9 @@ def _print_text_table(results: list[DesignDocMeta]) -> None:
         dtype = (r.doc_type or "-")[:type_width]
         st = (r.status or "-")[:status_width]
         title = (r.title or "-")[:title_width]
-        print(f"{fn:<{fn_width}}  {dtype:<{type_width}}  {st:<{status_width}}  {title:<{title_width}}")
+        print(
+            f"{fn:<{fn_width}}  {dtype:<{type_width}}  {st:<{status_width}}  {title:<{title_width}}"
+        )
 
     print(f"\nFound {len(results)} document(s)")
 

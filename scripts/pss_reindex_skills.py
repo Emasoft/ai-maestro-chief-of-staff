@@ -41,10 +41,19 @@ DEFAULT_SKILLS_DIR = "skills"
 DEFAULT_OUTPUT_FILE = "skills-index.json"
 
 # Frontmatter fields we extract
-KNOWN_FRONTMATTER_FIELDS = frozenset({
-    "name", "description", "triggers", "categories", "keywords",
-    "context", "agent", "user-invocable", "version",
-})
+KNOWN_FRONTMATTER_FIELDS = frozenset(
+    {
+        "name",
+        "description",
+        "triggers",
+        "categories",
+        "keywords",
+        "context",
+        "agent",
+        "user-invocable",
+        "version",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
@@ -94,7 +103,9 @@ def extract_frontmatter(content: str) -> dict[str, Any]:
         if value.startswith("[") and value.endswith("]"):
             # Inline list: [item1, item2, item3]
             inner = value[1:-1]
-            inline_items = [item.strip().strip("'\"") for item in inner.split(",") if item.strip()]
+            inline_items = [
+                item.strip().strip("'\"") for item in inner.split(",") if item.strip()
+            ]
             result[key] = inline_items
             i += 1
         elif value:
@@ -181,7 +192,9 @@ def extract_from_content(content: str, skill_dir: Path) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
-def scan_skill_directory(skill_dir: Path, verbose: bool = False) -> dict[str, Any] | None:
+def scan_skill_directory(
+    skill_dir: Path, verbose: bool = False
+) -> dict[str, Any] | None:
     """Scan a single skill directory and extract its metadata.
 
     Args:
@@ -346,7 +359,10 @@ def main() -> int:
         skills_dir = Path.cwd() / DEFAULT_SKILLS_DIR
 
     if not skills_dir.exists():
-        result = {"success": False, "error": f"Skills directory not found: {skills_dir}"}
+        result = {
+            "success": False,
+            "error": f"Skills directory not found: {skills_dir}",
+        }
         print(json.dumps(result, indent=2))
         return 1
 
@@ -371,7 +387,9 @@ def main() -> int:
     if args.output:
         output_path = Path(args.output)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(json.dumps(index, indent=2, default=str) + "\n", encoding="utf-8")
+        output_path.write_text(
+            json.dumps(index, indent=2, default=str) + "\n", encoding="utf-8"
+        )
         if args.verbose:
             print(f"Wrote index to: {output_path}", file=sys.stderr)
         # Also print success summary to stdout

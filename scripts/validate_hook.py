@@ -161,15 +161,21 @@ class ValidationReport:
         """Add an info message."""
         self.add("INFO", message, file)
 
-    def minor(self, message: str, file: str | None = None, line: int | None = None) -> None:
+    def minor(
+        self, message: str, file: str | None = None, line: int | None = None
+    ) -> None:
         """Add a minor issue."""
         self.add("MINOR", message, file, line)
 
-    def major(self, message: str, file: str | None = None, line: int | None = None) -> None:
+    def major(
+        self, message: str, file: str | None = None, line: int | None = None
+    ) -> None:
         """Add a major issue."""
         self.add("MAJOR", message, file, line)
 
-    def critical(self, message: str, file: str | None = None, line: int | None = None) -> None:
+    def critical(
+        self, message: str, file: str | None = None, line: int | None = None
+    ) -> None:
         """Add a critical issue."""
         self.add("CRITICAL", message, file, line)
 
@@ -196,7 +202,9 @@ class ValidationReport:
         return 0
 
 
-def validate_json_structure(hook_path: Path, report: ValidationReport) -> dict[str, Any] | None:
+def validate_json_structure(
+    hook_path: Path, report: ValidationReport
+) -> dict[str, Any] | None:
     """Validate hooks.json exists and is valid JSON."""
     if not hook_path.exists():
         report.critical(f"Hook file not found: {hook_path}")
@@ -243,7 +251,9 @@ def validate_top_level_structure(data: Any, report: ValidationReport) -> bool:
 def validate_event_name(event_name: str, report: ValidationReport) -> bool:
     """Validate a hook event name."""
     if event_name not in VALID_HOOK_EVENTS:
-        report.critical(f"Unknown hook event: '{event_name}'. Valid events: {sorted(VALID_HOOK_EVENTS)}")
+        report.critical(
+            f"Unknown hook event: '{event_name}'. Valid events: {sorted(VALID_HOOK_EVENTS)}"
+        )
         return False
     return True
 
@@ -253,7 +263,9 @@ def validate_matcher(matcher: Any, event_name: str, report: ValidationReport) ->
     # Events without matchers - warn if matcher provided
     if event_name in EVENTS_WITHOUT_MATCHERS:
         if matcher is not None and matcher != "":
-            report.info(f"Matcher '{matcher}' provided for {event_name} (matchers are ignored for this event)")
+            report.info(
+                f"Matcher '{matcher}' provided for {event_name} (matchers are ignored for this event)"
+            )
         return True
 
     # Matcher is optional - empty or missing means "match all"
@@ -280,7 +292,9 @@ def validate_matcher(matcher: Any, event_name: str, report: ValidationReport) ->
             if part and part not in COMMON_TOOL_NAMES and not part.startswith("mcp__"):
                 # Could be a regex pattern or custom tool
                 if re.match(r"^[A-Z][a-zA-Z]+$", part):
-                    report.info(f"Matcher '{part}' is not a common tool name (may be custom or MCP tool)")
+                    report.info(
+                        f"Matcher '{part}' is not a common tool name (may be custom or MCP tool)"
+                    )
 
     return True
 
@@ -335,7 +349,9 @@ def lint_bash_script(script_path: Path, report: ValidationReport) -> None:
     """Lint a bash script using shellcheck."""
     shellcheck_cmd = resolve_tool_command("shellcheck")
     if not shellcheck_cmd:
-        report.minor(f"shellcheck not available locally or via bunx/npx, skipping lint for {script_path.name}")
+        report.minor(
+            f"shellcheck not available locally or via bunx/npx, skipping lint for {script_path.name}"
+        )
         return
 
     try:
@@ -418,14 +434,17 @@ def lint_python_script(script_path: Path, report: ValidationReport) -> None:
         except Exception as e:
             report.minor(f"ruff error: {e}")
     else:
-        report.minor(f"ruff not available locally or via uvx, skipping lint for {script_path.name}")
+        report.minor(
+            f"ruff not available locally or via uvx, skipping lint for {script_path.name}"
+        )
 
     # Mypy check
     mypy_cmd = resolve_tool_command("mypy")
     if mypy_cmd:
         try:
             result = subprocess.run(
-                mypy_cmd + [
+                mypy_cmd
+                + [
                     "--ignore-missing-imports",
                     "--no-error-summary",
                     str(script_path),
@@ -457,14 +476,18 @@ def lint_python_script(script_path: Path, report: ValidationReport) -> None:
         except Exception as e:
             report.minor(f"mypy error: {e}")
     else:
-        report.minor(f"mypy not available locally or via uvx, skipping type check for {script_path.name}")
+        report.minor(
+            f"mypy not available locally or via uvx, skipping type check for {script_path.name}"
+        )
 
 
 def lint_js_script(script_path: Path, report: ValidationReport) -> None:
     """Lint a JavaScript/TypeScript script using eslint."""
     eslint_cmd = resolve_tool_command("eslint")
     if not eslint_cmd:
-        report.minor(f"eslint not available locally or via bunx/npx, skipping lint for {script_path.name}")
+        report.minor(
+            f"eslint not available locally or via bunx/npx, skipping lint for {script_path.name}"
+        )
         return
 
     try:
@@ -564,12 +587,16 @@ def validate_command_hook(
         elif timeout <= 0:
             report.major("'timeout' must be positive")
         elif timeout > 300000:  # 5 minutes in milliseconds
-            report.minor(f"Long timeout ({timeout}ms / {timeout / 1000:.0f}s) may cause delays")
+            report.minor(
+                f"Long timeout ({timeout}ms / {timeout / 1000:.0f}s) may cause delays"
+            )
 
     # Check for environment variable usage
     if "CLAUDE_ENV_FILE" in command:
         if event_name not in {"SessionStart", "Setup"}:
-            report.major("CLAUDE_ENV_FILE is only available in SessionStart and Setup hooks")
+            report.major(
+                "CLAUDE_ENV_FILE is only available in SessionStart and Setup hooks"
+            )
 
     # Extract and validate script path
     script_path = extract_script_path(command, plugin_root)
@@ -611,11 +638,15 @@ def validate_prompt_hook(
         "PreToolUse",
         "PermissionRequest",
     }:
-        report.info(f"Prompt hooks for {event_name} may not be as effective as command hooks")
+        report.info(
+            f"Prompt hooks for {event_name} may not be as effective as command hooks"
+        )
 
     # Check for $ARGUMENTS placeholder
     if "$ARGUMENTS" not in prompt:
-        report.info("Prompt doesn't contain $ARGUMENTS placeholder (input JSON will be appended automatically)")
+        report.info(
+            "Prompt doesn't contain $ARGUMENTS placeholder (input JSON will be appended automatically)"
+        )
 
     report.passed(f"Prompt: {prompt[:60]}...")
 
@@ -648,7 +679,9 @@ def validate_single_hook(
 
     hook_type = hook["type"]
     if hook_type not in VALID_HOOK_TYPES:
-        report.critical(f"Invalid hook type: '{hook_type}'. Valid types: {sorted(VALID_HOOK_TYPES)}")
+        report.critical(
+            f"Invalid hook type: '{hook_type}'. Valid types: {sorted(VALID_HOOK_TYPES)}"
+        )
         return False
 
     # Validate based on type
@@ -678,7 +711,9 @@ def validate_matcher_block(
 ) -> bool:
     """Validate a matcher block (contains matcher and hooks array)."""
     if not isinstance(matcher_block, dict):
-        report.critical(f"Matcher block must be an object, got {type(matcher_block).__name__}")
+        report.critical(
+            f"Matcher block must be an object, got {type(matcher_block).__name__}"
+        )
         return False
 
     # Validate matcher (optional)
@@ -718,7 +753,9 @@ def validate_event_hooks(
 ) -> bool:
     """Validate all hooks for a specific event."""
     if not isinstance(event_config, list):
-        report.critical(f"Event config for '{event_name}' must be an array, got {type(event_config).__name__}")
+        report.critical(
+            f"Event config for '{event_name}' must be an array, got {type(event_config).__name__}"
+        )
         return False
 
     if not event_config:
@@ -866,7 +903,9 @@ def print_json(report: ValidationReport) -> None:
 
 def main() -> int:
     """Main entry point."""
-    parser = argparse.ArgumentParser(description="Validate a Claude Code hooks.json file")
+    parser = argparse.ArgumentParser(
+        description="Validate a Claude Code hooks.json file"
+    )
     parser.add_argument("hook_path", help="Path to the hooks.json file")
     parser.add_argument(
         "--plugin-root",

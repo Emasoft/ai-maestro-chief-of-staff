@@ -106,7 +106,9 @@ def get_memory_usage() -> dict:
             "total_gb": round(total_gb, 2),
             "available_gb": round(free_gb, 2),
             "used_percent": round(used_percent, 1),
-            "status": "ok" if free_gb >= THRESHOLDS["min_memory_available_gb"] else "low",
+            "status": "ok"
+            if free_gb >= THRESHOLDS["min_memory_available_gb"]
+            else "low",
         }
     except Exception as e:
         return {"available_gb": 0.0, "status": "error", "error": str(e)}
@@ -139,7 +141,9 @@ def get_disk_usage() -> dict:
                 return {
                     "available_gb": round(available_gb, 2),
                     "used_percent": round(used_percent, 1),
-                    "status": "ok" if available_gb >= THRESHOLDS["min_disk_available_gb"] else "low",
+                    "status": "ok"
+                    if available_gb >= THRESHOLDS["min_disk_available_gb"]
+                    else "low",
                 }
 
         return {

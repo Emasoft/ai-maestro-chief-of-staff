@@ -36,12 +36,14 @@ from typing import Any
 DEFAULT_API_BASE = "http://localhost:23000"
 
 # All roles that should be filled in a complete team
-ALL_ROLES = frozenset({
-    "architect",
-    "orchestrator",
-    "integrator",
-    "programmer",
-})
+ALL_ROLES = frozenset(
+    {
+        "architect",
+        "orchestrator",
+        "integrator",
+        "programmer",
+    }
+)
 
 DEFAULT_FORMAT = "md"
 VALID_FORMATS = ("text", "json", "md")
@@ -72,7 +74,9 @@ def fetch_teams_from_api(api_base: str) -> list[dict[str, Any]]:
         with urllib.request.urlopen(req, timeout=10) as resp:
             raw = resp.read().decode("utf-8")
     except urllib.error.URLError as exc:
-        print(f"ERROR: Cannot connect to AI Maestro API at {url}: {exc}", file=sys.stderr)
+        print(
+            f"ERROR: Cannot connect to AI Maestro API at {url}: {exc}", file=sys.stderr
+        )
         sys.exit(1)
 
     try:
@@ -133,14 +137,16 @@ def aggregate_registries(
             all_filled_roles.add(role)
             team_agent_names.append(agent_name)
 
-            all_agents.append({
-                "name": agent_name,
-                "role": role,
-                "team": team_name,
-                "status": status,
-                "plugin": agent.get("plugin", ""),
-                "host": agent.get("host", ""),
-            })
+            all_agents.append(
+                {
+                    "name": agent_name,
+                    "role": role,
+                    "team": team_name,
+                    "status": status,
+                    "plugin": agent.get("plugin", ""),
+                    "host": agent.get("host", ""),
+                }
+            )
 
             # Track agent -> teams mapping
             if agent_name not in agent_assignments:
@@ -151,15 +157,17 @@ def aggregate_registries(
         # Use the API-provided team id or name as the identifier
         team_id = data.get("id", data.get("team_id", team_name))
 
-        team_summaries.append({
-            "team_name": team_name,
-            "team_id": str(team_id),
-            "project": project,
-            "agent_count": len(agents),
-            "agents": team_agent_names,
-            "roles_filled": sorted(team_roles),
-            "roles_missing": missing_roles,
-        })
+        team_summaries.append(
+            {
+                "team_name": team_name,
+                "team_id": str(team_id),
+                "project": project,
+                "agent_count": len(agents),
+                "agents": team_agent_names,
+                "roles_filled": sorted(team_roles),
+                "roles_missing": missing_roles,
+            }
+        )
 
     unassigned_roles_global = sorted(ALL_ROLES - all_filled_roles)
 
@@ -193,7 +201,9 @@ def format_markdown(report: dict[str, Any]) -> str:
     lines: list[str] = []
     lines.append("# Team Assignments Report")
     lines.append("")
-    lines.append(f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}")
+    lines.append(
+        f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
+    )
     lines.append("")
 
     # Summary
@@ -202,7 +212,9 @@ def format_markdown(report: dict[str, Any]) -> str:
     lines.append(f"- **Total teams**: {report['total_teams']}")
     lines.append(f"- **Total agents**: {report['total_agents']}")
     if report["unassigned_roles_global"]:
-        lines.append(f"- **Globally unassigned roles**: {', '.join(report['unassigned_roles_global'])}")
+        lines.append(
+            f"- **Globally unassigned roles**: {', '.join(report['unassigned_roles_global'])}"
+        )
     else:
         lines.append("- **All roles assigned** across at least one team")
     lines.append("")
@@ -218,10 +230,14 @@ def format_markdown(report: dict[str, Any]) -> str:
             lines.append(f"- **Project**: {team['project']}")
         lines.append(f"- **Team ID**: `{team['team_id']}`")
         lines.append(f"- **Agent count**: {team['agent_count']}")
-        lines.append(f"- **Roles filled**: {', '.join(team['roles_filled']) if team['roles_filled'] else 'none'}")
+        lines.append(
+            f"- **Roles filled**: {', '.join(team['roles_filled']) if team['roles_filled'] else 'none'}"
+        )
         if team["roles_missing"]:
             lines.append(f"- **Roles missing**: {', '.join(team['roles_missing'])}")
-        lines.append(f"- **Agents**: {', '.join(team['agents']) if team['agents'] else 'none'}")
+        lines.append(
+            f"- **Agents**: {', '.join(team['agents']) if team['agents'] else 'none'}"
+        )
         lines.append("")
 
     # Agent assignment matrix
@@ -231,14 +247,20 @@ def format_markdown(report: dict[str, Any]) -> str:
     if report["agents"]:
         lines.append("| Agent | Role | Team | Status |")
         lines.append("|-------|------|------|--------|")
-        for agent in sorted(report["agents"], key=lambda a: (a["team"], a["role"], a["name"])):
+        for agent in sorted(
+            report["agents"], key=lambda a: (a["team"], a["role"], a["name"])
+        ):
             lines.append(
                 f"| {agent['name']} | {agent['role']} | {agent['team']} | {agent['status']} |"
             )
         lines.append("")
 
         # Multi-team agents
-        multi_team = {name: teams for name, teams in report["agent_assignments"].items() if len(teams) > 1}
+        multi_team = {
+            name: teams
+            for name, teams in report["agent_assignments"].items()
+            if len(teams) > 1
+        }
         if multi_team:
             lines.append("### Multi-Team Agents")
             lines.append("")
@@ -257,7 +279,9 @@ def format_markdown(report: dict[str, Any]) -> str:
     for team in report["teams"]:
         if team["roles_missing"]:
             any_missing = True
-            lines.append(f"- **{team['team_name']}**: {', '.join(team['roles_missing'])}")
+            lines.append(
+                f"- **{team['team_name']}**: {', '.join(team['roles_missing'])}"
+            )
 
     if not any_missing:
         lines.append("All roles are filled in all teams.")
@@ -272,7 +296,9 @@ def format_text(report: dict[str, Any]) -> str:
     lines.append("TEAM ASSIGNMENTS REPORT")
     lines.append("=" * 60)
     lines.append("")
-    lines.append(f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}")
+    lines.append(
+        f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
+    )
     lines.append(f"Total teams: {report['total_teams']}")
     lines.append(f"Total agents: {report['total_agents']}")
     lines.append("")
@@ -290,7 +316,9 @@ def format_text(report: dict[str, Any]) -> str:
         lines.append("")
 
     if report["unassigned_roles_global"]:
-        lines.append(f"GLOBALLY UNASSIGNED ROLES: {', '.join(report['unassigned_roles_global'])}")
+        lines.append(
+            f"GLOBALLY UNASSIGNED ROLES: {', '.join(report['unassigned_roles_global'])}"
+        )
     else:
         lines.append("All roles assigned across at least one team.")
     lines.append("")
