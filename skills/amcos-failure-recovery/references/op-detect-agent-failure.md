@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: detect-agent-failure
-parent-skill: ecos-failure-recovery
+parent-skill: amcos-failure-recovery
 ---
 
 # Operation: Detect Agent Failure

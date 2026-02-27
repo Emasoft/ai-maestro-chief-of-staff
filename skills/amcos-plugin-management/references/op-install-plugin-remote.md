@@ -2,8 +2,8 @@
 operation: install-plugin-remote
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-plugin-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-plugin-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -52,7 +52,7 @@ Use the `ai-maestro-agents-management` skill to list available agents and check 
 
 ### Step 2: Add Marketplace to Remote Agent (If Needed)
 
-Use the `ai-maestro-agents-management` skill to add a marketplace to the target agent (e.g., `github:Emasoft/emasoft-plugins`).
+Use the `ai-maestro-agents-management` skill to add a marketplace to the target agent (e.g., `github:Emasoft/ai-maestro-plugins`).
 
 **Note**: This auto-restarts the agent.
 

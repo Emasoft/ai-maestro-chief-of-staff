@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: check-system-resources
-parent-skill: ecos-resource-monitoring
+parent-skill: amcos-resource-monitoring
 ---
 
 # Operation: Check System Resources

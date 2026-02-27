@@ -1,6 +1,6 @@
 # Approval Workflow Engine
 
-Complete reference for the ECOS approval workflow system, covering request submission, decision processing, timeout handling, and escalation procedures.
+Complete reference for the AMCOS approval workflow system, covering request submission, decision processing, timeout handling, and escalation procedures.
 
 ## Contents (Use-Case-Oriented)
 
@@ -38,7 +38,7 @@ Complete reference for the ECOS approval workflow system, covering request submi
   - [7.4 Updating status and logging decision](#74-updating-status-and-logging-decision)
 - [8. Executing approved operations](#8-executing-approved-operations)
   - [8.1 Transitioning status to executing](#81-transitioning-status-to-executing)
-  - [8.2 Delegating execution to appropriate ECOS agent](#82-delegating-execution-to-appropriate-ecos-agent)
+  - [8.2 Delegating execution to appropriate AMCOS agent](#82-delegating-execution-to-appropriate-amcos-agent)
   - [8.3 Monitoring execution progress](#83-monitoring-execution-progress)
   - [8.4 Handling execution success](#84-handling-execution-success)
   - [8.5 Handling execution failure](#85-handling-execution-failure)
@@ -247,7 +247,7 @@ pending --> approved --> executing --> completed
     {
       "request_id": "AR-1706795200-abc123",
       "type": "agent_spawn",
-      "requester": "ecos-lifecycle-manager",
+      "requester": "amcos-lifecycle-manager",
       "submitted_at": "2026-02-01T12:00:00Z",
       "timeout_at": "2026-02-01T12:02:00Z",
       "last_reminder_at": null,
@@ -312,7 +312,7 @@ Manager sees the `content.message` field. Format it clearly:
 ```
 Request to spawn agent worker-dev-auth-001 for auth module development.
 
-Requester: ecos-lifecycle-manager
+Requester: amcos-lifecycle-manager
 Risk: low
 Scope: local
 Affected agents: none
@@ -500,16 +500,16 @@ After approval received:
 jq --arg rid "AR-xxx" '.pending |= map(if .request_id == $rid then . + {status: "executing"} else . end)' pending-approvals.json
 ```
 
-### 8.2 Delegating execution to appropriate ECOS agent
+### 8.2 Delegating execution to appropriate AMCOS agent
 
 Based on operation type, delegate to the right agent:
 
 | Operation Type | Delegate To |
 |----------------|-------------|
-| `agent_spawn` | ecos-lifecycle-manager |
-| `agent_terminate` | ecos-lifecycle-manager |
-| `agent_replace` | ecos-lifecycle-manager |
-| `plugin_install` | ecos-lifecycle-manager |
+| `agent_spawn` | amcos-lifecycle-manager |
+| `agent_terminate` | amcos-lifecycle-manager |
+| `agent_replace` | amcos-lifecycle-manager |
+| `plugin_install` | amcos-lifecycle-manager |
 | `critical_operation` | Agent specified in request |
 
 Send execution command via AI Maestro message.
@@ -774,7 +774,7 @@ Set `enabled: false` and log revocation:
 **Example complete audit trail for a successful approval**:
 
 ```
-[2026-02-01T12:00:00Z] [AR-1706795200-abc123] [SUBMIT] type=agent_spawn requester=ecos-lifecycle-manager operation="Create worker-dev-001"
+[2026-02-01T12:00:00Z] [AR-1706795200-abc123] [SUBMIT] type=agent_spawn requester=amcos-lifecycle-manager operation="Create worker-dev-001"
 [2026-02-01T12:00:30Z] [AR-1706795200-abc123] [REMIND] count=1 elapsed=30s remaining=90s
 [2026-02-01T12:00:45Z] [AR-1706795200-abc123] [DECIDE] decision=approved by=manager reason="Team needs additional developer"
 [2026-02-01T12:00:46Z] [AR-1706795200-abc123] [EXEC_START] operation="Create worker-dev-001"
@@ -784,7 +784,7 @@ Set `enabled: false` and log revocation:
 **Example with rollback**:
 
 ```
-[2026-02-01T13:00:00Z] [AR-1706795200-xyz789] [SUBMIT] type=agent_spawn requester=ecos-lifecycle-manager operation="Create worker-dev-002"
+[2026-02-01T13:00:00Z] [AR-1706795200-xyz789] [SUBMIT] type=agent_spawn requester=amcos-lifecycle-manager operation="Create worker-dev-002"
 [2026-02-01T13:00:08Z] [AR-1706795200-xyz789] [DECIDE] decision=approved by=manager reason="Additional developer"
 [2026-02-01T13:00:09Z] [AR-1706795200-xyz789] [EXEC_START] operation="Create worker-dev-002"
 [2026-02-01T13:00:10Z] [AR-1706795200-xyz789] [EXEC_DONE] result=failure duration=2000ms error="Directory already exists"
@@ -818,7 +818,7 @@ Set `enabled: false` and log revocation:
    ```
 3. Log error (optional):
    ```
-   [2026-02-01T12:00:00Z] [ERROR] Invalid request from ecos-lifecycle-manager: missing rollback_plan
+   [2026-02-01T12:00:00Z] [ERROR] Invalid request from amcos-lifecycle-manager: missing rollback_plan
    ```
 
 ### 12.2 Missing rollback plan errors
@@ -880,4 +880,4 @@ This approval workflow engine provides:
 ✅ **Audit trail** - Complete log of all approval activities
 ✅ **Error handling** - Validation, retry logic, duplicate detection
 
-All ECOS agents requesting approvals MUST follow these procedures exactly.
+All AMCOS agents requesting approvals MUST follow these procedures exactly.

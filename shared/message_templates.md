@@ -21,8 +21,8 @@ Sent to newly spawned agents to establish their role and task.
     "type": "onboarding",
     "message": "You have been assigned as {role} for {project}. Please acknowledge receipt and begin work.",
     "session_name": "{agent-session-name}",
-    "coordinator": "{ecos-session-name}",
-    "handoff_document": "docs_dev/handoffs/handoff-{uuid}-ecos-to-{role}.md",
+    "coordinator": "{amcos-session-name}",
+    "handoff_document": "docs_dev/handoffs/handoff-{uuid}-amcos-to-{role}.md",
     "github_issue": "#{issue_number}",
     "constraints": {
       "max_duration_minutes": 60,
@@ -177,7 +177,7 @@ Request for detailed performance metrics from an agent.
   "content": {
     "type": "task_assignment",
     "message": "{detailed_instructions}",
-    "handoff_file": "docs_dev/handoffs/handoff-{uuid}-ecos-to-{role}.md",
+    "handoff_file": "docs_dev/handoffs/handoff-{uuid}-amcos-to-{role}.md",
     "github_issue": "#{issue_number}",
     "deadline": "{ISO-8601 timestamp or null}"
   }
@@ -207,7 +207,7 @@ Request for detailed performance metrics from an agent.
 
 ```json
 {
-  "to": "ecos-session",
+  "to": "amcos-session",
   "subject": "[UPDATE] {task_name} - {status}",
   "priority": "normal",
   "content": {
@@ -228,7 +228,7 @@ Request for detailed performance metrics from an agent.
 
 ```json
 {
-  "to": "ecos-session",
+  "to": "amcos-session",
   "subject": "[COMPLETE] {task_name}",
   "priority": "high",
   "content": {
@@ -248,7 +248,7 @@ Request for detailed performance metrics from an agent.
 
 ```json
 {
-  "to": "ecos-session",
+  "to": "amcos-session",
   "subject": "[APPROVAL] {approval_type} for {item}",
   "priority": "high",
   "content": {
@@ -287,7 +287,7 @@ Request for detailed performance metrics from an agent.
 
 ```json
 {
-  "to": "ecos-session",
+  "to": "amcos-session",
   "subject": "[QUESTION] {brief_topic}",
   "priority": "normal",
   "content": {
@@ -306,7 +306,7 @@ Request for detailed performance metrics from an agent.
 
 ```json
 {
-  "to": "ecos-session",
+  "to": "amcos-session",
   "subject": "[ERROR] {error_type} in {component}",
   "priority": "urgent",
   "content": {
@@ -326,13 +326,13 @@ Request for detailed performance metrics from an agent.
 
 | Role | Prefix | Session Name Pattern |
 |------|--------|---------------------|
-| Chief of Staff | `ecos-` | `ecos-{project}-session` |
+| Chief of Staff | `amcos-` | `amcos-{project}-session` |
 | Architect | `eaa-` | `eaa-{project}-session` |
 | Orchestrator | `eoa-` | `eoa-{project}-session` |
 | Integrator | `eia-` | `eia-{project}-session` |
 
 **Prefix Legend:**
-- `e` = Emasoft (author identifier)
+- `am` = AI Maestro (author identifier)
 - `cos` = Chief of Staff
 - `aa` = Architect Agent
 - `oa` = Orchestrator Agent

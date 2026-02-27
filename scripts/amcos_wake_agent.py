@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ecos_wake_agent.py - Wake a hibernated AI Maestro agent session.
+amcos_wake_agent.py - Wake a hibernated AI Maestro agent session.
 
 Waking restores a hibernated agent to active state, loading preserved
 context, memory, and pending tasks.
 
 Usage:
-    python ecos_wake_agent.py SESSION_NAME
+    python amcos_wake_agent.py SESSION_NAME
 
 Example:
-    python ecos_wake_agent.py dev-session-01
+    python amcos_wake_agent.py dev-session-01
 """
 
 import argparse
@@ -27,7 +27,7 @@ def parse_args() -> argparse.Namespace:
         epilog="""
 Examples:
     # Wake a hibernated agent
-    python ecos_wake_agent.py my-agent-session
+    python amcos_wake_agent.py my-agent-session
 
 Notes:
     Waking restores:

@@ -1,5 +1,5 @@
 ---
-name: ecos-resource-monitoring
+name: amcos-resource-monitoring
 description: Use when monitoring system resources, tracking instance limits, managing resource alerts, and ensuring team capacity is maintained. Trigger with resource checks or limit alerts.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# Emasoft Chief of Staff Resource Monitoring Skill
+# AI Maestro Chief of Staff Resource Monitoring Skill
 
 ## Overview
 
@@ -257,5 +257,5 @@ Detailed step-by-step runbook for responding to resource threshold violations wi
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** Emasoft Chief of Staff Agent
+**Target Audience:** AI Maestro Chief of Staff Agent
 **Difficulty Level:** Intermediate

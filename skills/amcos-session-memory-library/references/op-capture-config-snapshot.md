@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: capture-config-snapshot
-parent-skill: ecos-session-memory-library
+parent-skill: amcos-session-memory-library
 ---
 
 # Operation: Capture Config Snapshot at Session Start

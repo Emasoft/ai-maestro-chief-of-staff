@@ -1,5 +1,5 @@
 ---
-name: ecos-broadcast-notification
+name: amcos-broadcast-notification
 description: "Send notification to multiple agents simultaneously with filtering by role or project"
 argument-hint: "--agents <names> | --role <role> | --project <project> --subject <text> --message <text> [--priority normal|high|urgent]"
 allowed-tools: ["Bash", "Task"]
@@ -59,14 +59,14 @@ This command uses the `agent-messaging` skill to broadcast notifications. It fir
 ### By Agent Names
 
 ```bash
-/ecos-broadcast-notification --agents helper-python,frontend-ui,data-processor \
+/amcos-broadcast-notification --agents helper-python,frontend-ui,data-processor \
   --subject "Team Meeting" --message "Standup in 5 minutes"
 ```
 
 ### By Role
 
 ```bash
-/ecos-broadcast-notification --role helper \
+/amcos-broadcast-notification --role helper \
   --subject "Helper Agents" --message "New task assignment protocol active"
 ```
 
@@ -75,7 +75,7 @@ The command uses the `ai-maestro-agents-management` skill to query agents matchi
 ### By Project
 
 ```bash
-/ecos-broadcast-notification --project skill-factory \
+/amcos-broadcast-notification --project skill-factory \
   --subject "Project Update" --message "New milestone requirements posted"
 ```
 
@@ -85,21 +85,21 @@ The command uses the `ai-maestro-agents-management` skill to query agents matchi
 
 ```bash
 # Normal priority broadcast to specific agents
-/ecos-broadcast-notification --agents helper-python,frontend-ui \
+/amcos-broadcast-notification --agents helper-python,frontend-ui \
   --subject "Daily Standup" --message "Please report your status"
 
 # High priority broadcast by role
-/ecos-broadcast-notification --role specialist \
+/amcos-broadcast-notification --role specialist \
   --subject "Code Review Needed" --message "PR #42 requires review by EOD" \
   --priority high
 
 # Urgent broadcast to project team
-/ecos-broadcast-notification --project production-api \
+/amcos-broadcast-notification --project production-api \
   --subject "URGENT: Production Issue" --message "API latency spike detected. Investigate immediately." \
   --priority urgent
 
 # System-wide announcement
-/ecos-broadcast-notification --role "*" \
+/amcos-broadcast-notification --role "*" \
   --subject "System Maintenance" --message "Scheduled maintenance tonight 22:00-23:00 UTC" \
   --priority high
 ```
@@ -205,12 +205,12 @@ The command tracks delivery status but does not wait for acknowledgments. For ac
 
 ```bash
 # Use notify-agents with --require-ack for ack-required broadcasts
-/ecos-notify-agents --all --operation custom --message "Message" --require-ack
+/amcos-notify-agents --all --operation custom --message "Message" --require-ack
 ```
 
 ## Related Commands
 
-- `/ecos-notify-agents` - Notify with optional acknowledgment
-- `/ecos-wait-for-agent-ok` - Wait for specific agent acknowledgment
-- `/ecos-install-skill-notify` - Skill installation with notifications
-- `/ecos-staff-status` - View all agents and their status
+- `/amcos-notify-agents` - Notify with optional acknowledgment
+- `/amcos-wait-for-agent-ok` - Wait for specific agent acknowledgment
+- `/amcos-install-skill-notify` - Skill installation with notifications
+- `/amcos-staff-status` - View all agents and their status

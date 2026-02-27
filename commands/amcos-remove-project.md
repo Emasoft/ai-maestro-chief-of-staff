@@ -1,8 +1,8 @@
 ---
-name: ecos-remove-project
+name: amcos-remove-project
 description: "Remove a project from Chief of Staff management"
 argument-hint: "<PROJECT_ID> [--force]"
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_remove_project.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_remove_project.py:*)"]
 user-invocable: true
 ---
 
@@ -13,7 +13,7 @@ Unregister a project from Chief of Staff management. This removes the project fr
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_remove_project.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_remove_project.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -54,7 +54,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_remove_project.py" $ARGUMENTS
 ### Remove Unassigned Project
 
 ```bash
-/ecos-remove-project oldproject
+/amcos-remove-project oldproject
 ```
 
 Output:
@@ -69,7 +69,7 @@ Project is no longer managed by Chief of Staff.
 ### Attempt to Remove With Assigned Agents
 
 ```bash
-/ecos-remove-project svgbbox
+/amcos-remove-project svgbbox
 ```
 
 Output:
@@ -89,7 +89,7 @@ Options:
 ### Force Remove With Agents
 
 ```bash
-/ecos-remove-project svgbbox --force
+/amcos-remove-project svgbbox --force
 ```
 
 Output:
@@ -140,9 +140,9 @@ When `--force` is used, agents receive this AI Maestro message:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Project not found" | Invalid project ID | Check ID with `/ecos-list-projects` |
+| "Project not found" | Invalid project ID | Check ID with `/amcos-list-projects` |
 | "Agents still assigned" | Active agent assignments | Reassign agents or use `--force` |
-| "State file not found" | Missing state file | Initialize with `/ecos-init` |
+| "State file not found" | Missing state file | Initialize with `/amcos-init` |
 | "State file locked" | Another operation in progress | Wait and retry |
 | "AI Maestro unreachable" | Cannot send notifications | Check AI Maestro service |
 
@@ -165,7 +165,7 @@ Before:
 - **added**: 2026-01-10T14:30:00Z
 ```
 
-After `/ecos-remove-project svgbbox`:
+After `/amcos-remove-project svgbbox`:
 ```markdown
 ## Managed Projects
 
@@ -177,6 +177,6 @@ After `/ecos-remove-project svgbbox`:
 
 ## Related Commands
 
-- `/ecos-list-projects` - View all managed projects
-- `/ecos-add-project` - Add a new project to management
-- `/ecos-assign-project` - Assign an agent to a project
+- `/amcos-list-projects` - View all managed projects
+- `/amcos-add-project` - Add a new project to management
+- `/amcos-assign-project` - Assign an agent to a project

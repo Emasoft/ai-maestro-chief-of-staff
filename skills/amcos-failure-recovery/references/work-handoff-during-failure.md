@@ -167,7 +167,7 @@ Emergency handoff documentation is MINIMAL but must include:
 - [Any blockers]
 
 ## Contact for Questions
-- Ask ECOS (ecos-chief-of-staff) for clarification
+- Ask AMCOS (amcos-chief-of-staff) for clarification
 - Check GitHub issue: [ISSUE_URL]
 
 ## DO NOT
@@ -177,7 +177,7 @@ Emergency handoff documentation is MINIMAL but must include:
 
 ### 5.4.3 Extracting Information from Failed Agent
 
-If ECOS has any historical data about the failed agent's work, use it:
+If AMCOS has any historical data about the failed agent's work, use it:
 
 **From task tracking:**
 ```bash
@@ -267,7 +267,7 @@ Use the `agent-messaging` skill to request EOA to coordinate emergency handoff:
   - Situation details (failed agent, failure type, failure time, recovery status)
   - Critical tasks list (each with task ID, deadline, status percent, handoff document path)
   - Requested actions (identify available agent, update GitHub Project, send handoff, monitor progress)
-  - What ECOS will handle (continue replacement, notify when ready, reconcile work)
+  - What AMCOS will handle (continue replacement, notify when ready, reconcile work)
 
 ### 5.6.2 Task Reassignment Notification
 
@@ -293,7 +293,7 @@ Use the `agent-messaging` skill to send detailed instructions:
   - Setup steps (clone repo, fetch changes, checkout branch, pull, review last commit)
   - Work guidelines (build on existing work, match coding style, ask before changing approach, commit frequently, test before marking complete)
   - Completion criteria (acceptance criteria met, tests pass, code committed and pushed, PR created or merged)
-  - Reporting structure (progress to ECOS, blockers to EOA, completion to both)
+  - Reporting structure (progress to AMCOS, blockers to EOA, completion to both)
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
@@ -337,7 +337,7 @@ Use the `agent-messaging` skill to request reconciliation:
 
 After reconciliation, update all tracking systems:
 
-**1. Update ECOS task tracking:**
+**1. Update AMCOS task tracking:**
 ```bash
 jq --arg task "task-001" --arg status "completed" '
   .tasks[] |

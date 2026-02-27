@@ -37,7 +37,7 @@ Register a new project in the Chief of Staff's project registry for multi-projec
 
 ## Prerequisites
 
-- Project registry file exists at `.emasoft/project-registry.json`
+- Project registry file exists at `.ai-maestro/project-registry.json`
 - GitHub repository exists and is accessible
 - GitHub CLI (`gh`) installed and authenticated
 - `jq` installed for JSON processing
@@ -47,9 +47,9 @@ Register a new project in the Chief of Staff's project registry for multi-projec
 ### Step 1: Verify Registry File Exists
 
 ```bash
-REGISTRY_FILE=".emasoft/project-registry.json"
+REGISTRY_FILE=".ai-maestro/project-registry.json"
 if [ ! -f "$REGISTRY_FILE" ]; then
-  mkdir -p .emasoft
+  mkdir -p .ai-maestro
   echo '{"projects": {}}' > $REGISTRY_FILE
 fi
 ```
@@ -116,8 +116,8 @@ done
 
 ```bash
 # Step 1: Ensure registry exists
-REGISTRY_FILE=".emasoft/project-registry.json"
-mkdir -p .emasoft
+REGISTRY_FILE=".ai-maestro/project-registry.json"
+mkdir -p .ai-maestro
 [ -f "$REGISTRY_FILE" ] || echo '{"projects": {}}' > $REGISTRY_FILE
 
 # Step 2: Validate GitHub repo

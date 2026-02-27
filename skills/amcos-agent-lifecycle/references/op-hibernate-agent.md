@@ -2,8 +2,8 @@
 operation: hibernate-agent
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-agent-lifecycle
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-agent-lifecycle
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -41,7 +41,7 @@ version: 1.0.0
 - AI Maestro is running locally
 - The `ai-maestro-agents-management` skill is available
 - The `agent-messaging` skill is available
-- State storage directory is writable (`~/.emasoft/agent-states/`)
+- State storage directory is writable (`~/.ai-maestro/agent-states/`)
 - Team registry is accessible
 
 ## Procedure
@@ -76,7 +76,7 @@ Use the `agent-messaging` skill to request state capture:
 - **Recipient**: the target agent session name
 - **Subject**: `State Capture Request`
 - **Priority**: `high`
-- **Content**: type `request`, asking the agent to save its current state to `~/.emasoft/agent-states/<session-name>-hibernation.json`
+- **Content**: type `request`, asking the agent to save its current state to `~/.ai-maestro/agent-states/<session-name>-hibernation.json`
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
@@ -89,7 +89,7 @@ This suspends the tmux session while preserving state.
 ### Step 5: Update Team Registry
 
 ```bash
-uv run python scripts/ecos_team_registry.py update-status \
+uv run python scripts/amcos_team_registry.py update-status \
   --name "<agent-session-name>" \
   --status "hibernated" \
   --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -98,7 +98,7 @@ uv run python scripts/ecos_team_registry.py update-status \
 ### Step 6: Log Hibernation Event
 
 ```bash
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "hibernation" \
   --agent "<agent-session-name>" \
   --reason "<hibernation reason>" \
@@ -140,14 +140,14 @@ For agent `dev-frontend-bob`:
 5. Use the `ai-maestro-agents-management` skill to hibernate agent `dev-frontend-bob`
 6. Update registry:
    ```bash
-   uv run python scripts/ecos_team_registry.py update-status \
+   uv run python scripts/amcos_team_registry.py update-status \
      --name "dev-frontend-bob" \
      --status "hibernated" \
      --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
    ```
 7. Log the event:
    ```bash
-   uv run python scripts/ecos_team_registry.py log \
+   uv run python scripts/amcos_team_registry.py log \
      --event "hibernation" \
      --agent "dev-frontend-bob" \
      --reason "End of day - scheduled hibernation" \
@@ -159,7 +159,7 @@ For agent `dev-frontend-bob`:
 | Error | Cause | Resolution |
 |-------|-------|------------|
 | Agent reports active work | Premature hibernation attempt | Wait for task completion or reassign task first |
-| State capture failed | Storage full or permissions | Free space or fix permissions on ~/.emasoft/agent-states/ |
+| State capture failed | Storage full or permissions | Free space or fix permissions on ~/.ai-maestro/agent-states/ |
 | Hibernation command fails | tmux session issue | Check tmux status, try manual session suspend |
 | Agent not responding | Agent crashed or hung | Force hibernation, check logs for errors |
 | Registry update fails | Registry locked or corrupt | Retry, or manually edit team-registry.json |

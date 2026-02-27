@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: route-task-blocker
-parent-skill: ecos-failure-recovery
+parent-skill: amcos-failure-recovery
 ---
 
 # Operation: Route Task Blocker
@@ -15,7 +15,7 @@ parent-skill: ecos-failure-recovery
 - [Decision Tree](#decision-tree)
 - [Steps](#steps)
   - [Step 1: Receive and Classify Escalation](#step-1-receive-and-classify-escalation)
-  - [Step 2A: Handle Directly (If ECOS Can Resolve)](#step-2a-handle-directly-if-ecos-can-resolve)
+  - [Step 2A: Handle Directly (If AMCOS Can Resolve)](#step-2a-handle-directly-if-amcos-can-resolve)
   - [Step 2B: Route to EAMA (If User Decision Needed)](#step-2b-route-to-eama-if-user-decision-needed)
   - [Step 3: Wait for Resolution](#step-3-wait-for-resolution)
   - [Step 4: Route Resolution Back to EOA](#step-4-route-resolution-back-to-eoa)
@@ -26,7 +26,7 @@ parent-skill: ecos-failure-recovery
 
 ## Purpose
 
-Determine how to handle task blocker escalations - resolve directly if within ECOS authority, or route to EAMA if user decision required.
+Determine how to handle task blocker escalations - resolve directly if within AMCOS authority, or route to EAMA if user decision required.
 
 ## When To Use This Operation
 
@@ -37,14 +37,14 @@ Determine how to handle task blocker escalations - resolve directly if within EC
 ## Decision Tree
 
 ```
-ECOS receives escalation from EOA
+AMCOS receives escalation from EOA
   |
   +-- Is it an agent failure? (crash, unresponsive, repeated failure)
   |     -> YES: Handle via failure recovery workflow (use other op-* files)
   |
-  +-- Is it a task blocker that ECOS can resolve?
+  +-- Is it a task blocker that AMCOS can resolve?
   |     +-- Agent reassignment needed -> Handle directly
-  |     +-- Permission within ECOS authority -> Handle directly
+  |     +-- Permission within AMCOS authority -> Handle directly
   |
   +-- Is it a task blocker requiring user input?
         -> YES: Route to EAMA using blocker-escalation template
@@ -60,12 +60,12 @@ ECOS receives escalation from EOA
 
 2. **Classify escalation type**
    - Agent failure: Use failure recovery workflow
-   - Task blocker (ECOS can resolve): Handle directly
+   - Task blocker (AMCOS can resolve): Handle directly
    - Task blocker (user decision needed): Route to EAMA
 
-### Step 2A: Handle Directly (If ECOS Can Resolve)
+### Step 2A: Handle Directly (If AMCOS Can Resolve)
 
-If blocker is agent reassignment or permission within ECOS authority:
+If blocker is agent reassignment or permission within AMCOS authority:
 
 1. Take appropriate action
 2. Notify EOA of resolution
@@ -78,7 +78,7 @@ If blocker is agent reassignment or permission within ECOS authority:
 
    ```json
    {
-     "from": "ecos-chief-of-staff",
+     "from": "amcos-chief-of-staff",
      "to": "eama-assistant-manager",
      "subject": "BLOCKER: Task requires user decision",
      "priority": "high",
@@ -100,7 +100,7 @@ If blocker is agent reassignment or permission within ECOS authority:
 
 2. **Send to EAMA via AI Maestro**
 
-3. **Track the blocker in ECOS records**
+3. **Track the blocker in AMCOS records**
 
 ### Step 3: Wait for Resolution
 
@@ -117,7 +117,7 @@ If blocker is agent reassignment or permission within ECOS authority:
 
    ```json
    {
-     "from": "ecos-chief-of-staff",
+     "from": "amcos-chief-of-staff",
      "to": "eoa-orchestrator",
      "subject": "RESOLUTION: Blocker [issue_number] resolved",
      "priority": "high",
@@ -133,21 +133,21 @@ If blocker is agent reassignment or permission within ECOS authority:
 
 3. **Verify EOA acknowledges receipt**
 
-4. **Update ECOS records to mark blocker as resolved**
+4. **Update AMCOS records to mark blocker as resolved**
 
 ## Checklist: Routing a Task Blocker
 
 - [ ] Receive escalation from EOA
 - [ ] Determine escalation type: agent failure OR task blocker
 - [ ] If agent failure: use failure recovery workflow (Phases 1-5)
-- [ ] If task blocker that ECOS can resolve: handle directly
+- [ ] If task blocker that AMCOS can resolve: handle directly
 - [ ] If task blocker requiring user input: compose blocker-escalation message
 - [ ] Include `blocker_issue_number` in the message
 - [ ] Send escalation to EAMA via AI Maestro
-- [ ] Track blocker in ECOS records
+- [ ] Track blocker in AMCOS records
 - [ ] When EAMA responds: route resolution back to EOA
 - [ ] Verify EOA acknowledges receipt
-- [ ] Update ECOS records
+- [ ] Update AMCOS records
 
 ## Checklist: When EAMA Returns a Resolution
 
@@ -156,14 +156,14 @@ If blocker is agent reassignment or permission within ECOS authority:
 - [ ] Route resolution to EOA via AI Maestro
 - [ ] Verify EOA acknowledges receipt
 - [ ] Note: EOA will close blocker issue and notify agent
-- [ ] Update ECOS records to mark blocker as resolved
+- [ ] Update AMCOS records to mark blocker as resolved
 
 ## Output
 
 After completing this operation:
 - Blocker routed to appropriate party
 - Resolution tracked back to EOA
-- ECOS records updated
+- AMCOS records updated
 
 ## Related References
 

@@ -1,12 +1,12 @@
 ---
-name: ecos-resource-monitor
+name: amcos-resource-monitor
 description: Monitors system resources and enforces Claude Code instance limits. Requires AI Maestro installed.
 tools:
   - Task
   - Bash
   - Read
 skills:
-  - ecos-resource-monitoring
+  - amcos-resource-monitoring
 ---
 
 # Resource Monitor Agent
@@ -25,15 +25,15 @@ You monitor system resources (CPU, memory, disk, Claude Code instance count) and
 ## Required Reading
 
 **MANDATORY**: Before executing resource checks, read:
-- `ecos-resource-monitoring/SKILL.md` - Full monitoring procedures and commands
+- `amcos-resource-monitoring/SKILL.md` - Full monitoring procedures and commands
 
-> For monitoring commands (CPU, memory, disk, instance count), see `ecos-resource-monitoring/references/monitoring-commands.md`.
+> For monitoring commands (CPU, memory, disk, instance count), see `amcos-resource-monitoring/references/monitoring-commands.md`.
 
-> For alert escalation procedures, see `ecos-resource-monitoring/references/resource-alerts.md`.
+> For alert escalation procedures, see `amcos-resource-monitoring/references/resource-alerts.md`.
 
-> For emergency procedures (high memory, high CPU, low disk), see `ecos-resource-monitoring/references/resource-alerts.md`.
+> For emergency procedures (high memory, high CPU, low disk), see `amcos-resource-monitoring/references/resource-alerts.md`.
 
-> For sub-agent role boundaries, see `ecos-agent-lifecycle/references/sub-agent-role-boundaries-template.md`.
+> For sub-agent role boundaries, see `amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md`.
 
 ## Output Format
 

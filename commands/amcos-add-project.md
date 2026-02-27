@@ -1,8 +1,8 @@
 ---
-name: ecos-add-project
+name: amcos-add-project
 description: "Add a new project to Chief of Staff management"
 argument-hint: "<REPO_URL> [--github-project BOARD_URL] [--id PROJECT_ID]"
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_add_project.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_add_project.py:*)"]
 user-invocable: true
 ---
 
@@ -13,7 +13,7 @@ Register a new project with the Chief of Staff for centralized management. This 
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_add_project.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_add_project.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -56,7 +56,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_add_project.py" $ARGUMENTS
 ### Basic Usage
 
 ```bash
-/ecos-add-project https://github.com/Emasoft/svgbbox
+/amcos-add-project https://github.com/Emasoft/svgbbox
 ```
 
 Output:
@@ -66,13 +66,13 @@ Project added successfully.
   Repository: https://github.com/Emasoft/svgbbox
   GitHub Board: (none)
 
-Next: Assign agents with /ecos-assign-project <session_name> svgbbox
+Next: Assign agents with /amcos-assign-project <session_name> svgbbox
 ```
 
 ### With GitHub Project Board
 
 ```bash
-/ecos-add-project https://github.com/Emasoft/ai-maestro --github-project https://github.com/orgs/Emasoft/projects/8
+/amcos-add-project https://github.com/Emasoft/ai-maestro --github-project https://github.com/orgs/Emasoft/projects/8
 ```
 
 Output:
@@ -84,13 +84,13 @@ Project added successfully.
 
 Board verified: "AI Maestro Development" (3 open issues)
 
-Next: Assign agents with /ecos-assign-project <session_name> ai-maestro
+Next: Assign agents with /amcos-assign-project <session_name> ai-maestro
 ```
 
 ### With Custom ID
 
 ```bash
-/ecos-add-project https://github.com/Emasoft/my-long-project-name --id myproj
+/amcos-add-project https://github.com/Emasoft/my-long-project-name --id myproj
 ```
 
 Output:
@@ -100,7 +100,7 @@ Project added successfully.
   Repository: https://github.com/Emasoft/my-long-project-name
   GitHub Board: (none)
 
-Next: Assign agents with /ecos-assign-project <session_name> myproj
+Next: Assign agents with /amcos-assign-project <session_name> myproj
 ```
 
 ## State File Update
@@ -146,6 +146,6 @@ After running this command, `.claude/chief-of-staff-state.local.md` is updated:
 
 ## Related Commands
 
-- `/ecos-list-projects` - View all managed projects
-- `/ecos-remove-project` - Remove a project from management
-- `/ecos-assign-project` - Assign an agent to this project
+- `/amcos-list-projects` - View all managed projects
+- `/amcos-remove-project` - Remove a project from management
+- `/amcos-assign-project` - Assign an agent to this project

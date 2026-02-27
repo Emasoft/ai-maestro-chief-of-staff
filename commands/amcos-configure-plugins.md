@@ -1,9 +1,9 @@
 ---
-name: ecos-configure-plugins
+name: amcos-configure-plugins
 description: "Configure plugins for an agent's project by adding, removing, or managing plugin scope"
 argument-hint: "<SESSION_NAME> --add PLUGIN [--remove PLUGIN] [--scope local|project]"
 user-invocable: true
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_configure_plugins.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py:*)"]
 ---
 
 # Configure Plugins Command
@@ -13,7 +13,7 @@ Configure plugins for a specific agent session. Add or remove plugins and manage
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_configure_plugins.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -54,31 +54,31 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_configure_plugins.py" $ARGUMENTS
 ### Add a plugin to an agent
 
 ```bash
-/ecos-configure-plugins libs-svg-svgbbox --add perfect-skill-suggester@emasoft-plugins
+/amcos-configure-plugins libs-svg-svgbbox --add perfect-skill-suggester@ai-maestro-plugins
 ```
 
 ### Remove a plugin
 
 ```bash
-/ecos-configure-plugins helper-agent-generic --remove old-plugin
+/amcos-configure-plugins helper-agent-generic --remove old-plugin
 ```
 
 ### Add plugin with project scope
 
 ```bash
-/ecos-configure-plugins orchestrator-master --add emasoft-architect-agent --scope project
+/amcos-configure-plugins orchestrator-master --add ai-maestro-architect-agent --scope project
 ```
 
 ### List installed plugins
 
 ```bash
-/ecos-configure-plugins libs-svg-svgbbox --list
+/amcos-configure-plugins libs-svg-svgbbox --list
 ```
 
 ### Add and remove in one command
 
 ```bash
-/ecos-configure-plugins helper-agent-generic --add new-plugin --remove deprecated-plugin
+/amcos-configure-plugins helper-agent-generic --add new-plugin --remove deprecated-plugin
 ```
 
 ## Output Example
@@ -92,7 +92,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_configure_plugins.py" $ARGUMENTS
 ╠════════════════════════════════════════════════════════════════╣
 ║ ACTIONS PERFORMED                                              ║
 ╠════════════════════════════════════════════════════════════════╣
-║ [+] Added: perfect-skill-suggester@emasoft-plugins (local)     ║
+║ [+] Added: perfect-skill-suggester@ai-maestro-plugins (local)     ║
 ║ [-] Removed: old-deprecated-plugin                             ║
 ╠════════════════════════════════════════════════════════════════╣
 ║ CURRENT PLUGINS                                                ║
@@ -100,7 +100,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_configure_plugins.py" $ARGUMENTS
 ║ Plugin Name                  │ Version │ Scope   │ Status      ║
 ║─────────────────────────────────────────────────────────────── ║
 ║ perfect-skill-suggester      │ 1.2.3   │ local   │ enabled     ║
-║ emasoft-architect-agent      │ 2.0.0   │ project │ enabled     ║
+║ ai-maestro-architect-agent      │ 2.0.0   │ project │ enabled     ║
 ║ ai-maestro-messaging-hook    │ 1.0.0   │ user    │ enabled     ║
 ╠════════════════════════════════════════════════════════════════╣
 ║ NOTE: Agent must restart Claude Code to apply plugin changes   ║
@@ -130,6 +130,6 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_configure_plugins.py" $ARGUMENTS
 
 ## Related Commands
 
-- `/ecos-validate-skills` - Validate skills for an agent
-- `/ecos-reindex-skills` - Trigger PSS reindex for an agent
-- `/ecos-orchestration-status` - Check agent orchestration status
+- `/amcos-validate-skills` - Validate skills for an agent
+- `/amcos-reindex-skills` - Trigger PSS reindex for an agent
+- `/amcos-orchestration-status` - Check agent orchestration status

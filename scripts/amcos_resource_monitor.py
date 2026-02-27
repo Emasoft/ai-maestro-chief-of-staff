@@ -8,9 +8,9 @@ Checks CPU, memory, disk usage, and active Claude Code processes.
 NOTE: This script is designed for macOS. Other platforms are not supported.
 
 Usage:
-    python3 ecos_resource_monitor.py --check-spawn
-    python3 ecos_resource_monitor.py --status
-    python3 ecos_resource_monitor.py --json
+    python3 amcos_resource_monitor.py --check-spawn
+    python3 amcos_resource_monitor.py --status
+    python3 amcos_resource_monitor.py --json
 
 Output:
     JSON with resource status including:
@@ -234,9 +234,9 @@ def main() -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-    python3 ecos_resource_monitor.py --check-spawn
-    python3 ecos_resource_monitor.py --status
-    python3 ecos_resource_monitor.py --status --compact
+    python3 amcos_resource_monitor.py --check-spawn
+    python3 amcos_resource_monitor.py --status
+    python3 amcos_resource_monitor.py --status --compact
         """,
     )
 

@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: execute-recovery-strategy
-parent-skill: ecos-failure-recovery
+parent-skill: amcos-failure-recovery
 ---
 
 # Operation: Execute Recovery Strategy

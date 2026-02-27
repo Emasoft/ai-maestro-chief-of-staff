@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-ecos_sync_github_projects.py - Sync local project state with GitHub Projects boards.
+amcos_sync_github_projects.py - Sync local project state with GitHub Projects boards.
 
-Reads .emasoft/projects.json for local project state and uses the `gh` CLI tool
+Reads .ai-maestro/projects.json for local project state and uses the `gh` CLI tool
 to interact with GitHub Projects API. Supports pull (fetch remote state), push
 (update remote from local), and bidirectional sync with conflict detection.
 
-Absorbs the functionality of ecos_compare_projects.py (--compare-only) and
-ecos_verify_sync.py (--verify).
+Absorbs the functionality of amcos_compare_projects.py (--compare-only) and
+amcos_verify_sync.py (--verify).
 
 Dependencies: Python 3.8+ stdlib only (requires `gh` CLI installed and authenticated)
 
 Usage:
-    ecos_sync_github_projects.py [--project-root PATH] [--repo OWNER/REPO]
+    amcos_sync_github_projects.py [--project-root PATH] [--repo OWNER/REPO]
         [--direction pull|push|both] [--compare-only] [--verify] [--dry-run]
 
 Exit codes:
@@ -36,7 +36,7 @@ from typing import Any
 # Constants
 # ---------------------------------------------------------------------------
 
-PROJECTS_FILE = ".emasoft/projects.json"
+PROJECTS_FILE = ".ai-maestro/projects.json"
 DEFAULT_DIRECTION = "pull"
 VALID_DIRECTIONS = ("pull", "push", "both")
 
@@ -107,7 +107,7 @@ def get_projects_path(project_root: Path) -> Path:
 
 
 def read_local_projects(project_root: Path) -> dict[str, Any]:
-    """Read .emasoft/projects.json and return its contents.
+    """Read .ai-maestro/projects.json and return its contents.
 
     Args:
         project_root: Root directory of the project.
@@ -123,7 +123,7 @@ def read_local_projects(project_root: Path) -> dict[str, Any]:
 
 
 def write_local_projects(project_root: Path, data: dict[str, Any]) -> None:
-    """Write project data to .emasoft/projects.json.
+    """Write project data to .ai-maestro/projects.json.
 
     Creates parent directories if they do not exist.
 
@@ -551,7 +551,7 @@ def run_compare(
 ) -> dict[str, Any]:
     """Compare local and remote state without syncing.
 
-    Replaces the functionality of the former ecos_compare_projects.py script.
+    Replaces the functionality of the former amcos_compare_projects.py script.
 
     Args:
         project_root: Root directory of the project.
@@ -591,7 +591,7 @@ def run_verify(
 ) -> dict[str, Any]:
     """Verify that local and remote state are in sync.
 
-    Replaces the functionality of the former ecos_verify_sync.py script.
+    Replaces the functionality of the former amcos_verify_sync.py script.
 
     Args:
         project_root: Root directory of the project.
@@ -660,12 +660,12 @@ def main() -> int:
     parser.add_argument(
         "--compare-only",
         action="store_true",
-        help="Show differences without syncing (replaces ecos_compare_projects.py)",
+        help="Show differences without syncing (replaces amcos_compare_projects.py)",
     )
     parser.add_argument(
         "--verify",
         action="store_true",
-        help="Verify sync state after operation (replaces ecos_verify_sync.py)",
+        help="Verify sync state after operation (replaces amcos_verify_sync.py)",
     )
     parser.add_argument(
         "--dry-run",

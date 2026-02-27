@@ -25,9 +25,9 @@ $ grep -c "^- \[x\]" design/memory/progress.md
 78
 ```
 
-**Run compaction** (using `ecos_memory_manager.py compact`, which supersedes the old `archive-memory.py`):
+**Run compaction** (using `amcos_memory_manager.py compact`, which supersedes the old `archive-memory.py`):
 ```bash
-$ python scripts/ecos_memory_manager.py compact
+$ python scripts/amcos_memory_manager.py compact
 
 Backing up memory files...
   Created backup: design/memory/backups/progress.md.backup.20251231-163000

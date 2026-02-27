@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Emasoft Chief of Staff - Notification Protocol Script
+AI Maestro Chief of Staff - Notification Protocol Script
 
 Implements notification protocols for agent communication via AMP CLI (amp-send).
 
@@ -11,10 +11,10 @@ Features:
 - Skill installation with multi-phase notification workflow
 
 Usage:
-    python ecos_notification_protocol.py notify --agents agent1,agent2 --operation install --message "Installing skill X"
-    python ecos_notification_protocol.py wait-ack --agent agent1 --timeout 120 --remind 30
-    python ecos_notification_protocol.py broadcast --subject "Update" --message "..." --priority high --agents a,b,c
-    python ecos_notification_protocol.py install-skill --agent agent1 --skill my-skill --wait-for-ok
+    python amcos_notification_protocol.py notify --agents agent1,agent2 --operation install --message "Installing skill X"
+    python amcos_notification_protocol.py wait-ack --agent agent1 --timeout 120 --remind 30
+    python amcos_notification_protocol.py broadcast --subject "Update" --message "..." --priority high --agents a,b,c
+    python amcos_notification_protocol.py install-skill --agent agent1 --skill my-skill --wait-for-ok
 
 Output: JSON format
 """
@@ -590,16 +590,16 @@ def main() -> int:
         epilog="""
 Examples:
   # Notify multiple agents about an operation
-  python ecos_notification_protocol.py notify --agents agent1,agent2 --operation install --message "Installing skill X"
+  python amcos_notification_protocol.py notify --agents agent1,agent2 --operation install --message "Installing skill X"
 
   # Wait for acknowledgment from an agent
-  python ecos_notification_protocol.py wait-ack --agent agent1 --timeout 120 --remind 30
+  python amcos_notification_protocol.py wait-ack --agent agent1 --timeout 120 --remind 30
 
   # Broadcast to all agents matching criteria
-  python ecos_notification_protocol.py broadcast --subject "Update" --message "System maintenance" --priority high
+  python amcos_notification_protocol.py broadcast --subject "Update" --message "System maintenance" --priority high
 
   # Install skill with notification workflow
-  python ecos_notification_protocol.py install-skill --agent agent1 --skill my-skill --marketplace emasoft-plugins
+  python amcos_notification_protocol.py install-skill --agent agent1 --skill my-skill --marketplace ai-maestro-plugins
         """,
     )
 

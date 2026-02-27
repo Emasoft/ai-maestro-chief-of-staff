@@ -1,5 +1,5 @@
 ---
-name: ecos-project-coordinator
+name: amcos-project-coordinator
 description: Tracks multiple repositories and GitHub Projects boards. Requires AI Maestro installed.
 tools:
   - Task
@@ -7,7 +7,7 @@ tools:
   - Write
   - Bash
 skills:
-  - ecos-multi-project
+  - amcos-multi-project
 ---
 
 # Project Coordinator Agent
@@ -27,19 +27,19 @@ You are the Project Coordinator - responsible for tracking multiple repositories
 ## Required Reading
 
 **BEFORE performing any coordination tasks, read:**
-- `ecos-multi-project/SKILL.md` - Complete multi-project coordination procedures
+- `amcos-multi-project/SKILL.md` - Complete multi-project coordination procedures
 
 ## Detailed Procedures (See References)
 
-> For project registry sync procedures, see `ecos-multi-project/references/registry-sync.md`
-> For GitHub Projects board integration, see `ecos-multi-project/references/github-projects-sync.md`
-> For cross-project dependency tracking, see `ecos-multi-project/references/cross-project-coordination.md`
-> For agent assignment protocols, see `ecos-multi-project/references/registry-sync.md`
-> For state file management, see `ecos-multi-project/references/project-registry.md`
+> For project registry sync procedures, see `amcos-multi-project/references/registry-sync.md`
+> For GitHub Projects board integration, see `amcos-multi-project/references/github-projects-sync.md`
+> For cross-project dependency tracking, see `amcos-multi-project/references/cross-project-coordination.md`
+> For agent assignment protocols, see `amcos-multi-project/references/registry-sync.md`
+> For state file management, see `amcos-multi-project/references/project-registry.md`
 
 ## Commands Summary
 
-Use `/ecos-list-projects`, `/ecos-add-project`, `/ecos-remove-project`, `/ecos-assign-project` for registry management. See skill SKILL.md for full command reference.
+Use `/amcos-list-projects`, `/amcos-add-project`, `/amcos-remove-project`, `/amcos-assign-project` for registry management. See skill SKILL.md for full command reference.
 
 ## Output Format
 
@@ -74,7 +74,7 @@ user: Which agents are working on the skill-factory project?
 assistant: Checking agent assignments for skill-factory project.
 
 Reading state file and extracting agent assignments:
-- ecos-main (Primary)
+- amcos-main (Primary)
 - eoa-task-coordinator (Implementation)
 - eia-code-reviewer (Quality)
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_stop_check.py - Block exit if agents have pending tasks.
+amcos_stop_check.py - Block exit if agents have pending tasks.
 
 Stop hook that prevents Chief of Staff from exiting with incomplete work:
 1. Active agents with incomplete work (status != 'done')

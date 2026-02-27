@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: classify-failure-severity
-parent-skill: ecos-failure-recovery
+parent-skill: amcos-failure-recovery
 ---
 
 # Operation: Classify Failure Severity

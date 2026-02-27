@@ -6,10 +6,10 @@ Configures Claude Code plugins for a specified agent session by running
 claude plugin install/enable/disable commands.
 
 Usage:
-    python3 ecos_configure_plugins.py SESSION_NAME --add plugin-name
-    python3 ecos_configure_plugins.py SESSION_NAME --remove plugin-name
-    python3 ecos_configure_plugins.py SESSION_NAME --list
-    python3 ecos_configure_plugins.py SESSION_NAME --add plugin-name --scope project
+    python3 amcos_configure_plugins.py SESSION_NAME --add plugin-name
+    python3 amcos_configure_plugins.py SESSION_NAME --remove plugin-name
+    python3 amcos_configure_plugins.py SESSION_NAME --list
+    python3 amcos_configure_plugins.py SESSION_NAME --add plugin-name --scope project
 
 Output:
     JSON with configuration result including:
@@ -178,13 +178,13 @@ def main() -> int:
         epilog="""
 Examples:
     # List installed plugins
-    python3 ecos_configure_plugins.py my-session --list
+    python3 amcos_configure_plugins.py my-session --list
 
     # Add a plugin with local scope
-    python3 ecos_configure_plugins.py my-session --add my-plugin --scope local
+    python3 amcos_configure_plugins.py my-session --add my-plugin --scope local
 
     # Remove a plugin
-    python3 ecos_configure_plugins.py my-session --remove my-plugin
+    python3 amcos_configure_plugins.py my-session --remove my-plugin
         """,
     )
 

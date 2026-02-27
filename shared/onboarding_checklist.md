@@ -44,7 +44,7 @@ SESSION_NAME="${ROLE_PREFIX}${PROJECT_NAME}-${SESSION_UUID}"
 
 ```bash
 # Create handoff in standard location
-HANDOFF_PATH="docs_dev/handoffs/handoff-${SESSION_UUID}-ecos-to-${ROLE}.md"
+HANDOFF_PATH="docs_dev/handoffs/handoff-${SESSION_UUID}-amcos-to-${ROLE}.md"
 ```
 
 ### Step 3: Register Agent in Tracking
@@ -111,7 +111,7 @@ Every spawned agent receives the following briefing message:
     "type": "onboarding",
     "message": "You have been assigned as {role} for {project}. Your task: {task_description}",
     "session_name": "{agent-session-name}",
-    "coordinator": "{ecos-session-name}",
+    "coordinator": "{amcos-session-name}",
     "handoff_document": "{handoff_path}",
     "github_issue": "#{issue_number}",
     "constraints": {

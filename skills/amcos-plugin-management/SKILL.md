@@ -1,5 +1,5 @@
 ---
-name: ecos-plugin-management
+name: amcos-plugin-management
 description: Use when installing, configuring, or validating Claude Code plugins. Trigger with plugin install, update, or validation requests.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "Step 4"
 procedure: "proc-create-team"
 ---
 
-# Emasoft Chief of Staff - Plugin Management Skill
+# AI Maestro Chief of Staff - Plugin Management Skill
 
 ## Overview
 
@@ -165,10 +165,10 @@ Copy this checklist and track your progress:
 
 ```bash
 # Step 1: Add marketplace (first time only)
-claude plugin marketplace add https://github.com/Emasoft/emasoft-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
 
 # Step 2: Install plugin
-claude plugin install perfect-skill-suggester@emasoft-plugins
+claude plugin install perfect-skill-suggester@ai-maestro-plugins
 
 # Step 3: Verify installation
 claude plugin list | grep perfect-skill-suggester
@@ -330,7 +330,7 @@ See [references/plugin-validation.md](references/plugin-validation.md) Section 3
 
 Use the `ai-maestro-agents-management` skill for each step:
 
-1. **Add marketplace** to remote agent `backend-api` with source `github:Emasoft/emasoft-plugins` (auto-restarts agent)
+1. **Add marketplace** to remote agent `backend-api` with source `github:Emasoft/ai-maestro-plugins` (auto-restarts agent)
 2. **Install plugin** `perfect-skill-suggester` on agent `backend-api` (auto-restarts agent)
 3. **List plugins** on agent `backend-api` to verify installation
 4. **Uninstall plugin** `my-old-plugin` from agent `backend-api` if no longer needed

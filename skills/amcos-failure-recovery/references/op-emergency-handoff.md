@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: emergency-handoff
-parent-skill: ecos-failure-recovery
+parent-skill: amcos-failure-recovery
 ---
 
 # Operation: Emergency Work Handoff
@@ -73,7 +73,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
 
    ```json
    {
-     "from": "ecos-chief-of-staff",
+     "from": "amcos-chief-of-staff",
      "to": "eoa-orchestrator",
      "subject": "URGENT: Emergency handoff required",
      "priority": "urgent",
@@ -127,7 +127,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
 
    ```json
    {
-     "from": "ecos-chief-of-staff",
+     "from": "amcos-chief-of-staff",
      "to": "RECEIVING_AGENT",
      "subject": "URGENT: Emergency handoff - [TASK]",
      "priority": "urgent",

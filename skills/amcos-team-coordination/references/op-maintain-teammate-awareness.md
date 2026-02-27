@@ -2,8 +2,8 @@
 operation: maintain-teammate-awareness
 procedure: proc-notify-team-ready
 workflow-instruction: Step 5 - Team Ready Notification
-parent-skill: ecos-team-coordination
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-team-coordination
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 

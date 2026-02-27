@@ -1,8 +1,8 @@
 ---
-name: ecos-assign-project
+name: amcos-assign-project
 description: "Assign an agent to a managed project and send onboarding message"
 argument-hint: "<SESSION_NAME> <PROJECT_ID>"
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_assign_project.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_assign_project.py:*)"]
 user-invocable: true
 ---
 
@@ -13,7 +13,7 @@ Assign a Claude Code agent session to a managed project. This updates project tr
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_assign_project.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_assign_project.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -50,7 +50,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_assign_project.py" $ARGUMENTS
 ### Basic Assignment
 
 ```bash
-/ecos-assign-project libs-svg-svgbbox svgbbox
+/amcos-assign-project libs-svg-svgbbox svgbbox
 ```
 
 Output:
@@ -67,7 +67,7 @@ Agent will receive project context and instructions.
 ### Assign to Project With GitHub Board
 
 ```bash
-/ecos-assign-project orchestrator-master maestro
+/amcos-assign-project orchestrator-master maestro
 ```
 
 Output:
@@ -86,7 +86,7 @@ Agent will receive project context, board status, and priority issues.
 ### Attempt Duplicate Assignment
 
 ```bash
-/ecos-assign-project libs-svg-svgbbox svgbbox
+/amcos-assign-project libs-svg-svgbbox svgbbox
 ```
 
 Output:
@@ -96,7 +96,7 @@ WARNING: Agent already assigned to this project.
   Project: svgbbox
   Assigned: 2026-02-01T10:30:00Z
 
-No changes made. Use /ecos-list-projects to view assignments.
+No changes made. Use /amcos-list-projects to view assignments.
 ```
 
 ## Onboarding Message Format
@@ -112,7 +112,7 @@ The assigned agent receives this AI Maestro message:
   "priority": "high",
   "content": {
     "type": "team-assignment",
-    "message": "You have been assigned to the team for project 'svgbbox'.\n\nProject Details:\n- Repository: https://github.com/Emasoft/svgbbox\n- GitHub Board: https://github.com/orgs/Emasoft/projects/12\n\nPlease acknowledge receipt. The project Orchestrator (EOA) will assign specific tasks to you.\n\nIMPORTANT: ECOS assigns you to teams. EOA assigns you tasks."
+    "message": "You have been assigned to the team for project 'svgbbox'.\n\nProject Details:\n- Repository: https://github.com/Emasoft/svgbbox\n- GitHub Board: https://github.com/orgs/Emasoft/projects/12\n\nPlease acknowledge receipt. The project Orchestrator (EOA) will assign specific tasks to you.\n\nIMPORTANT: AMCOS assigns you to teams. EOA assigns you tasks."
   }
 }
 ```
@@ -167,7 +167,7 @@ Agent session names follow the domain hierarchy format:
 | Error | Cause | Solution |
 |-------|-------|----------|
 | "Invalid session name" | Malformed session name | Use full domain-subdomain-name format |
-| "Project not found" | Invalid project ID | Check ID with `/ecos-list-projects` |
+| "Project not found" | Invalid project ID | Check ID with `/amcos-list-projects` |
 | "Agent already assigned" | Duplicate assignment | Assignment already exists |
 | "AI Maestro unreachable" | Cannot send message | Check AI Maestro service |
 | "Agent offline" | Agent not responding | Warning only, assignment proceeds |
@@ -193,6 +193,6 @@ The assigned agent should acknowledge with:
 
 ## Related Commands
 
-- `/ecos-list-projects` - View all projects and assignments
-- `/ecos-add-project` - Add a new project to management
-- `/ecos-remove-project` - Remove a project (requires unassigning agents first)
+- `/amcos-list-projects` - View all projects and assignments
+- `/amcos-add-project` - Add a new project to management
+- `/amcos-remove-project` - Remove a project (requires unassigning agents first)

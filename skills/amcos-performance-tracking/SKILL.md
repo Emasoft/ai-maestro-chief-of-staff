@@ -1,5 +1,5 @@
 ---
-name: ecos-performance-tracking
+name: amcos-performance-tracking
 description: Use when tracking team performance, analyzing agent strengths and weaknesses, collecting metrics, and generating performance reports. Trigger with performance review or metrics requests.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# Emasoft Chief of Staff Performance Tracking Skill
+# AI Maestro Chief of Staff Performance Tracking Skill
 
 ## Overview
 
@@ -279,5 +279,5 @@ Detailed step-by-step runbook for creating formatted performance reports for sta
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** Emasoft Chief of Staff Agent
+**Target Audience:** AI Maestro Chief of Staff Agent
 **Difficulty Level:** Intermediate

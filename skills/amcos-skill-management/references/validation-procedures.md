@@ -26,10 +26,10 @@
 - 5.0 When using validation scripts
   - 5.1 validate_skill_comprehensive.py for single validation
   - 5.2 validate_plugin.py for batch validation
-  - 5.3 ecos_reindex_skills.py for reindexing (sends remote PSS reindex request via AI Maestro)
+  - 5.3 amcos_reindex_skills.py for reindexing (sends remote PSS reindex request via AI Maestro)
 - 6.0 When using validation commands
-  - 6.1 /ecos-validate-skills command options
-  - 6.2 /ecos-reindex-skills command options
+  - 6.1 /amcos-validate-skills command options
+  - 6.2 /amcos-reindex-skills command options
 - 7.0 When handling validation tools errors
   - 7.1 skills-ref not installed
   - 7.2 PSS unavailable or not responding
@@ -290,7 +290,7 @@ For each failed skill:
 
 **Example report format:**
 ```
-Validation Summary for emasoft-architect-agent
+Validation Summary for ai-maestro-architect-agent
 Validated: 39 skills
 Passed: 37
 Warnings: 2
@@ -393,7 +393,7 @@ Reindexing can take several seconds for large skill sets.
 **Blocking wait example:**
 ```bash
 # Send reindex request with --wait flag
-/ecos-reindex-skills --wait
+/amcos-reindex-skills --wait
 
 # Script waits for PSS confirmation before returning
 ```
@@ -401,7 +401,7 @@ Reindexing can take several seconds for large skill sets.
 **Non-blocking example:**
 ```bash
 # Send reindex request, continue immediately
-/ecos-reindex-skills
+/amcos-reindex-skills
 
 # Check status later
 /pss-index-status
@@ -624,7 +624,7 @@ def send_reindex_request_with_retry(max_retries=3):
 
 ## 5.0 When using validation scripts
 
-The ecos-skill-management skill includes Python scripts for validation automation.
+The amcos-skill-management skill includes Python scripts for validation automation.
 
 ### 5.1 validate_skill_comprehensive.py for single validation
 
@@ -725,23 +725,23 @@ Summary:
 }
 ```
 
-### 5.3 ecos_reindex_skills.py for reindexing
+### 5.3 amcos_reindex_skills.py for reindexing
 
-Sends a remote reindex request to PSS via AI Maestro. The standalone `ecos_trigger_pss_reindex.py` script has been superseded by `ecos_reindex_skills.py`, which provides identical functionality (sending `/pss-reindex-skills` command via `amp-send` to a target session).
+Sends a remote reindex request to PSS via AI Maestro. The standalone `amcos_trigger_pss_reindex.py` script has been superseded by `amcos_reindex_skills.py`, which provides identical functionality (sending `/pss-reindex-skills` command via `amp-send` to a target session).
 
 **Usage:**
 ```bash
 # Basic reindex (sends request to PSS via AI Maestro)
-uv run python scripts/ecos_reindex_skills.py
+uv run python scripts/amcos_reindex_skills.py
 
 # Force full reindex
-uv run python scripts/ecos_reindex_skills.py --force
+uv run python scripts/amcos_reindex_skills.py --force
 
 # Wait for completion
-uv run python scripts/ecos_reindex_skills.py --wait
+uv run python scripts/amcos_reindex_skills.py --wait
 
 # Uses default AI Maestro endpoint
-uv run python scripts/ecos_reindex_skills.py
+uv run python scripts/amcos_reindex_skills.py
 ```
 
 **What it does:**
@@ -760,15 +760,15 @@ uv run python scripts/ecos_reindex_skills.py
 
 ## 6.0 When using validation commands
 
-The ecos-skill-validator agent provides two commands for skill validation.
+The amcos-skill-validator agent provides two commands for skill validation.
 
-### 6.1 /ecos-validate-skills command options
+### 6.1 /amcos-validate-skills command options
 
 Validates skills in a directory or plugin.
 
 **Basic usage:**
 ```
-/ecos-validate-skills [path]
+/amcos-validate-skills [path]
 ```
 
 **Arguments:**
@@ -782,19 +782,19 @@ Validates skills in a directory or plugin.
 **Examples:**
 ```
 # Validate single skill in current directory
-/ecos-validate-skills
+/amcos-validate-skills
 
 # Validate specific skill
-/ecos-validate-skills ./skills/code-review
+/amcos-validate-skills ./skills/code-review
 
 # Validate all skills in plugin
-/ecos-validate-skills ./OUTPUT_SKILLS/emasoft-architect-agent --all
+/amcos-validate-skills ./OUTPUT_SKILLS/ai-maestro-architect-agent --all
 
 # Validate with auto-fix
-/ecos-validate-skills ./skills/debugging --fix
+/amcos-validate-skills ./skills/debugging --fix
 
 # Verbose output
-/ecos-validate-skills ./skills/testing --verbose
+/amcos-validate-skills ./skills/testing --verbose
 ```
 
 **What auto-fix handles:**
@@ -808,13 +808,13 @@ Validates skills in a directory or plugin.
 - Invalid YAML syntax (manual fix required)
 - Broken content references (manual decision required)
 
-### 6.2 /ecos-reindex-skills command options
+### 6.2 /amcos-reindex-skills command options
 
 Triggers PSS skill reindexing.
 
 **Basic usage:**
 ```
-/ecos-reindex-skills
+/amcos-reindex-skills
 ```
 
 **Flags:**
@@ -824,16 +824,16 @@ Triggers PSS skill reindexing.
 **Examples:**
 ```
 # Basic reindex (only if changes detected)
-/ecos-reindex-skills
+/amcos-reindex-skills
 
 # Force full reindex
-/ecos-reindex-skills --force
+/amcos-reindex-skills --force
 
 # Wait for completion
-/ecos-reindex-skills --wait
+/amcos-reindex-skills --wait
 
 # Force and wait
-/ecos-reindex-skills --force --wait
+/amcos-reindex-skills --force --wait
 ```
 
 **When to use `--force`:**
@@ -921,9 +921,9 @@ ps aux | grep ai-maestro
 Step 5: Queue reindex for later:
 ```bash
 # Validation can proceed, reindex later when PSS is available
-/ecos-validate-skills --all
+/amcos-validate-skills --all
 # Then manually trigger reindex when PSS is back:
-/ecos-reindex-skills
+/amcos-reindex-skills
 ```
 
 ### 7.3 Network timeout during reindex
@@ -941,7 +941,7 @@ Request timed out after 30 seconds
 Step 1: Retry with exponential backoff:
 ```bash
 # Script automatically retries 3 times
-uv run python scripts/ecos_reindex_skills.py
+uv run python scripts/amcos_reindex_skills.py
 ```
 
 Step 2: Check PSS logs for indexing progress:
@@ -954,7 +954,7 @@ Step 3: Increase timeout:
 ```bash
 # If you control the reindex script, increase timeout
 # Example: from 30s to 60s
-uv run python scripts/ecos_reindex_skills.py --timeout 60
+uv run python scripts/amcos_reindex_skills.py --timeout 60
 ```
 
 Step 4: If timeouts persist:

@@ -119,7 +119,7 @@ Use the `agent-messaging` skill to send:
 
 ### Prerequisite
 
-ECOS must have received an autonomous directive from EAMA:
+AMCOS must have received an autonomous directive from EAMA:
 
 ```
 "Operate autonomously for agent management until 18:00"

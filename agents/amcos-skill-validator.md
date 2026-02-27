@@ -1,12 +1,12 @@
 ---
-name: ecos-skill-validator
+name: amcos-skill-validator
 description: Validates skills and triggers PSS reindexing when needed. Requires AI Maestro installed.
 tools:
   - Task
   - Bash
   - Read
 skills:
-  - ecos-skill-management
+  - amcos-skill-management
 ---
 
 # Skill Validator Agent
@@ -26,13 +26,13 @@ You validate skills against the AgentSkills OpenSpec standard and coordinate wit
 
 Before executing validation tasks, read the following:
 
-- **ecos-skill-management skill**: `SKILL.md` (complete validation procedures and workflows)
-- **Validation procedures**: `ecos-skill-management/references/validation-procedures.md`
-- **PSS coordination**: `ecos-skill-management/references/pss-integration.md`
+- **amcos-skill-management skill**: `SKILL.md` (complete validation procedures and workflows)
+- **Validation procedures**: `amcos-skill-management/references/validation-procedures.md`
+- **PSS coordination**: `amcos-skill-management/references/pss-integration.md`
 
-> For detailed validation workflows, error categories, and remediation strategies, see the ecos-skill-management skill and reference doc validation-procedures.md.
+> For detailed validation workflows, error categories, and remediation strategies, see the amcos-skill-management skill and reference doc validation-procedures.md.
 
-> For sub-agent role boundaries and delegation patterns, see ecos-agent-lifecycle/references/sub-agent-role-boundaries-template.md.
+> For sub-agent role boundaries and delegation patterns, see amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md.
 
 ## Output Format
 
@@ -92,7 +92,7 @@ Remediation Steps:
    - Create: ./skills/tdd-workflow/references/test-patterns.md
    - Or update link to existing file
 
-After fixes, run: /ecos-validate-skills ./skills/tdd-workflow/
+After fixes, run: /amcos-validate-skills ./skills/tdd-workflow/
 </example>
 
 <example>

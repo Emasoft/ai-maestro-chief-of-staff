@@ -2,8 +2,8 @@
 operation: update-team-registry
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-agent-lifecycle
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-agent-lifecycle
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -38,8 +38,8 @@ version: 1.0.0
 
 ## Prerequisites
 
-- Team registry file exists at `.emasoft/team-registry.json`
-- `ecos_team_registry.py` script is available
+- Team registry file exists at `.ai-maestro/team-registry.json`
+- `amcos_team_registry.py` script is available
 - Write permissions to registry file
 - AI Maestro is running (for broadcasting updates)
 
@@ -61,7 +61,7 @@ Determine which registry operation is needed:
 
 **Add new agent:**
 ```bash
-uv run python scripts/ecos_team_registry.py add-agent \
+uv run python scripts/amcos_team_registry.py add-agent \
   --name "<agent-session-name>" \
   --role "<role>" \
   --project "<project>" \
@@ -70,13 +70,13 @@ uv run python scripts/ecos_team_registry.py add-agent \
 
 **Remove agent:**
 ```bash
-uv run python scripts/ecos_team_registry.py remove-agent \
+uv run python scripts/amcos_team_registry.py remove-agent \
   --name "<agent-session-name>"
 ```
 
 **Update status:**
 ```bash
-uv run python scripts/ecos_team_registry.py update-status \
+uv run python scripts/amcos_team_registry.py update-status \
   --name "<agent-session-name>" \
   --status "<running|hibernated|terminated>" \
   --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -84,7 +84,7 @@ uv run python scripts/ecos_team_registry.py update-status \
 
 **Log event:**
 ```bash
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "<event-type>" \
   --agent "<agent-session-name>" \
   --reason "<reason>" \
@@ -95,10 +95,10 @@ uv run python scripts/ecos_team_registry.py log \
 
 ```bash
 # View updated registry
-uv run python scripts/ecos_team_registry.py list
+uv run python scripts/amcos_team_registry.py list
 
 # Check specific agent
-uv run python scripts/ecos_team_registry.py list --filter-name "<agent-session-name>"
+uv run python scripts/amcos_team_registry.py list --filter-name "<agent-session-name>"
 ```
 
 ### Step 4: Publish Update to Team (Optional)
@@ -106,7 +106,7 @@ uv run python scripts/ecos_team_registry.py list --filter-name "<agent-session-n
 If teammates need to know about the change:
 
 ```bash
-uv run python scripts/ecos_team_registry.py publish \
+uv run python scripts/amcos_team_registry.py publish \
   --broadcast-to "all" \
   --message "Team registry updated: <description of change>"
 ```
@@ -118,7 +118,7 @@ This sends a `registry-update` message to all registered agents.
 After significant changes:
 
 ```bash
-cp .emasoft/team-registry.json .emasoft/team-registry.backup.$(date +%Y%m%d%H%M%S).json
+cp .ai-maestro/team-registry.json .ai-maestro/team-registry.backup.$(date +%Y%m%d%H%M%S).json
 ```
 
 ## Checklist
@@ -141,25 +141,25 @@ Copy this checklist and track your progress:
 SESSION_NAME="dev-api-charlie"
 
 # Add to registry
-uv run python scripts/ecos_team_registry.py add-agent \
+uv run python scripts/amcos_team_registry.py add-agent \
   --name "$SESSION_NAME" \
   --role "developer" \
   --project "backend-api" \
   --status "running"
 
 # Verify
-uv run python scripts/ecos_team_registry.py list --filter-name "$SESSION_NAME"
+uv run python scripts/amcos_team_registry.py list --filter-name "$SESSION_NAME"
 # Output: dev-api-charlie | running | developer | backend-api
 
 # Log the addition
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "spawn" \
   --agent "$SESSION_NAME" \
   --reason "New developer for API work" \
   --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 # Notify team
-uv run python scripts/ecos_team_registry.py publish \
+uv run python scripts/amcos_team_registry.py publish \
   --broadcast-to "all" \
   --message "New team member: $SESSION_NAME (developer on backend-api)"
 ```
@@ -170,20 +170,20 @@ uv run python scripts/ecos_team_registry.py publish \
 SESSION_NAME="dev-frontend-bob"
 
 # Update status
-uv run python scripts/ecos_team_registry.py update-status \
+uv run python scripts/amcos_team_registry.py update-status \
   --name "$SESSION_NAME" \
   --status "hibernated" \
   --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 # Log hibernation
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "hibernation" \
   --agent "$SESSION_NAME" \
   --reason "Idle timeout exceeded (30 min)" \
   --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 # Verify
-uv run python scripts/ecos_team_registry.py list --filter-name "$SESSION_NAME"
+uv run python scripts/amcos_team_registry.py list --filter-name "$SESSION_NAME"
 # Output: dev-frontend-bob | hibernated | developer | webapp
 ```
 

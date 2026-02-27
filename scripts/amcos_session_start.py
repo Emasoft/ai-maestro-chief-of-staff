@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_session_start.py - Initialize Chief of Staff state on session start.
+amcos_session_start.py - Initialize Chief of Staff state on session start.
 
 SessionStart hook that loads the Chief of Staff state file and outputs a system
 message summarizing the staff status to help Claude resume work seamlessly.

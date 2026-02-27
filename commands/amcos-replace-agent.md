@@ -1,5 +1,5 @@
 ---
-name: ecos-replace-agent
+name: amcos-replace-agent
 description: "Replace a failed or terminated agent with a new one, including manager approval, handoff generation, and kanban update"
 argument-hint: "--failed-agent <NAME> --new-name <NAME> --role <ROLE> --project <PROJECT> --dir <PATH>"
 allowed-tools: ["Bash", "Read", "Task"]
@@ -69,7 +69,7 @@ Replace a failed, terminated, or unhealthy agent with a new one. This command or
 
 ```bash
 # Replace a crashed backend agent
-/ecos-replace-agent \
+/amcos-replace-agent \
   --failed-agent helper-backend \
   --new-name helper-backend-v2 \
   --role implementer \
@@ -78,7 +78,7 @@ Replace a failed, terminated, or unhealthy agent with a new one. This command or
   --reason "Agent became unresponsive after memory exhaustion"
 
 # Replace with skip approval (for urgent cases)
-/ecos-replace-agent \
+/amcos-replace-agent \
   --failed-agent test-runner \
   --new-name test-runner-new \
   --role tester \
@@ -87,7 +87,7 @@ Replace a failed, terminated, or unhealthy agent with a new one. This command or
   --skip-approval
 
 # Force replacement of online but degraded agent
-/ecos-replace-agent \
+/amcos-replace-agent \
   --failed-agent slow-processor \
   --new-name fast-processor \
   --role worker \
@@ -208,11 +208,11 @@ Use the `ai-maestro-agents-management` skill to check health of the new agent:
 
 ## Related Commands
 
-- `/ecos-health-check` - Check agent health before replacement
-- `/ecos-recovery-workflow` - Try recovery before replacement
-- `/ecos-transfer-work` - Transfer work without full replacement
-- `/ecos-terminate-agent` - Terminate the failed agent after replacement
-- `/ecos-spawn-agent` - Create agent without replacement workflow
+- `/amcos-health-check` - Check agent health before replacement
+- `/amcos-recovery-workflow` - Try recovery before replacement
+- `/amcos-transfer-work` - Transfer work without full replacement
+- `/amcos-terminate-agent` - Terminate the failed agent after replacement
+- `/amcos-spawn-agent` - Create agent without replacement workflow
 
 ## CLI Reference
 

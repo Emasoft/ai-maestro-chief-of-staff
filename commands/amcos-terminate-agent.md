@@ -1,5 +1,5 @@
 ---
-name: ecos-terminate-agent
+name: amcos-terminate-agent
 description: "Terminate a remote agent and clean up its session using AI Maestro CLI"
 argument-hint: "<AGENT_NAME> --confirm [--keep-folder]"
 allowed-tools: ["Bash", "Task"]
@@ -35,10 +35,10 @@ This command terminates an agent session. The operation:
 
 ```bash
 # Terminate an agent (requires --confirm)
-/ecos-terminate-agent helper-python --confirm
+/amcos-terminate-agent helper-python --confirm
 
 # Terminate but keep project folder (when API supports it)
-/ecos-terminate-agent old-project --confirm --keep-folder
+/amcos-terminate-agent old-project --confirm --keep-folder
 ```
 
 ## Termination vs Hibernation
@@ -51,7 +51,7 @@ This command terminates an agent session. The operation:
 | Registry entry | Removed | Updated to hibernated |
 | Use case | Permanent shutdown | Temporary pause |
 
-**IMPORTANT**: Use `/ecos-hibernate-agent` instead if you may need the agent again later!
+**IMPORTANT**: Use `/amcos-hibernate-agent` instead if you may need the agent again later!
 
 ## Termination Flow
 
@@ -87,7 +87,7 @@ This command terminates an agent session. The operation:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Agent doesn't exist | Check name with `/ecos-staff-status` |
+| "Agent not found" | Agent doesn't exist | Check name with `/amcos-staff-status` |
 | "Missing --confirm flag" | Safety check | Add `--confirm` to command |
 | "Agent is hibernated" | Cannot delete hibernated | Wake agent first, then delete |
 
@@ -101,10 +101,10 @@ Before terminating an agent:
 
 ## Related Commands
 
-- `/ecos-staff-status` - View all remote agents
-- `/ecos-spawn-agent` - Create a new remote agent
-- `/ecos-hibernate-agent` - Put an agent to sleep (preserves state)
-- `/ecos-wake-agent` - Wake a hibernated agent
+- `/amcos-staff-status` - View all remote agents
+- `/amcos-spawn-agent` - Create a new remote agent
+- `/amcos-hibernate-agent` - Put an agent to sleep (preserves state)
+- `/amcos-wake-agent` - Wake a hibernated agent
 
 ## CLI Reference
 

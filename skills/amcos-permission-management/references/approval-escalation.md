@@ -21,7 +21,7 @@
 
 ## 3.1 What Is Approval Escalation
 
-Approval escalation is the process of handling situations where EAMA (the Assistant Manager) does not respond to an approval request within the expected timeframe. ECOS cannot wait indefinitely for approval, as this would block critical operations and reduce system effectiveness.
+Approval escalation is the process of handling situations where EAMA (the Assistant Manager) does not respond to an approval request within the expected timeframe. AMCOS cannot wait indefinitely for approval, as this would block critical operations and reduce system effectiveness.
 
 **Escalation purpose:**
 - Remind EAMA of pending approval requests
@@ -215,13 +215,13 @@ escalation_events:
     operation_executed: true
 ```
 
-**Audit log location:** `docs_dev/audit/ecos-escalations-{date}.yaml`
+**Audit log location:** `docs_dev/audit/amcos-escalations-{date}.yaml`
 
 ---
 
 ## 3.4 Autonomous Operation Mode
 
-The manager (via EAMA) may issue an autonomous operation directive that allows ECOS to perform certain operations without pre-approval.
+The manager (via EAMA) may issue an autonomous operation directive that allows AMCOS to perform certain operations without pre-approval.
 
 **Autonomous directive format:**
 
@@ -397,7 +397,7 @@ directive = {
     "expires_at": "2025-02-02T18:00:00Z"
 }
 
-# Later: ECOS needs to spawn an agent
+# Later: AMCOS needs to spawn an agent
 operation = "spawn"
 target = "quick-task-agent"
 
@@ -425,7 +425,7 @@ if operation in directive["scope"] and not directive_expired(directive):
 # Directive allows: spawn, hibernate, wake
 # Directive excludes: terminate, plugin_install
 
-# ECOS wants to terminate an agent
+# AMCOS wants to terminate an agent
 operation = "terminate"
 
 if operation not in directive["scope"] or operation in directive["excluded"]:
@@ -470,7 +470,7 @@ if operation not in directive["scope"] or operation in directive["excluded"]:
 
 **Symptoms:**
 - Timeout occurs before 120 seconds
-- User responds but ECOS already proceeded
+- User responds but AMCOS already proceeded
 
 **Cause:** Timer calculation error or system clock issue.
 
@@ -497,7 +497,7 @@ if operation not in directive["scope"] or operation in directive["excluded"]:
 ### Issue: Autonomous directive not being honored
 
 **Symptoms:**
-- ECOS still requesting approval for directive-covered operations
+- AMCOS still requesting approval for directive-covered operations
 - Operations blocked waiting for approval
 
 **Cause:** Directive not loaded, expired, or scope check failing.

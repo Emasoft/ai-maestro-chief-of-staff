@@ -50,7 +50,7 @@ Proactively poll the GitHub Project Kanban board to detect external changes (by 
 
 ```bash
 PROJECT_ID="skill-factory"
-REGISTRY_FILE=".emasoft/project-registry.json"
+REGISTRY_FILE=".ai-maestro/project-registry.json"
 
 GITHUB_OWNER=$(jq -r '.projects["'"$PROJECT_ID"'"].github_repo' $REGISTRY_FILE | cut -d'/' -f1)
 PROJECT_NUMBER=$(gh project list --owner $GITHUB_OWNER --format json | jq -r '.projects[] | select(.title == "'"$(jq -r '.projects["'"$PROJECT_ID"'"].github_project' $REGISTRY_FILE)"'") | .number')

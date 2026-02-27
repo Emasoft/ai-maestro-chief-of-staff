@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_repair_memory.py - Repair corrupted memory files for Emasoft Chief of Staff.
+amcos_repair_memory.py - Repair corrupted memory files for AI Maestro Chief of Staff.
 
 Detects and repairs corruption in design/memory/ files:
 - Missing design/memory/ directory
@@ -354,7 +354,7 @@ def repair_memory(project_root: Path, dry_run: bool, verbose: bool) -> RepairRep
 def _create_parser() -> argparse.ArgumentParser:
     """Create argument parser for CLI."""
     parser = argparse.ArgumentParser(
-        description="Repair corrupted ECOS memory files in design/memory/",
+        description="Repair corrupted AMCOS memory files in design/memory/",
     )
     parser.add_argument(
         "--project-root",

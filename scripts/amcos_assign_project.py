@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_assign_project.py - Assign an agent to a project.
+amcos_assign_project.py - Assign an agent to a project.
 
 Updates the chief-of-staff state file to assign an agent session to a project.
 Optionally sends an onboarding message via AI Maestro.
@@ -8,7 +8,7 @@ Optionally sends an onboarding message via AI Maestro.
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    ecos_assign_project.py SESSION_NAME PROJECT_ID [--unassign]
+    amcos_assign_project.py SESSION_NAME PROJECT_ID [--unassign]
 
 Exit codes:
     0 - Success

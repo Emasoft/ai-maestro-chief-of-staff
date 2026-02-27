@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: record-discovered-pattern
-parent-skill: ecos-session-memory-library
+parent-skill: amcos-session-memory-library
 ---
 
 # Operation: Record Discovered Pattern

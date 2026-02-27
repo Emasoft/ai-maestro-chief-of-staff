@@ -17,7 +17,7 @@
 
 ## 2.1 What Is Approval Tracking
 
-Approval tracking is the process of maintaining state for all pending, approved, rejected, and timed-out approval requests. ECOS must track every approval request from submission to resolution to ensure:
+Approval tracking is the process of maintaining state for all pending, approved, rejected, and timed-out approval requests. AMCOS must track every approval request from submission to resolution to ensure:
 
 - No requests are lost or forgotten
 - Responses are matched to the correct requests
@@ -158,7 +158,7 @@ def check_for_responses():
 
 ### 2.3.3 Concurrent Request Handling
 
-ECOS may have multiple approval requests pending simultaneously. Each request is tracked independently.
+AMCOS may have multiple approval requests pending simultaneously. Each request is tracked independently.
 
 **Concurrency rules:**
 
@@ -261,14 +261,14 @@ def resolve_timeout(request_id, action):
 
 ## 2.4 State File Format
 
-ECOS maintains approval tracking state in a YAML file.
+AMCOS maintains approval tracking state in a YAML file.
 
-**File location:** `docs_dev/state/ecos-approval-tracking.yaml`
+**File location:** `docs_dev/state/amcos-approval-tracking.yaml`
 
 **File structure:**
 
 ```yaml
-# ECOS Approval Tracking State
+# AMCOS Approval Tracking State
 # Last updated: {ISO-8601 timestamp}
 
 metadata:
@@ -344,7 +344,7 @@ resolved_requests:
 import yaml
 from pathlib import Path
 
-STATE_FILE = Path("docs_dev/state/ecos-approval-tracking.yaml")
+STATE_FILE = Path("docs_dev/state/amcos-approval-tracking.yaml")
 
 def load_state():
     if STATE_FILE.exists():

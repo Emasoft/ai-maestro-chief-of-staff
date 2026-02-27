@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-- [Example 1: Initializing Session Memory](#example-1-initializing-session-memory) - Using `ecos_memory_manager.py init`
+- [Example 1: Initializing Session Memory](#example-1-initializing-session-memory) - Using `amcos_memory_manager.py init`
 - [Example 2: Recovering After Interruption](#example-2-recovering-after-interruption) - Reading activeContext.md to resume work
 - [Example 3: Updating Progress After Task Completion](#example-3-updating-progress-after-task-completion) - Marking tasks complete in progress.md
 - [Example 4: Updating Active Context](#example-4-updating-active-context) - Switching tasks and recording the change in activeContext.md
@@ -13,8 +13,8 @@
 ## Example 1: Initializing Session Memory
 
 ```bash
-# Using the ecos_memory_manager.py init subcommand
-python scripts/ecos_memory_manager.py init
+# Using the amcos_memory_manager.py init subcommand
+python scripts/amcos_memory_manager.py init
 
 # Output
 Created design/memory/

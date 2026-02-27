@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_add_project.py - Add a project to chief-of-staff management.
+amcos_add_project.py - Add a project to chief-of-staff management.
 
 Adds a new project entry to the chief-of-staff state file with repository URL,
 optional GitHub project board URL, and project ID.
@@ -8,7 +8,7 @@ optional GitHub project board URL, and project ID.
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    ecos_add_project.py REPO_URL --id PROJECT_ID [--github-project BOARD_URL]
+    amcos_add_project.py REPO_URL --id PROJECT_ID [--github-project BOARD_URL]
 
 Exit codes:
     0 - Success

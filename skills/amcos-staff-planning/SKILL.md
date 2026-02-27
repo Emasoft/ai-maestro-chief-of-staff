@@ -1,5 +1,5 @@
 ---
-name: ecos-staff-planning
+name: amcos-staff-planning
 description: Use when analyzing staffing needs, assessing role requirements, planning agent capacity, or creating staffing templates for multi-agent orchestration. Trigger with team sizing or staffing requests.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "Steps 2, 3"
 procedure: "proc-evaluate-project, proc-negotiate-team"
 ---
 
-# Emasoft Chief of Staff - Staff Planning Skill
+# AI Maestro Chief of Staff - Staff Planning Skill
 
 ## Overview
 

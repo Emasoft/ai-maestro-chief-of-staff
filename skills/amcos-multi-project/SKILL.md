@@ -1,5 +1,5 @@
 ---
-name: ecos-multi-project
+name: amcos-multi-project
 description: Use when managing multiple projects simultaneously, tracking project states, syncing with GitHub Projects, or coordinating cross-project dependencies. Trigger with multi-project coordination requests.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# Emasoft Chief of Staff - Multi-Project Management Skill
+# AI Maestro Chief of Staff - Multi-Project Management Skill
 
 ## Overview
 
@@ -193,7 +193,7 @@ gh project list --owner Emasoft --format json | jq '.projects[] | select(.title 
 gh project item-edit --project-id PVT_xxx --id PVTI_xxx --field-id PVTF_xxx --single-select-option-id "Done"
 
 # Sync local registry after GitHub update
-python scripts/ecos_sync_github_projects.py --project skill-factory --direction pull
+python scripts/amcos_sync_github_projects.py --project skill-factory --direction pull
 ```
 
 ### Example 3: Cross-Project Dependency
@@ -204,7 +204,7 @@ python scripts/ecos_sync_github_projects.py --project skill-factory --direction 
 ### Projects Involved
 1. perfect-skill-suggester (PSS)
 2. claude-plugins-validation (CPV)
-3. emasoft-plugins-marketplace (EPM)
+3. ai-maestro-plugins-marketplace (EPM)
 
 ### Dependency Chain
 PSS depends on CPV for validation

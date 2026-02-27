@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-ecos_memory_manager.py - Automated Memory File Management for Emasoft Chief of Staff.
+amcos_memory_manager.py - Automated Memory File Management for AI Maestro Chief of Staff.
 
-Automates updates to Emasoft Chief of Staff memory files (activeContext.md, progress.md, patterns.md).
+Automates updates to AI Maestro Chief of Staff memory files (activeContext.md, progress.md, patterns.md).
 Dependencies: Python 3.8+ stdlib only
 """
 
@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from ecos_memory_operations import (
+from amcos_memory_operations import (
     add_decision,
     add_pattern,
     add_progress,
@@ -321,7 +321,7 @@ def validate_progress(config: MemoryConfig, verbose: bool = False) -> tuple[bool
 
 def _create_parser() -> argparse.ArgumentParser:
     """Create argument parser for CLI."""
-    parser = argparse.ArgumentParser(description="Emasoft Chief of Staff Memory File Management")
+    parser = argparse.ArgumentParser(description="AI Maestro Chief of Staff Memory File Management")
     parser.add_argument("--memory-root", type=Path, default=Path("design/memory"))
     sub = parser.add_subparsers(dest="command", required=True)
 

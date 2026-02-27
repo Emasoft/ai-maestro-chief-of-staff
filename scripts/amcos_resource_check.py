@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_resource_check.py - UserPromptSubmit hook for resource warning.
+amcos_resource_check.py - UserPromptSubmit hook for resource warning.
 
 Checks system resources before spawning new agents and warns if thresholds exceeded:
 - CPU usage > 80%

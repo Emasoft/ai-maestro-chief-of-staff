@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
-ECOS Team Registry Manager
+AMCOS Team Registry Manager
 
 Manages team registries for multi-project agent coordination.
 Creates, updates, and publishes team-registry.json files.
 
 Usage:
-    python ecos_team_registry.py create --team <name> --repo <url> [--project-board <url>]
-    python ecos_team_registry.py add-agent --team <name> --agent <agent-json>
-    python ecos_team_registry.py remove-agent --team <name> --agent-name <name>
-    python ecos_team_registry.py update-status --team <name> --agent-name <name> --status <status>
-    python ecos_team_registry.py list --team <name>
-    python ecos_team_registry.py publish --team <name> --repo-path <path>
-    python ecos_team_registry.py validate --team <name>
+    python amcos_team_registry.py create --team <name> --repo <url> [--project-board <url>]
+    python amcos_team_registry.py add-agent --team <name> --agent <agent-json>
+    python amcos_team_registry.py remove-agent --team <name> --agent-name <name>
+    python amcos_team_registry.py update-status --team <name> --agent-name <name> --status <status>
+    python amcos_team_registry.py list --team <name>
+    python amcos_team_registry.py publish --team <name> --repo-path <path>
+    python amcos_team_registry.py validate --team <name>
 """
 
 import argparse
@@ -28,17 +28,17 @@ ORGANIZATION_AGENTS = [
     {
         "name": "eama-assistant-manager",
         "role": "manager",
-        "plugin": "emasoft-assistant-manager-agent",
+        "plugin": "ai-maestro-assistant-manager-agent",
         "host": "macbook-main",
         "ai_maestro_address": "eama-assistant-manager",
         "note": "Organization-wide, not team-specific",
     },
     {
-        "name": "ecos-chief-of-staff",
+        "name": "amcos-chief-of-staff",
         "role": "chief-of-staff",
-        "plugin": "emasoft-chief-of-staff",
+        "plugin": "ai-maestro-chief-of-staff",
         "host": "macbook-main",
-        "ai_maestro_address": "ecos-chief-of-staff",
+        "ai_maestro_address": "amcos-chief-of-staff",
         "note": "Organization-wide, not team-specific",
     },
 ]
@@ -46,11 +46,11 @@ ORGANIZATION_AGENTS = [
 # Default shared agents
 DEFAULT_SHARED_AGENTS = [
     {
-        "name": "emasoft-integrator",
+        "name": "ai-maestro-integrator",
         "role": "integrator",
-        "plugin": "emasoft-integrator-agent",
+        "plugin": "ai-maestro-integrator-agent",
         "host": "server-ci-01",
-        "ai_maestro_address": "emasoft-integrator",
+        "ai_maestro_address": "ai-maestro-integrator",
         "note": "Shared across multiple teams",
     }
 ]
@@ -72,15 +72,15 @@ class RoleConstraint:
 
 
 ROLE_CONSTRAINTS: dict[str, RoleConstraint] = {
-    "orchestrator": RoleConstraint(1, 1, "emasoft-orchestrator-agent"),
-    "architect": RoleConstraint(1, 1, "emasoft-architect-agent"),
-    "integrator": RoleConstraint(0, 10, "emasoft-integrator-agent"),
-    "programmer": RoleConstraint(1, 20, "emasoft-programmer-agent"),
+    "orchestrator": RoleConstraint(1, 1, "ai-maestro-orchestrator-agent"),
+    "architect": RoleConstraint(1, 1, "ai-maestro-architect-agent"),
+    "integrator": RoleConstraint(0, 10, "ai-maestro-integrator-agent"),
+    "programmer": RoleConstraint(1, 20, "ai-maestro-programmer-agent"),
 }
 
-# ECOS state directory
-ECOS_STATE_DIR = Path.home() / ".ecos"
-TEAMS_REGISTRY_FILE = ECOS_STATE_DIR / "all-teams.json"
+# AMCOS state directory
+AMCOS_STATE_DIR = Path.home() / ".ecos"
+TEAMS_REGISTRY_FILE = AMCOS_STATE_DIR / "all-teams.json"
 
 
 def get_timestamp() -> str:
@@ -90,7 +90,7 @@ def get_timestamp() -> str:
 
 def load_all_teams() -> dict[str, Any]:
     """Load the master list of all teams."""
-    ECOS_STATE_DIR.mkdir(parents=True, exist_ok=True)
+    AMCOS_STATE_DIR.mkdir(parents=True, exist_ok=True)
     if TEAMS_REGISTRY_FILE.exists():
         with open(TEAMS_REGISTRY_FILE, encoding="utf-8") as f:
             return cast(dict[str, Any], json.load(f))
@@ -134,7 +134,7 @@ def create_team_registry(
     timestamp = get_timestamp()
 
     registry = {
-        "$schema": "https://emasoft.github.io/schemas/team-registry.v1.json",
+        "$schema": "https://ai-maestro.github.io/schemas/team-registry.v1.json",
         "version": "1.0.0",
         "team": {
             "name": team_name,
@@ -144,19 +144,19 @@ def create_team_registry(
                 "created_by": "eama-assistant-manager",
                 "created_at": timestamp,
             },
-            "created_by": "ecos-chief-of-staff",
+            "created_by": "amcos-chief-of-staff",
             "created_at": timestamp,
         },
         "agents": [],
         "shared_agents": DEFAULT_SHARED_AGENTS.copy(),
         "organization_agents": ORGANIZATION_AGENTS.copy(),
         "github_bot": {
-            "username": "emasoft-bot",
+            "username": "ai-maestro-bot",
             "type": "shared-bot-account",
             "note": "All GitHub operations use this account. Real agent identity tracked in commit messages and PR bodies.",
         },
         "contacts_last_updated": timestamp,
-        "contacts_updated_by": "ecos-chief-of-staff",
+        "contacts_updated_by": "amcos-chief-of-staff",
     }
 
     # Register in master list
@@ -223,7 +223,7 @@ def add_agent_to_registry(
 
     registry["agents"].append(agent_entry)
     registry["contacts_last_updated"] = get_timestamp()
-    registry["contacts_updated_by"] = "ecos-chief-of-staff"
+    registry["contacts_updated_by"] = "amcos-chief-of-staff"
 
     return registry
 
@@ -256,7 +256,7 @@ def remove_agent_from_registry(
     # Remove
     registry["agents"].pop(agent_idx)
     registry["contacts_last_updated"] = get_timestamp()
-    registry["contacts_updated_by"] = "ecos-chief-of-staff"
+    registry["contacts_updated_by"] = "amcos-chief-of-staff"
 
     return registry
 
@@ -283,7 +283,7 @@ def update_agent_status(
         raise ValueError(f"Agent '{agent_name}' not found in team")
 
     registry["contacts_last_updated"] = get_timestamp()
-    registry["contacts_updated_by"] = "ecos-chief-of-staff"
+    registry["contacts_updated_by"] = "amcos-chief-of-staff"
 
     return registry
 
@@ -340,10 +340,10 @@ def publish_registry_to_repo(registry: dict[str, Any], repo_path: str) -> str:
     """Publish team registry to the git repository."""
 
     repo_path_obj = Path(repo_path)
-    emasoft_dir = repo_path_obj / ".emasoft"
-    emasoft_dir.mkdir(parents=True, exist_ok=True)
+    ai_maestro_dir = repo_path_obj / ".ai-maestro"
+    ai_maestro_dir.mkdir(parents=True, exist_ok=True)
 
-    registry_file = emasoft_dir / "team-registry.json"
+    registry_file = ai_maestro_dir / "team-registry.json"
 
     with open(registry_file, "w", encoding="utf-8") as f:
         json.dump(registry, f, indent=2)
@@ -359,7 +359,7 @@ def publish_registry_to_repo(registry: dict[str, Any], repo_path: str) -> str:
 
         team_name = registry["team"]["name"]
         subprocess.run(
-            ["git", "commit", "-m", f"[ECOS] Update team registry for {team_name}"],
+            ["git", "commit", "-m", f"[AMCOS] Update team registry for {team_name}"],
             cwd=repo_path,
             check=True,
             capture_output=True,
@@ -450,32 +450,32 @@ def notify_team_of_registry_update(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="ECOS Team Registry Manager",
+        description="AMCOS Team Registry Manager",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
     # Create a new team
-    python ecos_team_registry.py create --team svgbbox-library-team \\
+    python amcos_team_registry.py create --team svgbbox-library-team \\
         --repo https://github.com/Emasoft/svgbbox \\
         --project-board https://github.com/orgs/Emasoft/projects/12
 
     # Add an agent
-    python ecos_team_registry.py add-agent --team svgbbox-library-team \\
+    python amcos_team_registry.py add-agent --team svgbbox-library-team \\
         --agent-name svgbbox-programmer-001 --role programmer \\
-        --plugin emasoft-programmer-agent --host macbook-dev-01
+        --plugin ai-maestro-programmer-agent --host macbook-dev-01
 
     # Update agent status
-    python ecos_team_registry.py update-status --team svgbbox-library-team \\
+    python amcos_team_registry.py update-status --team svgbbox-library-team \\
         --agent-name svgbbox-impl-01 --status hibernated
 
     # List team
-    python ecos_team_registry.py list --team svgbbox-library-team
+    python amcos_team_registry.py list --team svgbbox-library-team
 
     # Validate
-    python ecos_team_registry.py validate --team svgbbox-library-team
+    python amcos_team_registry.py validate --team svgbbox-library-team
 
     # Publish to repo
-    python ecos_team_registry.py publish --team svgbbox-library-team \\
+    python amcos_team_registry.py publish --team svgbbox-library-team \\
         --repo-path /path/to/repo
         """,
     )

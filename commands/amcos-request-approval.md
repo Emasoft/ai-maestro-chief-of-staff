@@ -1,5 +1,5 @@
 ---
-name: ecos-request-approval
+name: amcos-request-approval
 description: "Request approval from manager (EAMA) for agent operations via AI Maestro"
 argument-hint: "--type <TYPE> --agent <NAME> --reason <TEXT> [--urgent] [--timeout <SECONDS>]"
 allowed-tools: ["Bash", "Task", "Read"]
@@ -13,7 +13,7 @@ Request approval from the Assistant Manager (EAMA) for sensitive agent operation
 ## Usage
 
 Send an approval request to EAMA using the `agent-messaging` skill:
-- **Recipient**: `emasoft-assistant-manager-agent` (EAMA)
+- **Recipient**: `ai-maestro-assistant-manager-agent` (EAMA)
 - **Subject**: `[APPROVAL REQUEST] <type>: <agent-name>`
 - **Content**: structured approval request with request ID, operation type, agent name, reason, and timestamp
 - **Priority**: `high` (or `urgent` if `--urgent` flag is set)
@@ -48,29 +48,29 @@ Send an approval request to EAMA using the `agent-messaging` skill:
 Each request gets a unique ID for tracking:
 
 ```bash
-REQUEST_ID="ECOS-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
+REQUEST_ID="AMCOS-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
 ```
 
-Example: `ECOS-20250202150000-a1b2c3d4`
+Example: `AMCOS-20250202150000-a1b2c3d4`
 
 ## Examples
 
 ```bash
 # Request approval to spawn a new agent
-/ecos-request-approval --type spawn --agent helper-tester \
+/amcos-request-approval --type spawn --agent helper-tester \
   --reason "Need additional agent for parallel test execution"
 
 # Request approval to terminate an agent (high risk)
-/ecos-request-approval --type terminate --agent old-worker --urgent \
+/amcos-request-approval --type terminate --agent old-worker --urgent \
   --reason "Agent has critical bug and cannot recover"
 
 # Request approval to install a plugin
-/ecos-request-approval --type install --agent helper-python \
-  --reason "Agent needs emasoft-integrator plugin for CI/CD tasks" \
-  --metadata '{"plugin": "emasoft-integrator-agent"}'
+/amcos-request-approval --type install --agent helper-python \
+  --reason "Agent needs ai-maestro-integrator plugin for CI/CD tasks" \
+  --metadata '{"plugin": "ai-maestro-integrator-agent"}'
 
 # Request with wait for response
-/ecos-request-approval --type hibernate --agent helper-docs \
+/amcos-request-approval --type hibernate --agent helper-docs \
   --reason "Pausing documentation work until API is finalized" \
   --timeout 60
 ```
@@ -83,13 +83,13 @@ The approval request is sent as a structured AI Maestro message:
 
 ```json
 {
-  "from": "emasoft-chief-of-staff",
-  "to": "emasoft-assistant-manager-agent",
+  "from": "ai-maestro-chief-of-staff",
+  "to": "ai-maestro-assistant-manager-agent",
   "subject": "[APPROVAL REQUEST] terminate: helper-python",
   "priority": "high",
   "content": {
     "type": "approval_request",
-    "request_id": "ECOS-20250202150000-a1b2c3d4",
+    "request_id": "AMCOS-20250202150000-a1b2c3d4",
     "operation_type": "terminate",
     "agent_name": "helper-python",
     "reason": "Agent has critical bug and cannot recover",
@@ -106,7 +106,7 @@ EAMA responds with an approval decision:
 ```json
 {
   "type": "approval_response",
-  "request_id": "ECOS-20250202150000-a1b2c3d4",
+  "request_id": "AMCOS-20250202150000-a1b2c3d4",
   "decision": "approved",
   "conditions": [],
   "notes": "Proceed with termination. Ensure work is backed up first.",
@@ -123,7 +123,7 @@ Decision values: `approved`, `rejected`, `deferred`, `needs_more_info`
   APPROVAL REQUEST SUBMITTED
 =======================================================================
 
-  Request ID:    ECOS-20250202150000-a1b2c3d4
+  Request ID:    AMCOS-20250202150000-a1b2c3d4
   Operation:     terminate
   Target Agent:  helper-python
   Priority:      high
@@ -133,7 +133,7 @@ Decision values: `approved`, `rejected`, `deferred`, `needs_more_info`
   Status: PENDING - Awaiting EAMA response
 
 =======================================================================
-  Use /ecos-check-approval-status --request-id ECOS-20250202150000-a1b2c3d4
+  Use /amcos-check-approval-status --request-id AMCOS-20250202150000-a1b2c3d4
   to check the status of this request.
 =======================================================================
 ```
@@ -143,7 +143,7 @@ Decision values: `approved`, `rejected`, `deferred`, `needs_more_info`
 Approval requests are logged to:
 
 ```
-~/.aimaestro/approvals/pending/ECOS-20250202150000-a1b2c3d4.json
+~/.aimaestro/approvals/pending/AMCOS-20250202150000-a1b2c3d4.json
 ```
 
 ## Error Handling
@@ -166,7 +166,7 @@ Before requesting approval:
 
 ## Related Commands
 
-- `/ecos-check-approval-status` - Check status of pending approvals
-- `/ecos-wait-for-approval` - Wait for approval with timeout
-- `/ecos-notify-manager` - Send notification to manager
-- `/ecos-staff-status` - View all agents
+- `/amcos-check-approval-status` - Check status of pending approvals
+- `/amcos-wait-for-approval` - Wait for approval with timeout
+- `/amcos-notify-manager` - Send notification to manager
+- `/amcos-staff-status` - View all agents

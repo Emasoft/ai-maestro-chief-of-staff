@@ -1,5 +1,5 @@
 ---
-name: ecos-transfer-work
+name: amcos-transfer-work
 description: "Transfer work from one agent to another by sending handoff documentation via AI Maestro messaging"
 argument-hint: "--from <AGENT> --to <AGENT> --handoff-file <PATH> [--priority urgent|high|normal]"
 allowed-tools: ["Bash", "Task", "Read"]
@@ -11,7 +11,7 @@ user-invocable: true
 Transfer work context from one agent to another by sending handoff documentation via AI Maestro messaging. This is a lightweight work transfer that does not terminate or replace the source agent.
 
 **IMPORTANT: Role Boundaries**
-- ECOS sends the handoff documentation to the target agent
+- AMCOS sends the handoff documentation to the target agent
 - EOA handles the actual task reassignment in the GitHub Project kanban
 - Always use `--notify-orchestrator` so EOA can update task assignments
 
@@ -57,13 +57,13 @@ Transfer work context from one agent to another by sending handoff documentation
 
 ```bash
 # Basic work transfer
-/ecos-transfer-work \
+/amcos-transfer-work \
   --from helper-backend \
   --to helper-backend-v2 \
   --handoff-file ~/handoffs/backend-transfer.md
 
 # Urgent transfer with notification
-/ecos-transfer-work \
+/amcos-transfer-work \
   --from crashed-agent \
   --to replacement-agent \
   --handoff-file /tmp/handoff-20240115.md \
@@ -71,7 +71,7 @@ Transfer work context from one agent to another by sending handoff documentation
   --notify-orchestrator
 
 # Transfer with summary
-/ecos-transfer-work \
+/amcos-transfer-work \
   --from old-tester \
   --to new-tester \
   --handoff-file ~/docs/test-handoff.md \
@@ -213,9 +213,9 @@ Use `--format json` for structured output:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Source agent not found" | Invalid from agent | Check agent name with `/ecos-staff-status` |
-| "Target agent not found" | Invalid to agent | Check agent name with `/ecos-staff-status` |
-| "Target agent offline" | Agent not running | Wake agent with `/ecos-wake-agent` first |
+| "Source agent not found" | Invalid from agent | Check agent name with `/amcos-staff-status` |
+| "Target agent not found" | Invalid to agent | Check agent name with `/amcos-staff-status` |
+| "Target agent offline" | Agent not running | Wake agent with `/amcos-wake-agent` first |
 | "Handoff file not found" | Invalid path | Verify file path exists |
 | "Message send failed" | AI Maestro error | Check API is running |
 
@@ -231,10 +231,10 @@ Use `--format json` for structured output:
 
 ## Related Commands
 
-- `/ecos-replace-agent` - Full replacement workflow (includes transfer)
-- `/ecos-spawn-agent` - Create new agent to receive work
-- `/ecos-staff-status` - Check agent availability before transfer
-- `/ecos-health-check` - Verify target agent health
+- `/amcos-replace-agent` - Full replacement workflow (includes transfer)
+- `/amcos-spawn-agent` - Create new agent to receive work
+- `/amcos-staff-status` - Check agent availability before transfer
+- `/amcos-health-check` - Verify target agent health
 
 ## CLI Reference
 

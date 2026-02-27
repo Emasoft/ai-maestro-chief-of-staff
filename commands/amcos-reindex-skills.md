@@ -1,9 +1,9 @@
 ---
-name: ecos-reindex-skills
+name: amcos-reindex-skills
 description: "Trigger Perfect Skill Suggester reindex for an agent's skills"
 argument-hint: "<SESSION_NAME> [--force] [--wait]"
 user-invocable: true
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_reindex_skills.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_reindex_skills.py:*)"]
 ---
 
 # Reindex Skills Command
@@ -13,7 +13,7 @@ Trigger a Perfect Skill Suggester (PSS) reindex for a specific agent. This regen
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_reindex_skills.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_reindex_skills.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -53,19 +53,19 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_reindex_skills.py" $ARGUMENTS
 ### Trigger reindex for an agent
 
 ```bash
-/ecos-reindex-skills orchestrator-master
+/amcos-reindex-skills orchestrator-master
 ```
 
 ### Force full reindex and wait for completion
 
 ```bash
-/ecos-reindex-skills orchestrator-master --force --wait
+/amcos-reindex-skills orchestrator-master --force --wait
 ```
 
 ### Trigger with custom timeout
 
 ```bash
-/ecos-reindex-skills libs-svg-svgbbox --wait --timeout 600
+/amcos-reindex-skills libs-svg-svgbbox --wait --timeout 600
 ```
 
 ## Output Example
@@ -157,6 +157,6 @@ Trigger a reindex when:
 
 ## Related Commands
 
-- `/ecos-validate-skills` - Validate skills before reindexing
-- `/ecos-configure-plugins` - Configure plugins (may require reindex)
+- `/amcos-validate-skills` - Validate skills before reindexing
+- `/amcos-configure-plugins` - Configure plugins (may require reindex)
 - `/pss-reindex-skills` - Direct PSS reindex command (on target agent)

@@ -28,7 +28,7 @@
 
 ```yaml
 # Chief of Staff State File
-# Auto-managed by ecos-project-coordinator
+# Auto-managed by amcos-project-coordinator
 # Last updated: <timestamp>
 
 projects: []
@@ -94,7 +94,7 @@ projects:
 
 8. If this is a significant change (first project, or major milestone), commit the change to git
 
-**Expected result**: The new project appears in the registry and can be queried with `/ecos-list-projects`.
+**Expected result**: The new project appears in the registry and can be queried with `/amcos-list-projects`.
 
 ---
 
@@ -327,7 +327,7 @@ dependencies:
 **When to use**: To track which agents are actively working on which projects, enabling coordination and conflict resolution.
 
 **Agent assignment rules**:
-1. **One Primary Agent**: Each project should have one primary coordinating agent (typically `ecos-main` or `eoa-task-coordinator`)
+1. **One Primary Agent**: Each project should have one primary coordinating agent (typically `amcos-main` or `eoa-task-coordinator`)
 2. **Specialist Agents**: Additional agents can be assigned for specific tasks (e.g., `eia-code-reviewer`, `eoa-debug-specialist`)
 3. **Cross-Project Agents**: Some agents may work across multiple projects simultaneously
 4. **Conflict Resolution**: When an agent is assigned to multiple projects, coordinate timing to avoid context switching
@@ -352,7 +352,7 @@ dependencies:
 projects:
   - id: "skill-factory"
     active_agents:
-      - "ecos-main"
+      - "amcos-main"
       - "eoa-task-coordinator"
       - "<new-agent-name>"
 ```

@@ -32,7 +32,7 @@
 - [ ] Prepare rollback plan (terminate agent, clean up directory)
 
 **Submit approval request:**
-- [ ] Request approval from EAMA via ecos-approval-coordinator sub-agent
+- [ ] Request approval from EAMA via amcos-approval-coordinator sub-agent
 - [ ] Wait for approval decision (timeout: 120s)
 - [ ] If rejected, notify requester and STOP
 - [ ] If approved, continue
@@ -64,7 +64,7 @@
 - [ ] Prepare rollback plan (re-spawn agent with same configuration)
 
 **Submit approval request:**
-- [ ] Request approval from EAMA via ecos-approval-coordinator
+- [ ] Request approval from EAMA via amcos-approval-coordinator
 - [ ] Wait for approval decision (timeout: 120s)
 - [ ] If rejected, notify requester and STOP
 - [ ] If approved, continue
@@ -95,7 +95,7 @@
 - [ ] Verify agent exists and is active
 - [ ] Check agent idle time: Review AI Maestro message history
 - [ ] Ensure agent has no critical tasks in progress
-- [ ] Create hibernation directory: `mkdir -p $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/`
+- [ ] Create hibernation directory: `mkdir -p $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/`
 
 **Notify agent:**
 - [ ] Send message to agent: "You will be hibernated due to inactivity. Save state."
@@ -118,7 +118,7 @@
 
 **Pre-wake checks:**
 - [ ] Verify agent exists and is hibernated
-- [ ] Check hibernation snapshot exists: `test -f $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/context.json`
+- [ ] Check hibernation snapshot exists: `test -f $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 - [ ] Ensure working directory still accessible
 
 **Execute wake:**
@@ -143,16 +143,16 @@
 
 **Preparation:**
 - [ ] Verify project directory exists
-- [ ] Verify project has `.emasoft/` directory (create if missing)
-- [ ] Identify team lead (typically EOA - Emasoft Orchestrator Agent)
+- [ ] Verify project has `.ai-maestro/` directory (create if missing)
+- [ ] Identify team lead (typically EOA - AI Maestro Orchestrator Agent)
 - [ ] Identify team members and their roles
 
 **Create team registry:**
-- [ ] Run `uv run python scripts/ecos_team_registry.py create <project-dir> --team-lead <agent-name>`
-- [ ] Verify `.emasoft/team-registry.json` created
+- [ ] Run `uv run python scripts/amcos_team_registry.py create <project-dir> --team-lead <agent-name>`
+- [ ] Verify `.ai-maestro/team-registry.json` created
 
 **Assign agents to team:**
-- [ ] For each agent: `uv run python scripts/ecos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
+- [ ] For each agent: `uv run python scripts/amcos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
 - [ ] Verify each agent added to registry
 
 **Notify team members:**
@@ -174,14 +174,14 @@
 **Before update:**
 - [ ] Verify team registry exists
 - [ ] Verify agent exists (if adding agent)
-- [ ] Backup current registry: `cp .emasoft/team-registry.json .emasoft/team-registry.json.bak`
+- [ ] Backup current registry: `cp .ai-maestro/team-registry.json .ai-maestro/team-registry.json.bak`
 
 **Execute update:**
 - [ ] Run appropriate command:
-  - Add agent: `uv run python scripts/ecos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
-  - Remove agent: `uv run python scripts/ecos_team_registry.py remove-agent <project-dir> <agent-name>`
-  - Update status: `uv run python scripts/ecos_team_registry.py update-status <project-dir> <agent-name> <status>`
-- [ ] Verify registry updated correctly: `uv run python scripts/ecos_team_registry.py list <project-dir>`
+  - Add agent: `uv run python scripts/amcos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
+  - Remove agent: `uv run python scripts/amcos_team_registry.py remove-agent <project-dir> <agent-name>`
+  - Update status: `uv run python scripts/amcos_team_registry.py update-status <project-dir> <agent-name> <status>`
+- [ ] Verify registry updated correctly: `uv run python scripts/amcos_team_registry.py list <project-dir>`
 
 **Notify affected agents:**
 - [ ] Notify agent of registry change

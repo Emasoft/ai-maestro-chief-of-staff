@@ -1,6 +1,6 @@
-# AGENT_OPERATIONS.md - ECOS Chief of Staff
+# AGENT_OPERATIONS.md - AMCOS Chief of Staff
 
-**SINGLE SOURCE OF TRUTH** for ECOS (Emasoft Chief of Staff) agent operations.
+**SINGLE SOURCE OF TRUTH** for AMCOS (AI Maestro Chief of Staff) agent operations.
 
 ---
 
@@ -8,12 +8,12 @@
 
 **Format**: `<role-prefix>-<descriptive>[-number]`
 
-**ECOS prefix**: `ecos-`
+**AMCOS prefix**: `amcos-`
 
 **Examples**:
-- `ecos-chief-of-staff-one`
-- `ecos-project-alpha`
-- `ecos-svgbbox-coordinator`
+- `amcos-chief-of-staff-one`
+- `amcos-project-alpha`
+- `amcos-svgbbox-coordinator`
 
 **Critical Rules**:
 - Session name = AI Maestro registry identity (how agents message each other)
@@ -25,7 +25,7 @@
 **Role Prefixes**:
 | Role | Prefix | Example Session Name |
 |------|--------|---------------------|
-| Chief of Staff | `ecos-` | `ecos-chief-of-staff-one` |
+| Chief of Staff | `amcos-` | `amcos-chief-of-staff-one` |
 | Orchestrator | `eoa-` | `eoa-svgbbox-orchestrator` |
 | Architect | `eaa-` | `eaa-project-alpha-architect` |
 | Integrator | `eia-` | `eia-feature-reviewer` |
@@ -45,11 +45,11 @@
 ```bash
 # Current plugin (loaded by this agent)
 ${CLAUDE_PLUGIN_ROOT}
-# Example: ~/agents/ecos-chief-of-staff-one/.claude/plugins/emasoft-chief-of-staff
+# Example: ~/agents/amcos-chief-of-staff-one/.claude/plugins/ai-maestro-chief-of-staff
 
 # Sibling plugins (in same parent directory)
 ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
-# Example: ~/agents/ecos-chief-of-staff-one/.claude/plugins/emasoft-orchestrator-agent
+# Example: ~/agents/amcos-chief-of-staff-one/.claude/plugins/ai-maestro-orchestrator-agent
 
 # Agent local plugins directory
 ~/agents/<session-name>/.claude/plugins/<plugin-name>/
@@ -58,10 +58,10 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 **Plugin Sources**:
 | Context | Plugin Source |
 |---------|--------------|
-| **Marketplace** | `~/.claude/plugins/cache/emasoft-plugins/<plugin-name>/<version>/` |
+| **Marketplace** | `~/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<version>/` |
 | **Agent Local** | `~/agents/<session-name>/.claude/plugins/<plugin-name>/` |
 
-**CRITICAL**: ECOS installs plugins from the emasoft-plugins marketplace cache to the agent's local `.claude/plugins/` folder!
+**CRITICAL**: AMCOS installs plugins from the ai-maestro-plugins marketplace cache to the agent's local `.claude/plugins/` folder!
 
 ---
 
@@ -71,10 +71,10 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 
 ```
 ~/agents/
-├── ecos-chief-of-staff-one/
+├── amcos-chief-of-staff-one/
 │   └── .claude/
 │       └── plugins/
-│           └── emasoft-chief-of-staff/
+│           └── ai-maestro-chief-of-staff/
 │               ├── .claude-plugin/
 │               │   └── plugin.json
 │               ├── agents/
@@ -84,7 +84,7 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 ├── eoa-svgbbox-orchestrator/
 │   └── .claude/
 │       └── plugins/
-│           └── emasoft-orchestrator-agent/
+│           └── ai-maestro-orchestrator-agent/
 │               ├── .claude-plugin/
 │               │   └── plugin.json
 │               ├── agents/
@@ -94,22 +94,22 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 ├── eaa-project-alpha-architect/
 │   └── .claude/
 │       └── plugins/
-│           └── emasoft-architect-agent/
+│           └── ai-maestro-architect-agent/
 │               └── ...
 ├── eia-feature-reviewer/
 │   └── .claude/
 │       └── plugins/
-│           └── emasoft-integrator-agent/
+│           └── ai-maestro-integrator-agent/
 │               └── ...
 ├── svgbbox-programmer-001/
 │   └── .claude/
 │       └── plugins/
-│           └── emasoft-programmer-agent/
+│           └── ai-maestro-programmer-agent/
 │               └── ...
 └── eama-user-interface/
     └── .claude/
         └── plugins/
-            └── emasoft-assistant-manager-agent/
+            └── ai-maestro-assistant-manager-agent/
                 └── ...
 ```
 
@@ -128,7 +128,7 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 **CRITICAL**: Always copy plugin to agent's local directory before spawning!
 
 The plugin must be copied from the marketplace cache to the agent's local `.claude/plugins/` directory:
-- **Source**: `$HOME/.claude/plugins/cache/emasoft-plugins/<plugin-name>/<latest-version>/`
+- **Source**: `$HOME/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<latest-version>/`
 - **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
 
 **Verify**: the copied plugin contains `.claude-plugin/plugin.json`.
@@ -159,33 +159,33 @@ Use the `ai-maestro-agents-management` skill to create a new agent:
 
 | Role | Plugin | --agent Flag | Prefix |
 |------|--------|--------------|--------|
-| Chief of Staff | `emasoft-chief-of-staff` | `ecos-chief-of-staff-main-agent` | `ecos-` |
-| Orchestrator | `emasoft-orchestrator-agent` | `eoa-orchestrator-main-agent` | `eoa-` |
-| Architect | `emasoft-architect-agent` | `eaa-architect-main-agent` | `eaa-` |
-| Integrator | `emasoft-integrator-agent` | `eia-integrator-main-agent` | `eia-` |
-| Manager | `emasoft-assistant-manager-agent` | `eama-assistant-manager-main-agent` | `eama-` |
-| Programmer | `emasoft-programmer-agent` | `epa-programmer-main-agent` | (none) |
+| Chief of Staff | `ai-maestro-chief-of-staff` | `amcos-chief-of-staff-main-agent` | `amcos-` |
+| Orchestrator | `ai-maestro-orchestrator-agent` | `eoa-orchestrator-main-agent` | `eoa-` |
+| Architect | `ai-maestro-architect-agent` | `eaa-architect-main-agent` | `eaa-` |
+| Integrator | `ai-maestro-integrator-agent` | `eia-integrator-main-agent` | `eia-` |
+| Manager | `ai-maestro-assistant-manager-agent` | `eama-assistant-manager-main-agent` | `eama-` |
+| Programmer | `ai-maestro-programmer-agent` | `epa-programmer-main-agent` | (none) |
 
 ### 4.4 Example: Spawn Orchestrator
 
-1. Copy `emasoft-orchestrator-agent` plugin from marketplace cache to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/emasoft-orchestrator-agent/`
+1. Copy `ai-maestro-orchestrator-agent` plugin from marketplace cache to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent/`
 2. Use the `ai-maestro-agents-management` skill to create a new agent:
    - **Name**: `eoa-svgbbox-orchestrator`
    - **Directory**: `$HOME/agents/eoa-svgbbox-orchestrator`
    - **Task**: "Orchestrate development of svgbbox library features"
-   - **Plugin**: `emasoft-orchestrator-agent`
+   - **Plugin**: `ai-maestro-orchestrator-agent`
    - **Agent**: `eoa-orchestrator-main-agent`
 
 **Verify**: agent `eoa-svgbbox-orchestrator` appears online in the agent list.
 
 ### 4.5 Example: Spawn Programmer
 
-1. Copy `emasoft-programmer-agent` plugin from marketplace cache to `$HOME/agents/svgbbox-programmer-001/.claude/plugins/emasoft-programmer-agent/`
+1. Copy `ai-maestro-programmer-agent` plugin from marketplace cache to `$HOME/agents/svgbbox-programmer-001/.claude/plugins/ai-maestro-programmer-agent/`
 2. Use the `ai-maestro-agents-management` skill to create a new agent:
    - **Name**: `svgbbox-programmer-001` (Programmers use project-based naming)
    - **Directory**: `$HOME/agents/svgbbox-programmer-001`
    - **Task**: "Implement authentication module for svgbbox library"
-   - **Plugin**: `emasoft-programmer-agent`
+   - **Plugin**: `ai-maestro-programmer-agent`
    - **Agent**: `epa-programmer-main-agent`
 
 **Verify**: agent `svgbbox-programmer-001` appears online in the agent list.
@@ -262,7 +262,7 @@ Use the `ai-maestro-agents-management` skill to terminate (delete) the agent:
 - Agent definitions can conflict
 
 **Implications**:
-- ❌ CANNOT load `emasoft-chief-of-staff` + `emasoft-orchestrator-agent` in same session
+- ❌ CANNOT load `ai-maestro-chief-of-staff` + `ai-maestro-orchestrator-agent` in same session
 - ❌ CANNOT reference skills from other plugins (e.g., EIA skill in EOA session)
 - ✅ MUST spawn separate agent with correct plugin for cross-role operations
 - ✅ MUST use AI Maestro messaging for cross-plugin communication
@@ -279,14 +279,14 @@ Each plugin must include:
 **Example Violations**:
 ```bash
 # WRONG: Load two role plugins
-claude --plugin-dir ~/plugins/emasoft-chief-of-staff \
-       --plugin-dir ~/plugins/emasoft-orchestrator-agent
+claude --plugin-dir ~/plugins/ai-maestro-chief-of-staff \
+       --plugin-dir ~/plugins/ai-maestro-orchestrator-agent
 
 # WRONG: Reference other plugin's skill
-/learn eoa-two-phase-orchestration  # eoa- skill in ecos- session
+/learn eoa-two-phase-orchestration  # eoa- skill in amcos- session
 
 # WRONG: Use other plugin's command
-/eoa-initiate  # eoa- command in ecos- session
+/eoa-initiate  # eoa- command in amcos- session
 ```
 
 **Correct Approach**:
@@ -333,20 +333,20 @@ Use the `agent-messaging` skill to mark a message as read.
 
 ### 9.4 Message Workflow Example
 
-1. **ECOS sends task to Orchestrator** using the `agent-messaging` skill:
+1. **AMCOS sends task to Orchestrator** using the `agent-messaging` skill:
    - **Recipient**: `eoa-svgbbox-orchestrator`
    - **Subject**: "Implement Feature X"
    - **Content**: request with feature requirements
    - **Priority**: `high`
 
 2. **Orchestrator acknowledges** using the `agent-messaging` skill:
-   - **Recipient**: `ecos-chief-of-staff-one`
+   - **Recipient**: `amcos-chief-of-staff-one`
    - **Subject**: "Re: Implement Feature X"
    - **Content**: response acknowledging and providing ETA
    - **Priority**: `normal`
 
 3. **Orchestrator reports completion** using the `agent-messaging` skill:
-   - **Recipient**: `ecos-chief-of-staff-one`
+   - **Recipient**: `amcos-chief-of-staff-one`
    - **Subject**: "Re: Implement Feature X"
    - **Content**: notification that implementation is complete with PR reference
    - **Priority**: `normal`
@@ -359,39 +359,39 @@ Use the `agent-messaging` skill to mark a message as read.
 
 **Reference skills by folder name only**:
 ```markdown
-See skill: **ecos-agent-lifecycle**
+See skill: **amcos-agent-lifecycle**
 ```
 
 **In commands/agents, use just the skill name**:
 ```yaml
 skills:
-  - ecos-agent-lifecycle
-  - ecos-task-delegation
+  - amcos-agent-lifecycle
+  - amcos-task-delegation
 ```
 
 ### 10.2 NEVER Use Paths
 
 ❌ **WRONG**:
 ```markdown
-See skill: ../skills/ecos-agent-lifecycle/SKILL.md
-See skill: ${CLAUDE_PLUGIN_ROOT}/skills/ecos-agent-lifecycle/SKILL.md
-See skill: /full/path/to/skills/ecos-agent-lifecycle/SKILL.md
+See skill: ../skills/amcos-agent-lifecycle/SKILL.md
+See skill: ${CLAUDE_PLUGIN_ROOT}/skills/amcos-agent-lifecycle/SKILL.md
+See skill: /full/path/to/skills/amcos-agent-lifecycle/SKILL.md
 ```
 
 ### 10.3 NEVER Reference Other Plugins' Skills
 
-❌ **WRONG** (in ECOS session):
+❌ **WRONG** (in AMCOS session):
 ```yaml
 skills:
-  - eoa-two-phase-orchestration  # This is EOA skill, not ECOS!
-  - eaa-architecture-design  # This is EAA skill, not ECOS!
+  - eoa-two-phase-orchestration  # This is EOA skill, not AMCOS!
+  - eaa-architecture-design  # This is EAA skill, not AMCOS!
 ```
 
-✅ **CORRECT** (in ECOS session):
+✅ **CORRECT** (in AMCOS session):
 ```yaml
 skills:
-  - ecos-agent-lifecycle  # ECOS skill
-  - ecos-task-delegation  # ECOS skill
+  - amcos-agent-lifecycle  # AMCOS skill
+  - amcos-task-delegation  # AMCOS skill
 ```
 
 ### 10.4 Skill Discovery
@@ -401,37 +401,37 @@ Claude Code resolves skill names using:
 2. Skill folder names (not SKILL.md content)
 3. Skill frontmatter `name` field (optional)
 
-**Example**: If skill is at `skills/ecos-agent-lifecycle/`, reference as `ecos-agent-lifecycle`.
+**Example**: If skill is at `skills/amcos-agent-lifecycle/`, reference as `amcos-agent-lifecycle`.
 
 ---
 
-## 11. ECOS-Specific Responsibilities
+## 11. AMCOS-Specific Responsibilities
 
 ### 11.1 Creation
 
-**ECOS is created by EAMA (Manager) only!**
+**AMCOS is created by EAMA (Manager) only!**
 
 - User interacts with EAMA (Manager) first
 - EAMA assesses if task requires orchestration
-- EAMA spawns ECOS for complex multi-agent coordination
+- EAMA spawns AMCOS for complex multi-agent coordination
 
 ### 11.2 Agent Creation Authority
 
-**ECOS creates**:
+**AMCOS creates**:
 1. **Orchestrator** (`eoa-`) - Coordinates task execution
 2. **Architect** (`eaa-`) - Designs system architecture
 3. **Integrator** (`eia-`) - Reviews code, runs quality gates
 4. **Programmer** (`epa-`) - Implements code tasks
 
-**ECOS does NOT create**:
+**AMCOS does NOT create**:
 - Manager (`eama-`) - Only user creates Manager
-- Other ECOS instances - Only Manager creates ECOS
+- Other AMCOS instances - Only Manager creates AMCOS
 
 **Implementer Category**: "Implementer" is an umbrella term for all agents that produce concrete deliverables. The Programmer is the first implementer role. Future implementer roles (each with its own plugin) may include: Documenter, 2D Artist, 3D Artist, Video Maker, Sound FX Artist, Music Maker, UI Designer, Copywriter, Interactive Storytelling, Marketing, App Store Optimization, SEO, and Financial agents.
 
 ### 11.3 Session Naming Responsibility
 
-**ECOS chooses unique session names** for all agents it creates!
+**AMCOS chooses unique session names** for all agents it creates!
 
 **Naming Strategy**:
 ```bash
@@ -450,11 +450,11 @@ eoa-svgbbox-orchestrator-2
 
 ### 11.4 Lifecycle Management
 
-**ECOS monitors agent health**: Use the `ai-maestro-agents-management` skill to check agent status, heartbeat timestamps, message backlog, and last activity time (every 5 minutes).
+**AMCOS monitors agent health**: Use the `ai-maestro-agents-management` skill to check agent status, heartbeat timestamps, message backlog, and last activity time (every 5 minutes).
 
-**ECOS hibernates idle agents**: If an agent has been idle for more than 30 minutes with no pending tasks, use the `ai-maestro-agents-management` skill to hibernate it.
+**AMCOS hibernates idle agents**: If an agent has been idle for more than 30 minutes with no pending tasks, use the `ai-maestro-agents-management` skill to hibernate it.
 
-**ECOS terminates completed agents**: After work is done and verified, use the `ai-maestro-agents-management` skill to terminate the agent (with confirmation).
+**AMCOS terminates completed agents**: After work is done and verified, use the `ai-maestro-agents-management` skill to terminate the agent (with confirmation).
 
 ### 11.5 Task Delegation Flow
 
@@ -463,14 +463,14 @@ User Request
      ↓
    EAMA (Manager)
      ↓ (spawns if complex)
-   ECOS (Chief of Staff)
+   AMCOS (Chief of Staff)
      ↓
      ├─→ EOA (Orchestrator) ─→ Implementation agents
      ├─→ EAA (Architect) ─→ Design agents
      └─→ EIA (Integrator) ─→ Review agents
 ```
 
-**ECOS coordination responsibilities**:
+**AMCOS coordination responsibilities**:
 1. Assess task complexity and requirements
 2. Choose which agents to spawn (Orchestrator, Architect, Integrator)
 3. Assign unique session names
@@ -507,18 +507,18 @@ User Request
 ls -la ~/agents/<session-name>/.claude/plugins/<plugin-name>/skills/
 
 # 2. Skill folder name matches reference?
-# Reference: ecos-agent-lifecycle
-# Folder: skills/ecos-agent-lifecycle/
+# Reference: amcos-agent-lifecycle
+# Folder: skills/amcos-agent-lifecycle/
 
 # 3. SKILL.md exists?
-cat ~/agents/<session-name>/.claude/plugins/<plugin-name>/skills/ecos-agent-lifecycle/SKILL.md
+cat ~/agents/<session-name>/.claude/plugins/<plugin-name>/skills/amcos-agent-lifecycle/SKILL.md
 ```
 
 **Fix**: Use skill folder name only, no paths!
 
 ### 12.3 Cross-Plugin Skill References Fail
 
-**Symptom**: Agent in ECOS session tries to use EOA skill
+**Symptom**: Agent in AMCOS session tries to use EOA skill
 
 **Why**: Plugin mutual exclusivity - can't reference other plugin's skills
 
@@ -594,11 +594,11 @@ All projects use the canonical **8-column kanban system** on GitHub Projects:
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/ecos_pre_push_hook.py` | Pre-push validation (manifest, hooks, lint, Unicode compliance) |
-| `scripts/ecos_resource_check.py` | Resource availability checking |
-| `scripts/ecos_heartbeat_check.py` | Agent heartbeat monitoring |
-| `scripts/ecos_team_registry.py` | Team registry management |
-| `scripts/ecos_download.py` | Plugin download utility |
+| `scripts/amcos_pre_push_hook.py` | Pre-push validation (manifest, hooks, lint, Unicode compliance) |
+| `scripts/amcos_resource_check.py` | Resource availability checking |
+| `scripts/amcos_heartbeat_check.py` | Agent heartbeat monitoring |
+| `scripts/amcos_team_registry.py` | Team registry management |
+| `scripts/amcos_download.py` | Plugin download utility |
 
 ---
 

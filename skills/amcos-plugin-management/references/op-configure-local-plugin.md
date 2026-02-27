@@ -2,8 +2,8 @@
 operation: configure-local-plugin
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-plugin-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-plugin-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -172,8 +172,8 @@ When spawning an agent with a local plugin:
 
 ```bash
 SESSION_NAME="eoa-test-orchestrator"
-PLUGIN_SOURCE="/Users/dev/projects/emasoft-orchestrator-agent"
-PLUGIN_DEST="$HOME/agents/$SESSION_NAME/.claude/plugins/emasoft-orchestrator-agent"
+PLUGIN_SOURCE="/Users/dev/projects/ai-maestro-orchestrator-agent"
+PLUGIN_DEST="$HOME/agents/$SESSION_NAME/.claude/plugins/ai-maestro-orchestrator-agent"
 
 # Create destination
 mkdir -p "$(dirname "$PLUGIN_DEST")"

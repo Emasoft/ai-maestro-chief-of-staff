@@ -120,8 +120,8 @@ Keywords "role", "capacity", "staffing", "templates" now indexed.
 ```markdown
 ## Related Skills
 
-- **ecos-agent-lifecycle** - For spawning assessed agents
-- **ecos-multi-project** - For cross-project staffing
+- **amcos-agent-lifecycle** - For spawning assessed agents
+- **amcos-multi-project** - For cross-project staffing
 ```
 
 PSS extracts these relationships during indexing.
@@ -177,17 +177,17 @@ Keywords are specific terms:
 # Using PSS command
 /pss-suggest "staffing and capacity planning"
 
-# Expected: ecos-staff-planning in results
+# Expected: amcos-staff-planning in results
 ```
 
 ### Test 2: Check Index Entry
 
 ```bash
 # Verify skill is indexed
-cat ~/.claude/skills-index.json | jq '.skills["ecos-staff-planning"]'
+cat ~/.claude/skills-index.json | jq '.skills["amcos-staff-planning"]'
 
 # Check keywords
-cat ~/.claude/skills-index.json | jq '.skills["ecos-staff-planning"].keywords'
+cat ~/.claude/skills-index.json | jq '.skills["amcos-staff-planning"].keywords'
 ```
 
 ### Test 3: Category Mapping
@@ -196,7 +196,7 @@ cat ~/.claude/skills-index.json | jq '.skills["ecos-staff-planning"].keywords'
 # Check skill appears in expected category
 cat ~/.claude/skills-index.json | jq '.categories["planning"]'
 
-# Should include: "ecos-staff-planning"
+# Should include: "amcos-staff-planning"
 ```
 
 ### Test 4: Negative Test
@@ -205,7 +205,7 @@ cat ~/.claude/skills-index.json | jq '.categories["planning"]'
 # Skill should NOT appear for unrelated queries
 /pss-suggest "database migrations"
 
-# ecos-staff-planning should NOT be in results
+# amcos-staff-planning should NOT be in results
 ```
 
 ---
@@ -252,7 +252,7 @@ description: Use when analyzing staffing needs, assessing role requirements, pla
 
 ### Example 3: Category Alignment
 
-**Skill:** ecos-staff-planning
+**Skill:** amcos-staff-planning
 
 **Expected Categories:**
 - orchestration (multi-agent coordination)
@@ -261,7 +261,7 @@ description: Use when analyzing staffing needs, assessing role requirements, pla
 
 **Verification:**
 ```bash
-cat ~/.claude/skills-index.json | jq '.skills["ecos-staff-planning"].categories'
+cat ~/.claude/skills-index.json | jq '.skills["amcos-staff-planning"].categories'
 # ["orchestration", "planning", "lifecycle"]
 ```
 

@@ -35,7 +35,7 @@ Use this document when you need to:
 
 ## 1.2 Overview of Failure Detection Mechanisms
 
-The Emasoft Chief of Staff (ECOS) uses four primary mechanisms to detect agent failures:
+The AI Maestro Chief of Staff (AMCOS) uses four primary mechanisms to detect agent failures:
 
 | Mechanism | What It Detects | Response Time |
 |-----------|-----------------|---------------|
@@ -44,7 +44,7 @@ The Emasoft Chief of Staff (ECOS) uses four primary mechanisms to detect agent f
 | Message acknowledgment timeout | Agent unresponsive | 5-15 minutes |
 | Task completion timeout | Agent stalled/hung | Varies by task |
 
-**CRITICAL**: No single mechanism is definitive. ECOS must correlate multiple signals before declaring an agent failed. A single missed heartbeat does not indicate failure.
+**CRITICAL**: No single mechanism is definitive. AMCOS must correlate multiple signals before declaring an agent failed. A single missed heartbeat does not indicate failure.
 
 ---
 
@@ -52,7 +52,7 @@ The Emasoft Chief of Staff (ECOS) uses four primary mechanisms to detect agent f
 
 ### 1.3.1 How Heartbeat Polling Works
 
-ECOS sends periodic "ping" messages to agents and expects "pong" responses. The AI Maestro messaging system tracks message delivery and response.
+AMCOS sends periodic "ping" messages to agents and expects "pong" responses. The AI Maestro messaging system tracks message delivery and response.
 
 **Heartbeat request**: Use the `agent-messaging` skill to send:
 - **Recipient**: the target agent session name
@@ -63,14 +63,14 @@ ECOS sends periodic "ping" messages to agents and expects "pong" responses. The 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
 **Expected response from healthy agent**: The agent uses the `agent-messaging` skill to reply with:
-- **Recipient**: `ecos-chief-of-staff`
+- **Recipient**: `amcos-chief-of-staff`
 - **Subject**: `[HEARTBEAT] Response`
 - **Priority**: `low`
 - **Content**: type `heartbeat-response`, message: "pong". Include `original_timestamp`, `response_timestamp`, `sequence`, `status` (healthy/busy/degraded), and `current_task` description.
 
 ### 1.3.2 Configuring Heartbeat Intervals
 
-ECOS maintains heartbeat configuration per agent based on their assigned role and criticality:
+AMCOS maintains heartbeat configuration per agent based on their assigned role and criticality:
 
 | Agent Role | Heartbeat Interval | Missed Before Alert |
 |------------|-------------------|---------------------|
@@ -79,7 +79,7 @@ ECOS maintains heartbeat configuration per agent based on their assigned role an
 | Background/batch processing | 5 minutes | 3 consecutive |
 | Idle/standby | 15 minutes | 5 consecutive |
 
-**Configuration storage**: ECOS stores heartbeat configuration in a local tracking file at:
+**Configuration storage**: AMCOS stores heartbeat configuration in a local tracking file at:
 ```
 $CLAUDE_PROJECT_DIR/.ecos/agent-health/heartbeat-config.json
 ```
@@ -137,7 +137,7 @@ When using the `agent-messaging` skill to send a message, check the response for
 
 ### 1.4.2 Detecting Unacknowledged Messages
 
-Even when delivery succeeds, the agent may not acknowledge receipt. ECOS tracks sent messages and monitors for acknowledgments.
+Even when delivery succeeds, the agent may not acknowledge receipt. AMCOS tracks sent messages and monitors for acknowledgments.
 
 Use the `agent-messaging` skill to list sent messages filtered by status "unacknowledged" to identify messages that were delivered but not acknowledged.
 
@@ -163,7 +163,7 @@ Always correlate with heartbeat data before escalating.
 
 ### 1.5.1 Monitoring Task Progress
 
-ECOS tracks all assigned tasks with expected completion times. The tracking file is at:
+AMCOS tracks all assigned tasks with expected completion times. The tracking file is at:
 ```
 $CLAUDE_PROJECT_DIR/.ecos/agent-health/task-tracking.json
 ```

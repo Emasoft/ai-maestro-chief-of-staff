@@ -181,7 +181,7 @@ Based on the metrics above:
 ## Report Footer
 
 ```yaml
-generated_by: "ecos-{session}"
+generated_by: "amcos-{session}"
 generation_duration: "Xms"
 next_scheduled_report: "ISO-8601 timestamp"
 ```

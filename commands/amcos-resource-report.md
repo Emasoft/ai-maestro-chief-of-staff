@@ -1,9 +1,9 @@
 ---
-name: ecos-resource-report
+name: amcos-resource-report
 description: "Generate system resource report with CPU, memory, disk, and active agents"
 argument-hint: "[--format text|json] [--include-history]"
 user-invocable: true
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_resource_monitor.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_monitor.py:*)"]
 ---
 
 # Resource Report Command
@@ -13,7 +13,7 @@ Generate a comprehensive system resource report showing CPU usage, memory consum
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_resource_monitor.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_monitor.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -55,25 +55,25 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_resource_monitor.py" $ARGUMENTS
 ### Generate basic resource report
 
 ```bash
-/ecos-resource-report
+/amcos-resource-report
 ```
 
 ### Get JSON output for automation
 
 ```bash
-/ecos-resource-report --format json
+/amcos-resource-report --format json
 ```
 
 ### Include historical trends
 
 ```bash
-/ecos-resource-report --include-history
+/amcos-resource-report --include-history
 ```
 
 ### Watch mode (update every 5 seconds)
 
 ```bash
-/ecos-resource-report --watch 5
+/amcos-resource-report --watch 5
 ```
 
 ## Output Example
@@ -185,5 +185,5 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_resource_monitor.py" $ARGUMENTS
 
 ## Related Commands
 
-- `/ecos-performance-report` - Detailed agent performance metrics
-- `/ecos-orchestration-status` - Orchestration-specific status
+- `/amcos-performance-report` - Detailed agent performance metrics
+- `/amcos-orchestration-status` - Orchestration-specific status

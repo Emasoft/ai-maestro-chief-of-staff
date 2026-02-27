@@ -77,7 +77,7 @@ REQUEST_BODY=$(cat <<EOF
   "priority": "high",
   "content": {
     "type": "approval-request",
-    "message": "ECOS requests approval for operation: $OPERATION_TYPE",
+    "message": "AMCOS requests approval for operation: $OPERATION_TYPE",
     "request_id": "$REQUEST_ID",
     "operation": "$OPERATION_TYPE",
     "target": "$TARGET",
@@ -142,7 +142,7 @@ Generate a request ID, then use the `agent-messaging` skill to send:
 - **Recipient**: `eama-main`
 - **Subject**: `[APPROVAL REQUIRED] spawn: implementer-2`
 - **Priority**: `high`
-- **Content**: type `approval-request`, message: "ECOS requests approval to spawn new agent". Include `request_id`, `operation`: "spawn", `target`: "implementer-2", `justification`: "High priority issue #42 requires dedicated agent for parallel work on API component.", `requested_at` (ISO-8601 timestamp), `task_assignment`: "Issue #42 - API endpoints for user authentication", `options`: ["approve", "reject", "modify"].
+- **Content**: type `approval-request`, message: "AMCOS requests approval to spawn new agent". Include `request_id`, `operation`: "spawn", `target`: "implementer-2", `justification`: "High priority issue #42 requires dedicated agent for parallel work on API component.", `requested_at` (ISO-8601 timestamp), `task_assignment`: "Issue #42 - API endpoints for user authentication", `options`: ["approve", "reject", "modify"].
 
 Then wait for the EAMA approval response.
 

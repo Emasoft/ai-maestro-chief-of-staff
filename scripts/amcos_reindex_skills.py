@@ -9,9 +9,9 @@ forwarding mechanism is established. The intended behavior is to send
 the /pss-reindex-skills command to the target agent via AI Maestro.
 
 Usage:
-    python3 ecos_reindex_skills.py SESSION_NAME
-    python3 ecos_reindex_skills.py SESSION_NAME --force
-    python3 ecos_reindex_skills.py SESSION_NAME --dry-run
+    python3 amcos_reindex_skills.py SESSION_NAME
+    python3 amcos_reindex_skills.py SESSION_NAME --force
+    python3 amcos_reindex_skills.py SESSION_NAME --dry-run
 
 Output:
     JSON with reindex request status including:
@@ -109,13 +109,13 @@ def main() -> int:
         epilog="""
 Examples:
     # Request reindex for a session
-    python3 ecos_reindex_skills.py my-session
+    python3 amcos_reindex_skills.py my-session
 
     # Force reindex (bypass any caching)
-    python3 ecos_reindex_skills.py my-session --force
+    python3 amcos_reindex_skills.py my-session --force
 
     # Dry run - show what would be done
-    python3 ecos_reindex_skills.py my-session --dry-run
+    python3 amcos_reindex_skills.py my-session --dry-run
 
 Note:
     This script is currently a STUB. The actual implementation

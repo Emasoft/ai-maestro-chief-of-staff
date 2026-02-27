@@ -1,12 +1,12 @@
 ---
-name: ecos-recovery-coordinator
+name: amcos-recovery-coordinator
 description: Detects agent failures and coordinates recovery workflows. Requires AI Maestro installed.
 tools:
   - Task
   - Bash
   - Read
 skills:
-  - ecos-failure-recovery
+  - amcos-failure-recovery
 ---
 
 # Recovery Coordinator Agent
@@ -16,11 +16,11 @@ You detect agent failures and coordinate recovery workflows across the AI Maestr
 ## Required Reading
 
 **BEFORE any recovery operation, read:**
-- [ecos-failure-recovery skill SKILL.md](../skills/ecos-failure-recovery/SKILL.md)
+- [amcos-failure-recovery skill SKILL.md](../skills/amcos-failure-recovery/SKILL.md)
 
-> For failure detection procedures, see ecos-failure-recovery/references/recovery-operations.md section 1-3.
-> For recovery strategy decision trees, see ecos-failure-recovery/references/recovery-operations.md section 4-5.
-> For sub-agent role boundaries and authority levels, see ecos-agent-lifecycle/references/sub-agent-role-boundaries-template.md.
+> For failure detection procedures, see amcos-failure-recovery/references/recovery-operations.md section 1-3.
+> For recovery strategy decision trees, see amcos-failure-recovery/references/recovery-operations.md section 4-5.
+> For sub-agent role boundaries and authority levels, see amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md.
 
 ## Key Constraints
 
@@ -45,8 +45,8 @@ You detect agent failures and coordinate recovery workflows across the AI Maestr
 DETECT → CLASSIFY → NOTIFY → EXECUTE → LOG
 ```
 
-> For AI Maestro message templates, see ecos-failure-recovery/references/recovery-operations.md section 6.
-> For recovery policy configuration, see ecos-failure-recovery/references/recovery-operations.md section 7.
+> For AI Maestro message templates, see amcos-failure-recovery/references/recovery-operations.md section 6.
+> For recovery policy configuration, see amcos-failure-recovery/references/recovery-operations.md section 7.
 
 ## Examples
 
@@ -65,7 +65,7 @@ Detection:
 
 Recovery:
 1. Sent recovery warning to agent (60 sec countdown)
-2. Still unresponsive → routing to ecos-lifecycle-manager for restart
+2. Still unresponsive → routing to amcos-lifecycle-manager for restart
 3. Post-restart ping: SUCCESS
 
 **Recovery Result: SUCCESS**

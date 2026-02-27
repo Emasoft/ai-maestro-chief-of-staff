@@ -1,5 +1,5 @@
 ---
-name: ecos-wait-for-approval
+name: amcos-wait-for-approval
 description: "Wait for approval response from EAMA with configurable timeout and polling"
 argument-hint: "--request-id <ID> [--timeout <SECONDS>] [--poll-interval <SECONDS>]"
 allowed-tools: ["Bash", "Task"]
@@ -21,7 +21,7 @@ Poll for an approval response from EAMA using the `agent-messaging` skill:
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `--request-id <ID>` | **Yes** | Request ID to wait for (e.g., ECOS-20250202150000-a1b2c3d4) |
+| `--request-id <ID>` | **Yes** | Request ID to wait for (e.g., AMCOS-20250202150000-a1b2c3d4) |
 | `--timeout <SECONDS>` | No | Maximum wait time (default: 120 seconds) |
 | `--poll-interval <SECONDS>` | No | Check frequency (default: 5 seconds) |
 | `--quiet` | No | Minimal output, just return decision |
@@ -42,21 +42,21 @@ Poll for an approval response from EAMA using the `agent-messaging` skill:
 
 ```bash
 # Basic wait for approval
-/ecos-wait-for-approval --request-id ECOS-20250202150000-a1b2c3d4
+/amcos-wait-for-approval --request-id AMCOS-20250202150000-a1b2c3d4
 
 # Wait with custom timeout
-/ecos-wait-for-approval --request-id ECOS-20250202150000-a1b2c3d4 --timeout 300
+/amcos-wait-for-approval --request-id AMCOS-20250202150000-a1b2c3d4 --timeout 300
 
 # Quiet mode for scripting
-/ecos-wait-for-approval --request-id ECOS-20250202150000-a1b2c3d4 --quiet
+/amcos-wait-for-approval --request-id AMCOS-20250202150000-a1b2c3d4 --quiet
 
 # With conditional execution
-/ecos-wait-for-approval --request-id ECOS-20250202150000-a1b2c3d4 \
+/amcos-wait-for-approval --request-id AMCOS-20250202150000-a1b2c3d4 \
   --on-approved "terminate helper-python" \
   --on-rejected "echo 'Termination denied by manager'"
 
 # Fast polling for urgent requests
-/ecos-wait-for-approval --request-id ECOS-20250202150000-a1b2c3d4 \
+/amcos-wait-for-approval --request-id AMCOS-20250202150000-a1b2c3d4 \
   --timeout 60 --poll-interval 2
 ```
 
@@ -67,7 +67,7 @@ Poll for an approval response from EAMA using the `agent-messaging` skill:
   WAITING FOR APPROVAL
 =======================================================================
 
-  Request ID: ECOS-20250202150000-a1b2c3d4
+  Request ID: AMCOS-20250202150000-a1b2c3d4
   Operation:  terminate
   Target:     helper-python
 
@@ -110,7 +110,7 @@ APPROVED
   WAITING FOR APPROVAL - TIMEOUT
 =======================================================================
 
-  Request ID: ECOS-20250202150000-a1b2c3d4
+  Request ID: AMCOS-20250202150000-a1b2c3d4
   Operation:  terminate
   Target:     helper-python
 
@@ -119,9 +119,9 @@ APPROVED
   The approval request did not receive a response within the timeout period.
 
   Options:
-  1. Increase timeout: /ecos-wait-for-approval --request-id ECOS-... --timeout 300
-  2. Check manually: /ecos-check-approval-status --request-id ECOS-...
-  3. Contact manager: /ecos-notify-manager --subject "Approval pending"
+  1. Increase timeout: /amcos-wait-for-approval --request-id AMCOS-... --timeout 300
+  2. Check manually: /amcos-check-approval-status --request-id AMCOS-...
+  3. Contact manager: /amcos-notify-manager --subject "Approval pending"
 
 =======================================================================
 ```
@@ -158,9 +158,9 @@ For long timeouts (>300s), polling interval automatically increases:
 
 Typical workflow combining request and wait:
 
-1. Submit approval request via `/ecos-request-approval`
-2. Wait for response via `/ecos-wait-for-approval --request-id <ID>`
-3. If approved, execute the operation (e.g., `/ecos-terminate-agent`)
+1. Submit approval request via `/amcos-request-approval`
+2. Wait for response via `/amcos-wait-for-approval --request-id <ID>`
+3. If approved, execute the operation (e.g., `/amcos-terminate-agent`)
 4. If rejected, log the rejection and notify as appropriate
 
 ## Conditional Execution
@@ -174,7 +174,7 @@ When using `--on-approved` and `--on-rejected`, the command executes the appropr
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Invalid request ID" | Malformed ID | Check ID format: ECOS-YYYYMMDDHHMMSS-XXXXXXXX |
+| "Invalid request ID" | Malformed ID | Check ID format: AMCOS-YYYYMMDDHHMMSS-XXXXXXXX |
 | "Request not found" | Unknown ID | Verify request was submitted |
 | "AI Maestro not responding" | API down | Check AI Maestro service |
 | "Polling error" | Network issue | Retry with increased interval |
@@ -197,6 +197,6 @@ If wait is interrupted (Ctrl+C):
 
 ## Related Commands
 
-- `/ecos-request-approval` - Submit approval request (prerequisite)
-- `/ecos-check-approval-status` - Check status without waiting
-- `/ecos-notify-manager` - Send follow-up notification
+- `/amcos-request-approval` - Submit approval request (prerequisite)
+- `/amcos-check-approval-status` - Check status without waiting
+- `/amcos-notify-manager` - Send follow-up notification

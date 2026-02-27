@@ -1,5 +1,5 @@
 ---
-name: ecos-recovery-workflow
+name: amcos-recovery-workflow
 description: "Execute recovery workflow for a failed or unhealthy agent with restart, hibernate-wake, or replace actions"
 argument-hint: "--agent <NAME> --action [restart|hibernate-wake|replace] [--timeout <SECONDS>]"
 allowed-tools: ["Bash", "Task"]
@@ -35,7 +35,7 @@ Execute a recovery workflow for a failed, unresponsive, or degraded agent. Suppo
 │                                                             │
 │  REPLACE (Level 3 - Severe Issues)                          │
 │  └─> For: Unrecoverable failures, persistent crashes        │
-│  └─> Action: Full agent replacement via /ecos-replace-agent │
+│  └─> Action: Full agent replacement via /amcos-replace-agent │
 │  └─> Risk: High - creates new agent, transfers work         │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
@@ -57,18 +57,18 @@ Execute a recovery workflow for a failed, unresponsive, or degraded agent. Suppo
 
 ```bash
 # Simple restart for temporarily hung agent
-/ecos-recovery-workflow --agent helper-backend --action restart
+/amcos-recovery-workflow --agent helper-backend --action restart
 
 # Hibernate-wake for memory issues
-/ecos-recovery-workflow --agent helper-backend --action hibernate-wake --verify
+/amcos-recovery-workflow --agent helper-backend --action hibernate-wake --verify
 
 # Full replacement for unrecoverable failure
-/ecos-recovery-workflow --agent helper-backend --action replace \
+/amcos-recovery-workflow --agent helper-backend --action replace \
   --new-name helper-backend-v2 \
   --reason "Persistent context corruption"
 
 # Force recovery with custom timeout
-/ecos-recovery-workflow --agent slow-agent --action restart \
+/amcos-recovery-workflow --agent slow-agent --action restart \
   --force --timeout 120 --verify
 ```
 
@@ -124,7 +124,7 @@ Execute a recovery workflow for a failed, unresponsive, or degraded agent. Suppo
 **Workflow**:
 ```
 1. Gather information about failed agent
-2. Trigger /ecos-replace-agent workflow:
+2. Trigger /amcos-replace-agent workflow:
    - Request approval from EAMA
    - Create new agent
    - Generate handoff
@@ -136,7 +136,7 @@ Execute a recovery workflow for a failed, unresponsive, or degraded agent. Suppo
 
 **Triggers Task Tool**:
 ```
-The replace action spawns a Task to execute /ecos-replace-agent
+The replace action spawns a Task to execute /amcos-replace-agent
 with parameters derived from the failed agent's metadata.
 ```
 
@@ -227,7 +227,7 @@ with parameters derived from the failed agent's metadata.
     Working Dir:     /Users/dev/projects/myapp
 
   Step 2: Trigger Replacement Workflow
-    ✓ Spawning /ecos-replace-agent task
+    ✓ Spawning /amcos-replace-agent task
 
     Parameters:
       --failed-agent:  helper-backend
@@ -271,10 +271,10 @@ For automated recovery, use escalation pattern:
 
 ```bash
 # Try restart first
-/ecos-recovery-workflow --agent helper-backend --action restart --verify
+/amcos-recovery-workflow --agent helper-backend --action restart --verify
 
 # If still unhealthy after restart, try hibernate-wake
-# (Automated via ecos-recovery-monitor agent)
+# (Automated via amcos-recovery-monitor agent)
 
 # If still unhealthy after hibernate-wake, trigger replace
 # (Requires manual approval unless --skip-approval)
@@ -284,7 +284,7 @@ For automated recovery, use escalation pattern:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Invalid agent name | Check with `/ecos-staff-status` |
+| "Agent not found" | Invalid agent name | Check with `/amcos-staff-status` |
 | "Restart failed" | Process won't terminate | Try `hibernate-wake` or `replace` |
 | "Hibernate failed" | Session lock issue | Force restart tmux manually |
 | "Wake timeout" | Agent won't start | Check logs, try `replace` |
@@ -292,12 +292,12 @@ For automated recovery, use escalation pattern:
 
 ## Related Commands
 
-- `/ecos-health-check` - Check agent health before recovery
-- `/ecos-replace-agent` - Full replacement workflow
-- `/ecos-terminate-agent` - Terminate agent after replacement
-- `/ecos-hibernate-agent` - Manual hibernate
-- `/ecos-wake-agent` - Manual wake
-- `/ecos-staff-status` - View all agent statuses
+- `/amcos-health-check` - Check agent health before recovery
+- `/amcos-replace-agent` - Full replacement workflow
+- `/amcos-terminate-agent` - Terminate agent after replacement
+- `/amcos-hibernate-agent` - Manual hibernate
+- `/amcos-wake-agent` - Manual wake
+- `/amcos-staff-status` - View all agent statuses
 
 ## CLI Reference
 

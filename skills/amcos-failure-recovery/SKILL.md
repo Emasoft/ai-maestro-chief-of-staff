@@ -1,20 +1,20 @@
 ---
-name: ecos-failure-recovery
+name: amcos-failure-recovery
 description: Use when recovering from agent failures or coordinating agent replacements. Trigger with failure events.
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# ECOS Failure Recovery Skill
+# AMCOS Failure Recovery Skill
 
 ## Overview
 
-This skill teaches the Emasoft Chief of Staff (ECOS) how to detect, classify, and recover from agent failures in a multi-agent system coordinated via AI Maestro messaging.
+This skill teaches the AI Maestro Chief of Staff (AMCOS) how to detect, classify, and recover from agent failures in a multi-agent system coordinated via AI Maestro messaging.
 
 **When to use this skill:**
 - When monitoring remote agent health
@@ -44,7 +44,7 @@ Before using this skill, ensure:
 Copy this checklist and track your progress:
 
 ```markdown
-## ECOS Failure Response Checklist
+## AMCOS Failure Response Checklist
 
 Agent: _______________
 Failure detected: _______________
@@ -137,7 +137,7 @@ offline?          |        (intervention needed)
 
 ## Phase 1: Failure Detection
 
-Before responding to a failure, ECOS must first detect that a failure has occurred.
+Before responding to a failure, AMCOS must first detect that a failure has occurred.
 
 **Read [references/failure-detection.md](references/failure-detection.md) for:**
 - 1.1-1.2 Overview and when to use
@@ -213,21 +213,21 @@ When recovery fails or failure is terminal, create a replacement agent.
 ### Replacement Protocol Summary
 
 ```
-ECOS detects terminal failure
+AMCOS detects terminal failure
          |
          v
-ECOS notifies EAMA (manager) --> EAMA approves
+AMCOS notifies EAMA (manager) --> EAMA approves
          |
          v
-ECOS coordinates new agent creation
+AMCOS coordinates new agent creation
          |
          v
-ECOS notifies EOA (orchestrator) to:
+AMCOS notifies EOA (orchestrator) to:
   - Generate handoff document
   - Update GitHub Project kanban
          |
          v
-ECOS sends handoff docs to new agent
+AMCOS sends handoff docs to new agent
          |
          v
 New agent acknowledges and begins work
@@ -240,9 +240,9 @@ New agent acknowledges and begins work
 The new agent does not know what tasks were assigned, what work was in progress, or the project context. Therefore:
 - Orchestrator (EOA) must generate handoff documentation
 - EOA must reassign tasks in GitHub Project kanban
-- ECOS must send handoff docs to new agent
+- AMCOS must send handoff docs to new agent
 
-**ROLE BOUNDARY**: ECOS creates agents and sends context. EOA owns task assignment.
+**ROLE BOUNDARY**: AMCOS creates agents and sends context. EOA owns task assignment.
 
 ---
 
@@ -269,23 +269,23 @@ When critical work cannot wait for full replacement protocol.
 
 ## Task Blockers vs Agent Failures
 
-ECOS handles TWO types of escalations differently:
+AMCOS handles TWO types of escalations differently:
 
-### Agent Failures (ECOS resolves directly)
+### Agent Failures (AMCOS resolves directly)
 
-An agent failure occurs when an agent crashes, becomes unresponsive, or repeatedly fails. ECOS handles this by:
+An agent failure occurs when an agent crashes, becomes unresponsive, or repeatedly fails. AMCOS handles this by:
 1. Detecting the failure (heartbeat, message timeout, task timeout)
 2. Attempting recovery (wake, restart)
 3. If unrecoverable: replacing the agent and handing off work
 4. Notifying EAMA of the emergency handoff (notification only, no approval needed)
 
-### Task Blockers (ECOS routes to EAMA for user decision)
+### Task Blockers (AMCOS routes to EAMA for user decision)
 
-A task blocker occurs when work cannot proceed due to missing information, access, or a decision that only the user can make. When ECOS receives a task blocker escalation from EOA:
+A task blocker occurs when work cannot proceed due to missing information, access, or a decision that only the user can make. When AMCOS receives a task blocker escalation from EOA:
 
-1. Determine if ECOS can resolve the blocker:
-   - Agent reassignment needed → ECOS handles directly
-   - Permission or access issue within ECOS authority → ECOS handles directly
+1. Determine if AMCOS can resolve the blocker:
+   - Agent reassignment needed → AMCOS handles directly
+   - Permission or access issue within AMCOS authority → AMCOS handles directly
    - User decision or input needed → Route to EAMA
 2. If routing to EAMA, use this template:
 
@@ -293,7 +293,7 @@ A task blocker occurs when work cannot proceed due to missing information, acces
 
 ```json
 {
-  "from": "ecos-chief-of-staff",
+  "from": "amcos-chief-of-staff",
   "to": "eama-assistant-manager",
   "subject": "BLOCKER: Task requires user decision",
   "priority": "high",
@@ -313,18 +313,18 @@ A task blocker occurs when work cannot proceed due to missing information, acces
 }
 ```
 
-3. Track the blocker in ECOS records
+3. Track the blocker in AMCOS records
 4. When EAMA responds with user's decision, route it back to EOA
 
 ### Decision Tree
 
 ```
-ECOS receives escalation
+AMCOS receives escalation
   │
   ├─ Is it an agent failure? (crash, unresponsive, repeated failure)
   │   └─ YES → Handle via failure recovery workflow (this skill)
   │
-  ├─ Is it a task blocker that ECOS can resolve?
+  ├─ Is it a task blocker that AMCOS can resolve?
   │   ├─ Agent reassignment → Handle directly
   │   └─ Permission within authority → Handle directly
   │
@@ -339,11 +339,11 @@ Copy this checklist and track your progress:
 - [ ] Receive escalation from EOA
 - [ ] Determine escalation type: agent failure OR task blocker
 - [ ] If agent failure → use failure recovery workflow (Phases 1-5 above)
-- [ ] If task blocker that ECOS can resolve (agent reassignment, permission within authority) → handle directly
+- [ ] If task blocker that AMCOS can resolve (agent reassignment, permission within authority) → handle directly
 - [ ] If task blocker requiring user input → compose blocker-escalation message to EAMA (use template above)
 - [ ] Include `blocker_issue_number` in the message (the GitHub issue tracking the blocker problem)
 - [ ] Send the escalation to EAMA via AI Maestro
-- [ ] Track the blocker in ECOS records
+- [ ] Track the blocker in AMCOS records
 - [ ] When EAMA responds with user's decision, route it back to EOA
 - [ ] Verify EOA acknowledges receipt of the resolution
 
@@ -356,7 +356,7 @@ Copy this checklist and track your progress:
 - [ ] Route the resolution to EOA via AI Maestro
 - [ ] Verify EOA acknowledges receipt
 - [ ] Note: EOA will close the blocker issue, restore the task to its previous column, and notify the agent
-- [ ] Update ECOS records to mark the blocker as resolved
+- [ ] Update AMCOS records to mark the blocker as resolved
 
 ---
 
@@ -395,7 +395,7 @@ Step-by-step runbooks for executing individual failure recovery operations. Use 
 - [op-execute-recovery-strategy.md](references/op-execute-recovery-strategy.md) - **Execute Recovery Strategy**: Apply the appropriate recovery strategy (wait and retry, soft/hard restart, hibernate-wake cycle, or resource adjustment) based on failure classification
 - [op-replace-agent.md](references/op-replace-agent.md) - **Replace Agent**: Create a replacement agent when recovery fails or failure is terminal, including failure confirmation, manager approval, agent creation, orchestrator notification, and work handoff
 - [op-emergency-handoff.md](references/op-emergency-handoff.md) - **Emergency Work Handoff**: Transfer critical work immediately when deadlines cannot wait for the full agent replacement protocol
-- [op-route-task-blocker.md](references/op-route-task-blocker.md) - **Route Task Blocker**: Determine how to handle task blocker escalations -- resolve directly if within ECOS authority, or route to EAMA if user decision is required
+- [op-route-task-blocker.md](references/op-route-task-blocker.md) - **Route Task Blocker**: Determine how to handle task blocker escalations -- resolve directly if within AMCOS authority, or route to EAMA if user decision is required
 
 ## Troubleshooting
 
@@ -431,7 +431,7 @@ Before sending handoff:
 
 | Field | Description | Example |
 |-------|-------------|---------|
-| `from` | Sending agent name | `ecos-chief-of-staff` |
+| `from` | Sending agent name | `amcos-chief-of-staff` |
 | `to` | Target agent name | `replacement-agent-001` |
 | `type` | Handoff type | `emergency-handoff`, `replacement-handoff` |
 | `UUID` | Unique handoff identifier | `EH-20250204-svgbbox-001` |

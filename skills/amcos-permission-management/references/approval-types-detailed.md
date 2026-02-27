@@ -53,7 +53,7 @@ Your approval request MUST include:
 
 EAMA can respond with:
 
-| Decision | Meaning | ECOS Action |
+| Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
 | **Approve** | Proceed with spawn | Execute spawn with specified parameters |
 | **Reject** | Do not spawn | Cancel spawn, log rejection |
@@ -93,7 +93,7 @@ Your approval request MUST include:
 
 EAMA can respond with:
 
-| Decision | Meaning | ECOS Action |
+| Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
 | **Approve** | Proceed with termination | Terminate agent, clean up resources |
 | **Reject** | Do not terminate | Keep agent running |
@@ -133,7 +133,7 @@ Your approval request MUST include:
 
 EAMA can respond with:
 
-| Decision | Meaning | ECOS Action |
+| Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
 | **Approve** | Proceed with hibernation | Hibernate agent, preserve state |
 | **Reject** | Do not hibernate | Keep agent active |
@@ -173,7 +173,7 @@ Your approval request MUST include:
 
 EAMA can respond with:
 
-| Decision | Meaning | ECOS Action |
+| Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
 | **Approve** | Proceed with wake | Resume agent from hibernation |
 | **Reject** | Do not wake | Keep agent hibernated |
@@ -214,7 +214,7 @@ Your approval request MUST include:
 
 EAMA can respond with:
 
-| Decision | Meaning | ECOS Action |
+| Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
 | **Approve** | Proceed with installation | Install plugin |
 | **Reject** | Do not install | Cancel installation |

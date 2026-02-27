@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-ecos_terminate_agent.py - Terminate an AI Maestro agent session.
+amcos_terminate_agent.py - Terminate an AI Maestro agent session.
 
 Usage:
-    python ecos_terminate_agent.py SESSION_NAME [--force]
+    python amcos_terminate_agent.py SESSION_NAME [--force]
 
 Example:
-    python ecos_terminate_agent.py cr-session-01
-    python ecos_terminate_agent.py cr-session-01 --force
+    python amcos_terminate_agent.py cr-session-01
+    python amcos_terminate_agent.py cr-session-01 --force
 """
 
 import argparse
@@ -26,10 +26,10 @@ def parse_args() -> argparse.Namespace:
         epilog="""
 Examples:
     # Graceful termination
-    python ecos_terminate_agent.py my-agent-session
+    python amcos_terminate_agent.py my-agent-session
 
     # Force termination (skip cleanup)
-    python ecos_terminate_agent.py my-agent-session --force
+    python amcos_terminate_agent.py my-agent-session --force
         """,
     )
     parser.add_argument(

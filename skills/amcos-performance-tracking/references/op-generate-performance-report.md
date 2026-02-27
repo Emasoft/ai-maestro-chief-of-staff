@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: generate-performance-report
-parent-skill: ecos-performance-tracking
+parent-skill: amcos-performance-tracking
 ---
 
 # Operation: Generate Performance Report
@@ -186,7 +186,7 @@ Every report should include actionable items:
 
 | Item | Owner | Priority | Due |
 |------|-------|----------|-----|
-| Review estimation process | ECOS | High | Next week |
+| Review estimation process | AMCOS | High | Next week |
 | Add documentation checklist | EOA | Medium | This sprint |
 ```
 

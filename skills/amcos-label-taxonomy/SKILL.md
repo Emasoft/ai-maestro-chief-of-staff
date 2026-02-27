@@ -1,6 +1,6 @@
 ---
-name: ecos-label-taxonomy
-description: "Use when applying or checking GitHub labels for agent assignment and status tracking. GitHub label taxonomy reference for the Chief of Staff Agent. Trigger with `/ecos-label-taxonomy`."
+name: amcos-label-taxonomy
+description: "Use when applying or checking GitHub labels for agent assignment and status tracking. GitHub label taxonomy reference for the Chief of Staff Agent. Trigger with `/amcos-label-taxonomy`."
 context: fork
 user-invocable: false
 license: Apache-2.0
@@ -12,21 +12,21 @@ workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# ECOS Label Taxonomy
+# AMCOS Label Taxonomy
 
 ## Overview
 
-This skill provides the label taxonomy relevant to the Chief of Staff Agent (ECOS) role. Each role plugin has its own label-taxonomy skill covering the labels that role manages.
+This skill provides the label taxonomy relevant to the Chief of Staff Agent (AMCOS) role. Each role plugin has its own label-taxonomy skill covering the labels that role manages.
 
 ---
 
 ## Prerequisites
 
 1. GitHub repository with label support
-2. Understanding of agent role prefixes (ecos-, eoa-, eia-, eaa-, eama-)
+2. Understanding of agent role prefixes (amcos-, eoa-, eia-, eaa-, eama-)
 3. Read **AGENT_OPERATIONS.md** in docs/ folder for session naming
 4. GitHub CLI (`gh`) installed and authenticated
-5. Access to team registry at `.emasoft/team-registry.json`
+5. Access to team registry at `.ai-maestro/team-registry.json`
 
 ---
 
@@ -47,7 +47,7 @@ Copy this checklist and track your progress:
 - [ ] Remove conflicting labels if needed
 - [ ] Apply new label via `gh issue edit --add-label`
 - [ ] Verify label appears correctly
-- [ ] Update `.emasoft/team-registry.json` if agent assignment changed
+- [ ] Update `.ai-maestro/team-registry.json` if agent assignment changed
 
 ---
 
@@ -80,7 +80,7 @@ Copy this checklist and track your progress:
 
 ### Example 1: Spawning Agent and Assigning to Issue
 
-**Scenario**: ECOS spawns a new agent "implementer-1" and assigns it to issue #42.
+**Scenario**: AMCOS spawns a new agent "implementer-1" and assigns it to issue #42.
 
 ```bash
 # Step 1: Add assignment label
@@ -90,7 +90,7 @@ gh issue edit 42 --add-label "assign:implementer-1"
 gh issue edit 42 --remove-label "status:backlog" --add-label "status:todo"
 
 # Step 3: Update team registry
-jq '.agents["implementer-1"].current_issues += [42]' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+jq '.agents["implementer-1"].current_issues += [42]' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 
 # Step 4: Verify
 gh issue view 42 --json labels --jq '.labels[].name'
@@ -112,7 +112,7 @@ for ISSUE in $AGENT_ISSUES; do
 done
 
 # Step 3: Update team registry
-jq 'del(.agents["implementer-1"])' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+jq 'del(.agents["implementer-1"])' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 
 # Step 4: Verify no issues remain assigned
 gh issue list --label "assign:implementer-1"
@@ -121,7 +121,7 @@ gh issue list --label "assign:implementer-1"
 
 ### Example 3: Handling Blocked Agent
 
-**Scenario**: Agent reports it's blocked on issue #43. ECOS updates status and notifies.
+**Scenario**: Agent reports it's blocked on issue #43. AMCOS updates status and notifies.
 
 ```bash
 # Step 1: Update status to blocked
@@ -140,19 +140,19 @@ gh issue view 43 --json labels --jq '.labels[].name'
 
 ---
 
-## Labels ECOS Manages
+## Labels AMCOS Manages
 
 ### Assignment Labels (`assign:*`)
 
-**ECOS coordinates with EOA on agent assignments.**
+**AMCOS coordinates with EOA on agent assignments.**
 
-| Label | Description | When ECOS Is Involved |
+| Label | Description | When AMCOS Is Involved |
 |-------|-------------|----------------------|
 | `assign:<agent-name>` | Specific agent | When spawning/managing agents |
 | `assign:orchestrator` | EOA handling | When escalating to EOA |
 | `assign:human` | Human needed | When human intervention required |
 
-**ECOS Assignment Responsibilities:**
+**AMCOS Assignment Responsibilities:**
 - Track which agents are assigned to which issues
 - Reassign when agent becomes unavailable
 - Clear assignments when agents are terminated
@@ -178,20 +178,20 @@ The full workflow uses these 8 status columns:
 - **Human Review** is requested via EAMA (Assistant Manager asks user to test/review)
 - Not all tasks go through Human Review -- only significant changes requiring human judgment
 
-### Status Labels ECOS Updates
+### Status Labels AMCOS Updates
 
-| Label | When ECOS Sets It |
+| Label | When AMCOS Sets It |
 |-------|------------------|
 | `status:blocked` | When pausing work (resource constraints) or agent reports blocker |
 | `status:todo` | When blocker resolved and task is ready to resume |
 
 ---
 
-## Labels ECOS Monitors
+## Labels AMCOS Monitors
 
 ### Priority Labels (`priority:*`)
 
-ECOS uses priority for resource allocation:
+AMCOS uses priority for resource allocation:
 - `priority:critical` - Ensure agent assigned immediately
 - `priority:high` - Prioritize in staffing decisions
 - `priority:normal` - Standard allocation
@@ -199,7 +199,7 @@ ECOS uses priority for resource allocation:
 
 ### Status Labels (`status:*`)
 
-ECOS monitors all status changes:
+AMCOS monitors all status changes:
 - `status:blocked` - May need to reassign or escalate
 - `status:in-progress` - Track for timeout/health monitoring
 - `status:ai-review` - Route to EIA if not already
@@ -208,7 +208,7 @@ ECOS monitors all status changes:
 
 ---
 
-## ECOS Label Commands
+## AMCOS Label Commands
 
 ### When Agent Spawned
 
@@ -246,7 +246,7 @@ gh issue edit $ISSUE_NUMBER --remove-label "assign:$AGENT_NAME" --add-label "ass
 
 ## Agent Registry and Labels
 
-ECOS maintains the team registry at `.emasoft/team-registry.json`. Labels should be synchronized:
+AMCOS maintains the team registry at `.ai-maestro/team-registry.json`. Labels should be synchronized:
 
 ```json
 {
@@ -267,7 +267,7 @@ ECOS maintains the team registry at `.emasoft/team-registry.json`. Labels should
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 
 # Compare with registry
-REGISTERED=$(jq -r '.agents["implementer-1"].current_issues | sort | .[]' .emasoft/team-registry.json)
+REGISTERED=$(jq -r '.agents["implementer-1"].current_issues | sort | .[]' .ai-maestro/team-registry.json)
 
 # Should match
 ```
@@ -281,11 +281,11 @@ Step-by-step runbooks for executing individual label management operations. Use 
 - [op-assign-agent-to-issue.md](references/op-assign-agent-to-issue.md) - **Assign Agent to Issue**: Assign a newly spawned or existing agent to a GitHub issue by applying the assignment label, updating status from backlog to ready, and updating the team registry
 - [op-terminate-agent-clear-assignments.md](references/op-terminate-agent-clear-assignments.md) - **Terminate Agent and Clear Assignments**: When an agent is being terminated, find all its assigned issues, remove assignment labels, return issues to backlog, and remove agent from team registry
 - [op-handle-blocked-agent.md](references/op-handle-blocked-agent.md) - **Handle Blocked Agent**: When an agent reports it's blocked on an issue, update the issue status to blocked, add a comment explaining the blocker, determine escalation level, and optionally escalate to human
-- [op-sync-registry-with-labels.md](references/op-sync-registry-with-labels.md) - **Sync Registry with Labels**: Ensure the team registry at `.emasoft/team-registry.json` stays synchronized with GitHub issue assignment labels by detecting and resolving discrepancies
+- [op-sync-registry-with-labels.md](references/op-sync-registry-with-labels.md) - **Sync Registry with Labels**: Ensure the team registry at `.ai-maestro/team-registry.json` stays synchronized with GitHub issue assignment labels by detecting and resolving discrepancies
 
 ## Quick Reference
 
-### ECOS Label Responsibilities
+### AMCOS Label Responsibilities
 
 | Action | Labels Involved |
 |--------|-----------------|
@@ -296,19 +296,19 @@ Step-by-step runbooks for executing individual label management operations. Use 
 | Escalate to human | Add `assign:human` |
 | Block work | Add `status:blocked` |
 
-### Labels ECOS Never Sets
+### Labels AMCOS Never Sets
 
 - `type:*` - Set at issue creation
 - `effort:*` - Set during triage by EOA
 - `review:*` - Managed by EIA
-- `priority:*` - Set by EOA or EAMA (ECOS can suggest changes)
+- `priority:*` - Set by EOA or EAMA (AMCOS can suggest changes)
 
 ---
 
 ## Resources
 
 - **AGENT_OPERATIONS.md** - Canonical operations reference (in docs/ folder)
-- **ecos-agent-lifecycle** - Agent spawn/terminate procedures
-- **ecos-team-registry** - Team registry management skill
+- **amcos-agent-lifecycle** - Agent spawn/terminate procedures
+- **amcos-team-registry** - Team registry management skill
 - [GitHub Labels Documentation](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
 - [GitHub CLI Labels Reference](https://cli.github.com/manual/gh_label)

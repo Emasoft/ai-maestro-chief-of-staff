@@ -2,8 +2,8 @@
 operation: deliver-role-briefing
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-onboarding
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-onboarding
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -93,12 +93,12 @@ Use the `agent-messaging` skill to send:
 ### Step 6: Log Role Assignment
 
 ```bash
-uv run python scripts/ecos_team_registry.py update-role \
+uv run python scripts/amcos_team_registry.py update-role \
   --name "<agent-session-name>" \
   --role "<role-name>" \
   --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "role-briefing" \
   --agent "<agent-session-name>" \
   --reason "Assigned as <role> on <project>" \
@@ -127,7 +127,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: `dev-backend-alice`
 - **Subject**: `Role Briefing: Developer`
 - **Priority**: `high`
-- **Content**: type `role-assignment`, message: "Role Briefing: Developer. You are assigned as a Developer on the backend-api project. Responsibilities: (1) Implement features from the backlog, (2) Write unit tests for all new code, (3) Update documentation for your changes, (4) Participate in code reviews when requested, (5) Report blockers promptly. Reporting Structure: Report to eoa-backend-orchestrator for task assignments, coordinate with dev-backend-bob as peer developer, escalate to ecos-chief-of-staff for blockers and resource issues. Expectations: Acknowledge task assignments promptly, provide regular status updates, request clarification if requirements unclear, follow project coding conventions (see CLAUDE.md), complete tasks within estimated timeframes. Resources: CLAUDE.md (project instructions), docs/API.md (API specifications), tests/ (existing test examples), .github/ (CI/CD configuration). Please confirm you understand these responsibilities."
+- **Content**: type `role-assignment`, message: "Role Briefing: Developer. You are assigned as a Developer on the backend-api project. Responsibilities: (1) Implement features from the backlog, (2) Write unit tests for all new code, (3) Update documentation for your changes, (4) Participate in code reviews when requested, (5) Report blockers promptly. Reporting Structure: Report to eoa-backend-orchestrator for task assignments, coordinate with dev-backend-bob as peer developer, escalate to amcos-chief-of-staff for blockers and resource issues. Expectations: Acknowledge task assignments promptly, provide regular status updates, request clarification if requirements unclear, follow project coding conventions (see CLAUDE.md), complete tasks within estimated timeframes. Resources: CLAUDE.md (project instructions), docs/API.md (API specifications), tests/ (existing test examples), .github/ (CI/CD configuration). Please confirm you understand these responsibilities."
 
 ### Example: Orchestrator Role Briefing
 
@@ -135,7 +135,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: `eoa-webapp-orchestrator`
 - **Subject**: `Role Briefing: Orchestrator`
 - **Priority**: `high`
-- **Content**: type `role-assignment`, message: "Role Briefing: Orchestrator. You are the Orchestrator for the webapp project team. Responsibilities: (1) Receive work from EAMA and break into tasks, (2) Assign tasks to team developers, (3) Track task progress and blockers, (4) Coordinate parallel work streams, (5) Report completion to EAMA. Reporting Structure: Report to eama-assistant-manager for work assignments, manage dev-frontend-bob and dev-backend-charlie as developers, coordinate with eia-webapp-integrator for code reviews, escalate to ecos-chief-of-staff for team issues. Expectations: Maintain clear task backlog, ensure developers are not blocked, provide daily progress summaries, identify risks early and escalate, do NOT do implementation work yourself. Resources: Team registry at .emasoft/team-registry.json, project backlog at docs/BACKLOG.md, GitHub Issues for task tracking. Please confirm you understand these responsibilities."
+- **Content**: type `role-assignment`, message: "Role Briefing: Orchestrator. You are the Orchestrator for the webapp project team. Responsibilities: (1) Receive work from EAMA and break into tasks, (2) Assign tasks to team developers, (3) Track task progress and blockers, (4) Coordinate parallel work streams, (5) Report completion to EAMA. Reporting Structure: Report to eama-assistant-manager for work assignments, manage dev-frontend-bob and dev-backend-charlie as developers, coordinate with eia-webapp-integrator for code reviews, escalate to amcos-chief-of-staff for team issues. Expectations: Maintain clear task backlog, ensure developers are not blocked, provide daily progress summaries, identify risks early and escalate, do NOT do implementation work yourself. Resources: Team registry at .ai-maestro/team-registry.json, project backlog at docs/BACKLOG.md, GitHub Issues for task tracking. Please confirm you understand these responsibilities."
 
 ## Error Handling
 

@@ -2,8 +2,8 @@
 operation: terminate-agent
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-agent-lifecycle
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-agent-lifecycle
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -68,7 +68,7 @@ Use the `agent-messaging` skill to request a state dump:
 - **Recipient**: the target agent session name
 - **Subject**: `State Dump Request`
 - **Priority**: `high`
-- **Content**: type `request`, asking the agent to save its current state to `~/.emasoft/agent-states/<session-name>-final.json` before termination
+- **Content**: type `request`, asking the agent to save its current state to `~/.ai-maestro/agent-states/<session-name>-final.json` before termination
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
@@ -91,7 +91,7 @@ If graceful termination fails, use the force option if available.
 ### Step 5: Update Team Registry
 
 ```bash
-uv run python scripts/ecos_team_registry.py remove-agent \
+uv run python scripts/amcos_team_registry.py remove-agent \
   --name "<agent-session-name>"
 ```
 
@@ -102,7 +102,7 @@ Optionally remove the agent's working directory and local plugin cache. Keep the
 ### Step 7: Log Termination
 
 ```bash
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "termination" \
   --agent "<agent-session-name>" \
   --reason "<termination reason>" \
@@ -145,11 +145,11 @@ For agent `dev-backend-alice`:
 5. Use the `ai-maestro-agents-management` skill to terminate agent `dev-backend-alice` with confirmation
 6. Update registry:
    ```bash
-   uv run python scripts/ecos_team_registry.py remove-agent --name "dev-backend-alice"
+   uv run python scripts/amcos_team_registry.py remove-agent --name "dev-backend-alice"
    ```
 7. Log the event:
    ```bash
-   uv run python scripts/ecos_team_registry.py log \
+   uv run python scripts/amcos_team_registry.py log \
      --event "termination" \
      --agent "dev-backend-alice" \
      --reason "Task completed - backend API implementation finished" \

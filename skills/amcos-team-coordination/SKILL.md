@@ -1,5 +1,5 @@
 ---
-name: ecos-team-coordination
+name: amcos-team-coordination
 description: Use when coordinating team members across agent sessions, assigning roles, managing messaging, and maintaining team status. Trigger with team formation, updates, or coordination needs.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "Step 5"
 procedure: "proc-notify-team-ready"
 ---
 
-# Emasoft Chief of Staff Team Coordination Skill
+# AI Maestro Chief of Staff Team Coordination Skill
 
 ## Overview
 
@@ -192,7 +192,7 @@ User message: "Set up a team for the auth-service project.
 I need an architect, an orchestrator, and two programmers."
 ```
 
-**Output:** ECOS creates the team and confirms formation
+**Output:** AMCOS creates the team and confirms formation
 
 ```
 [TEAM-FORMED] auth-service
@@ -201,13 +201,13 @@ I need an architect, an orchestrator, and two programmers."
     - eoa-auth-service-orchestrator (Orchestrator) - ACTIVE
     - auth-service-programmer-001 (Programmer) - ACTIVE
     - auth-service-programmer-002 (Programmer) - ACTIVE
-  Registry: .emasoft/team-registry.json updated
+  Registry: .ai-maestro/team-registry.json updated
   Messages sent: 4 role assignments delivered
 ```
 
 ### Example 5: Role Assignment with Input/Output
 
-**Input:** ECOS assigns a code reviewer role to an existing agent
+**Input:** AMCOS assigns a code reviewer role to an existing agent
 
 ```json
 {
@@ -291,5 +291,5 @@ curl -s "http://localhost:23000/api/sessions" | jq '.sessions[] | select(.projec
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** Emasoft Chief of Staff Agent
+**Target Audience:** AI Maestro Chief of Staff Agent
 **Difficulty Level:** Intermediate

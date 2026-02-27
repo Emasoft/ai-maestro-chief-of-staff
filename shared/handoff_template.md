@@ -6,10 +6,10 @@ This template defines the standard format for handoff documents between roles in
 
 | Plugin | Prefix | Full Name |
 |--------|--------|-----------|
-| Chief of Staff | `ecos-` | Emasoft Chief of Staff Agent |
-| Architect | `eaa-` | Emasoft Architect Agent |
-| Orchestrator | `eoa-` | Emasoft Orchestrator Agent |
-| Integrator | `eia-` | Emasoft Integrator Agent |
+| Chief of Staff | `amcos-` | AI Maestro Chief of Staff Agent |
+| Architect | `eaa-` | AI Maestro Architect Agent |
+| Orchestrator | `eoa-` | AI Maestro Orchestrator Agent |
+| Integrator | `eia-` | AI Maestro Integrator Agent |
 
 ## Handoff File Format
 
@@ -122,12 +122,12 @@ Last validated phase per agent:
 ## Communication Hierarchy
 
 ```
-USER <-> ECOS (Chief of Staff) <-> EAA (Architect)
+USER <-> AMCOS (Chief of Staff) <-> EAA (Architect)
                                   <-> EOA (Orchestrator)
                                   <-> EIA (Integrator)
 ```
 
-**CRITICAL**: Architect (eaa-), Orchestrator (eoa-), and Integrator (eia-) do NOT communicate directly with each other. All communication flows through Chief of Staff (ecos-).
+**CRITICAL**: Architect (eaa-), Orchestrator (eoa-), and Integrator (eia-) do NOT communicate directly with each other. All communication flows through Chief of Staff (amcos-).
 
 ## Handoff Types
 
@@ -167,13 +167,13 @@ USER <-> ECOS (Chief of Staff) <-> EAA (Architect)
 handoff-{uuid}-{from}-to-{to}.md
 
 Examples:
-- handoff-a1b2c3d4-ecos-to-eaa.md    # COS assigns to Architect
+- handoff-a1b2c3d4-amcos-to-eaa.md    # COS assigns to Architect
 - handoff-e5f6g7h8-eaa-to-ecos.md    # Architect reports to COS
-- handoff-i9j0k1l2-ecos-to-eoa.md    # COS assigns to Orchestrator
+- handoff-i9j0k1l2-amcos-to-eoa.md    # COS assigns to Orchestrator
 - handoff-m3n4o5p6-eoa-to-ecos.md    # Orchestrator reports to COS
-- handoff-q7r8s9t0-ecos-to-eia.md    # COS assigns to Integrator
+- handoff-q7r8s9t0-amcos-to-eia.md    # COS assigns to Integrator
 - handoff-u1v2w3x4-eia-to-ecos.md    # Integrator reports to COS
-- handoff-w5x6y7z8-ecos-to-ecos.md   # COS session continuity
+- handoff-w5x6y7z8-amcos-to-ecos.md   # COS session continuity
 - handoff-a9b0c1d2-eoa-emergency.md  # Emergency handoff from Orchestrator
 ```
 

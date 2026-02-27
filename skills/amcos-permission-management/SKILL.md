@@ -1,5 +1,5 @@
 ---
-name: ecos-permission-management
+name: amcos-permission-management
 description: Use when requesting EAMA approval for agent lifecycle ops (spawn, terminate, hibernate, wake, plugin install). Trigger with permission requests.
 user-invocable: false
 license: Apache-2.0
@@ -8,16 +8,16 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# Emasoft Chief of Staff - Permission Management Skill
+# AI Maestro Chief of Staff - Permission Management Skill
 
 ## Overview
 
-Permission management is a critical governance function of the Chief of Staff. Before performing certain operations that affect agent resources or system state, ECOS must request approval from the Assistant Manager (EAMA), who serves as the user's representative. This skill teaches you how to request approvals, track pending approvals, handle timeouts, and maintain audit trails.
+Permission management is a critical governance function of the Chief of Staff. Before performing certain operations that affect agent resources or system state, AMCOS must request approval from the Assistant Manager (EAMA), who serves as the user's representative. This skill teaches you how to request approvals, track pending approvals, handle timeouts, and maintain audit trails.
 
 ## Prerequisites
 
@@ -45,7 +45,7 @@ Before using this skill, ensure:
 
 Permission management is the process of obtaining authorization before executing privileged operations. The Chief of Staff must not unilaterally spawn agents, terminate agents, hibernate agents, wake agents, or install plugins without proper approval from the manager (EAMA) unless operating under an explicit autonomous directive.
 
-**Key principle:** ECOS proposes, EAMA approves. The user (via EAMA) maintains control over resource-consuming operations.
+**Key principle:** AMCOS proposes, EAMA approves. The user (via EAMA) maintains control over resource-consuming operations.
 
 ## When Approval Is Required
 
@@ -61,12 +61,12 @@ Permission management is the process of obtaining authorization before executing
 +-------------------------------------------------------------+
 ```
 
-**Exception:** If the manager has issued an autonomous operation directive, ECOS may proceed without approval but must notify EAMA after the operation completes.
+**Exception:** If the manager has issued an autonomous operation directive, AMCOS may proceed without approval but must notify EAMA after the operation completes.
 
 ## The Approval Workflow
 
 ```
-ECOS                           EAMA                          USER
+AMCOS                           EAMA                          USER
   |                              |                              |
   |  1. Request approval         |                              |
   |----------------------------->|                              |
@@ -82,7 +82,7 @@ ECOS                           EAMA                          USER
   |  6. Log to audit trail       |                              |
 ```
 
-> **For ACK timeout policy and message retry procedures, see the ecos-notification-protocols skill.**
+> **For ACK timeout policy and message retry procedures, see the amcos-notification-protocols skill.**
 
 ## Core Procedures
 
@@ -159,7 +159,7 @@ audit_trail:
     escalation_count: 0|1|2|3
 ```
 
-**Audit file location:** `docs_dev/audit/ecos-approvals-{date}.yaml`
+**Audit file location:** `docs_dev/audit/amcos-approvals-{date}.yaml`
 
 ## Task Checklist
 
@@ -249,11 +249,11 @@ Detailed step-by-step runbook for handling situations where approval requests do
 
 | Role | Prefix | Plugin Name |
 |------|--------|-------------|
-| Chief of Staff | `ecos-` | Emasoft Chief of Staff |
-| Assistant Manager | `eama-` | Emasoft Assistant Manager Agent |
-| Architect | `eaa-` | Emasoft Architect Agent |
-| Orchestrator | `eoa-` | Emasoft Orchestrator Agent |
-| Integrator | `eia-` | Emasoft Integrator Agent |
+| Chief of Staff | `amcos-` | AI Maestro Chief of Staff |
+| Assistant Manager | `eama-` | AI Maestro Assistant Manager Agent |
+| Architect | `eaa-` | AI Maestro Architect Agent |
+| Orchestrator | `eoa-` | AI Maestro Orchestrator Agent |
+| Integrator | `eia-` | AI Maestro Integrator Agent |
 
 ## Resources
 

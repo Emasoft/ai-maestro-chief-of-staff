@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ecos_archive_logs.py - Archive operation logs older than N days.
+amcos_archive_logs.py - Archive operation logs older than N days.
 
-Scans .emasoft/logs/ for log files and moves files older than the specified
-number of days into .emasoft/logs/archive/YYYY-MM/ subdirectories.
+Scans .ai-maestro/logs/ for log files and moves files older than the specified
+number of days into .ai-maestro/logs/archive/YYYY-MM/ subdirectories.
 Preserves original file timestamps and reports files archived and space saved.
 
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    ecos_archive_logs.py [--project-root PATH] [--days 30] [--dry-run] [--verbose]
+    amcos_archive_logs.py [--project-root PATH] [--days 30] [--dry-run] [--verbose]
 
 Exit codes:
     0 - Success
@@ -31,7 +31,7 @@ from typing import Any
 # Constants
 # ---------------------------------------------------------------------------
 
-LOGS_DIR = ".emasoft/logs"
+LOGS_DIR = ".ai-maestro/logs"
 ARCHIVE_SUBDIR = "archive"
 DEFAULT_DAYS = 30
 
@@ -42,12 +42,12 @@ DEFAULT_DAYS = 30
 
 
 def get_logs_path(project_root: Path) -> Path:
-    """Return the path to the .emasoft/logs/ directory."""
+    """Return the path to the .ai-maestro/logs/ directory."""
     return project_root / LOGS_DIR
 
 
 def get_archive_path(project_root: Path) -> Path:
-    """Return the path to the .emasoft/logs/archive/ directory."""
+    """Return the path to the .ai-maestro/logs/archive/ directory."""
     return get_logs_path(project_root) / ARCHIVE_SUBDIR
 
 
@@ -139,7 +139,7 @@ def archive_file(file_path: Path, archive_root: Path, verbose: bool = False) -> 
 
     Args:
         file_path: Path to the log file to archive.
-        archive_root: Root archive directory (.emasoft/logs/archive/).
+        archive_root: Root archive directory (.ai-maestro/logs/archive/).
         verbose: If True, print progress to stderr.
 
     Returns:

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-ecos_memory_operations.py - Core memory file operations for Emasoft Chief of Staff.
+amcos_memory_operations.py - Core memory file operations for AI Maestro Chief of Staff.
 
-This module provides the core operations for manipulating Emasoft Chief of Staff memory files:
+This module provides the core operations for manipulating AI Maestro Chief of Staff memory files:
 - Utility functions for file I/O and timestamps
 - Active Context operations (decisions, focus, errors)
 - Progress log operations
 - Pattern discovery operations
 
-Used by ecos_memory_manager.py for CLI interface.
+Used by amcos_memory_manager.py for CLI interface.
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ecos_memory_manager import MemoryConfig
+    from amcos_memory_manager import MemoryConfig
 
 __all__ = [
     "get_timestamp",

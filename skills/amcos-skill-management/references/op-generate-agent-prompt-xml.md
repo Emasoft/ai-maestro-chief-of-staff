@@ -2,8 +2,8 @@
 operation: generate-agent-prompt-xml
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-skill-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-skill-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -22,7 +22,7 @@ version: 1.0.0
   - [Step 5: Verify Integration](#step-5-verify-integration)
 - [Checklist](#checklist)
 - [Examples](#examples)
-  - [Example: Generate XML for ECOS Skills](#example-generate-xml-for-ecos-skills)
+  - [Example: Generate XML for AMCOS Skills](#example-generate-xml-for-amcos-skills)
   - [Example: Save and Use in Agent Definition](#example-save-and-use-in-agent-definition)
   - [Example: Programmatic Generation](#example-programmatic-generation)
   - [Example: Dynamic Skill List](#example-dynamic-skill-list)
@@ -119,22 +119,22 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-### Example: Generate XML for ECOS Skills
+### Example: Generate XML for AMCOS Skills
 
 ```bash
-# Generate for all ECOS skills
+# Generate for all AMCOS skills
 skills-ref to-prompt \
-  /path/to/skills/ecos-agent-lifecycle \
-  /path/to/skills/ecos-plugin-management \
-  /path/to/skills/ecos-skill-management \
-  /path/to/skills/ecos-onboarding
+  /path/to/skills/amcos-agent-lifecycle \
+  /path/to/skills/amcos-plugin-management \
+  /path/to/skills/amcos-skill-management \
+  /path/to/skills/amcos-onboarding
 
 # Output:
 # <available_skills>
 # <skill>
-# <name>ecos-agent-lifecycle</name>
+# <name>amcos-agent-lifecycle</name>
 # <description>Use when spawning, terminating, hibernating, or waking agents...</description>
-# <location>/path/to/skills/ecos-agent-lifecycle/SKILL.md</location>
+# <location>/path/to/skills/amcos-agent-lifecycle/SKILL.md</location>
 # </skill>
 # ...
 # </available_skills>
@@ -144,24 +144,24 @@ skills-ref to-prompt \
 
 ```bash
 # Generate and save
-PLUGIN_SKILLS="/path/to/emasoft-chief-of-staff/skills"
-skills-ref to-prompt $PLUGIN_SKILLS/*/ > /tmp/ecos_skills.xml
+PLUGIN_SKILLS="/path/to/ai-maestro-chief-of-staff/skills"
+skills-ref to-prompt $PLUGIN_SKILLS/*/ > /tmp/amcos_skills.xml
 
 # View result
-cat /tmp/ecos_skills.xml
+cat /tmp/amcos_skills.xml
 
 # Use in agent definition file
-cat > /path/to/agents/ecos-main-agent.md << 'EOF'
+cat > /path/to/agents/amcos-main-agent.md << 'EOF'
 ---
-name: ecos-main-agent
+name: amcos-main-agent
 description: Chief of Staff main agent
 ---
 
-# ECOS Main Agent
+# AMCOS Main Agent
 
 You have access to the following skills:
 
-$(cat /tmp/ecos_skills.xml)
+$(cat /tmp/amcos_skills.xml)
 
 When a task matches a skill's description, read the SKILL.md file to learn the procedures.
 EOF

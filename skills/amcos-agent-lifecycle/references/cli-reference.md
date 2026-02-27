@@ -384,7 +384,7 @@ You can request the agent details in JSON format for programmatic use.
 **Full workflow from creation to ready:**
 
 1. **Create agent**: Use the `ai-maestro-agents-management` skill to create the agent with name, directory, task, and tags
-2. **Add marketplace**: Use the skill to add the Emasoft marketplace to the agent (auto-restarts agent)
+2. **Add marketplace**: Use the skill to add the AI Maestro marketplace to the agent (auto-restarts agent)
 3. **Install plugin**: Use the skill to install the required plugin on the agent (auto-restarts agent)
 4. **Verify configuration**: Use the skill to show agent details
 5. **Check plugin installation**: Use the skill to list plugins on the agent

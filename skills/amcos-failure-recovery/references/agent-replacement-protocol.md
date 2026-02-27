@@ -61,12 +61,12 @@ Phase 6: Cleanup <-- Phase 5: Work Handoff <-- Phase 4: Orchestrator Notificatio
 
 | Phase | Owner | Duration | Key Output |
 |-------|-------|----------|------------|
-| 1. Failure Confirmation | ECOS | 5-10 min | Artifact inventory |
+| 1. Failure Confirmation | AMCOS | 5-10 min | Artifact inventory |
 | 2. Manager Approval | EAMA | 5-30 min | Approval decision |
-| 3. Create Agent | ECOS + User | 10-30 min | New agent online |
-| 4. Orchestrator Notification | ECOS -> EOA | 5-10 min | Handoff docs, kanban update |
-| 5. Work Handoff | ECOS -> New Agent | 10-20 min | Agent acknowledgment |
-| 6. Cleanup | ECOS | 5 min | Incident closed |
+| 3. Create Agent | AMCOS + User | 10-30 min | New agent online |
+| 4. Orchestrator Notification | AMCOS -> EOA | 5-10 min | Handoff docs, kanban update |
+| 5. Work Handoff | AMCOS -> New Agent | 10-20 min | Agent acknowledgment |
+| 6. Cleanup | AMCOS | 5 min | Incident closed |
 
 **Total estimated time**: 40-110 minutes depending on complexity and response times.
 
@@ -76,7 +76,7 @@ Phase 6: Cleanup <-- Phase 5: Work Handoff <-- Phase 4: Orchestrator Notificatio
 
 ### 4.3.1 Confirming Agent Cannot Be Recovered
 
-Before proceeding with replacement, ECOS must document that recovery is impossible:
+Before proceeding with replacement, AMCOS must document that recovery is impossible:
 
 **Confirmation checklist:**
 
@@ -104,7 +104,7 @@ Classification: TERMINAL
 - [ ] 3+ consecutive recovery failures
 - [ ] State unrecoverable (context lost, credentials invalid, etc.)
 
-Confirmed by: ECOS
+Confirmed by: AMCOS
 Confirmation timestamp: [ISO_TIMESTAMP]
 ```
 
@@ -127,7 +127,7 @@ Even when the agent cannot be recovered, some work products may be salvageable:
 
 **Step 1: Check last known commit from the failed agent**
 
-If ECOS has SSH access to the host:
+If AMCOS has SSH access to the host:
 
 ```bash
 # Attempt to get git status from failed agent's directory
@@ -144,7 +144,7 @@ Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.ecos/agent-health/artifact
 
 ### 4.4.1 Composing the Replacement Request
 
-ECOS must request approval from the manager (EAMA) before creating a replacement agent.
+AMCOS must request approval from the manager (EAMA) before creating a replacement agent.
 
 Use the `agent-messaging` skill to send the replacement approval request:
 - **Recipient**: `eama-assistant-manager`
@@ -279,7 +279,7 @@ If registration fails, troubleshoot:
 
 ### 4.6.1 Notifying Orchestrator About Replacement
 
-ECOS must notify the orchestrator (EOA) that an agent has been replaced so that:
+AMCOS must notify the orchestrator (EOA) that an agent has been replaced so that:
 1. The orchestrator can generate a handoff document for the new agent
 2. The GitHub Project kanban can be updated to reassign tasks
 
@@ -350,7 +350,7 @@ After the handoff document, use the `agent-messaging` skill to send specific tas
 
 ### 4.7.3 Awaiting Acknowledgment
 
-The new agent MUST acknowledge the handoff before ECOS considers the replacement complete.
+The new agent MUST acknowledge the handoff before AMCOS considers the replacement complete.
 
 **Expected acknowledgment:**
 
@@ -496,7 +496,7 @@ Total time: _______________
 **Solution**:
 1. Send a reminder message to EOA using the `agent-messaging` skill
 2. If no response, escalate to manager (EAMA)
-3. As fallback, ECOS can generate a basic handoff from known information
+3. As fallback, AMCOS can generate a basic handoff from known information
 
 ### New agent does not understand handoff documentation
 
@@ -506,7 +506,7 @@ Total time: _______________
 
 **Solution**:
 1. Request EOA to provide additional context
-2. Schedule a synchronous Q&A session between ECOS and new agent
+2. Schedule a synchronous Q&A session between AMCOS and new agent
 3. Have EOA or manager directly explain the tasks
 
 ### Git clone fails due to authentication

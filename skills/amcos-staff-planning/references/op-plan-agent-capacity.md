@@ -2,8 +2,8 @@
 operation: plan-agent-capacity
 procedure: proc-evaluate-project
 workflow-instruction: Step 2 - Chief of Staff Evaluates Project
-parent-skill: ecos-staff-planning
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-staff-planning
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 

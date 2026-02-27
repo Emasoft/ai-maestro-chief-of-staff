@@ -2,9 +2,9 @@
 
 ## Table of Contents
 
-1. [Check Memory Health](#check-memory-health) - `ecos_memory_manager.py health`
-2. [Update Memory](#update-memory) - `ecos_memory_manager.py` add-* subcommands
-3. [Compact Memory](#compact-memory) - `ecos_memory_manager.py compact`
+1. [Check Memory Health](#check-memory-health) - `amcos_memory_manager.py health`
+2. [Update Memory](#update-memory) - `amcos_memory_manager.py` add-* subcommands
+3. [Compact Memory](#compact-memory) - `amcos_memory_manager.py compact`
 4. [repair-memory.py](#repair-memorypy) (planned)
 
 ---
@@ -13,19 +13,19 @@
 
 **Purpose:** Load and report on all memory files, showing file sizes, entry counts, and any issues. This replaces the concept of the old `load-memory.py` script. "Loading memory" into agent context is an agent-level operation (the agent reads the files directly into its context window). The `health` subcommand provides a structured report of the memory state for diagnostics.
 
-**Command:** `ecos_memory_manager.py health`
+**Command:** `amcos_memory_manager.py health`
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py health
-python scripts/ecos_memory_manager.py health --json
+python scripts/amcos_memory_manager.py health
+python scripts/amcos_memory_manager.py health --json
 ```
 
 **Examples:**
 
 **Example 1: Health check (text output)**
 ```bash
-python scripts/ecos_memory_manager.py health
+python scripts/amcos_memory_manager.py health
 ```
 
 Output:
@@ -40,7 +40,7 @@ No issues found.
 
 **Example 2: Health check (JSON output)**
 ```bash
-python scripts/ecos_memory_manager.py health --json
+python scripts/amcos_memory_manager.py health --json
 ```
 
 Output:
@@ -62,34 +62,34 @@ Output:
 
 ## Update Memory
 
-**Purpose:** Persist changes to memory files immediately. This replaces the concept of the old `save-memory.py` script. All write operations are handled by specific subcommands of `ecos_memory_manager.py`. Memory is persisted immediately on each operation via `write_file_safely()` in `ecos_memory_operations.py`. There is no deferred "save" concept.
+**Purpose:** Persist changes to memory files immediately. This replaces the concept of the old `save-memory.py` script. All write operations are handled by specific subcommands of `amcos_memory_manager.py`. Memory is persisted immediately on each operation via `write_file_safely()` in `amcos_memory_operations.py`. There is no deferred "save" concept.
 
-**Commands:** Various `ecos_memory_manager.py` subcommands:
+**Commands:** Various `amcos_memory_manager.py` subcommands:
 
 ```bash
 # Record a decision in activeContext.md
-python scripts/ecos_memory_manager.py add-decision "Use PostgreSQL for persistence"
+python scripts/amcos_memory_manager.py add-decision "Use PostgreSQL for persistence"
 
 # Set the current focus in activeContext.md
-python scripts/ecos_memory_manager.py set-focus "Implementing auth middleware"
+python scripts/amcos_memory_manager.py set-focus "Implementing auth middleware"
 
 # Log an error in activeContext.md
-python scripts/ecos_memory_manager.py log-error "Connection timeout to database"
+python scripts/amcos_memory_manager.py log-error "Connection timeout to database"
 
 # Clear all errors from activeContext.md
-python scripts/ecos_memory_manager.py clear-errors
+python scripts/amcos_memory_manager.py clear-errors
 
 # Get recent errors from activeContext.md
-python scripts/ecos_memory_manager.py get-errors
+python scripts/amcos_memory_manager.py get-errors
 
 # Add a progress entry to progress.md
-python scripts/ecos_memory_manager.py add-progress "Completed login endpoint implementation"
+python scripts/amcos_memory_manager.py add-progress "Completed login endpoint implementation"
 
 # Add a pattern to patterns.md
-python scripts/ecos_memory_manager.py add-pattern "Fail-Fast Error Propagation" "Let errors propagate, handle at boundary layers only"
+python scripts/amcos_memory_manager.py add-pattern "Fail-Fast Error Propagation" "Let errors propagate, handle at boundary layers only"
 
 # Search patterns in patterns.md
-python scripts/ecos_memory_manager.py search-patterns "error"
+python scripts/amcos_memory_manager.py search-patterns "error"
 ```
 
 **When to use:**
@@ -103,20 +103,20 @@ python scripts/ecos_memory_manager.py search-patterns "error"
 
 **Purpose:** Archive old completed tasks and patterns by compacting memory files. This replaces the old `archive-memory.py` script.
 
-**Command:** `ecos_memory_manager.py compact`
+**Command:** `amcos_memory_manager.py compact`
 
 The `compact` subcommand calls `compact_memory()` which backs up all memory files (using `backup_file()` to create timestamped backups), then removes old date sections from `progress.md` (by cutoff date) and trims old errors from `activeContext.md`.
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py compact
+python scripts/amcos_memory_manager.py compact
 ```
 
 **Examples:**
 
 **Example 1: Compact memory**
 ```bash
-python scripts/ecos_memory_manager.py compact
+python scripts/amcos_memory_manager.py compact
 ```
 
 Output:

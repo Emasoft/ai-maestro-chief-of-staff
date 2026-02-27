@@ -2,8 +2,8 @@
 operation: reindex-skills-pss
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-skill-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-skill-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -151,8 +151,8 @@ NEW_COUNT=$(cat ~/.claude/skills-index.json | jq '.skills | length')
 echo "New skill count: $NEW_COUNT"
 
 # Step 5: Check specific skill
-echo "=== Checking ecos-agent-lifecycle ==="
-cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "ecos-agent-lifecycle")'
+echo "=== Checking amcos-agent-lifecycle ==="
+cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "amcos-agent-lifecycle")'
 ```
 
 ### Example: Checking Why Skill Not Discovered
@@ -193,7 +193,7 @@ PSS uses two passes for comprehensive indexing:
 ```bash
 # The reindex script handles both passes automatically
 # You can verify co-usage relationships:
-cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "ecos-agent-lifecycle") | .co_usage_skills'
+cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "amcos-agent-lifecycle") | .co_usage_skills'
 ```
 
 ## Error Handling

@@ -46,7 +46,7 @@
 - [Validation Checklist](#validation-checklist)
 - [References](#references)
 
-This template defines the standard structure and boundaries for ECOS sub-agents. All ECOS sub-agents should follow this pattern to maintain consistency and prevent scope creep.
+This template defines the standard structure and boundaries for AMCOS sub-agents. All AMCOS sub-agents should follow this pattern to maintain consistency and prevent scope creep.
 
 ---
 
@@ -56,7 +56,7 @@ This template defines the standard structure and boundaries for ECOS sub-agents.
 
 ```yaml
 ---
-name: ecos-<function>-<role>
+name: amcos-<function>-<role>
 description: Single-line description of what this agent does. Requires AI Maestro installed.
 tools:
   - Task
@@ -64,12 +64,12 @@ tools:
   - Read
   - Write  # Only if agent needs to create/modify files
 skills:
-  - ecos-<relevant-skill>
+  - amcos-<relevant-skill>
 ---
 ```
 
 **Naming Convention:**
-- Prefix: `ecos-` (Emasoft Chief of Staff)
+- Prefix: `amcos-` (AI Maestro Chief of Staff)
 - Function: Primary responsibility (e.g., `approval`, `lifecycle`, `plugin`)
 - Role: Specific role within function (e.g., `coordinator`, `manager`, `installer`)
 
@@ -84,14 +84,14 @@ skills:
 ```markdown
 # [Agent Name] Agent
 
-You [primary responsibility]. You act as [role within ECOS system], ensuring that [key objective].
+You [primary responsibility]. You act as [role within AMCOS system], ensuring that [key objective].
 ```
 
 **Example:**
 ```markdown
 # Approval Coordinator Agent
 
-You manage approval workflows for operations that require manager authorization. You act as the gatekeeper between ECOS agents and the human manager (via EAMA - Emasoft Assistant Manager Agent), ensuring that sensitive operations are properly reviewed before execution.
+You manage approval workflows for operations that require manager authorization. You act as the gatekeeper between AMCOS agents and the human manager (via EAMA - AI Maestro Assistant Manager Agent), ensuring that sensitive operations are properly reviewed before execution.
 ```
 
 ### 3. Terminology Section (Optional but Recommended)
@@ -103,8 +103,8 @@ Define domain-specific terms used in this agent's procedures.
 
 | Term | Definition |
 |------|------------|
-| **Manager** | The human user, communicated with via EAMA (Emasoft Assistant Manager Agent) |
-| **Requester** | Any ECOS agent or command that needs approval for an operation |
+| **Manager** | The human user, communicated with via EAMA (AI Maestro Assistant Manager Agent) |
+| **Requester** | Any AMCOS agent or command that needs approval for an operation |
 | **[Term 3]** | [Definition] |
 ```
 
@@ -241,7 +241,7 @@ All operations MUST be logged:
 
 ### Inter-Agent Messaging (AI Maestro)
 
-Sub-agents communicate with other ECOS components via AI Maestro messaging.
+Sub-agents communicate with other AMCOS components via AI Maestro messaging.
 
 #### Sending Messages
 
@@ -257,9 +257,9 @@ Use the `agent-messaging` skill to send messages to other agents. Each message r
 
 | Target | Session Name | Purpose |
 |--------|--------------|---------|
-| **Chief of Staff** | `ecos-main` | Coordination, escalations, status reports |
+| **Chief of Staff** | `amcos-main` | Coordination, escalations, status reports |
 | **Assistant Manager** | `eama-main` | User communication (always via Chief of Staff) |
-| **Other ECOS Agents** | `ecos-<name>` | Cross-domain coordination |
+| **Other AMCOS Agents** | `amcos-<name>` | Cross-domain coordination |
 
 #### Message Types
 
@@ -278,9 +278,9 @@ User (Human Manager)
     ↓
 EAMA (Assistant Manager Agent)
     ↓
-ECOS Main (Chief of Staff)
+AMCOS Main (Chief of Staff)
     ↓
-ECOS Sub-Agents (Workers)
+AMCOS Sub-Agents (Workers)
 ```
 
 **CRITICAL Rules:**
@@ -418,7 +418,7 @@ Each sub-agent should have 3-7 core procedures, following this format:
 
 ```markdown
 ---
-name: ecos-example-worker
+name: amcos-example-worker
 description: Single-line description of worker's purpose. Requires AI Maestro installed.
 tools:
   - Task
@@ -426,7 +426,7 @@ tools:
   - Read
   - Write
 skills:
-  - ecos-example-skill
+  - amcos-example-skill
 ---
 
 # Example Worker Agent
@@ -481,7 +481,7 @@ response: [Agent structured response]
 Before deploying a new sub-agent, verify:
 
 - [ ] YAML frontmatter complete with name, description, tools, skills
-- [ ] Agent name follows `ecos-<function>-<role>` convention
+- [ ] Agent name follows `amcos-<function>-<role>` convention
 - [ ] Tool list is minimal (only Task, Bash, Read, Write as needed)
 - [ ] Role description clearly states boundaries
 - [ ] Core Responsibilities listed (3-7 items)
@@ -497,7 +497,7 @@ Before deploying a new sub-agent, verify:
 
 ## References
 
-- Main skill: [ecos-agent-lifecycle/SKILL.md](../SKILL.md)
-- Agent hierarchy: described in the `ecos-agent-lifecycle` skill (see SKILL.md section on agent roles and hierarchy)
+- Main skill: [amcos-agent-lifecycle/SKILL.md](../SKILL.md)
+- Agent hierarchy: described in the `amcos-agent-lifecycle` skill (see SKILL.md section on agent roles and hierarchy)
 - Communication protocols: use the `agent-messaging` skill for all inter-agent messaging (see Communication Rules section above)
-- Approval workflows: use the `ecos-permission-management` skill for approval request procedures
+- Approval workflows: use the `amcos-permission-management` skill for approval request procedures

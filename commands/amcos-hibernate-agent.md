@@ -1,5 +1,5 @@
 ---
-name: ecos-hibernate-agent
+name: amcos-hibernate-agent
 description: "Put a remote agent to sleep, preserving its state for later resumption using AI Maestro CLI"
 argument-hint: "<AGENT_NAME>"
 allowed-tools: ["Bash", "Task"]
@@ -32,11 +32,11 @@ This command hibernates an agent session. The operation:
 
 ```bash
 # Hibernate an agent
-/ecos-hibernate-agent helper-python
+/amcos-hibernate-agent helper-python
 
 # Hibernate multiple agents at end of day
-/ecos-hibernate-agent frontend-ui
-/ecos-hibernate-agent data-processor
+/amcos-hibernate-agent frontend-ui
+/amcos-hibernate-agent data-processor
 ```
 
 ## Hibernation vs Termination
@@ -90,7 +90,7 @@ When hibernated, AI Maestro preserves:
 ═══════════════════════════════════════════════════════════════
   Agent 'helper-python' is now HIBERNATED
 
-  Wake with: /ecos-wake-agent helper-python
+  Wake with: /amcos-wake-agent helper-python
 ═══════════════════════════════════════════════════════════════
 ```
 
@@ -100,22 +100,22 @@ Use the `ai-maestro-agents-management` skill to list agents:
 - To see all agents including hibernated: list with status filter `all`
 - To see only hibernated agents: list with status filter `hibernated`
 
-Or use the `/ecos-staff-status` command with appropriate flags.
+Or use the `/amcos-staff-status` command with appropriate flags.
 
 ## Error Handling
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Agent doesn't exist | Check name with `/ecos-staff-status` |
+| "Agent not found" | Agent doesn't exist | Check name with `/amcos-staff-status` |
 | "Agent is already hibernated" | State check failed | Agent already sleeping |
 | "Agent is not online" | Cannot hibernate offline agent | Check agent status first |
 
 ## Related Commands
 
-- `/ecos-staff-status` - View all remote agents
-- `/ecos-wake-agent` - Wake a hibernated agent
-- `/ecos-terminate-agent` - Permanently terminate an agent
-- `/ecos-spawn-agent` - Create a new remote agent
+- `/amcos-staff-status` - View all remote agents
+- `/amcos-wake-agent` - Wake a hibernated agent
+- `/amcos-terminate-agent` - Permanently terminate an agent
+- `/amcos-spawn-agent` - Create a new remote agent
 
 ## CLI Reference
 

@@ -1,9 +1,9 @@
 ---
-name: ecos-performance-report
+name: amcos-performance-report
 description: "Generate agent performance report with metrics, strengths, and improvement areas"
 argument-hint: "[--agent SESSION_NAME] [--period DAYS] [--project PROJECT_ID]"
 user-invocable: true
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_performance_report.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_performance_report.py:*)"]
 ---
 
 # Performance Report Command
@@ -13,7 +13,7 @@ Generate a comprehensive performance report for AI Maestro agents. Shows task co
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_performance_report.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_performance_report.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -56,31 +56,31 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_performance_report.py" $ARGUMENTS
 ### Report for all agents (last 7 days)
 
 ```bash
-/ecos-performance-report
+/amcos-performance-report
 ```
 
 ### Report for specific agent
 
 ```bash
-/ecos-performance-report --agent libs-svg-svgbbox
+/amcos-performance-report --agent libs-svg-svgbbox
 ```
 
 ### Last 30 days with comparison
 
 ```bash
-/ecos-performance-report --period 30 --compare
+/amcos-performance-report --period 30 --compare
 ```
 
 ### Filter by project
 
 ```bash
-/ecos-performance-report --project PVT_kwDOABC123 --period 14
+/amcos-performance-report --project PVT_kwDOABC123 --period 14
 ```
 
 ### Detailed CSV export
 
 ```bash
-/ecos-performance-report --format csv --detailed
+/amcos-performance-report --format csv --detailed
 ```
 
 ## Output Example
@@ -187,6 +187,6 @@ Performance data is collected from:
 
 ## Related Commands
 
-- `/ecos-resource-report` - System resource monitoring
-- `/ecos-orchestration-status` - Current orchestration state
-- `/ecos-planning-status` - Planning phase progress
+- `/amcos-resource-report` - System resource monitoring
+- `/amcos-orchestration-status` - Current orchestration state
+- `/amcos-planning-status` - Planning phase progress

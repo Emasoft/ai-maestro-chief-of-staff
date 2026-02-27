@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_snapshot_memory.py - Create coordinated point-in-time snapshots of ECOS memory files.
+amcos_snapshot_memory.py - Create coordinated point-in-time snapshots of AMCOS memory files.
 
 Creates, lists, and restores coordinated snapshots of all three memory files
 (activeContext.md, progress.md, patterns.md) with metadata (timestamp, reason,
@@ -195,7 +195,7 @@ def restore_snapshot(project_root: Path, snapshot_path: Path) -> None:
 def _create_parser() -> argparse.ArgumentParser:
     """Create argument parser for CLI."""
     parser = argparse.ArgumentParser(
-        description="Create, list, and restore coordinated snapshots of ECOS memory files",
+        description="Create, list, and restore coordinated snapshots of AMCOS memory files",
     )
     parser.add_argument(
         "--project-root",

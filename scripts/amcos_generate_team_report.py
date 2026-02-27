@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ecos_generate_team_report.py - Generate team assignments report.
+amcos_generate_team_report.py - Generate team assignments report.
 
-Aggregates data across all .emasoft/team-registry.json files found in the
+Aggregates data across all .ai-maestro/team-registry.json files found in the
 project tree and generates a report with team summaries, agent assignments,
 role coverage, and unassigned roles.
 
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    ecos_generate_team_report.py [--project-root PATH] [--output FILE]
+    amcos_generate_team_report.py [--project-root PATH] [--output FILE]
         [--format text|json|md]
 
 Exit codes:
@@ -32,7 +32,7 @@ from typing import Any
 # ---------------------------------------------------------------------------
 
 REGISTRY_FILENAME = "team-registry.json"
-REGISTRY_DIR = ".emasoft"
+REGISTRY_DIR = ".ai-maestro"
 
 # All roles that should be filled in a complete team
 ALL_ROLES = frozenset({
@@ -54,7 +54,7 @@ VALID_FORMATS = ("text", "json", "md")
 def find_registries(project_root: Path) -> list[Path]:
     """Find all team-registry.json files under the project root.
 
-    Searches for .emasoft/team-registry.json in the project root and all
+    Searches for .ai-maestro/team-registry.json in the project root and all
     immediate subdirectories (one level deep).
 
     Args:

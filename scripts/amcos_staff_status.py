@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_staff_status.py - Get status of all managed agents.
+amcos_staff_status.py - Get status of all managed agents.
 
 Reads the chief-of-staff state file and outputs JSON with agent status information
 including session name, role, assigned project, status, and last heartbeat.
@@ -8,7 +8,7 @@ including session name, role, assigned project, status, and last heartbeat.
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    ecos_staff_status.py [--project PROJECT_ID]
+    amcos_staff_status.py [--project PROJECT_ID]
 
 Exit codes:
     0 - Success

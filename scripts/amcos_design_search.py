@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_design_search.py - Search design documents by UUID, type, status, or keyword.
+amcos_design_search.py - Search design documents by UUID, type, status, or keyword.
 
 Searches .md files in the design/ directory, parsing YAML frontmatter
 (using stdlib regex, no PyYAML) to extract metadata fields: uuid, type,

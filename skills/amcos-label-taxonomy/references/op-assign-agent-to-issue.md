@@ -30,7 +30,7 @@ Assign a newly spawned or existing agent to a GitHub issue by applying the appro
 
 ## When to Use
 
-- When ECOS spawns a new agent and needs to assign work
+- When AMCOS spawns a new agent and needs to assign work
 - When reassigning an issue from one agent to another
 - When an agent becomes available and can take on new work
 
@@ -39,7 +39,7 @@ Assign a newly spawned or existing agent to a GitHub issue by applying the appro
 - GitHub CLI (`gh`) installed and authenticated
 - Issue number to assign
 - Agent name (session name) to assign
-- Write access to `.emasoft/team-registry.json`
+- Write access to `.ai-maestro/team-registry.json`
 
 ## Procedure
 
@@ -76,7 +76,7 @@ gh issue edit $ISSUE_NUMBER --remove-label "status:backlog" --add-label "status:
 ### Step 5: Update Team Registry
 
 ```bash
-jq '.agents["'$AGENT_NAME'"].current_issues += ['$ISSUE_NUMBER']' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+jq '.agents["'$AGENT_NAME'"].current_issues += ['$ISSUE_NUMBER']' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 ```
 
 ### Step 6: Verify Assignment
@@ -98,7 +98,7 @@ gh issue edit 42 --add-label "assign:implementer-1"
 gh issue edit 42 --remove-label "status:backlog" --add-label "status:ready"
 
 # Step 3: Update registry
-jq '.agents["implementer-1"].current_issues += [42]' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+jq '.agents["implementer-1"].current_issues += [42]' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 
 # Step 4: Verify
 gh issue view 42 --json labels --jq '.labels[].name'
@@ -111,7 +111,7 @@ gh issue view 42 --json labels --jq '.labels[].name'
 | Label not found | `assign:*` label doesn't exist | Create with `gh label create "assign:$AGENT_NAME"` |
 | Permission denied | Insufficient repo access | Verify GitHub token has repo scope |
 | Issue not found | Invalid issue number | Verify with `gh issue list` |
-| Registry update fails | Invalid JSON | Validate JSON with `jq . .emasoft/team-registry.json` |
+| Registry update fails | Invalid JSON | Validate JSON with `jq . .ai-maestro/team-registry.json` |
 
 ## Rollback
 

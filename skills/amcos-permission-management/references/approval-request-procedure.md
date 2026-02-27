@@ -23,7 +23,7 @@
 
 ## 1.1 What Is an Approval Request
 
-An approval request is a formal message sent from ECOS (Chief of Staff) to EAMA (Assistant Manager) asking for authorization to perform a privileged operation. The request contains all information EAMA needs to make an informed decision on behalf of the user.
+An approval request is a formal message sent from AMCOS (Chief of Staff) to EAMA (Assistant Manager) asking for authorization to perform a privileged operation. The request contains all information EAMA needs to make an informed decision on behalf of the user.
 
 **Approval requests are structured messages that include:**
 - A unique request identifier for tracking
@@ -32,18 +32,18 @@ An approval request is a formal message sent from ECOS (Chief of Staff) to EAMA 
 - A justification explaining why the operation is needed
 
 **The request-response cycle:**
-1. ECOS identifies an operation requiring approval
-2. ECOS composes and sends an approval request to EAMA
+1. AMCOS identifies an operation requiring approval
+2. AMCOS composes and sends an approval request to EAMA
 3. EAMA receives the request and presents it to the user
 4. The user makes a decision (approve, reject, or modify)
-5. EAMA sends the decision back to ECOS
-6. ECOS proceeds based on the decision
+5. EAMA sends the decision back to AMCOS
+6. AMCOS proceeds based on the decision
 
 ---
 
 ## 1.2 When to Request Approval
 
-ECOS must request approval before executing any of the following operations:
+AMCOS must request approval before executing any of the following operations:
 
 ### 1.2.1 Agent Spawn Triggers
 
@@ -170,7 +170,7 @@ plugin_install: "Code review capability needed for PR #42.
 **Step 4:** Compose the approval request message.
 
 The message must follow this structure:
-- **From**: `ecos-chief-of-staff`
+- **From**: `amcos-chief-of-staff`
 - **To**: `eama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] {Operation}: {Target}`
 - **Priority**: `high` or `normal`
@@ -214,7 +214,7 @@ Timeout schedule:
 
 **Check for response:**
 
-Use the `agent-messaging` skill to check for unread messages addressed to `ecos-chief-of-staff`. Filter for messages containing the matching `request_id` (e.g., `spawn-req-2025-02-02-001`).
+Use the `agent-messaging` skill to check for unread messages addressed to `amcos-chief-of-staff`. Filter for messages containing the matching `request_id` (e.g., `spawn-req-2025-02-02-001`).
 
 **Valid response decisions:**
 - `approved` - Proceed with operation
@@ -230,7 +230,7 @@ Use the `agent-messaging` skill to check for unread messages addressed to `ecos-
 
 The approval request message sent via the `agent-messaging` skill must contain:
 
-- **from**: string (required) - must be `ecos-chief-of-staff`
+- **from**: string (required) - must be `amcos-chief-of-staff`
 - **to**: string (required) - must be `eama-assistant-manager`
 - **subject**: string (required) - `[APPROVAL REQUEST] {Operation}: {Target}`
 - **priority**: string (required) - `high`, `normal`, or `urgent`
@@ -305,7 +305,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: `eama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Plugin Install: perfect-skill-suggester`
 - **Priority**: `high`
-- **Content**: type `approval_request`, message: "Requesting approval to install skill suggestion plugin". Include `request_id`: "plugin_install-req-2025-02-02-001", `operation`: "plugin_install", `details`: { `plugin_name`: "perfect-skill-suggester", `version`: "1.2.2", `source`: "emasoft-plugins", `capability`: "AI-analyzed skill activation based on task context", `security_implications`: "Runs hooks on prompt submission. No network access required." }, `justification`: "Skill activation currently manual. PSS automates skill matching to improve agent efficiency."
+- **Content**: type `approval_request`, message: "Requesting approval to install skill suggestion plugin". Include `request_id`: "plugin_install-req-2025-02-02-001", `operation`: "plugin_install", `details`: { `plugin_name`: "perfect-skill-suggester", `version`: "1.2.2", `source`: "ai-maestro-plugins", `capability`: "AI-analyzed skill activation based on task context", `security_implications`: "Runs hooks on prompt submission. No network access required." }, `justification`: "Skill activation currently manual. PSS automates skill matching to improve agent efficiency."
 
 ---
 

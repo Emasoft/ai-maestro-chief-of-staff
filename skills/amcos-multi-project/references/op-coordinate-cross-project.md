@@ -119,7 +119,7 @@ gh issue create --repo $MAIN_PROJECT_REPO \
 - [ ] Checkpoint 3: C stable (after all complete)
 
 ### Communication
-- ECOS coordinates
+- AMCOS coordinates
 - Agents communicate via AI Maestro
 - Status updates in this issue" \
   --label "coordination" \
@@ -132,7 +132,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: `eoa-main`
 - **Subject**: `Start cross-project work: Project A`
 - **Priority**: `high`
-- **Content**: type `task-assignment`, message: "Begin work on Project A component for Feature X. Notify ECOS when complete." Include `project` and `issue` fields.
+- **Content**: type `task-assignment`, message: "Begin work on Project A component for Feature X. Notify AMCOS when complete." Include `project` and `issue` fields.
 
 ### Step 5: Monitor Checkpoints
 
@@ -163,7 +163,7 @@ Feature X is ready for integration testing."
 
 # Update project registries
 for PROJECT in project-a project-b project-c; do
-  jq '.projects["'"$PROJECT"'"].last_cross_project = "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"' .emasoft/project-registry.json > temp.json && mv temp.json .emasoft/project-registry.json
+  jq '.projects["'"$PROJECT"'"].last_cross_project = "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"' .ai-maestro/project-registry.json > temp.json && mv temp.json .ai-maestro/project-registry.json
 done
 ```
 
@@ -177,7 +177,7 @@ done
 ### Projects Involved
 1. claude-plugins-validation (CPV) - validation logic
 2. perfect-skill-suggester (PSS) - uses CPV
-3. emasoft-plugins-marketplace (EPM) - contains both as submodules
+3. ai-maestro-plugins-marketplace (EPM) - contains both as submodules
 
 ### Dependency Chain
 CPV → PSS → EPM

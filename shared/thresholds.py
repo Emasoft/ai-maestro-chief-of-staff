@@ -90,7 +90,7 @@ VALID_ROLES = frozenset(["architect", "orchestrator", "integrator"])
 
 # Role to session prefix mapping
 ROLE_PREFIX_MAP = {
-    "chief-of-staff": "ecos-",
+    "chief-of-staff": "amcos-",
     "architect": "eaa-",
     "orchestrator": "eoa-",
     "integrator": "eia-",

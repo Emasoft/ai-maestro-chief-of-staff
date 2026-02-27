@@ -1,5 +1,5 @@
 ---
-name: ecos-spawn-agent
+name: amcos-spawn-agent
 description: "Create and launch a new remote agent in a tmux session using AI Maestro CLI"
 argument-hint: "<AGENT_NAME> --dir <PATH> [--task <DESCRIPTION>] [--tags <TAGS>] [--no-session]"
 allowed-tools: ["Bash", "Task"]
@@ -54,17 +54,17 @@ This command creates a new agent session. The operation:
 
 ```bash
 # Create a Python implementer agent (macOS/Linux)
-/ecos-spawn-agent helper-python --dir ~/projects/myapp \
+/amcos-spawn-agent helper-python --dir ~/projects/myapp \
   --task "Implement user authentication module" \
   --tags "implementer,python,auth"
 
 # Create a tester agent for a specific project
-/ecos-spawn-agent helper-tester --dir ~/projects/myapp-tests \
+/amcos-spawn-agent helper-tester --dir ~/projects/myapp-tests \
   --task "Write and run unit tests for API endpoints" \
   --tags "tester,pytest"
 
 # Create agent in existing folder
-/ecos-spawn-agent helper-docs --dir ~/projects/existing-project \
+/amcos-spawn-agent helper-docs --dir ~/projects/existing-project \
   --force-folder \
   --task "Generate API documentation" \
   --tags "documenter"
@@ -94,8 +94,8 @@ This command creates a new agent session. The operation:
 After spawning, install plugins for the agent using the `ai-maestro-agents-management` skill:
 - **Operation**: install plugin on agent
 - **Agent**: the newly spawned agent name
-- **Plugin**: the plugin to install (e.g., `emasoft-chief-of-staff`)
-- **Marketplace**: add marketplace first if needed (e.g., `github:Emasoft/emasoft-plugins`)
+- **Plugin**: the plugin to install (e.g., `ai-maestro-chief-of-staff`)
+- **Marketplace**: add marketplace first if needed (e.g., `github:Emasoft/ai-maestro-plugins`)
 
 **Verify**: plugin appears in the agent's plugin list after restart.
 
@@ -110,10 +110,10 @@ After spawning, install plugins for the agent using the `ai-maestro-agents-manag
 
 ## Related Commands
 
-- `/ecos-staff-status` - View all remote agents
-- `/ecos-terminate-agent` - Terminate a remote agent
-- `/ecos-hibernate-agent` - Put an agent to sleep
-- `/ecos-wake-agent` - Wake a hibernated agent
+- `/amcos-staff-status` - View all remote agents
+- `/amcos-terminate-agent` - Terminate a remote agent
+- `/amcos-hibernate-agent` - Put an agent to sleep
+- `/amcos-wake-agent` - Wake a hibernated agent
 
 ## CLI Reference
 

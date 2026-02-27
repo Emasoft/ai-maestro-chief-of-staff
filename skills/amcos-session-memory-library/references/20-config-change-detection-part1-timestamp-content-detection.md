@@ -47,7 +47,7 @@
        configs = ['toolchain', 'standards', 'environment', 'decisions']
 
        for config in configs:
-           # OPTIONAL: If EOA (Emasoft Orchestrator Agent) plugin is installed
+           # OPTIONAL: If EOA (AI Maestro Orchestrator Agent) plugin is installed
            config_file = f"design/config/{config}.md"
 
            with open(config_file) as f:
@@ -140,10 +140,10 @@
        return None
    ```
 
-2. **Read current config content** (OPTIONAL: If EOA (Emasoft Orchestrator Agent) plugin is installed)
+2. **Read current config content** (OPTIONAL: If EOA (AI Maestro Orchestrator Agent) plugin is installed)
    ```python
    def read_current_config(config_name):
-       # EOA (Emasoft Orchestrator Agent) config path
+       # EOA (AI Maestro Orchestrator Agent) config path
        config_file = f"design/config/{config_name}.md"
 
        with open(config_file) as f:

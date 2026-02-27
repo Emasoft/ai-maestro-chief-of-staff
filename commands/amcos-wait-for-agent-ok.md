@@ -1,5 +1,5 @@
 ---
-name: ecos-wait-for-agent-ok
+name: amcos-wait-for-agent-ok
 description: "Wait for an agent to acknowledge readiness with polling and reminders"
 argument-hint: "--agent <name> [--timeout <seconds>] [--remind-interval <seconds>]"
 allowed-tools: ["Bash", "Task", "Read"]
@@ -41,16 +41,16 @@ This command uses the `agent-messaging` skill to poll for acknowledgment message
 
 ```bash
 # Wait for agent with default settings (120s timeout, 30s reminders)
-/ecos-wait-for-agent-ok --agent helper-python
+/amcos-wait-for-agent-ok --agent helper-python
 
 # Wait with custom timeout
-/ecos-wait-for-agent-ok --agent data-processor --timeout 300
+/amcos-wait-for-agent-ok --agent data-processor --timeout 300
 
 # Wait with shorter reminder interval
-/ecos-wait-for-agent-ok --agent frontend-ui --timeout 180 --remind-interval 15
+/amcos-wait-for-agent-ok --agent frontend-ui --timeout 180 --remind-interval 15
 
 # Quick wait with no reminders (set interval > timeout)
-/ecos-wait-for-agent-ok --agent helper-python --timeout 60 --remind-interval 120
+/amcos-wait-for-agent-ok --agent helper-python --timeout 60 --remind-interval 120
 ```
 
 ## Wait Flow
@@ -161,10 +161,10 @@ Agents should respond with this message format:
 
 ```bash
 # 1. Notify agent about upcoming operation
-/ecos-notify-agents --agents helper-python --operation skill-install --message "Saving work? Let me know when ready."
+/amcos-notify-agents --agents helper-python --operation skill-install --message "Saving work? Let me know when ready."
 
 # 2. Wait for agent to acknowledge
-/ecos-wait-for-agent-ok --agent helper-python --timeout 120
+/amcos-wait-for-agent-ok --agent helper-python --timeout 120
 
 # 3. Proceed with operation (skill install, restart, etc.)
 # Use the ai-maestro-agents-management skill to install the plugin
@@ -174,7 +174,7 @@ Agents should respond with this message format:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Invalid agent name | Check with `/ecos-staff-status` |
+| "Agent not found" | Invalid agent name | Check with `/amcos-staff-status` |
 | "API unreachable" | AI Maestro not running | Start AI Maestro server |
 | "Timeout" | Agent didn't respond | Proceed with warning or abort |
 
@@ -190,7 +190,7 @@ When timeout is reached:
 
 ## Related Commands
 
-- `/ecos-notify-agents` - Send notifications with optional ack
-- `/ecos-broadcast-notification` - Broadcast to multiple agents
-- `/ecos-install-skill-notify` - Full skill installation workflow
-- `/ecos-staff-status` - Check agent status
+- `/amcos-notify-agents` - Send notifications with optional ack
+- `/amcos-broadcast-notification` - Broadcast to multiple agents
+- `/amcos-install-skill-notify` - Full skill installation workflow
+- `/amcos-staff-status` - Check agent status

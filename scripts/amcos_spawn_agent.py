@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-ecos_spawn_agent.py - Spawn a new AI Maestro agent session.
+amcos_spawn_agent.py - Spawn a new AI Maestro agent session.
 
 Usage:
-    python ecos_spawn_agent.py ROLE SESSION_NAME [--project PROJECT_ID] [--plugins PLUGIN1,PLUGIN2] [--agent AGENT_NAME]
+    python amcos_spawn_agent.py ROLE SESSION_NAME [--project PROJECT_ID] [--plugins PLUGIN1,PLUGIN2] [--agent AGENT_NAME]
 
 Example:
-    python ecos_spawn_agent.py orchestrator svgbbox-orchestrator --project svgbbox \
-        --plugins emasoft-orchestrator-agent --agent eoa-orchestrator-main-agent
+    python amcos_spawn_agent.py orchestrator svgbbox-orchestrator --project svgbbox \
+        --plugins ai-maestro-orchestrator-agent --agent eoa-orchestrator-main-agent
 """
 
 import argparse
@@ -23,13 +23,13 @@ from typing import Any
 def get_marketplace_plugin_path(plugin_name: str) -> Path | None:
     """Get the path to a marketplace-installed plugin.
 
-    Plugins are installed from emasoft-plugins marketplace to:
-    ~/.claude/plugins/cache/emasoft-plugins/<plugin-name>/<version>/
+    Plugins are installed from ai-maestro-plugins marketplace to:
+    ~/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<version>/
 
     Returns the latest version path, or None if not installed.
     """
     cache_dir = (
-        Path.home() / ".claude" / "plugins" / "cache" / "emasoft-plugins" / plugin_name
+        Path.home() / ".claude" / "plugins" / "cache" / "ai-maestro-plugins" / plugin_name
     )
     if not cache_dir.exists():
         return None
@@ -42,10 +42,10 @@ def get_marketplace_plugin_path(plugin_name: str) -> Path | None:
 
 
 def install_marketplace_plugin(plugin_name: str, agent_dir: Path) -> bool:
-    """Install a plugin from emasoft-plugins marketplace to agent's local folder.
+    """Install a plugin from ai-maestro-plugins marketplace to agent's local folder.
 
     Args:
-        plugin_name: Name of the plugin (e.g., 'emasoft-orchestrator-agent')
+        plugin_name: Name of the plugin (e.g., 'ai-maestro-orchestrator-agent')
         agent_dir: Path to the agent's directory (e.g., ~/agents/eoa-svgbbox/)
 
     Returns:
@@ -73,13 +73,13 @@ def parse_args() -> argparse.Namespace:
         epilog="""
 Examples:
     # Spawn a code reviewer agent
-    python ecos_spawn_agent.py code-reviewer cr-session-01
+    python amcos_spawn_agent.py code-reviewer cr-session-01
 
     # Spawn with project context
-    python ecos_spawn_agent.py architect arch-01 --project my-app
+    python amcos_spawn_agent.py architect arch-01 --project my-app
 
     # Spawn with plugins
-    python ecos_spawn_agent.py developer dev-01 --plugins linter,formatter
+    python amcos_spawn_agent.py developer dev-01 --plugins linter,formatter
         """,
     )
     parser.add_argument(
@@ -165,8 +165,8 @@ def main() -> int:
     if args.plugins:
         plugins_list = [p.strip() for p in args.plugins.split(",") if p.strip()]
 
-    # Install plugins from emasoft-plugins marketplace to agent's local folder
-    # Plugins are fetched from: ~/.claude/plugins/cache/emasoft-plugins/<plugin-name>/<version>/
+    # Install plugins from ai-maestro-plugins marketplace to agent's local folder
+    # Plugins are fetched from: ~/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<version>/
     plugins_installed = []
     plugins_failed = []
     for plugin in plugins_list:
@@ -180,7 +180,7 @@ def main() -> int:
             "status": "error",
             "message": f"Failed to install plugins from marketplace: {plugins_failed}",
             "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            "hint": "Ensure plugins are installed via: claude plugin install <name>@emasoft-plugins",
+            "hint": "Ensure plugins are installed via: claude plugin install <name>@ai-maestro-plugins",
             "plugins_installed": plugins_installed,
             "plugins_failed": plugins_failed,
         }

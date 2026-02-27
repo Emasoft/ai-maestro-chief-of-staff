@@ -2,8 +2,8 @@
 operation: install-plugin-marketplace
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-plugin-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-plugin-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -51,14 +51,14 @@ version: 1.0.0
 claude plugin marketplace list
 
 # If marketplace not registered, add it
-claude plugin marketplace add https://github.com/Emasoft/emasoft-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
 ```
 
 ### Step 2: Check Plugin Availability
 
 ```bash
 # Update marketplace cache
-claude plugin marketplace update emasoft-plugins
+claude plugin marketplace update ai-maestro-plugins
 
 # List available plugins
 claude plugin search <plugin-name>
@@ -71,7 +71,7 @@ claude plugin search <plugin-name>
 claude plugin install <plugin-name>@<marketplace-name>
 
 # Example
-claude plugin install emasoft-orchestrator-agent@emasoft-plugins
+claude plugin install ai-maestro-orchestrator-agent@ai-maestro-plugins
 ```
 
 ### Step 4: Verify Installation
@@ -129,17 +129,17 @@ Copy this checklist and track your progress:
 
 ```bash
 # Step 1: Add marketplace (first time only)
-claude plugin marketplace add https://github.com/Emasoft/emasoft-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
 
 # Step 2: Update cache
-claude plugin marketplace update emasoft-plugins
+claude plugin marketplace update ai-maestro-plugins
 
 # Step 3: Install
-claude plugin install perfect-skill-suggester@emasoft-plugins
+claude plugin install perfect-skill-suggester@ai-maestro-plugins
 
 # Step 4: Verify
 claude plugin list | grep perfect-skill-suggester
-# Output: perfect-skill-suggester@emasoft-plugins 1.2.3 enabled
+# Output: perfect-skill-suggester@ai-maestro-plugins 1.2.3 enabled
 
 # Step 5: RESTART Claude Code
 exit
@@ -156,10 +156,10 @@ exit
 
 ```bash
 # Install
-claude plugin install emasoft-orchestrator-agent@emasoft-plugins
+claude plugin install ai-maestro-orchestrator-agent@ai-maestro-plugins
 
 # Verify
-claude plugin list | grep emasoft-orchestrator-agent
+claude plugin list | grep ai-maestro-orchestrator-agent
 
 # RESTART required
 exit

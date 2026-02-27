@@ -552,9 +552,9 @@ EVERY health_check_interval (default 5 minutes):
 
 | Agent | Integration Point | Purpose |
 |-------|------------------|---------|
-| **ecos-lifecycle-manager** | Replacement execution | Terminate failed agents, spawn replacements |
-| **ecos-main** | Routing target | Receives recovery coordination requests |
-| **ecos-resource-monitor** | Resource data | Check if failure is resource-related |
+| **amcos-lifecycle-manager** | Replacement execution | Terminate failed agents, spawn replacements |
+| **amcos-main** | Routing target | Receives recovery coordination requests |
+| **amcos-resource-monitor** | Resource data | Check if failure is resource-related |
 | **orchestrator-master (EOA)** | Task reassignment | Notify of orphaned tasks |
 | **assistant-manager (EAMA)** | Escalation | Approve terminal recovery actions |
 

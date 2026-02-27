@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ECOS Document Download and Storage Manager
+AMCOS Document Download and Storage Manager
 
 Downloads .md files from GitHub issue comments and stores them in the
-standardized ECOS folder structure with read-only enforcement.
+standardized AMCOS folder structure with read-only enforcement.
 
 Usage:
-    python ecos_download.py download --url URL --task-id TASK_ID --category CATEGORY
-    python ecos_download.py init --project-root PATH
-    python ecos_download.py lookup --task-id TASK_ID
-    python ecos_download.py verify --project-root PATH
+    python amcos_download.py download --url URL --task-id TASK_ID --category CATEGORY
+    python amcos_download.py init --project-root PATH
+    python amcos_download.py lookup --task-id TASK_ID
+    python amcos_download.py verify --project-root PATH
 """
 
 from __future__ import annotations
@@ -88,11 +88,11 @@ DOCUMENT_TYPE_MAP: dict[str, tuple[str, str | None]] = {
 
 
 def get_storage_root(project_root: Path | None = None) -> Path:
-    """Get the ECOS storage root directory."""
+    """Get the AMCOS storage root directory."""
     if project_root:
         return project_root / ".ecos" / "received"
 
-    env_root = os.environ.get("ECOS_STORAGE_ROOT")
+    env_root = os.environ.get("AMCOS_STORAGE_ROOT")
     if env_root:
         return Path(env_root)
 
@@ -101,10 +101,10 @@ def get_storage_root(project_root: Path | None = None) -> Path:
 
 
 def init_storage(project_root: Path) -> None:
-    """Initialize the ECOS storage directory structure."""
+    """Initialize the AMCOS storage directory structure."""
     storage_root = get_storage_root(project_root)
 
-    print(f"Initializing ECOS storage at: {storage_root}")
+    print(f"Initializing AMCOS storage at: {storage_root}")
 
     # Create root
     storage_root.mkdir(parents=True, exist_ok=True)
@@ -122,11 +122,11 @@ def init_storage(project_root: Path) -> None:
 
     # Create .gitkeep
     gitkeep = storage_root.parent / ".gitkeep"
-    gitkeep.write_text("# ECOS document storage - do not delete this folder\n", encoding="utf-8")
+    gitkeep.write_text("# AMCOS document storage - do not delete this folder\n", encoding="utf-8")
 
     # Update .gitignore if in git repo
     gitignore_path = project_root / ".gitignore"
-    gitignore_entry = "\n# ECOS Document Storage (local cache)\n.ecos/\n!.ecos/.gitkeep\n"
+    gitignore_entry = "\n# AMCOS Document Storage (local cache)\n.ecos/\n!.ecos/.gitkeep\n"
 
     if gitignore_path.exists():
         content = gitignore_path.read_text(encoding="utf-8")
@@ -138,7 +138,7 @@ def init_storage(project_root: Path) -> None:
         gitignore_path.write_text(gitignore_entry, encoding="utf-8")
         print(f"Created {gitignore_path}")
 
-    print("ECOS storage initialized successfully")
+    print("AMCOS storage initialized successfully")
 
 
 def compute_sha256(file_path: Path) -> str:
@@ -308,7 +308,7 @@ def download_document(
         },
         "download": {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "agent": os.environ.get("ECOS_AGENT_NAME", "unknown"),
+            "agent": os.environ.get("AMCOS_AGENT_NAME", "unknown"),
             "sha256": sha256,
             "file_size_bytes": file_path.stat().st_size,
         },
@@ -456,7 +456,7 @@ def verify_storage(project_root: Path | None = None) -> dict[str, Any]:
 def main() -> int:
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description="ECOS Document Download and Storage Manager",
+        description="AMCOS Document Download and Storage Manager",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
@@ -545,7 +545,7 @@ def main() -> int:
         if args.json:
             print(json.dumps(report, indent=2))
         else:
-            print("\n=== ECOS Storage Verification Report ===\n")
+            print("\n=== AMCOS Storage Verification Report ===\n")
             print(f"Storage Root: {report['storage_root']}")
             print(f"Total Files: {report['stats']['total_files']}")
             print(f"Total Size: {report['stats']['total_size_bytes']} bytes")

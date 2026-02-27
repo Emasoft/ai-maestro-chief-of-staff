@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_list_projects.py - List all managed projects.
+amcos_list_projects.py - List all managed projects.
 
 Reads the chief-of-staff state file and outputs JSON with project information
 including project ID, repository URL, GitHub project board, and assigned agents.
@@ -8,7 +8,7 @@ including project ID, repository URL, GitHub project board, and assigned agents.
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    ecos_list_projects.py [--verbose]
+    amcos_list_projects.py [--verbose]
 
 Exit codes:
     0 - Success

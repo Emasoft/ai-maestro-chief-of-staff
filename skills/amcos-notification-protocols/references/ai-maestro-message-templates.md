@@ -1,6 +1,6 @@
-# AI Maestro Message Templates for ECOS
+# AI Maestro Message Templates for AMCOS
 
-Reference for all inter-agent message templates used by Emasoft Chief of Staff (ECOS).
+Reference for all inter-agent message templates used by AI Maestro Chief of Staff (AMCOS).
 
 ## Contents
 
@@ -29,7 +29,7 @@ All messages are sent using the `agent-messaging` skill. Each message includes:
 
 ## 2. When Requesting Approval from EAMA
 
-**Use case:** Before spawning, terminating, or replacing agents. ECOS requires approval for resource allocation and destructive operations.
+**Use case:** Before spawning, terminating, or replacing agents. AMCOS requires approval for resource allocation and destructive operations.
 
 **When to use:**
 - Before spawning new agents (unless autonomous mode is ON and within limits)
@@ -60,7 +60,7 @@ Use the `agent-messaging` skill to send a message:
 
 ## 3. When Escalating Issues to EAMA
 
-**Use case:** When issues occur outside ECOS authority or require human intervention.
+**Use case:** When issues occur outside AMCOS authority or require human intervention.
 
 **When to escalate:**
 - Agent spawn failure after 3 attempts
@@ -236,7 +236,7 @@ Use the `agent-messaging` skill to send a message to each team member:
 
 ## 9. Message Type Reference
 
-**Quick reference for all message types used by ECOS:**
+**Quick reference for all message types used by AMCOS:**
 
 | Message Type | Purpose | Priority | Response Expected |
 |--------------|---------|----------|-------------------|
@@ -265,7 +265,7 @@ Use the `agent-messaging` skill to send a message to each team member:
 
 ## Notes
 
-- **Always use full session names** (e.g., `ecos-chief-of-staff`, not `ecos`)
+- **Always use full session names** (e.g., `amcos-chief-of-staff`, not `ecos`)
 - **Always generate unique request IDs** for operations requiring tracking
 - **Always specify rollback plan** in approval requests
 - **Always include duration** in operation results (helps performance tracking)

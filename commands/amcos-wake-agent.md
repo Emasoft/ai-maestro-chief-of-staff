@@ -1,5 +1,5 @@
 ---
-name: ecos-wake-agent
+name: amcos-wake-agent
 description: "Wake a hibernated agent, restoring its previous state using AI Maestro CLI"
 argument-hint: "<AGENT_NAME> [--attach]"
 allowed-tools: ["Bash", "Task"]
@@ -48,14 +48,14 @@ This command wakes a hibernated agent session. The operation:
 
 ```bash
 # Wake a hibernated agent
-/ecos-wake-agent helper-python
+/amcos-wake-agent helper-python
 
 # Wake and immediately attach to the session
-/ecos-wake-agent helper-python --attach
+/amcos-wake-agent helper-python --attach
 
 # Wake multiple agents at start of day
-/ecos-wake-agent frontend-ui
-/ecos-wake-agent data-processor
+/amcos-wake-agent frontend-ui
+/amcos-wake-agent data-processor
 ```
 
 ## Wake Flow
@@ -117,7 +117,7 @@ When woken, the agent:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Agent doesn't exist | Check name with `/ecos-staff-status` |
+| "Agent not found" | Agent doesn't exist | Check name with `/amcos-staff-status` |
 | "Agent is not hibernated" | Agent is online or offline | Check current status |
 | "Failed to create session" | tmux issue | Check tmux is running |
 
@@ -127,10 +127,10 @@ After installing plugins or marketplaces, use the `ai-maestro-agents-management`
 
 ## Related Commands
 
-- `/ecos-staff-status` - View all remote agents
-- `/ecos-hibernate-agent` - Put an agent to sleep
-- `/ecos-spawn-agent` - Create a new remote agent
-- `/ecos-terminate-agent` - Permanently terminate an agent
+- `/amcos-staff-status` - View all remote agents
+- `/amcos-hibernate-agent` - Put an agent to sleep
+- `/amcos-spawn-agent` - Create a new remote agent
+- `/amcos-terminate-agent` - Permanently terminate an agent
 
 ## CLI Reference
 

@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-ecos_hibernate_agent.py - Hibernate an AI Maestro agent session.
+amcos_hibernate_agent.py - Hibernate an AI Maestro agent session.
 
 Hibernation preserves agent state (context, memory, pending tasks) while
 freeing system resources. The agent can be woken later to resume work.
 
 Usage:
-    python ecos_hibernate_agent.py SESSION_NAME
+    python amcos_hibernate_agent.py SESSION_NAME
 
 Example:
-    python ecos_hibernate_agent.py dev-session-01
+    python amcos_hibernate_agent.py dev-session-01
 """
 
 import argparse
@@ -28,7 +28,7 @@ def parse_args() -> argparse.Namespace:
         epilog="""
 Examples:
     # Hibernate an agent to save resources
-    python ecos_hibernate_agent.py my-agent-session
+    python amcos_hibernate_agent.py my-agent-session
 
 Notes:
     Hibernation preserves:
@@ -36,7 +36,7 @@ Notes:
     - Pending tasks and their state
     - Inter-agent message queue
 
-    Use ecos_wake_agent.py to resume the agent.
+    Use amcos_wake_agent.py to resume the agent.
         """,
     )
     parser.add_argument(

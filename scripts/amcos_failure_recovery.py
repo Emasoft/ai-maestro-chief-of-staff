@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_failure_recovery.py - Failure detection and recovery for AI Maestro agents.
+amcos_failure_recovery.py - Failure detection and recovery for AI Maestro agents.
 
 Detects agent failures, classifies them, and executes appropriate recovery strategies.
 Uses AMP CLI (amp-send) for messaging and aimaestro-agent.sh for agent management.
@@ -8,11 +8,11 @@ Uses AMP CLI (amp-send) for messaging and aimaestro-agent.sh for agent managemen
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    python ecos_failure_recovery.py health --agent agent1
-    python ecos_failure_recovery.py classify --agent agent1
-    python ecos_failure_recovery.py recover --agent agent1 --strategy restart
-    python ecos_failure_recovery.py replace --failed agent1 --new agent1-replacement --role orchestrator --project myproj --dir /path
-    python ecos_failure_recovery.py transfer --from agent1 --to agent2 --handoff /path/handoff.md
+    python amcos_failure_recovery.py health --agent agent1
+    python amcos_failure_recovery.py classify --agent agent1
+    python amcos_failure_recovery.py recover --agent agent1 --strategy restart
+    python amcos_failure_recovery.py replace --failed agent1 --new agent1-replacement --role orchestrator --project myproj --dir /path
+    python amcos_failure_recovery.py transfer --from agent1 --to agent2 --handoff /path/handoff.md
 
 Exit codes:
     0 - Success
@@ -390,7 +390,7 @@ def replace_agent(
     """Replace a failed agent with a new one.
 
     Steps:
-    1. Request approval from EAMA (uses ecos_approval_manager.py)
+    1. Request approval from EAMA (uses amcos_approval_manager.py)
     2. Create new agent via aimaestro-agent.sh create
     3. Notify EOA to generate handoff
     4. Notify EOA to update GitHub Project kanban
@@ -424,7 +424,7 @@ def replace_agent(
     # 1. Request approval from EAMA
     # Check if approval manager exists
     script_dir = Path(__file__).parent
-    approval_script = script_dir / "ecos_approval_manager.py"
+    approval_script = script_dir / "amcos_approval_manager.py"
 
     if approval_script.exists():
         try:
@@ -675,20 +675,20 @@ Commands:
 
 Examples:
     # Check agent health
-    python ecos_failure_recovery.py health --agent dev-agent-01
+    python amcos_failure_recovery.py health --agent dev-agent-01
 
     # Classify failure
-    python ecos_failure_recovery.py classify --agent dev-agent-01
+    python amcos_failure_recovery.py classify --agent dev-agent-01
 
     # Restart a failed agent
-    python ecos_failure_recovery.py recover --agent dev-agent-01 --strategy restart
+    python amcos_failure_recovery.py recover --agent dev-agent-01 --strategy restart
 
     # Replace a failed agent
-    python ecos_failure_recovery.py replace --failed dev-agent-01 --new dev-agent-02 \\
+    python amcos_failure_recovery.py replace --failed dev-agent-01 --new dev-agent-02 \\
         --role developer --project myproj --dir /path/to/project
 
     # Transfer work to another agent
-    python ecos_failure_recovery.py transfer --from dev-agent-01 --to dev-agent-02 \\
+    python amcos_failure_recovery.py transfer --from dev-agent-01 --to dev-agent-02 \\
         --handoff /path/to/handoff.md
         """,
     )

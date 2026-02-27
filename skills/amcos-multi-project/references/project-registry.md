@@ -213,10 +213,10 @@ design/config/backups/
 
 **Validation Command:**
 ```bash
-python scripts/ecos_team_registry.py validate
+python scripts/amcos_team_registry.py validate
 ```
 
-Note: The standalone `ecos_validate_registry.py` script has been superseded by the `validate` subcommand of `ecos_team_registry.py`, which validates team registry structure, role constraints, and team composition.
+Note: The standalone `amcos_validate_registry.py` script has been superseded by the `validate` subcommand of `amcos_team_registry.py`, which validates team registry structure, role constraints, and team composition.
 
 ---
 
@@ -244,9 +244,9 @@ projects = [
         "metadata": {"tags": ["plugin", "validation"]}
     },
     {
-        "project_id": "emasoft-plugins-marketplace",
-        "name": "Emasoft Plugins Marketplace",
-        "path": "/Users/dev/Code/SKILL_FACTORY/OUTPUT_SKILLS/emasoft-plugins-marketplace",
+        "project_id": "ai-maestro-plugins-marketplace",
+        "name": "AI Maestro Plugins",
+        "path": "/Users/dev/Code/SKILL_FACTORY/OUTPUT_SKILLS/ai-maestro-plugins-marketplace",
         "status": "active",
         "priority": "medium",
         "metadata": {

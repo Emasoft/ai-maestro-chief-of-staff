@@ -19,24 +19,24 @@
 **Step-by-Step Walkthrough:**
 
 ```
-1. Route to ecos-staff-planner:
+1. Route to amcos-staff-planner:
    - Input: "3 microservices, new feature implementation"
    - Output: "Recommend 3 developers + 1 reviewer, 4 agents total"
 
-2. Check resources via ecos-resource-monitor:
+2. Check resources via amcos-resource-monitor:
    - Current: 1 active agent
    - Max: 5 agents
    - Available: 4 slots
    - Result: Approved
 
-3. Route to ecos-lifecycle-manager:
+3. Route to amcos-lifecycle-manager:
    - Create 4 new agents with --agent flag:
      - svgbbox-impl-01 (--agent eoa-orchestrator-main-agent)
      - svgbbox-impl-02
      - svgbbox-impl-03
      - svgbbox-reviewer-01
 
-4. Update team registry (.emasoft/team-registry.json)
+4. Update team registry (.ai-maestro/team-registry.json)
 
 5. Send role assignments via AI Maestro:
    - svgbbox-impl-01: "Implement auth-service feature"
@@ -62,14 +62,14 @@
 **Step-by-Step Walkthrough:**
 
 ```
-1. ecos-resource-monitor reports: ["svgbbox-impl-02", "svgbbox-impl-03", "svgbbox-reviewer-01"] idle
+1. amcos-resource-monitor reports: ["svgbbox-impl-02", "svgbbox-impl-03", "svgbbox-reviewer-01"] idle
 
 2. Send hibernation warnings via AI Maestro:
    - "You will be hibernated in 5 minutes unless active"
 
 3. Wait 5 minutes, re-check activity
 
-4. Route to ecos-lifecycle-manager:
+4. Route to amcos-lifecycle-manager:
    - Hibernate still-idle agents
    - Update tmux session states
 
@@ -88,13 +88,13 @@
 
 ## 1.3 Workflow 3: Skill Reindex After Plugin Update
 
-**Scenario:** User updated skills in emasoft-orchestrator-agent plugin.
+**Scenario:** User updated skills in ai-maestro-orchestrator-agent plugin.
 
 **Step-by-Step Walkthrough:**
 
 ```
-1. Route to ecos-skill-validator:
-   - Validate all skills in ./OUTPUT_SKILLS/emasoft-orchestrator-agent/skills/
+1. Route to amcos-skill-validator:
+   - Validate all skills in ./OUTPUT_SKILLS/ai-maestro-orchestrator-agent/skills/
 
 2. If validation passes, trigger PSS reindex:
    - Execute: /pss-reindex-skills (if PSS plugin available)

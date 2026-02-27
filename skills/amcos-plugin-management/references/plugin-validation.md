@@ -87,7 +87,7 @@ Checks all file references:
 
 ```bash
 # Validate installed plugin
-claude plugin validate perfect-skill-suggester@emasoft-plugins
+claude plugin validate perfect-skill-suggester@ai-maestro-plugins
 
 # Validate local plugin directory
 claude plugin validate /path/to/my-plugin

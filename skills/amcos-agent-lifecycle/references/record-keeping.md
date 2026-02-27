@@ -26,7 +26,7 @@
   - [Trace specific operation by request ID](#trace-specific-operation-by-request-id)
 - [Best Practices](#best-practices)
 
-**CRITICAL:** All ECOS operations MUST be logged for audit, debugging, and accountability.
+**CRITICAL:** All AMCOS operations MUST be logged for audit, debugging, and accountability.
 
 ---
 
@@ -78,11 +78,11 @@ echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [$operation] [$agent_name] $details" >>
 
 **Purpose:** Track all approval requests and decisions (monthly rotation)
 
-**Format:** Same as ecos-approval-coordinator audit trail
+**Format:** Same as amcos-approval-coordinator audit trail
 
 **Example:**
 ```
-[2026-02-04T10:29:30Z] [AR-1706795370-f3a2b1] [SUBMIT] type=agent_spawn requester=ecos-chief-of-staff operation="Create worker-dev-auth-001"
+[2026-02-04T10:29:30Z] [AR-1706795370-f3a2b1] [SUBMIT] type=agent_spawn requester=amcos-chief-of-staff operation="Create worker-dev-auth-001"
 [2026-02-04T10:29:45Z] [AR-1706795370-f3a2b1] [DECIDE] decision=approved by=manager reason="Team needs auth developer"
 [2026-02-04T10:30:00Z] [AR-1706795370-f3a2b1] [EXEC_DONE] result=success duration=15000ms
 ```
@@ -114,7 +114,7 @@ echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [$operation] [$agent_name] $details" >>
 | worker-test-001 | test-engineer | active | 2026-02-01 | 2026-02-04 14:30 |
 | worker-dev-003 | developer | hibernated | 2026-02-02 | 2026-02-04 12:00 |
 
-**Registry:** `/path/to/svgbbox/.emasoft/team-registry.json`
+**Registry:** `/path/to/svgbbox/.ai-maestro/team-registry.json`
 
 ---
 
@@ -127,13 +127,13 @@ echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [$operation] [$agent_name] $details" >>
 | worker-dev-auth-001 | developer | active | 2026-02-04 | 2026-02-04 16:00 |
 | worker-deploy-001 | deploy-agent | active | 2026-02-04 | 2026-02-04 15:00 |
 
-**Registry:** `/path/to/auth-service/.emasoft/team-registry.json`
+**Registry:** `/path/to/auth-service/.ai-maestro/team-registry.json`
 ```
 
 **Update procedure:**
 ```bash
 # Regenerate team-assignments.md from all team registries
-uv run python scripts/ecos_generate_team_report.py --output "$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/team-assignments.md"
+uv run python scripts/amcos_generate_team_report.py --output "$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/team-assignments.md"
 ```
 
 ---
@@ -151,15 +151,15 @@ uv run python scripts/ecos_generate_team_report.py --output "$CLAUDE_PROJECT_DIR
 
 **Example:**
 ```
-[2026-02-04T10:29:30Z] [OP-1706795370-001] [ecos-chief-of-staff] agent_spawn STARTED target=worker-dev-auth-001
-[2026-02-04T10:29:35Z] [OP-1706795370-001] [ecos-chief-of-staff] approval_request SUBMITTED request_id=AR-1706795370-f3a2b1
-[2026-02-04T10:29:45Z] [OP-1706795370-001] [ecos-chief-of-staff] approval_received APPROVED by=manager
-[2026-02-04T10:29:50Z] [OP-1706795370-001] [ecos-chief-of-staff] spawn_execute STARTED agent=worker-dev-auth-001 via ai-maestro-agents-management skill
-[2026-02-04T10:30:00Z] [OP-1706795370-001] [ecos-chief-of-staff] spawn_execute SUCCESS duration=10s
-[2026-02-04T10:30:05Z] [OP-1706795370-001] [ecos-chief-of-staff] health_check SENT target=worker-dev-auth-001
-[2026-02-04T10:30:10Z] [OP-1706795370-001] [ecos-chief-of-staff] health_check RECEIVED response="OK"
-[2026-02-04T10:30:15Z] [OP-1706795370-001] [ecos-chief-of-staff] team_add SUCCESS team=svgbbox-library-team
-[2026-02-04T10:30:20Z] [OP-1706795370-001] [ecos-chief-of-staff] agent_spawn COMPLETED total_duration=50s
+[2026-02-04T10:29:30Z] [OP-1706795370-001] [amcos-chief-of-staff] agent_spawn STARTED target=worker-dev-auth-001
+[2026-02-04T10:29:35Z] [OP-1706795370-001] [amcos-chief-of-staff] approval_request SUBMITTED request_id=AR-1706795370-f3a2b1
+[2026-02-04T10:29:45Z] [OP-1706795370-001] [amcos-chief-of-staff] approval_received APPROVED by=manager
+[2026-02-04T10:29:50Z] [OP-1706795370-001] [amcos-chief-of-staff] spawn_execute STARTED agent=worker-dev-auth-001 via ai-maestro-agents-management skill
+[2026-02-04T10:30:00Z] [OP-1706795370-001] [amcos-chief-of-staff] spawn_execute SUCCESS duration=10s
+[2026-02-04T10:30:05Z] [OP-1706795370-001] [amcos-chief-of-staff] health_check SENT target=worker-dev-auth-001
+[2026-02-04T10:30:10Z] [OP-1706795370-001] [amcos-chief-of-staff] health_check RECEIVED response="OK"
+[2026-02-04T10:30:15Z] [OP-1706795370-001] [amcos-chief-of-staff] team_add SUCCESS team=svgbbox-library-team
+[2026-02-04T10:30:20Z] [OP-1706795370-001] [amcos-chief-of-staff] agent_spawn COMPLETED total_duration=50s
 ```
 
 ---
@@ -175,7 +175,7 @@ uv run python scripts/ecos_generate_team_report.py --output "$CLAUDE_PROJECT_DIR
 **Archival:**
 ```bash
 # Archive old logs (run monthly)
-uv run python scripts/ecos_archive_logs.py --older-than 30d --destination "$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/archives/"
+uv run python scripts/amcos_archive_logs.py --older-than 30d --destination "$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/archives/"
 ```
 
 ---
@@ -184,7 +184,7 @@ uv run python scripts/ecos_archive_logs.py --older-than 30d --destination "$CLAU
 
 All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 - **Git-ignored** (local only)
-- **Read/write by ECOS** (and sub-agents)
+- **Read/write by AMCOS** (and sub-agents)
 - **Read-only by EOA** (for status queries)
 
 ---
@@ -195,7 +195,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 
 **Location:** `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/agent-registry.json`
 
-**Purpose:** Master registry of all agents spawned by ECOS
+**Purpose:** Master registry of all agents spawned by AMCOS
 
 **Structure:**
 ```json
@@ -211,7 +211,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
       "tmux_session": "worker-dev-001",
       "workspace": "/Users/user/Code/svgbbox-library",
       "spawned_at": "2026-02-01T10:00:00Z",
-      "spawned_by": "ecos-chief-of-staff",
+      "spawned_by": "amcos-chief-of-staff",
       "last_active": "2026-02-04T15:45:00Z",
       "team_memberships": [
         {
@@ -230,7 +230,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
       "tmux_session": "worker-dev-003",
       "workspace": "/Users/user/Code/svgbbox-library",
       "spawned_at": "2026-02-02T14:00:00Z",
-      "spawned_by": "ecos-chief-of-staff",
+      "spawned_by": "amcos-chief-of-staff",
       "last_active": "2026-02-04T12:00:00Z",
       "team_memberships": [
         {
@@ -252,7 +252,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 
 ### Team Registry (Project-Level)
 
-**Location:** `<project_root>/.emasoft/team-registry.json`
+**Location:** `<project_root>/.ai-maestro/team-registry.json`
 
 **Purpose:** Track agents assigned to a specific project team
 
@@ -271,7 +271,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
       "role": "developer",
       "status": "active",
       "added_at": "2026-02-01T10:05:00Z",
-      "added_by": "ecos-chief-of-staff",
+      "added_by": "amcos-chief-of-staff",
       "tmux_session": "worker-dev-001",
       "last_active": "2026-02-04T15:45:00Z"
     },
@@ -280,7 +280,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
       "role": "developer",
       "status": "active",
       "added_at": "2026-02-03T11:00:00Z",
-      "added_by": "ecos-chief-of-staff",
+      "added_by": "amcos-chief-of-staff",
       "tmux_session": "worker-dev-002",
       "last_active": "2026-02-04T16:00:00Z"
     },
@@ -289,7 +289,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
       "role": "test-engineer",
       "status": "active",
       "added_at": "2026-02-01T10:15:00Z",
-      "added_by": "ecos-chief-of-staff",
+      "added_by": "amcos-chief-of-staff",
       "tmux_session": "worker-test-001",
       "last_active": "2026-02-04T14:30:00Z"
     },
@@ -298,7 +298,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
       "role": "developer",
       "status": "hibernated",
       "added_at": "2026-02-02T14:10:00Z",
-      "added_by": "ecos-chief-of-staff",
+      "added_by": "amcos-chief-of-staff",
       "tmux_session": "worker-dev-003",
       "last_active": "2026-02-04T12:00:00Z"
     }
@@ -382,7 +382,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 
 ### Team Status Report Format
 
-**Purpose:** Summary of team status sent by EOA to ECOS
+**Purpose:** Summary of team status sent by EOA to AMCOS
 
 **Structure:**
 ```json

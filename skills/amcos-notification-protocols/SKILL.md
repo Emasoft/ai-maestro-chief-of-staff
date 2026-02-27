@@ -1,5 +1,5 @@
 ---
-name: ecos-notification-protocols
+name: amcos-notification-protocols
 description: Use when notifying agents about upcoming operations, requesting acknowledgments before proceeding, or sending failure notifications after operation errors. Trigger with notification or alert events.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "Step 5"
 procedure: "proc-notify-team-ready"
 ---
 
-# Emasoft Chief of Staff - Notification Protocols Skill
+# AI Maestro Chief of Staff - Notification Protocols Skill
 
 ## Overview
 
@@ -152,7 +152,7 @@ Notification protocols are the standardized communication patterns the Chief of 
 
 ### Standardized ACK Timeout Policy
 
-**CRITICAL:** All ECOS components MUST use these standardized timeout values:
+**CRITICAL:** All AMCOS components MUST use these standardized timeout values:
 
 | ACK Type | Timeout | Reminders | Use Case |
 |----------|---------|-----------|----------|
@@ -401,7 +401,7 @@ See [references/failure-notifications.md](references/failure-notifications.md) f
 - [Design Document Protocol](references/design-document-protocol.md) - Standards for design documents in the design/ folder
 - [Proactive Handoff Protocol](references/proactive-handoff-protocol.md) - Automatic handoff triggers and inter-agent work transfer
 - [Task Completion Checklist](references/task-completion-checklist.md) - Pre-completion verification checklist for Chief of Staff operations
-- [Edge Case Protocols](references/edge-case-protocols.md) - Protocols for failure scenarios and edge cases in ECOS operations
+- [Edge Case Protocols](references/edge-case-protocols.md) - Protocols for failure scenarios and edge cases in AMCOS operations
 
 ---
 

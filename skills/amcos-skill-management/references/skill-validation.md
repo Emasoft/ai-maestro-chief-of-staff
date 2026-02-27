@@ -154,7 +154,7 @@ grep -E '^#+ ' references/procedure-1.md
 
 **Example:**
 ```yaml
-name: ecos-staff-planning
+name: amcos-staff-planning
 ```
 
 ### 1.4.2 description
@@ -237,7 +237,7 @@ user-invocable: true
 
 ```yaml
 ---
-name: ecos-staff-planning
+name: amcos-staff-planning
 description: Use when analyzing staffing needs, assessing role requirements, planning agent capacity, or creating staffing templates for multi-agent orchestration
 license: Apache-2.0
 compatibility: Requires access to agent registry, project configuration files, and understanding of agent capabilities and workload patterns.
@@ -250,7 +250,7 @@ context: fork
 
 **Validation result:**
 ```
-Skill: ecos-staff-planning
+Skill: amcos-staff-planning
 Status: VALID
 Warnings: 0
 Errors: 0

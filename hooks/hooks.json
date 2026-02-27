@@ -4,47 +4,47 @@
   "hooks": {
     "SessionStart": [
       {
-        "_id": "ecos-session-start",
+        "_id": "amcos-session-start",
         "_description": "Load session memory, initialize agent tracking, check system resources",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_session_start.py"
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_session_start.py"
           }
         ]
       }
     ],
     "SessionEnd": [
       {
-        "_id": "ecos-session-end",
+        "_id": "amcos-session-end",
         "_description": "Save session memory and context on exit",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_session_end.py"
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_session_end.py"
           }
         ]
       }
     ],
     "UserPromptSubmit": [
       {
-        "_id": "ecos-resource-check",
+        "_id": "amcos-resource-check",
         "_description": "Check system resources before processing user prompt",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_resource_check.py",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_check.py",
             "timeout": 5
           }
         ]
       },
       {
-        "_id": "ecos-heartbeat-check",
+        "_id": "amcos-heartbeat-check",
         "_description": "Check heartbeat status of all active agents before processing",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_heartbeat_check.py",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_heartbeat_check.py",
             "timeout": 5
           }
         ]
@@ -52,12 +52,12 @@
     ],
     "Stop": [
       {
-        "_id": "ecos-stop-check",
+        "_id": "amcos-stop-check",
         "_description": "Blocks exit until all coordination work is complete and handoffs are saved",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_stop_check.py"
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_stop_check.py"
           }
         ]
       }

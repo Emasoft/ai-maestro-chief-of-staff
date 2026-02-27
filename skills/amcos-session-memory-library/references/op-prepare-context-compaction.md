@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: prepare-context-compaction
-parent-skill: ecos-session-memory-library
+parent-skill: amcos-session-memory-library
 ---
 
 # Operation: Prepare for Context Compaction

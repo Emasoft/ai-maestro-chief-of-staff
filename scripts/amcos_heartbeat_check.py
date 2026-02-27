@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_heartbeat_check.py - UserPromptSubmit hook for agent health monitoring.
+amcos_heartbeat_check.py - UserPromptSubmit hook for agent health monitoring.
 
 Checks last heartbeat of all registered agents and warns if any are unresponsive
 (no heartbeat for >5 minutes).

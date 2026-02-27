@@ -2,8 +2,8 @@
 operation: validate-handoff
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-onboarding
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-onboarding
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -53,7 +53,7 @@ Every handoff document must have:
 
 | Field | Description | Example |
 |-------|-------------|---------|
-| `from` | Sending agent name | `ecos-chief-of-staff` |
+| `from` | Sending agent name | `amcos-chief-of-staff` |
 | `to` | Target agent name | `dev-backend-alice` |
 | `type` | Handoff type | `project-handoff`, `role-briefing`, `emergency-handoff` |
 | `UUID` | Unique handoff identifier | `HO-20250204-backend-001` |
@@ -227,13 +227,13 @@ echo "=== Validation Complete ==="
 **Issue: Missing UUID**
 ```markdown
 # Before (invalid)
-from: ecos-chief-of-staff
+from: amcos-chief-of-staff
 to: dev-backend-alice
 type: project-handoff
 task: Backend API
 
 # After (valid)
-from: ecos-chief-of-staff
+from: amcos-chief-of-staff
 to: dev-backend-alice
 type: project-handoff
 UUID: HO-20250204-backend-001
@@ -265,7 +265,7 @@ Key file: src/api/users.py
 uv run --with pyyaml python scripts/validate_plugin.py . --verbose
 
 # Expected output:
-# Validating plugin: emasoft-chief-of-staff
+# Validating plugin: ai-maestro-chief-of-staff
 # [OK] Manifest valid
 # [OK] Skills validated
 # [OK] Commands validated

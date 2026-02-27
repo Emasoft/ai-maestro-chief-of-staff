@@ -9,7 +9,7 @@
 
 ## 1. Overview
 
-Remote plugin management enables ECOS to manage plugins on remote agents via AI Maestro messaging.
+Remote plugin management enables AMCOS to manage plugins on remote agents via AI Maestro messaging.
 
 **Key operations:**
 - Install plugins on remote agents

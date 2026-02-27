@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_session_end.py - Save Chief of Staff state on session end.
+amcos_session_end.py - Save Chief of Staff state on session end.
 
 SessionEnd hook that saves/updates the Chief of Staff state file to preserve
 context for future sessions.

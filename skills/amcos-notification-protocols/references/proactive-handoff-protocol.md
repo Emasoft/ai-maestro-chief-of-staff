@@ -145,9 +145,9 @@ github_type: issue|pr|kanban|release
 ## UUID Tracking Note
 
 Include in GitHub item body:
-<!-- ECOS-LINK: handoff-uuid=<this-handoff-uuid> -->
-<!-- ECOS-LINK: design-uuid=<design-uuid-if-applicable> -->
-<!-- ECOS-LINK: module-uuid=<module-uuid-if-applicable> -->
+<!-- AMCOS-LINK: handoff-uuid=<this-handoff-uuid> -->
+<!-- AMCOS-LINK: design-uuid=<design-uuid-if-applicable> -->
+<!-- AMCOS-LINK: module-uuid=<module-uuid-if-applicable> -->
 ```
 
 ### GitHub Handoff Decision Flow
@@ -159,7 +159,7 @@ GitHub operation requested
 ┌─────────────────────────┐
 │ Search for linked       │
 │ design/module using     │
-│ ecos_design_search.py   │
+│ amcos_design_search.py   │
 └───────────┬─────────────┘
             │
     ┌───────┴───────┐
@@ -231,9 +231,9 @@ design_action: create|update|review|link|implement
 
 ## Pre-Handoff Search Results
 
-Before creating this handoff, ECOS searched for existing designs:
+Before creating this handoff, AMCOS searched for existing designs:
 ```
-Search command: ecos_design_search.py --keyword "<keywords>"
+Search command: amcos_design_search.py --keyword "<keywords>"
 Results: <number> documents found
 Relevant matches:
 - <path> (UUID: <uuid>, status: <status>)
@@ -258,7 +258,7 @@ User requests design-related work
               │
               ▼
 ┌───────────────────────────────┐
-│ Run ecos_design_search.py    │
+│ Run amcos_design_search.py    │
 │ with relevant keywords       │
 └─────────────┬─────────────────┘
               │
@@ -353,7 +353,7 @@ Before creating any handoff:
 
 ```bash
 # Search for related designs
-python scripts/ecos_design_search.py --keyword "feature-name" --json
+python scripts/amcos_design_search.py --keyword "feature-name" --json
 
 # Check existing UUIDs in registry
 cat docs_dev/.uuid-registry.json | jq '.designs | keys'

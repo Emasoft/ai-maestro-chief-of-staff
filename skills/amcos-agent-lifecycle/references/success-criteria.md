@@ -44,7 +44,7 @@ Verify ALL criteria met:
    - **Content**: type `system`, message: "ping"
 3. Verify the agent responds within 30 seconds.
 4. Check the working directory exists: `ls -ld <working-directory>`
-5. Check team registry (if applicable): `jq '.teams[].members[] | select(.name == "<agent-name>")' .emasoft/team-registry.json`
+5. Check team registry (if applicable): `jq '.teams[].members[] | select(.name == "<agent-name>")' .ai-maestro/team-registry.json`
 6. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
@@ -81,7 +81,7 @@ Verify ALL criteria met:
 - [ ] Agent session still exists (not terminated)
 - [ ] Agent marked as `hibernated` in AI Maestro
 - [ ] Agent status in team registry updated to `hibernated`
-- [ ] Context saved to disk: `$CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/context.json`
+- [ ] Context saved to disk: `$CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 - [ ] Agent does NOT respond to messages (sleeping)
 - [ ] Lifecycle log entry written
 
@@ -95,8 +95,8 @@ Verify ALL criteria met:
 **Verification Steps:**
 
 1. Use the `ai-maestro-agents-management` skill to get the agent's details and confirm status is `hibernated`.
-2. Verify context saved: `ls -l $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/context.json`
-3. Validate context JSON: `jq . $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/context.json`
+2. Verify context saved: `ls -l $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
+3. Validate context JSON: `jq . $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 4. Use the `agent-messaging` skill to send a health check message. It should timeout after 30 seconds (agent is sleeping).
 5. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
 
@@ -129,16 +129,16 @@ Verify ALL criteria met:
    - **Content**: type `system`, message: "ping"
 2. Confirm the agent responds within 30 seconds.
 3. Use the `ai-maestro-agents-management` skill to get the agent's details and confirm status is `active`.
-4. Check team registry: `jq -r '.teams[].members[] | select(.name == "<agent-name>") | .status' .emasoft/team-registry.json`
+4. Check team registry: `jq -r '.teams[].members[] | select(.name == "<agent-name>") | .status' .ai-maestro/team-registry.json`
 5. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
-6. Verify context file still exists: `ls -l $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/context.json`
+6. Verify context file still exists: `ls -l $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 
 ---
 
 ## Team Assignment Complete
 
 Verify ALL criteria met:
-- [ ] Team registry exists: `.emasoft/team-registry.json` in project directory
+- [ ] Team registry exists: `.ai-maestro/team-registry.json` in project directory
 - [ ] Agent listed in team's `members` array
 - [ ] Agent's role correctly specified in registry
 - [ ] Agent notified of team assignment via messaging
@@ -150,14 +150,14 @@ Verify ALL criteria met:
 - Agent entry in team's members array with correct role
 - Message sent to agent confirming assignment
 - EOA notification message (if EOA exists)
-- Team directories created under `.emasoft/teams/<team-name>/`
+- Team directories created under `.ai-maestro/teams/<team-name>/`
 - Lifecycle log entry with team assignment timestamp
 
 **Verification Steps:**
 
-1. Verify team registry exists: `ls -l .emasoft/team-registry.json`
-2. Verify agent in team: `jq -r '.teams[] | select(.name == "<team-name>") | .members[] | select(.name == "<agent-name>")' .emasoft/team-registry.json`
-3. Verify team structure: `ls -ld .emasoft/teams/<team-name>/`
+1. Verify team registry exists: `ls -l .ai-maestro/team-registry.json`
+2. Verify agent in team: `jq -r '.teams[] | select(.name == "<team-name>") | .members[] | select(.name == "<agent-name>")' .ai-maestro/team-registry.json`
+3. Verify team structure: `ls -ld .ai-maestro/teams/<team-name>/`
 4. Use the `agent-messaging` skill to check inbox for the agent and confirm a team assignment message was delivered:
    - Filter by subject containing "Team Assignment"
 5. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
@@ -220,10 +220,10 @@ Verify ALL criteria met:
 4. Assignment operation failed silently
 
 **Verification Steps**:
-1. Verify registry file exists and is readable: `ls -l .emasoft/team-registry.json`
-2. Validate JSON syntax: `jq . .emasoft/team-registry.json`
-3. Check for team existence: `jq -r '.teams[] | .name' .emasoft/team-registry.json`
-4. Check file permissions: `stat -f "%A %u %g" .emasoft/team-registry.json`
+1. Verify registry file exists and is readable: `ls -l .ai-maestro/team-registry.json`
+2. Validate JSON syntax: `jq . .ai-maestro/team-registry.json`
+3. Check for team existence: `jq -r '.teams[] | .name' .ai-maestro/team-registry.json`
+4. Check file permissions: `stat -f "%A %u %g" .ai-maestro/team-registry.json`
 
 ### Context Not Saved During Hibernation
 
@@ -236,10 +236,10 @@ Verify ALL criteria met:
 4. Context serialization failed
 
 **Verification Steps**:
-1. Check directory permissions: `ls -ld $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/`
+1. Check directory permissions: `ls -ld $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/`
 2. Check disk space: `df -h $CLAUDE_PROJECT_DIR`
-3. Check file size: `ls -lh $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/context.json`
-4. Validate JSON structure: `jq . $CLAUDE_PROJECT_DIR/.emasoft/hibernated-agents/<agent-name>/context.json`
+3. Check file size: `ls -lh $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
+4. Validate JSON structure: `jq . $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 5. Check for write errors in logs: `grep "hibernation" docs_dev/chief-of-staff/agent-lifecycle.log | grep -i error`
 
 ---

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""ECOS Design Document YAML Frontmatter Validator.
+"""AMCOS Design Document YAML Frontmatter Validator.
 
-Validates YAML frontmatter in markdown design documents for the ECOS plugin.
+Validates YAML frontmatter in markdown design documents for the AMCOS plugin.
 Uses ONLY Python stdlib -- no PyYAML or external dependencies required.
 
 Usage:
-    python ecos_design_validate.py PATH [--verbose] [--format {text,json}]
+    python amcos_design_validate.py PATH [--verbose] [--format {text,json}]
 
 Exit codes:
     0 - All validated documents are valid
@@ -354,7 +354,7 @@ def format_json(results):
 def main():
     """Main entry point for the CLI validator."""
     parser = argparse.ArgumentParser(
-        description="Validate YAML frontmatter in ECOS design documents.",
+        description="Validate YAML frontmatter in AMCOS design documents.",
         epilog="Exit code 0 means all documents are valid; 1 means errors were found.",
     )
     parser.add_argument(

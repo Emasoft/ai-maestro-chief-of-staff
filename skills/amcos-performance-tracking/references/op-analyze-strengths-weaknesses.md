@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: analyze-strengths-weaknesses
-parent-skill: ecos-performance-tracking
+parent-skill: amcos-performance-tracking
 ---
 
 # Operation: Analyze Strengths and Weaknesses

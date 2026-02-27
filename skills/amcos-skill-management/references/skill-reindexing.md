@@ -103,7 +103,7 @@ ls -la ~/.claude/skills-index.json
 cat ~/.claude/skills-index.json | jq '.skills | length'
 
 # Check specific skill
-cat ~/.claude/skills-index.json | jq '.skills["ecos-staff-planning"]'
+cat ~/.claude/skills-index.json | jq '.skills["amcos-staff-planning"]'
 ```
 
 ### 2.3.4 Testing
@@ -136,7 +136,7 @@ Extracts objective data from skill files:
 **Output per skill:**
 ```json
 {
-  "name": "ecos-staff-planning",
+  "name": "amcos-staff-planning",
   "description": "Use when analyzing staffing needs...",
   "categories": ["orchestration", "planning"],
   "keywords": ["staffing", "capacity", "roles", "agents"]
@@ -156,10 +156,10 @@ Analyzes skills for relationships:
 **Output per skill:**
 ```json
 {
-  "name": "ecos-staff-planning",
+  "name": "amcos-staff-planning",
   "co_usage": {
-    "prerequisites": ["ecos-session-memory-library"],
-    "related": ["ecos-agent-lifecycle", "ecos-multi-project"],
+    "prerequisites": ["amcos-session-memory-library"],
+    "related": ["amcos-agent-lifecycle", "amcos-multi-project"],
     "alternatives": []
   }
 }
@@ -177,18 +177,18 @@ Analyzes skills for relationships:
   "generated_at": "2025-02-01T10:00:00Z",
   "skill_count": 10,
   "skills": {
-    "ecos-staff-planning": {
-      "name": "ecos-staff-planning",
+    "amcos-staff-planning": {
+      "name": "amcos-staff-planning",
       "description": "Use when analyzing staffing needs...",
-      "location": "/path/to/ecos-staff-planning/SKILL.md",
+      "location": "/path/to/amcos-staff-planning/SKILL.md",
       "categories": ["orchestration", "planning"],
       "keywords": {
         "primary": ["staffing", "capacity", "roles"],
         "secondary": ["agents", "templates", "allocation"]
       },
       "co_usage": {
-        "prerequisites": ["ecos-session-memory-library"],
-        "related": ["ecos-agent-lifecycle"],
+        "prerequisites": ["amcos-session-memory-library"],
+        "related": ["amcos-agent-lifecycle"],
         "alternatives": []
       },
       "metadata": {
@@ -198,8 +198,8 @@ Analyzes skills for relationships:
     }
   },
   "categories": {
-    "orchestration": ["ecos-staff-planning", "ecos-agent-lifecycle"],
-    "planning": ["ecos-staff-planning", "ecos-multi-project"]
+    "orchestration": ["amcos-staff-planning", "amcos-agent-lifecycle"],
+    "planning": ["amcos-staff-planning", "amcos-multi-project"]
   }
 }
 ```
@@ -245,11 +245,11 @@ cat ~/.claude/skills-index.json | jq '.generated_at'
 ```bash
 # Reindex only Chief of Staff skills
 python scripts/pss_reindex_skills.py \
-  --skills-dir /path/to/emasoft-chief-of-staff/skills \
-  --prefix "ecos-"
+  --skills-dir /path/to/ai-maestro-chief-of-staff/skills \
+  --prefix "amcos-"
 
 # Verify
-cat ~/.claude/skills-index.json | jq '.skills | keys | map(select(startswith("ecos-")))'
+cat ~/.claude/skills-index.json | jq '.skills | keys | map(select(startswith("amcos-")))'
 ```
 
 ---

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-ecos_approval_manager.py - Approval Request Manager for ECOS
+amcos_approval_manager.py - Approval Request Manager for AMCOS
 
 Manages approval requests for operations that require authorization.
 Uses AI Maestro API for inter-agent communication and YAML files for state persistence.
 
-Part of the emasoft-chief-of-staff plugin.
+Part of the ai-maestro-chief-of-staff plugin.
 """
 
 import argparse
@@ -330,7 +330,7 @@ def create_approval_request(
     # Save to pending directory
     filepath = save_approval_request(request_id, request_data, pending=True)
 
-    # Send AI Maestro message to EAMA (Emasoft Assistant Manager Agent)
+    # Send AI Maestro message to EAMA (AI Maestro Assistant Manager Agent)
     message_content = {
         "type": "approval_request",
         "message": f"Approval requested for {operation_type} operation.\n\n"
@@ -339,7 +339,7 @@ def create_approval_request(
         f"Agent/Resource: {agent_name}\n"
         f"Reason: {reason}\n"
         f"Requester: {requester}\n\n"
-        f"Please respond with: ecos_approval_manager.py respond --id {request_id} --decision <approved|rejected> --comment <reason>",
+        f"Please respond with: amcos_approval_manager.py respond --id {request_id} --decision <approved|rejected> --comment <reason>",
         "request_id": request_id,
         "operation_type": operation_type,
         "agent_name": agent_name,
@@ -349,7 +349,7 @@ def create_approval_request(
 
     # Send to EAMA for approval routing
     message_sent = send_aimaestro_message(
-        to="emasoft-assistant-manager-agent",
+        to="ai-maestro-assistant-manager-agent",
         subject=f"[APPROVAL] {operation_type}: {agent_name}",
         content=message_content,
         priority="high",
@@ -622,7 +622,7 @@ def wait_for_approval(request_id: str, timeout_seconds: int = 120) -> dict[str, 
 def main() -> None:
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
-        description="ECOS Approval Manager - Manage approval requests",
+        description="AMCOS Approval Manager - Manage approval requests",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

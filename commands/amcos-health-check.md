@@ -1,5 +1,5 @@
 ---
-name: ecos-health-check
+name: amcos-health-check
 description: "Check health status of agents including heartbeat, responsiveness, and resource usage"
 argument-hint: "[--agent <NAME>] [--all] [--verbose] [--format table|json]"
 allowed-tools: ["Bash", "Task"]
@@ -36,19 +36,19 @@ This command checks agent health. The operation queries:
 
 ```bash
 # Check all agents (default)
-/ecos-health-check
+/amcos-health-check
 
 # Check specific agent
-/ecos-health-check --agent helper-python
+/amcos-health-check --agent helper-python
 
 # Verbose output for all agents
-/ecos-health-check --all --verbose
+/amcos-health-check --all --verbose
 
 # JSON output for scripting
-/ecos-health-check --format json
+/amcos-health-check --format json
 
 # Check with custom timeout
-/ecos-health-check --agent helper-api --timeout 10
+/amcos-health-check --agent helper-api --timeout 10
 ```
 
 ## Health Check Workflow
@@ -162,16 +162,16 @@ For programmatic health checks, use the `ai-maestro-agents-management` skill to 
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Agent not registered | Check agent name with `/ecos-staff-status` |
+| "Agent not found" | Agent not registered | Check agent name with `/amcos-staff-status` |
 | "API unreachable" | AI Maestro not running | Start AI Maestro service |
-| "Ping timeout" | Agent unresponsive | Consider `/ecos-recovery-workflow` |
+| "Ping timeout" | Agent unresponsive | Consider `/amcos-recovery-workflow` |
 
 ## Related Commands
 
-- `/ecos-staff-status` - View all remote agents
-- `/ecos-recovery-workflow` - Execute recovery for unhealthy agent
-- `/ecos-replace-agent` - Replace failed agent
-- `/ecos-hibernate-agent` - Put an agent to sleep
+- `/amcos-staff-status` - View all remote agents
+- `/amcos-recovery-workflow` - Execute recovery for unhealthy agent
+- `/amcos-replace-agent` - Replace failed agent
+- `/amcos-hibernate-agent` - Put an agent to sleep
 
 ## CLI Reference
 

@@ -1,6 +1,6 @@
 # Edge Case Protocols for Chief of Staff Agent
 
-This document defines standardized protocols for handling edge cases and failure scenarios in the Chief of Staff Agent (ecos-) plugin.
+This document defines standardized protocols for handling edge cases and failure scenarios in the Chief of Staff Agent (amcos-) plugin.
 
 ## Table of Contents
 
@@ -828,7 +828,7 @@ If multiple edge cases compound:
 
 ## Related Documents
 
-- Memory initialization: see `ecos-session-memory-library` skill, reference `01-initialize-session-memory.md`
-- Detailed recovery: see `ecos-session-memory-library` skill, reference `10-recovery-procedures.md`
-- Context synchronization: see `ecos-session-memory-library` skill, reference `14-context-sync.md`
+- Memory initialization: see `amcos-session-memory-library` skill, reference `01-initialize-session-memory.md`
+- Detailed recovery: see `amcos-session-memory-library` skill, reference `10-recovery-procedures.md`
+- Context synchronization: see `amcos-session-memory-library` skill, reference `14-context-sync.md`
 - [SKILL.md](../SKILL.md) - Core notification protocols skill

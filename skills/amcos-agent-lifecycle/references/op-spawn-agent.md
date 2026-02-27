@@ -2,8 +2,8 @@
 operation: spawn-agent
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-agent-lifecycle
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-agent-lifecycle
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -41,23 +41,23 @@ version: 1.0.0
 - The `ai-maestro-agents-management` skill is available
 - The `agent-messaging` skill is available
 - tmux is installed for session management
-- Team registry location is writable (`.emasoft/team-registry.json`)
+- Team registry location is writable (`.ai-maestro/team-registry.json`)
 - Plugin for the agent role is installed in marketplace cache
 
 ## Procedure
 
 ### Step 1: Determine Agent Type and Session Name
 
-Select the appropriate agent type based on the task requirements. ECOS chooses the unique session name.
+Select the appropriate agent type based on the task requirements. AMCOS chooses the unique session name.
 
 **Session naming format:** `<role-prefix>-<project>-<descriptive>`
 
 | Role | Prefix | Plugin | Main Agent |
 |------|--------|--------|------------|
-| Orchestrator | eoa | emasoft-orchestrator-agent | eoa-orchestrator-main-agent |
-| Architect | eaa | emasoft-architect-agent | eaa-architect-main-agent |
-| Integrator | eia | emasoft-integrator-agent | eia-integrator-main-agent |
-| Programmer | (none) | emasoft-programmer-agent | epa-programmer-main-agent |
+| Orchestrator | eoa | ai-maestro-orchestrator-agent | eoa-orchestrator-main-agent |
+| Architect | eaa | ai-maestro-architect-agent | eaa-architect-main-agent |
+| Integrator | eia | ai-maestro-integrator-agent | eia-integrator-main-agent |
+| Programmer | (none) | ai-maestro-programmer-agent | epa-programmer-main-agent |
 
 **Example session names:**
 - `eoa-svgbbox-orchestrator`
@@ -67,8 +67,8 @@ Select the appropriate agent type based on the task requirements. ECOS chooses t
 
 ### Step 2: Setup Plugin for Agent
 
-Copy the plugin from the **emasoft-plugins marketplace cache** to the agent's local folder:
-- **Source**: `$HOME/.claude/plugins/cache/emasoft-plugins/<plugin-name>/<latest-version>/`
+Copy the plugin from the **ai-maestro-plugins marketplace cache** to the agent's local folder:
+- **Source**: `$HOME/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<latest-version>/`
 - **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
 
 Create the destination directory and copy the plugin files.
@@ -94,7 +94,7 @@ Use the `ai-maestro-agents-management` skill to check the agent's status. Expect
 ### Step 5: Register in Team Registry
 
 ```bash
-uv run python scripts/ecos_team_registry.py add-agent \
+uv run python scripts/amcos_team_registry.py add-agent \
   --name "<session-name>" \
   --role "<role>" \
   --project "<project>" \
@@ -129,17 +129,17 @@ Copy this checklist and track your progress:
 
 ### Example: Creating an Orchestrator for svgbbox Project
 
-1. Set variables: session name `eoa-svgbbox-orchestrator`, plugin `emasoft-orchestrator-agent`
-2. Copy plugin from marketplace cache (`$HOME/.claude/plugins/cache/emasoft-plugins/emasoft-orchestrator-agent/<latest-version>/`) to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/emasoft-orchestrator-agent/`
+1. Set variables: session name `eoa-svgbbox-orchestrator`, plugin `ai-maestro-orchestrator-agent`
+2. Copy plugin from marketplace cache (`$HOME/.claude/plugins/cache/ai-maestro-plugins/ai-maestro-orchestrator-agent/<latest-version>/`) to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent/`
 3. Use the `ai-maestro-agents-management` skill to create a new agent:
    - **Name**: `eoa-svgbbox-orchestrator`
    - **Directory**: `~/agents/eoa-svgbbox-orchestrator`
    - **Task**: `Orchestrate tasks for svgbbox-library-team`
-   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/eoa-svgbbox-orchestrator/.claude/plugins/emasoft-orchestrator-agent`, `--agent eoa-orchestrator-main-agent`
+   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent`, `--agent eoa-orchestrator-main-agent`
 4. Use the `ai-maestro-agents-management` skill to verify status is "running"
 5. Register in team registry:
    ```bash
-   uv run python scripts/ecos_team_registry.py add-agent \
+   uv run python scripts/amcos_team_registry.py add-agent \
      --name "eoa-svgbbox-orchestrator" \
      --role "orchestrator" \
      --project "svgbbox" \
@@ -148,17 +148,17 @@ Copy this checklist and track your progress:
 
 ### Example: Creating a Programmer for svgbbox Project
 
-1. Set variables: session name `svgbbox-programmer-001`, plugin `emasoft-programmer-agent` (Programmers use project-based naming)
-2. Copy plugin from marketplace cache to `$HOME/agents/svgbbox-programmer-001/.claude/plugins/emasoft-programmer-agent/`
+1. Set variables: session name `svgbbox-programmer-001`, plugin `ai-maestro-programmer-agent` (Programmers use project-based naming)
+2. Copy plugin from marketplace cache to `$HOME/agents/svgbbox-programmer-001/.claude/plugins/ai-maestro-programmer-agent/`
 3. Use the `ai-maestro-agents-management` skill to create a new agent:
    - **Name**: `svgbbox-programmer-001`
    - **Directory**: `~/agents/svgbbox-programmer-001`
    - **Task**: `Implement authentication module for svgbbox`
-   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/svgbbox-programmer-001/.claude/plugins/emasoft-programmer-agent`, `--agent epa-programmer-main-agent`
+   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/svgbbox-programmer-001/.claude/plugins/ai-maestro-programmer-agent`, `--agent epa-programmer-main-agent`
 4. Use the `ai-maestro-agents-management` skill to verify status is "running"
 5. Register in team registry:
    ```bash
-   uv run python scripts/ecos_team_registry.py add-agent \
+   uv run python scripts/amcos_team_registry.py add-agent \
      --name "svgbbox-programmer-001" \
      --role "programmer" \
      --project "svgbbox" \

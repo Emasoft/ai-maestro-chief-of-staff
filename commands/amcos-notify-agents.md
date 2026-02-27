@@ -1,5 +1,5 @@
 ---
-name: ecos-notify-agents
+name: amcos-notify-agents
 description: "Notify agents before or after operations via AI Maestro messaging API"
 argument-hint: "--agents <name1,name2,...> | --all --operation <type> --message <text> [--require-ack]"
 allowed-tools: ["Bash", "Task"]
@@ -57,19 +57,19 @@ For each target agent, send a notification message using the `agent-messaging` s
 
 ```bash
 # Notify specific agents about skill installation
-/ecos-notify-agents --agents helper-python,frontend-ui --operation skill-install --message "Installing new validation skill in 60 seconds"
+/amcos-notify-agents --agents helper-python,frontend-ui --operation skill-install --message "Installing new validation skill in 60 seconds"
 
 # Notify all agents about system maintenance
-/ecos-notify-agents --all --operation maintenance --message "System maintenance starting in 5 minutes"
+/amcos-notify-agents --all --operation maintenance --message "System maintenance starting in 5 minutes"
 
 # Notify with acknowledgment required
-/ecos-notify-agents --agents data-processor --operation restart --message "Plugin update requires restart. Please finish current task." --require-ack
+/amcos-notify-agents --agents data-processor --operation restart --message "Plugin update requires restart. Please finish current task." --require-ack
 
 # Pre-operation notification
-/ecos-notify-agents --agents helper-python --operation skill-install --message "Will install data-validation skill. Please save your work."
+/amcos-notify-agents --agents helper-python --operation skill-install --message "Will install data-validation skill. Please save your work."
 
 # Post-operation notification
-/ecos-notify-agents --agents helper-python --operation skill-install --message "Skill installation complete. Please verify activation."
+/amcos-notify-agents --agents helper-python --operation skill-install --message "Skill installation complete. Please verify activation."
 ```
 
 ## Notification Flow
@@ -167,7 +167,7 @@ When `--require-ack` is specified, agents should respond with:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Invalid agent name | Check with `/ecos-staff-status` |
+| "Agent not found" | Invalid agent name | Check with `/amcos-staff-status` |
 | "API unreachable" | AI Maestro not running | Start AI Maestro server |
 | "Timeout waiting for ack" | Agent didn't respond | Agent may be busy or offline |
 | "Delivery failed" | Network or agent issue | Check agent status |
@@ -182,7 +182,7 @@ When `--require-ack` is specified:
 
 ## Related Commands
 
-- `/ecos-wait-for-agent-ok` - Wait for single agent acknowledgment
-- `/ecos-broadcast-notification` - Send broadcast with priority
-- `/ecos-staff-status` - View all agents
-- `/ecos-install-skill-notify` - Install skill with full notification protocol
+- `/amcos-wait-for-agent-ok` - Wait for single agent acknowledgment
+- `/amcos-broadcast-notification` - Send broadcast with priority
+- `/amcos-staff-status` - View all agents
+- `/amcos-install-skill-notify` - Install skill with full notification protocol

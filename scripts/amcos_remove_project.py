@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ecos_remove_project.py - Remove a project from chief-of-staff management.
+amcos_remove_project.py - Remove a project from chief-of-staff management.
 
 Removes a project entry from the chief-of-staff state file. By default, refuses
 to remove projects with active agents assigned unless --force is specified.
@@ -8,7 +8,7 @@ to remove projects with active agents assigned unless --force is specified.
 Dependencies: Python 3.8+ stdlib only
 
 Usage:
-    ecos_remove_project.py PROJECT_ID [--force]
+    amcos_remove_project.py PROJECT_ID [--force]
 
 Exit codes:
     0 - Success

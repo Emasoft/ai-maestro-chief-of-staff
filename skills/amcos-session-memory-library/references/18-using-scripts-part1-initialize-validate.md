@@ -4,8 +4,8 @@
 
 1. [Overview](#overview)
 2. [Available Commands](#available-commands)
-3. [Initialize Memory](#initialize-memory) - `ecos_memory_manager.py init`
-4. [Validate Memory](#validate-memory) - `ecos_memory_manager.py validate`
+3. [Initialize Memory](#initialize-memory) - `amcos_memory_manager.py init`
+4. [Validate Memory](#validate-memory) - `amcos_memory_manager.py validate`
 
 ---
 
@@ -13,7 +13,7 @@
 
 ### What Are Memory Scripts?
 
-Memory operations are provided by the unified `ecos_memory_manager.py` script in the `scripts/` subdirectory. This script exposes subcommands for all common memory tasks and can be used manually or integrated into agent workflows. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, `load-memory.py`, `save-memory.py`, `archive-memory.py`) have been superseded by subcommands of `ecos_memory_manager.py`.
+Memory operations are provided by the unified `amcos_memory_manager.py` script in the `scripts/` subdirectory. This script exposes subcommands for all common memory tasks and can be used manually or integrated into agent workflows. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, `load-memory.py`, `save-memory.py`, `archive-memory.py`) have been superseded by subcommands of `amcos_memory_manager.py`.
 
 ### Why Use Scripts?
 
@@ -32,11 +32,11 @@ Memory operations are provided by the unified `ecos_memory_manager.py` script in
 
 | Command | Purpose | Input | Output |
 |---------|---------|-------|--------|
-| `ecos_memory_manager.py init` | Create new memory structure | None | Memory files created |
-| `ecos_memory_manager.py validate` | Check memory integrity | Memory files | Validation report |
-| `ecos_memory_manager.py health --json` | Report on memory state | Memory files | Health report (JSON) |
-| `ecos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes to memory | Update data | Updated memory files (immediate write) |
-| `ecos_memory_manager.py compact` | Archive old content | Memory files | Compacted files with backups |
+| `amcos_memory_manager.py init` | Create new memory structure | None | Memory files created |
+| `amcos_memory_manager.py validate` | Check memory integrity | Memory files | Validation report |
+| `amcos_memory_manager.py health --json` | Report on memory state | Memory files | Health report (JSON) |
+| `amcos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes to memory | Update data | Updated memory files (immediate write) |
+| `amcos_memory_manager.py compact` | Archive old content | Memory files | Compacted files with backups |
 | `repair-memory.py` | Fix corrupted memory (planned) | Corrupted files | Repaired files |
 
 ---
@@ -45,20 +45,20 @@ Memory operations are provided by the unified `ecos_memory_manager.py` script in
 
 **Purpose:** Create new session memory structure with template files.
 
-**Command:** `ecos_memory_manager.py init`
+**Command:** `amcos_memory_manager.py init`
 
 The `init` subcommand calls `initialize_memory()` which creates the `design/memory/` directory and populates it with template files for `activeContext.md`, `progress.md`, and `patterns.md`.
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py init
+python scripts/amcos_memory_manager.py init
 ```
 
 **Examples:**
 
 **Example 1: Basic initialization**
 ```bash
-python scripts/ecos_memory_manager.py init
+python scripts/amcos_memory_manager.py init
 ```
 
 Output:
@@ -83,20 +83,20 @@ Memory structure initialized successfully.
 
 **Purpose:** Validate memory files for correctness and consistency.
 
-**Command:** `ecos_memory_manager.py validate`
+**Command:** `amcos_memory_manager.py validate`
 
 The `validate` subcommand calls `validate_memory()` which checks that the memory directory exists, validates required sections in `activeContext.md` (such as `## Current Focus` and `## Active Decisions`), and checks that `progress.md` and `patterns.md` exist.
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 ```
 
 **Examples:**
 
 **Example 1: Basic validation**
 ```bash
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 ```
 
 Output:

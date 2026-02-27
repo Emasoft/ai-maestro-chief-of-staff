@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: monitor-instance-limits
-parent-skill: ecos-resource-monitoring
+parent-skill: amcos-resource-monitoring
 ---
 
 # Operation: Monitor Instance Limits

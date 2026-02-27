@@ -1,5 +1,5 @@
 ---
-name: ecos-check-approval-status
+name: amcos-check-approval-status
 description: "Check status of pending approval requests from EAMA"
 argument-hint: "[--request-id <ID>] [--all] [--status <STATUS>] [--since <HOURS>]"
 allowed-tools: ["Bash", "Task", "Read"]
@@ -43,16 +43,16 @@ Check approval status by:
 
 ```bash
 # Check a specific request
-/ecos-check-approval-status --request-id ECOS-20250202150000-a1b2c3d4
+/amcos-check-approval-status --request-id AMCOS-20250202150000-a1b2c3d4
 
 # List all pending approvals
-/ecos-check-approval-status --status pending
+/amcos-check-approval-status --status pending
 
 # Show all requests from last 48 hours
-/ecos-check-approval-status --all --since 48
+/amcos-check-approval-status --all --since 48
 
 # Get JSON output for scripting
-/ecos-check-approval-status --all --format json
+/amcos-check-approval-status --all --format json
 ```
 
 ## Output Format (Table)
@@ -62,7 +62,7 @@ Check approval status by:
   APPROVAL REQUEST STATUS
 =======================================================================
 
-  Request ID: ECOS-20250202150000-a1b2c3d4
+  Request ID: AMCOS-20250202150000-a1b2c3d4
 
   +------------------+--------------------------------------------+
   | Field            | Value                                      |
@@ -72,7 +72,7 @@ Check approval status by:
   | Status           | APPROVED                                   |
   | Requested        | 2025-02-02 15:00:00 UTC                   |
   | Response Time    | 2025-02-02 15:02:30 UTC                   |
-  | Decision By      | EAMA (emasoft-assistant-manager-agent)    |
+  | Decision By      | EAMA (ai-maestro-assistant-manager-agent)    |
   +------------------+--------------------------------------------+
 
   Reason: Agent has critical bug and cannot recover
@@ -96,9 +96,9 @@ Check approval status by:
   +-----+---------------------------+------------+---------------+----------+
   | #   | Request ID                | Operation  | Target Agent  | Priority |
   +-----+---------------------------+------------+---------------+----------+
-  | 1   | ECOS-20250202150000-a1b2  | terminate  | helper-python | high     |
-  | 2   | ECOS-20250202143000-c3d4  | spawn      | helper-tester | normal   |
-  | 3   | ECOS-20250202120000-e5f6  | install    | helper-docs   | normal   |
+  | 1   | AMCOS-20250202150000-a1b2  | terminate  | helper-python | high     |
+  | 2   | AMCOS-20250202143000-c3d4  | spawn      | helper-tester | normal   |
+  | 3   | AMCOS-20250202120000-e5f6  | install    | helper-docs   | normal   |
   +-----+---------------------------+------------+---------------+----------+
 
   Total Pending: 3
@@ -113,7 +113,7 @@ Check approval status by:
 {
   "requests": [
     {
-      "request_id": "ECOS-20250202150000-a1b2c3d4",
+      "request_id": "AMCOS-20250202150000-a1b2c3d4",
       "operation_type": "terminate",
       "agent_name": "helper-python",
       "status": "approved",
@@ -169,16 +169,16 @@ The operation was denied. Check `notes` field for reason. You may need to:
 - Request alternative operation
 
 ### Deferred
-Manager needs more information. Check `notes` for what is needed and submit a follow-up via `/ecos-notify-manager`.
+Manager needs more information. Check `notes` for what is needed and submit a follow-up via `/amcos-notify-manager`.
 
 ### Expired
 Request timed out without response. You can:
-- Resubmit with `/ecos-request-approval`
+- Resubmit with `/amcos-request-approval`
 - Check if EAMA is online
 - Contact user for manual approval
 
 ## Related Commands
 
-- `/ecos-request-approval` - Submit new approval request
-- `/ecos-wait-for-approval` - Wait for approval response
-- `/ecos-notify-manager` - Send notification to manager
+- `/amcos-request-approval` - Submit new approval request
+- `/amcos-wait-for-approval` - Wait for approval response
+- `/amcos-notify-manager` - Send notification to manager

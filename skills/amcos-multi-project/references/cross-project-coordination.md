@@ -43,7 +43,7 @@ Projects that share code:
 
 **Example:**
 ```
-emasoft-plugins-marketplace
+ai-maestro-plugins-marketplace
 ├── perfect-skill-suggester (submodule)
 └── claude-plugins-validation (submodule)
 ```
@@ -115,7 +115,7 @@ Cannot run both test suites simultaneously
 
 ### Related Projects
 - claude-plugins-validation (code dependency - uses validator)
-- emasoft-plugins-marketplace (code dependency - submodule)
+- ai-maestro-plugins-marketplace (code dependency - submodule)
 
 ### Resources
 - test-engineer-01 (shared with CPV)
@@ -293,7 +293,7 @@ Projects waiting for each other.
 ### Projects
 - CPV: claude-plugins-validation (dependency)
 - PSS: perfect-skill-suggester (primary)
-- EPM: emasoft-plugins-marketplace (consumer)
+- EPM: ai-maestro-plugins-marketplace (consumer)
 
 ### Phases
 

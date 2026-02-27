@@ -1,5 +1,5 @@
 ---
-name: ecos-notify-manager
+name: amcos-notify-manager
 description: "Notify the Assistant Manager (EAMA) about issues, status updates, or alerts via AI Maestro"
 argument-hint: "--subject <TEXT> --message <TEXT> [--priority <PRIORITY>] [--type <TYPE>]"
 allowed-tools: ["Bash", "Task"]
@@ -13,7 +13,7 @@ Send notifications to the Assistant Manager (EAMA) about issues, status updates,
 ## Usage
 
 Send a message to the Assistant Manager (EAMA) using the `agent-messaging` skill:
-- **Recipient**: `emasoft-assistant-manager-agent` (EAMA)
+- **Recipient**: `ai-maestro-assistant-manager-agent` (EAMA)
 - **Subject**: the provided subject
 - **Content**: structured message with type, message body, timestamp, and optional metadata
 - **Priority**: the provided priority level
@@ -29,7 +29,7 @@ Send a message to the Assistant Manager (EAMA) using the `agent-messaging` skill
 | `alert` | Urgent situation | urgent |
 | `completion` | Task or operation completed | normal |
 | `request_info` | Need information from manager | normal |
-| `escalation` | Issue beyond ECOS authority | high |
+| `escalation` | Issue beyond AMCOS authority | high |
 | `health_check` | Agent/system health status | normal |
 | `resource_alert` | Resource constraint warning | high |
 
@@ -57,38 +57,38 @@ Send a message to the Assistant Manager (EAMA) using the `agent-messaging` skill
 
 ```bash
 # Status update (routine)
-/ecos-notify-manager --subject "Daily Status Update" \
+/amcos-notify-manager --subject "Daily Status Update" \
   --message "All 5 agents operational. 3 tasks completed, 2 in progress." \
   --type status_update
 
 # Issue report (important)
-/ecos-notify-manager --subject "Agent helper-python unresponsive" \
+/amcos-notify-manager --subject "Agent helper-python unresponsive" \
   --message "Agent helper-python has not responded to heartbeat for 10 minutes. Last known state: executing pytest. Recommend investigation." \
   --type issue_report \
   --priority high \
   --agent helper-python
 
 # Urgent alert
-/ecos-notify-manager --subject "CRITICAL: Resource exhaustion imminent" \
+/amcos-notify-manager --subject "CRITICAL: Resource exhaustion imminent" \
   --message "System memory usage at 95%. 3 agents may crash if trend continues. Immediate action required: hibernate non-critical agents." \
   --type alert \
   --priority urgent
 
 # Task completion
-/ecos-notify-manager --subject "Agent deployment complete" \
+/amcos-notify-manager --subject "Agent deployment complete" \
   --message "Successfully spawned 3 new agents for the API project. All agents online and accepting tasks." \
   --type completion \
   --metadata '{"agents_spawned": ["api-worker-1", "api-worker-2", "api-tester"]}'
 
 # Escalation
-/ecos-notify-manager --subject "Permission escalation needed" \
-  --message "Agent helper-devops needs access to production credentials. This is beyond ECOS authority. Requesting manager decision." \
+/amcos-notify-manager --subject "Permission escalation needed" \
+  --message "Agent helper-devops needs access to production credentials. This is beyond AMCOS authority. Requesting manager decision." \
   --type escalation \
   --priority high \
   --require-ack
 
 # Request information
-/ecos-notify-manager --subject "Clarification needed on task priority" \
+/amcos-notify-manager --subject "Clarification needed on task priority" \
   --message "Multiple urgent tasks received. Need guidance on execution order: (1) security patch, (2) feature deployment, (3) database migration." \
   --type request_info \
   --require-ack
@@ -114,7 +114,7 @@ Notifications to EAMA include the following content fields:
   Timestamp: 2025-02-02 15:30:00 UTC
   Message ID: msg-20250202153000-b2c3d4e5
 
-  To:       emasoft-assistant-manager-agent (EAMA)
+  To:       ai-maestro-assistant-manager-agent (EAMA)
   Subject:  Agent helper-python unresponsive
   Priority: HIGH
   Type:     issue_report
@@ -146,7 +146,7 @@ When `--require-ack` is used, EAMA is expected to respond:
 
 Check for acknowledgment with:
 ```bash
-/ecos-check-approval-status --request-id msg-20250202153000-b2c3d4e5
+/amcos-check-approval-status --request-id msg-20250202153000-b2c3d4e5
 ```
 
 ## Best Practices
@@ -190,7 +190,7 @@ If EAMA is offline, messages are queued:
 
 ## Related Commands
 
-- `/ecos-request-approval` - Request operation approval
-- `/ecos-check-approval-status` - Check approval/notification status
-- `/ecos-staff-status` - View all agent status
-- `/ecos-resource-report` - Generate resource utilization report
+- `/amcos-request-approval` - Request operation approval
+- `/amcos-check-approval-status` - Check approval/notification status
+- `/amcos-staff-status` - View all agent status
+- `/amcos-resource-report` - Generate resource utilization report

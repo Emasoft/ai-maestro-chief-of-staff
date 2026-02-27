@@ -41,7 +41,7 @@ Synchronize the local project registry with GitHub Projects board to maintain co
 ## Prerequisites
 
 - GitHub CLI (`gh`) installed and authenticated
-- Project registered in `.emasoft/project-registry.json`
+- Project registered in `.ai-maestro/project-registry.json`
 - GitHub Project board exists for the project
 - `jq` installed for JSON processing
 
@@ -51,7 +51,7 @@ Synchronize the local project registry with GitHub Projects board to maintain co
 
 ```bash
 PROJECT_ID="skill-factory"
-REGISTRY_FILE=".emasoft/project-registry.json"
+REGISTRY_FILE=".ai-maestro/project-registry.json"
 
 GITHUB_REPO=$(jq -r '.projects["'"$PROJECT_ID"'"].github_repo' $REGISTRY_FILE)
 GITHUB_PROJECT=$(jq -r '.projects["'"$PROJECT_ID"'"].github_project' $REGISTRY_FILE)
@@ -148,7 +148,7 @@ RECENT_CHANGES=$(jq '[.items[] | select(.updatedAt > (now - 900 | strftime("%Y-%
 echo "Recent changes: $(echo $RECENT_CHANGES | jq length) items"
 
 # Step 5: Update timestamp
-jq '.projects["skill-factory"].last_sync = "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"' .emasoft/project-registry.json > temp.json && mv temp.json .emasoft/project-registry.json
+jq '.projects["skill-factory"].last_sync = "'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'"' .ai-maestro/project-registry.json > temp.json && mv temp.json .ai-maestro/project-registry.json
 ```
 
 ## Sync Strategies

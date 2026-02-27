@@ -40,13 +40,13 @@ Before installing from a marketplace, register it:
 
 ```bash
 # Add a marketplace
-claude plugin marketplace add https://github.com/Emasoft/emasoft-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
 
 # List registered marketplaces
 claude plugin marketplace list
 
 # Update marketplace cache
-claude plugin marketplace update emasoft-plugins
+claude plugin marketplace update ai-maestro-plugins
 ```
 
 ### 1.2.2 Plugin discovery
@@ -55,7 +55,7 @@ Find available plugins:
 
 ```bash
 # List plugins in marketplace
-claude plugin search @emasoft-plugins
+claude plugin search @ai-maestro-plugins
 
 # Search for specific plugin
 claude plugin search perfect-skill-suggester
@@ -67,10 +67,10 @@ Plugins may have multiple versions:
 
 ```bash
 # Install latest version (default)
-claude plugin install perfect-skill-suggester@emasoft-plugins
+claude plugin install perfect-skill-suggester@ai-maestro-plugins
 
 # Install specific version
-claude plugin install perfect-skill-suggester@emasoft-plugins:1.2.0
+claude plugin install perfect-skill-suggester@ai-maestro-plugins:1.2.0
 ```
 
 ---
@@ -83,10 +83,10 @@ claude plugin install perfect-skill-suggester@emasoft-plugins:1.2.0
 
 ```bash
 # Check marketplace exists
-claude plugin marketplace list | grep emasoft-plugins
+claude plugin marketplace list | grep ai-maestro-plugins
 
 # If not found, add it
-claude plugin marketplace add https://github.com/Emasoft/emasoft-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
 ```
 
 ### 1.3.2 Plugin availability
@@ -95,7 +95,7 @@ claude plugin marketplace add https://github.com/Emasoft/emasoft-plugins
 
 ```bash
 # Search for plugin
-claude plugin search perfect-skill-suggester@emasoft-plugins
+claude plugin search perfect-skill-suggester@ai-maestro-plugins
 
 # Should return plugin info
 ```
@@ -106,10 +106,10 @@ claude plugin search perfect-skill-suggester@emasoft-plugins
 
 ```bash
 # Install with default scope (user)
-claude plugin install perfect-skill-suggester@emasoft-plugins
+claude plugin install perfect-skill-suggester@ai-maestro-plugins
 
 # Install to specific scope
-claude plugin install perfect-skill-suggester@emasoft-plugins --scope project
+claude plugin install perfect-skill-suggester@ai-maestro-plugins --scope project
 ```
 
 ### 1.3.4 Restart requirement
@@ -169,13 +169,13 @@ claude plugin list | grep perfect-skill-suggester
 
 ```bash
 # Step 1: Update marketplace cache
-claude plugin marketplace update emasoft-plugins
+claude plugin marketplace update ai-maestro-plugins
 
 # Step 2: Uninstall current version
-claude plugin uninstall perfect-skill-suggester@emasoft-plugins
+claude plugin uninstall perfect-skill-suggester@ai-maestro-plugins
 
 # Step 3: Reinstall (gets latest)
-claude plugin install perfect-skill-suggester@emasoft-plugins
+claude plugin install perfect-skill-suggester@ai-maestro-plugins
 
 # Step 4: RESTART Claude Code
 ```
@@ -184,11 +184,11 @@ claude plugin install perfect-skill-suggester@emasoft-plugins
 
 ```bash
 # Clear plugin cache
-rm -rf ~/.claude/plugins/cache/emasoft-plugins/
+rm -rf ~/.claude/plugins/cache/ai-maestro-plugins/
 
 # Reinstall
-claude plugin uninstall perfect-skill-suggester@emasoft-plugins
-claude plugin install perfect-skill-suggester@emasoft-plugins
+claude plugin uninstall perfect-skill-suggester@ai-maestro-plugins
+claude plugin install perfect-skill-suggester@ai-maestro-plugins
 
 # RESTART Claude Code
 ```
@@ -199,7 +199,7 @@ claude plugin install perfect-skill-suggester@emasoft-plugins
 
 ```bash
 # Uninstall plugin
-claude plugin uninstall perfect-skill-suggester@emasoft-plugins
+claude plugin uninstall perfect-skill-suggester@ai-maestro-plugins
 
 # Verify removed
 claude plugin list | grep perfect-skill-suggester
@@ -218,10 +218,10 @@ claude plugin list | grep perfect-skill-suggester
 # Complete installation flow
 
 # 1. Add marketplace
-claude plugin marketplace add https://github.com/Emasoft/emasoft-plugins
+claude plugin marketplace add https://github.com/Emasoft/ai-maestro-plugins
 
 # 2. Install plugin
-claude plugin install perfect-skill-suggester@emasoft-plugins
+claude plugin install perfect-skill-suggester@ai-maestro-plugins
 
 # 3. Verify
 claude plugin list
@@ -238,7 +238,7 @@ claude plugin list
 # Install with project scope (shared via git)
 
 # In project directory
-claude plugin install perfect-skill-suggester@emasoft-plugins --scope project
+claude plugin install perfect-skill-suggester@ai-maestro-plugins --scope project
 
 # Commit settings
 git add .claude/settings.json

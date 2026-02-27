@@ -1,8 +1,8 @@
 ---
-name: ecos-list-projects
+name: amcos-list-projects
 description: "List all managed projects with their GitHub boards and assigned agents"
 argument-hint: "[--verbose]"
-allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/ecos_list_projects.py:*)"]
+allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_list_projects.py:*)"]
 user-invocable: true
 ---
 
@@ -13,7 +13,7 @@ Display all projects currently managed by the Chief of Staff, including their re
 ## Usage
 
 ```!
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/ecos_list_projects.py" $ARGUMENTS
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_list_projects.py" $ARGUMENTS
 ```
 
 ## What This Command Does
@@ -103,12 +103,12 @@ The command reads from `.claude/chief-of-staff-state.local.md`:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "State file not found" | `.claude/chief-of-staff-state.local.md` missing | Initialize with `/ecos-init` or create file |
-| "No projects configured" | No projects in state file | Add projects with `/ecos-add-project` |
+| "State file not found" | `.claude/chief-of-staff-state.local.md` missing | Initialize with `/amcos-init` or create file |
+| "No projects configured" | No projects in state file | Add projects with `/amcos-add-project` |
 | "Parse error" | Malformed state file | Check state file syntax |
 
 ## Related Commands
 
-- `/ecos-add-project` - Add a new project to management
-- `/ecos-remove-project` - Remove a project from management
-- `/ecos-assign-project` - Assign an agent to a project
+- `/amcos-add-project` - Add a new project to management
+- `/amcos-remove-project` - Remove a project from management
+- `/amcos-assign-project` - Assign an agent to a project

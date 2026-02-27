@@ -212,15 +212,15 @@ gh auth status
 # Step 2: Fetch remote projects
 gh project list --owner Emasoft --format json > /tmp/projects.json
 
-# Step 3: Compare local state with remote (planned: ecos_sync_github_projects.py --compare-only)
-# Note: ecos_sync_github_projects.py is planned but not yet implemented.
+# Step 3: Compare local state with remote (planned: amcos_sync_github_projects.py --compare-only)
+# Note: amcos_sync_github_projects.py is planned but not yet implemented.
 # The --compare-only flag will show differences without applying changes.
 # For now, manually compare the fetched JSON with the local project registry.
 
-# Step 4: Apply changes (planned: ecos_sync_github_projects.py --direction bidirectional)
+# Step 4: Apply changes (planned: amcos_sync_github_projects.py --direction bidirectional)
 # Note: When implemented, this will sync local project state with GitHub Projects boards.
 
-# Step 5: Verify (planned: ecos_sync_github_projects.py --verify)
+# Step 5: Verify (planned: amcos_sync_github_projects.py --verify)
 # Note: When implemented, this will verify that local and remote states match after sync.
 ```
 

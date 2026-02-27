@@ -37,7 +37,7 @@ Use this document when:
 
 ## 2.2 Overview of Failure Categories
 
-ECOS classifies all agent failures into three categories based on severity and recoverability:
+AMCOS classifies all agent failures into three categories based on severity and recoverability:
 
 | Category | Severity | Recovery Possible | Typical Response |
 |----------|----------|-------------------|------------------|
@@ -89,7 +89,7 @@ Transient failures should resolve within **5 minutes** without intervention. If 
 echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"agent\": \"AGENT_NAME\", \"type\": \"transient\", \"symptoms\": \"missed_heartbeat\", \"resolved\": false}" >> $CLAUDE_PROJECT_DIR/.ecos/agent-health/incident-log.jsonl
 
 # Increase monitoring frequency for next 10 minutes
-# (Handled by ECOS scheduler - no manual action needed)
+# (Handled by AMCOS scheduler - no manual action needed)
 ```
 
 ---
@@ -248,7 +248,7 @@ START: Failure detected
 
 ## 2.7 Escalation Thresholds
 
-ECOS uses these thresholds to determine when to escalate to manager (EAMA):
+AMCOS uses these thresholds to determine when to escalate to manager (EAMA):
 
 | Failure Type | Escalation Trigger | Notification Priority |
 |--------------|-------------------|----------------------|
@@ -262,7 +262,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: `eama-assistant-manager`
 - **Subject**: `[ESCALATION] Agent failure requires attention`
 - **Priority**: appropriate level (`normal`, `high`, or `urgent`)
-- **Content**: type `escalation`, message: description of the situation. Include `agent` (session name), `failure_type` ("transient", "recoverable", or "terminal"), `failure_details` with `first_detected` (ISO timestamp), `symptom` (what was observed), `diagnosis` (what ECOS determined), `recommended_action` (what ECOS proposes), `awaiting_approval` (true/false).
+- **Content**: type `escalation`, message: description of the situation. Include `agent` (session name), `failure_type` ("transient", "recoverable", or "terminal"), `failure_details` with `first_detected` (ISO timestamp), `symptom` (what was observed), `diagnosis` (what AMCOS determined), `recommended_action` (what AMCOS proposes), `awaiting_approval` (true/false).
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 

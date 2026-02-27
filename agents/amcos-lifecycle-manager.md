@@ -1,12 +1,12 @@
 ---
-name: ecos-lifecycle-manager
+name: amcos-lifecycle-manager
 description: Manages agent lifecycle - spawn, terminate, hibernate, wake. Requires AI Maestro installed.
 tools:
   - Task
   - Bash
   - Read
 skills:
-  - ecos-agent-lifecycle
+  - amcos-agent-lifecycle
   - ai-maestro-agents-management
 ---
 
@@ -26,7 +26,7 @@ You manage the complete lifecycle of Claude Code agent instances. Your single re
 ## Required Reading
 
 Before performing lifecycle operations, read:
-- **ecos-agent-lifecycle skill SKILL.md** - Complete lifecycle management procedures
+- **amcos-agent-lifecycle skill SKILL.md** - Complete lifecycle management procedures
 - **ai-maestro-agents-management skill** - CLI reference for agent operations
 
 > For agent state management, see reference doc **hibernation-procedures.md**.

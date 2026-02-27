@@ -1,5 +1,5 @@
 ---
-name: ecos-onboarding
+name: amcos-onboarding
 description: Use when onboarding new agents to the team, providing role briefings, conducting project handoffs, and ensuring agents are ready to contribute effectively. Trigger with new agent or new project setup.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "Step 4"
 procedure: "proc-create-team"
 ---
 
-# Emasoft Chief of Staff Onboarding Skill
+# AI Maestro Chief of Staff Onboarding Skill
 
 ## Overview
 
@@ -307,7 +307,7 @@ uv run --with pyyaml python scripts/validate_plugin.py . --verbose
 
 | Field | Description | Example |
 |-------|-------------|---------|
-| `from` | Sending agent name | `ecos-chief-of-staff` |
+| `from` | Sending agent name | `amcos-chief-of-staff` |
 | `to` | Target agent name | `new-developer-agent` |
 | `type` | Handoff type | `project-handoff`, `role-briefing`, `emergency-handoff` |
 | `UUID` | Unique handoff identifier | `HO-20250204-auth-001` |
@@ -332,5 +332,5 @@ uv run --with pyyaml python scripts/validate_plugin.py . --verbose
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** Emasoft Chief of Staff Agent
+**Target Audience:** AI Maestro Chief of Staff Agent
 **Difficulty Level:** Intermediate

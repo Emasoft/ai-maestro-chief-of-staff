@@ -2,8 +2,8 @@
 operation: acknowledgment-protocol
 procedure: proc-notify-team-ready
 workflow-instruction: Step 5 - Team Ready Notification
-parent-skill: ecos-notification-protocols
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-notification-protocols
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -134,7 +134,7 @@ On "ok" response: Proceed with skill installation.
 **Scenario:** Requesting EAMA approval for expensive operation.
 
 Use the `agent-messaging` skill to send (2 minute timeout):
-- **Recipient**: `emasoft-assistant-manager-agent`
+- **Recipient**: `ai-maestro-assistant-manager-agent`
 - **Subject**: `Approval Request: Full Project Rescan`
 - **Priority**: `high`
 - **Content**: type `approval-request`, message: "Requesting approval for full project skill rescan. Estimated time: 15 minutes. Estimated cost: significant token usage. Reply 'approved' to proceed or 'denied' with reason." Include `timeout_seconds`: 120, `operation`: "full-rescan", `requires_acknowledgment`: true.

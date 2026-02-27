@@ -3,7 +3,7 @@
 ## Table of Contents
 
 1. [Advanced Scripts](#advanced-scripts)
-   - [Compact Memory](#compact-memory-ecos_memory_managerpy-compact) - `ecos_memory_manager.py compact`
+   - [Compact Memory](#compact-memory-amcos_memory_managerpy-compact) - `amcos_memory_manager.py compact`
    - [repair-memory.py](#repair-memorypy) - Fix corrupted memory
 2. [Common Workflows](#common-workflows)
    - [Daily Startup](#workflow-1-daily-startup)
@@ -19,24 +19,24 @@
 
 ## Advanced Scripts
 
-### Compact Memory (ecos_memory_manager.py compact)
+### Compact Memory (amcos_memory_manager.py compact)
 
 **Purpose:** Archive old completed tasks and patterns by compacting memory files. This replaces the old `archive-memory.py` script.
 
-**Command:** `ecos_memory_manager.py compact`
+**Command:** `amcos_memory_manager.py compact`
 
 The `compact` subcommand calls `compact_memory()` which backs up all memory files (using `backup_file()` to create timestamped backups), then removes old date sections from `progress.md` (by cutoff date) and trims old errors from `activeContext.md`.
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py compact
+python scripts/amcos_memory_manager.py compact
 ```
 
 **Examples:**
 
 **Example 1: Compact memory**
 ```bash
-python scripts/ecos_memory_manager.py compact
+python scripts/amcos_memory_manager.py compact
 ```
 
 Output:
@@ -131,10 +131,10 @@ WARNING: Some data may be incomplete. Review and update as needed.
 
 ```bash
 # 1. Validate memory
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 
 # 2. Check memory health to understand current state
-python scripts/ecos_memory_manager.py health
+python scripts/amcos_memory_manager.py health
 
 # 3. Begin work (agent reads memory files directly into context)...
 ```
@@ -145,10 +145,10 @@ python scripts/ecos_memory_manager.py health
 
 ```bash
 # 1. Ensure all current state is persisted (writes are immediate, but verify)
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 
 # 2. Check memory health
-python scripts/ecos_memory_manager.py health
+python scripts/amcos_memory_manager.py health
 
 # 3. Ready for compaction
 ```
@@ -159,10 +159,10 @@ python scripts/ecos_memory_manager.py health
 
 ```bash
 # 1. Compact old content (creates backups automatically)
-python scripts/ecos_memory_manager.py compact
+python scripts/amcos_memory_manager.py compact
 
 # 2. Validate after compaction
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 
 # 3. Check file sizes
 du -h design/memory/*.md
@@ -174,13 +174,13 @@ du -h design/memory/*.md
 
 ```bash
 # 1. Assess damage
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 
 # 2. Check health for details
-python scripts/ecos_memory_manager.py health --json
+python scripts/amcos_memory_manager.py health --json
 
 # 3. If memory is corrupted beyond repair, reinitialize
-python scripts/ecos_memory_manager.py init
+python scripts/amcos_memory_manager.py init
 ```
 
 ---
@@ -193,9 +193,9 @@ python scripts/ecos_memory_manager.py init
 # In agent main loop
 
 def initialize_session():
-    """Check memory health at startup using ecos_memory_manager.py."""
+    """Check memory health at startup using amcos_memory_manager.py."""
     result = subprocess.run(
-        ['python', 'scripts/ecos_memory_manager.py', 'health', '--json'],
+        ['python', 'scripts/amcos_memory_manager.py', 'health', '--json'],
         capture_output=True,
         text=True
     )
@@ -203,17 +203,17 @@ def initialize_session():
     if result.returncode != 0:
         print("Error checking memory health:", result.stderr)
         # Attempt reinitialization
-        subprocess.run(['python', 'scripts/ecos_memory_manager.py', 'init'])
+        subprocess.run(['python', 'scripts/amcos_memory_manager.py', 'init'])
         return initialize_session()  # Retry
 
     state = json.loads(result.stdout)
     return state
 
 def persist_decision(decision_text):
-    """Persist a decision immediately using ecos_memory_manager.py.
+    """Persist a decision immediately using amcos_memory_manager.py.
     Note: writes are immediate, no deferred save needed."""
     result = subprocess.run(
-        ['python', 'scripts/ecos_memory_manager.py', 'add-decision', decision_text],
+        ['python', 'scripts/amcos_memory_manager.py', 'add-decision', decision_text],
         capture_output=True
     )
 
@@ -249,7 +249,7 @@ pip install markdown pyyaml
 ```bash
 chmod +x scripts/*.py
 # Or run with python explicitly:
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 ```
 
 ---

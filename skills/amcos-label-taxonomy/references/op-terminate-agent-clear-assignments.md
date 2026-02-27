@@ -29,7 +29,7 @@ When an agent is being terminated, clear all its issue assignments and return is
 
 ## When to Use
 
-- When ECOS terminates an agent (completion, failure, or resource constraints)
+- When AMCOS terminates an agent (completion, failure, or resource constraints)
 - When agent session becomes unresponsive
 - When agent is being replaced
 
@@ -37,7 +37,7 @@ When an agent is being terminated, clear all its issue assignments and return is
 
 - GitHub CLI (`gh`) installed and authenticated
 - Agent name (session name) being terminated
-- Write access to `.emasoft/team-registry.json`
+- Write access to `.ai-maestro/team-registry.json`
 
 ## Procedure
 
@@ -60,7 +60,7 @@ done
 ### Step 3: Remove Agent from Team Registry
 
 ```bash
-jq 'del(.agents["'$AGENT_NAME'"])' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+jq 'del(.agents["'$AGENT_NAME'"])' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 ```
 
 ### Step 4: Verify No Issues Remain Assigned
@@ -95,7 +95,7 @@ for ISSUE in $AGENT_ISSUES; do
 done
 
 # Step 3: Remove from registry
-jq 'del(.agents["implementer-1"])' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+jq 'del(.agents["implementer-1"])' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 
 # Step 4: Verify
 gh issue list --label "assign:implementer-1"

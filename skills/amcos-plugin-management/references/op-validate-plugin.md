@@ -2,8 +2,8 @@
 operation: validate-plugin
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-plugin-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-plugin-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 

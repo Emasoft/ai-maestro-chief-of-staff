@@ -90,7 +90,7 @@ If the request age reaches 120 seconds or more:
 **Execute the timeout action:**
 
 1. Update the tracking file status to `timeout_proceed` or `timeout_abort`
-2. Write an audit log entry to `docs_dev/audit/ecos-approvals-[DATE].yaml` with: timestamp, operation, target, request_id, decision, decided_by: "timeout", escalation_count: 2
+2. Write an audit log entry to `docs_dev/audit/amcos-approvals-[DATE].yaml` with: timestamp, operation, target, request_id, decision, decided_by: "timeout", escalation_count: 2
 3. Use the `agent-messaging` skill to notify EAMA:
    - **Recipient**: `eama-assistant-manager`
    - **Subject**: `[TIMEOUT] Approval auto-[proceed/abort]: [REQUEST_ID]`

@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: replace-agent
-parent-skill: ecos-failure-recovery
+parent-skill: amcos-failure-recovery
 ---
 
 # Operation: Replace Agent
@@ -47,7 +47,7 @@ The new agent does not know:
 Therefore:
 - Orchestrator (EOA) must generate handoff documentation
 - EOA must reassign tasks in GitHub Project kanban
-- ECOS must send handoff docs to new agent
+- AMCOS must send handoff docs to new agent
 
 ## Steps
 
@@ -79,7 +79,7 @@ Therefore:
 
    ```json
    {
-     "from": "ecos-chief-of-staff",
+     "from": "amcos-chief-of-staff",
      "to": "eama-assistant-manager",
      "subject": "APPROVAL NEEDED: Replace agent [AGENT_NAME]",
      "priority": "urgent",
@@ -118,7 +118,7 @@ Therefore:
 
    ```json
    {
-     "from": "ecos-chief-of-staff",
+     "from": "amcos-chief-of-staff",
      "to": "eoa-orchestrator",
      "subject": "Agent replaced - handoff needed",
      "priority": "high",
@@ -143,7 +143,7 @@ Therefore:
 
    ```json
    {
-     "from": "ecos-chief-of-staff",
+     "from": "amcos-chief-of-staff",
      "to": "NEW_AGENT_NAME",
      "subject": "HANDOFF: Taking over from [OLD_AGENT]",
      "priority": "high",

@@ -6,10 +6,10 @@ Generates performance reports for agents by reading state files
 and aggregating metrics over a specified time period.
 
 Usage:
-    python3 ecos_performance_report.py --agent SESSION_NAME
-    python3 ecos_performance_report.py --agent SESSION_NAME --period 7
-    python3 ecos_performance_report.py --project PROJECT_ID
-    python3 ecos_performance_report.py --all --period 30
+    python3 amcos_performance_report.py --agent SESSION_NAME
+    python3 amcos_performance_report.py --agent SESSION_NAME --period 7
+    python3 amcos_performance_report.py --project PROJECT_ID
+    python3 amcos_performance_report.py --all --period 30
 
 Output:
     JSON with performance metrics including:
@@ -339,16 +339,16 @@ def main() -> int:
         epilog="""
 Examples:
     # Report for a specific agent (last 7 days)
-    python3 ecos_performance_report.py --agent my-session
+    python3 amcos_performance_report.py --agent my-session
 
     # Report for a specific project (last 30 days)
-    python3 ecos_performance_report.py --project my-project --period 30
+    python3 amcos_performance_report.py --project my-project --period 30
 
     # Report for all agents
-    python3 ecos_performance_report.py --all
+    python3 amcos_performance_report.py --all
 
     # Specify custom project directory
-    python3 ecos_performance_report.py --agent my-session --project-dir /path/to/project
+    python3 amcos_performance_report.py --agent my-session --project-dir /path/to/project
         """,
     )
 

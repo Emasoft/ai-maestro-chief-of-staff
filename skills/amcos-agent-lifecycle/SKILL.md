@@ -1,5 +1,5 @@
 ---
-name: ecos-agent-lifecycle
+name: amcos-agent-lifecycle
 description: Use when spawning, terminating, hibernating, or waking agents. Trigger with agent spawn, termination, or hibernation requests.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "Step 4"
 procedure: "proc-create-team"
 ---
 
-# Emasoft Chief of Staff - Agent Lifecycle Skill
+# AI Maestro Chief of Staff - Agent Lifecycle Skill
 
 ## Overview
 
@@ -26,11 +26,11 @@ Before using this skill, ensure:
 2. The `ai-maestro-agents-management` skill is available for agent lifecycle operations
 3. The `agent-messaging` skill is available for inter-agent communication
 4. tmux is installed for session management
-5. Team registry location is writable (`.emasoft/team-registry.json`)
+5. Team registry location is writable (`.ai-maestro/team-registry.json`)
 
 ## Pre-Deployment: Required OAuth Scopes
 
-**CRITICAL: Before deploying ANY agent that manages GitHub Projects (EOA, ECOS), the following OAuth scopes MUST be provisioned on the machine.**
+**CRITICAL: Before deploying ANY agent that manages GitHub Projects (EOA, AMCOS), the following OAuth scopes MUST be provisioned on the machine.**
 
 The default `gh auth login` does NOT include project scopes. Without them, any command touching GitHub Projects V2 will fail with: `error: your authentication token is missing required scopes [project read:project]`
 
@@ -39,9 +39,9 @@ The default `gh auth login` does NOT include project scopes. Without them, any c
 | Scope | Required By | Purpose |
 |-------|------------|---------|
 | `repo` | All agents | Repository access (issues, PRs, code) |
-| `project` | EOA, ECOS | Create and modify GitHub Projects V2 boards |
-| `read:project` | EOA, ECOS | Read GitHub Projects V2 data |
-| `read:org` | ECOS (if org) | Read organization data (org-level projects only) |
+| `project` | EOA, AMCOS | Create and modify GitHub Projects V2 boards |
+| `read:project` | EOA, AMCOS | Read GitHub Projects V2 data |
+| `read:org` | AMCOS (if org) | Read organization data (org-level projects only) |
 | `workflow` | EIA | Manage GitHub Actions workflows |
 
 ### How to Add Missing Scopes
@@ -93,12 +93,12 @@ Before performing any lifecycle operation, you MUST understand your boundaries:
 - **FULL_PROJECT_WORKFLOW.md** - Complete project workflow (see plugin docs/)
 
 **Key Constraints:**
-- You are PROJECT-INDEPENDENT (one ECOS for all projects)
+- You are PROJECT-INDEPENDENT (one AMCOS for all projects)
 - You CREATE agents and ASSIGN them to teams
 - You do NOT assign tasks (that's EOA's job)
 - You do NOT manage kanban (that's EOA's job)
 - You do NOT create projects (that's EAMA's job)
-- You NEVER spawn a copy of yourself (only EAMA creates ECOS)
+- You NEVER spawn a copy of yourself (only EAMA creates AMCOS)
 
 ## Agent vs Sub-Agent Terminology
 
@@ -223,7 +223,7 @@ Agent lifecycle management is the systematic control of agent states from creati
 - 3.6 Examples - Hibernation and wake scenarios
 - 3.7 Troubleshooting - Hibernation issues
 
-> **Note:** Sub-agent routing is defined in the ECOS main agent definition (ecos-chief-of-staff-main-agent.md).
+> **Note:** Sub-agent routing is defined in the AMCOS main agent definition (amcos-chief-of-staff-main-agent.md).
 
 ## The --agent Flag for Main Agent Injection
 
@@ -235,16 +235,16 @@ Use the `ai-maestro-agents-management` skill to create a new agent:
 - **Task**: task description for the agent
 - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir <path>`, and `--agent <agent-name>`
 
-**Session Naming (ECOS Responsibility):**
-- ECOS chooses unique session names for all agents it creates
+**Session Naming (AMCOS Responsibility):**
+- AMCOS chooses unique session names for all agents it creates
 - Session name = registry identity (how agents message each other)
 - Format: `<role-prefix>-<project>-<descriptive>` (e.g., `eoa-svgbbox-orchestrator`)
 - Must be unique across all running agents to avoid collisions
 
 **Plugin Setup (Before Spawning):**
 
-ECOS copies plugins from the **emasoft-plugins marketplace cache** to the agent's local folder:
-- **Source**: `$HOME/.claude/plugins/cache/emasoft-plugins/<plugin-name>/<latest-version>/`
+AMCOS copies plugins from the **ai-maestro-plugins marketplace cache** to the agent's local folder:
+- **Source**: `$HOME/.claude/plugins/cache/ai-maestro-plugins/<plugin-name>/<latest-version>/`
 - **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
 
 **Notes:**
@@ -258,19 +258,19 @@ ECOS copies plugins from the **emasoft-plugins marketplace cache** to the agent'
 
 | Role | Plugin | --agent Flag Value |
 |------|--------|-------------------|
-| Orchestrator | emasoft-orchestrator-agent | `eoa-orchestrator-main-agent` |
-| Architect | emasoft-architect-agent | `eaa-architect-main-agent` |
-| Integrator | emasoft-integrator-agent | `eia-integrator-main-agent` |
-| Programmer | emasoft-programmer-agent | `epa-programmer-main-agent` |
+| Orchestrator | ai-maestro-orchestrator-agent | `eoa-orchestrator-main-agent` |
+| Architect | ai-maestro-architect-agent | `eaa-architect-main-agent` |
+| Integrator | ai-maestro-integrator-agent | `eia-integrator-main-agent` |
+| Programmer | ai-maestro-programmer-agent | `epa-programmer-main-agent` |
 
 ## Team Registry
 
-All agents are registered in the project's team registry at `.emasoft/team-registry.json`. See:
+All agents are registered in the project's team registry at `.ai-maestro/team-registry.json`. See:
 - **TEAM_REGISTRY_SPECIFICATION.md** - Full specification (see plugin docs/)
 
 Use the team registry script:
 ```bash
-uv run python scripts/ecos_team_registry.py <command> [args]
+uv run python scripts/amcos_team_registry.py <command> [args]
 ```
 
 Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`

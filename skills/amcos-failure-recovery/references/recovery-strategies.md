@@ -45,7 +45,7 @@ Use this document when:
 
 ## 3.2 Overview of Recovery Strategies
 
-ECOS employs five recovery strategies in order of escalating intervention:
+AMCOS employs five recovery strategies in order of escalating intervention:
 
 | Strategy | Intervention Level | Time to Recovery | When to Use |
 |----------|-------------------|------------------|-------------|
@@ -128,7 +128,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: the unresponsive agent session name
 - **Subject**: `[SYSTEM] Graceful restart requested`
 - **Priority**: `urgent`
-- **Content**: type `system-command`, message: "ECOS has detected you are unresponsive. Please save your state and restart. If you receive this message, acknowledge and restart within 2 minutes." Include `command`: "graceful_restart", `timeout_seconds`: 120.
+- **Content**: type `system-command`, message: "AMCOS has detected you are unresponsive. Please save your state and restart. If you receive this message, acknowledge and restart within 2 minutes." Include `command`: "graceful_restart", `timeout_seconds`: 120.
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
@@ -269,7 +269,7 @@ Use this strategy when:
 
 ### 3.6.3 Requesting Resource Changes
 
-ECOS cannot directly modify system resources. Request changes via manager.
+AMCOS cannot directly modify system resources. Request changes via manager.
 
 Use the `agent-messaging` skill to send:
 - **Recipient**: `eama-assistant-manager` (or the manager session name)

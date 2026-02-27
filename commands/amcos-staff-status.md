@@ -1,5 +1,5 @@
 ---
-name: ecos-staff-status
+name: amcos-staff-status
 description: "View all remote agents with status, working directory, and tags using AI Maestro CLI"
 argument-hint: "[--status online|offline|hibernated|all] [--format table|json|names]"
 allowed-tools: ["Bash", "Task"]
@@ -41,21 +41,21 @@ This command lists all registered agents. The operation queries:
 
 ```bash
 # List all agents (default: excludes hibernated)
-/ecos-staff-status
+/amcos-staff-status
 
 # List only online agents
-/ecos-staff-status --status online
+/amcos-staff-status --status online
 
 # List all agents including hibernated
-/ecos-staff-status --status all
+/amcos-staff-status --status all
 
 # Get agent names only (for scripting)
-/ecos-staff-status -q
+/amcos-staff-status -q
 # or
-/ecos-staff-status --format names
+/amcos-staff-status --format names
 
 # JSON output for processing
-/ecos-staff-status --json
+/amcos-staff-status --json
 ```
 
 ## Output Format (Table)
@@ -112,10 +112,10 @@ For detailed information about a specific agent, use the `ai-maestro-agents-mana
 
 ## Related Commands
 
-- `/ecos-spawn-agent` - Create a new remote agent
-- `/ecos-terminate-agent` - Terminate a remote agent
-- `/ecos-hibernate-agent` - Put an agent to sleep
-- `/ecos-wake-agent` - Wake a hibernated agent
+- `/amcos-spawn-agent` - Create a new remote agent
+- `/amcos-terminate-agent` - Terminate a remote agent
+- `/amcos-hibernate-agent` - Put an agent to sleep
+- `/amcos-wake-agent` - Wake a hibernated agent
 
 ## CLI Reference
 

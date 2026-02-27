@@ -1,5 +1,5 @@
 ---
-name: ecos-validate-skills
+name: amcos-validate-skills
 description: "Validate skills for an agent's plugin using the CPV plugin validator"
 argument-hint: "<PLUGIN_DIR> [--verbose]"
 user-invocable: true
@@ -61,7 +61,7 @@ uv run --with pyyaml python scripts/validate_plugin.py . --verbose
 ### Validate a specific skill directory
 
 ```bash
-uv run --with pyyaml python scripts/validate_skill.py skills/ecos-onboarding
+uv run --with pyyaml python scripts/validate_skill.py skills/amcos-onboarding
 ```
 
 ## Validation Checks
@@ -94,12 +94,12 @@ The CPV validator performs these checks:
 
 ## Notes
 
-- This command uses the CPV (Claude Plugins Validation) plugin validator, which is the standard validator for all emasoft plugins
+- This command uses the CPV (Claude Plugins Validation) plugin validator, which is the standard validator for all AI Maestro plugins
 - The validator scripts are automatically synced from the CPV plugin into each plugin's `scripts/` directory by `push-plugins.sh`
 - Zero tolerance policy: CRITICAL and MAJOR issues must be fixed before pushing
 
 ## Related Commands
 
-- `/ecos-configure-plugins` - Configure plugins for an agent
-- `/ecos-reindex-skills` - Trigger PSS reindex after skill changes
-- `/ecos-orchestration-status` - Check agent orchestration status
+- `/amcos-configure-plugins` - Configure plugins for an agent
+- `/amcos-reindex-skills` - Trigger PSS reindex after skill changes
+- `/amcos-orchestration-status` - Check agent orchestration status

@@ -2,8 +2,8 @@
 operation: execute-onboarding-checklist
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-onboarding
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-onboarding
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -108,7 +108,7 @@ Use the `agent-messaging` skill to request final confirmation:
 Log the onboarding completion:
 
 ```bash
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "onboarding-complete" \
   --agent "<agent-session-name>" \
   --reason "Initial onboarding for [role] on [project]" \
@@ -167,7 +167,7 @@ For agent `dev-backend-alice` on project `backend-api` with role `developer`:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 5/6: Reporting`
    - **Priority**: `normal`
-   - **Content**: type `request`, message: "Report task progress to eoa-backend-orchestrator. Escalate blockers to ecos-chief-of-staff. Acknowledge."
+   - **Content**: type `request`, message: "Report task progress to eoa-backend-orchestrator. Escalate blockers to amcos-chief-of-staff. Acknowledge."
 8. **Initial assignment**: Use the `agent-messaging` skill:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 6/6: Initial Assignment`
@@ -180,7 +180,7 @@ For agent `dev-backend-alice` on project `backend-api` with role `developer`:
    - **Content**: type `request`, message: "Onboarding complete. Confirm understanding of all 6 items."
 10. **Log**: Record onboarding completion in team registry:
     ```bash
-    uv run python scripts/ecos_team_registry.py log \
+    uv run python scripts/amcos_team_registry.py log \
       --event "onboarding-complete" \
       --agent "dev-backend-alice" \
       --reason "Initial onboarding for developer on backend-api" \

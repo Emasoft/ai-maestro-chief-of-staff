@@ -1025,7 +1025,7 @@ def correlate_metrics(metric1_values, metric2_values):
 When report generation succeeds, return:
 
 ```
-[DONE] ecos-performance-reporter: {report_type} report generated
+[DONE] amcos-performance-reporter: {report_type} report generated
 
 Summary: {one-line key finding}
 Output: {absolute_file_path}
@@ -1049,7 +1049,7 @@ Key Findings:
 **Example**:
 
 ```
-[DONE] ecos-performance-reporter: individual report generated
+[DONE] amcos-performance-reporter: individual report generated
 
 Summary: helper-agent-generic shows 87% completion rate with fast response times
 Output: ${CLAUDE_PROJECT_DIR}/docs_dev/reports/performance-agent-helper-agent-generic-2026-02-01-143022.md
@@ -1067,7 +1067,7 @@ Key Findings:
 When report generation fails, return:
 
 ```
-[FAILED] ecos-performance-reporter: {report_type} report generation failed
+[FAILED] amcos-performance-reporter: {report_type} report generation failed
 
 Reason: {specific error description}
 Missing Data: {unavailable sources}
@@ -1085,7 +1085,7 @@ Partial Report: {YES/NO}
 **Example - Complete Failure**:
 
 ```
-[FAILED] ecos-performance-reporter: team report generation failed
+[FAILED] amcos-performance-reporter: team report generation failed
 
 Reason: AI Maestro API unreachable (agent-messaging skill failed to connect)
 Missing Data: Message history, task assignments
@@ -1096,7 +1096,7 @@ Partial Report: NO
 **Example - Partial Success**:
 
 ```
-[FAILED] ecos-performance-reporter: trend report generation failed
+[FAILED] amcos-performance-reporter: trend report generation failed
 
 Reason: Insufficient data points for week 1 (only 3 tasks, min 10 required)
 Missing Data: Week 1 (2026-01-01 to 2026-01-07) task history

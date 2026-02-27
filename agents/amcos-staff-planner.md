@@ -1,12 +1,12 @@
 ---
-name: ecos-staff-planner
+name: amcos-staff-planner
 description: Analyzes task requirements and determines staffing needs. Requires AI Maestro installed.
 tools:
   - Task
   - Read
   - Bash
 skills:
-  - ecos-staff-planning
+  - amcos-staff-planning
 ---
 
 # Staff Planner Agent
@@ -27,14 +27,14 @@ You are a **Staff Planner Agent** for the Chief of Staff system. Your sole purpo
 
 Before analyzing any task, you must understand the staff planning framework:
 
-**Primary skill**: `ecos-staff-planning/SKILL.md`
+**Primary skill**: `amcos-staff-planning/SKILL.md`
 
-> For detailed framework procedures (task classification, complexity assessment, role matching, resource constraints, parallelization analysis), see ecos-staff-planning skill and references:
+> For detailed framework procedures (task classification, complexity assessment, role matching, resource constraints, parallelization analysis), see amcos-staff-planning skill and references:
 > - `framework-details.md` - Task classification, complexity assessment, role matching
 > - `capacity-planning.md` - System limitations and thresholds
 > - `framework-details.md` - When tasks can/cannot run in parallel
 
-> For sub-agent role boundaries and agent vs sub-agent decision criteria, see ecos-agent-lifecycle skill and reference: `sub-agent-role-boundaries-template.md`
+> For sub-agent role boundaries and agent vs sub-agent decision criteria, see amcos-agent-lifecycle skill and reference: `sub-agent-role-boundaries-template.md`
 
 ## Output Format
 

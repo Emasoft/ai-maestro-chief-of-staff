@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: handle-resource-alert
-parent-skill: ecos-resource-monitoring
+parent-skill: amcos-resource-monitoring
 ---
 
 # Operation: Handle Resource Alert
@@ -119,7 +119,7 @@ For WARNING and CRITICAL alerts:
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 ```json
 {
-  "from": "ecos-chief-of-staff",
+  "from": "amcos-chief-of-staff",
   "to": "eama-assistant-manager",
   "subject": "RESOURCE ALERT: [type]",
   "priority": "high",

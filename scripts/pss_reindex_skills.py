@@ -8,7 +8,7 @@ index JSON file.
 
 This is a simplified LOCAL version. The full PSS reindex uses the
 /pss-reindex-skills slash command with AI analysis via parallel agents.
-The remote version is triggered by ecos_reindex_skills.py which delegates
+The remote version is triggered by amcos_reindex_skills.py which delegates
 to another agent session via AI Maestro.
 
 Dependencies: Python 3.8+ stdlib only

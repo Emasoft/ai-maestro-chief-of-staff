@@ -2,8 +2,8 @@
 operation: restart-agent-plugin
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-plugin-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-plugin-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -84,7 +84,7 @@ Then use the `agent-messaging` skill to send a confirmation request:
 Update the team registry log with the restart event:
 
 ```bash
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "restart" \
   --agent "<agent-session-name>" \
   --reason "Plugin changes applied" \

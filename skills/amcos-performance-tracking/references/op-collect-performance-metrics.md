@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: collect-performance-metrics
-parent-skill: ecos-performance-tracking
+parent-skill: amcos-performance-tracking
 ---
 
 # Operation: Collect Performance Metrics

@@ -1,5 +1,5 @@
 ---
-name: ecos-skill-management
+name: amcos-skill-management
 description: Use when validating skill directory structure, reindexing skills for Perfect Skill Suggester, or managing skill activation and discovery. Trigger with skill validation, indexing, or update requests.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "Step 4"
 procedure: "proc-create-team"
 ---
 
-# Emasoft Chief of Staff - Skill Management Skill
+# AI Maestro Chief of Staff - Skill Management Skill
 
 ## Overview
 
@@ -187,7 +187,7 @@ Runbook for triggering a skill reindex to update the Perfect Skill Suggester ind
 #### Generate Agent Prompt XML ([references/op-generate-agent-prompt-xml.md](references/op-generate-agent-prompt-xml.md))
 Runbook for generating available_skills XML blocks using skills-ref to-prompt for embedding into agent prompt definitions.
 - Steps - Identify skills to include, generate XML with skills-ref, save to file, integrate into agent prompt, verify integration
-- Examples - Generate XML for ECOS skills, save and use in agent definition, programmatic generation, dynamic skill list
+- Examples - Generate XML for AMCOS skills, save and use in agent definition, programmatic generation, dynamic skill list
 - Error Handling - What to do when generation fails
 
 #### Configure PSS Integration ([references/op-configure-pss-integration.md](references/op-configure-pss-integration.md))
@@ -234,7 +234,7 @@ skills-ref read-properties /path/to/my-skill
 
 ```yaml
 ---
-name: ecos-staff-planning
+name: amcos-staff-planning
 description: Use when analyzing staffing needs, assessing role requirements, planning agent capacity, or creating staffing templates for multi-agent orchestration
 license: Apache-2.0
 compatibility: Requires access to agent registry, project configuration files, and understanding of agent capabilities and workload patterns.

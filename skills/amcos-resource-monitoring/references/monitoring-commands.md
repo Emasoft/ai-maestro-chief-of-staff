@@ -268,13 +268,13 @@ Generate resource report using the command:
 
 ```bash
 # Standard human-readable report
-/ecos-resource-report
+/amcos-resource-report
 
 # JSON output for programmatic use
-/ecos-resource-report --json
+/amcos-resource-report --json
 
 # Verbose report with detailed process information
-/ecos-resource-report --verbose
+/amcos-resource-report --verbose
 ```
 
 **Use cases**:
@@ -503,7 +503,7 @@ Manual action required:
 
 ## Summary
 
-This document provides all commands, thresholds, and procedures for resource monitoring in the Emasoft Chief of Staff plugin. Use these procedures to:
+This document provides all commands, thresholds, and procedures for resource monitoring in the AI Maestro Chief of Staff plugin. Use these procedures to:
 
 - Check resources before spawning agents
 - Monitor system health continuously

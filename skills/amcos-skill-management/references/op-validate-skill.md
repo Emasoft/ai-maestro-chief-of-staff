@@ -2,8 +2,8 @@
 operation: validate-skill
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-skill-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-skill-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -166,17 +166,17 @@ Copy this checklist and track your progress:
 ### Example: Complete Skill Validation
 
 ```bash
-SKILL_PATH="/path/to/ecos-agent-lifecycle"
+SKILL_PATH="/path/to/amcos-agent-lifecycle"
 
 # Step 1: Run validator
 skills-ref validate $SKILL_PATH
-# Output: Skill: ecos-agent-lifecycle | Status: VALID
+# Output: Skill: amcos-agent-lifecycle | Status: VALID
 
 # Step 2: Check frontmatter
 head -15 $SKILL_PATH/SKILL.md
 # Should show:
 # ---
-# name: ecos-agent-lifecycle
+# name: amcos-agent-lifecycle
 # description: Use when spawning, terminating...
 # license: Apache-2.0
 # ...

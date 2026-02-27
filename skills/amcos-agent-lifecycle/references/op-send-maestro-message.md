@@ -2,8 +2,8 @@
 operation: send-maestro-message
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-agent-lifecycle
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-agent-lifecycle
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -141,7 +141,7 @@ To broadcast to all running agents:
 
 1. Get all running agent names from the team registry:
    ```bash
-   AGENTS=$(uv run python scripts/ecos_team_registry.py list --filter-status running --names-only)
+   AGENTS=$(uv run python scripts/amcos_team_registry.py list --filter-status running --names-only)
    ```
 2. For each agent, use the `agent-messaging` skill to send a team notification:
    - **Recipient**: the agent session name

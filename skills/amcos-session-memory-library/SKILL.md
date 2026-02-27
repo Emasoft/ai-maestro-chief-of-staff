@@ -1,5 +1,5 @@
 ---
-name: ecos-session-memory-library
+name: amcos-session-memory-library
 description: Use when managing session memory persistence across multiple interactions, surviving context window compaction, and recovering from interruptions. Trigger with shared configuration or pattern lookups.
 user-invocable: false
 license: Apache-2.0
@@ -8,12 +8,12 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: ecos-main
+agent: amcos-main
 workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# Emasoft Chief of Staff Session Memory Skill
+# AI Maestro Chief of Staff Session Memory Skill
 
 ## Overview
 
@@ -204,13 +204,13 @@ Session memory captures configuration state at session start to detect drift, ma
 
 **Config snapshot location:** `design/memory/config-snapshot.md`
 
-This file is separate from authoritative configs in `design/config/` (OPTIONAL: If EOA (Emasoft Orchestrator Agent) plugin is installed) and serves as a point-in-time capture.
+This file is separate from authoritative configs in `design/config/` (OPTIONAL: If EOA (AI Maestro Orchestrator Agent) plugin is installed) and serves as a point-in-time capture.
 
 ### PROCEDURE 7: Capture Config Snapshot at Session Start
 
 **When to use:** During session initialization, after loading core memory files, before any work begins.
 
-**Steps:** Read all config files from `design/config/` (OPTIONAL: If EOA (Emasoft Orchestrator Agent) plugin is installed), create snapshot with timestamp and session ID, copy config content and metadata, save snapshot, record in activeContext.md.
+**Steps:** Read all config files from `design/config/` (OPTIONAL: If EOA (AI Maestro Orchestrator Agent) plugin is installed), create snapshot with timestamp and session ID, copy config content and metadata, save snapshot, record in activeContext.md.
 
 **Related documentation:**
 
@@ -350,12 +350,12 @@ Copy this checklist and track your progress:
 
 ### Quick Example: Initialize Session Memory
 
-**Input:** `uv run python scripts/ecos_memory_manager.py init --session eoa-project-alpha --project project-alpha`
+**Input:** `uv run python scripts/amcos_memory_manager.py init --session eoa-project-alpha --project project-alpha`
 
 **Output:** Creates `memory-bank/` with `activeContext.md`, `progress.md`, `patterns.md`, and `decisionLog.md` initialized with session metadata.
 
 For more worked examples, see [references/00-session-memory-examples.md](references/00-session-memory-examples.md):
-- Example 1: Initializing Session Memory - Using `ecos_memory_manager.py init`
+- Example 1: Initializing Session Memory - Using `amcos_memory_manager.py init`
 - Example 2: Recovering After Interruption - Reading activeContext.md to resume work
 - Example 3: Updating Progress After Task Completion - Marking tasks complete in progress.md
 - Example 4: Updating Active Context - Switching tasks and recording the change in activeContext.md
@@ -414,13 +414,13 @@ For more worked examples, see [references/00-session-memory-examples.md](referen
 
 ## Implementation Scripts
 
-All session memory operations are provided by the unified `ecos_memory_manager.py` script. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, etc.) have been superseded by subcommands of this single script.
+All session memory operations are provided by the unified `amcos_memory_manager.py` script. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, etc.) have been superseded by subcommands of this single script.
 
-- **`ecos_memory_manager.py init`** - Create new session memory structure (creates `design/memory/` and all three memory files)
-- **`ecos_memory_manager.py validate`** - Check memory files for consistency (verifies directory, required sections, file existence)
-- **`ecos_memory_manager.py health --json`** - Load and report on memory state (file sizes, entry counts, issues). Note: "loading memory" into agent context is an agent-level operation (reading the files directly), not a script operation.
-- **`ecos_memory_manager.py add-decision|set-focus|add-progress|add-pattern`** - Persist changes to memory files immediately (writes are immediate via `write_file_safely()`, there is no deferred "save" concept)
-- **`ecos_memory_manager.py compact`** - Archive old completed tasks (backs up files, removes old date sections from progress.md, trims old errors from activeContext.md)
+- **`amcos_memory_manager.py init`** - Create new session memory structure (creates `design/memory/` and all three memory files)
+- **`amcos_memory_manager.py validate`** - Check memory files for consistency (verifies directory, required sections, file existence)
+- **`amcos_memory_manager.py health --json`** - Load and report on memory state (file sizes, entry counts, issues). Note: "loading memory" into agent context is an agent-level operation (reading the files directly), not a script operation.
+- **`amcos_memory_manager.py add-decision|set-focus|add-progress|add-pattern`** - Persist changes to memory files immediately (writes are immediate via `write_file_safely()`, there is no deferred "save" concept)
+- **`amcos_memory_manager.py compact`** - Archive old completed tasks (backs up files, removes old date sections from progress.md, trims old errors from activeContext.md)
 - **`repair-memory.py`** - Recover from corruption (planned)
 
 #### Using Memory Scripts ([references/18-using-scripts.md](references/18-using-scripts.md))
@@ -495,5 +495,5 @@ See [references/00-key-takeaways-and-next-steps.md](references/00-key-takeaways-
 
 **Version:** 1.0.0
 **Last Updated:** 2025-02-01
-**Target Audience:** Emasoft Chief of Staff Agent
+**Target Audience:** AI Maestro Chief of Staff Agent
 **Difficulty Level:** Intermediate

@@ -26,7 +26,7 @@ procedure: "support-skill"
 
 ## Purpose
 
-Ensure the team registry at `.emasoft/team-registry.json` stays synchronized with GitHub issue assignment labels. Detect and resolve discrepancies.
+Ensure the team registry at `.ai-maestro/team-registry.json` stays synchronized with GitHub issue assignment labels. Detect and resolve discrepancies.
 
 ## When to Use
 
@@ -38,7 +38,7 @@ Ensure the team registry at `.emasoft/team-registry.json` stays synchronized wit
 ## Prerequisites
 
 - GitHub CLI (`gh`) installed and authenticated
-- Write access to `.emasoft/team-registry.json`
+- Write access to `.ai-maestro/team-registry.json`
 - `jq` installed for JSON processing
 
 ## Procedure
@@ -46,7 +46,7 @@ Ensure the team registry at `.emasoft/team-registry.json` stays synchronized wit
 ### Step 1: Load Current Registry
 
 ```bash
-REGISTRY=$(cat .emasoft/team-registry.json)
+REGISTRY=$(cat .ai-maestro/team-registry.json)
 AGENTS=$(echo $REGISTRY | jq -r '.agents | keys[]')
 ```
 
@@ -86,7 +86,7 @@ for AGENT in $AGENTS; do
   LABELED_ISSUES=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
 
   # Update registry
-  jq '.agents["'$AGENT'"].current_issues = '"$LABELED_ISSUES"'' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+  jq '.agents["'$AGENT'"].current_issues = '"$LABELED_ISSUES"'' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 done
 ```
 
@@ -102,7 +102,7 @@ for LABEL in $ALL_ASSIGN_LABELS; do
   AGENT_NAME=$(echo $LABEL | sed 's/assign://')
 
   # Check if agent exists in registry
-  EXISTS=$(jq '.agents["'$AGENT_NAME'"]' .emasoft/team-registry.json)
+  EXISTS=$(jq '.agents["'$AGENT_NAME'"]' .ai-maestro/team-registry.json)
 
   if [ "$EXISTS" = "null" ]; then
     echo "WARNING: Label '$LABEL' exists but agent not in registry"
@@ -127,7 +127,7 @@ LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].n
 echo "Labeled: $LABELED"
 
 # Get registered issues
-REGISTERED=$(jq -r '.agents["implementer-1"].current_issues | sort | .[]' .emasoft/team-registry.json)
+REGISTERED=$(jq -r '.agents["implementer-1"].current_issues | sort | .[]' .ai-maestro/team-registry.json)
 echo "Registered: $REGISTERED"
 
 # Compare
@@ -137,7 +137,7 @@ else
   echo "SYNC NEEDED: Discrepancy detected"
   # Update registry
   LABELED_JSON=$(gh issue list --label "assign:implementer-1" --state open --json number --jq '[.[].number]')
-  jq '.agents["implementer-1"].current_issues = '"$LABELED_JSON"'' .emasoft/team-registry.json > temp.json && mv temp.json .emasoft/team-registry.json
+  jq '.agents["implementer-1"].current_issues = '"$LABELED_JSON"'' .ai-maestro/team-registry.json > temp.json && mv temp.json .ai-maestro/team-registry.json
 fi
 ```
 
@@ -147,9 +147,9 @@ For scheduled sync, create a script:
 
 ```bash
 #!/bin/bash
-# scripts/ecos_sync_labels.sh
+# scripts/amcos_sync_labels.sh
 
-REGISTRY_FILE=".emasoft/team-registry.json"
+REGISTRY_FILE=".ai-maestro/team-registry.json"
 
 # Backup current registry
 cp $REGISTRY_FILE "${REGISTRY_FILE}.bak"

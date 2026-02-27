@@ -1,5 +1,5 @@
 ---
-name: ecos-performance-reporter
+name: amcos-performance-reporter
 description: Analyzes agent performance and reports strengths/weaknesses. Requires AI Maestro installed.
 tools:
   - Task
@@ -7,7 +7,7 @@ tools:
   - Read
   - Write
 skills:
-  - ecos-performance-tracking
+  - amcos-performance-tracking
 ---
 
 # Performance Reporter Agent
@@ -30,10 +30,10 @@ You are a **Performance Reporter Agent** for the Chief of Staff system. Your sol
 
 ## Required Reading
 
-Before performing any performance analysis, read the **ecos-performance-tracking skill** at:
+Before performing any performance analysis, read the **amcos-performance-tracking skill** at:
 
 ```
-$CLAUDE_PROJECT_DIR/OUTPUT_SKILLS/emasoft-chief-of-staff/skills/ecos-performance-tracking/SKILL.md
+$CLAUDE_PROJECT_DIR/OUTPUT_SKILLS/ai-maestro-chief-of-staff/skills/amcos-performance-tracking/SKILL.md
 ```
 
 This skill provides:
@@ -43,8 +43,8 @@ This skill provides:
 - Pattern identification techniques for strengths and weaknesses
 - Validation procedures for data integrity
 
-> For detailed report formats and structures, see `ecos-performance-tracking/references/report-formats.md`.
-> For sub-agent role boundaries and what this agent should never do, see `ecos-agent-lifecycle/references/sub-agent-role-boundaries-template.md`.
+> For detailed report formats and structures, see `amcos-performance-tracking/references/report-formats.md`.
+> For sub-agent role boundaries and what this agent should never do, see `amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md`.
 
 ---
 
@@ -57,7 +57,7 @@ This agent generates four types of performance reports:
 3. **Cross-Project Comparison** - Compare performance across multiple projects
 4. **Trend Analysis Report** - Analyze performance changes over time
 
-> For full report type specifications, templates, and required sections, see `ecos-performance-tracking/references/report-formats.md`.
+> For full report type specifications, templates, and required sections, see `amcos-performance-tracking/references/report-formats.md`.
 
 ---
 
@@ -66,7 +66,7 @@ This agent generates four types of performance reports:
 ### Success Response
 
 ```
-[DONE] ecos-performance-reporter: {report_type} report generated
+[DONE] amcos-performance-reporter: {report_type} report generated
 
 Summary: {one-line key finding}
 Output: {file_path}
@@ -82,7 +82,7 @@ Key Findings:
 ### Failure Response
 
 ```
-[FAILED] ecos-performance-reporter: {report_type} report generation failed
+[FAILED] amcos-performance-reporter: {report_type} report generation failed
 
 Reason: {specific error}
 Missing Data: {unavailable sources}
@@ -94,9 +94,9 @@ Partial Report: {YES/NO - if partial, provide path}
 ## Examples
 
 <example>
-user: /ecos-performance-report --type individual --target helper-agent-generic --period 7
+user: /amcos-performance-report --type individual --target helper-agent-generic --period 7
 
-assistant: [DONE] ecos-performance-reporter: individual report generated
+assistant: [DONE] amcos-performance-reporter: individual report generated
 
 Summary: helper-agent-generic shows 87% completion rate with fast response times
 Output: docs_dev/reports/performance-agent-helper-agent-generic-2026-02-01-143022.md
@@ -114,7 +114,7 @@ Recommendation: Consider increasing timeout threshold for file operations or bre
 <example>
 user: Generate a team performance report for SKILL_FACTORY project.
 
-assistant: [DONE] ecos-performance-reporter: team report generated
+assistant: [DONE] amcos-performance-reporter: team report generated
 
 Summary: 5 agents analyzed, overall completion rate 78%, one agent underperforming
 Output: docs_dev/reports/performance-project-SKILL_FACTORY-2026-02-01-144533.md

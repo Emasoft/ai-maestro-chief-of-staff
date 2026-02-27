@@ -2,8 +2,8 @@
 operation: configure-pss-integration
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-skill-management
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-skill-management
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -125,8 +125,8 @@ Reference related skills in your SKILL.md:
 ## Related Skills
 
 If you also need to:
-- Manage plugins -> See ecos-plugin-management skill
-- Onboard agents -> See ecos-onboarding skill
+- Manage plugins -> See amcos-plugin-management skill
+- Onboard agents -> See amcos-onboarding skill
 ```
 
 This helps PSS build co-usage relationships.
@@ -175,7 +175,7 @@ Copy this checklist and track your progress:
 **Before (poor discovery):**
 ```yaml
 ---
-name: ecos-agent-lifecycle
+name: amcos-agent-lifecycle
 description: Manages agent states
 ---
 ```
@@ -183,7 +183,7 @@ description: Manages agent states
 **After (good discovery):**
 ```yaml
 ---
-name: ecos-agent-lifecycle
+name: amcos-agent-lifecycle
 description: Use when spawning, terminating, hibernating, or waking agents. Trigger with agent spawn, termination, hibernation, or wake requests. Covers agent creation via the ai-maestro-agents-management skill, team registry updates, and AI Maestro messaging for lifecycle events.
 license: Apache-2.0
 compatibility: Requires AI Maestro, ai-maestro-agents-management skill, tmux
@@ -199,13 +199,13 @@ metadata:
 ```bash
 # Test queries and expected skills
 echo "Query: spawn new agent"
-echo "Expected: ecos-agent-lifecycle"
+echo "Expected: amcos-agent-lifecycle"
 
 echo "Query: install plugin"
-echo "Expected: ecos-plugin-management"
+echo "Expected: amcos-plugin-management"
 
 echo "Query: validate skill structure"
-echo "Expected: ecos-skill-management"
+echo "Expected: amcos-skill-management"
 
 # In Claude Code, try each query and verify PSS suggests correct skill
 ```
@@ -213,7 +213,7 @@ echo "Expected: ecos-skill-management"
 ### Example: Debugging Poor Discovery
 
 ```bash
-SKILL_NAME="ecos-agent-lifecycle"
+SKILL_NAME="amcos-agent-lifecycle"
 
 # Step 1: Is it indexed?
 jq ".skills[] | select(.name == \"$SKILL_NAME\")" ~/.claude/skills-index.json

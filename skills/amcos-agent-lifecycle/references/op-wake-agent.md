@@ -2,8 +2,8 @@
 operation: wake-agent
 procedure: proc-create-team
 workflow-instruction: Step 4 - Team Creation
-parent-skill: ecos-agent-lifecycle
-parent-plugin: emasoft-chief-of-staff
+parent-skill: amcos-agent-lifecycle
+parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0
 ---
 
@@ -39,7 +39,7 @@ version: 1.0.0
 ## Prerequisites
 
 - Agent exists in team registry with status "hibernated"
-- Hibernation state file exists at `~/.emasoft/agent-states/<session-name>-hibernation.json`
+- Hibernation state file exists at `~/.ai-maestro/agent-states/<session-name>-hibernation.json`
 - AI Maestro is running locally
 - The `ai-maestro-agents-management` skill is available
 - The `agent-messaging` skill is available
@@ -52,19 +52,19 @@ version: 1.0.0
 Check the agent's status in the team registry:
 
 ```bash
-uv run python scripts/ecos_team_registry.py list \
+uv run python scripts/amcos_team_registry.py list \
   --filter-name "<agent-session-name>" \
   --show-status
 ```
 
 Expected: status = "hibernated"
 
-Verify the state file exists at `~/.emasoft/agent-states/<agent-session-name>-hibernation.json`.
+Verify the state file exists at `~/.ai-maestro/agent-states/<agent-session-name>-hibernation.json`.
 
 ### Step 2: Check Resource Availability
 
 ```bash
-RUNNING_COUNT=$(uv run python scripts/ecos_team_registry.py list --filter-status running --count)
+RUNNING_COUNT=$(uv run python scripts/amcos_team_registry.py list --filter-status running --count)
 MAX_AGENTS=5
 
 if [ "$RUNNING_COUNT" -ge "$MAX_AGENTS" ]; then
@@ -99,14 +99,14 @@ If the agent needs context restoration, use the `agent-messaging` skill to send 
 - **Recipient**: the target agent session name
 - **Subject**: `State Restoration`
 - **Priority**: `high`
-- **Content**: type `request`, asking the agent to restore its state from `~/.emasoft/agent-states/<session-name>-hibernation.json`
+- **Content**: type `request`, asking the agent to restore its state from `~/.ai-maestro/agent-states/<session-name>-hibernation.json`
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
 ### Step 6: Update Team Registry
 
 ```bash
-uv run python scripts/ecos_team_registry.py update-status \
+uv run python scripts/amcos_team_registry.py update-status \
   --name "<agent-session-name>" \
   --status "running" \
   --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -115,7 +115,7 @@ uv run python scripts/ecos_team_registry.py update-status \
 ### Step 7: Log Wake Event
 
 ```bash
-uv run python scripts/ecos_team_registry.py log \
+uv run python scripts/amcos_team_registry.py log \
   --event "wake" \
   --agent "<agent-session-name>" \
   --reason "<wake reason>" \
@@ -145,12 +145,12 @@ For agent `dev-frontend-bob`:
 
 1. Verify hibernated status:
    ```bash
-   uv run python scripts/ecos_team_registry.py list --filter-name "dev-frontend-bob" --show-status
+   uv run python scripts/amcos_team_registry.py list --filter-name "dev-frontend-bob" --show-status
    # Output: dev-frontend-bob | hibernated | frontend | webapp
    ```
 2. Check capacity:
    ```bash
-   RUNNING=$(uv run python scripts/ecos_team_registry.py list --filter-status running --count)
+   RUNNING=$(uv run python scripts/amcos_team_registry.py list --filter-status running --count)
    echo "Currently running: $RUNNING / 5"
    ```
 3. Use the `ai-maestro-agents-management` skill to wake agent `dev-frontend-bob`
@@ -162,14 +162,14 @@ For agent `dev-frontend-bob`:
    - **Content**: type `wake-notification`, message: "You have been woken for the morning work session. Please confirm operational and restore your previous context."
 6. Update registry:
    ```bash
-   uv run python scripts/ecos_team_registry.py update-status \
+   uv run python scripts/amcos_team_registry.py update-status \
      --name "dev-frontend-bob" \
      --status "running" \
      --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
    ```
 7. Log the event:
    ```bash
-   uv run python scripts/ecos_team_registry.py log \
+   uv run python scripts/amcos_team_registry.py log \
      --event "wake" \
      --agent "dev-frontend-bob" \
      --reason "Morning work session start" \

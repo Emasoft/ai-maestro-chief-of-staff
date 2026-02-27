@@ -1,5 +1,5 @@
 ---
-name: ecos-install-skill-notify
+name: amcos-install-skill-notify
 description: "Install skill with full notification protocol: notify, wait for ok, install, verify"
 argument-hint: "--agent <name> | --global --skill <name> | --marketplace <marketplace>/<skill> [--wait-for-ok]"
 allowed-tools: ["Bash", "Task"]
@@ -83,16 +83,16 @@ Phase 4: POST-INSTALLATION VERIFICATION
 
 ```bash
 # Install skill to specific agent with wait
-/ecos-install-skill-notify --agent helper-python --skill data-validation --wait-for-ok
+/amcos-install-skill-notify --agent helper-python --skill data-validation --wait-for-ok
 
 # Install marketplace skill without waiting
-/ecos-install-skill-notify --agent frontend-ui --marketplace emasoft-plugins/perfect-skill-suggester
+/amcos-install-skill-notify --agent frontend-ui --marketplace ai-maestro-plugins/perfect-skill-suggester
 
 # Global installation with wait
-/ecos-install-skill-notify --global --marketplace emasoft-plugins/code-quality --wait-for-ok
+/amcos-install-skill-notify --global --marketplace ai-maestro-plugins/code-quality --wait-for-ok
 
 # Quick install (no wait)
-/ecos-install-skill-notify --agent data-processor --skill formatting-tools
+/amcos-install-skill-notify --agent data-processor --skill formatting-tools
 ```
 
 ## Implementation
@@ -181,7 +181,7 @@ Agents should respond with:
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "Agent not found" | Invalid agent name | Check with `/ecos-staff-status` |
+| "Agent not found" | Invalid agent name | Check with `/amcos-staff-status` |
 | "Skill not found" | Invalid skill name | Verify skill exists |
 | "Marketplace not found" | Invalid marketplace | Check marketplace name |
 | "Installation failed" | CLI error | Check CLI output |
@@ -205,9 +205,9 @@ When using `--global`:
 
 ## Related Commands
 
-- `/ecos-notify-agents` - Send notifications without installation
-- `/ecos-wait-for-agent-ok` - Wait for single acknowledgment
-- `/ecos-broadcast-notification` - Broadcast messages
-- `/ecos-staff-status` - Check agent status
-- `/ecos-hibernate-agent` - Hibernate without install
-- `/ecos-wake-agent` - Wake without install
+- `/amcos-notify-agents` - Send notifications without installation
+- `/amcos-wait-for-agent-ok` - Wait for single acknowledgment
+- `/amcos-broadcast-notification` - Broadcast messages
+- `/amcos-staff-status` - Check agent status
+- `/amcos-hibernate-agent` - Hibernate without install
+- `/amcos-wake-agent` - Wake without install

@@ -7,10 +7,10 @@
    - Why Use Scripts?
 2. [Available Commands](#available-commands)
 3. [Basic Operations](#basic-operations)
-   - [Initialize Memory](#initialize-memory) - `ecos_memory_manager.py init`
-   - [Validate Memory](#validate-memory) - `ecos_memory_manager.py validate`
-   - [Check Memory Health](#check-memory-health) - `ecos_memory_manager.py health --json`
-   - [Update Memory](#update-memory) - `ecos_memory_manager.py` add-* subcommands
+   - [Initialize Memory](#initialize-memory) - `amcos_memory_manager.py init`
+   - [Validate Memory](#validate-memory) - `amcos_memory_manager.py validate`
+   - [Check Memory Health](#check-memory-health) - `amcos_memory_manager.py health --json`
+   - [Update Memory](#update-memory) - `amcos_memory_manager.py` add-* subcommands
 
 **See Also:** [Part 2: Advanced Scripts & Workflows](18-using-scripts-part2-advanced-workflows.md)
 
@@ -20,7 +20,7 @@
 
 ### What Are Memory Scripts?
 
-Memory operations are provided by the unified `ecos_memory_manager.py` script in the `scripts/` subdirectory. This script exposes subcommands for all common memory tasks and can be used manually or integrated into agent workflows. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, `load-memory.py`, `save-memory.py`) have been superseded by subcommands of `ecos_memory_manager.py`.
+Memory operations are provided by the unified `amcos_memory_manager.py` script in the `scripts/` subdirectory. This script exposes subcommands for all common memory tasks and can be used manually or integrated into agent workflows. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, `load-memory.py`, `save-memory.py`) have been superseded by subcommands of `amcos_memory_manager.py`.
 
 ### Why Use Scripts?
 
@@ -39,11 +39,11 @@ Memory operations are provided by the unified `ecos_memory_manager.py` script in
 
 | Command | Purpose | Input | Output |
 |---------|---------|-------|--------|
-| `ecos_memory_manager.py init` | Create new memory structure | None | Memory files created |
-| `ecos_memory_manager.py validate` | Check memory integrity | Memory files | Validation report |
-| `ecos_memory_manager.py health --json` | Report on memory state | Memory files | Health report (JSON) |
-| `ecos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes to memory | Update data | Updated memory files (immediate write) |
-| `ecos_memory_manager.py compact` | Archive old content | Memory files | Compacted files with backups |
+| `amcos_memory_manager.py init` | Create new memory structure | None | Memory files created |
+| `amcos_memory_manager.py validate` | Check memory integrity | Memory files | Validation report |
+| `amcos_memory_manager.py health --json` | Report on memory state | Memory files | Health report (JSON) |
+| `amcos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes to memory | Update data | Updated memory files (immediate write) |
+| `amcos_memory_manager.py compact` | Archive old content | Memory files | Compacted files with backups |
 | `repair-memory.py` | Fix corrupted memory (planned) | Corrupted files | Repaired files |
 
 ---
@@ -54,11 +54,11 @@ Memory operations are provided by the unified `ecos_memory_manager.py` script in
 
 **Purpose:** Create new session memory structure with template files.
 
-**Command:** `ecos_memory_manager.py init`
+**Command:** `amcos_memory_manager.py init`
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py init
+python scripts/amcos_memory_manager.py init
 ```
 
 The `init` subcommand calls `initialize_memory()` which creates the `design/memory/` directory and populates it with template files for `activeContext.md`, `progress.md`, and `patterns.md`.
@@ -67,7 +67,7 @@ The `init` subcommand calls `initialize_memory()` which creates the `design/memo
 
 **Example 1: Basic initialization**
 ```bash
-python scripts/ecos_memory_manager.py init
+python scripts/amcos_memory_manager.py init
 ```
 
 Output:
@@ -92,11 +92,11 @@ Memory structure initialized successfully.
 
 **Purpose:** Validate memory files for correctness and consistency.
 
-**Command:** `ecos_memory_manager.py validate`
+**Command:** `amcos_memory_manager.py validate`
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 ```
 
 The `validate` subcommand calls `validate_memory()` which checks that the memory directory exists, validates required sections in `activeContext.md` (such as `## Current Focus` and `## Active Decisions`), and checks that `progress.md` and `patterns.md` exist.
@@ -105,7 +105,7 @@ The `validate` subcommand calls `validate_memory()` which checks that the memory
 
 **Example 1: Basic validation**
 ```bash
-python scripts/ecos_memory_manager.py validate
+python scripts/amcos_memory_manager.py validate
 ```
 
 Output:
@@ -137,21 +137,21 @@ Validation passed.
 
 **Purpose:** Load and report on all memory files, showing file sizes, entry counts, and any issues.
 
-**Command:** `ecos_memory_manager.py health --json`
+**Command:** `amcos_memory_manager.py health --json`
 
 This replaces the concept of the old `load-memory.py` script. "Loading memory" into agent context is an agent-level operation (the agent reads the files directly into its context window). The `health` subcommand provides a structured report of the memory state for diagnostics.
 
 **Usage:**
 ```bash
-python scripts/ecos_memory_manager.py health
-python scripts/ecos_memory_manager.py health --json
+python scripts/amcos_memory_manager.py health
+python scripts/amcos_memory_manager.py health --json
 ```
 
 **Examples:**
 
 **Example 1: Health check (text output)**
 ```bash
-python scripts/ecos_memory_manager.py health
+python scripts/amcos_memory_manager.py health
 ```
 
 Output:
@@ -166,7 +166,7 @@ No issues found.
 
 **Example 2: Health check (JSON output)**
 ```bash
-python scripts/ecos_memory_manager.py health --json
+python scripts/amcos_memory_manager.py health --json
 ```
 
 Output:
@@ -190,35 +190,35 @@ Output:
 
 **Purpose:** Persist changes to memory files immediately.
 
-**Commands:** Various `ecos_memory_manager.py` subcommands for writing data.
+**Commands:** Various `amcos_memory_manager.py` subcommands for writing data.
 
-All write operations are handled by specific subcommands. Memory is persisted immediately on each operation via `write_file_safely()` in `ecos_memory_operations.py`. There is no deferred "save" concept -- every subcommand writes to disk immediately.
+All write operations are handled by specific subcommands. Memory is persisted immediately on each operation via `write_file_safely()` in `amcos_memory_operations.py`. There is no deferred "save" concept -- every subcommand writes to disk immediately.
 
 **Available write subcommands:**
 ```bash
 # Record a decision in activeContext.md
-python scripts/ecos_memory_manager.py add-decision "Use PostgreSQL for persistence"
+python scripts/amcos_memory_manager.py add-decision "Use PostgreSQL for persistence"
 
 # Set the current focus in activeContext.md
-python scripts/ecos_memory_manager.py set-focus "Implementing auth middleware"
+python scripts/amcos_memory_manager.py set-focus "Implementing auth middleware"
 
 # Log an error in activeContext.md
-python scripts/ecos_memory_manager.py log-error "Connection timeout to database"
+python scripts/amcos_memory_manager.py log-error "Connection timeout to database"
 
 # Clear all errors from activeContext.md
-python scripts/ecos_memory_manager.py clear-errors
+python scripts/amcos_memory_manager.py clear-errors
 
 # Get recent errors from activeContext.md
-python scripts/ecos_memory_manager.py get-errors
+python scripts/amcos_memory_manager.py get-errors
 
 # Add a progress entry to progress.md
-python scripts/ecos_memory_manager.py add-progress "Completed login endpoint implementation"
+python scripts/amcos_memory_manager.py add-progress "Completed login endpoint implementation"
 
 # Add a pattern to patterns.md
-python scripts/ecos_memory_manager.py add-pattern "Fail-Fast Error Propagation" "Let errors propagate, handle at boundary layers only"
+python scripts/amcos_memory_manager.py add-pattern "Fail-Fast Error Propagation" "Let errors propagate, handle at boundary layers only"
 
 # Search patterns in patterns.md
-python scripts/ecos_memory_manager.py search-patterns "error"
+python scripts/amcos_memory_manager.py search-patterns "error"
 ```
 
 **When to use:**
