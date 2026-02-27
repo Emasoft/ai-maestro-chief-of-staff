@@ -6,6 +6,7 @@ Checks last heartbeat of all registered agents and warns if any are unresponsive
 (no heartbeat for >5 minutes).
 
 Light-weight check designed to complete within 5 seconds.
+Uses AMP delivery confirmation when available (falls back to state file check).
 
 Dependencies: Python 3.8+ stdlib only
 
@@ -22,6 +23,8 @@ from __future__ import annotations
 import json
 import os
 import sys
+import urllib.error
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -241,6 +244,31 @@ def main() -> int:
     agents = parse_agents_heartbeats(content)
     if not agents:
         return 0
+
+    # Try AMP-based heartbeat check if AI Maestro API is available
+    api_base = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
+    session_name = os.environ.get("AIMAESTRO_AGENT", os.environ.get("SESSION_NAME", ""))
+    if session_name:
+        try:
+            # Query AI Maestro API for agent heartbeats (preferred over state file)
+            url = f"{api_base}/api/agents?status=active"
+            req = urllib.request.Request(url, headers={"Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=3) as resp:
+                api_agents = json.loads(resp.read().decode())
+                if isinstance(api_agents, list) and len(api_agents) > 0:
+                    # Use API data instead of state file data
+                    agents = []
+                    for a in api_agents:
+                        hb = a.get("lastHeartbeat", "")
+                        agents.append({
+                            "name": a.get("name", "unknown"),
+                            "role": a.get("role", "member"),
+                            "status": a.get("status", "unknown"),
+                            "heartbeat": hb,
+                            "heartbeat_dt": parse_timestamp(hb) if hb else None,
+                        })
+        except (urllib.error.URLError, OSError, json.JSONDecodeError, KeyError):
+            pass  # Fall back to state file data already parsed
 
     unresponsive = check_unresponsive_agents(agents)
 

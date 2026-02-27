@@ -177,7 +177,7 @@ Send a message to another agent using the `agent-messaging` skill:
 3. Verify agent health by sending a health check message using the `agent-messaging` skill (30s timeout)
 4. Use `amcos_team_registry.py add-agent` to add agent to team
 5. Notify EOA of new agent availability using the `agent-messaging` skill
-6. Log operation to `docs_dev/chief-of-staff/agent-lifecycle.log`
+6. Log operation to `docs_dev/amcos-team/agent-lifecycle.log`
 
 > For detailed checklist, see [amcos-agent-lifecycle/references/workflow-checklists.md](../skills/amcos-agent-lifecycle/references/workflow-checklists.md).
 

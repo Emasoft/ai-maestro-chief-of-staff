@@ -45,7 +45,7 @@ Verify ALL criteria met:
 3. Verify the agent responds within 30 seconds.
 4. Check the working directory exists: `ls -ld <working-directory>`
 5. Check team registry (if applicable): `jq '.teams[].members[] | select(.name == "<agent-name>")' .ai-maestro/team-registry.json`
-6. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
+6. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
 
@@ -71,7 +71,7 @@ Verify ALL criteria met:
 1. Use the `ai-maestro-agents-management` skill to list all agents and confirm the terminated agent does NOT appear.
 2. Verify no orphaned processes: `ps aux | grep <agent-name> | grep -v grep`
 3. Check team registries: `find . -name "team-registry.json" -exec jq -r '.teams[].members[] | select(.name == "<agent-name>")' {} \;`
-4. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
+4. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
 
@@ -98,7 +98,7 @@ Verify ALL criteria met:
 2. Verify context saved: `ls -l $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 3. Validate context JSON: `jq . $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 4. Use the `agent-messaging` skill to send a health check message. It should timeout after 30 seconds (agent is sleeping).
-5. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
+5. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
 
@@ -130,7 +130,7 @@ Verify ALL criteria met:
 2. Confirm the agent responds within 30 seconds.
 3. Use the `ai-maestro-agents-management` skill to get the agent's details and confirm status is `active`.
 4. Check team registry: `jq -r '.teams[].members[] | select(.name == "<agent-name>") | .status' .ai-maestro/team-registry.json`
-5. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
+5. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 6. Verify context file still exists: `ls -l $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 
 ---
@@ -160,7 +160,7 @@ Verify ALL criteria met:
 3. Verify team structure: `ls -ld .ai-maestro/teams/<team-name>/`
 4. Use the `agent-messaging` skill to check inbox for the agent and confirm a team assignment message was delivered:
    - Filter by subject containing "Team Assignment"
-5. Check lifecycle log: `tail -n 20 docs_dev/chief-of-staff/agent-lifecycle.log | grep "<agent-name>"`
+5. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
 
@@ -240,7 +240,7 @@ Verify ALL criteria met:
 2. Check disk space: `df -h $CLAUDE_PROJECT_DIR`
 3. Check file size: `ls -lh $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 4. Validate JSON structure: `jq . $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
-5. Check for write errors in logs: `grep "hibernation" docs_dev/chief-of-staff/agent-lifecycle.log | grep -i error`
+5. Check for write errors in logs: `grep "hibernation" docs_dev/amcos-team/agent-lifecycle.log | grep -i error`
 
 ---
 

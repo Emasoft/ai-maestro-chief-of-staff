@@ -48,7 +48,7 @@
 **Post-spawn tasks:**
 - [ ] Update team registry (if assigning to team)
 - [ ] Notify EOA of new agent availability (if project has EOA)
-- [ ] Log spawn in lifecycle log: `docs_dev/chief-of-staff/agent-lifecycle.log`
+- [ ] Log spawn in lifecycle log: `docs_dev/amcos-team/agent-lifecycle.log`
 - [ ] Update cross-project tracking (if applicable)
 - [ ] Notify requester of success
 

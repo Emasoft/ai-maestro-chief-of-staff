@@ -20,7 +20,7 @@ This command checks agent health. The operation queries:
 1. Agent registry for heartbeat timestamps
 2. tmux session status for online/offline/hibernated detection
 3. System metrics for resource usage (CPU, memory)
-4. Agent responsiveness via ping mechanism
+4. Agent responsiveness via AMP delivery confirmation
 
 ## Arguments
 
@@ -56,7 +56,7 @@ This command checks agent health. The operation queries:
 1. **Query Agent Registry**: Fetch agent metadata from AI Maestro API
 2. **Check tmux Session**: Verify session exists and is responsive
 3. **Check Heartbeat**: Compare last heartbeat timestamp against threshold
-4. **Measure Response Time**: Send ping message and measure response latency
+4. **Measure Response Time**: Send AMP health-ping message via `amp-send.sh` and verify delivery confirmation
 5. **Gather Resource Usage**: Query system metrics (if available)
 
 ## Output Format (Table)

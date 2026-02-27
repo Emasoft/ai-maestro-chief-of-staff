@@ -32,7 +32,7 @@
 
 ## Lifecycle Log
 
-**Location:** `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/agent-lifecycle.log`
+**Location:** `$CLAUDE_PROJECT_DIR/docs_dev/amcos-team/agent-lifecycle.log`
 
 **Purpose:** Complete audit trail of all agent lifecycle operations
 
@@ -65,7 +65,7 @@
 
 **Logging procedure:**
 ```bash
-log_file="$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/agent-lifecycle.log"
+log_file="$CLAUDE_PROJECT_DIR/docs_dev/amcos-team/agent-lifecycle.log"
 mkdir -p "$(dirname "$log_file")"
 echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [$operation] [$agent_name] $details" >> "$log_file"
 ```
@@ -441,17 +441,17 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 
 ### Get recent spawns
 ```bash
-grep "\[SPAWN\]" "$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/agent-lifecycle.log" | tail -10
+grep "\[SPAWN\]" "$CLAUDE_PROJECT_DIR/docs_dev/amcos-team/agent-lifecycle.log" | tail -10
 ```
 
 ### Find all operations for specific agent
 ```bash
-grep "\[worker-dev-001\]" "$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/agent-lifecycle.log"
+grep "\[worker-dev-001\]" "$CLAUDE_PROJECT_DIR/docs_dev/amcos-team/agent-lifecycle.log"
 ```
 
 ### Check hibernation/wake cycles
 ```bash
-grep -E "\[(HIBERNATE|WAKE)\]" "$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/agent-lifecycle.log"
+grep -E "\[(HIBERNATE|WAKE)\]" "$CLAUDE_PROJECT_DIR/docs_dev/amcos-team/agent-lifecycle.log"
 ```
 
 ### Get approval decisions from current month
