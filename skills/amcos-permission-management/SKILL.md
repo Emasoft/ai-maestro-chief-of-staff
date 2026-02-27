@@ -92,6 +92,11 @@ For **critical operations** (risk_level=critical), the manager provides a govern
 
 ### PROCEDURE 1: Submit GovernanceRequest
 
+> **API-First Model**: All GovernanceRequests are submitted to the AI Maestro REST API
+> (`POST /api/v1/governance/requests`) as the primary authority. Local YAML files at
+> `.claude/approvals/` serve as an audit trail and offline cache. When the API is
+> unreachable, the system operates in degraded YAML-only mode with warnings.
+
 1. Identify operation type and scope (local vs cross-team)
 2. Determine required approvers: `sourceManager` (always), `targetManager` (if cross-team)
 3. Compose GovernanceRequest payload
@@ -165,6 +170,27 @@ Successful GovernanceRequest approval returns:
 ```
 
 Failed or rejected requests return `status: "rejected"` with a `reason` field.
+
+### API Response (Primary)
+
+When the API is available, the authoritative response comes from the REST API:
+
+```json
+{
+  "request_id": "GR-20260227-abcd1234",
+  "status": "local-approved",
+  "decision": "approved",
+  "decided_by": "user",
+  "decided_at": "2026-02-27T10:30:00Z",
+  "api_synced": true,
+  "_source": "api"
+}
+```
+
+### Offline Degradation
+
+When the API is unreachable, responses include `"api_synced": false` and `"_source": "local-only"`.
+Run `amcos_approval_manager.py sync` to reconcile once the API is available.
 
 ## Examples
 

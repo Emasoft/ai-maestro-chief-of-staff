@@ -72,6 +72,24 @@ pending → local-approved  ──┐
 
 ---
 
+## API-First Authority Model
+
+The approval system uses a dual-authority model:
+
+| Authority | Source | Role |
+|-----------|--------|------|
+| **Primary** | AI Maestro REST API (`/api/v1/governance/requests`) | Source of truth for all approval decisions |
+| **Secondary** | Local YAML files (`.claude/approvals/`) | Audit trail, offline cache, communication log |
+
+**Rules:**
+- All GovernanceRequests are POSTed to the API first
+- Approval/rejection decisions are PATCHed to the API first
+- When both API and YAML exist, API state always wins
+- If API is unreachable, YAML operates in degraded mode (warnings emitted)
+- The `sync` command reconciles any local-only requests with the API
+
+---
+
 ## Workflow
 
 ### 1. Receive Operation Request
@@ -81,6 +99,7 @@ pending → local-approved  ──┐
 ### 2. Submit GovernanceRequest
 - `POST /api/v1/governance/requests` with payload
 - Handle `429` rate limiting (back off per `Retry-After`)
+   - Uses `amcos_approval_manager.py create` which POSTs to the REST API and mirrors to local YAML
 
 ### 3. Track State Transitions
 - Poll `GET /api/v1/governance/requests/{requestId}`
@@ -179,3 +198,12 @@ GovernanceRequest status: <pending|local-approved|remote-approved|dual-approved|
 **Next Action**
 What happens next or what is waiting for
 ```
+
+### Local YAML Audit Trail
+
+Local YAML files at `.claude/approvals/{pending,completed}/` serve as:
+- **Offline cache**: Operations continue when API is temporarily unreachable
+- **Audit log**: Immutable record of all requests and decisions
+- **Communication record**: Stores AMP notification metadata
+
+Local YAML is NOT authoritative. Run `amcos_approval_manager.py sync` to reconcile.
