@@ -1,0 +1,24 @@
+{
+  "name": "emasoft-chief-of-staff",
+  "version": "1.3.9",
+  "description": "Multi-project agent management - staff planning, lifecycle, approval workflows, failure recovery. Requires AI Maestro for inter-agent messaging.",
+  "author": {
+    "name": "Emasoft",
+    "email": "713559+Emasoft@users.noreply.github.com"
+  },
+  "repository": "https://github.com/Emasoft/emasoft-chief-of-staff",
+  "license": "MIT",
+  "agents": [
+    "./agents/ecos-chief-of-staff-main-agent.md",
+    "./agents/ecos-staff-planner.md",
+    "./agents/ecos-lifecycle-manager.md",
+    "./agents/ecos-project-coordinator.md",
+    "./agents/ecos-plugin-configurator.md",
+    "./agents/ecos-skill-validator.md",
+    "./agents/ecos-resource-monitor.md",
+    "./agents/ecos-performance-reporter.md",
+    "./agents/ecos-recovery-coordinator.md",
+    "./agents/ecos-approval-coordinator.md"
+  ],
+  "skills": "./skills/"
+}

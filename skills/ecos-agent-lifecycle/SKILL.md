@@ -1,0 +1,443 @@
+---
+name: ecos-agent-lifecycle
+description: Use when spawning, terminating, hibernating, or waking agents. Trigger with agent spawn, termination, or hibernation requests.
+user-invocable: false
+license: Apache-2.0
+compatibility: Requires access to agent registry, AI Maestro messaging system, and understanding of agent state management. Requires AI Maestro installed.
+metadata:
+  author: Emasoft
+  version: 1.0.0
+context: fork
+agent: ecos-main
+workflow-instruction: "Step 4"
+procedure: "proc-create-team"
+---
+
+# Emasoft Chief of Staff - Agent Lifecycle Skill
+
+## Overview
+
+Agent lifecycle management is a critical responsibility of the Chief of Staff. It encompasses all operations related to agent creation, state transitions, and termination. This skill teaches you how to properly spawn agents, manage their running state, hibernate idle agents to conserve resources, and terminate agents when their work is complete.
+
+## Prerequisites
+
+Before using this skill, ensure:
+1. AI Maestro is running locally
+2. The `ai-maestro-agents-management` skill is available for agent lifecycle operations
+3. The `agent-messaging` skill is available for inter-agent communication
+4. tmux is installed for session management
+5. Team registry location is writable (`.emasoft/team-registry.json`)
+
+## Pre-Deployment: Required OAuth Scopes
+
+**CRITICAL: Before deploying ANY agent that manages GitHub Projects (EOA, ECOS), the following OAuth scopes MUST be provisioned on the machine.**
+
+The default `gh auth login` does NOT include project scopes. Without them, any command touching GitHub Projects V2 will fail with: `error: your authentication token is missing required scopes [project read:project]`
+
+### Required Scopes
+
+| Scope | Required By | Purpose |
+|-------|------------|---------|
+| `repo` | All agents | Repository access (issues, PRs, code) |
+| `project` | EOA, ECOS | Create and modify GitHub Projects V2 boards |
+| `read:project` | EOA, ECOS | Read GitHub Projects V2 data |
+| `read:org` | ECOS (if org) | Read organization data (org-level projects only) |
+| `workflow` | EIA | Manage GitHub Actions workflows |
+
+### How to Add Missing Scopes
+
+This is an interactive, one-time step that requires a human with browser access:
+
+```bash
+# Run in a terminal with browser access (NOT in tmux or SSH without display)
+gh auth refresh -h github.com -s project,read:project
+
+# Verify scopes were added
+gh auth status
+# Should show 'project' and 'read:project' in Token scopes line
+```
+
+**This CANNOT be done by agents.** The `gh auth refresh` command requires browser-based OAuth approval. All required scopes must be provisioned by the human operator BEFORE deploying agents.
+
+### Pre-Flight Validation
+
+Before spawning agents that use kanban operations, verify scopes:
+
+```bash
+gh auth status 2>&1 | grep -q "project" || echo "ERROR: Missing project scope"
+```
+
+If scopes are missing, do NOT proceed with agent deployment. Request the human operator to add scopes first.
+
+## Instructions
+
+1. Identify the lifecycle operation needed (spawn, terminate, hibernate, wake)
+2. Check resource availability using the Resource Limits table
+3. Execute the appropriate PROCEDURE (1, 2, or 3)
+4. Update the team registry after each operation
+5. Report completion to EAMA
+
+## Output
+
+| Operation | Output |
+|-----------|--------|
+| Spawn | New agent registered, tmux session created, AI Maestro notification |
+| Terminate | Agent removed from registry, resources freed, confirmation logged |
+| Hibernate | State saved, session suspended, registry updated to hibernated |
+| Wake | State restored, session resumed, registry updated to running |
+
+## Role Boundaries (CRITICAL)
+
+Before performing any lifecycle operation, you MUST understand your boundaries:
+- **ROLE_BOUNDARIES.md** - Your strict role boundaries (see plugin docs/)
+- **FULL_PROJECT_WORKFLOW.md** - Complete project workflow (see plugin docs/)
+
+**Key Constraints:**
+- You are PROJECT-INDEPENDENT (one ECOS for all projects)
+- You CREATE agents and ASSIGN them to teams
+- You do NOT assign tasks (that's EOA's job)
+- You do NOT manage kanban (that's EOA's job)
+- You do NOT create projects (that's EAMA's job)
+- You NEVER spawn a copy of yourself (only EAMA creates ECOS)
+
+## Agent vs Sub-Agent Terminology
+
+**CRITICAL DISTINCTION - Memorize these definitions:**
+
+| Term | Definition |
+|------|------------|
+| **Agent** | A Claude Code instance running as a separate process (typically in its own tmux session). Has its own context, can be hibernated/terminated. Created via the `ai-maestro-agents-management` skill. |
+| **Sub-agent** | An agent spawned INSIDE the same Claude Code instance via the Task tool. Shares parent's context limits, terminates when parent terminates. |
+
+**Why this matters**: When you "spawn an agent" via Task tool, you are NOT creating a new Claude Code instance. You are creating a sub-agent within your current instance. To create actual remote agents, you must use the `ai-maestro-agents-management` skill.
+
+## What Is Agent Lifecycle Management?
+
+Agent lifecycle management is the systematic control of agent states from creation to termination. The lifecycle includes:
+
+- **Spawning**: Creating new agent instances with proper configuration
+- **Running**: Active agents executing their assigned tasks
+- **Hibernating**: Suspending idle agents while preserving their state
+- **Waking**: Resuming hibernated agents when work is available
+- **Terminating**: Cleanly shutting down agents when work is complete
+
+## Agent States
+
+```
+                    ┌──────────────┐
+                    │   SPAWNING   │
+                    └──────┬───────┘
+                           │
+                           ▼
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│  HIBERNATED  │◄──►│   RUNNING    │───►│  TERMINATED  │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
+
+**State Transitions:**
+- SPAWNING -> RUNNING: Agent initialization complete
+- RUNNING -> HIBERNATED: Agent idle, resources released
+- HIBERNATED -> RUNNING: Agent woken, state restored
+- RUNNING -> TERMINATED: Agent work complete, cleanup done
+
+## Core Procedures
+
+### PROCEDURE 1: Spawn New Agent
+
+**When to use:** When a new task requires an agent instance, when scaling up for parallel work, or when specialized capability is needed.
+
+**Steps:** Select agent type, prepare configuration, create instance, verify initialization, register in agent registry.
+
+**Related documentation:**
+
+#### Spawn Procedures ([references/spawn-procedures.md](references/spawn-procedures.md))
+- 1.1 What is agent spawning - Understanding agent creation
+- 1.2 When to spawn agents - Triggers for new agents
+  - 1.2.1 Task assignment triggers - New work arrives
+  - 1.2.2 Scaling triggers - Parallel execution needed
+  - 1.2.3 Specialization triggers - Specific capability required
+- 1.3 Spawn procedure - Step-by-step agent creation
+  - 1.3.1 Agent type selection - Choosing the right agent
+  - 1.3.2 Configuration preparation - Setting parameters
+  - 1.3.3 Instance creation - Executing spawn command
+  - 1.3.4 Initialization verification - Confirming agent ready
+  - 1.3.5 Registry registration - Recording agent existence
+- 1.4 Spawn configuration format - Standard configuration structure
+- 1.5 AI Maestro integration - Messaging new agents
+- 1.6 Examples - Spawn scenarios
+- 1.7 Troubleshooting - Spawn failures and recovery
+
+### PROCEDURE 2: Terminate Agent
+
+**When to use:** When agent task is complete, when agent is no longer needed, or during cleanup operations.
+
+**Steps:** Verify work complete, save final state, send termination signal, await confirmation, unregister from registry.
+
+**Related documentation:**
+
+#### Termination Procedures ([references/termination-procedures.md](references/termination-procedures.md))
+- 2.1 What is agent termination - Understanding clean shutdown
+- 2.2 When to terminate agents - Termination triggers
+  - 2.2.1 Task completion - Work finished
+  - 2.2.2 Error conditions - Unrecoverable failures
+  - 2.2.3 Resource reclamation - Freeing capacity
+  - 2.2.4 User request - Manual termination
+- 2.3 Termination procedure - Step-by-step shutdown
+  - 2.3.1 Work verification - Ensuring completion
+  - 2.3.2 State preservation - Saving final state
+  - 2.3.3 Termination signal - Sending shutdown command
+  - 2.3.4 Confirmation await - Waiting for acknowledgment
+  - 2.3.5 Registry cleanup - Removing agent record
+- 2.4 Graceful vs forced termination - Choosing termination type
+- 2.5 Post-termination validation - Verifying cleanup
+- 2.6 Examples - Termination scenarios
+- 2.7 Troubleshooting - Termination issues
+
+### PROCEDURE 3: Hibernate Agent
+
+**When to use:** When agent is idle but may be needed later, when conserving resources, or during low-activity periods.
+
+**Steps:** Confirm agent idle, capture agent state, persist state to storage, release resources, update registry status.
+
+**Related documentation:**
+
+#### Hibernation Procedures ([references/hibernation-procedures.md](references/hibernation-procedures.md))
+- 3.1 What is agent hibernation - Understanding state suspension
+- 3.2 When to hibernate agents - Hibernation triggers
+  - 3.2.1 Idle timeout - No activity for threshold period
+  - 3.2.2 Resource pressure - System capacity constrained
+  - 3.2.3 Scheduled pause - Planned inactivity window
+- 3.3 Hibernation procedure - Step-by-step suspension
+  - 3.3.1 Idle confirmation - Verifying no active work
+  - 3.3.2 State capture - Serializing agent state
+  - 3.3.3 State persistence - Writing to storage
+  - 3.3.4 Resource release - Freeing memory and connections
+  - 3.3.5 Registry update - Marking as hibernated
+- 3.4 State snapshot format - Hibernation state structure
+- 3.5 Wake procedure - Resuming hibernated agents
+  - 3.5.1 State retrieval - Loading from storage
+  - 3.5.2 State restoration - Deserializing agent state
+  - 3.5.3 Resource reacquisition - Reconnecting services
+  - 3.5.4 Registry update - Marking as running
+  - 3.5.5 Work resumption - Continuing interrupted tasks
+- 3.6 Examples - Hibernation and wake scenarios
+- 3.7 Troubleshooting - Hibernation issues
+
+> **Note:** Sub-agent routing is defined in the ECOS main agent definition (ecos-chief-of-staff-main-agent.md).
+
+## The --agent Flag for Main Agent Injection
+
+When spawning role agents, you MUST include the `--agent` flag in the program args to inject their main agent prompt.
+
+Use the `ai-maestro-agents-management` skill to create a new agent:
+- **Name**: `<role-prefix>-<project>-<descriptive>` (the session name, also the registry identity)
+- **Directory**: `~/agents/<session-name>/` (FLAT structure)
+- **Task**: task description for the agent
+- **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir <path>`, and `--agent <agent-name>`
+
+**Session Naming (ECOS Responsibility):**
+- ECOS chooses unique session names for all agents it creates
+- Session name = registry identity (how agents message each other)
+- Format: `<role-prefix>-<project>-<descriptive>` (e.g., `eoa-svgbbox-orchestrator`)
+- Must be unique across all running agents to avoid collisions
+
+**Plugin Setup (Before Spawning):**
+
+ECOS copies plugins from the **emasoft-plugins marketplace cache** to the agent's local folder:
+- **Source**: `$HOME/.claude/plugins/cache/emasoft-plugins/<plugin-name>/<latest-version>/`
+- **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
+
+**Notes:**
+- Use FLAT directory structure: `~/agents/<session-name>/`
+- `--plugin-dir` points to the COPIED plugin in the agent's local folder
+- No `--continue` for NEW spawn (only for waking hibernated agents)
+
+**Verify**: the new agent appears in the agent list with "online" status.
+
+**Agent name to --agent flag mapping:**
+
+| Role | Plugin | --agent Flag Value |
+|------|--------|-------------------|
+| Orchestrator | emasoft-orchestrator-agent | `eoa-orchestrator-main-agent` |
+| Architect | emasoft-architect-agent | `eaa-architect-main-agent` |
+| Integrator | emasoft-integrator-agent | `eia-integrator-main-agent` |
+| Programmer | emasoft-programmer-agent | `epa-programmer-main-agent` |
+
+## Team Registry
+
+All agents are registered in the project's team registry at `.emasoft/team-registry.json`. See:
+- **TEAM_REGISTRY_SPECIFICATION.md** - Full specification (see plugin docs/)
+
+Use the team registry script:
+```bash
+uv run python scripts/ecos_team_registry.py <command> [args]
+```
+
+Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
+
+## Resource Limits
+
+Default resource limits (configurable):
+
+| Resource | Limit | Action When Exceeded |
+|----------|-------|---------------------|
+| Max concurrent agents | 5 | Queue new requests, hibernate oldest idle |
+| Max memory per agent | 2GB | Terminate or hibernate agent |
+| API rate limit | 100 req/min | Throttle agent activity |
+| Idle timeout | 30 min | Hibernate agent |
+
+## Inter-Agent Messaging
+
+Communicate with remote agents using the `agent-messaging` skill.
+
+### Send Message
+
+Use the `agent-messaging` skill to send a message:
+- **Recipient**: the target agent session name
+- **Subject**: descriptive subject line
+- **Content**: structured message with type and body
+- **Priority**: `normal`, `high`, or `urgent`
+
+**Verify**: confirm message delivery.
+
+**Message Types:**
+- `role-assignment` - Assign role to agent
+- `project-assignment` - Assign project to agent
+- `task-delegation` - Delegate specific task
+- `status-request` - Request status update
+- `status-report` - Report status back
+- `team-notification` - Notify about teammates
+- `hibernation-warning` - Warn agent of pending hibernation
+- `wake-notification` - Notify agent it has been woken
+- `registry-update` - Team registry has changed
+
+### Check Messages
+
+Use the `agent-messaging` skill to check for unread messages and unread count.
+
+## Quality Standards
+
+### Agent Management Standards
+- All agents MUST be registered before activation
+- Agent session names MUST follow naming convention
+- Terminated agents MUST be cleaned from registry
+- Hibernated agents MUST be marked with timestamp
+
+### Communication Standards
+- All AI Maestro messages MUST include `from` field
+- All role assignments MUST be acknowledged by target agent
+- Failed message delivery MUST be retried 3 times before escalating
+- All broadcasts MUST log recipient list
+
+### Resource Standards
+- NEVER exceed max_concurrent_agents limit
+- ALWAYS check resource availability before spawning
+- ALWAYS hibernate before terminating (graceful shutdown)
+- ALWAYS save agent state before hibernation
+
+## Operational Procedures
+
+Step-by-step runbooks for executing individual lifecycle operations. Use these when performing a specific operation.
+
+- [op-spawn-agent.md](references/op-spawn-agent.md) - **Spawn New Agent**: Determine agent type, setup plugin, create instance, verify initialization, register in team registry, and send welcome message
+- [op-terminate-agent.md](references/op-terminate-agent.md) - **Terminate Agent**: Verify work is complete, save final state, send termination warning, execute termination, update registry, and cleanup resources
+- [op-hibernate-agent.md](references/op-hibernate-agent.md) - **Hibernate Agent**: Confirm agent is idle, send hibernation warning, request state capture, execute hibernation, update registry, and log event
+- [op-wake-agent.md](references/op-wake-agent.md) - **Wake Hibernated Agent**: Verify agent is hibernated, check resource availability, execute wake command, verify responsiveness, restore state, and update registry
+- [op-update-team-registry.md](references/op-update-team-registry.md) - **Update Team Registry**: Identify update type, execute registry update, verify update, optionally publish to team, and backup registry
+- [op-send-maestro-message.md](references/op-send-maestro-message.md) - **Send AI Maestro Message**: Determine message type and priority, compose content, send message, verify delivery, and optionally wait for response
+
+## Error Handling
+
+| Error | Action |
+|-------|--------|
+| Agent spawn failed | Retry once, then report to EAMA. See [spawn-procedures.md](references/spawn-procedures.md) 1.7 |
+| AI Maestro unavailable | Use fallback file-based communication |
+| Agent unresponsive (5 min) | Send wake/ping, then force terminate |
+| Resource limit exceeded | Queue request, hibernate oldest idle |
+| Plugin validation failed | Block agent spawn, report to EAMA |
+| Agent does not terminate | See [termination-procedures.md](references/termination-procedures.md) 2.7 |
+| Hibernated agent fails to wake | See [hibernation-procedures.md](references/hibernation-procedures.md) 3.7 |
+
+## Task Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Understand agent lifecycle states and transitions
+- [ ] Understand Agent vs Sub-agent distinction
+- [ ] Learn PROCEDURE 1: Spawn new agent (with --agent flag)
+- [ ] Learn PROCEDURE 2: Terminate agent
+- [ ] Learn PROCEDURE 3: Hibernate and wake agent
+- [ ] Practice spawning an agent with configuration
+- [ ] Practice graceful agent termination
+- [ ] Practice hibernating an idle agent
+- [ ] Practice waking a hibernated agent
+- [ ] Verify registry updates after each operation
+- [ ] Verify team-registry.json is updated
+
+## Examples
+
+### Workflow Examples
+
+Detailed workflow walkthroughs showing complete lifecycle management scenarios.
+
+See [references/workflow-examples.md](references/workflow-examples.md):
+- When setting up a new team for multi-service work -> Workflow 1
+- When conserving resources by hibernating idle agents -> Workflow 2
+- When plugins or skills have been updated -> Workflow 3
+
+### CLI Examples
+
+Complete CLI command examples with expected output for all lifecycle operations.
+
+See [references/cli-examples.md](references/cli-examples.md):
+- When creating a new programmer agent -> 1.1 Spawning
+- When an agent's work is complete -> 1.2 Terminating
+- When conserving resources for a single agent -> 1.3 Hibernating
+- When ending work session -> 1.4 End of Day
+- When starting a new work session -> 1.5 Resume Work
+
+## Key Takeaways
+
+1. **Use the `ai-maestro-agents-management` skill** - For all agent lifecycle operations
+2. **Always specify working directory** - Required when spawning agents
+3. **Always confirm deletions** - Safety confirmation required for termination
+4. **Hibernate instead of terminate** - When agent may be needed again
+5. **Use tags for organization** - Role, project, and capability tags help management
+6. **Restart after plugin install** - Restart the agent to apply plugin changes
+
+## CLI Quick Reference
+
+See [references/cli-examples.md](references/cli-examples.md) for the full CLI quick reference table and detailed examples.
+
+## Next Steps
+
+### 1. Read Spawn Procedures
+See [references/spawn-procedures.md](references/spawn-procedures.md) for complete spawn documentation.
+
+### 2. Read Termination Procedures
+See [references/termination-procedures.md](references/termination-procedures.md) for clean shutdown procedures.
+
+### 3. Read Hibernation Procedures
+See [references/hibernation-procedures.md](references/hibernation-procedures.md) for state suspension and wake procedures.
+
+---
+
+## Resources
+
+- [Spawn Procedures](references/spawn-procedures.md)
+- [Termination Procedures](references/termination-procedures.md)
+- [Hibernation Procedures](references/hibernation-procedures.md)
+- [Workflow Examples](references/workflow-examples.md)
+- [CLI Examples](references/cli-examples.md)
+- [Sub-Agent Role Boundaries Template](references/sub-agent-role-boundaries-template.md) - Template for defining sub-agent responsibilities
+- [Workflow Checklists](references/workflow-checklists.md) - Complete checklists for agent lifecycle workflows
+- [Success Criteria](references/success-criteria.md) - Success/completion criteria for lifecycle operations
+- [Record-Keeping](references/record-keeping.md) - Formats for logging lifecycle operations
+- [CLI Reference](references/cli-reference.md) - Complete CLI command reference for lifecycle management
+
+---
+
+**Version:** 1.0.0
+**Last Updated:** 2025-02-03
+**Target Audience:** Chief of Staff Agents
+**Difficulty Level:** Intermediate
