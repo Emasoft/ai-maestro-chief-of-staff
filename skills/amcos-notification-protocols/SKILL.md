@@ -43,13 +43,33 @@ All notifications MUST use the AMP (Agent Messaging Protocol) transport:
 - **Templates**: All message templates in `references/ai-maestro-message-templates.md` are AMP-formatted and use `amp-send.sh`.
 - **Setup**: Run `amp-init.sh --auto` once per agent to initialize AMP (agent registration + Ed25519 key generation).
 
+## Closed Team Messaging Enforcement (M6)
+
+The COS acts as a message relay for closed team communications:
+
+| Direction | Rule |
+|-----------|------|
+| **Team member → MANAGER** | COS intercepts, reviews, then forwards via AMP |
+| **Team member → other team member** | Direct (same team, no relay needed) |
+| **Team member → external agent** | COS intercepts, checks reachability rules (R6.1-R6.7), forwards if allowed |
+| **External → team member** | Must go through COS or MANAGER |
+
+**Reachability Rules** (enforced before every `amp-send.sh` call):
+
+| Sender | Can Reach | Cannot Reach |
+|--------|-----------|--------------|
+| COS | MANAGER, other COS agents, own team, unassigned agents | Members of OTHER closed teams |
+| Team member | Own team, COS, MANAGER | Members of OTHER closed teams |
+
+**Enforcement**: Before sending any message, validate recipient against `GET /api/teams` to verify team membership. Block messages that violate reachability rules and log the violation.
+
 ## Output
 
 | Notification Type | Output |
 |-------------------|--------|
 | Status update | Notification sent, delivery confirmed |
 | Alert | Alert sent, escalation tracked |
-| Broadcast | Message sent to all agents, receipt logged |
+| Broadcast | Message sent to own-team agents only, receipt logged |
 
 ## What Are Notification Protocols?
 

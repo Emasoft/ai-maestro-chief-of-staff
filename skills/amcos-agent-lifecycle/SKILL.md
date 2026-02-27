@@ -26,7 +26,20 @@ Before using this skill, ensure:
 2. The `ai-maestro-agents-management` skill is available for agent lifecycle operations
 3. The `agent-messaging` skill is available for inter-agent communication
 4. tmux is installed for session management
-5. Team registry location is writable (`.ai-maestro/team-registry.json`)
+5. Team registry accessible via AI Maestro REST API (`/api/teams`)
+
+## Cross-Host Awareness (M5)
+
+Operations targeting agents on remote hosts require GovernanceRequests:
+
+| Operation | Same Host | Remote Host |
+|-----------|-----------|-------------|
+| Spawn agent | Direct | GovernanceRequest required |
+| Hibernate/Wake | Direct | GovernanceRequest required |
+| Terminate | Direct | GovernanceRequest required |
+| Configure | Direct | GovernanceRequest + ConfigOperationType |
+
+**GovernanceSyncMessage**: When agents span multiple hosts, state changes are replicated via `GovernanceSyncMessage` to keep all hosts consistent.
 
 ## Pre-Deployment: Required OAuth Scopes
 

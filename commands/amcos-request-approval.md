@@ -1,172 +1,184 @@
 ---
 name: amcos-request-approval
-description: "Request approval from manager (EAMA) for agent operations via AI Maestro"
-argument-hint: "--type <TYPE> --agent <NAME> --reason <TEXT> [--urgent] [--timeout <SECONDS>]"
+description: "Submit a GovernanceRequest for agent operations via AI Maestro API"
+argument-hint: "--type <TYPE> --agent <NAME> --reason <TEXT> [--scope local|cross-team] [--urgent] [--governance-password <PWD>] [--timeout <SECONDS>]"
 allowed-tools: ["Bash", "Task", "Read"]
 user-invocable: true
 ---
 
-# Request Approval Command
+# AMCOS Request Approval Command
 
-Request approval from the Assistant Manager (EAMA) for sensitive agent operations. Sends an approval request via AI Maestro messaging and optionally waits for response.
+Submit a **GovernanceRequest** to `POST /api/v1/governance/requests` for sensitive agent operations. The request follows the GovernanceRequest state machine until approval or rejection.
+
+## GovernanceRequest States
+
+```
+pending → local-approved / remote-approved → dual-approved → executed
+        → rejected
+```
 
 ## Usage
 
-Send an approval request to EAMA using the `agent-messaging` skill:
-- **Recipient**: `ai-maestro-assistant-manager-agent` (EAMA)
-- **Subject**: `[APPROVAL REQUEST] <type>: <agent-name>`
-- **Content**: structured approval request with request ID, operation type, agent name, reason, and timestamp
-- **Priority**: `high` (or `urgent` if `--urgent` flag is set)
+1. Compose GovernanceRequest payload with operation details
+2. `POST /api/v1/governance/requests`
+3. Track state via `GET /api/v1/governance/requests/{requestId}`
+4. Execute only after `local-approved` (local) or `dual-approved` (cross-team)
 
-**Verify**: confirm the approval request message was delivered to EAMA.
+## Operations Requiring GovernanceRequest
 
-## Operations Requiring Approval
-
-| Operation Type | Description | Risk Level |
-|----------------|-------------|------------|
-| `spawn` | Create a new remote agent | Medium |
-| `terminate` | Permanently delete an agent | High |
-| `hibernate` | Put agent into hibernation | Low |
-| `wake` | Wake a hibernated agent | Low |
-| `install` | Install plugin on agent | Medium |
-| `replace` | Replace agent with new instance | High |
-| `modify-config` | Change agent configuration | Medium |
+| Operation | Scope | Approvers | Password |
+|-----------|-------|-----------|----------|
+| `spawn` | local | sourceManager | No |
+| `spawn` | cross-team | sourceManager + targetManager | No |
+| `terminate` | local | sourceManager | No |
+| `terminate` | cross-team | sourceManager + targetManager | No |
+| `hibernate` | local | sourceManager | No |
+| `wake` | local | sourceManager | No |
+| `install` | local | sourceManager | No |
+| `install` | cross-team | sourceManager + targetManager | No |
+| `replace` | any | sourceManager (+ targetManager) | No |
+| `critical` | any | dual-manager | **Yes** |
 
 ## Arguments
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `--type <TYPE>` | **Yes** | Operation type (spawn, terminate, hibernate, wake, install, replace) |
+| `--type <TYPE>` | **Yes** | Operation type |
 | `--agent <NAME>` | **Yes** | Target agent name |
-| `--reason <TEXT>` | **Yes** | Justification for the operation |
-| `--urgent` | No | Mark as urgent priority (default: high) |
-| `--timeout <SECONDS>` | No | Wait for response (default: 0, no wait) |
-| `--metadata <JSON>` | No | Additional context as JSON string |
+| `--reason <TEXT>` | **Yes** | Justification |
+| `--scope <SCOPE>` | No | `local` (default) or `cross-team` |
+| `--target-cos <NAME>` | If cross-team | Target COS session |
+| `--target-manager <NAME>` | If cross-team | Target manager session |
+| `--governance-password <PWD>` | If critical | Manager-provided governance password |
+| `--urgent` | No | Set priority to urgent |
+| `--timeout <SECONDS>` | No | Wait for response (default: 0) |
+| `--metadata <JSON>` | No | Additional context |
 
 ## Request ID Generation
 
-Each request gets a unique ID for tracking:
-
 ```bash
-REQUEST_ID="AMCOS-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
+REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
 ```
-
-Example: `AMCOS-20250202150000-a1b2c3d4`
 
 ## Examples
 
 ```bash
-# Request approval to spawn a new agent
+# Local spawn (single-manager approval)
 /amcos-request-approval --type spawn --agent helper-tester \
-  --reason "Need additional agent for parallel test execution"
+  --reason "Need agent for parallel test execution"
 
-# Request approval to terminate an agent (high risk)
-/amcos-request-approval --type terminate --agent old-worker --urgent \
-  --reason "Agent has critical bug and cannot recover"
+# Cross-team spawn (dual-manager approval)
+/amcos-request-approval --type spawn --agent backend-worker \
+  --scope cross-team --target-cos amcos-backend --target-manager eama-backend \
+  --reason "Need worker on backend team for data migration"
 
-# Request approval to install a plugin
-/amcos-request-approval --type install --agent helper-python \
-  --reason "Agent needs ai-maestro-integrator plugin for CI/CD tasks" \
-  --metadata '{"plugin": "ai-maestro-integrator-agent"}'
+# Critical operation (governance password required)
+/amcos-request-approval --type critical --agent prod-deployer \
+  --governance-password "$GOV_PWD" --urgent \
+  --reason "Emergency production deployment"
 
-# Request with wait for response
-/amcos-request-approval --type hibernate --agent helper-docs \
-  --reason "Pausing documentation work until API is finalized" \
-  --timeout 60
+# Local terminate with wait
+/amcos-request-approval --type terminate --agent old-worker \
+  --reason "Agent has critical unrecoverable bug" --timeout 60
 ```
 
-## Request Message Format
-
-The approval request is sent as a structured AI Maestro message:
-
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+## GovernanceRequest Payload
 
 ```json
 {
-  "from": "ai-maestro-chief-of-staff",
-  "to": "ai-maestro-assistant-manager-agent",
-  "subject": "[APPROVAL REQUEST] terminate: helper-python",
+  "requestId": "GR-20260227150000-a1b2c3d4",
+  "type": "terminate",
+  "sourceCOS": "amcos-main",
+  "sourceManager": "eama-main",
+  "targetCOS": null,
+  "targetManager": null,
+  "operation": {
+    "action": "terminate",
+    "target": "old-worker",
+    "parameters": {}
+  },
+  "justification": "Agent has critical unrecoverable bug",
+  "impact": {"scope": "local", "risk_level": "high"},
+  "governancePassword": null,
   "priority": "high",
-  "content": {
-    "type": "approval_request",
-    "request_id": "AMCOS-20250202150000-a1b2c3d4",
-    "operation_type": "terminate",
-    "agent_name": "helper-python",
-    "reason": "Agent has critical bug and cannot recover",
-    "timestamp": "2025-02-02T15:00:00Z",
-    "metadata": {}
-  }
+  "status": "pending"
 }
 ```
 
-## Response Format
-
-EAMA responds with an approval decision:
+## Cross-Team Payload (Dual-Manager)
 
 ```json
 {
-  "type": "approval_response",
-  "request_id": "AMCOS-20250202150000-a1b2c3d4",
-  "decision": "approved",
-  "conditions": [],
-  "notes": "Proceed with termination. Ensure work is backed up first.",
-  "timestamp": "2025-02-02T15:02:30Z"
+  "requestId": "GR-20260227150100-b2c3d4e5",
+  "type": "spawn",
+  "sourceCOS": "amcos-frontend",
+  "sourceManager": "eama-frontend",
+  "targetCOS": "amcos-backend",
+  "targetManager": "eama-backend",
+  "operation": {
+    "action": "spawn",
+    "target": "backend-worker",
+    "parameters": {}
+  },
+  "justification": "Need worker on backend team for data migration",
+  "impact": {"scope": "cross-team", "risk_level": "medium"},
+  "governancePassword": null,
+  "priority": "high",
+  "status": "pending"
 }
 ```
 
-Decision values: `approved`, `rejected`, `deferred`, `needs_more_info`
-
-## Output Format
+## Response Tracking
 
 ```
 =======================================================================
-  APPROVAL REQUEST SUBMITTED
+  GOVERNANCE REQUEST SUBMITTED
 =======================================================================
 
-  Request ID:    AMCOS-20250202150000-a1b2c3d4
-  Operation:     terminate
-  Target Agent:  helper-python
-  Priority:      high
+  Request ID:       GR-20260227150000-a1b2c3d4
+  Operation:        terminate
+  Target Agent:     old-worker
+  Scope:            local
+  Priority:         high
+  Status:           pending
 
-  Reason: Agent has critical bug and cannot recover
+  Approvers:
+    sourceManager:  eama-main        [pending]
+    targetManager:  n/a (local)
 
-  Status: PENDING - Awaiting EAMA response
+  Reason: Agent has critical unrecoverable bug
 
 =======================================================================
-  Use /amcos-check-approval-status --request-id AMCOS-20250202150000-a1b2c3d4
-  to check the status of this request.
+  Use /amcos-check-approval-status --request-id GR-20260227150000-a1b2c3d4
 =======================================================================
 ```
 
-## Tracking Approvals
+## Rate Limiting
 
-Approval requests are logged to:
+- API may return `429 Too Many Requests`
+- Respect `Retry-After` header
+- Max 10 GovernanceRequests/minute per COS
+- Back off exponentially on repeated 429s
+
+## Tracking Location
 
 ```
-~/.aimaestro/approvals/pending/AMCOS-20250202150000-a1b2c3d4.json
+~/.aimaestro/governance/pending/GR-20260227150000-a1b2c3d4.json
 ```
 
 ## Error Handling
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "AI Maestro not responding" | API unreachable | Check if AI Maestro is running |
-| "EAMA not available" | Manager agent offline | Wait or contact user |
-| "Invalid operation type" | Unknown type | Use valid type from list |
-| "Missing required argument" | Incomplete command | Provide all required args |
-
-## Pre-Approval Guidelines
-
-Before requesting approval:
-
-1. **Verify necessity** - Is approval actually required for this operation?
-2. **Gather context** - Include relevant details in reason
-3. **Check prerequisites** - Ensure target agent exists and is accessible
-4. **Assess urgency** - Only use `--urgent` for time-sensitive situations
+| `429 Too Many Requests` | Rate limited | Back off per Retry-After |
+| `400 Invalid Password` | Wrong governance password | Re-request from manager |
+| `404 Target Manager` | Unknown targetManager | Query team registry |
+| API unreachable | AI Maestro down | Check if AI Maestro is running |
+| Missing `--target-cos` | Cross-team without target | Provide target COS and manager |
 
 ## Related Commands
 
-- `/amcos-check-approval-status` - Check status of pending approvals
+- `/amcos-check-approval-status` - Check GovernanceRequest state
 - `/amcos-wait-for-approval` - Wait for approval with timeout
 - `/amcos-notify-manager` - Send notification to manager
 - `/amcos-staff-status` - View all agents
