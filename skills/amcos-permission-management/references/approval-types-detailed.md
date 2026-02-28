@@ -1,27 +1,27 @@
 # Approval Types - Detailed Reference
 
-## Table of Contents (Use-Case Oriented)
+## Table of Contents
 
-- 1. Agent Spawn Approval - When creating a new agent instance
-  - 1.1 When to request spawn approval
-  - 1.2 Justification requirements for spawn
-  - 1.3 EAMA decision options for spawn
-- 2. Agent Terminate Approval - When permanently stopping an agent
-  - 2.1 When to request terminate approval
-  - 2.2 Justification requirements for terminate
-  - 2.3 EAMA decision options for terminate
-- 3. Agent Hibernate Approval - When suspending an idle agent
-  - 3.1 When to request hibernate approval
-  - 3.2 Justification requirements for hibernate
-  - 3.3 EAMA decision options for hibernate
-- 4. Agent Wake Approval - When resuming a hibernated agent
-  - 4.1 When to request wake approval
-  - 4.2 Justification requirements for wake
-  - 4.3 EAMA decision options for wake
-- 5. Plugin Install Approval - When installing a new plugin
-  - 5.1 When to request plugin install approval
-  - 5.2 Justification requirements for plugin install
-  - 5.3 EAMA decision options for plugin install
+- [1. Agent Spawn Approval](#1-agent-spawn-approval)
+  - [1.1 When to Request Spawn Approval](#11-when-to-request-spawn-approval)
+  - [1.2 Justification Requirements for Spawn](#12-justification-requirements-for-spawn)
+  - [1.3 EAMA Decision Options for Spawn](#13-eama-decision-options-for-spawn)
+- [2. Agent Terminate Approval](#2-agent-terminate-approval)
+  - [2.1 When to Request Terminate Approval](#21-when-to-request-terminate-approval)
+  - [2.2 Justification Requirements for Terminate](#22-justification-requirements-for-terminate)
+  - [2.3 EAMA Decision Options for Terminate](#23-eama-decision-options-for-terminate)
+- [3. Agent Hibernate Approval](#3-agent-hibernate-approval)
+  - [3.1 When to Request Hibernate Approval](#31-when-to-request-hibernate-approval)
+  - [3.2 Justification Requirements for Hibernate](#32-justification-requirements-for-hibernate)
+  - [3.3 EAMA Decision Options for Hibernate](#33-eama-decision-options-for-hibernate)
+- [4. Agent Wake Approval](#4-agent-wake-approval)
+  - [4.1 When to Request Wake Approval](#41-when-to-request-wake-approval)
+  - [4.2 Justification Requirements for Wake](#42-justification-requirements-for-wake)
+  - [4.3 EAMA Decision Options for Wake](#43-eama-decision-options-for-wake)
+- [5. Plugin Install Approval](#5-plugin-install-approval)
+  - [5.1 When to Request Plugin Install Approval](#51-when-to-request-plugin-install-approval)
+  - [5.2 Justification Requirements for Plugin Install](#52-justification-requirements-for-plugin-install)
+  - [5.3 EAMA Decision Options for Plugin Install](#53-eama-decision-options-for-plugin-install)
 
 ---
 

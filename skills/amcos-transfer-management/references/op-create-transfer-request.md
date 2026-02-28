@@ -1,5 +1,14 @@
 # OP: Create Transfer Request
 
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Prerequisites](#prerequisites)
+- [Procedure](#procedure)
+- [Request Payload](#request-payload)
+- [Response](#response)
+- [Error Conditions](#error-conditions)
+
 ## Purpose
 
 Create a new TransferRequest to move an agent from the source team to a target team.

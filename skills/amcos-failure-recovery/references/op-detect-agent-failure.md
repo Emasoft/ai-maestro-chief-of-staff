@@ -7,6 +7,17 @@ parent-skill: amcos-failure-recovery
 
 # Operation: Detect Agent Failure
 
+## Table of Contents
+
+- [Purpose](#purpose)
+- [When To Use This Operation](#when-to-use-this-operation)
+- [Steps](#steps)
+- [Detection Signals](#detection-signals)
+- [Checklist](#checklist)
+- [Output](#output)
+- [Related References](#related-references)
+- [Next Operation](#next-operation)
+
 ## Purpose
 
 Detect when an agent becomes unresponsive, crashes, or terminates unexpectedly using heartbeat monitoring, message delivery status, or task completion timeouts.

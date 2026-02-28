@@ -1,5 +1,15 @@
 # OP: Approve Transfer Request
 
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Prerequisites](#prerequisites)
+- [Approval Matrix](#approval-matrix)
+- [Procedure](#procedure)
+- [Request Payload](#request-payload)
+- [State Transitions After Approval](#state-transitions-after-approval)
+- [Error Conditions](#error-conditions)
+
 ## Purpose
 
 Approve a pending TransferRequest. Both source and target sides must approve before execution.
