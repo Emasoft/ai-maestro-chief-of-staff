@@ -251,8 +251,32 @@ Result: status=dual-approved after 75s
 ## Resources
 
 - [Approval Request Procedure](references/approval-request-procedure.md)
+  <!-- TOC: approval-request-procedure.md -->
+  - 1 What is an approval request - Understanding the request format
+  - 2 When to request approval - Triggers for approval workflow
+  - 1 Agent spawn triggers - New agent needed
+  - 2 Agent terminate triggers - Agent work complete or failed
+  - 3 Agent hibernate triggers - Resource optimization needed
+  - ...and 12 more sections
+  <!-- /TOC -->
 - [Approval Tracking](references/approval-tracking.md)
+  <!-- TOC: approval-tracking.md -->
+  - 1 What is approval tracking - Understanding state management
+  - 2 Tracking data structure - Approval state format
+  - 3 Tracking procedure - Step-by-step tracking process
+  - 1 Request registration - Recording new requests
+  - 2 Status monitoring - Checking for responses
+  - ...and 6 more sections
+  <!-- /TOC -->
 - [Approval Escalation](references/approval-escalation.md)
+  <!-- TOC: approval-escalation.md -->
+  - 1 What is approval escalation - Understanding timeout handling
+  - 2 Escalation triggers - When escalation occurs
+  - 1 First timeout (60 seconds) - Reminder notification
+  - 2 Second timeout (90 seconds) - Urgent notification
+  - 3 Final timeout (120 seconds) - Proceed or abort decision
+  - ...and 10 more sections
+  <!-- /TOC -->
 - [Approval Types Detailed](references/approval-types-detailed.md)
 - [Approval Workflow Engine](references/approval-workflow-engine.md)
 

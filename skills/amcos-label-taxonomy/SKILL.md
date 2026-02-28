@@ -277,9 +277,41 @@ REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq -r '.current
 Step-by-step runbooks for executing individual label management operations. Use these when performing a specific label-related operation.
 
 - [op-assign-agent-to-issue.md](references/op-assign-agent-to-issue.md) - **Assign Agent to Issue**: Assign a newly spawned or existing agent to a GitHub issue by applying the assignment label, updating status from backlog to ready, and updating the team registry
+  <!-- TOC: op-assign-agent-to-issue.md -->
+  - Purpose
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Verify Issue Exists
+  - ...and 8 more sections
+  <!-- /TOC -->
 - [op-terminate-agent-clear-assignments.md](references/op-terminate-agent-clear-assignments.md) - **Terminate Agent and Clear Assignments**: When an agent is being terminated, find all its assigned issues, remove assignment labels, return issues to backlog, and remove agent from team registry
+  <!-- TOC: op-terminate-agent-clear-assignments.md -->
+  - Purpose
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Find All Issues Assigned to Agent
+  - ...and 7 more sections
+  <!-- /TOC -->
 - [op-handle-blocked-agent.md](references/op-handle-blocked-agent.md) - **Handle Blocked Agent**: When an agent reports it's blocked on an issue, update the issue status to blocked, add a comment explaining the blocker, determine escalation level, and optionally escalate to human
+  <!-- TOC: op-handle-blocked-agent.md -->
+  - Purpose
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Update Status to Blocked
+  - ...and 8 more sections
+  <!-- /TOC -->
 - [op-sync-registry-with-labels.md](references/op-sync-registry-with-labels.md) - **Sync Registry with Labels**: Ensure the team registry (via AI Maestro REST API) stays synchronized with GitHub issue assignment labels by detecting and resolving discrepancies
+  <!-- TOC: op-sync-registry-with-labels.md -->
+  - Purpose
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Load Current Registry
+  - ...and 8 more sections
+  <!-- /TOC -->
 
 ## Quick Reference
 

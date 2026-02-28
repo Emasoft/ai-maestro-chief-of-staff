@@ -282,18 +282,42 @@ skills-ref to-prompt /path/to/skill-a /path/to/skill-b
 **Symptoms:** skills-ref reports errors, missing fields, broken links.
 
 See [references/skill-validation.md](references/skill-validation.md) Section 1.7 Troubleshooting for resolution.
+  <!-- TOC: skill-validation.md -->
+  - 1 What is skill validation - Checking skill correctness
+  - 2 Validation requirements - Agent Skills specification
+  - 1 Directory structure - Required layout
+  - 2 SKILL.md format - Frontmatter and content
+  - 3 References structure - Reference file format
+  - ...and 17 more sections
+  <!-- /TOC -->
 
 ### Issue: Skill not appearing in PSS suggestions
 
 **Symptoms:** Skill indexed but not suggested, wrong skills activated.
 
 See [references/skill-reindexing.md](references/skill-reindexing.md) Section 2.7 Troubleshooting for resolution.
+  <!-- TOC: skill-reindexing.md -->
+  - 1 What is skill reindexing - Updating PSS index
+  - 2 When to reindex - Reindexing triggers
+  - 1 New skills added - Fresh skills need indexing
+  - 2 Skills modified - Content changes need re-extraction
+  - 3 Keywords stale - Suggestions not matching
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ### Issue: PSS keyword matching is poor
 
 **Symptoms:** Irrelevant skills suggested, relevant skills missed.
 
 See [references/pss-integration.md](references/pss-integration.md) Section 3.7 Troubleshooting for resolution.
+  <!-- TOC: pss-integration.md -->
+  - 1 What is PSS integration - AI-analyzed skill activation
+  - 2 How PSS works - Discovery algorithm
+  - 1 Index as superset - All skills indexed
+  - 2 Agent filtering - Available skills filter
+  - 3 Weighted scoring - Keyword relevance
+  - ...and 11 more sections
+  <!-- /TOC -->
 
 ## Key Takeaways
 
@@ -307,21 +331,77 @@ See [references/pss-integration.md](references/pss-integration.md) Section 3.7 T
 
 ### 1. Read Skill Validation
 See [references/skill-validation.md](references/skill-validation.md) for validation procedures.
+  <!-- TOC: skill-validation.md -->
+  - 1 What is skill validation - Checking skill correctness
+  - 2 Validation requirements - Agent Skills specification
+  - 1 Directory structure - Required layout
+  - 2 SKILL.md format - Frontmatter and content
+  - 3 References structure - Reference file format
+  - ...and 17 more sections
+  <!-- /TOC -->
 
 ### 2. Read Skill Reindexing
 See [references/skill-reindexing.md](references/skill-reindexing.md) for reindexing procedures.
+  <!-- TOC: skill-reindexing.md -->
+  - 1 What is skill reindexing - Updating PSS index
+  - 2 When to reindex - Reindexing triggers
+  - 1 New skills added - Fresh skills need indexing
+  - 2 Skills modified - Content changes need re-extraction
+  - 3 Keywords stale - Suggestions not matching
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ### 3. Read PSS Integration
 See [references/pss-integration.md](references/pss-integration.md) for discovery optimization.
+  <!-- TOC: pss-integration.md -->
+  - 1 What is PSS integration - AI-analyzed skill activation
+  - 2 How PSS works - Discovery algorithm
+  - 1 Index as superset - All skills indexed
+  - 2 Agent filtering - Available skills filter
+  - 3 Weighted scoring - Keyword relevance
+  - ...and 11 more sections
+  <!-- /TOC -->
 
 ---
 
 ## Resources
 
 - [Skill Validation](references/skill-validation.md)
+  <!-- TOC: skill-validation.md -->
+  - 1 What is skill validation - Checking skill correctness
+  - 2 Validation requirements - Agent Skills specification
+  - 1 Directory structure - Required layout
+  - 2 SKILL.md format - Frontmatter and content
+  - 3 References structure - Reference file format
+  - ...and 17 more sections
+  <!-- /TOC -->
 - [Validation Procedures](references/validation-procedures.md) - Skill validation procedures
+  <!-- TOC: validation-procedures.md -->
+  - 0 When validating a single skill directory
+  - 1 Required skill structure components
+  - 2 SKILL.md frontmatter validation rules
+  - 3 Single skill validation step-by-step procedure
+  - 4 Using skills-ref for validation
+  - ...and 29 more sections
+  <!-- /TOC -->
 - [Skill Reindexing](references/skill-reindexing.md)
+  <!-- TOC: skill-reindexing.md -->
+  - 1 What is skill reindexing - Updating PSS index
+  - 2 When to reindex - Reindexing triggers
+  - 1 New skills added - Fresh skills need indexing
+  - 2 Skills modified - Content changes need re-extraction
+  - 3 Keywords stale - Suggestions not matching
+  - ...and 12 more sections
+  <!-- /TOC -->
 - [PSS Integration](references/pss-integration.md)
+  <!-- TOC: pss-integration.md -->
+  - 1 What is PSS integration - AI-analyzed skill activation
+  - 2 How PSS works - Discovery algorithm
+  - 1 Index as superset - All skills indexed
+  - 2 Agent filtering - Available skills filter
+  - 3 Weighted scoring - Keyword relevance
+  - ...and 11 more sections
+  <!-- /TOC -->
 
 ---
 

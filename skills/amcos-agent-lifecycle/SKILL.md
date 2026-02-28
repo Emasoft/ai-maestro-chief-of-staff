@@ -366,12 +366,36 @@ Step-by-step runbooks for executing individual lifecycle operations. Use these w
 | Error | Action |
 |-------|--------|
 | Agent spawn failed | Retry once, then report to EAMA. See [spawn-procedures.md](references/spawn-procedures.md) 1.7 |
+  <!-- TOC: spawn-procedures.md -->
+  - 1 What is agent spawning - Understanding agent creation
+  - 2 When to spawn agents - Triggers for new agents
+  - 1 Task assignment triggers - New work arrives
+  - 2 Scaling triggers - Parallel execution needed
+  - 3 Specialization triggers - Specific capability required
+  - ...and 11 more sections
+  <!-- /TOC -->
 | AI Maestro unavailable | Use fallback file-based communication |
 | Agent unresponsive (5 min) | Send wake/ping, then force terminate |
 | Resource limit exceeded | Queue request, hibernate oldest idle |
 | Plugin validation failed | Block agent spawn, report to EAMA |
 | Agent does not terminate | See [termination-procedures.md](references/termination-procedures.md) 2.7 |
+  <!-- TOC: termination-procedures.md -->
+  - 1 What is agent termination - Understanding clean shutdown
+  - 2 When to terminate agents - Termination triggers
+  - 1 Task completion - Work finished
+  - 2 Error conditions - Unrecoverable failures
+  - 3 Resource reclamation - Freeing capacity
+  - ...and 12 more sections
+  <!-- /TOC -->
 | Hibernated agent fails to wake | See [hibernation-procedures.md](references/hibernation-procedures.md) 3.7 |
+  <!-- TOC: hibernation-procedures.md -->
+  - 1 What is agent hibernation - Understanding state suspension
+  - 2 When to hibernate agents - Hibernation triggers
+  - 1 Idle timeout - No activity for threshold period
+  - 2 Resource pressure - System capacity constrained
+  - 3 Scheduled pause - Planned inactivity window
+  - ...and 16 more sections
+  <!-- /TOC -->
 
 ## Task Checklist
 
@@ -396,6 +420,11 @@ Copy this checklist and track your progress:
 Detailed workflow walkthroughs showing complete lifecycle management scenarios.
 
 See [references/workflow-examples.md](references/workflow-examples.md):
+  <!-- TOC: workflow-examples.md -->
+  - 1 Workflow 1: Setting Up a Development Team
+  - 2 Workflow 2: Hibernating Idle Agents
+  - 3 Workflow 3: Skill Reindex After Plugin Update
+  <!-- /TOC -->
 - When setting up a new team for multi-service work -> Workflow 1
 - When conserving resources by hibernating idle agents -> Workflow 2
 - When plugins or skills have been updated -> Workflow 3
@@ -405,6 +434,13 @@ See [references/workflow-examples.md](references/workflow-examples.md):
 Complete CLI command examples with expected output for all lifecycle operations.
 
 See [references/cli-examples.md](references/cli-examples.md):
+  <!-- TOC: cli-examples.md -->
+  - 1 Creating a Code Implementer Agent
+  - 2 Terminating a Completed Agent
+  - 3 Hibernating an Idle Agent
+  - 4 End of Day - Hibernate All Non-Critical Agents
+  - 5 Resume Work Next Day
+  <!-- /TOC -->
 - When creating a new programmer agent -> 1.1 Spawning
 - When an agent's work is complete -> 1.2 Terminating
 - When conserving resources for a single agent -> 1.3 Hibernating
@@ -423,32 +459,131 @@ See [references/cli-examples.md](references/cli-examples.md):
 ## CLI Quick Reference
 
 See [references/cli-examples.md](references/cli-examples.md) for the full CLI quick reference table and detailed examples.
+  <!-- TOC: cli-examples.md -->
+  - 1 Creating a Code Implementer Agent
+  - 2 Terminating a Completed Agent
+  - 3 Hibernating an Idle Agent
+  - 4 End of Day - Hibernate All Non-Critical Agents
+  - 5 Resume Work Next Day
+  <!-- /TOC -->
 
 ## Next Steps
 
 ### 1. Read Spawn Procedures
 See [references/spawn-procedures.md](references/spawn-procedures.md) for complete spawn documentation.
+  <!-- TOC: spawn-procedures.md -->
+  - 1 What is agent spawning - Understanding agent creation
+  - 2 When to spawn agents - Triggers for new agents
+  - 1 Task assignment triggers - New work arrives
+  - 2 Scaling triggers - Parallel execution needed
+  - 3 Specialization triggers - Specific capability required
+  - ...and 11 more sections
+  <!-- /TOC -->
 
 ### 2. Read Termination Procedures
 See [references/termination-procedures.md](references/termination-procedures.md) for clean shutdown procedures.
+  <!-- TOC: termination-procedures.md -->
+  - 1 What is agent termination - Understanding clean shutdown
+  - 2 When to terminate agents - Termination triggers
+  - 1 Task completion - Work finished
+  - 2 Error conditions - Unrecoverable failures
+  - 3 Resource reclamation - Freeing capacity
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ### 3. Read Hibernation Procedures
 See [references/hibernation-procedures.md](references/hibernation-procedures.md) for state suspension and wake procedures.
+  <!-- TOC: hibernation-procedures.md -->
+  - 1 What is agent hibernation - Understanding state suspension
+  - 2 When to hibernate agents - Hibernation triggers
+  - 1 Idle timeout - No activity for threshold period
+  - 2 Resource pressure - System capacity constrained
+  - 3 Scheduled pause - Planned inactivity window
+  - ...and 16 more sections
+  <!-- /TOC -->
 
 ---
 
 ## Resources
 
 - [Spawn Procedures](references/spawn-procedures.md)
+  <!-- TOC: spawn-procedures.md -->
+  - 1 What is agent spawning - Understanding agent creation
+  - 2 When to spawn agents - Triggers for new agents
+  - 1 Task assignment triggers - New work arrives
+  - 2 Scaling triggers - Parallel execution needed
+  - 3 Specialization triggers - Specific capability required
+  - ...and 11 more sections
+  <!-- /TOC -->
 - [Termination Procedures](references/termination-procedures.md)
+  <!-- TOC: termination-procedures.md -->
+  - 1 What is agent termination - Understanding clean shutdown
+  - 2 When to terminate agents - Termination triggers
+  - 1 Task completion - Work finished
+  - 2 Error conditions - Unrecoverable failures
+  - 3 Resource reclamation - Freeing capacity
+  - ...and 12 more sections
+  <!-- /TOC -->
 - [Hibernation Procedures](references/hibernation-procedures.md)
+  <!-- TOC: hibernation-procedures.md -->
+  - 1 What is agent hibernation - Understanding state suspension
+  - 2 When to hibernate agents - Hibernation triggers
+  - 1 Idle timeout - No activity for threshold period
+  - 2 Resource pressure - System capacity constrained
+  - 3 Scheduled pause - Planned inactivity window
+  - ...and 16 more sections
+  <!-- /TOC -->
 - [Workflow Examples](references/workflow-examples.md)
+  <!-- TOC: workflow-examples.md -->
+  - 1 Workflow 1: Setting Up a Development Team
+  - 2 Workflow 2: Hibernating Idle Agents
+  - 3 Workflow 3: Skill Reindex After Plugin Update
+  <!-- /TOC -->
 - [CLI Examples](references/cli-examples.md)
+  <!-- TOC: cli-examples.md -->
+  - 1 Creating a Code Implementer Agent
+  - 2 Terminating a Completed Agent
+  - 3 Hibernating an Idle Agent
+  - 4 End of Day - Hibernate All Non-Critical Agents
+  - 5 Resume Work Next Day
+  <!-- /TOC -->
 - [Sub-Agent Role Boundaries Template](references/sub-agent-role-boundaries-template.md) - Template for defining sub-agent responsibilities
 - [Workflow Checklists](references/workflow-checklists.md) - Complete checklists for agent lifecycle workflows
+  <!-- TOC: workflow-checklists.md -->
+  - ### When You Need to Create a New Agent
+  - 1 Spawning New Agent Checklist
+  - ### When You Need to Stop an Agent
+  - 1 Terminating Agent Checklist
+  - ### When You Need to Put an Inactive Agent to Sleep
+  - ...and 8 more sections
+  <!-- /TOC -->
 - [Success Criteria](references/success-criteria.md) - Success/completion criteria for lifecycle operations
+  <!-- TOC: success-criteria.md -->
+  - Agent Spawned Successfully
+  - Agent Terminated Cleanly
+  - Agent Hibernated Successfully
+  - Agent Woken Successfully
+  - Team Assignment Complete
+  - ...and 7 more sections
+  <!-- /TOC -->
 - [Record-Keeping](references/record-keeping.md) - Formats for logging lifecycle operations
+  <!-- TOC: record-keeping.md -->
+  - Lifecycle Log
+  - Approval Requests Log
+  - Team Assignments Log
+  - Project: svgbbox-library
+  - Project: auth-service
+  - ...and 19 more sections
+  <!-- /TOC -->
 - [CLI Reference](references/cli-reference.md) - Complete CLI command reference for lifecycle management
+  <!-- TOC: cli-reference.md -->
+  - 0 Quick Operations Reference
+  - 0 Creating new agents
+  - 1 Basic creation with required Claude Code arguments
+  - 2 Creation with task description and tags
+  - 3 Creation using an existing directory
+  - ...and 38 more sections
+  <!-- /TOC -->
 
 ---
 

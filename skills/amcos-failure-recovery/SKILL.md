@@ -130,8 +130,32 @@ offline?          |        (intervention needed)
 | 1 | Detect failure | [failure-detection.md](references/failure-detection.md) |
 | 2 | Classify severity | [failure-classification.md](references/failure-classification.md) |
 | 3 | Attempt recovery | [recovery-strategies.md](references/recovery-strategies.md) |
+  <!-- TOC: recovery-strategies.md -->
+  - 1 When to use this document
+  - 2 Overview of recovery strategies
+  - 3 Strategy: Wait and Retry
+  - 1 When to use wait and retry
+  - 2 Implementation procedure
+  - ...and 22 more sections
+  <!-- /TOC -->
 | 4 | Replace if terminal | [agent-replacement-protocol.md](references/agent-replacement-protocol.md) |
+  <!-- TOC: agent-replacement-protocol.md -->
+  - 1 When to use this document
+  - 2 Overview of the replacement protocol
+  - 3 Phase 1: Failure confirmation and artifact preservation
+  - 1 Confirming agent cannot be recovered
+  - 2 Identifying recoverable artifacts
+  - ...and 27 more sections
+  <!-- /TOC -->
 | 5 | Emergency handoff | [work-handoff-during-failure.md](references/work-handoff-during-failure.md) |
+  <!-- TOC: work-handoff-during-failure.md -->
+  - 1 When to use this document
+  - 2 Overview of emergency handoff
+  - 3 Triggering emergency handoff
+  - 1 When to initiate emergency handoff
+  - 2 Notification to orchestrator
+  - ...and 18 more sections
+  <!-- /TOC -->
 
 ---
 
@@ -180,6 +204,14 @@ Once detected, classify severity to determine response.
 For transient and recoverable failures, attempt recovery before escalating.
 
 **Read [references/recovery-strategies.md](references/recovery-strategies.md) for:**
+  <!-- TOC: recovery-strategies.md -->
+  - 1 When to use this document
+  - 2 Overview of recovery strategies
+  - 3 Strategy: Wait and Retry
+  - 1 When to use wait and retry
+  - 2 Implementation procedure
+  - ...and 22 more sections
+  <!-- /TOC -->
 - 3.1-3.2 Overview and strategy selection
 - 3.3 Wait and Retry (transient)
 - 3.4 Restart Agent (soft/hard procedures)
@@ -393,9 +425,33 @@ Step-by-step runbooks for executing individual failure recovery operations. Use 
 - [op-detect-agent-failure.md](references/op-detect-agent-failure.md) - **Detect Agent Failure**: Check heartbeat status, query AI Maestro agent status, verify message delivery, and determine if agent is unresponsive or crashed
 - [op-classify-failure-severity.md](references/op-classify-failure-severity.md) - **Classify Failure Severity**: Classify a detected failure as transient, recoverable, or terminal using the decision matrix to determine the appropriate response strategy
 - [op-execute-recovery-strategy.md](references/op-execute-recovery-strategy.md) - **Execute Recovery Strategy**: Apply the appropriate recovery strategy (wait and retry, soft/hard restart, hibernate-wake cycle, or resource adjustment) based on failure classification
+  <!-- TOC: op-execute-recovery-strategy.md -->
+  - Purpose
+  - When To Use This Operation
+  - Recovery Strategies
+  - Steps
+  - Strategy 1: Wait and Retry (Transient)
+  - ...and 10 more sections
+  <!-- /TOC -->
 - [op-replace-agent.md](references/op-replace-agent.md) - **Replace Agent**: Create a replacement agent when recovery fails or failure is terminal, including failure confirmation, manager approval, agent creation, orchestrator notification, and work handoff
+  <!-- TOC: op-replace-agent.md -->
+  - Purpose
+  - When To Use This Operation
+  - Critical Consideration
+  - Steps
+  - Phase 1: Confirm Failure and Preserve Artifacts
+  - ...and 9 more sections
+  <!-- /TOC -->
 - [op-emergency-handoff.md](references/op-emergency-handoff.md) - **Emergency Work Handoff**: Transfer critical work immediately when deadlines cannot wait for the full agent replacement protocol
 - [op-route-task-blocker.md](references/op-route-task-blocker.md) - **Route Task Blocker**: Determine how to handle task blocker escalations -- resolve directly if within AMCOS authority, or route to EAMA if user decision is required
+  <!-- TOC: op-route-task-blocker.md -->
+  - Purpose
+  - When To Use This Operation
+  - Decision Tree
+  - Steps
+  - Step 1: Receive and Classify Escalation
+  - ...and 8 more sections
+  <!-- /TOC -->
 
 ## Troubleshooting
 
@@ -453,6 +509,13 @@ Before sending handoff:
 Recovery scenarios with step-by-step commands.
 
 **Read [references/examples.md](references/examples.md) for:**
+  <!-- TOC: examples.md -->
+  - Example 1: Agent Crash Recovery
+  - Example 2: Terminal Failure with Replacement
+  - Example 3: Transient Network Failure
+  - Example 4: Emergency Handoff with Deadline
+  - Quick Reference
+  <!-- /TOC -->
 - Agent crash recovery (recoverable -> restart -> verify)
 - Terminal failure with replacement (3 crashes -> replace -> handoff)
 - Transient network failure (wait -> auto-recover)
@@ -462,10 +525,72 @@ Recovery scenarios with step-by-step commands.
 ## Resources
 
 - [references/failure-detection.md](references/failure-detection.md) - Detection procedures
+  <!-- TOC: failure-detection.md -->
+  - 1 When to use this document
+  - 2 Overview of failure detection mechanisms
+  - 3 Heartbeat monitoring via AI Maestro
+  - 1 How heartbeat polling works
+  - 2 Configuring heartbeat intervals
+  - ...and 14 more sections
+  <!-- /TOC -->
 - [references/failure-classification.md](references/failure-classification.md) - Classification criteria
+  <!-- TOC: failure-classification.md -->
+  - 1 When to use this document
+  - 2 Overview of failure categories
+  - 3 Transient failures
+  - 1 Definition and characteristics
+  - 2 Examples of transient failures
+  - ...and 16 more sections
+  <!-- /TOC -->
 - [references/recovery-strategies.md](references/recovery-strategies.md) - Recovery steps
+  <!-- TOC: recovery-strategies.md -->
+  - 1 When to use this document
+  - 2 Overview of recovery strategies
+  - 3 Strategy: Wait and Retry
+  - 1 When to use wait and retry
+  - 2 Implementation procedure
+  - ...and 22 more sections
+  <!-- /TOC -->
 - [references/recovery-operations.md](references/recovery-operations.md) - Recovery operations procedures
+  <!-- TOC: recovery-operations.md -->
+  - Detecting Agent Failures Using Health Checks
+  - 1 Checking AI Maestro Registry
+  - 2 Verifying tmux Session Existence
+  - 3 Checking Process Health
+  - 4 Testing Message Response
+  - ...and 28 more sections
+  <!-- /TOC -->
 - [references/agent-replacement-protocol.md](references/agent-replacement-protocol.md) - Replacement workflow
+  <!-- TOC: agent-replacement-protocol.md -->
+  - 1 When to use this document
+  - 2 Overview of the replacement protocol
+  - 3 Phase 1: Failure confirmation and artifact preservation
+  - 1 Confirming agent cannot be recovered
+  - 2 Identifying recoverable artifacts
+  - ...and 27 more sections
+  <!-- /TOC -->
 - [references/work-handoff-during-failure.md](references/work-handoff-during-failure.md) - Work transfer procedures
+  <!-- TOC: work-handoff-during-failure.md -->
+  - 1 When to use this document
+  - 2 Overview of emergency handoff
+  - 3 Triggering emergency handoff
+  - 1 When to initiate emergency handoff
+  - 2 Notification to orchestrator
+  - ...and 18 more sections
+  <!-- /TOC -->
 - [references/troubleshooting.md](references/troubleshooting.md) - Common issues and solutions
+  <!-- TOC: troubleshooting.md -->
+  - Agent shows online but unresponsive
+  - Cannot determine failure type
+  - Manager does not respond
+  - New replacement agent fails to register
+  - Emergency handoff deadline missed
+  <!-- /TOC -->
 - [references/examples.md](references/examples.md) - Complete recovery examples
+  <!-- TOC: examples.md -->
+  - Example 1: Agent Crash Recovery
+  - Example 2: Terminal Failure with Replacement
+  - Example 3: Transient Network Failure
+  - Example 4: Emergency Handoff with Deadline
+  - Quick Reference
+  <!-- /TOC -->

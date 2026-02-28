@@ -73,6 +73,14 @@ Communication of findings to relevant stakeholders.
 **Related documentation:**
 
 #### Performance Metrics ([references/performance-metrics.md](references/performance-metrics.md))
+  <!-- TOC: performance-metrics.md -->
+  - 1 [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
+  - 2 [Task Completion Metrics](#12-task-completion-metrics)
+  - 3 [Quality Metrics](#13-quality-metrics)
+  - 4 [Efficiency Metrics](#14-efficiency-metrics)
+  - 5 [Communication Metrics](#15-communication-metrics)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 1.1 Metric categories → Categories Of Performance Metrics section
 - 1.2 Task metrics → Task Completion Metrics section
 - 1.3 Quality metrics → Quality Metrics section
@@ -91,6 +99,14 @@ Communication of findings to relevant stakeholders.
 **Related documentation:**
 
 #### Strength-Weakness Analysis ([references/strength-weakness-analysis.md](references/strength-weakness-analysis.md))
+  <!-- TOC: strength-weakness-analysis.md -->
+  - 1 [Performance Analysis Framework](#21-performance-analysis-framework)
+  - 2 [Identifying Agent Strengths](#22-identifying-agent-strengths)
+  - 3 [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
+  - 4 [Comparing Against Benchmarks](#24-comparing-against-benchmarks)
+  - 5 [Recognizing Performance Patterns](#25-recognizing-performance-patterns)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 2.1 Analysis framework → Performance Analysis Framework section
 - 2.2 Identifying strengths → Identifying Agent Strengths section
 - 2.3 Identifying weaknesses → Identifying Agent Weaknesses section
@@ -109,6 +125,14 @@ Communication of findings to relevant stakeholders.
 **Related documentation:**
 
 #### Performance Reporting ([references/performance-reporting.md](references/performance-reporting.md))
+  <!-- TOC: performance-reporting.md -->
+  - 1 [Types Of Performance Reports](#31-types-of-performance-reports)
+  - 2 [Structuring Performance Reports](#32-structuring-performance-reports)
+  - 3 [Daily Performance Summaries](#33-daily-performance-summaries)
+  - 4 [Weekly Performance Reviews](#34-weekly-performance-reviews)
+  - 5 [Individual Agent Reports](#35-individual-agent-reports)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 3.1 Report types → Types Of Performance Reports section
 - 3.2 Report structure → Structuring Performance Reports section
 - 3.3 Daily reports → Daily Performance Summaries section
@@ -271,9 +295,41 @@ Detailed step-by-step runbook for creating formatted performance reports for sta
 ## Resources
 
 - [Performance Metrics](references/performance-metrics.md)
+  <!-- TOC: performance-metrics.md -->
+  - 1 [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
+  - 2 [Task Completion Metrics](#12-task-completion-metrics)
+  - 3 [Quality Metrics](#13-quality-metrics)
+  - 4 [Efficiency Metrics](#14-efficiency-metrics)
+  - 5 [Communication Metrics](#15-communication-metrics)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Strength-Weakness Analysis](references/strength-weakness-analysis.md)
+  <!-- TOC: strength-weakness-analysis.md -->
+  - 1 [Performance Analysis Framework](#21-performance-analysis-framework)
+  - 2 [Identifying Agent Strengths](#22-identifying-agent-strengths)
+  - 3 [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
+  - 4 [Comparing Against Benchmarks](#24-comparing-against-benchmarks)
+  - 5 [Recognizing Performance Patterns](#25-recognizing-performance-patterns)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Performance Reporting](references/performance-reporting.md)
+  <!-- TOC: performance-reporting.md -->
+  - 1 [Types Of Performance Reports](#31-types-of-performance-reports)
+  - 2 [Structuring Performance Reports](#32-structuring-performance-reports)
+  - 3 [Daily Performance Summaries](#33-daily-performance-summaries)
+  - 4 [Weekly Performance Reviews](#34-weekly-performance-reviews)
+  - 5 [Individual Agent Reports](#35-individual-agent-reports)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Report Formats](references/report-formats.md) - Performance report formats
+  <!-- TOC: report-formats.md -->
+  - When to use each report format based on analysis needs
+  - 1 Individual agent performance analysis
+  - 2 Team/project aggregate performance review
+  - 3 Cross-project performance comparison
+  - 4 Time-based trend analysis
+  - ...and 24 more sections
+  <!-- /TOC -->
 
 ---
 

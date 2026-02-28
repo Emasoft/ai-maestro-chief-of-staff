@@ -117,9 +117,39 @@ For detailed procedures, see skills:
 
 - **Agent creation/termination/hibernation workflows** → [amcos-agent-lifecycle](../skills/amcos-agent-lifecycle/SKILL.md)
 - **RULE 14 approval workflows and enforcement** → [amcos-permission-management](../skills/amcos-permission-management/SKILL.md), [references/rule-14-enforcement.md](../skills/amcos-permission-management/references/rule-14-enforcement.md)
+  <!-- TOC: rule-14-enforcement.md -->
+  - 1 When handling user requirements in any workflow
+  - 2 When detecting potential requirement deviations
+  - 3 When a technical constraint conflicts with a requirement
+  - 4 When documenting requirement compliance
+  <!-- /TOC -->
 - **AI Maestro message templates (approval, notification, status)** → [amcos-notification-protocols](../skills/amcos-notification-protocols/SKILL.md), [references/ai-maestro-message-templates.md](../skills/amcos-notification-protocols/references/ai-maestro-message-templates.md)
+  <!-- TOC: ai-maestro-message-templates.md -->
+  - Standard Message Format (AMP)
+  - When Requesting Approval from EAMA
+  - When Escalating Issues to EAMA
+  - When Notifying Agents of Upcoming Operations
+  - When Reporting Operation Results
+  - ...and 5 more sections
+  <!-- /TOC -->
 - **Success criteria for operations (spawn/terminate/hibernate/wake)** → [amcos-agent-lifecycle](../skills/amcos-agent-lifecycle/SKILL.md), [references/success-criteria.md](../skills/amcos-agent-lifecycle/references/success-criteria.md)
+  <!-- TOC: success-criteria.md -->
+  - Agent Spawned Successfully
+  - Agent Terminated Cleanly
+  - Agent Hibernated Successfully
+  - Agent Woken Successfully
+  - Team Assignment Complete
+  - ...and 7 more sections
+  <!-- /TOC -->
 - **Workflow checklists (step-by-step for each operation)** → [amcos-agent-lifecycle](../skills/amcos-agent-lifecycle/SKILL.md), [references/workflow-checklists.md](../skills/amcos-agent-lifecycle/references/workflow-checklists.md)
+  <!-- TOC: workflow-checklists.md -->
+  - ### When You Need to Create a New Agent
+  - 1 Spawning New Agent Checklist
+  - ### When You Need to Stop an Agent
+  - 1 Terminating Agent Checklist
+  - ### When You Need to Put an Inactive Agent to Sleep
+  - ...and 8 more sections
+  <!-- /TOC -->
 - **Staffing decisions (when to spawn/reuse/hibernate/terminate)** → [amcos-staff-planning](../skills/amcos-staff-planning/SKILL.md)
 - **Performance metrics and tracking** → [amcos-performance-tracking](../skills/amcos-performance-tracking/SKILL.md)
 - **Resource monitoring (memory/CPU/disk)** → [amcos-resource-monitoring](../skills/amcos-resource-monitoring/SKILL.md)
@@ -128,6 +158,14 @@ For detailed procedures, see skills:
 - **Transfer requests** → [amcos-transfer-management](../skills/amcos-transfer-management/SKILL.md)
 - **Skill validation** → [amcos-skill-management](../skills/amcos-skill-management/SKILL.md)
 - **Record-keeping and audit logs** → [amcos-agent-lifecycle](../skills/amcos-agent-lifecycle/SKILL.md), [references/record-keeping.md](../skills/amcos-agent-lifecycle/references/record-keeping.md)
+  <!-- TOC: record-keeping.md -->
+  - Lifecycle Log
+  - Approval Requests Log
+  - Team Assignments Log
+  - Project: svgbbox-library
+  - Project: auth-service
+  - ...and 19 more sections
+  <!-- /TOC -->
 - **Sub-agent role boundaries** → [amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md](../skills/amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md)
 
 ## Quick Command Reference
@@ -159,6 +197,14 @@ Send a message to another agent using the `agent-messaging` skill:
 **Verify**: confirm message delivery.
 
 > For full message templates (approval, notification, status), see [amcos-notification-protocols/references/ai-maestro-message-templates.md](../skills/amcos-notification-protocols/references/ai-maestro-message-templates.md).
+  <!-- TOC: ai-maestro-message-templates.md -->
+  - Standard Message Format (AMP)
+  - When Requesting Approval from EAMA
+  - When Escalating Issues to EAMA
+  - When Notifying Agents of Upcoming Operations
+  - When Reporting Operation Results
+  - ...and 5 more sections
+  <!-- /TOC -->
 
 ## Example Workflows
 
@@ -180,6 +226,14 @@ Send a message to another agent using the `agent-messaging` skill:
 6. Log operation to `docs_dev/amcos-team/agent-lifecycle.log`
 
 > For detailed checklist, see [amcos-agent-lifecycle/references/workflow-checklists.md](../skills/amcos-agent-lifecycle/references/workflow-checklists.md).
+  <!-- TOC: workflow-checklists.md -->
+  - ### When You Need to Create a New Agent
+  - 1 Spawning New Agent Checklist
+  - ### When You Need to Stop an Agent
+  - 1 Terminating Agent Checklist
+  - ### When You Need to Put an Inactive Agent to Sleep
+  - ...and 8 more sections
+  <!-- /TOC -->
 
 ### Example 2: Hibernate Idle Agent
 
@@ -195,6 +249,14 @@ Send a message to another agent using the `agent-messaging` skill:
 7. Log operation to lifecycle log
 
 > For success criteria, see [amcos-agent-lifecycle/references/success-criteria.md](../skills/amcos-agent-lifecycle/references/success-criteria.md).
+  <!-- TOC: success-criteria.md -->
+  - Agent Spawned Successfully
+  - Agent Terminated Cleanly
+  - Agent Hibernated Successfully
+  - Agent Woken Successfully
+  - Team Assignment Complete
+  - ...and 7 more sections
+  <!-- /TOC -->
 
 ### Example 3: Terminate Agent After Project Completion
 
@@ -246,3 +308,11 @@ Escalation ID: ESC-<timestamp>-<random>
 ```
 
 > Output format templates are defined inline above. For message formatting details, see [amcos-notification-protocols/references/ai-maestro-message-templates.md](../skills/amcos-notification-protocols/references/ai-maestro-message-templates.md).
+  <!-- TOC: ai-maestro-message-templates.md -->
+  - Standard Message Format (AMP)
+  - When Requesting Approval from EAMA
+  - When Escalating Issues to EAMA
+  - When Notifying Agents of Upcoming Operations
+  - When Reporting Operation Results
+  - ...and 5 more sections
+  <!-- /TOC -->

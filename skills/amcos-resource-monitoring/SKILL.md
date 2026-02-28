@@ -73,6 +73,14 @@ Notifications when resources approach or exceed thresholds.
 **Related documentation:**
 
 #### System Resources ([references/system-resources.md](references/system-resources.md))
+  <!-- TOC: system-resources.md -->
+  - 1 [Types Of System Resources](#11-types-of-system-resources)
+  - 2 [Monitoring CPU Usage](#12-monitoring-cpu-usage)
+  - 3 [Monitoring Memory](#13-monitoring-memory)
+  - 4 [Monitoring Disk Space](#14-monitoring-disk-space)
+  - 5 [Monitoring Network](#15-monitoring-network)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 1.1 Resource types → Types Of System Resources section
 - 1.2 CPU monitoring → Monitoring CPU Usage section
 - 1.3 Memory monitoring → Monitoring Memory section
@@ -91,6 +99,14 @@ Notifications when resources approach or exceed thresholds.
 **Related documentation:**
 
 #### Instance Limits ([references/instance-limits.md](references/instance-limits.md))
+  <!-- TOC: instance-limits.md -->
+  - 1 [Types Of Instance Limits](#21-types-of-instance-limits)
+  - 2 [Counting Active Sessions](#22-counting-active-sessions)
+  - 3 [Tracking API Rate Limits](#23-tracking-api-rate-limits)
+  - 4 [Managing Concurrency](#24-managing-concurrency)
+  - 5 [Making Scaling Decisions](#25-making-scaling-decisions)
+  - ...and 3 more sections
+  <!-- /TOC -->
 - 2.1 Limit types → Types Of Instance Limits section
 - 2.2 Session counting → Counting Active Sessions section
 - 2.3 Rate limit tracking → Tracking API Rate Limits section
@@ -108,6 +124,14 @@ Notifications when resources approach or exceed thresholds.
 **Related documentation:**
 
 #### Resource Alerts ([references/resource-alerts.md](references/resource-alerts.md))
+  <!-- TOC: resource-alerts.md -->
+  - 1 [Types Of Resource Alerts](#31-types-of-resource-alerts)
+  - 2 [Alert Severity Levels](#32-alert-severity-levels)
+  - 3 [Alert Response Procedures](#33-alert-response-procedures)
+  - 4 [Alert Escalation](#34-alert-escalation)
+  - 5 [Alert Prevention](#35-alert-prevention)
+  - ...and 3 more sections
+  <!-- /TOC -->
 - 3.1 Alert types → Types Of Resource Alerts section
 - 3.2 Severity levels → Alert Severity Levels section
 - 3.3 Response procedures → Alert Response Procedures section
@@ -249,9 +273,41 @@ Detailed step-by-step runbook for responding to resource threshold violations wi
 ## Resources
 
 - [System Resources](references/system-resources.md)
+  <!-- TOC: system-resources.md -->
+  - 1 [Types Of System Resources](#11-types-of-system-resources)
+  - 2 [Monitoring CPU Usage](#12-monitoring-cpu-usage)
+  - 3 [Monitoring Memory](#13-monitoring-memory)
+  - 4 [Monitoring Disk Space](#14-monitoring-disk-space)
+  - 5 [Monitoring Network](#15-monitoring-network)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Instance Limits](references/instance-limits.md)
+  <!-- TOC: instance-limits.md -->
+  - 1 [Types Of Instance Limits](#21-types-of-instance-limits)
+  - 2 [Counting Active Sessions](#22-counting-active-sessions)
+  - 3 [Tracking API Rate Limits](#23-tracking-api-rate-limits)
+  - 4 [Managing Concurrency](#24-managing-concurrency)
+  - 5 [Making Scaling Decisions](#25-making-scaling-decisions)
+  - ...and 3 more sections
+  <!-- /TOC -->
 - [Resource Alerts](references/resource-alerts.md)
+  <!-- TOC: resource-alerts.md -->
+  - 1 [Types Of Resource Alerts](#31-types-of-resource-alerts)
+  - 2 [Alert Severity Levels](#32-alert-severity-levels)
+  - 3 [Alert Response Procedures](#33-alert-response-procedures)
+  - 4 [Alert Escalation](#34-alert-escalation)
+  - 5 [Alert Prevention](#35-alert-prevention)
+  - ...and 3 more sections
+  <!-- /TOC -->
 - [Monitoring Commands](references/monitoring-commands.md)
+  <!-- TOC: monitoring-commands.md -->
+  - 1 Checking current system resource status before spawning agents
+  - 1 CPU usage check command (macOS)
+  - 2 Memory usage check command (macOS)
+  - 3 Disk space check command (macOS)
+  - 4 Counting active Claude Code instances
+  - ...and 26 more sections
+  <!-- /TOC -->
 
 ---
 

@@ -247,18 +247,42 @@ Copy this checklist and track your progress:
 **Symptoms:** Role assessment shows gaps, tasks remain unassigned.
 
 See [references/role-assessment.md](references/role-assessment.md) Section 1.7 Troubleshooting for resolution.
+  <!-- TOC: role-assessment.md -->
+  - 1 What is role assessment - Understanding role requirements analysis
+  - 2 When to perform assessment - Triggers for role evaluation
+  - 3 Assessment procedure - Step-by-step role analysis
+  - 1 Capability extraction - Identifying required skills
+  - 2 Agent type mapping - Matching skills to agent types
+  - ...and 7 more sections
+  <!-- /TOC -->
 
 ### Issue: Agent capacity exceeded
 
 **Symptoms:** Tasks queue indefinitely, context windows exhausted.
 
 See [references/capacity-planning.md](references/capacity-planning.md) Section 2.7 Troubleshooting for resolution.
+  <!-- TOC: capacity-planning.md -->
+  - 1 What is capacity planning - Understanding capacity constraints
+  - 2 Capacity metrics - Measuring agent capacity
+  - 1 Context window utilization - Token budget tracking
+  - 2 Concurrent execution limits - Parallel task boundaries
+  - 3 Blocking operation impact - Synchronous wait times
+  - ...and 10 more sections
+  <!-- /TOC -->
 
 ### Issue: Template does not fit project needs
 
 **Symptoms:** Template roles do not match requirements, assignments incorrect.
 
 See [references/staffing-templates.md](references/staffing-templates.md) Section 3.7 Troubleshooting for resolution.
+  <!-- TOC: staffing-templates.md -->
+  - 1 What are staffing templates - Reusable staffing configurations
+  - 2 Template structure - Standard template format
+  - 1 Metadata section - Template identification
+  - 2 Roles section - Required agent types
+  - 3 Assignments section - Default agent allocations
+  - ...and 11 more sections
+  <!-- /TOC -->
 
 ## Key Takeaways
 
@@ -272,21 +296,77 @@ See [references/staffing-templates.md](references/staffing-templates.md) Section
 
 ### 1. Read Role Assessment
 See [references/role-assessment.md](references/role-assessment.md) for complete role analysis procedures.
+  <!-- TOC: role-assessment.md -->
+  - 1 What is role assessment - Understanding role requirements analysis
+  - 2 When to perform assessment - Triggers for role evaluation
+  - 3 Assessment procedure - Step-by-step role analysis
+  - 1 Capability extraction - Identifying required skills
+  - 2 Agent type mapping - Matching skills to agent types
+  - ...and 7 more sections
+  <!-- /TOC -->
 
 ### 2. Read Capacity Planning
 See [references/capacity-planning.md](references/capacity-planning.md) for capacity calculation methods.
+  <!-- TOC: capacity-planning.md -->
+  - 1 What is capacity planning - Understanding capacity constraints
+  - 2 Capacity metrics - Measuring agent capacity
+  - 1 Context window utilization - Token budget tracking
+  - 2 Concurrent execution limits - Parallel task boundaries
+  - 3 Blocking operation impact - Synchronous wait times
+  - ...and 10 more sections
+  <!-- /TOC -->
 
 ### 3. Read Staffing Templates
 See [references/staffing-templates.md](references/staffing-templates.md) for template creation and usage.
+  <!-- TOC: staffing-templates.md -->
+  - 1 What are staffing templates - Reusable staffing configurations
+  - 2 Template structure - Standard template format
+  - 1 Metadata section - Template identification
+  - 2 Roles section - Required agent types
+  - 3 Assignments section - Default agent allocations
+  - ...and 11 more sections
+  <!-- /TOC -->
 
 ---
 
 ## Resources
 
 - [Role Assessment](references/role-assessment.md)
+  <!-- TOC: role-assessment.md -->
+  - 1 What is role assessment - Understanding role requirements analysis
+  - 2 When to perform assessment - Triggers for role evaluation
+  - 3 Assessment procedure - Step-by-step role analysis
+  - 1 Capability extraction - Identifying required skills
+  - 2 Agent type mapping - Matching skills to agent types
+  - ...and 7 more sections
+  <!-- /TOC -->
 - [Capacity Planning](references/capacity-planning.md)
+  <!-- TOC: capacity-planning.md -->
+  - 1 What is capacity planning - Understanding capacity constraints
+  - 2 Capacity metrics - Measuring agent capacity
+  - 1 Context window utilization - Token budget tracking
+  - 2 Concurrent execution limits - Parallel task boundaries
+  - 3 Blocking operation impact - Synchronous wait times
+  - ...and 10 more sections
+  <!-- /TOC -->
 - [Staffing Templates](references/staffing-templates.md)
+  <!-- TOC: staffing-templates.md -->
+  - 1 What are staffing templates - Reusable staffing configurations
+  - 2 Template structure - Standard template format
+  - 1 Metadata section - Template identification
+  - 2 Roles section - Required agent types
+  - 3 Assignments section - Default agent allocations
+  - ...and 11 more sections
+  <!-- /TOC -->
 - [Framework Details](references/framework-details.md) - Staff planning framework details
+  <!-- TOC: framework-details.md -->
+  - 0 Analyzing task requirements to determine staffing needs
+  - 1 Classifying tasks by project type, complexity, and timeline
+  - 2 Assessing task complexity to determine agent count
+  - 3 Matching task requirements to agent specializations
+  - 4 Evaluating resource constraints before staffing
+  - ...and 20 more sections
+  <!-- /TOC -->
 
 ---
 

@@ -351,9 +351,41 @@ For each target agent (`code-impl-auth`, `test-engineer-01`, `docs-writer`), use
 Step-by-step runbooks for executing individual notification operations. Use these when performing a specific notification operation.
 
 - [op-pre-operation-notification.md](references/op-pre-operation-notification.md) - **Pre-Operation Notification**: Identify affected agents, compose notification message, send notification, track acknowledgments, and handle timeouts before disruptive operations
+  <!-- TOC: op-pre-operation-notification.md -->
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Identify Affected Agents
+  - Step 2: Compose Notification Message
+  - ...and 10 more sections
+  <!-- /TOC -->
 - [op-post-operation-notification.md](references/op-post-operation-notification.md) - **Post-Operation Notification**: Confirm operation completed, compose success message, send confirmation to affected agents, request verification, and log outcome
+  <!-- TOC: op-post-operation-notification.md -->
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Confirm Operation Completed
+  - Step 2: Compose Success Message
+  - ...and 10 more sections
+  <!-- /TOC -->
 - [op-acknowledgment-protocol.md](references/op-acknowledgment-protocol.md) - **Acknowledgment Protocol**: Send acknowledgment request, start timeout timer with standardized policy, send reminders at intervals, process response, and proceed or handle timeout
+  <!-- TOC: op-acknowledgment-protocol.md -->
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Send Acknowledgment Request
+  - Step 2: Start Timeout Timer
+  - ...and 11 more sections
+  <!-- /TOC -->
 - [op-failure-notification.md](references/op-failure-notification.md) - **Failure Notification**: Capture error details, compose failure message with severity level, send notification to affected agents, provide recovery guidance, and log failure
+  <!-- TOC: op-failure-notification.md -->
+  - When to Use
+  - Prerequisites
+  - Procedure
+  - Step 1: Capture Error Details
+  - Step 2: Compose Failure Message
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ## Error Handling
 
@@ -362,24 +394,56 @@ Step-by-step runbooks for executing individual notification operations. Use thes
 **Symptoms:** Agent does not receive message, no response observed.
 
 See [references/pre-operation-notifications.md](references/pre-operation-notifications.md) Section 1.7 Troubleshooting for resolution.
+  <!-- TOC: pre-operation-notifications.md -->
+  - 1 What are pre-operation notifications - Understanding warning messages
+  - 2 When to send pre-operation notifications - Notification triggers
+  - 1 Skill installation - Agent will be hibernated and woken
+  - 2 Plugin installation - Agent restart required
+  - 3 Configuration changes - Settings will change
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ### Issue: Acknowledgment timeout
 
 **Symptoms:** Agent does not respond within 2 minutes.
 
 See [references/acknowledgment-protocol.md](references/acknowledgment-protocol.md) Section 3.9 Troubleshooting for resolution.
+  <!-- TOC: acknowledgment-protocol.md -->
+  - 1 What is the acknowledgment protocol - Understanding coordination
+  - 2 When to require acknowledgments - Acknowledgment triggers
+  - 1 Disruptive operations - Agent will be interrupted
+  - 2 State-changing operations - Agent context affected
+  - 3 Multi-agent coordination - Synchronized actions needed
+  - ...and 13 more sections
+  <!-- /TOC -->
 
 ### Issue: Agent sends unexpected response
 
 **Symptoms:** Agent responds with something other than "ok".
 
 See [references/acknowledgment-protocol.md](references/acknowledgment-protocol.md) Section 3.6 Response handling for resolution.
+  <!-- TOC: acknowledgment-protocol.md -->
+  - 1 What is the acknowledgment protocol - Understanding coordination
+  - 2 When to require acknowledgments - Acknowledgment triggers
+  - 1 Disruptive operations - Agent will be interrupted
+  - 2 State-changing operations - Agent context affected
+  - 3 Multi-agent coordination - Synchronized actions needed
+  - ...and 13 more sections
+  <!-- /TOC -->
 
 ### Issue: Failure notification not received
 
 **Symptoms:** Agent unaware of operation failure.
 
 See [references/failure-notifications.md](references/failure-notifications.md) Section 4.8 Troubleshooting for resolution.
+  <!-- TOC: failure-notifications.md -->
+  - 1 What are failure notifications - Understanding error messages
+  - 2 When to send failure notifications - Failure triggers
+  - 1 Installation failures - Skill or plugin not installed
+  - 2 Restart failures - Agent did not come back online
+  - 3 Configuration failures - Settings not applied
+  - ...and 13 more sections
+  <!-- /TOC -->
 
 ## Key Takeaways
 
@@ -408,30 +472,134 @@ See [references/failure-notifications.md](references/failure-notifications.md) S
 
 ### 1. Read Pre-Operation Notifications
 See [references/pre-operation-notifications.md](references/pre-operation-notifications.md) for complete pre-operation documentation.
+  <!-- TOC: pre-operation-notifications.md -->
+  - 1 What are pre-operation notifications - Understanding warning messages
+  - 2 When to send pre-operation notifications - Notification triggers
+  - 1 Skill installation - Agent will be hibernated and woken
+  - 2 Plugin installation - Agent restart required
+  - 3 Configuration changes - Settings will change
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ### 2. Read Post-Operation Notifications
 See [references/post-operation-notifications.md](references/post-operation-notifications.md) for confirmation procedures.
+  <!-- TOC: post-operation-notifications.md -->
+  - 1 What are post-operation notifications - Understanding confirmation messages
+  - 2 When to send post-operation notifications - Confirmation triggers
+  - 1 Skill installation complete - Skill is now active
+  - 2 Agent restart complete - Agent is back online
+  - 3 Configuration applied - Settings now active
+  - ...and 11 more sections
+  <!-- /TOC -->
 
 ### 3. Read Acknowledgment Protocol
 See [references/acknowledgment-protocol.md](references/acknowledgment-protocol.md) for detailed acknowledgment handling.
+  <!-- TOC: acknowledgment-protocol.md -->
+  - 1 What is the acknowledgment protocol - Understanding coordination
+  - 2 When to require acknowledgments - Acknowledgment triggers
+  - 1 Disruptive operations - Agent will be interrupted
+  - 2 State-changing operations - Agent context affected
+  - 3 Multi-agent coordination - Synchronized actions needed
+  - ...and 13 more sections
+  <!-- /TOC -->
 
 ### 4. Read Failure Notifications
 See [references/failure-notifications.md](references/failure-notifications.md) for error notification procedures.
+  <!-- TOC: failure-notifications.md -->
+  - 1 What are failure notifications - Understanding error messages
+  - 2 When to send failure notifications - Failure triggers
+  - 1 Installation failures - Skill or plugin not installed
+  - 2 Restart failures - Agent did not come back online
+  - 3 Configuration failures - Settings not applied
+  - ...and 13 more sections
+  <!-- /TOC -->
 
 ---
 
 ## Resources
 
 - [Pre-Operation Notifications](references/pre-operation-notifications.md)
+  <!-- TOC: pre-operation-notifications.md -->
+  - 1 What are pre-operation notifications - Understanding warning messages
+  - 2 When to send pre-operation notifications - Notification triggers
+  - 1 Skill installation - Agent will be hibernated and woken
+  - 2 Plugin installation - Agent restart required
+  - 3 Configuration changes - Settings will change
+  - ...and 12 more sections
+  <!-- /TOC -->
 - [Post-Operation Notifications](references/post-operation-notifications.md)
+  <!-- TOC: post-operation-notifications.md -->
+  - 1 What are post-operation notifications - Understanding confirmation messages
+  - 2 When to send post-operation notifications - Confirmation triggers
+  - 1 Skill installation complete - Skill is now active
+  - 2 Agent restart complete - Agent is back online
+  - 3 Configuration applied - Settings now active
+  - ...and 11 more sections
+  <!-- /TOC -->
 - [Acknowledgment Protocol](references/acknowledgment-protocol.md)
+  <!-- TOC: acknowledgment-protocol.md -->
+  - 1 What is the acknowledgment protocol - Understanding coordination
+  - 2 When to require acknowledgments - Acknowledgment triggers
+  - 1 Disruptive operations - Agent will be interrupted
+  - 2 State-changing operations - Agent context affected
+  - 3 Multi-agent coordination - Synchronized actions needed
+  - ...and 13 more sections
+  <!-- /TOC -->
 - [Failure Notifications](references/failure-notifications.md)
+  <!-- TOC: failure-notifications.md -->
+  - 1 What are failure notifications - Understanding error messages
+  - 2 When to send failure notifications - Failure triggers
+  - 1 Installation failures - Skill or plugin not installed
+  - 2 Restart failures - Agent did not come back online
+  - 3 Configuration failures - Settings not applied
+  - ...and 13 more sections
+  <!-- /TOC -->
 - [AI Maestro Message Templates](references/ai-maestro-message-templates.md) - Standard message templates for inter-agent communication
+  <!-- TOC: ai-maestro-message-templates.md -->
+  - Standard Message Format (AMP)
+  - When Requesting Approval from EAMA
+  - When Escalating Issues to EAMA
+  - When Notifying Agents of Upcoming Operations
+  - When Reporting Operation Results
+  - ...and 5 more sections
+  <!-- /TOC -->
 - [Message Response Decision Tree](references/message-response-decision-tree.md) - Decision tree for routing AI Maestro messages by priority and type
+  <!-- TOC: message-response-decision-tree.md -->
+  - Step 1: Priority Triage
+  - Step 2: Message Type Routing
+  - Step 3: Response Actions
+  - Step 4: ACK Protocol
+  - --
+  - ...and 6 more sections
+  <!-- /TOC -->
 - [Design Document Protocol](references/design-document-protocol.md) - Standards for design documents in the design/ folder
+  <!-- TOC: design-document-protocol.md -->
+  - Document UUID Format (GUUID)
+  - Required Frontmatter Schema
+  - Document Lifecycle
+  - Validation Procedures
+  - 1 [Pre-Save Validation (REQUIRED)](#41-pre-save-validation-required)
+  - ...and 27 more sections
+  <!-- /TOC -->
 - [Proactive Handoff Protocol](references/proactive-handoff-protocol.md) - Automatic handoff triggers and inter-agent work transfer
 - [Task Completion Checklist](references/task-completion-checklist.md) - Pre-completion verification checklist for Chief of Staff operations
+  <!-- TOC: task-completion-checklist.md -->
+  - Before Reporting Task Complete
+  - 1 [Acceptance Criteria Met](#1-acceptance-criteria-met)
+  - 2 [Quality Gates Passed](#2-quality-gates-passed)
+  - 3 [Memory Management Verification](#3-memory-management-verification)
+  - 4 [Documentation Updated](#4-documentation-updated)
+  - ...and 45 more sections
+  <!-- /TOC -->
 - [Edge Case Protocols](references/edge-case-protocols.md) - Protocols for failure scenarios and edge cases in AMCOS operations
+  <!-- TOC: edge-case-protocols.md -->
+  - 0 AI Maestro Unavailable
+  - 1 Detection Methods
+  - 2 Response Workflow
+  - 3 Fallback Communication
+  - 0 GitHub Unavailable
+  - ...and 29 more sections
+  <!-- /TOC -->
 
 ---
 

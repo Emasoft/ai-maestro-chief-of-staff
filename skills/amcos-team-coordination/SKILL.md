@@ -73,6 +73,14 @@ Maintaining visibility into all team members' current status and activities.
 **Related documentation:**
 
 #### Role Assignment ([references/role-assignment.md](references/role-assignment.md))
+  <!-- TOC: role-assignment.md -->
+  - 1 [What Are Agent Roles](#11-what-are-agent-roles)
+  - 2 [Standard Role Definitions](#12-standard-role-definitions)
+  - 3 [Matching Agents To Roles](#13-matching-agents-to-roles)
+  - 4 [Role Assignment Procedure](#14-role-assignment-procedure)
+  - 5 [Confirming Role Acceptance](#15-confirming-role-acceptance)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 1.1 Understanding roles → What Are Agent Roles section
 - 1.2 Role definitions → Standard Role Definitions section
 - 1.3 Capability matching → Matching Agents To Roles section
@@ -91,6 +99,14 @@ Maintaining visibility into all team members' current status and activities.
 **Related documentation:**
 
 #### Team Messaging ([references/team-messaging.md](references/team-messaging.md))
+  <!-- TOC: team-messaging.md -->
+  - 1 [Team Message Types](#21-team-message-types)
+  - 2 [Message Priority Levels](#22-message-priority-levels)
+  - 3 [Sending Broadcast Messages](#23-sending-broadcast-messages)
+  - 4 [Sending Targeted Messages](#24-sending-targeted-messages)
+  - 5 [Message Routing Rules](#25-message-routing-rules)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 2.1 Message types → Team Message Types section
 - 2.2 Message priorities → Message Priority Levels section
 - 2.3 Broadcast messages → Sending Broadcast Messages section
@@ -109,6 +125,14 @@ Maintaining visibility into all team members' current status and activities.
 **Related documentation:**
 
 #### Teammate Awareness ([references/teammate-awareness.md](references/teammate-awareness.md))
+  <!-- TOC: teammate-awareness.md -->
+  - 1 [Managing The Team Roster](#31-managing-the-team-roster)
+  - 2 [Polling Agent Status](#32-polling-agent-status)
+  - 3 [Detecting Agent Activity](#33-detecting-agent-activity)
+  - 4 [Handling Inactive Agents](#34-handling-inactive-agents)
+  - 5 [Reporting Team Status](#35-reporting-team-status)
+  - ...and 3 more sections
+  <!-- /TOC -->
 - 3.1 Team roster → Managing The Team Roster section
 - 3.2 Status polling → Polling Agent Status section
 - 3.3 Activity detection → Detecting Agent Activity section
@@ -284,8 +308,32 @@ curl -s "http://localhost:23000/api/sessions" | jq '.sessions[] | select(.projec
 ## Resources
 
 - [Role Assignment](references/role-assignment.md)
+  <!-- TOC: role-assignment.md -->
+  - 1 [What Are Agent Roles](#11-what-are-agent-roles)
+  - 2 [Standard Role Definitions](#12-standard-role-definitions)
+  - 3 [Matching Agents To Roles](#13-matching-agents-to-roles)
+  - 4 [Role Assignment Procedure](#14-role-assignment-procedure)
+  - 5 [Confirming Role Acceptance](#15-confirming-role-acceptance)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Team Messaging](references/team-messaging.md)
+  <!-- TOC: team-messaging.md -->
+  - 1 [Team Message Types](#21-team-message-types)
+  - 2 [Message Priority Levels](#22-message-priority-levels)
+  - 3 [Sending Broadcast Messages](#23-sending-broadcast-messages)
+  - 4 [Sending Targeted Messages](#24-sending-targeted-messages)
+  - 5 [Message Routing Rules](#25-message-routing-rules)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Teammate Awareness](references/teammate-awareness.md)
+  <!-- TOC: teammate-awareness.md -->
+  - 1 [Managing The Team Roster](#31-managing-the-team-roster)
+  - 2 [Polling Agent Status](#32-polling-agent-status)
+  - 3 [Detecting Agent Activity](#33-detecting-agent-activity)
+  - 4 [Handling Inactive Agents](#34-handling-inactive-agents)
+  - 5 [Reporting Team Status](#35-reporting-team-status)
+  - ...and 3 more sections
+  <!-- /TOC -->
 
 ---
 

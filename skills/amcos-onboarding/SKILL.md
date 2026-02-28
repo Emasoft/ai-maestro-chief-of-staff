@@ -73,6 +73,14 @@ Transfer of essential project knowledge, conventions, and current state.
 **Related documentation:**
 
 #### Onboarding Checklist ([references/onboarding-checklist.md](references/onboarding-checklist.md))
+  <!-- TOC: onboarding-checklist.md -->
+  - 1 [Purpose Of The Onboarding Checklist](#11-purpose-of-the-onboarding-checklist)
+  - 2 [Pre Onboarding Preparation](#12-pre-onboarding-preparation)
+  - 3 [Core Onboarding Checklist](#13-core-onboarding-checklist)
+  - 4 [Role Specific Additions](#14-role-specific-additions)
+  - 5 [Onboarding Verification](#15-onboarding-verification)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 1.1 Checklist purpose → Purpose Of The Onboarding Checklist section
 - 1.2 Pre-onboarding steps → Pre Onboarding Preparation section
 - 1.3 Core checklist items → Core Onboarding Checklist section
@@ -91,6 +99,14 @@ Transfer of essential project knowledge, conventions, and current state.
 **Related documentation:**
 
 #### Role Briefing ([references/role-briefing.md](references/role-briefing.md))
+  <!-- TOC: role-briefing.md -->
+  - 1 [Role Briefing Components](#21-role-briefing-components)
+  - 2 [Explaining Role Responsibilities](#22-explaining-role-responsibilities)
+  - 3 [Clarifying Reporting Structure](#23-clarifying-reporting-structure)
+  - 4 [Setting Performance Expectations](#24-setting-performance-expectations)
+  - 5 [Handling Agent Questions](#25-handling-agent-questions)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 2.1 Briefing components → Role Briefing Components section
 - 2.2 Responsibility explanation → Explaining Role Responsibilities section
 - 2.3 Reporting structure → Clarifying Reporting Structure section
@@ -109,6 +125,14 @@ Transfer of essential project knowledge, conventions, and current state.
 **Related documentation:**
 
 #### Project Handoff ([references/project-handoff.md](references/project-handoff.md))
+  <!-- TOC: project-handoff.md -->
+  - 1 [Preparing For Project Handoff](#31-preparing-for-project-handoff)
+  - 2 [Providing Project Overview](#32-providing-project-overview)
+  - 3 [Sharing Current State](#33-sharing-current-state)
+  - 4 [Explaining Project Conventions](#34-explaining-project-conventions)
+  - 5 [Transferring Working Knowledge](#35-transferring-working-knowledge)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - 3.1 Handoff preparation → Preparing For Project Handoff section
 - 3.2 Project overview → Providing Project Overview section
 - 3.3 Current state → Sharing Current State section
@@ -325,8 +349,32 @@ uv run --with pyyaml python scripts/validate_plugin.py . --verbose
 ## Resources
 
 - [Onboarding Checklist](references/onboarding-checklist.md)
+  <!-- TOC: onboarding-checklist.md -->
+  - 1 [Purpose Of The Onboarding Checklist](#11-purpose-of-the-onboarding-checklist)
+  - 2 [Pre Onboarding Preparation](#12-pre-onboarding-preparation)
+  - 3 [Core Onboarding Checklist](#13-core-onboarding-checklist)
+  - 4 [Role Specific Additions](#14-role-specific-additions)
+  - 5 [Onboarding Verification](#15-onboarding-verification)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Role Briefing](references/role-briefing.md)
+  <!-- TOC: role-briefing.md -->
+  - 1 [Role Briefing Components](#21-role-briefing-components)
+  - 2 [Explaining Role Responsibilities](#22-explaining-role-responsibilities)
+  - 3 [Clarifying Reporting Structure](#23-clarifying-reporting-structure)
+  - 4 [Setting Performance Expectations](#24-setting-performance-expectations)
+  - 5 [Handling Agent Questions](#25-handling-agent-questions)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - [Project Handoff](references/project-handoff.md)
+  <!-- TOC: project-handoff.md -->
+  - 1 [Preparing For Project Handoff](#31-preparing-for-project-handoff)
+  - 2 [Providing Project Overview](#32-providing-project-overview)
+  - 3 [Sharing Current State](#33-sharing-current-state)
+  - 4 [Explaining Project Conventions](#34-explaining-project-conventions)
+  - 5 [Transferring Working Knowledge](#35-transferring-working-knowledge)
+  - ...and 4 more sections
+  <!-- /TOC -->
 
 ---
 

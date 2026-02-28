@@ -68,6 +68,14 @@ For complete details, see [references/00-session-memory-lifecycle.md](references
 **Related documentation:**
 
 #### Initializing Session Memory ([references/01-initialize-session-memory.md](references/01-initialize-session-memory.md))
+  <!-- TOC: 01-initialize-session-memory.md -->
+  - When you need to understand the purpose
+  - When to initialize session memory
+  - How to perform initialization
+  - Understanding directory structure
+  - What files to create initially
+  - ...and 3 more sections
+  <!-- /TOC -->
 - Understanding purpose → Purpose section
 - When to initialize → When To Initialize section
 - How to perform initialization → Initialization Procedure section
@@ -98,6 +106,14 @@ For complete details, see [references/00-session-memory-lifecycle.md](references
 **Related documentation:**
 
 #### Managing Active Context ([references/03-manage-active-context.md](references/03-manage-active-context.md))
+  <!-- TOC: 03-manage-active-context.md -->
+  - When you need to understand the purpose
+  - Understanding what active context is
+  - When to update context
+  - How to update context
+  - Creating context snapshots
+  - ...and 4 more sections
+  <!-- /TOC -->
 - What active context is → What Is Active Context section
 - Context update triggers → Context Update Triggers section
 - Update procedures → Update Procedures section
@@ -105,6 +121,14 @@ For complete details, see [references/00-session-memory-lifecycle.md](references
 - Context pruning → Context Pruning section
 
 #### Context Update Patterns ([references/06-context-update-patterns.md](references/06-context-update-patterns.md))
+  <!-- TOC: 06-context-update-patterns.md -->
+  - When you need to understand the purpose
+  - Understanding update patterns overview
+  - When switching tasks
+  - When recording decisions
+  - When adding questions
+  - ...and 5 more sections
+  <!-- /TOC -->
 - Update patterns overview → Update Patterns Overview section
 - Task switching → Pattern 1 Task Switch Update section
 - Recording decisions → Pattern 2 Decision Recording Update section
@@ -129,6 +153,13 @@ For complete details, see [references/00-session-memory-lifecycle.md](references
 - Index management → Pattern Index Management section
 
 #### Pattern Categories ([references/07-pattern-categories.md](references/07-pattern-categories.md))
+  <!-- TOC: 07-pattern-categories.md -->
+  - Purpose
+  - Category Definitions
+  - Pattern Category Details
+  - How to Choose Categories
+  - --
+  <!-- /TOC -->
 - Category definitions → Category Definitions section
 - Problem-solution patterns → Problem Solution Patterns section
 - Workflow patterns → Workflow Patterns section
@@ -146,6 +177,12 @@ For complete details, see [references/00-session-memory-lifecycle.md](references
 **Related documentation:**
 
 #### Managing Progress Tracking ([references/08-manage-progress-tracking.md](references/08-manage-progress-tracking.md))
+  <!-- TOC: 08-manage-progress-tracking.md -->
+  - Purpose
+  - Part Files
+  - Quick Reference
+  - --
+  <!-- /TOC -->
 - Tracker structure → Progress Tracker Structure section
 - Task states → Task States section
 - Task management → Task Management Procedures section
@@ -153,6 +190,14 @@ For complete details, see [references/00-session-memory-lifecycle.md](references
 - Progress snapshots → Progress Snapshots section
 
 #### Task Dependencies ([references/09-task-dependencies.md](references/09-task-dependencies.md))
+  <!-- TOC: 09-task-dependencies.md -->
+  - This document is split into 4 parts for efficient context loading.
+  - ### Part 1: Dependency Types and Notation
+  - *File**: 09-task-dependencies-part1-types-notation.md
+  - *Contents**:
+  - 1 Type 1: Sequential Dependency - When Task B cannot start until Task A completes
+  - ...and 37 more sections
+  <!-- /TOC -->
 - Dependency types → Dependency Types section
 - Dependency notation → Dependency Notation section
 - Dependency management → Dependency Management section
@@ -168,6 +213,14 @@ For complete details, see [references/00-session-memory-lifecycle.md](references
 **Related documentation:**
 
 #### Interruption Recovery ([references/10-recovery-procedures.md](references/10-recovery-procedures.md))
+  <!-- TOC: 10-recovery-procedures.md -->
+  - When you need to understand the purpose
+  - Understanding recovery scenarios
+  - Recovering from failed compaction
+  - Recovering from corrupted memory
+  - Recovering from lost context
+  - ...and 4 more sections
+  <!-- /TOC -->
 - Recovery scenarios → Recovery Scenarios section
 - Failed compaction recovery → Recovery From Failed Compaction section
 - Corrupted memory recovery → Recovery From Corrupted Memory section
@@ -255,6 +308,14 @@ This file is separate from authoritative configs in `design/config/` (OPTIONAL: 
 **Related documentation:**
 
 #### Config Conflict Resolution ([references/21-config-conflict-resolution.md](references/21-config-conflict-resolution.md))
+  <!-- TOC: 21-config-conflict-resolution.md -->
+  - Overview
+  - Conflict Types and Resolution Strategies
+  - Resolution Procedures 1-2
+  - Resolution Procedures 3-4
+  - Decision Trees, Examples, Troubleshooting
+  - ...and 1 more sections
+  <!-- /TOC -->
 - Conflict types → Conflict Types section
 - Resolution strategies → Resolution Strategies section
 - Non-breaking resolution → Procedure 1 Resolve Non Breaking Changes section
@@ -270,6 +331,9 @@ This file is separate from authoritative configs in `design/config/` (OPTIONAL: 
 These operational runbooks provide step-by-step instructions for executing each session memory procedure. Use them as quick-reference guides when performing the corresponding operation.
 
 #### Initialize Session Memory ([references/op-initialize-session-memory.md](references/op-initialize-session-memory.md))
+  <!-- TOC: op-initialize-session-memory.md -->
+  - None yet
+  <!-- /TOC -->
 Runbook for creating or loading session memory files at session start to enable persistence across interactions and context compaction.
 - Purpose - Why initialization is needed
 - When To Use This Operation - Triggers: new session, after compaction, after interruption, memory recreation
@@ -284,6 +348,14 @@ Runbook for updating the activeContext.md file when the agent's current focus, d
 - Checklist - Verification steps after update
 
 #### Record Discovered Pattern ([references/op-record-discovered-pattern.md](references/op-record-discovered-pattern.md))
+  <!-- TOC: op-record-discovered-pattern.md -->
+  - Pattern Name 1
+  - Pattern Name 2
+  - [NEW] [Your Pattern](#your-pattern) - [Category]
+  - ```
+  - ### Step 5: Update Timestamp
+  - ...and 4 more sections
+  <!-- /TOC -->
 Runbook for capturing recurring patterns, effective solutions, anti-patterns, and lessons learned into patterns.md for future reference.
 - When To Use This Operation - After identifying recurring patterns, anti-patterns, effective solutions, or conventions
 - Pattern Categories - Problem-Solution, Workflow, Decision-Logic, Error-Recovery, Configuration
@@ -424,6 +496,14 @@ All session memory operations are provided by the unified `amcos_memory_manager.
 - **`repair-memory.py`** - Recover from corruption (planned)
 
 #### Using Memory Scripts ([references/18-using-scripts.md](references/18-using-scripts.md))
+  <!-- TOC: 18-using-scripts.md -->
+  - This document is split into parts for efficient loading. Read the section relevant to your current task.
+  - ### Part 1: Initialize and Validate
+  - *File:** 18-using-scripts-part1-initialize-validate.md
+  - *Contents:**
+  - 1 Overview - What are memory scripts and why use them
+  - ...and 36 more sections
+  <!-- /TOC -->
 - Available scripts → Available Scripts section
 - Script usage guide → Script Usage Guide section
 - Common workflows → Common Workflows section
@@ -440,6 +520,14 @@ AI Maestro is the inter-agent messaging system that enables the Chief of Staff t
 **Related documentation:**
 
 #### AI Maestro Integration ([references/ai-maestro-integration.md](references/ai-maestro-integration.md))
+  <!-- TOC: ai-maestro-integration.md -->
+  - 1 [What Is AI Maestro](#11-what-is-ai-maestro)
+  - 2 [Core Capabilities](#12-core-capabilities)
+  - 3 [Session Management](#13-session-management)
+  - 4 [Message Operations](#14-message-operations)
+  - 5 [Broadcast Operations](#15-broadcast-operations)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - What is AI Maestro → What Is AI Maestro section
 - Core API endpoints → Core API Endpoints section
 - Session management → Session Management section
@@ -456,6 +544,14 @@ The Chief of Staff uses specialized state files for team coordination, performan
 **Related documentation:**
 
 #### State File Format ([references/state-file-format.md](references/state-file-format.md))
+  <!-- TOC: state-file-format.md -->
+  - 1 [Overview of State Files](#11-overview-of-state-files)
+  - 2 [Chief of Staff State File](#12-chief-of-staff-state-file)
+  - 3 [Team Roster File](#13-team-roster-file)
+  - 4 [Coordination Log File](#14-coordination-log-file)
+  - 5 [Performance Data Files](#15-performance-data-files)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - State file overview → Overview Of State Files section
 - Chief of Staff state file → Chief Of Staff State File section
 - Team roster file → Team Roster File section
@@ -472,6 +568,14 @@ The Chief of Staff follows a fail-fast approach to error handling with explicit 
 **Related documentation:**
 
 #### Error Handling ([references/error-handling.md](references/error-handling.md))
+  <!-- TOC: error-handling.md -->
+  - 1 [Error Handling Philosophy](#11-error-handling-philosophy)
+  - 2 [Error Categories](#12-error-categories)
+  - 3 [Communication Errors](#13-communication-errors)
+  - 4 [Coordination Errors](#14-coordination-errors)
+  - 5 [Resource Errors](#15-resource-errors)
+  - ...and 4 more sections
+  <!-- /TOC -->
 - Error handling philosophy → Error Handling Philosophy section
 - Error categories → Error Categories section
 - Communication errors → Communication Errors section
@@ -490,6 +594,12 @@ For essential principles and recommended reading order, see [references/00-key-t
 ## Resources
 
 See [references/00-key-takeaways-and-next-steps.md](references/00-key-takeaways-and-next-steps.md#resources-index) for a full index of all reference documents.
+  <!-- TOC: 00-key-takeaways-and-next-steps.md -->
+  - Key Takeaways
+  - Next Steps
+  - Resources Index
+  - --
+  <!-- /TOC -->
 
 ---
 

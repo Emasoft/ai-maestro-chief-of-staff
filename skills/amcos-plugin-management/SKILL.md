@@ -291,18 +291,42 @@ Detailed step-by-step runbook for validating plugin structure, manifest, hooks, 
 **Symptoms:** Install command errors, plugin not in list, marketplace issues.
 
 See [references/plugin-installation.md](references/plugin-installation.md) Section 1.8 Troubleshooting for resolution.
+  <!-- TOC: plugin-installation.md -->
+  - 1 What is plugin installation - Understanding plugin deployment
+  - 2 Installation prerequisites - Requirements before install
+  - 1 Marketplace registration - Adding marketplaces
+  - 2 Plugin discovery - Finding available plugins
+  - 3 Version selection - Choosing plugin version
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ### Issue: Local plugin not loading
 
 **Symptoms:** Commands not available, hooks not firing, agents not found.
 
 See [references/local-configuration.md](references/local-configuration.md) Section 2.7 Troubleshooting for resolution.
+  <!-- TOC: local-configuration.md -->
+  - 1 What is local plugin configuration - Development plugin setup
+  - 2 Directory structure - Required plugin layout
+  - 1 Root directory - Plugin container
+  - 2 .claude-plugin folder - Manifest location
+  - 3 Component directories - commands, agents, skills, hooks
+  - ...and 10 more sections
+  <!-- /TOC -->
 
 ### Issue: Plugin validation errors
 
 **Symptoms:** Validate command reports errors, plugin partially loads.
 
 See [references/plugin-validation.md](references/plugin-validation.md) Section 3.7 Troubleshooting for resolution.
+  <!-- TOC: plugin-validation.md -->
+  - 1 What is plugin validation - Checking plugin correctness
+  - 2 Validation levels - What gets checked
+  - 1 Manifest validation - plugin.json structure
+  - 2 Component validation - commands, agents, skills
+  - 3 Hook validation - hooks.json and scripts
+  - ...and 14 more sections
+  <!-- /TOC -->
 
 ## PROCEDURE 4: Manage Plugins on Remote Agents
 
@@ -392,21 +416,77 @@ All remote plugin operations are performed using the `ai-maestro-agents-manageme
 
 ### 1. Read Plugin Installation
 See [references/plugin-installation.md](references/plugin-installation.md) for marketplace installation.
+  <!-- TOC: plugin-installation.md -->
+  - 1 What is plugin installation - Understanding plugin deployment
+  - 2 Installation prerequisites - Requirements before install
+  - 1 Marketplace registration - Adding marketplaces
+  - 2 Plugin discovery - Finding available plugins
+  - 3 Version selection - Choosing plugin version
+  - ...and 12 more sections
+  <!-- /TOC -->
 
 ### 2. Read Local Configuration
 See [references/local-configuration.md](references/local-configuration.md) for development setup.
+  <!-- TOC: local-configuration.md -->
+  - 1 What is local plugin configuration - Development plugin setup
+  - 2 Directory structure - Required plugin layout
+  - 1 Root directory - Plugin container
+  - 2 .claude-plugin folder - Manifest location
+  - 3 Component directories - commands, agents, skills, hooks
+  - ...and 10 more sections
+  <!-- /TOC -->
 
 ### 3. Read Plugin Validation
 See [references/plugin-validation.md](references/plugin-validation.md) for validation procedures.
+  <!-- TOC: plugin-validation.md -->
+  - 1 What is plugin validation - Checking plugin correctness
+  - 2 Validation levels - What gets checked
+  - 1 Manifest validation - plugin.json structure
+  - 2 Component validation - commands, agents, skills
+  - 3 Hook validation - hooks.json and scripts
+  - ...and 14 more sections
+  <!-- /TOC -->
 
 ---
 
 ## Resources
 
 - [Plugin Installation](references/plugin-installation.md)
+  <!-- TOC: plugin-installation.md -->
+  - 1 What is plugin installation - Understanding plugin deployment
+  - 2 Installation prerequisites - Requirements before install
+  - 1 Marketplace registration - Adding marketplaces
+  - 2 Plugin discovery - Finding available plugins
+  - 3 Version selection - Choosing plugin version
+  - ...and 12 more sections
+  <!-- /TOC -->
 - [Local Configuration](references/local-configuration.md)
+  <!-- TOC: local-configuration.md -->
+  - 1 What is local plugin configuration - Development plugin setup
+  - 2 Directory structure - Required plugin layout
+  - 1 Root directory - Plugin container
+  - 2 .claude-plugin folder - Manifest location
+  - 3 Component directories - commands, agents, skills, hooks
+  - ...and 10 more sections
+  <!-- /TOC -->
 - [Plugin Validation](references/plugin-validation.md)
+  <!-- TOC: plugin-validation.md -->
+  - 1 What is plugin validation - Checking plugin correctness
+  - 2 Validation levels - What gets checked
+  - 1 Manifest validation - plugin.json structure
+  - 2 Component validation - commands, agents, skills
+  - 3 Hook validation - hooks.json and scripts
+  - ...and 14 more sections
+  <!-- /TOC -->
 - [Installation Procedures](references/installation-procedures.md)
+  <!-- TOC: installation-procedures.md -->
+  - Installing Plugins from Marketplaces
+  - 1 Adding a marketplace
+  - 2 Installing a plugin with local scope
+  - 3 Verifying plugin installation
+  - Installing Plugins from Local Directories
+  - ...and 36 more sections
+  <!-- /TOC -->
 
 ---
 
