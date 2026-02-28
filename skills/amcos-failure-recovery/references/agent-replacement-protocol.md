@@ -118,7 +118,7 @@ Even when the agent cannot be recovered, some work products may be salvageable:
 |---------------|----------|-----------------|
 | Git commits | Remote repository | Clone from origin |
 | Local uncommitted changes | Agent's working directory | May be lost if disk corrupted |
-| Log files | `/var/log/` or project `logs/` | Copy if host accessible |
+| Log files | Project `logs/` directory | Copy if host accessible |
 | Conversation history | Claude session | Lost if session terminated |
 | Task tracking files | `$CLAUDE_PROJECT_DIR/.amcos/` | Copy if accessible |
 | Handoff documents | `thoughts/shared/handoffs/` | Likely preserved in git |

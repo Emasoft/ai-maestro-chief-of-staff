@@ -209,10 +209,10 @@ echo "Disk usage: ${disk_percent}%"
 
 ```bash
 # Find files larger than 100MB
-find /Users -size +100M -type f 2>/dev/null | head -20
+find "$HOME" -size +100M -type f 2>/dev/null | head -20
 
 # Find large log files
-find /var/log -size +50M -type f 2>/dev/null
+find "${TMPDIR:-/tmp}" -size +50M -type f 2>/dev/null
 find ~/.claude -name "*.log" -size +10M 2>/dev/null
 ```
 
