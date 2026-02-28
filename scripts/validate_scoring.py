@@ -57,7 +57,7 @@ from validate_security import validate_security
 from validate_skill import validate_skill
 
 # Import shared validation infrastructure
-from validation_common import (
+from cpv_validation_common import (
     COLORS,
     ValidationReport,
     ValidationResult,
@@ -198,9 +198,7 @@ class QualityScoreReport:
             "overall_score": round(self.overall_score, 2),
             "letter_grade": self.letter_grade,
             "status": self.status,
-            "category_scores": {
-                name: cat.to_dict() for name, cat in self.category_scores.items()
-            },
+            "category_scores": {name: cat.to_dict() for name, cat in self.category_scores.items()},
             "critical_failures": self.critical_failures,
             "recommendations": self.recommendations,
             "validator_summaries": {
@@ -296,98 +294,43 @@ def categorize_results(
         # Security category - from security validator or security-related messages
         if validator_name == "security" or any(
             keyword in msg_lower
-            for keyword in [
-                "security",
-                "secret",
-                "credential",
-                "injection",
-                "traversal",
-                "dangerous",
-                "unsafe",
-            ]
+            for keyword in ["security", "secret", "credential", "injection", "traversal", "dangerous", "unsafe"]
         ):
             categories["security"].append(result)
 
         # Schema compliance - manifest, JSON, required fields
         elif any(
             keyword in msg_lower
-            for keyword in [
-                "json",
-                "manifest",
-                "plugin.json",
-                "required field",
-                "schema",
-                "kebab-case",
-                "name must",
-            ]
+            for keyword in ["json", "manifest", "plugin.json", "required field", "schema", "kebab-case", "name must"]
         ):
             categories["schema_compliance"].append(result)
 
         # Matcher validity - hook matchers
-        elif any(
-            keyword in msg_lower
-            for keyword in [
-                "matcher",
-                "regex",
-                "pattern invalid",
-                "tool name",
-                "wildcard",
-            ]
-        ):
+        elif any(keyword in msg_lower for keyword in ["matcher", "regex", "pattern invalid", "tool name", "wildcard"]):
             categories["matcher_validity"].append(result)
 
         # Script existence - scripts, executables
         elif any(
             keyword in msg_lower
-            for keyword in [
-                "script",
-                "executable",
-                "shebang",
-                "chmod",
-                "file not found",
-                "command not found",
-            ]
+            for keyword in ["script", "executable", "shebang", "chmod", "file not found", "command not found"]
         ):
             categories["script_existence"].append(result)
 
         # Hook types - hook configuration
         elif any(
             keyword in msg_lower
-            for keyword in [
-                "hook type",
-                "event type",
-                "pretooluse",
-                "posttooluse",
-                "stop",
-                "sessionstart",
-            ]
+            for keyword in ["hook type", "event type", "pretooluse", "posttooluse", "stop", "sessionstart"]
         ):
             categories["hook_types"].append(result)
 
         # Documentation - README, descriptions, comments
-        elif any(
-            keyword in msg_lower
-            for keyword in [
-                "readme",
-                "description",
-                "documentation",
-                "missing docstring",
-            ]
-        ):
+        elif any(keyword in msg_lower for keyword in ["readme", "description", "documentation", "missing docstring"]):
             categories["documentation"].append(result)
 
         # Maintainability - code quality, structure
         elif any(
             keyword in msg_lower
-            for keyword in [
-                "version",
-                "structure",
-                "duplicate",
-                "unused",
-                "deprecated",
-                "lint",
-                "format",
-            ]
+            for keyword in ["version", "structure", "duplicate", "unused", "deprecated", "lint", "format"]
         ):
             categories["maintainability"].append(result)
 
@@ -475,16 +418,16 @@ def run_all_validators(plugin_path: Path) -> dict[str, ValidationReport]:
     # Note: validate_plugin uses its own ValidationReport class with compatible interface
     try:
         plugin_report = ValidationReport()
-        _ = validate_manifest(plugin_path, plugin_report)  # type: ignore[arg-type]
-        validate_structure(plugin_path, plugin_report)  # type: ignore[arg-type]
-        plugin_validate_commands(plugin_path, plugin_report)  # type: ignore[arg-type]
-        plugin_validate_agents(plugin_path, plugin_report)  # type: ignore[arg-type]
-        plugin_validate_hooks(plugin_path, plugin_report)  # type: ignore[arg-type]
-        plugin_validate_mcp(plugin_path, plugin_report)  # type: ignore[arg-type]
-        validate_scripts(plugin_path, plugin_report)  # type: ignore[arg-type]
-        plugin_validate_skills(plugin_path, plugin_report)  # type: ignore[arg-type]
-        validate_readme(plugin_path, plugin_report)  # type: ignore[arg-type]
-        validate_license(plugin_path, plugin_report)  # type: ignore[arg-type]
+        _ = validate_manifest(plugin_path, plugin_report)
+        validate_structure(plugin_path, plugin_report)
+        plugin_validate_commands(plugin_path, plugin_report)
+        plugin_validate_agents(plugin_path, plugin_report)
+        plugin_validate_hooks(plugin_path, plugin_report)
+        plugin_validate_mcp(plugin_path, plugin_report)
+        validate_scripts(plugin_path, plugin_report)
+        plugin_validate_skills(plugin_path, plugin_report)
+        validate_readme(plugin_path, plugin_report)
+        validate_license(plugin_path, plugin_report)
         reports["plugin"] = plugin_report
     except Exception as e:
         error_report = ValidationReport()
@@ -506,7 +449,7 @@ def run_all_validators(plugin_path: Path) -> dict[str, ValidationReport]:
     if hooks_path.exists():
         try:
             hook_report = validate_hooks(hooks_path, plugin_path)
-            reports["hooks"] = hook_report  # type: ignore[assignment]
+            reports["hooks"] = hook_report
         except Exception as e:
             error_report = ValidationReport()
             error_report.critical(f"Hook validation failed: {e}")
@@ -518,7 +461,7 @@ def run_all_validators(plugin_path: Path) -> dict[str, ValidationReport]:
     if mcp_path.exists():
         try:
             mcp_report = validate_plugin_mcp(plugin_path)
-            reports["mcp"] = mcp_report  # type: ignore[assignment]
+            reports["mcp"] = mcp_report
         except Exception as e:
             error_report = ValidationReport()
             error_report.critical(f"MCP validation failed: {e}")
@@ -533,9 +476,7 @@ def run_all_validators(plugin_path: Path) -> dict[str, ValidationReport]:
                 agent_single_report = validate_agent(agent_file)
                 agent_report.merge(agent_single_report)
             except Exception as e:
-                agent_report.critical(
-                    f"Agent validation failed for {agent_file.name}: {e}"
-                )
+                agent_report.critical(f"Agent validation failed for {agent_file.name}: {e}")
         reports["agents"] = agent_report
 
     # Run detailed skill validator for each skill directory
@@ -547,11 +488,9 @@ def run_all_validators(plugin_path: Path) -> dict[str, ValidationReport]:
             if skill_dir.is_dir() and not skill_dir.name.startswith("."):
                 try:
                     skill_single_report = validate_skill(skill_dir)
-                    skill_report.merge(skill_single_report)  # type: ignore[arg-type]
+                    skill_report.merge(skill_single_report)
                 except Exception as e:
-                    skill_report.critical(
-                        f"Skill validation failed for {skill_dir.name}: {e}"
-                    )
+                    skill_report.critical(f"Skill validation failed for {skill_dir.name}: {e}")
         reports["skills"] = skill_report
 
     # Run detailed command validator for each command file
@@ -563,9 +502,7 @@ def run_all_validators(plugin_path: Path) -> dict[str, ValidationReport]:
                 cmd_single_report = validate_command(cmd_file)
                 command_report.merge(cmd_single_report)
             except Exception as e:
-                command_report.critical(
-                    f"Command validation failed for {cmd_file.name}: {e}"
-                )
+                command_report.critical(f"Command validation failed for {cmd_file.name}: {e}")
         reports["commands"] = command_report
 
     return reports
@@ -617,9 +554,7 @@ def compute_quality_score(plugin_path: Path) -> QualityScoreReport:
         if critical > 0:
             for result in results:
                 if result.level == "CRITICAL":
-                    report.critical_failures.append(
-                        f"[{category_name}] {result.message}"
-                    )
+                    report.critical_failures.append(f"[{category_name}] {result.message}")
 
         report.category_scores[category_name] = cat_score
 
@@ -686,12 +621,8 @@ def print_quality_report(report: QualityScoreReport, verbose: bool = False) -> N
         status_symbol = "FAIL"
 
     print(f"\n{COLORS['BOLD']}Overall Score:{COLORS['RESET']} ", end="")
-    print(
-        f"{status_color}{report.overall_score:.1f}/100 ({report.letter_grade}){COLORS['RESET']}"
-    )
-    print(
-        f"{COLORS['BOLD']}Status:{COLORS['RESET']} {status_color}{status_symbol}{COLORS['RESET']}"
-    )
+    print(f"{status_color}{report.overall_score:.1f}/100 ({report.letter_grade}){COLORS['RESET']}")
+    print(f"{COLORS['BOLD']}Status:{COLORS['RESET']} {status_color}{status_symbol}{COLORS['RESET']}")
 
     # Category breakdown
     print(f"\n{COLORS['BOLD']}Category Scores (0-10 scale):{COLORS['RESET']}")
@@ -713,31 +644,20 @@ def print_quality_report(report: QualityScoreReport, verbose: bool = False) -> N
         status = "PASS" if cat.passed else "FAIL"
         status_indicator = f"[{status}]"
 
-        print(
-            f"  {display_name:25} {score_color}{cat.score:5.1f}/10{COLORS['RESET']} ",
-            end="",
-        )
+        print(f"  {display_name:25} {score_color}{cat.score:5.1f}/10{COLORS['RESET']} ", end="")
         print(f"(min: {cat.threshold}/10) ", end="")
         print(f"{score_color}{status_indicator:8}{COLORS['RESET']} ", end="")
         print(f"[{cat.rating}]")
 
         if verbose:
             if cat.issues_critical > 0:
-                print(
-                    f"    {COLORS['CRITICAL']}- Critical: {cat.issues_critical}{COLORS['RESET']}"
-                )
+                print(f"    {COLORS['CRITICAL']}- Critical: {cat.issues_critical}{COLORS['RESET']}")
             if cat.issues_major > 0:
-                print(
-                    f"    {COLORS['MAJOR']}- Major: {cat.issues_major}{COLORS['RESET']}"
-                )
+                print(f"    {COLORS['MAJOR']}- Major: {cat.issues_major}{COLORS['RESET']}")
             if cat.issues_minor > 0:
-                print(
-                    f"    {COLORS['MINOR']}- Minor: {cat.issues_minor}{COLORS['RESET']}"
-                )
+                print(f"    {COLORS['MINOR']}- Minor: {cat.issues_minor}{COLORS['RESET']}")
             if cat.issues_passed > 0:
-                print(
-                    f"    {COLORS['PASSED']}- Passed: {cat.issues_passed}{COLORS['RESET']}"
-                )
+                print(f"    {COLORS['PASSED']}- Passed: {cat.issues_passed}{COLORS['RESET']}")
 
     # Critical failures (always show)
     if report.critical_failures:
@@ -824,6 +744,7 @@ Rating scale (0-10 per category):
         action="store_true",
         help="Output results as JSON instead of formatted text",
     )
+    parser.add_argument("--strict", action="store_true", help="Strict mode — NIT issues also block validation")
 
     args = parser.parse_args()
 
@@ -833,10 +754,7 @@ Rating scale (0-10 per category):
         return EXIT_CRITICAL
 
     if not args.plugin_path.is_dir():
-        print(
-            f"Error: Plugin path is not a directory: {args.plugin_path}",
-            file=sys.stderr,
-        )
+        print(f"Error: Plugin path is not a directory: {args.plugin_path}", file=sys.stderr)
         return EXIT_CRITICAL
 
     # Compute quality score

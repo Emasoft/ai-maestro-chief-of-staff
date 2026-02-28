@@ -42,13 +42,27 @@ from pathlib import Path
 from typing import Any, Literal
 
 import yaml
+from cpv_validation_common import (
+    BUILTIN_AGENT_TYPES,
+    EXIT_CRITICAL,
+    EXIT_MAJOR,
+    EXIT_MINOR,
+    EXIT_OK,
+    VALID_CONTEXT_VALUES,
+    Level,
+)
+from cpv_validation_common import (
+    ValidationReport as BaseValidationReport,
+)
+from cpv_validation_common import (
+    ValidationResult as BaseValidationResult,
+)
 
 # =============================================================================
 # Constants from Multiple Validation Sources
 # =============================================================================
 
-# Severity levels
-Level = Literal["CRITICAL", "MAJOR", "MINOR", "INFO", "PASSED"]
+# Level type imported from cpv_validation_common
 
 # Multi-scale scoring (0-3) from agent-validator
 Score = Literal[0, 1, 2, 3]
@@ -83,29 +97,13 @@ CLAUDE_CODE_FIELDS = {
 }
 
 # --- Nixtla/Enterprise Extended Fields ---
-ENTERPRISE_REQUIRED_FIELDS = {
-    "name",
-    "description",
-    "allowed-tools",
-    "version",
-    "author",
-    "license",
-}
-ENTERPRISE_OPTIONAL_FIELDS = {
-    "model",
-    "disable-model-invocation",
-    "mode",
-    "tags",
-    "metadata",
-}
+ENTERPRISE_REQUIRED_FIELDS = {"name", "description", "allowed-tools", "version", "author", "license"}
+ENTERPRISE_OPTIONAL_FIELDS = {"model", "disable-model-invocation", "mode", "tags", "metadata"}
 DEPRECATED_FIELDS = {"when_to_use"}
 
 # Combine all known fields (includes OpenSpec, Claude Code, and Enterprise fields)
 ALL_KNOWN_FIELDS = (
-    OPENSPEC_ALLOWED_FIELDS
-    | CLAUDE_CODE_FIELDS
-    | ENTERPRISE_REQUIRED_FIELDS
-    | ENTERPRISE_OPTIONAL_FIELDS
+    OPENSPEC_ALLOWED_FIELDS | CLAUDE_CODE_FIELDS | ENTERPRISE_REQUIRED_FIELDS | ENTERPRISE_OPTIONAL_FIELDS
 )
 
 # --- Token Budget Constants ---
@@ -118,8 +116,7 @@ MAX_FRONTMATTER_CHARS_WARN = 12000
 MAX_FRONTMATTER_CHARS_ERROR = 15000
 
 # --- Valid Values ---
-VALID_CONTEXT_VALUES = {"fork"}
-BUILTIN_AGENT_TYPES = {"Explore", "Plan", "general-purpose"}
+# VALID_CONTEXT_VALUES and BUILTIN_AGENT_TYPES imported from cpv_validation_common
 VALID_MODEL_VALUES = {"sonnet", "opus", "haiku", "inherit"}
 
 # Valid Claude Code tools (2025)
@@ -128,15 +125,23 @@ VALID_TOOLS = {
     "Write",
     "Edit",
     "Bash",
-    "Glob",
     "Grep",
+    "Glob",
     "WebFetch",
     "WebSearch",
     "Task",
-    "TodoWrite",
     "NotebookEdit",
-    "AskUserQuestion",
     "Skill",
+    "AskUserQuestion",
+    "EnterPlanMode",
+    "ExitPlanMode",
+    "EnterWorktree",
+    "TaskCreate",
+    "TaskUpdate",
+    "TaskList",
+    "TaskGet",
+    "TaskStop",
+    "ToolSearch",
 }
 
 # --- Nixtla Strict Mode Required Sections ---
@@ -154,9 +159,7 @@ REQUIRED_SECTIONS = [
 RE_DESCRIPTION_USE_WHEN = re.compile(r"[Uu]se\s+when\s+", re.IGNORECASE)
 RE_DESCRIPTION_TRIGGER_WITH = re.compile(r"[Tt]rigger\s+with\s+", re.IGNORECASE)
 RE_FIRST_PERSON = re.compile(r"\b(I\s+can|I\s+will|I\s+am|I\s+help)\b", re.IGNORECASE)
-RE_SECOND_PERSON = re.compile(
-    r"\b(You\s+can|You\s+should|You\s+will|You\s+need)\b", re.IGNORECASE
-)
+RE_SECOND_PERSON = re.compile(r"\b(You\s+can|You\s+should|You\s+will|You\s+need)\b", re.IGNORECASE)
 
 # --- Path Validation Patterns ---
 ABSOLUTE_PATH_PATTERNS = [
@@ -274,51 +277,20 @@ RE_TEMPLATE_FLEXIBLE = re.compile(
 
 # --- 8+1 Pillars for lang-* and convert-* skills ---
 EIGHT_PILLARS = [
-    (
-        "Module",
-        ["import", "export", "module", "use", "require", "package", "namespace"],
-    ),
+    ("Module", ["import", "export", "module", "use", "require", "package", "namespace"]),
     ("Error", ["Result", "Exception", "Error", "try", "catch", "?", "unwrap", "panic"]),
-    (
-        "Concurrency",
-        ["async", "await", "thread", "channel", "spawn", "Actor", "mutex", "lock"],
-    ),
-    (
-        "Metaprogramming",
-        ["macro", "decorator", "@", "derive", "annotation", "quote", "defmacro"],
-    ),
-    (
-        "Zero/Default",
-        ["null", "None", "nil", "Option", "Maybe", "default", "?", "undefined"],
-    ),
-    (
-        "Serialization",
-        ["JSON", "serde", "marshal", "encode", "decode", "parse", "serialize"],
-    ),
+    ("Concurrency", ["async", "await", "thread", "channel", "spawn", "Actor", "mutex", "lock"]),
+    ("Metaprogramming", ["macro", "decorator", "@", "derive", "annotation", "quote", "defmacro"]),
+    ("Zero/Default", ["null", "None", "nil", "Option", "Maybe", "default", "?", "undefined"]),
+    ("Serialization", ["JSON", "serde", "marshal", "encode", "decode", "parse", "serialize"]),
     ("Build", ["Cargo", "npm", "pip", "mix", "make", "package.json", "deps", "go mod"]),
-    (
-        "Testing",
-        ["test", "describe", "it", "assert", "expect", "mock", "#[test]", "pytest"],
-    ),
+    ("Testing", ["test", "describe", "it", "assert", "expect", "mock", "#[test]", "pytest"]),
 ]
 
-NINTH_PILLAR = (
-    "Dev Workflow/REPL",
-    ["REPL", "iex", "ghci", "clj", "hot reload", "interactive"],
-)
+NINTH_PILLAR = ("Dev Workflow/REPL", ["REPL", "iex", "ghci", "clj", "hot reload", "interactive"])
 
 # Languages requiring 9th pillar
-REPL_CENTRIC_LANGUAGES = {
-    "clojure",
-    "elixir",
-    "erlang",
-    "haskell",
-    "fsharp",
-    "f#",
-    "lisp",
-    "scheme",
-    "racket",
-}
+REPL_CENTRIC_LANGUAGES = {"clojure", "elixir", "erlang", "haskell", "fsharp", "f#", "lisp", "scheme", "racket"}
 
 # =============================================================================
 # Data Classes
@@ -326,17 +298,15 @@ REPL_CENTRIC_LANGUAGES = {
 
 
 @dataclass
-class ValidationResult:
-    """Single validation result with multi-scale score support."""
+class ComprehensiveValidationResult(BaseValidationResult):
+    """Extended validation result with category and scoring.
 
-    level: Level
-    message: str
-    file: str | None = None
-    line: int | None = None
+    Extends the canonical ValidationResult (which has level, message, file, line,
+    phase, fixable, fix_id) with category grouping and multi-scale scoring.
+    """
+
     category: str | None = None  # For grouping in reports
-    score: int = (
-        0  # 0-3 multi-scale score (0=missing, 1=inadequate, 2=adequate, 3=excellent)
-    )
+    score: int = 0  # 0-3 multi-scale score (0=missing, 1=inadequate, 2=adequate, 3=excellent)
 
 
 @dataclass
@@ -349,11 +319,15 @@ class PillarScore:
 
 
 @dataclass
-class ValidationReport:
-    """Complete validation report for a skill with scoring."""
+class ComprehensiveSkillReport(BaseValidationReport):
+    """Extended validation report with comprehensive skill scoring.
 
-    skill_path: str
-    results: list[ValidationResult] = field(default_factory=list)
+    Extends the canonical ValidationReport (which has results, fixable_issues,
+    valid_items, failed_items, and all base convenience methods) with skill-specific
+    fields: skill_path, pillar_scores, category_scores, overall_score, grade.
+    """
+
+    skill_path: str = ""
     pillar_scores: list[PillarScore] = field(default_factory=list)
     category_scores: dict[str, float] = field(default_factory=dict)
     overall_score: float = 0.0
@@ -365,75 +339,83 @@ class ValidationReport:
         message: str,
         file: str | None = None,
         line: int | None = None,
+        phase: str | None = None,
+        fixable: bool = False,
+        fix_id: str | None = None,
+        *,
         category: str | None = None,
         score: int = 0,
     ) -> None:
-        """Add a validation result."""
-        self.results.append(
-            ValidationResult(level, message, file, line, category, score)
+        """Add a validation result with optional category and score."""
+        result = ComprehensiveValidationResult(
+            level=level,
+            message=message,
+            file=file,
+            line=line,
+            phase=phase,
+            fixable=fixable,
+            fix_id=fix_id,
+            category=category,
+            score=score,
         )
+        self.results.append(result)
 
-    def passed(
-        self, message: str, file: str | None = None, category: str | None = None
-    ) -> None:
+    def passed(self, message: str, file: str | None = None, category: str | None = None) -> None:
+        """Add a passed check with optional category."""
         self.add("PASSED", message, file, category=category, score=3)
 
-    def info(
-        self, message: str, file: str | None = None, category: str | None = None
-    ) -> None:
+    def info(self, message: str, file: str | None = None, category: str | None = None) -> None:
+        """Add an info message with optional category."""
         self.add("INFO", message, file, category=category, score=2)
 
-    def minor(
-        self,
-        message: str,
-        file: str | None = None,
-        line: int | None = None,
-        category: str | None = None,
+    def nit(self, message: str, file: str | None = None, line: int | None = None, category: str | None = None) -> None:
+        """Add a nit issue -- blocks only in --strict mode."""
+        self.add("NIT", message, file, line, category=category)
+
+    def warning(
+        self, message: str, file: str | None = None, line: int | None = None, category: str | None = None
     ) -> None:
+        """Add a warning -- never blocks validation, always reported."""
+        self.add("WARNING", message, file, line, category=category)
+
+    def minor(
+        self, message: str, file: str | None = None, line: int | None = None, category: str | None = None
+    ) -> None:
+        """Add a minor issue with optional category."""
         self.add("MINOR", message, file, line, category=category, score=1)
 
     def major(
-        self,
-        message: str,
-        file: str | None = None,
-        line: int | None = None,
-        category: str | None = None,
+        self, message: str, file: str | None = None, line: int | None = None, category: str | None = None
     ) -> None:
+        """Add a major issue with optional category."""
         self.add("MAJOR", message, file, line, category=category, score=0)
 
     def critical(
-        self,
-        message: str,
-        file: str | None = None,
-        line: int | None = None,
-        category: str | None = None,
+        self, message: str, file: str | None = None, line: int | None = None, category: str | None = None
     ) -> None:
+        """Add a critical issue with optional category."""
         self.add("CRITICAL", message, file, line, category=category, score=0)
 
     @property
-    def has_critical(self) -> bool:
-        return any(r.level == "CRITICAL" for r in self.results)
-
-    @property
-    def has_major(self) -> bool:
-        return any(r.level == "MAJOR" for r in self.results)
-
-    @property
-    def has_minor(self) -> bool:
-        return any(r.level == "MINOR" for r in self.results)
-
-    @property
     def exit_code(self) -> int:
+        """Get appropriate exit code based on highest severity issue.
+
+        Uses the canonical exit code constants from cpv_validation_common.
+        """
         if self.has_critical:
-            return 1
+            return EXIT_CRITICAL
         if self.has_major:
-            return 2
+            return EXIT_MAJOR
         if self.has_minor:
-            return 3
-        return 0
+            return EXIT_MINOR
+        return EXIT_OK
 
     def calculate_grade(self) -> None:
-        """Calculate letter grade based on overall score."""
+        """Calculate letter grade based on overall score.
+
+        Uses simplified A/B/C/D/F scale for comprehensive skill reports,
+        matching the original grading thresholds used by this validator.
+        """
         if self.overall_score >= 90:
             self.grade = "A"
         elif self.overall_score >= 80:
@@ -444,6 +426,11 @@ class ValidationReport:
             self.grade = "D"
         else:
             self.grade = "F"
+
+
+# Backward compatibility aliases for tests and internal usage
+ValidationResult = ComprehensiveValidationResult
+ValidationReport = ComprehensiveSkillReport
 
 
 # =============================================================================
@@ -495,32 +482,20 @@ def validate_skill_md_exists(skill_path: Path, report: ValidationReport) -> bool
     skill_md = find_skill_md(skill_path)
 
     if skill_md is None:
-        report.critical(
-            "SKILL.md not found (required)", "SKILL.md", category="Structure"
-        )
+        report.critical("SKILL.md not found (required)", "SKILL.md", category="Structure")
         return False
 
     if skill_md.name == "skill.md":
-        report.minor(
-            "SKILL.md should be uppercase (found 'skill.md')",
-            "skill.md",
-            category="Structure",
-        )
+        report.minor("SKILL.md should be uppercase (found 'skill.md')", "skill.md", category="Structure")
     else:
         report.passed("SKILL.md exists", "SKILL.md", category="Structure")
     return True
 
 
-def validate_frontmatter_structure(
-    content: str, report: ValidationReport
-) -> dict[str, Any] | None:
+def validate_frontmatter_structure(content: str, report: ValidationReport) -> dict[str, Any] | None:
     """Validate YAML frontmatter structure."""
     if not content.startswith("---"):
-        report.info(
-            "No YAML frontmatter found (optional but recommended)",
-            "SKILL.md",
-            category="Frontmatter",
-        )
+        report.info("No YAML frontmatter found (optional but recommended)", "SKILL.md", category="Frontmatter")
         return None
 
     frontmatter, _, _ = parse_frontmatter(content)
@@ -565,9 +540,7 @@ def validate_name_field(
     """Validate the 'name' frontmatter field with AgentSkills OpenSpec rules."""
     if "name" not in frontmatter:
         if strict_openspec:
-            report.critical(
-                "Missing required field: 'name'", "SKILL.md", category="Frontmatter"
-            )
+            report.critical("Missing required field: 'name'", "SKILL.md", category="Frontmatter")
         else:
             report.info(
                 f"No 'name' field (will use directory name: {skill_dir_name})",
@@ -577,16 +550,10 @@ def validate_name_field(
         name = skill_dir_name
     else:
         name = frontmatter["name"]
-        report.passed(
-            f"'name' field present: {name}", "SKILL.md", category="Frontmatter"
-        )
+        report.passed(f"'name' field present: {name}", "SKILL.md", category="Frontmatter")
 
     if not isinstance(name, str):
-        report.critical(
-            f"'name' must be a string, got {type(name).__name__}",
-            "SKILL.md",
-            category="Frontmatter",
-        )
+        report.critical(f"'name' must be a string, got {type(name).__name__}", "SKILL.md", category="Frontmatter")
         return
 
     # Unicode NFKC normalization (AgentSkills OpenSpec)
@@ -602,9 +569,7 @@ def validate_name_field(
 
     # Lowercase check
     if name != name.lower():
-        report.major(
-            f"Skill name must be lowercase: {name}", "SKILL.md", category="Frontmatter"
-        )
+        report.major(f"Skill name must be lowercase: {name}", "SKILL.md", category="Frontmatter")
 
     # Kebab-case format check
     if not re.match(r"^[a-z][a-z0-9-]*[a-z0-9]$", name) and len(name) > 1:
@@ -618,28 +583,16 @@ def validate_name_field(
 
     # No leading/trailing hyphens
     if name.startswith("-") or name.endswith("-"):
-        report.major(
-            "Skill name cannot start or end with a hyphen",
-            "SKILL.md",
-            category="Frontmatter",
-        )
+        report.major("Skill name cannot start or end with a hyphen", "SKILL.md", category="Frontmatter")
 
     # No consecutive hyphens
     if "--" in name:
-        report.major(
-            "Skill name cannot contain consecutive hyphens",
-            "SKILL.md",
-            category="Frontmatter",
-        )
+        report.major("Skill name cannot contain consecutive hyphens", "SKILL.md", category="Frontmatter")
 
     # Reserved words check
     name_lower = name.lower()
     if "anthropic" in name_lower or "claude" in name_lower:
-        report.major(
-            f"Skill name contains reserved word: {name}",
-            "SKILL.md",
-            category="Frontmatter",
-        )
+        report.major(f"Skill name contains reserved word: {name}", "SKILL.md", category="Frontmatter")
 
     # XML tag check (Anthropic docs)
     if RE_XML_TAG.search(name):
@@ -729,11 +682,7 @@ def validate_description_field(
 
     # Length checks
     if len(desc) < 20:
-        report.minor(
-            "Description is very short (< 20 chars)",
-            "SKILL.md",
-            category="Description Quality",
-        )
+        report.minor("Description is very short (< 20 chars)", "SKILL.md", category="Description Quality")
 
     if len(desc) > MAX_DESCRIPTION_LENGTH:
         report.major(
@@ -853,11 +802,7 @@ def validate_allowed_tools_field(
     for tool in tool_list:
         # Handle scoped tools like Bash(git:*)
         base_tool = tool.split("(")[0].strip()
-        if (
-            base_tool
-            and base_tool not in VALID_TOOLS
-            and not base_tool.startswith("mcp__")
-        ):
+        if base_tool and base_tool not in VALID_TOOLS and not base_tool.startswith("mcp__"):
             report.info(
                 f"Unknown tool '{base_tool}' (may be valid if custom MCP tool)",
                 "SKILL.md",
@@ -880,11 +825,7 @@ def validate_allowed_tools_field(
             category="Frontmatter",
         )
 
-    report.passed(
-        f"'allowed-tools' field valid: {len(tool_list)} tool(s)",
-        "SKILL.md",
-        category="Frontmatter",
-    )
+    report.passed(f"'allowed-tools' field valid: {len(tool_list)} tool(s)", "SKILL.md", category="Frontmatter")
 
 
 def validate_metadata_field(
@@ -920,11 +861,7 @@ def validate_metadata_field(
                 category="Frontmatter",
             )
 
-    report.passed(
-        f"'metadata' field valid: {len(metadata)} entries",
-        "SKILL.md",
-        category="Frontmatter",
-    )
+    report.passed(f"'metadata' field valid: {len(metadata)} entries", "SKILL.md", category="Frontmatter")
 
 
 def validate_compatibility_field(
@@ -952,11 +889,7 @@ def validate_compatibility_field(
             category="Frontmatter",
         )
     else:
-        report.passed(
-            f"'compatibility' field valid ({len(compatibility)} chars)",
-            "SKILL.md",
-            category="Frontmatter",
-        )
+        report.passed(f"'compatibility' field valid ({len(compatibility)} chars)", "SKILL.md", category="Frontmatter")
 
 
 def validate_license_field(
@@ -980,9 +913,7 @@ def validate_license_field(
     if not license_val.strip():
         report.minor("'license' field is empty", "SKILL.md", category="Frontmatter")
     else:
-        report.passed(
-            f"'license' field valid: {license_val}", "SKILL.md", category="Frontmatter"
-        )
+        report.passed(f"'license' field valid: {license_val}", "SKILL.md", category="Frontmatter")
 
 
 def validate_argument_hint_field(
@@ -1004,9 +935,7 @@ def validate_argument_hint_field(
         return
 
     if not hint.strip():
-        report.minor(
-            "'argument-hint' field is empty", "SKILL.md", category="Frontmatter"
-        )
+        report.minor("'argument-hint' field is empty", "SKILL.md", category="Frontmatter")
     else:
         report.passed("'argument-hint' field valid", "SKILL.md", category="Frontmatter")
 
@@ -1047,9 +976,7 @@ def validate_model_field(
             category="Frontmatter",
         )
     else:
-        report.passed(
-            f"'model' field valid: {model}", "SKILL.md", category="Frontmatter"
-        )
+        report.passed(f"'model' field valid: {model}", "SKILL.md", category="Frontmatter")
 
 
 def validate_hooks_field(
@@ -1065,13 +992,9 @@ def validate_hooks_field(
     # Hooks can be a string (path to hooks.json) or a dict (inline hooks)
     if isinstance(hooks, str):
         if not hooks.strip():
-            report.minor(
-                "'hooks' field is empty string", "SKILL.md", category="Frontmatter"
-            )
+            report.minor("'hooks' field is empty string", "SKILL.md", category="Frontmatter")
         else:
-            report.passed(
-                f"'hooks' field references: {hooks}", "SKILL.md", category="Frontmatter"
-            )
+            report.passed(f"'hooks' field references: {hooks}", "SKILL.md", category="Frontmatter")
         return
 
     if not isinstance(hooks, dict):
@@ -1097,6 +1020,11 @@ def validate_hooks_field(
         "SessionStart",
         "SessionEnd",
         "PreCompact",
+        "TeammateIdle",
+        "TaskCompleted",
+        "ConfigChange",
+        "WorktreeCreate",
+        "WorktreeRemove",
     }
 
     for event_name in hooks.keys():
@@ -1107,16 +1035,10 @@ def validate_hooks_field(
                 category="Frontmatter",
             )
 
-    report.passed(
-        f"'hooks' field valid: {len(hooks)} event(s) configured",
-        "SKILL.md",
-        category="Frontmatter",
-    )
+    report.passed(f"'hooks' field valid: {len(hooks)} event(s) configured", "SKILL.md", category="Frontmatter")
 
 
-def validate_context_field(
-    frontmatter: dict[str, Any], report: ValidationReport
-) -> None:
+def validate_context_field(frontmatter: dict[str, Any], report: ValidationReport) -> None:
     """Validate the 'context' frontmatter field."""
     if "context" not in frontmatter:
         return
@@ -1139,9 +1061,7 @@ def validate_context_field(
         )
         return
 
-    report.passed(
-        f"'context' field valid: {context}", "SKILL.md", category="Frontmatter"
-    )
+    report.passed(f"'context' field valid: {context}", "SKILL.md", category="Frontmatter")
 
 
 def validate_agent_field(frontmatter: dict[str, Any], report: ValidationReport) -> None:
@@ -1173,11 +1093,7 @@ def validate_agent_field(frontmatter: dict[str, Any], report: ValidationReport) 
         )
 
     if agent in BUILTIN_AGENT_TYPES:
-        report.passed(
-            f"'agent' field valid (built-in): {agent}",
-            "SKILL.md",
-            category="Frontmatter",
-        )
+        report.passed(f"'agent' field valid (built-in): {agent}", "SKILL.md", category="Frontmatter")
     else:
         report.info(
             f"'agent' value '{agent}' is not a built-in type (may be custom from .claude/agents/)",
@@ -1205,9 +1121,7 @@ def validate_boolean_field(
         )
         return
 
-    report.passed(
-        f"'{field_name}' field valid: {value}", "SKILL.md", category="Frontmatter"
-    )
+    report.passed(f"'{field_name}' field valid: {value}", "SKILL.md", category="Frontmatter")
 
 
 def validate_field_whitelist(
@@ -1233,7 +1147,7 @@ def validate_field_whitelist(
                     category="Frontmatter",
                 )
             else:
-                report.info(
+                report.warning(
                     f"Unknown frontmatter field '{key}' (may be ignored by CLI)",
                     "SKILL.md",
                     category="Frontmatter",
@@ -1260,11 +1174,7 @@ def validate_token_budget(content: str, body: str, report: ValidationReport) -> 
             category="Token Budget",
         )
     else:
-        report.passed(
-            f"SKILL.md line count OK ({total_lines} lines)",
-            "SKILL.md",
-            category="Token Budget",
-        )
+        report.passed(f"SKILL.md line count OK ({total_lines} lines)", "SKILL.md", category="Token Budget")
 
     # Word count check
     if word_count > MAX_WORD_COUNT_ERROR:
@@ -1281,9 +1191,7 @@ def validate_token_budget(content: str, body: str, report: ValidationReport) -> 
         )
 
 
-def validate_required_sections(
-    body: str, report: ValidationReport, strict_mode: bool = False
-) -> None:
+def validate_required_sections(body: str, report: ValidationReport, strict_mode: bool = False) -> None:
     """Validate required sections (Nixtla strict mode)."""
     if not strict_mode:
         return
@@ -1299,11 +1207,7 @@ def validate_required_sections(
                 category="Required Sections",
             )
         else:
-            report.passed(
-                f"Required section present: {section}",
-                "SKILL.md",
-                category="Required Sections",
-            )
+            report.passed(f"Required section present: {section}", "SKILL.md", category="Required Sections")
 
     # Instructions must have numbered list (only if ## Instructions section actually exists)
     # Use regex to match exact section header, not substring like "## Instructions vs System Prompts"
@@ -1327,9 +1231,7 @@ def validate_required_sections(
             )
 
 
-def validate_path_formats(
-    body: str, report: ValidationReport, skip_platform_checks: list[str] | None = None
-) -> None:
+def validate_path_formats(body: str, report: ValidationReport, skip_platform_checks: list[str] | None = None) -> None:
     """Validate path formats (no absolute paths, forward slashes only).
 
     Args:
@@ -1381,22 +1283,9 @@ def validate_path_formats(
             # Skip shell line continuations (backslash at end of line)
             # Skip common escape sequences (\n, \t, \r, etc.)
             stripped = line.rstrip()
-            is_shell_continuation = stripped.endswith(" \\") or stripped.endswith(
-                "\t\\"
-            )
+            is_shell_continuation = stripped.endswith(" \\") or stripped.endswith("\t\\")
             has_escape_sequences = any(
-                esc in line
-                for esc in [
-                    "\\n",
-                    "\\t",
-                    "\\r",
-                    "\\\\",
-                    '\\"',
-                    "\\'",
-                    "\\0",
-                    "\\x",
-                    "\\u",
-                ]
+                esc in line for esc in ["\\n", "\\t", "\\r", "\\\\", '\\"', "\\'", "\\0", "\\x", "\\u"]
             )
             if (
                 not stripped_line.startswith(("```", "`", "#", "//"))
@@ -1550,9 +1439,7 @@ def validate_dynamic_context(body: str, report: ValidationReport) -> None:
         )
 
 
-def validate_content_patterns(
-    body: str, report: ValidationReport, strict_mode: bool = False
-) -> None:
+def validate_content_patterns(body: str, report: ValidationReport, strict_mode: bool = False) -> None:
     """Validate content quality patterns (best practices: checklists, examples, workflows).
 
     Detects and validates the presence of recommended content patterns.
@@ -1687,9 +1574,7 @@ def validate_package_dependencies(body: str, report: ValidationReport) -> None:
             )
 
 
-def validate_resource_references(
-    skill_path: Path, body: str, report: ValidationReport
-) -> None:
+def validate_resource_references(skill_path: Path, body: str, report: ValidationReport) -> None:
     """Validate that referenced scripts/resources exist."""
     # Check {baseDir}/scripts/... references
     for match in RE_BASEDIR_SCRIPTS.finditer(body):
@@ -1702,9 +1587,7 @@ def validate_resource_references(
                 category="Resource References",
             )
         else:
-            report.passed(
-                f"Script exists: scripts/{rel_path}", category="Resource References"
-            )
+            report.passed(f"Script exists: scripts/{rel_path}", category="Resource References")
 
     # Check {baseDir}/references/... references
     for match in RE_BASEDIR_REFERENCES.finditer(body):
@@ -1717,10 +1600,7 @@ def validate_resource_references(
                 category="Resource References",
             )
         else:
-            report.passed(
-                f"Reference exists: references/{rel_path}",
-                category="Resource References",
-            )
+            report.passed(f"Reference exists: references/{rel_path}", category="Resource References")
 
     # Check markdown links to local files
     local_refs = re.findall(r"\[([^\]]+)\]\(([^)]+)\)", body)
@@ -1760,11 +1640,7 @@ def validate_resource_references(
                 category="Resource References",
             )
         else:
-            report.passed(
-                f"Referenced file exists: {file_path}",
-                "SKILL.md",
-                category="Resource References",
-            )
+            report.passed(f"Referenced file exists: {file_path}", "SKILL.md", category="Resource References")
 
 
 def validate_directory_structure(skill_path: Path, report: ValidationReport) -> None:
@@ -1774,9 +1650,7 @@ def validate_directory_structure(skill_path: Path, report: ValidationReport) -> 
     for dir_name in optional_dirs:
         dir_path = skill_path / dir_name
         if dir_path.is_dir():
-            report.passed(
-                f"Optional directory exists: {dir_name}/", category="Structure"
-            )
+            report.passed(f"Optional directory exists: {dir_name}/", category="Structure")
 
     # Validate scripts directory if it exists
     validate_scripts_directory(skill_path, report)
@@ -1833,11 +1707,7 @@ def validate_scripts_directory(skill_path: Path, report: ValidationReport) -> No
                             f"scripts/{script.name}",
                             category="Scripts",
                         )
-                    elif (
-                        script.suffix in {".sh", ".bash"}
-                        and "sh" not in first_line
-                        and "bash" not in first_line
-                    ):
+                    elif script.suffix in {".sh", ".bash"} and "sh" not in first_line and "bash" not in first_line:
                         report.minor(
                             f"Shell script has non-shell shebang: {first_line}",
                             f"scripts/{script.name}",
@@ -1919,16 +1789,9 @@ def validate_reference_files(skill_path: Path, report: ValidationReport) -> None
                 # Check for presence of a table of contents
                 # Common TOC indicators: "## Contents", "## Table of Contents", "## TOC", numbered list at top
                 has_toc = bool(
-                    re.search(
-                        r"(?im)^##\s*(contents|table\s+of\s+contents|toc|index)(\s|$)",
-                        content,
-                    )
-                    or re.search(
-                        r"(?m)^-\s*\[.*\]\(#", content[:2000]
-                    )  # Markdown anchor links
-                    or re.search(
-                        r"(?m)^1\.\s+\[.*\]\(#", content[:2000]
-                    )  # Numbered TOC
+                    re.search(r"(?im)^##\s*(contents|table\s+of\s+contents|toc|index)(\s|$)", content)
+                    or re.search(r"(?m)^-\s*\[.*\]\(#", content[:2000])  # Markdown anchor links
+                    or re.search(r"(?m)^1\.\s+\[.*\]\(#", content[:2000])  # Numbered TOC
                 )
 
                 if not has_toc:
@@ -1991,9 +1854,7 @@ def validate_pillars(
             keyword_count += len(re.findall(re.escape(keyword), body, re.IGNORECASE))
 
         # Check for dedicated section
-        has_section = bool(
-            re.search(rf"##\s*{re.escape(pillar_name)}", body, re.IGNORECASE)
-        )
+        has_section = bool(re.search(rf"##\s*{re.escape(pillar_name)}", body, re.IGNORECASE))
 
         # Score: 1.0 = dedicated section with content, 0.5 = mentioned, 0.0 = missing
         if has_section and keyword_count >= 3:
@@ -2072,14 +1933,10 @@ def calculate_overall_score(report: ValidationReport) -> None:
 
     # Weighted scoring:
     # CRITICAL = 0 points, MAJOR = 1 point, MINOR = 2 points, PASSED = 3 points
-    weighted_score = (
-        critical_count * 0 + major_count * 1 + minor_count * 2 + passed_count * 3
-    )
+    weighted_score = critical_count * 0 + major_count * 1 + minor_count * 2 + passed_count * 3
     max_possible = total_checks * 3
 
-    report.overall_score = (
-        (weighted_score / max_possible) * 100 if max_possible > 0 else 0.0
-    )
+    report.overall_score = (weighted_score / max_possible) * 100 if max_possible > 0 else 0.0
     report.calculate_grade()
 
 
@@ -2111,15 +1968,11 @@ def validate_skill(
 
     # Check skill directory exists
     if not skill_path.exists():
-        report.critical(
-            f"Skill path does not exist: {skill_path}", category="Structure"
-        )
+        report.critical(f"Skill path does not exist: {skill_path}", category="Structure")
         return report
 
     if not skill_path.is_dir():
-        report.critical(
-            f"Skill path is not a directory: {skill_path}", category="Structure"
-        )
+        report.critical(f"Skill path is not a directory: {skill_path}", category="Structure")
         return report
 
     # Validate SKILL.md exists (required)
@@ -2231,17 +2084,9 @@ def print_results(report: ValidationReport, verbose: bool = False) -> None:
     print("=" * 70)
 
     # Print grade
-    grade_colors = {
-        "A": "\033[92m",
-        "B": "\033[92m",
-        "C": "\033[93m",
-        "D": "\033[93m",
-        "F": "\033[91m",
-    }
+    grade_colors = {"A": "\033[92m", "B": "\033[92m", "C": "\033[93m", "D": "\033[93m", "F": "\033[91m"}
     grade_color = grade_colors.get(report.grade, "")
-    print(
-        f"\n{colors['BOLD']}Grade: {grade_color}{report.grade}{colors['RESET']} ({report.overall_score:.1f}/100)"
-    )
+    print(f"\n{colors['BOLD']}Grade: {grade_color}{report.grade}{colors['RESET']} ({report.overall_score:.1f}/100)")
 
     # Print summary
     print("\nSummary:")
@@ -2257,14 +2102,10 @@ def print_results(report: ValidationReport, verbose: bool = False) -> None:
         print("\nPillars Coverage:")
         for ps in report.pillar_scores:
             score_color = (
-                colors["PASSED"]
-                if ps.score == 1.0
-                else (colors["MINOR"] if ps.score == 0.5 else colors["MAJOR"])
+                colors["PASSED"] if ps.score == 1.0 else (colors["MINOR"] if ps.score == 0.5 else colors["MAJOR"])
             )
             score_symbol = "✓" if ps.score == 1.0 else ("~" if ps.score == 0.5 else "✗")
-            print(
-                f"  {score_color}{score_symbol} {ps.name}: {ps.score}/1.0{colors['RESET']} - {ps.notes}"
-            )
+            print(f"  {score_color}{score_symbol} {ps.name}: {ps.score}/1.0{colors['RESET']} - {ps.notes}")
 
     # Print details by category
     print("\nDetails:")
@@ -2275,8 +2116,8 @@ def print_results(report: ValidationReport, verbose: bool = False) -> None:
         if r.level == "INFO" and not verbose:
             continue
 
-        # Print category header if new
-        if r.category and r.category not in categories_seen:
+        # Print category header if new (category only exists on ComprehensiveValidationResult)
+        if isinstance(r, ComprehensiveValidationResult) and r.category and r.category not in categories_seen:
             categories_seen.add(r.category)
             print(f"\n  {colors['BOLD']}[{r.category}]{colors['RESET']}")
 
@@ -2289,21 +2130,13 @@ def print_results(report: ValidationReport, verbose: bool = False) -> None:
     # Print final status
     print("\n" + "-" * 70)
     if report.exit_code == 0:
-        print(
-            f"{colors['PASSED']}✓ Skill validation passed (Grade {report.grade}){colors['RESET']}"
-        )
+        print(f"{colors['PASSED']}✓ Skill validation passed (Grade {report.grade}){colors['RESET']}")
     elif report.exit_code == 1:
-        print(
-            f"{colors['CRITICAL']}✗ CRITICAL issues - skill will not work (Grade {report.grade}){colors['RESET']}"
-        )
+        print(f"{colors['CRITICAL']}✗ CRITICAL issues - skill will not work (Grade {report.grade}){colors['RESET']}")
     elif report.exit_code == 2:
-        print(
-            f"{colors['MAJOR']}✗ MAJOR issues - significant problems (Grade {report.grade}){colors['RESET']}"
-        )
+        print(f"{colors['MAJOR']}✗ MAJOR issues - significant problems (Grade {report.grade}){colors['RESET']}")
     else:
-        print(
-            f"{colors['MINOR']}! MINOR issues - may affect UX (Grade {report.grade}){colors['RESET']}"
-        )
+        print(f"{colors['MINOR']}! MINOR issues - may affect UX (Grade {report.grade}){colors['RESET']}")
 
     print()
 
@@ -2322,10 +2155,7 @@ def print_json(report: ValidationReport) -> None:
             "info": sum(1 for r in report.results if r.level == "INFO"),
             "passed": sum(1 for r in report.results if r.level == "PASSED"),
         },
-        "pillar_scores": [
-            {"name": ps.name, "score": ps.score, "notes": ps.notes}
-            for ps in report.pillar_scores
-        ],
+        "pillar_scores": [{"name": ps.name, "score": ps.score, "notes": ps.notes} for ps in report.pillar_scores],
         "category_scores": report.category_scores,
         "results": [
             {
@@ -2333,7 +2163,7 @@ def print_json(report: ValidationReport) -> None:
                 "message": r.message,
                 "file": r.file,
                 "line": r.line,
-                "category": r.category,
+                "category": r.category if isinstance(r, ComprehensiveValidationResult) else None,
             }
             for r in report.results
         ],
@@ -2348,9 +2178,7 @@ def print_json(report: ValidationReport) -> None:
 
 def main() -> int:
     """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description="Comprehensive skill validator with 190+ validation rules"
-    )
+    parser = argparse.ArgumentParser(description="Comprehensive skill validator with 190+ validation rules")
     parser.add_argument("skill_path", help="Path to the skill directory")
     parser.add_argument(
         "--verbose",

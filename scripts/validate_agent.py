@@ -29,7 +29,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from validation_common import (
+from cpv_validation_common import (
     COLORS,
     MAX_BODY_WORDS,
     MAX_DESCRIPTION_LENGTH,
@@ -38,6 +38,7 @@ from validation_common import (
     NAME_PATTERN,
     SECRET_PATTERNS,
     USER_PATH_PATTERNS,
+    VALID_CONTEXT_VALUES,
     VALID_MODELS,
     VALID_TOOLS,
     ValidationReport,
@@ -48,26 +49,28 @@ from validation_common import (
 # Based on: https://code.claude.com/docs/en/sub-agents.md
 KNOWN_FRONTMATTER_FIELDS = {
     # Required fields
-    "name",  # Unique identifier using lowercase letters and hyphens
-    "description",  # When Claude should delegate to this subagent
+    "name",
+    "description",
     # Optional fields
-    "tools",  # Tools the subagent can use (inherits all if omitted)
-    "disallowedTools",  # Tools to deny, removed from inherited or specified list
-    "model",  # Model: sonnet, opus, haiku, or inherit (defaults to inherit)
-    "permissionMode",  # Permission mode: default, acceptEdits, dontAsk, bypassPermissions, plan
-    "skills",  # Skills to preload into the subagent's context at startup
-    "hooks",  # Lifecycle hooks scoped to this subagent
-    "color",  # UI background color for the agent
-    "capabilities",  # Agent capabilities list
+    "tools",
+    "disallowedTools",
+    "model",
+    "permissionMode",
+    "skills",
+    "hooks",
+    "color",
+    "capabilities",
+    "maxTurns",
+    "mcpServers",
+    "memory",
+    "background",
+    "isolation",
     # Claude Code-specific fields (legacy/extended)
-    "context",  # Context mode (fork)
-    "agent",  # Specialized agent type
-    "user-invocable",  # Whether users can invoke directly
-    "system-prompt",  # Custom system prompt (alternative to body)
+    "context",
+    "agent",
+    "user-invocable",
+    "system-prompt",
 }
-
-# Valid values for the 'context' field
-VALID_CONTEXT_VALUES = {"fork"}
 
 # Valid values for the 'permissionMode' field
 VALID_PERMISSION_MODES = {
@@ -78,14 +81,14 @@ VALID_PERMISSION_MODES = {
     "plan",  # Plan mode (read-only exploration)
 }
 
-# Valid values for the 'agent' field (specialized agent types)
-VALID_AGENT_VALUES = {
-    "api-coordinator",
-    "test-engineer",
-    "deploy-agent",
-    "debug-specialist",
-    "code-reviewer",
-}
+# Built-in agent types per official docs — custom agent names are also valid
+VALID_AGENT_VALUES = {"Explore", "Plan", "general-purpose"}
+
+# Valid values for the 'memory' field (persistent memory scope)
+VALID_MEMORY_SCOPES = {"user", "project", "local"}
+
+# Valid values for the 'isolation' field
+VALID_ISOLATION_VALUES = {"worktree"}
 
 # Minimum required example blocks for agent documentation
 MIN_EXAMPLE_BLOCKS = 2
@@ -141,9 +144,7 @@ def parse_frontmatter(content: str) -> tuple[dict[str, Any] | None, str, int]:
         return None, content, 0
 
 
-def validate_frontmatter_exists(
-    content: str, report: AgentValidationReport, filename: str
-) -> dict[str, Any] | None:
+def validate_frontmatter_exists(content: str, report: AgentValidationReport, filename: str) -> dict[str, Any] | None:
     """Validate YAML frontmatter exists and is valid."""
     if not content.startswith("---"):
         report.critical("No YAML frontmatter found (required)", filename)
@@ -166,7 +167,7 @@ def validate_frontmatter_exists(
     # Check for unknown fields
     for key in frontmatter.keys():
         if key not in KNOWN_FRONTMATTER_FIELDS:
-            report.info(
+            report.warning(
                 f"Unknown frontmatter field '{key}' (may be ignored by CLI)",
                 filename,
             )
@@ -174,9 +175,7 @@ def validate_frontmatter_exists(
     return frontmatter
 
 
-def validate_name_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_name_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'name' frontmatter field."""
     if "name" not in frontmatter:
         # Use filename as fallback name
@@ -221,9 +220,7 @@ def validate_name_field(
         report.major(f"Name cannot start/end with hyphen: {name}", filename)
 
 
-def validate_description_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_description_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'description' frontmatter field."""
     if "description" not in frontmatter:
         report.major("Missing 'description' field (required)", filename)
@@ -232,9 +229,7 @@ def validate_description_field(
     desc = frontmatter["description"]
 
     if not isinstance(desc, str):
-        report.critical(
-            f"'description' must be a string, got {type(desc).__name__}", filename
-        )
+        report.critical(f"'description' must be a string, got {type(desc).__name__}", filename)
         return
 
     if not desc.strip():
@@ -262,16 +257,7 @@ def validate_description_field(
         )
 
     # Check for actionable description (should indicate WHEN to use)
-    action_words = [
-        "use when",
-        "invoke",
-        "call",
-        "trigger",
-        "run",
-        "execute",
-        "specialized in",
-        "expert in",
-    ]
+    action_words = ["use when", "invoke", "call", "trigger", "run", "execute", "specialized in", "expert in"]
     has_action_hint = any(word in desc.lower() for word in action_words)
     if not has_action_hint:
         report.info(
@@ -291,9 +277,7 @@ def validate_description_field(
     report.passed("'description' field valid", filename)
 
 
-def validate_tools_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_tools_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'tools' frontmatter field."""
     if "tools" not in frontmatter:
         report.info("No 'tools' field (agent will inherit default tools)", filename)
@@ -334,9 +318,7 @@ def validate_tools_field(
     report.passed(f"'tools' field valid: {len(tool_list)} tool(s)", filename)
 
 
-def validate_model_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_model_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'model' frontmatter field."""
     if "model" not in frontmatter:
         report.info("No 'model' field (agent will inherit parent model)", filename)
@@ -359,9 +341,7 @@ def validate_model_field(
     report.passed(f"'model' field valid: {model}", filename)
 
 
-def validate_color_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_color_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'color' frontmatter field."""
     if "color" not in frontmatter:
         return
@@ -384,9 +364,7 @@ def validate_color_field(
     report.passed(f"'color' field valid: {color}", filename)
 
 
-def validate_capabilities_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_capabilities_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'capabilities' frontmatter field."""
     if "capabilities" not in frontmatter:
         return
@@ -410,9 +388,7 @@ def validate_capabilities_field(
     report.passed(f"'capabilities' field valid: {len(caps)} capability(ies)", filename)
 
 
-def validate_context_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_context_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'context' frontmatter field.
 
     Valid values: 'fork' (or empty/missing).
@@ -425,9 +401,7 @@ def validate_context_field(
     context = frontmatter["context"]
 
     if not isinstance(context, str):
-        report.major(
-            f"'context' must be a string, got {type(context).__name__}", filename
-        )
+        report.major(f"'context' must be a string, got {type(context).__name__}", filename)
         return
 
     if context not in VALID_CONTEXT_VALUES:
@@ -440,9 +414,7 @@ def validate_context_field(
     report.passed(f"'context' field valid: {context}", filename)
 
 
-def validate_agent_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_agent_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'agent' frontmatter field.
 
     This field specifies specialized agent types.
@@ -468,9 +440,7 @@ def validate_agent_field(
         report.passed(f"'agent' field valid: {agent}", filename)
 
 
-def validate_user_invocable_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_user_invocable_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'user-invocable' frontmatter field.
 
     Must be a boolean (true or false), not a string.
@@ -495,9 +465,7 @@ def validate_user_invocable_field(
         )
 
 
-def validate_system_prompt_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_system_prompt_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'system-prompt' frontmatter field.
 
     Checks for placeholder text like TODO, PLACEHOLDER, FIXME, etc.
@@ -509,9 +477,7 @@ def validate_system_prompt_field(
     prompt = frontmatter["system-prompt"]
 
     if not isinstance(prompt, str):
-        report.major(
-            f"'system-prompt' must be a string, got {type(prompt).__name__}", filename
-        )
+        report.major(f"'system-prompt' must be a string, got {type(prompt).__name__}", filename)
         return
 
     if not prompt.strip():
@@ -531,9 +497,7 @@ def validate_system_prompt_field(
     report.passed("'system-prompt' field valid", filename)
 
 
-def validate_skills_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_skills_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'skills' frontmatter field.
 
     The skills field specifies which skills the agent has access to.
@@ -550,9 +514,7 @@ def validate_skills_field(
         return
 
     if not skills:
-        report.minor(
-            "'skills' list is empty - consider removing if no skills needed", filename
-        )
+        report.minor("'skills' list is empty - consider removing if no skills needed", filename)
         return
 
     invalid_items = []
@@ -566,17 +528,13 @@ def validate_skills_field(
             valid_skills.append(skill)
 
     if invalid_items:
-        report.major(
-            f"'skills' contains invalid items: {', '.join(invalid_items)}", filename
-        )
+        report.major(f"'skills' contains invalid items: {', '.join(invalid_items)}", filename)
         return
 
     report.passed(f"'skills' field valid: {valid_skills}", filename)
 
 
-def validate_permission_mode_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_permission_mode_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'permissionMode' frontmatter field.
 
     Valid values per sub-agents docs:
@@ -593,9 +551,7 @@ def validate_permission_mode_field(
     mode = frontmatter["permissionMode"]
 
     if not isinstance(mode, str):
-        report.major(
-            f"'permissionMode' must be a string, got {type(mode).__name__}", filename
-        )
+        report.major(f"'permissionMode' must be a string, got {type(mode).__name__}", filename)
         return
 
     if mode not in VALID_PERMISSION_MODES:
@@ -615,9 +571,69 @@ def validate_permission_mode_field(
     report.passed(f"'permissionMode' field valid: {mode}", filename)
 
 
-def validate_disallowed_tools_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_memory_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
+    """Validate the 'memory' frontmatter field."""
+    if "memory" not in frontmatter:
+        return
+
+    rel_path = filename
+    memory_val = frontmatter["memory"]
+    if not isinstance(memory_val, str):
+        report.major(f"'memory' must be a string, got {type(memory_val).__name__}", rel_path)
+    elif memory_val not in VALID_MEMORY_SCOPES:
+        report.major(
+            f"Invalid 'memory' value: '{memory_val}'. Must be one of: {sorted(VALID_MEMORY_SCOPES)}",
+            rel_path,
+        )
+    else:
+        report.passed(f"Valid memory scope: {memory_val}", rel_path)
+
+
+def validate_isolation_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
+    """Validate the 'isolation' frontmatter field."""
+    if "isolation" not in frontmatter:
+        return
+
+    rel_path = filename
+    isolation_val = frontmatter["isolation"]
+    if not isinstance(isolation_val, str):
+        report.major(f"'isolation' must be a string, got {type(isolation_val).__name__}", rel_path)
+    elif isolation_val not in VALID_ISOLATION_VALUES:
+        report.major(
+            f"Invalid 'isolation' value: '{isolation_val}'. Must be one of: {sorted(VALID_ISOLATION_VALUES)}",
+            rel_path,
+        )
+    else:
+        report.passed(f"Valid isolation mode: {isolation_val}", rel_path)
+
+
+def validate_max_turns_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
+    """Validate the 'maxTurns' frontmatter field."""
+    if "maxTurns" not in frontmatter:
+        return
+
+    rel_path = filename
+    max_turns = frontmatter["maxTurns"]
+    if not isinstance(max_turns, int) or max_turns < 1:
+        report.major(f"'maxTurns' must be a positive integer, got {max_turns!r}", rel_path)
+    else:
+        report.passed(f"Valid maxTurns: {max_turns}", rel_path)
+
+
+def validate_background_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
+    """Validate the 'background' frontmatter field."""
+    if "background" not in frontmatter:
+        return
+
+    rel_path = filename
+    bg_val = frontmatter["background"]
+    if not isinstance(bg_val, bool):
+        report.major(f"'background' must be a boolean, got {type(bg_val).__name__}", rel_path)
+    else:
+        report.passed(f"Valid background: {bg_val}", rel_path)
+
+
+def validate_disallowed_tools_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'disallowedTools' frontmatter field.
 
     Tools to deny, removed from inherited or specified tools list.
@@ -661,9 +677,7 @@ def validate_disallowed_tools_field(
     report.passed(f"'disallowedTools' field valid: {len(tool_list)} tool(s)", filename)
 
 
-def validate_hooks_field(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_hooks_field(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate the 'hooks' frontmatter field.
 
     Hooks scoped to this subagent. Valid event types for agents:
@@ -750,9 +764,7 @@ def validate_hooks_field(
     report.passed("'hooks' field structure valid", filename)
 
 
-def validate_task_tool_prohibition(
-    frontmatter: dict[str, Any], filename: str, report: AgentValidationReport
-) -> None:
+def validate_task_tool_prohibition(frontmatter: dict[str, Any], filename: str, report: AgentValidationReport) -> None:
     """Validate that subagents (context: fork) do not have Task tool.
 
     If an agent has context: fork (meaning it's meant to be spawned as a subagent),
@@ -786,9 +798,7 @@ def validate_task_tool_prohibition(
             return
 
 
-def validate_example_blocks(
-    content: str, filename: str, report: AgentValidationReport
-) -> None:
+def validate_example_blocks(content: str, filename: str, report: AgentValidationReport) -> None:
     """Validate that agent has sufficient example blocks.
 
     Agent documentation should have 2-3+ <example> blocks with proper structure:
@@ -828,13 +838,8 @@ def validate_example_blocks(
 
     # Validate each example block structure
     for i, example in enumerate(examples, 1):
-        has_user = (
-            re.search(r"^\s*user:", example, re.MULTILINE | re.IGNORECASE) is not None
-        )
-        has_assistant = (
-            re.search(r"^\s*assistant:", example, re.MULTILINE | re.IGNORECASE)
-            is not None
-        )
+        has_user = re.search(r"^\s*user:", example, re.MULTILINE | re.IGNORECASE) is not None
+        has_assistant = re.search(r"^\s*assistant:", example, re.MULTILINE | re.IGNORECASE) is not None
         has_commentary = "<commentary>" in example and "</commentary>" in example
 
         if not has_user:
@@ -856,9 +861,7 @@ def validate_example_blocks(
             )
 
 
-def validate_body_content(
-    content: str, filename: str, report: AgentValidationReport
-) -> None:
+def validate_body_content(content: str, filename: str, report: AgentValidationReport) -> None:
     """Validate agent body content (after frontmatter)."""
     _, body, _ = parse_frontmatter(content)
 
@@ -914,9 +917,7 @@ def validate_body_content(
         )
 
 
-def validate_security(
-    content: str, filename: str, report: AgentValidationReport
-) -> None:
+def validate_security(content: str, filename: str, report: AgentValidationReport) -> None:
     """Check for security issues in agent content."""
     # Check for hardcoded secrets
     for pattern, description in SECRET_PATTERNS:
@@ -934,10 +935,7 @@ def validate_security(
 
     # Check for ${CLAUDE_PLUGIN_ROOT} usage (good practice)
     if "/scripts/" in content or "\\scripts\\" in content:
-        if (
-            "${CLAUDE_PLUGIN_ROOT}" not in content
-            and "$CLAUDE_PLUGIN_ROOT" not in content
-        ):
+        if "${CLAUDE_PLUGIN_ROOT}" not in content and "$CLAUDE_PLUGIN_ROOT" not in content:
             report.info(
                 "Consider using ${CLAUDE_PLUGIN_ROOT} for plugin-relative paths",
                 filename,
@@ -967,9 +965,7 @@ def validate_agent(agent_path: Path) -> AgentValidationReport:
 
     # Check file extension
     if agent_path.suffix.lower() != ".md":
-        report.major(
-            f"Agent file should have .md extension, got: {agent_path.suffix}", filename
-        )
+        report.major(f"Agent file should have .md extension, got: {agent_path.suffix}", filename)
 
     # Read file content (binary first for encoding check)
     content_bytes = agent_path.read_bytes()
@@ -1005,6 +1001,12 @@ def validate_agent(agent_path: Path) -> AgentValidationReport:
         validate_permission_mode_field(frontmatter, filename, report)
         validate_disallowed_tools_field(frontmatter, filename, report)
         validate_hooks_field(frontmatter, filename, report)
+
+        # Validate new official fields
+        validate_memory_field(frontmatter, filename, report)
+        validate_isolation_field(frontmatter, filename, report)
+        validate_max_turns_field(frontmatter, filename, report)
+        validate_background_field(frontmatter, filename, report)
 
         # Cross-field validations
         validate_task_tool_prohibition(frontmatter, filename, report)
@@ -1053,7 +1055,7 @@ def validate_agents_directory(agents_dir: Path) -> list[AgentValidationReport]:
 def print_results(report: AgentValidationReport, verbose: bool = False) -> None:
     """Print validation results in human-readable format."""
     # Count by level
-    counts = {"CRITICAL": 0, "MAJOR": 0, "MINOR": 0, "INFO": 0, "PASSED": 0}
+    counts = {"CRITICAL": 0, "MAJOR": 0, "MINOR": 0, "NIT": 0, "WARNING": 0, "INFO": 0, "PASSED": 0}
     for r in report.results:
         counts[r.level] += 1
 
@@ -1067,19 +1069,15 @@ def print_results(report: AgentValidationReport, verbose: bool = False) -> None:
     print(f"  {COLORS['CRITICAL']}CRITICAL: {counts['CRITICAL']}{COLORS['RESET']}")
     print(f"  {COLORS['MAJOR']}MAJOR:    {counts['MAJOR']}{COLORS['RESET']}")
     print(f"  {COLORS['MINOR']}MINOR:    {counts['MINOR']}{COLORS['RESET']}")
+    print(f"  {COLORS['NIT']}NIT:      {counts['NIT']}{COLORS['RESET']}")
+    print(f"  {COLORS['WARNING']}WARNING:  {counts['WARNING']}{COLORS['RESET']}")
     if verbose:
         print(f"  {COLORS['INFO']}INFO:     {counts['INFO']}{COLORS['RESET']}")
         print(f"  {COLORS['PASSED']}PASSED:   {counts['PASSED']}{COLORS['RESET']}")
 
     # Print score
     score = report.score
-    score_color = (
-        COLORS["PASSED"]
-        if score >= 80
-        else COLORS["MAJOR"]
-        if score >= 60
-        else COLORS["CRITICAL"]
-    )
+    score_color = COLORS["PASSED"] if score >= 80 else COLORS["MAJOR"] if score >= 60 else COLORS["CRITICAL"]
     print(f"\n  Score: {score_color}{score}/100{COLORS['RESET']}")
 
     # Print details
@@ -1101,13 +1099,9 @@ def print_results(report: AgentValidationReport, verbose: bool = False) -> None:
     if report.exit_code == 0:
         print(f"{COLORS['PASSED']}PASSED: Agent validation passed{COLORS['RESET']}")
     elif report.exit_code == 1:
-        print(
-            f"{COLORS['CRITICAL']}FAILED: CRITICAL issues - agent will not work{COLORS['RESET']}"
-        )
+        print(f"{COLORS['CRITICAL']}FAILED: CRITICAL issues - agent will not work{COLORS['RESET']}")
     elif report.exit_code == 2:
-        print(
-            f"{COLORS['MAJOR']}WARNING: MAJOR issues - significant problems{COLORS['RESET']}"
-        )
+        print(f"{COLORS['MAJOR']}WARNING: MAJOR issues - significant problems{COLORS['RESET']}")
     else:
         print(f"{COLORS['MINOR']}INFO: MINOR issues - may affect UX{COLORS['RESET']}")
 
@@ -1127,19 +1121,14 @@ def print_json(report: AgentValidationReport) -> None:
             "info": sum(1 for r in report.results if r.level == "INFO"),
             "passed": sum(1 for r in report.results if r.level == "PASSED"),
         },
-        "results": [
-            {"level": r.level, "message": r.message, "file": r.file, "line": r.line}
-            for r in report.results
-        ],
+        "results": [{"level": r.level, "message": r.message, "file": r.file, "line": r.line} for r in report.results],
     }
     print(json.dumps(output, indent=2))
 
 
 def main() -> int:
     """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description="Validate a Claude Code agent file or directory"
-    )
+    parser = argparse.ArgumentParser(description="Validate a Claude Code agent file or directory")
     parser.add_argument("path", help="Path to agent .md file or agents/ directory")
     parser.add_argument(
         "--verbose",
@@ -1148,6 +1137,7 @@ def main() -> int:
         help="Show all results including passed checks",
     )
     parser.add_argument("--json", action="store_true", help="Output as JSON")
+    parser.add_argument("--strict", action="store_true", help="Strict mode — NIT issues also block validation")
     args = parser.parse_args()
 
     path = Path(args.path)
@@ -1174,22 +1164,14 @@ def main() -> int:
                         "exit_code": r.exit_code,
                         "score": r.score,
                         "counts": {
-                            "critical": sum(
-                                1 for x in r.results if x.level == "CRITICAL"
-                            ),
+                            "critical": sum(1 for x in r.results if x.level == "CRITICAL"),
                             "major": sum(1 for x in r.results if x.level == "MAJOR"),
                             "minor": sum(1 for x in r.results if x.level == "MINOR"),
                             "info": sum(1 for x in r.results if x.level == "INFO"),
                             "passed": sum(1 for x in r.results if x.level == "PASSED"),
                         },
                         "results": [
-                            {
-                                "level": x.level,
-                                "message": x.message,
-                                "file": x.file,
-                                "line": x.line,
-                            }
-                            for x in r.results
+                            {"level": x.level, "message": x.message, "file": x.file, "line": x.line} for x in r.results
                         ],
                     }
                     for r in reports
@@ -1201,7 +1183,9 @@ def main() -> int:
         for report in reports:
             print_results(report, args.verbose)
 
-    # Return worst exit code
+    # Return worst exit code — in strict mode, NIT issues also block validation
+    if args.strict:
+        return max(r.exit_code_strict() for r in reports)
     return max(r.exit_code for r in reports)
 
 
