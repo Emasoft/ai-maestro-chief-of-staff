@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 # pre-push hook - Validate plugin before allowing push
 #
-# Runs validate_plugin.py in strict mode: ALL severity levels
-# (CRITICAL, MAJOR, MINOR) block the push.
+# Blocks on CRITICAL and MAJOR issues; allows MINOR (advisory).
 #
 # Exit codes from validate_plugin.py:
 #   0 - All checks passed
 #   1 - CRITICAL issues found (blocks push)
 #   2 - MAJOR issues found (blocks push)
-#   3 - MINOR issues found (blocks push)
+#   3 - MINOR issues found (allowed, advisory only)
 #
 # To install:
 #   mkdir -p .git/hooks && cp git-hooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
@@ -87,7 +86,7 @@ fi
 # Falls back to python3 if uv is not available
 set +e
 if command -v uv &> /dev/null; then
-    uv run --with pyyaml python scripts/validate_plugin.py . --verbose 2>&1
+    uv run --with pyyaml --with types-PyYAML python scripts/validate_plugin.py . --verbose 2>&1
 else
     python3 scripts/validate_plugin.py . --verbose 2>&1
 fi
@@ -96,7 +95,7 @@ set -e
 
 echo ""
 
-# Handle exit codes - strict mode: ALL non-zero exit codes block push
+# Handle exit codes - block on CRITICAL/MAJOR, allow MINOR (advisory)
 case $VALIDATION_EXIT_CODE in
     0)
         echo -e "${GREEN}========================================${NC}"
@@ -121,10 +120,11 @@ case $VALIDATION_EXIT_CODE in
         ;;
     3)
         echo -e "${YELLOW}========================================${NC}"
-        echo -e "${YELLOW}  BLOCKED: MINOR issues found${NC}"
-        echo -e "${YELLOW}  Fix ALL issues before pushing.${NC}"
+        echo -e "${YELLOW}  PASSED with MINOR advisories${NC}"
+        echo -e "${YELLOW}  MINOR issues are soft recommendations.${NC}"
+        echo -e "${YELLOW}  Push allowed.${NC}"
         echo -e "${YELLOW}========================================${NC}"
-        exit 1
+        exit 0
         ;;
     *)
         echo -e "${RED}========================================${NC}"

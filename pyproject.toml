@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 320
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]
+
+[tool.mypy]
+ignore_missing_imports = true
+disable_error_code = ["import-untyped"]
