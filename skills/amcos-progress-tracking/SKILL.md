@@ -53,6 +53,12 @@ Tracks task progress in `progress.md`, manages dependencies, handles session rec
   <!-- /TOC -->
 
 **Runbook:** [references/op-update-task-progress.md](references/op-update-task-progress.md)
+  <!-- TOC: op-update-task-progress.md -->
+  - Purpose
+  - Task States
+  - Steps
+  - ...and 4 more sections
+  <!-- /TOC -->
 
 ### PROCEDURE 5: Recover Session After Interruption
 
@@ -97,6 +103,12 @@ Script `amcos_memory_manager.py` with subcommands: `init`, `validate`, `health`,
 | Corrupted files | See [13-file-recovery.md](references/13-file-recovery.md) |
 | Context drift | See [14-context-sync.md](references/14-context-sync.md) |
 | Files too large | See [16-memory-archival.md](references/16-memory-archival.md) |
+  <!-- TOC: 16-memory-archival.md -->
+  - Overview
+  - When to Archive
+  - Archival Procedures
+  - ...and 4 more sections
+  <!-- /TOC -->
 | Not surviving compaction | See [17-compaction-integration.md](references/17-compaction-integration.md) |
 
 ## Examples
@@ -113,19 +125,19 @@ uv run python scripts/amcos_memory_manager.py validate
 
 ## Resources
 
-- [references/08-manage-progress-tracking.md](references/08-manage-progress-tracking.md) - Progress tracking
-- [references/09-task-dependencies.md](references/09-task-dependencies.md) - Dependencies
-- [references/10-recovery-procedures.md](references/10-recovery-procedures.md) - Recovery
-- [references/11-compaction-safety.md](references/11-compaction-safety.md) - Compaction safety
-- [references/12-pre-compaction-checklist.md](references/12-pre-compaction-checklist.md) - Checklist
-- [references/13-file-recovery.md](references/13-file-recovery.md) - File recovery
-- [references/14-context-sync.md](references/14-context-sync.md) - Context sync
-- [references/15-progress-validation.md](references/15-progress-validation.md) - Validation
-- [references/16-memory-archival.md](references/16-memory-archival.md) - Archival
-- [references/17-compaction-integration.md](references/17-compaction-integration.md) - Compaction
-- [references/18-using-scripts.md](references/18-using-scripts.md) - Scripts
-- [references/op-update-task-progress.md](references/op-update-task-progress.md) - Runbook: progress
-- [references/op-recover-session.md](references/op-recover-session.md) - Runbook: recovery
+- [08-manage-progress-tracking.md](references/08-manage-progress-tracking.md)
+- [09-task-dependencies.md](references/09-task-dependencies.md)
+- [10-recovery-procedures.md](references/10-recovery-procedures.md)
+- [11-compaction-safety.md](references/11-compaction-safety.md)
+- [12-pre-compaction-checklist.md](references/12-pre-compaction-checklist.md)
+- [13-file-recovery.md](references/13-file-recovery.md)
+- [14-context-sync.md](references/14-context-sync.md)
+- [15-progress-validation.md](references/15-progress-validation.md)
+- [16-memory-archival.md](references/16-memory-archival.md)
+- [17-compaction-integration.md](references/17-compaction-integration.md)
+- [18-using-scripts.md](references/18-using-scripts.md)
+- [op-update-task-progress.md](references/op-update-task-progress.md)
+- [op-recover-session.md](references/op-recover-session.md)
 
 ---
 

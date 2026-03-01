@@ -31,6 +31,12 @@ Session memory uses three files: `activeContext.md` (current work), `patterns.md
 ### Lifecycle
 
 Three phases: **Load** (read and validate at start), **Update** (write changes during work), **Save** (persist before exit). Details: [references/00-session-memory-lifecycle.md](references/00-session-memory-lifecycle.md).
+  <!-- TOC: 00-session-memory-lifecycle.md -->
+  - Overview
+  - Phase 1: Session Initialization (Load)
+  - Phase 2: Session Execution (Update)
+  - ...and 1 more sections
+  <!-- /TOC -->
 
 ### PROCEDURE 1: Initialize Session Memory
 
@@ -59,6 +65,12 @@ Three phases: **Load** (read and validate at start), **Update** (write changes d
   <!-- /TOC -->
 
 **Runbook:** [references/op-initialize-session-memory.md](references/op-initialize-session-memory.md)
+  <!-- TOC: op-initialize-session-memory.md -->
+  - Purpose
+  - When To Use This Operation
+  - Session Memory Components
+  - ...and 6 more sections
+  <!-- /TOC -->
 
 ## Output
 
@@ -89,6 +101,12 @@ uv run python scripts/amcos_memory_manager.py validate
 ```
 
 More examples: [references/00-session-memory-examples.md](references/00-session-memory-examples.md).
+  <!-- TOC: 00-session-memory-examples.md -->
+  - Example 1: Initializing Session Memory
+  - Example 2: Recovering After Interruption
+  - Example 3: Updating Progress After Task Completion
+  - ...and 2 more sections
+  <!-- /TOC -->
 
 ## Resources
 

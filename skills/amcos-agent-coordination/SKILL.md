@@ -67,6 +67,11 @@ Configure operations on remote hosts require GovernanceRequest + ConfigOperation
 ### Workflow Checklists
 
 See [workflow-checklists.md](references/workflow-checklists.md) for structured checklists covering spawn, terminate, hibernate, wake, team formation, and registry updates.
+<!-- TOC: workflow-checklists.md -->
+- Spawning New Agent Checklist
+- Terminating Agent Checklist
+- ...and 4 more sections
+<!-- /TOC -->
 
 ## Output
 

@@ -82,6 +82,12 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 5. Confirm ready
 
 **Safety:** [references/11-compaction-safety.md](references/11-compaction-safety.md) | **Checklist:** [references/12-pre-compaction-checklist.md](references/12-pre-compaction-checklist.md) | **Runbook:** [references/op-prepare-context-compaction.md](references/op-prepare-context-compaction.md)
+  <!-- TOC: op-prepare-context-compaction.md -->
+  - Purpose
+  - Context Compaction Risks
+  - Steps
+  - ...and 5 more sections
+  <!-- /TOC -->
 
 ## Output
 
@@ -97,6 +103,12 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 |-------|------------|
 | Context out of sync | See [14-context-sync.md](references/14-context-sync.md) |
 | Pattern file too large | See [16-memory-archival.md](references/16-memory-archival.md) |
+  <!-- TOC: 16-memory-archival.md -->
+  - Overview
+  - When to Archive
+  - Archival Procedures
+  - ...and 4 more sections
+  <!-- /TOC -->
 | Validation fails pre-compaction | Fix errors first; never compact invalid memory |
 | Files corrupted | See [04-memory-validation.md](references/04-memory-validation.md) |
 
@@ -105,25 +117,23 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 ```bash
 # Update focus on task switch
 uv run python scripts/amcos_memory_manager.py set-focus \
-  --focus "Implementing config detection" \
-  --previous "Completed initialization tests"
+  --focus "Implementing config detection"
 
 # Record a pattern
 uv run python scripts/amcos_memory_manager.py add-pattern \
-  --name "Retry with backoff" --category "Error-Recovery" \
-  --description "API calls resolve with exponential backoff"
+  --name "Retry with backoff" --category "Error-Recovery"
 ```
 
 ## Resources
 
-- [references/03-manage-active-context.md](references/03-manage-active-context.md) - Active context
-- [references/04-memory-validation.md](references/04-memory-validation.md) - Validation
-- [references/05-record-patterns.md](references/05-record-patterns.md) - Patterns
-- [references/06-context-update-patterns.md](references/06-context-update-patterns.md) - Update patterns
-- [references/07-pattern-categories.md](references/07-pattern-categories.md) - Categories
-- [references/op-update-active-context.md](references/op-update-active-context.md) - Runbook: context
-- [references/op-record-discovered-pattern.md](references/op-record-discovered-pattern.md) - Runbook: pattern
-- [references/op-prepare-context-compaction.md](references/op-prepare-context-compaction.md) - Runbook: compaction
+- [03-manage-active-context.md](references/03-manage-active-context.md)
+- [04-memory-validation.md](references/04-memory-validation.md)
+- [05-record-patterns.md](references/05-record-patterns.md)
+- [06-context-update-patterns.md](references/06-context-update-patterns.md)
+- [07-pattern-categories.md](references/07-pattern-categories.md)
+- [op-update-active-context.md](references/op-update-active-context.md)
+- [op-record-discovered-pattern.md](references/op-record-discovered-pattern.md)
+- [op-prepare-context-compaction.md](references/op-prepare-context-compaction.md)
 
 ---
 

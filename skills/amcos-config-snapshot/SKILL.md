@@ -15,7 +15,7 @@ agent: amcos-main
 
 ## Overview
 
-Captures config state at session start, detects drift, and resolves conflicts. Covers Chief of Staff integrations.
+Captures config state at session start, detects drift, and resolves conflicts.
 
 ## Prerequisites
 
@@ -29,7 +29,7 @@ Captures config state at session start, detects drift, and resolves conflicts. C
 **Trigger:** Session init, after loading memory, before work.
 
 1. Read configs from `design/config/`
-2. Create snapshot with timestamp, session ID, and file hashes
+2. Create snapshot with timestamp and file hashes
 3. Save to `design/memory/config-snapshot.md`; record in `activeContext.md`
 
 **Guide:** [references/19-config-snapshot-creation.md](references/19-config-snapshot-creation.md)
@@ -44,11 +44,11 @@ Captures config state at session start, detects drift, and resolves conflicts. C
 
 ### PROCEDURE 8: Detect Config Changes
 
-**Trigger:** Every 30 min, after notifications, before major tasks, on unexpected behavior.
+**Trigger:** Every 30 min, before major tasks, on unexpected behavior.
 
 1. Read current configs and saved snapshot
 2. Compare timestamps; if different, compare hashes
-3. Classify changes and log in `activeContext.md`; trigger Procedure 9 if critical
+3. Classify changes; log in `activeContext.md`; trigger Procedure 9 if critical
 
 **Guide:** [references/20-config-change-detection.md](references/20-config-change-detection.md)
   <!-- TOC: 20-config-change-detection.md -->
@@ -62,11 +62,11 @@ Captures config state at session start, detects drift, and resolves conflicts. C
 
 ### PROCEDURE 9: Handle Config Conflicts
 
-**Trigger:** Critical changes detected, incompatible work, or orchestrator request.
+**Trigger:** Critical changes detected or orchestrator request.
 
-Types: **A** Non-Breaking (adopt now), **B** Breaking-Future (finish task, adopt), **C** Breaking-Immediate (pause, adopt, restart), **D** Irreconcilable (stop, escalate).
+Types: **A** Non-Breaking, **B** Breaking-Future, **C** Breaking-Immediate, **D** Irreconcilable.
 
-Steps: Classify (A-D), apply strategy, update snapshot, record in `activeContext.md`.
+Steps: Classify (A-D), apply strategy, update snapshot.
 
 **Guide:** [references/21-config-conflict-resolution.md](references/21-config-conflict-resolution.md)
   <!-- TOC: 21-config-conflict-resolution.md -->
@@ -81,14 +81,31 @@ Steps: Classify (A-D), apply strategy, update snapshot, record in `activeContext
 ### Chief of Staff Integrations
 
 See [ai-maestro-integration.md](references/ai-maestro-integration.md) (messaging), [error-handling.md](references/error-handling.md) (fail-fast), [00-key-takeaways-and-next-steps.md](references/00-key-takeaways-and-next-steps.md) (principles).
+  <!-- TOC: ai-maestro-integration.md -->
+  - What Is AI Maestro
+  - Core Capabilities
+  - Session Management
+  - ...and 5 more sections
+  <!-- /TOC -->
+  <!-- TOC: error-handling.md -->
+  - Error Handling Philosophy
+  - Error Categories
+  - Communication Errors
+  - ...and 5 more sections
+  <!-- /TOC -->
+  <!-- TOC: 00-key-takeaways-and-next-steps.md -->
+  - Key Takeaways
+  - Next Steps
+  - Resources Index
+  <!-- /TOC -->
 
 ## Output
 
 | Procedure | Result |
 |-----------|--------|
-| Capture Snapshot | `config-snapshot.md` with timestamps and hashes |
+| Capture Snapshot | `config-snapshot.md` with hashes |
 | Detect Changes | Change report in `activeContext.md` |
-| Handle Conflicts | Conflict resolved per type, snapshot updated |
+| Handle Conflicts | Resolved per type, snapshot updated |
 
 ## Error Handling
 
@@ -102,26 +119,26 @@ See [ai-maestro-integration.md](references/ai-maestro-integration.md) (messaging
 ## Examples
 
 ```bash
-# Capture snapshot at session start
+# Capture snapshot
 uv run python scripts/amcos_memory_manager.py add-decision \
-  --decision "Config snapshot captured" --rationale "Session start"
+  --decision "Config snapshot captured"
 
-# Adopt config after Type B detection
+# Adopt config after Type B
 uv run python scripts/amcos_memory_manager.py set-focus \
-  --focus "Adopting config v2.1 (Type B)" --previous "Task done"
+  --focus "Adopting config v2.1 (Type B)"
 ```
 
 ## Resources
 
-- [references/19-config-snapshot-creation.md](references/19-config-snapshot-creation.md) - Snapshots
-- [references/20-config-change-detection.md](references/20-config-change-detection.md) - Detection
-- [references/21-config-conflict-resolution.md](references/21-config-conflict-resolution.md) - Conflicts
-- [references/op-capture-config-snapshot.md](references/op-capture-config-snapshot.md) - Runbook: capture
-- [references/op-detect-config-changes.md](references/op-detect-config-changes.md) - Runbook: detect
-- [references/op-handle-config-conflicts.md](references/op-handle-config-conflicts.md) - Runbook: conflicts
-- [references/ai-maestro-integration.md](references/ai-maestro-integration.md) - AI Maestro
-- [references/error-handling.md](references/error-handling.md) - Errors
-- [references/00-key-takeaways-and-next-steps.md](references/00-key-takeaways-and-next-steps.md) - Takeaways
+- [19-config-snapshot-creation.md](references/19-config-snapshot-creation.md)
+- [20-config-change-detection.md](references/20-config-change-detection.md)
+- [21-config-conflict-resolution.md](references/21-config-conflict-resolution.md)
+- [op-capture-config-snapshot.md](references/op-capture-config-snapshot.md)
+- [op-detect-config-changes.md](references/op-detect-config-changes.md)
+- [op-handle-config-conflicts.md](references/op-handle-config-conflicts.md)
+- [ai-maestro-integration.md](references/ai-maestro-integration.md)
+- [error-handling.md](references/error-handling.md)
+- [00-key-takeaways-and-next-steps.md](references/00-key-takeaways-and-next-steps.md)
 
 ---
 

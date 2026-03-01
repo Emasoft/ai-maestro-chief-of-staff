@@ -73,6 +73,12 @@ See [references/edge-case-protocols.md](references/edge-case-protocols.md).
 ### Proactive Handoff
 
 When failure requires transferring work to another agent, use the proactive handoff protocol. See [references/proactive-handoff-protocol.md](references/proactive-handoff-protocol.md).
+  <!-- TOC: proactive-handoff-protocol.md -->
+  - Automatic Handoff Triggers
+  - Mandatory Handoff Sections
+  - Protocol for Handing Off GitHub Operations
+  - ...and 5 more sections
+  <!-- /TOC -->
 
 ### Design Document Protocol
 

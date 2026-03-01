@@ -94,9 +94,9 @@ cp -r ~/.claude/plugins/cache/ai-maestro/ai-maestro-programmer-agent/latest/* \
 
 - [Spawn Procedures](references/spawn-procedures.md)
   <!-- TOC: spawn-procedures.md -->
-  - What is agent spawning
-  - Spawn procedure
-  - Troubleshooting
+  - What is agent spawning - Understanding agent creation
+  - Spawn procedure - Step-by-step agent creation
+  - ...and 5 more sections
   <!-- /TOC -->
 - [op-spawn-agent.md](references/op-spawn-agent.md)
   <!-- TOC: op-spawn-agent.md -->

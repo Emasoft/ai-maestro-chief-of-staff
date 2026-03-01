@@ -54,6 +54,11 @@ Always attempt graceful first.
 ### Record-Keeping
 
 Log every termination: timestamp (ISO 8601), session name, type (graceful/forced), reason, state saved (y/n), registry updated (y/n). See [record-keeping.md](references/record-keeping.md) for format.
+<!-- TOC: record-keeping.md -->
+- Lifecycle Log
+- Operation Audit Trail
+- ...and 20 more sections
+<!-- /TOC -->
 
 ## Output
 
@@ -97,9 +102,9 @@ uv run python scripts/amcos_team_registry.py remove-agent --name epa-stuck-agent
 
 - [Termination Procedures](references/termination-procedures.md)
   <!-- TOC: termination-procedures.md -->
-  - What is agent termination
-  - Termination procedure
-  - Troubleshooting
+  - What is agent termination - Understanding clean shutdown
+  - Termination procedure - Step-by-step shutdown
+  - ...and 5 more sections
   <!-- /TOC -->
 - [op-terminate-agent.md](references/op-terminate-agent.md)
   <!-- TOC: op-terminate-agent.md -->

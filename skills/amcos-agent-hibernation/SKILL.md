@@ -107,9 +107,9 @@ uv run python scripts/amcos_team_registry.py update-status \
 
 - [Hibernation Procedures](references/hibernation-procedures.md)
   <!-- TOC: hibernation-procedures.md -->
-  - What is agent hibernation
-  - Hibernation procedure
-  - Wake procedure
+  - What is agent hibernation - Understanding state suspension
+  - Hibernation procedure - Step-by-step suspension
+  - ...and 5 more sections
   <!-- /TOC -->
 - [op-hibernate-agent.md](references/op-hibernate-agent.md)
   <!-- TOC: op-hibernate-agent.md -->
