@@ -158,7 +158,7 @@ Analyzes skills for relationships:
 {
   "name": "amcos-staff-planning",
   "co_usage": {
-    "prerequisites": ["amcos-session-memory-library"],
+    "prerequisites": ["amcos-memory-initialization", "amcos-context-management", "amcos-progress-tracking", "amcos-config-snapshot"],
     "related": ["amcos-agent-lifecycle"],
     "alternatives": []
   }
@@ -187,7 +187,7 @@ Analyzes skills for relationships:
         "secondary": ["agents", "templates", "allocation"]
       },
       "co_usage": {
-        "prerequisites": ["amcos-session-memory-library"],
+        "prerequisites": ["amcos-memory-initialization", "amcos-context-management", "amcos-progress-tracking", "amcos-config-snapshot"],
         "related": ["amcos-agent-lifecycle"],
         "alternatives": []
       },
