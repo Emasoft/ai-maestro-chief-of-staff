@@ -6,7 +6,10 @@ tools:
   - Bash
   - Read
 skills:
-  - amcos-agent-lifecycle
+  - amcos-agent-spawning
+  - amcos-agent-termination
+  - amcos-agent-hibernation
+  - amcos-agent-coordination
   - ai-maestro-agents-management
 ---
 
@@ -28,7 +31,10 @@ You manage the complete lifecycle of Claude Code agent instances. Your single re
 ## Required Reading
 
 Before performing lifecycle operations, read:
-- **amcos-agent-lifecycle skill SKILL.md** - Complete lifecycle management procedures
+- **amcos-agent-spawning skill SKILL.md** - Agent creation procedures
+- **amcos-agent-termination skill SKILL.md** - Agent shutdown procedures
+- **amcos-agent-hibernation skill SKILL.md** - Agent hibernate/wake procedures
+- **amcos-agent-coordination skill SKILL.md** - Agent coordination and role boundaries
 - **ai-maestro-agents-management skill** - CLI reference for agent operations
 
 > For agent state management, see reference doc **hibernation-procedures.md**.

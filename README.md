@@ -129,20 +129,32 @@ AMCOS (Chief of Staff) ---- one per team
 | `/amcos-resource-report` | Show team resource usage |
 | `/amcos-performance-report` | Show team performance metrics |
 
-### Skills (14)
+### Skills (26)
 
 | Skill | Purpose |
 |-------|---------|
-| `amcos-agent-lifecycle` | Agent spawn, terminate, hibernate, wake procedures |
-| `amcos-failure-recovery` | Failure detection, classification, recovery strategies |
+| `amcos-agent-spawning` | Agent spawn procedures |
+| `amcos-agent-termination` | Agent terminate procedures |
+| `amcos-agent-hibernation` | Agent hibernate and wake procedures |
+| `amcos-agent-coordination` | Agent lifecycle coordination across team |
+| `amcos-failure-detection` | Failure detection and classification |
+| `amcos-recovery-execution` | Recovery strategy execution |
+| `amcos-agent-replacement` | Failed agent replacement procedures |
+| `amcos-emergency-handoff` | Emergency handoff during critical failures |
 | `amcos-label-taxonomy` | Label taxonomy for team agent classification |
-| `amcos-notification-protocols` | Pre/post operation notifications, acknowledgment |
+| `amcos-pre-op-notification` | Pre-operation notifications to team agents |
+| `amcos-post-op-notification` | Post-operation notifications to team agents |
+| `amcos-acknowledgment-protocol` | Acknowledgment collection and verification |
+| `amcos-failure-notification` | Failure event notifications to team and manager |
 | `amcos-onboarding` | Agent onboarding checklists and procedures |
 | `amcos-performance-tracking` | Performance metrics and reporting |
 | `amcos-permission-management` | GovernanceRequest approval/response workflows |
 | `amcos-plugin-management` | Plugin configuration and installation |
 | `amcos-resource-monitoring` | Resource limits and monitoring |
-| `amcos-session-memory-library` | Session memory persistence and management |
+| `amcos-memory-initialization` | Session memory initialization and loading |
+| `amcos-context-management` | Session context persistence and management |
+| `amcos-progress-tracking` | Session progress tracking and checkpoints |
+| `amcos-config-snapshot` | Configuration snapshot capture and restore |
 | `amcos-skill-management` | Skill validation and reindexing |
 | `amcos-staff-planning` | Staff planning and role assignment |
 | `amcos-team-coordination` | Team AMP messaging and coordination |

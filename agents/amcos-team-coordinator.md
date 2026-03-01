@@ -8,7 +8,7 @@ tools:
   - Bash
 skills:
   - amcos-team-coordination
-  - amcos-agent-lifecycle
+  - amcos-agent-coordination
 ---
 
 # Team Coordinator Agent

@@ -46,7 +46,7 @@ This skill provides:
 - Validation procedures for data integrity
 
 > For detailed report formats and structures, see `amcos-performance-tracking/references/report-formats.md`.
-> For sub-agent role boundaries and what this agent should never do, see `amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md`.
+> For sub-agent role boundaries and what this agent should never do, see `amcos-agent-coordination/references/sub-agent-role-boundaries-template.md`.
 
 ---
 

@@ -369,13 +369,13 @@ Use the `agent-messaging` skill to check for unread messages or mark a message a
 
 Reference skills by folder name only:
 ```
-See skill: amcos-agent-lifecycle
+See skill: amcos-agent-spawning
 ```
 
 In commands/agents, use just the skill name:
 ```yaml
 skills:
-  - amcos-agent-lifecycle
+  - amcos-agent-spawning
   - amcos-task-delegation
 ```
 

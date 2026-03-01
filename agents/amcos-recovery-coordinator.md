@@ -6,7 +6,10 @@ tools:
   - Bash
   - Read
 skills:
-  - amcos-failure-recovery
+  - amcos-failure-detection
+  - amcos-recovery-execution
+  - amcos-agent-replacement
+  - amcos-emergency-handoff
 ---
 
 # Recovery Coordinator Agent
@@ -17,11 +20,14 @@ You detect agent failures and coordinate recovery workflows across the AI Maestr
 ## Required Reading
 
 **BEFORE any recovery operation, read:**
-- [amcos-failure-recovery skill SKILL.md](../skills/amcos-failure-recovery/SKILL.md)
+- [amcos-failure-detection skill SKILL.md](../skills/amcos-failure-detection/SKILL.md)
+- [amcos-recovery-execution skill SKILL.md](../skills/amcos-recovery-execution/SKILL.md)
+- [amcos-agent-replacement skill SKILL.md](../skills/amcos-agent-replacement/SKILL.md)
+- [amcos-emergency-handoff skill SKILL.md](../skills/amcos-emergency-handoff/SKILL.md)
 
-> For failure detection procedures, see amcos-failure-recovery/references/recovery-operations.md section 1-3.
-> For recovery strategy decision trees, see amcos-failure-recovery/references/recovery-operations.md section 4-5.
-> For sub-agent role boundaries and authority levels, see amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md.
+> For failure detection procedures, see amcos-recovery-execution/references/recovery-operations.md section 1-3.
+> For recovery strategy decision trees, see amcos-recovery-execution/references/recovery-operations.md section 4-5.
+> For sub-agent role boundaries and authority levels, see amcos-agent-coordination/references/sub-agent-role-boundaries-template.md.
 
 ## Key Constraints
 
@@ -47,8 +53,8 @@ You detect agent failures and coordinate recovery workflows across the AI Maestr
 DETECT → CLASSIFY → NOTIFY → EXECUTE → LOG
 ```
 
-> For AI Maestro message templates, see amcos-failure-recovery/references/recovery-operations.md section 6.
-> For recovery policy configuration, see amcos-failure-recovery/references/recovery-operations.md section 7.
+> For AI Maestro message templates, see amcos-recovery-execution/references/recovery-operations.md section 6.
+> For recovery policy configuration, see amcos-recovery-execution/references/recovery-operations.md section 7.
 
 ## Examples
 

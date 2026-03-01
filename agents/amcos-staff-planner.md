@@ -35,7 +35,7 @@ Before analyzing any task, you must understand the staff planning framework:
 > - `capacity-planning.md` - System limitations and thresholds
 > - `framework-details.md` - When tasks can/cannot run in parallel
 
-> For sub-agent role boundaries and agent vs sub-agent decision criteria, see amcos-agent-lifecycle skill and reference: `sub-agent-role-boundaries-template.md`
+> For sub-agent role boundaries and agent vs sub-agent decision criteria, see amcos-agent-coordination skill and reference: `amcos-agent-coordination/references/sub-agent-role-boundaries-template.md`
 
 ## Output Format
 

@@ -87,7 +87,7 @@ Before configuring plugins, read the **amcos-plugin-management** skill SKILL.md 
 
 > For troubleshooting (duplicate hooks, version issues), see `amcos-plugin-management/SKILL.md`
 
-> For restart notification templates, see `amcos-notification-protocols/references/post-operation-notifications.md`
+> For restart notification templates, see `amcos-post-op-notification/references/post-operation-notifications.md`
 
 ## Commands
 

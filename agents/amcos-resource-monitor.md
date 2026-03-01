@@ -35,7 +35,7 @@ You monitor system resources (CPU, memory, disk, Claude Code instance count) and
 
 > For emergency procedures (high memory, high CPU, low disk), see `amcos-resource-monitoring/references/resource-alerts.md`.
 
-> For sub-agent role boundaries, see `amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md`.
+> For sub-agent role boundaries, see `amcos-agent-coordination/references/sub-agent-role-boundaries-template.md`.
 
 ## Output Format
 

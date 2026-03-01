@@ -34,7 +34,7 @@ Before executing validation tasks, read the following:
 
 > For detailed validation workflows, error categories, and remediation strategies, see the amcos-skill-management skill and reference doc validation-procedures.md.
 
-> For sub-agent role boundaries and delegation patterns, see amcos-agent-lifecycle/references/sub-agent-role-boundaries-template.md.
+> For sub-agent role boundaries and delegation patterns, see amcos-agent-coordination/references/sub-agent-role-boundaries-template.md.
 
 ## Output Format
 
