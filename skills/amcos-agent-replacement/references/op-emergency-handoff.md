@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: emergency-handoff
-parent-skill: amcos-failure-recovery
+parent-skill: amcos-agent-replacement
 ---
 
 # Operation: Emergency Work Handoff

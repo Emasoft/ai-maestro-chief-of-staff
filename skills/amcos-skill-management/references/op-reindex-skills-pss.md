@@ -151,8 +151,8 @@ NEW_COUNT=$(cat ~/.claude/skills-index.json | jq '.skills | length')
 echo "New skill count: $NEW_COUNT"
 
 # Step 5: Check specific skill
-echo "=== Checking amcos-agent-lifecycle ==="
-cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "amcos-agent-lifecycle")'
+echo "=== Checking amcos-agent-spawning ==="
+cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "amcos-agent-spawning")'
 ```
 
 ### Example: Checking Why Skill Not Discovered
@@ -193,7 +193,7 @@ PSS uses two passes for comprehensive indexing:
 ```bash
 # The reindex script handles both passes automatically
 # You can verify co-usage relationships:
-cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "amcos-agent-lifecycle") | .co_usage_skills'
+cat ~/.claude/skills-index.json | jq '.skills[] | select(.name == "amcos-agent-spawning") | .co_usage_skills'
 ```
 
 ## Error Handling

@@ -124,7 +124,7 @@ Copy this checklist and track your progress:
 ```bash
 # Generate for all AMCOS skills
 skills-ref to-prompt \
-  /path/to/skills/amcos-agent-lifecycle \
+  /path/to/skills/amcos-agent-spawning \
   /path/to/skills/amcos-plugin-management \
   /path/to/skills/amcos-skill-management \
   /path/to/skills/amcos-onboarding
@@ -132,9 +132,9 @@ skills-ref to-prompt \
 # Output:
 # <available_skills>
 # <skill>
-# <name>amcos-agent-lifecycle</name>
+# <name>amcos-agent-spawning</name>
 # <description>Use when spawning, terminating, hibernating, or waking agents...</description>
-# <location>/path/to/skills/amcos-agent-lifecycle/SKILL.md</location>
+# <location>/path/to/skills/amcos-agent-spawning/SKILL.md</location>
 # </skill>
 # ...
 # </available_skills>

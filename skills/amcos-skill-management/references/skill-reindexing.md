@@ -159,7 +159,7 @@ Analyzes skills for relationships:
   "name": "amcos-staff-planning",
   "co_usage": {
     "prerequisites": ["amcos-memory-initialization", "amcos-context-management", "amcos-progress-tracking", "amcos-config-snapshot"],
-    "related": ["amcos-agent-lifecycle"],
+    "related": ["amcos-agent-spawning"],
     "alternatives": []
   }
 }
@@ -188,7 +188,7 @@ Analyzes skills for relationships:
       },
       "co_usage": {
         "prerequisites": ["amcos-memory-initialization", "amcos-context-management", "amcos-progress-tracking", "amcos-config-snapshot"],
-        "related": ["amcos-agent-lifecycle"],
+        "related": ["amcos-agent-spawning"],
         "alternatives": []
       },
       "metadata": {
@@ -198,7 +198,7 @@ Analyzes skills for relationships:
     }
   },
   "categories": {
-    "orchestration": ["amcos-staff-planning", "amcos-agent-lifecycle"],
+    "orchestration": ["amcos-staff-planning", "amcos-agent-spawning"],
     "planning": ["amcos-staff-planning"]
   }
 }

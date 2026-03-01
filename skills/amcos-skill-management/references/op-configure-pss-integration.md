@@ -175,7 +175,7 @@ Copy this checklist and track your progress:
 **Before (poor discovery):**
 ```yaml
 ---
-name: amcos-agent-lifecycle
+name: amcos-agent-spawning
 description: Manages agent states
 ---
 ```
@@ -183,7 +183,7 @@ description: Manages agent states
 **After (good discovery):**
 ```yaml
 ---
-name: amcos-agent-lifecycle
+name: amcos-agent-spawning
 description: Use when spawning, terminating, hibernating, or waking agents. Trigger with agent spawn, termination, hibernation, or wake requests. Covers agent creation via the ai-maestro-agents-management skill, team registry updates, and AI Maestro messaging for lifecycle events.
 license: Apache-2.0
 compatibility: Requires AI Maestro, ai-maestro-agents-management skill, tmux
@@ -199,7 +199,7 @@ metadata:
 ```bash
 # Test queries and expected skills
 echo "Query: spawn new agent"
-echo "Expected: amcos-agent-lifecycle"
+echo "Expected: amcos-agent-spawning"
 
 echo "Query: install plugin"
 echo "Expected: amcos-plugin-management"
@@ -213,7 +213,7 @@ echo "Expected: amcos-skill-management"
 ### Example: Debugging Poor Discovery
 
 ```bash
-SKILL_NAME="amcos-agent-lifecycle"
+SKILL_NAME="amcos-agent-spawning"
 
 # Step 1: Is it indexed?
 jq ".skills[] | select(.name == \"$SKILL_NAME\")" ~/.claude/skills-index.json

@@ -338,7 +338,7 @@ Step-by-step runbooks for executing individual label management operations. Use 
 ## Resources
 
 - **AGENT_OPERATIONS.md** - Canonical operations reference (in docs/ folder)
-- **amcos-agent-lifecycle** - Agent spawn/terminate procedures
+- **amcos-agent-spawning, amcos-agent-termination, amcos-agent-hibernation, amcos-agent-coordination** - Agent spawn/terminate procedures
 - **amcos-team-registry** - Team registry management skill
 - [GitHub Labels Documentation](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
 - [GitHub CLI Labels Reference](https://cli.github.com/manual/gh_label)

@@ -120,7 +120,7 @@ Keywords "role", "capacity", "staffing", "templates" now indexed.
 ```markdown
 ## Related Skills
 
-- **amcos-agent-lifecycle** - For spawning assessed agents
+- **amcos-agent-spawning** - For spawning assessed agents
 ```
 
 PSS extracts these relationships during indexing.

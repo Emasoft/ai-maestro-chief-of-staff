@@ -166,17 +166,17 @@ Copy this checklist and track your progress:
 ### Example: Complete Skill Validation
 
 ```bash
-SKILL_PATH="/path/to/amcos-agent-lifecycle"
+SKILL_PATH="/path/to/amcos-agent-spawning"
 
 # Step 1: Run validator
 skills-ref validate $SKILL_PATH
-# Output: Skill: amcos-agent-lifecycle | Status: VALID
+# Output: Skill: amcos-agent-spawning | Status: VALID
 
 # Step 2: Check frontmatter
 head -15 $SKILL_PATH/SKILL.md
 # Should show:
 # ---
-# name: amcos-agent-lifecycle
+# name: amcos-agent-spawning
 # description: Use when spawning, terminating...
 # license: Apache-2.0
 # ...

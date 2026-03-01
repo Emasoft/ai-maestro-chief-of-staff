@@ -497,7 +497,7 @@ Before deploying a new sub-agent, verify:
 
 ## References
 
-- Main skill: [amcos-agent-lifecycle/SKILL.md](../SKILL.md)
-- Agent hierarchy: described in the `amcos-agent-lifecycle` skill (see SKILL.md section on agent roles and hierarchy)
+- Main skill: [amcos-agent-coordination/SKILL.md](../SKILL.md)
+- Agent hierarchy: described in the `amcos-agent-coordination` skill (see SKILL.md section on agent roles and hierarchy)
 - Communication protocols: use the `agent-messaging` skill for all inter-agent messaging (see Communication Rules section above)
 - Approval workflows: use the `amcos-permission-management` skill for approval request procedures

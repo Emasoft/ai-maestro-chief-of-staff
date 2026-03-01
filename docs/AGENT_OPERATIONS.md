@@ -376,7 +376,7 @@ In commands/agents, use just the skill name:
 ```yaml
 skills:
   - amcos-agent-spawning
-  - amcos-task-delegation
+  - amcos-team-coordination
 ```
 
 ### 11.2 Rules

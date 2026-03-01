@@ -2,7 +2,7 @@
 procedure: support-skill
 workflow-instruction: support
 operation: replace-agent
-parent-skill: amcos-failure-recovery
+parent-skill: amcos-failure-detection
 ---
 
 # Operation: Replace Agent
