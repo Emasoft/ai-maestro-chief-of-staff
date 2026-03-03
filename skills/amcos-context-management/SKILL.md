@@ -24,6 +24,10 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 
 ## Instructions
 
+Copy this checklist and track your progress:
+- [ ] Update active context on change
+- [ ] Record patterns
+
 ### PROCEDURE 2: Update Active Context
 
 **Trigger:** Task switch, decision made, question raised, milestone reached, or pre-compaction.
@@ -34,20 +38,18 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 4. Write immediately (no deferred saves)
 
 **Guide:** [references/03-manage-active-context.md](references/03-manage-active-context.md)
-  <!-- TOC: 03-manage-active-context.md -->
-  - Understanding what active context is
-  - When to update context
-  - How to update context
-  - ...and 5 more sections
-  <!-- /TOC -->
+<!-- TOC: 03-manage-active-context.md -->
+- Understanding what active context is
+- When to update context
+- ...+6 more
+<!-- /TOC -->
 
 **Update patterns:** [references/06-context-update-patterns.md](references/06-context-update-patterns.md)
-  <!-- TOC: 06-context-update-patterns.md -->
-  - Understanding update patterns overview
-  - When switching tasks
-  - When recording decisions
-  - ...and 7 more sections
-  <!-- /TOC -->
+<!-- TOC: 06-context-update-patterns.md -->
+- Understanding update patterns overview
+- When switching tasks
+- ...+8 more
+<!-- /TOC -->
 
 **Runbook:** [references/op-update-active-context.md](references/op-update-active-context.md)
 
@@ -60,6 +62,10 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 3. Update pattern index; write immediately
 
 **Guide:** [references/05-record-patterns.md](references/05-record-patterns.md)
+<!-- TOC: 05-record-patterns.md -->
+- Parts
+- Quick Navigation
+<!-- /TOC -->
 
 **Categories:** [references/07-pattern-categories.md](references/07-pattern-categories.md)
   <!-- TOC: 07-pattern-categories.md -->
@@ -81,7 +87,7 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 4. Create backup
 5. Confirm ready
 
-**Safety:** [references/11-compaction-safety.md](references/11-compaction-safety.md) | **Checklist:** [references/12-pre-compaction-checklist.md](references/12-pre-compaction-checklist.md) | **Runbook:** [references/op-prepare-context-compaction.md](references/op-prepare-context-compaction.md)
+**Safety:** [references/11-compaction-safety.md](references/11-compaction-safety.md) | **Runbook:** [references/op-prepare-context-compaction.md](references/op-prepare-context-compaction.md)
   <!-- TOC: op-prepare-context-compaction.md -->
   - Purpose
   - Context Compaction Risks
@@ -111,6 +117,10 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
   <!-- /TOC -->
 | Validation fails pre-compaction | Fix errors first; never compact invalid memory |
 | Files corrupted | See [04-memory-validation.md](references/04-memory-validation.md) |
+<!-- TOC: 04-memory-validation.md -->
+- Document Parts
+- Quick Reference
+<!-- /TOC -->
 
 ## Examples
 
@@ -135,6 +145,4 @@ uv run python scripts/amcos_memory_manager.py add-pattern \
 - [op-record-discovered-pattern.md](references/op-record-discovered-pattern.md)
 - [op-prepare-context-compaction.md](references/op-prepare-context-compaction.md)
 
----
-
-**Version:** 1.0.0 | **Last Updated:** 2025-02-01
+**Version:** 1.0.0

@@ -2,6 +2,11 @@
 
 This document was split into two parts for better organization and to keep files under 500 lines.
 
+## Table of Contents
+
+- [Parts](#parts)
+- [Quick Reference](#quick-reference)
+
 ## Parts
 
 ### Part 1: Preparation and Execution

@@ -2,6 +2,12 @@
 
 This document was split into multiple parts for easier navigation. Each part covers specific aspects of memory file recovery.
 
+## Table of Contents
+
+- [Part 1: Detection and Basic Recovery](#part-1-detection-and-basic-recovery)
+- [Part 2: Advanced Recovery and Prevention](#part-2-advanced-recovery-and-prevention)
+- [Quick Reference: Which Procedure to Use](#quick-reference-which-procedure-to-use)
+
 ---
 
 ## Part 1: Detection and Basic Recovery

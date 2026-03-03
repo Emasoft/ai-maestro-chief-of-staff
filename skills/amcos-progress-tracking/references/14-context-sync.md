@@ -1,5 +1,11 @@
 # Context Synchronization - Index
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Document Parts](#document-parts)
+- [Quick Reference](#quick-reference)
+
 ## Overview
 
 Context synchronization ensures session memory files accurately reflect the agent's actual work state. This document has been split into two parts for easier navigation and reduced token consumption.

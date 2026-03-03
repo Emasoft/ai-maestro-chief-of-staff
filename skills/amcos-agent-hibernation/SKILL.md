@@ -25,6 +25,13 @@ Suspends idle agents to conserve resources and resumes them when work is availab
 
 ## Instructions
 
+Copy this checklist and track your progress:
+- [ ] Confirm agent idle with no active work
+- [ ] Send hibernation warning via agent-messaging skill
+- [ ] Request state capture and wait for confirmation
+- [ ] Execute hibernation via ai-maestro-agents-management skill
+- [ ] Update registry status to hibernated and log event
+
 ### Agent States
 
 ```

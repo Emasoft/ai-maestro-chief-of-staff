@@ -25,6 +25,14 @@ Handles clean shutdown of agent instances including work verification, state pre
 
 ## Instructions
 
+Copy this checklist and track your progress:
+- [ ] Verify work complete and no pending uncommitted tasks
+- [ ] Save final state and request agent context handoff
+- [ ] Send termination warning via agent-messaging skill
+- [ ] Execute termination via ai-maestro-agents-management skill
+- [ ] Remove agent from team registry
+- [ ] Cleanup resources and log termination event
+
 ### Termination Procedure (PROCEDURE 2)
 
 1. **Verify work complete** - Confirm no pending tasks or uncommitted work

@@ -83,6 +83,18 @@ See [references/troubleshooting.md](references/troubleshooting.md) for full deta
   - ...and 3 more sections
   <!-- /TOC -->
 
+### Recovery Execution Checklist
+
+Copy this checklist and track your progress:
+
+```markdown
+- [ ] Strategy selected based on failure classification
+- [ ] Recovery executed per operational runbook
+- [ ] Agent verified: ping, heartbeat, task resumption
+- [ ] Outcome logged to recovery-log.jsonl
+- [ ] EAMA notified of recovery result
+```
+
 ## Output
 
 | Result | Output |

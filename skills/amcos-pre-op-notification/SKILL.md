@@ -61,13 +61,17 @@ Before sending, validate recipient against `GET /api/teams`. Block and log viola
 5. **Track acknowledgments** - Monitor for agent readiness responses
 6. **Handle timeouts** - Follow ACK timeout policy (see acknowledgment protocol skill)
 
+Copy this checklist and track your progress:
+- [ ] Identified affected agents and validated team membership
+- [ ] Composed and sent AMP notification via `amp-send.sh`
+- [ ] Tracked acknowledgments and handled any timeouts
+
 See [references/pre-operation-notifications.md](references/pre-operation-notifications.md) for detailed procedures.
-  <!-- TOC: pre-operation-notifications.md -->
-  - What are pre-operation notifications
-  - When to send pre-operation notifications
-  - Pre-operation notification procedure
-  - ...and 4 more sections
-  <!-- /TOC -->
+<!-- TOC: pre-operation-notifications.md -->
+- What are pre-operation notifications - Understanding warning messages
+- When to send pre-operation notifications - Notification triggers
+- ...+15 more
+<!-- /TOC -->
 
 See [references/op-pre-operation-notification.md](references/op-pre-operation-notification.md) for the step-by-step runbook.
   <!-- TOC: op-pre-operation-notification.md -->
@@ -94,6 +98,11 @@ See [references/op-pre-operation-notification.md](references/op-pre-operation-no
 | AMP signing failure | Re-run `amp-init.sh --auto` |
 
 ## Examples
+
+### Concrete Input/Output
+
+**Input:** Skill install scheduled for agent `code-impl-auth` in 30s
+**Output:** AMP message delivered; agent replies `"ok"` within 60s; operation proceeds
 
 ### Example 1: Skill Installation Pre-Notification
 

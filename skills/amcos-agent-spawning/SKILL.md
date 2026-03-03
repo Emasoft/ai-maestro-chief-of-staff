@@ -24,6 +24,14 @@ Creates new agent instances with pre-flight OAuth validation, plugin setup, and 
 
 ## Instructions
 
+Copy this checklist and track your progress:
+- [ ] Validate OAuth scopes (repo, project, read:project)
+- [ ] Select agent type and unique session name
+- [ ] Setup plugin from cache to agent directory
+- [ ] Create agent instance via ai-maestro-agents-management skill
+- [ ] Verify agent online and register in team registry
+- [ ] Send welcome message via agent-messaging skill
+
 ### Pre-Flight: Validate OAuth Scopes
 
 ```bash

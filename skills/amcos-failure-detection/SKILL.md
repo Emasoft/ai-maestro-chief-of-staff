@@ -45,6 +45,12 @@ See [references/failure-detection.md](references/failure-detection.md) and [refe
   - Message delivery failure detection
   - ...and 5 more sections
   <!-- /TOC -->
+  <!-- TOC: op-detect-agent-failure.md -->
+  - Purpose
+  - When To Use This Operation
+  - Steps
+  - ...and 5 more sections
+  <!-- /TOC -->
 
 ### Phase 2: Failure Classification
 
@@ -65,6 +71,12 @@ See [references/failure-classification.md](references/failure-classification.md)
   - Transient failures
   - ...and 6 more sections
   <!-- /TOC -->
+  <!-- TOC: op-classify-failure-severity.md -->
+  - Purpose
+  - When To Use This Operation
+  - Failure Categories
+  - ...and 7 more sections
+  <!-- /TOC -->
 
 ### Quick Reference Workflow
 
@@ -76,6 +88,8 @@ DETECT --> CLASSIFY --> RESPOND
 ```
 
 ### Failure Response Checklist
+
+Copy this checklist and track your progress:
 
 ```markdown
 Agent: ___  Failure detected: ___

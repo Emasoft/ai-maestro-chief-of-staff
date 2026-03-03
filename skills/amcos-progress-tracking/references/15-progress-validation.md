@@ -2,6 +2,10 @@
 
 This document was split into multiple parts for better maintainability.
 
+## Table of Contents
+
+- [Parts](#parts)
+
 ## Parts
 
 ### Part 1: Rules and Basic Procedures

@@ -24,6 +24,10 @@ Initializes and validates the three session memory documents (`activeContext.md`
 
 ## Instructions
 
+Copy this checklist and track your progress:
+- [ ] Validate memory dir and files
+- [ ] Init missing files from templates
+
 ### Fundamentals
 
 Session memory uses three files: `activeContext.md` (current work), `patterns.md` (learned patterns), `progress.md` (task tracking). Details: [references/00-session-memory-fundamentals.md](references/00-session-memory-fundamentals.md).
@@ -65,12 +69,9 @@ Three phases: **Load** (read and validate at start), **Update** (write changes d
   <!-- /TOC -->
 
 **Runbook:** [references/op-initialize-session-memory.md](references/op-initialize-session-memory.md)
-  <!-- TOC: op-initialize-session-memory.md -->
-  - Purpose
-  - When To Use This Operation
-  - Session Memory Components
-  - ...and 6 more sections
-  <!-- /TOC -->
+<!-- TOC: op-initialize-session-memory.md -->
+- None yet
+<!-- /TOC -->
 
 ## Output
 
@@ -110,9 +111,9 @@ More examples: [references/00-session-memory-examples.md](references/00-session-
 
 ## Resources
 
-- [references/00-session-memory-fundamentals.md](references/00-session-memory-fundamentals.md) - Core persistence mechanism
-- [references/00-session-memory-lifecycle.md](references/00-session-memory-lifecycle.md) - Three-phase lifecycle
-- [references/00-session-memory-examples.md](references/00-session-memory-examples.md) - Worked examples
+- [references/00-session-memory-fundamentals.md](references/00-session-memory-fundamentals.md)
+- [references/00-session-memory-lifecycle.md](references/00-session-memory-lifecycle.md)
+- [references/00-session-memory-examples.md](references/00-session-memory-examples.md)
 - [references/01-initialize-session-memory.md](references/01-initialize-session-memory.md) - Initialization guide
 - [references/02-memory-directory-structure.md](references/02-memory-directory-structure.md) - Directory layout
 - [references/op-initialize-session-memory.md](references/op-initialize-session-memory.md) - Operational runbook

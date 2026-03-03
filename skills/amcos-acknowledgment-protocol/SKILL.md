@@ -40,13 +40,17 @@ The acknowledgment protocol ensures agents confirm readiness before disruptive o
 
 **Triggers:** Disruptive operations, state-changing operations, multi-agent coordination.
 
+Copy this checklist and track your progress:
+- [ ] Sent ACK request and started timeout timer per policy table
+- [ ] Sent reminders at defined intervals if no response received
+- [ ] Processed response (or timeout) and proceeded accordingly
+
 See [references/acknowledgment-protocol.md](references/acknowledgment-protocol.md) for detailed procedures.
-  <!-- TOC: acknowledgment-protocol.md -->
-  - What is the acknowledgment protocol
-  - Acknowledgment procedure
-  - Timeout behavior
-  - ...and 6 more sections
-  <!-- /TOC -->
+<!-- TOC: acknowledgment-protocol.md -->
+- What is the acknowledgment protocol - Understanding coordination
+- When to require acknowledgments - Acknowledgment triggers
+- ...+16 more
+<!-- /TOC -->
 
 See [references/op-acknowledgment-protocol.md](references/op-acknowledgment-protocol.md) for the step-by-step runbook.
   <!-- TOC: op-acknowledgment-protocol.md -->
@@ -91,7 +95,17 @@ Timeouts are **sequential**. Example total: 60s + 2min + 30s = 3min 30s.
 | Reminder not delivered | Health check agent. If offline, proceed per timeout |
 | Partial ACK (multi-agent) | Track per-agent. Proceed when all respond or all timeout |
 
+<!-- TOC: acknowledgment-protocol.md -->
+- What is the acknowledgment protocol - Understanding coordination
+- When to require acknowledgments - Acknowledgment triggers
+<!-- /TOC -->
+
 ## Examples
+
+### Concrete Input/Output
+
+**Input:** Pre-op notification sent to `code-impl-auth`; ACK required before proceeding
+**Output:** ACK request delivered; agent replies `"ok"` at 12s; operation proceeds immediately
 
 ### Example 1: Standard Pre-Operation ACK
 
@@ -111,9 +125,8 @@ After 60s with no response:
 - [Acknowledgment Protocol](references/acknowledgment-protocol.md)
 - [Acknowledgment Runbook](references/op-acknowledgment-protocol.md)
 - [Message Response Decision Tree](references/message-response-decision-tree.md)
-  <!-- TOC: message-response-decision-tree.md -->
-  - Step 1: Priority Triage
-  - Step 2: Message Type Routing
-  - Step 3: Response Actions
-  - ...and 6 more sections
-  <!-- /TOC -->
+<!-- TOC: message-response-decision-tree.md -->
+- Step 1: Priority Triage
+- Step 2: Message Type Routing
+- ...+7 more
+<!-- /TOC -->

@@ -49,6 +49,12 @@ See [references/work-handoff-during-failure.md](references/work-handoff-during-f
   - Creating emergency handoff documentation
   - ...and 6 more sections
   <!-- /TOC -->
+  <!-- TOC: op-emergency-handoff.md -->
+  - Purpose
+  - When To Use This Operation
+  - Steps
+  - ...and 5 more sections
+  <!-- /TOC -->
 
 ### Task Blockers vs Agent Failures
 
@@ -77,6 +83,8 @@ AMCOS receives escalation
 ```
 
 ### Handoff Validation Checklist
+
+Copy this checklist and track your progress:
 
 ```markdown
 - [ ] Required fields: from/to/type/UUID/task/failed_agent/failure_reason

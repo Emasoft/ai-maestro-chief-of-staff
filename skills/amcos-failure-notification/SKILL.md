@@ -15,7 +15,7 @@ agent: amcos-main
 
 ## Overview
 
-Failure notifications inform agents when operations fail, providing error details, severity levels, and recovery guidance. Covers failure messaging, edge cases like cascading failures, and proactive handoffs.
+Failure notifications inform agents when operations fail, with error details, severity levels, and recovery guidance. Covers failure messaging, cascading failures, and proactive handoffs.
 
 ## Prerequisites
 
@@ -28,24 +28,28 @@ Failure notifications inform agents when operations fail, providing error detail
 
 ### PROCEDURE 4: Failure Notification
 
-**When to use:** When any operation fails (skill install, agent restart, config change, timeout).
+**When to use:** When any operation fails (skill install, restart, config change, timeout).
 
 **Workflow:**
 
 1. **Capture error details** - Record error message, stack trace, context, timestamp
 2. **Determine severity** - `critical` (system-wide), `error` (single op), `warning` (degraded)
-3. **Compose failure message** - AMP template with error details, severity, recovery guidance
+3. **Compose failure message** - AMP template with error details, severity, recovery steps
 4. **Send to affected agents** - Use `amp-send.sh` exclusively
-5. **Provide recovery guidance** - Specific next steps (retry, rollback, manual intervention)
+5. **Provide recovery guidance** - Retry, rollback, or manual intervention steps
 6. **Log failure** - Record for analysis with full error context
 
+Copy this checklist and track your progress:
+- [ ] Captured error details and determined severity level
+- [ ] Sent failure notification via `amp-send.sh` with recovery guidance
+- [ ] Logged failure with full context and triggered escalation if needed
+
 See [references/failure-notifications.md](references/failure-notifications.md) for detailed procedures.
-  <!-- TOC: failure-notifications.md -->
-  - What are failure notifications
-  - Failure notification procedure
-  - Error severity levels
-  - ...and 5 more sections
-  <!-- /TOC -->
+<!-- TOC: failure-notifications.md -->
+- What are failure notifications - Understanding error messages
+- When to send failure notifications - Failure triggers
+- ...+16 more
+<!-- /TOC -->
 
 See [references/op-failure-notification.md](references/op-failure-notification.md) for the step-by-step runbook.
   <!-- TOC: op-failure-notification.md -->
@@ -57,12 +61,7 @@ See [references/op-failure-notification.md](references/op-failure-notification.m
 
 ### Edge Cases
 
-Consult edge case protocols when standard notification is insufficient:
-- AI Maestro unavailable during failure reporting
-- Cascading failures across multiple agents
-- Agent offline when failure notification sent
-
-See [references/edge-case-protocols.md](references/edge-case-protocols.md).
+Consult edge case protocols when standard notification is insufficient. See [references/edge-case-protocols.md](references/edge-case-protocols.md).
   <!-- TOC: edge-case-protocols.md -->
   - AI Maestro Unavailable
   - GitHub Unavailable
@@ -72,7 +71,7 @@ See [references/edge-case-protocols.md](references/edge-case-protocols.md).
 
 ### Proactive Handoff
 
-When failure requires transferring work to another agent, use the proactive handoff protocol. See [references/proactive-handoff-protocol.md](references/proactive-handoff-protocol.md).
+When failure requires transferring work, use the proactive handoff protocol. See [references/proactive-handoff-protocol.md](references/proactive-handoff-protocol.md).
   <!-- TOC: proactive-handoff-protocol.md -->
   - Automatic Handoff Triggers
   - Mandatory Handoff Sections
@@ -109,15 +108,20 @@ When failures reveal systemic issues, create a design document. See [references/
 
 ## Examples
 
+### Concrete Input/Output
+
+**Input:** Skill install on `code-impl-auth` fails — "Skill validation failed - missing SKILL.md"
+**Output:** AMP `failure` msg (priority `high`) sent; recovery steps provided; failure logged
+
 ### Example 1: Skill Installation Failure
 
 Send via `agent-messaging` skill:
 - **To**: `code-impl-auth` | **Priority**: `high`
-- **Content**: type `failure`, error "Skill validation failed - missing SKILL.md", advise continue previous work, recovery: fix and retry
+- **Content**: type `failure`, error "Skill validation failed - missing SKILL.md", recovery: fix and retry
 
 ### Example 2: Restart Failure with Handoff
 
-1. Send failure: **To** `code-impl-auth`, **Priority** `critical`, error "Health check failed after 3 attempts", recovery: handoff to backup agent
+1. Send failure: **To** `code-impl-auth`, **Priority** `critical`, error "Health check failed after 3 attempts"
 2. Trigger proactive handoff protocol for pending tasks
 
 ## Resources

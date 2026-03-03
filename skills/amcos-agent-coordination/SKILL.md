@@ -25,6 +25,13 @@ Manages team registry, inter-agent messaging, role boundary enforcement, and age
 
 ## Instructions
 
+Copy this checklist and track your progress:
+- [ ] Identify registry update type (add, remove, or status change)
+- [ ] Execute registry command and verify via list
+- [ ] Send inter-agent message using FULL session name
+- [ ] Enforce role boundaries (AMCOS creates agents; EOA assigns tasks)
+- [ ] Log operation and optionally publish update to team
+
 ### Team Registry
 
 Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
@@ -62,7 +69,7 @@ Use `agent-messaging` skill. Always use FULL session names (e.g., `eoa-svgbbox-o
 
 ### Cross-Host Awareness
 
-Configure operations on remote hosts require GovernanceRequest + ConfigOperationType. Messages route automatically via AI Maestro API.
+Remote host operations require GovernanceRequest + ConfigOperationType. Messages route via AI Maestro API.
 
 ### Workflow Checklists
 

@@ -1844,7 +1844,8 @@ _TOC_SECTION_RE = re.compile(
 )
 
 # Regex to extract individual TOC heading titles (strip numbering, links, bullets)
-_TOC_ENTRY_RE = re.compile(r"(?m)^[\s]*[-*]?\s*(?:\d+\.?\s*)?(?:\[([^\]]+)\]\([^)]*\)|(.+))")
+# Handles compound numbering like 1.1, 1.2.3, etc.
+_TOC_ENTRY_RE = re.compile(r"(?m)^[\s]*[-*]?\s*(?:\d+(?:\.\d+)*\.?\s*)?(?:\[([^\]]+)\]\([^)]*\)|(.+))")
 
 # Regex to find markdown links pointing to .md files in references/
 _MD_LINK_RE = re.compile(r"\[([^\]]+)\]\(((?:references/)?[^\s)]+\.md)\)")
@@ -1868,8 +1869,8 @@ def extract_toc_headings(md_content: str) -> list[str]:
         title = (entry_match.group(1) or entry_match.group(2) or "").strip()
         if not title or title.startswith("---"):
             continue
-        # Strip leading numbering like "1. " or "3a. "
-        title_clean = re.sub(r"^\d+[a-z]?\.\s*", "", title).strip()
+        # Strip leading numbering like "1. ", "3a. ", "1.1 ", "1.2.3 "
+        title_clean = re.sub(r"^\d+(?:\.\d+)*[a-z]?\.?\s*", "", title).strip()
         if title_clean:
             headings.append(title_clean)
 

@@ -40,13 +40,17 @@ Post-operation notifications confirm that operations completed successfully and 
 
 **Triggers:** Skill install complete, agent restart complete, config applied, maintenance complete.
 
+Copy this checklist and track your progress:
+- [ ] Confirmed operation completed successfully before composing notification
+- [ ] Sent AMP confirmation via `amp-send.sh` and requested agent verification
+- [ ] Logged outcome with timestamp and verification response
+
 See [references/post-operation-notifications.md](references/post-operation-notifications.md) for detailed procedures.
-  <!-- TOC: post-operation-notifications.md -->
-  - What are post-operation notifications
-  - Post-operation notification procedure
-  - Verification request format
-  - ...and 3 more sections
-  <!-- /TOC -->
+<!-- TOC: post-operation-notifications.md -->
+- What are post-operation notifications - Understanding confirmation messages
+- When to send post-operation notifications - Confirmation triggers
+- ...+14 more
+<!-- /TOC -->
 
 See [references/op-post-operation-notification.md](references/op-post-operation-notification.md) for the step-by-step runbook.
   <!-- TOC: op-post-operation-notification.md -->
@@ -82,6 +86,11 @@ See [references/op-post-operation-notification.md](references/op-post-operation-
 | Agent offline | Queue notification for delivery when agent returns |
 
 ## Examples
+
+### Concrete Input/Output
+
+**Input:** Skill `security-audit` installed on `code-impl-auth` (operation complete)
+**Output:** AMP `post-operation` message sent; agent replies confirming skill is active; result logged
 
 ### Example 1: Skill Installation Confirmation
 

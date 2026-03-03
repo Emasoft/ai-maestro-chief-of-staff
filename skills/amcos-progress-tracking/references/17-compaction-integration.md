@@ -2,6 +2,11 @@
 
 This document provides an index to the compaction integration documentation, which has been split into two parts for easier navigation.
 
+## Table of Contents
+
+- [Document Parts](#document-parts)
+- [Quick Reference](#quick-reference)
+
 ## Document Parts
 
 ### Part 1: Concepts & Preparation

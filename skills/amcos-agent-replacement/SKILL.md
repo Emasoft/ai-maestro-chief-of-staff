@@ -42,6 +42,12 @@ See [references/agent-replacement-protocol.md](references/agent-replacement-prot
   - Phase 2: Manager notification and approval
   - ...and 8 more sections
   <!-- /TOC -->
+  <!-- TOC: op-replace-agent.md -->
+  - Purpose
+  - When To Use This Operation
+  - Steps
+  - ...and 5 more sections
+  <!-- /TOC -->
 
 ### Replacement Protocol Summary
 
@@ -61,6 +67,8 @@ Terminal failure -> AMCOS notifies EAMA -> EAMA approves
 **ROLE BOUNDARY**: AMCOS creates agents and sends context. EOA owns task assignment.
 
 ### Handoff Validation Checklist
+
+Copy this checklist and track your progress:
 
 ```markdown
 - [ ] Required fields present (from/to/type/UUID/task/failed_agent/failure_reason)
