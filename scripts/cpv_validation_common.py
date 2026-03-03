@@ -47,7 +47,7 @@ def resolve_tool_command(tool_name: str) -> list[str] | None:
     spec = resolve_tool(tool_name)
     executors = detect_executors()
     try:
-        argv, _executor = choose_best(spec, [], executors)
+        argv, _ = choose_best(spec, [], executors)
         return argv
     except RuntimeError:
         return None
@@ -1844,7 +1844,6 @@ _TOC_SECTION_RE = re.compile(
 )
 
 # Regex to extract individual TOC heading titles (strip numbering, links, bullets)
-# Handles compound numbering like 1.1, 1.2.3, etc.
 _TOC_ENTRY_RE = re.compile(r"(?m)^[\s]*[-*]?\s*(?:\d+(?:\.\d+)*\.?\s*)?(?:\[([^\]]+)\]\([^)]*\)|(.+))")
 
 # Regex to find markdown links pointing to .md files in references/
@@ -1869,7 +1868,7 @@ def extract_toc_headings(md_content: str) -> list[str]:
         title = (entry_match.group(1) or entry_match.group(2) or "").strip()
         if not title or title.startswith("---"):
             continue
-        # Strip leading numbering like "1. ", "3a. ", "1.1 ", "1.2.3 "
+        # Strip leading numbering like "1. " or "3a. "
         title_clean = re.sub(r"^\d+(?:\.\d+)*[a-z]?\.?\s*", "", title).strip()
         if title_clean:
             headings.append(title_clean)
@@ -1959,7 +1958,7 @@ def validate_toc_embedding(
 
         # Read the referenced file and extract its TOC
         try:
-            ref_content = ref_path.read_text()
+            ref_content = ref_path.read_text(encoding="utf-8")
         except Exception:
             continue
 
