@@ -34,7 +34,7 @@
           {
             "type": "command",
             "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_check.py",
-            "timeout": 5
+            "timeout": 5000
           }
         ]
       },
@@ -45,7 +45,7 @@
           {
             "type": "command",
             "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_heartbeat_check.py",
-            "timeout": 5
+            "timeout": 5000
           }
         ]
       }
