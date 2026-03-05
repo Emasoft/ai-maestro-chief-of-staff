@@ -1,13 +1,14 @@
 ---
 name: amcos-label-taxonomy
-description: "Use when applying or checking GitHub labels for agent assignment and status tracking. GitHub label taxonomy reference for the Chief of Staff Agent. Trigger with `/amcos-label-taxonomy`."
+description: Use when applying or checking GitHub labels for agent assignment and status tracking. Trigger with label management or taxonomy lookup requests.
 context: fork
+agent: amcos-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.
-version: 1.0.0
 metadata:
   author: Emasoft
+  version: 1.0.0
 workflow-instruction: "support"
 procedure: "support-skill"
 ---

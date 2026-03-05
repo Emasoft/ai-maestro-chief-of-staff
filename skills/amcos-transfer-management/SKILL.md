@@ -2,7 +2,7 @@
 name: amcos-transfer-management
 description: Use when an agent needs to be transferred between teams. Trigger with transfer requests, transfer approvals, or transfer status checks.
 user-invocable: false
-license: MIT
+license: Apache-2.0
 compatibility: "AI Maestro v0.26.0+"
 metadata:
   author: Emasoft

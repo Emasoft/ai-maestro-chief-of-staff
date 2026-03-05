@@ -8,7 +8,7 @@ metadata:
   author: Emasoft
   version: 2.0.0
 context: fork
-agent: amcos-main
+agent: amcos-chief-of-staff-main-agent
 workflow-instruction: "support"
 procedure: "support-skill"
 ---

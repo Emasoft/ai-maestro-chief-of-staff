@@ -8,7 +8,7 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: amcos-main
+agent: amcos-chief-of-staff-main-agent
 ---
 
 # Agent Spawning
@@ -25,6 +25,7 @@ Creates new agent instances with pre-flight OAuth validation, plugin setup, and 
 ## Instructions
 
 Copy this checklist and track your progress:
+- [ ] Request GovernanceRequest approval from sourceManager via amcos-permission-management
 - [ ] Validate OAuth scopes (repo, project, read:project)
 - [ ] Select agent type and unique session name
 - [ ] Setup plugin from cache to agent directory
@@ -42,13 +43,14 @@ Required: `repo`, `project`, `read:project`. If missing, request human to run `g
 
 ### Spawn Procedure (PROCEDURE 1)
 
-1. **Select agent type** from roles (Orchestrator, Architect, Integrator, Programmer)
-2. **Choose session name** - Format: `<role-prefix>-<project>-<descriptive>` (must be unique)
-3. **Setup plugin** - Copy from `$HOME/.claude/plugins/cache/ai-maestro/<plugin>/<latest>/` to `$HOME/agents/<session>/.claude/plugins/<plugin>/`
-4. **Create instance** via `ai-maestro-agents-management` skill with args: `--dangerously-skip-permissions --chrome --add-dir /tmp --plugin-dir <path> --agent <agent-name>`
-5. **Verify** agent appears online in agent list
-6. **Register** via `uv run python scripts/amcos_team_registry.py add-agent`
-7. **Send welcome message** via `agent-messaging` skill
+1. **Request GovernanceRequest approval** - Submit spawn request to sourceManager via `amcos-permission-management` skill. BLOCK until approved.
+2. **Select agent type** from roles (Orchestrator, Architect, Integrator, Programmer)
+3. **Choose session name** - Format: `<role-prefix>-<project>-<descriptive>` (must be unique)
+4. **Setup plugin** - Copy from `$HOME/.claude/plugins/cache/ai-maestro/<plugin>/<latest>/` to `$HOME/agents/<session>/.claude/plugins/<plugin>/`
+5. **Create instance** via `ai-maestro-agents-management` skill with args: `--dangerously-skip-permissions --chrome --add-dir /tmp --plugin-dir <path> --agent <agent-name>`
+6. **Verify** agent appears online in agent list
+7. **Register** via `uv run python scripts/amcos_team_registry.py add-agent`
+8. **Send welcome message** via `agent-messaging` skill
 
 ### The --agent Flag
 

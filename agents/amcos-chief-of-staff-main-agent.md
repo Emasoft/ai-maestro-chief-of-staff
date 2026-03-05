@@ -27,6 +27,9 @@ skills:
   - amcos-progress-tracking
   - amcos-config-snapshot
   - amcos-team-coordination
+  - amcos-label-taxonomy
+  - amcos-onboarding
+  - amcos-transfer-management
   - ai-maestro-agents-management
 ---
 

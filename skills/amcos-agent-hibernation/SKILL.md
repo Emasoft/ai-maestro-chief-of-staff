@@ -8,7 +8,7 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: amcos-main
+agent: amcos-chief-of-staff-main-agent
 ---
 
 # Agent Hibernation and Wake
@@ -26,6 +26,7 @@ Suspends idle agents to conserve resources and resumes them when work is availab
 ## Instructions
 
 Copy this checklist and track your progress:
+- [ ] Request GovernanceRequest approval from sourceManager via amcos-permission-management
 - [ ] Confirm agent idle with no active work
 - [ ] Send hibernation warning via agent-messaging skill
 - [ ] Request state capture and wait for confirmation
@@ -43,12 +44,13 @@ SPAWNING -> RUNNING <-> HIBERNATED
 
 ### Hibernate Procedure (PROCEDURE 3)
 
-1. **Confirm idle** - Verify no active work via status request message
-2. **Send warning** via `agent-messaging` with `hibernation-warning` type
-3. **Request state capture** - Agent saves context and handoff to storage
-4. **Execute hibernation** via `ai-maestro-agents-management` skill
-5. **Update registry** - `uv run python scripts/amcos_team_registry.py update-status --name <agent> --status hibernated`
-6. **Log event** in lifecycle log
+1. **Request GovernanceRequest approval** - Submit hibernate request to sourceManager via `amcos-permission-management` skill. BLOCK until approved.
+2. **Confirm idle** - Verify no active work via status request message
+3. **Send warning** via `agent-messaging` with `hibernation-warning` type
+4. **Request state capture** - Agent saves context and handoff to storage
+5. **Execute hibernation** via `ai-maestro-agents-management` skill
+6. **Update registry** - `uv run python scripts/amcos_team_registry.py update-status --name <agent> --status hibernated`
+7. **Log event** in lifecycle log
 
 ### Wake Procedure
 

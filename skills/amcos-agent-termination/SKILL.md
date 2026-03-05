@@ -8,7 +8,7 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: amcos-main
+agent: amcos-chief-of-staff-main-agent
 ---
 
 # Agent Termination
@@ -26,6 +26,7 @@ Handles clean shutdown of agent instances including work verification, state pre
 ## Instructions
 
 Copy this checklist and track your progress:
+- [ ] Request GovernanceRequest approval from sourceManager (REQUIRED before any termination)
 - [ ] Verify work complete and no pending uncommitted tasks
 - [ ] Save final state and request agent context handoff
 - [ ] Send termination warning via agent-messaging skill
@@ -35,20 +36,21 @@ Copy this checklist and track your progress:
 
 ### Termination Procedure (PROCEDURE 2)
 
-1. **Verify work complete** - Confirm no pending tasks or uncommitted work
-2. **Save final state** - Request agent to save context/progress to handoff file
-3. **Send termination warning** via `agent-messaging` with `hibernation-warning` type
-4. **Execute termination** via `ai-maestro-agents-management` skill (requires confirmation)
-5. **Update registry** - `uv run python scripts/amcos_team_registry.py remove-agent`
-6. **Cleanup resources** - Verify tmux session gone, temp directories cleaned
-7. **Log termination** - Record timestamp, reason, outcome in lifecycle log
+1. **Request GovernanceRequest approval** - Submit termination request to sourceManager via `amcos-permission-management` skill. BLOCK until approved. Do NOT proceed without approval.
+2. **Verify work complete** - Confirm no pending tasks or uncommitted work
+3. **Save final state** - Request agent to save context/progress to handoff file
+4. **Send termination warning** via `agent-messaging` with `hibernation-warning` type
+5. **Execute termination** via `ai-maestro-agents-management` skill (requires confirmation)
+6. **Update registry** - `uv run python scripts/amcos_team_registry.py remove-agent`
+7. **Cleanup resources** - Verify tmux session gone, temp directories cleaned
+8. **Log termination** - Record timestamp, reason, outcome in lifecycle log
 
 ### Graceful vs Forced
 
 | Type | When | Procedure |
 |------|------|-----------|
-| Graceful | Agent responsive, work done | Full 7-step procedure |
-| Forced | Unresponsive 5+ min | Skip steps 1-3, force-terminate tmux |
+| Graceful | Agent responsive, work done | Full 8-step procedure |
+| Forced | Unresponsive 5+ min | Skip steps 2-4, force-terminate tmux |
 
 Always attempt graceful first.
 
