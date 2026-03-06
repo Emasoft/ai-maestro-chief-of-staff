@@ -33,6 +33,8 @@ This skill provides the label taxonomy relevant to the Chief of Staff Agent (AMC
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 1. Identify the label category needed (assign, status, priority)
 2. Check if label exists on the issue/PR
 3. Apply or modify label using gh CLI or GitHub API

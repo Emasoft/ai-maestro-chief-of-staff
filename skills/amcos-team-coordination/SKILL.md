@@ -28,6 +28,8 @@ Before using this skill, ensure:
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 1. Identify coordination need
 2. Query team registry for current state
 3. Execute coordination action

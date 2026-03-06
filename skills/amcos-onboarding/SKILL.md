@@ -28,6 +28,8 @@ Before using this skill, ensure:
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 1. Identify what needs onboarding (agent or project)
 2. Gather required context and documentation
 3. Send onboarding materials to target

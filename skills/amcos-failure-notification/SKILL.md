@@ -26,6 +26,8 @@ Failure notifications inform agents when operations fail, with error details, se
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 ### PROCEDURE 4: Failure Notification
 
 **When to use:** When any operation fails (skill install, restart, config change, timeout).

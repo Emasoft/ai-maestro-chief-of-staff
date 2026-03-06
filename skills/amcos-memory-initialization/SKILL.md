@@ -24,6 +24,8 @@ Initializes and validates the three session memory documents (`activeContext.md`
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 Copy this checklist and track your progress:
 - [ ] Validate memory dir and files
 - [ ] Init missing files from templates

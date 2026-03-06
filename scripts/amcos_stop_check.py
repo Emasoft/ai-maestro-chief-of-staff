@@ -8,7 +8,7 @@ Stop hook that prevents Chief of Staff from exiting with incomplete work:
 3. Unread AI Maestro messages requiring response
 4. Unacknowledged handoffs
 
-Dependencies: Python 3.8+ stdlib only
+Dependencies: Python 3.8+ stdlib + amcos_output_utils
 
 Usage (as Claude Code hook):
     Receives JSON via stdin from Stop hook event.
@@ -26,6 +26,8 @@ import os
 import sys
 from pathlib import Path
 from typing import Any
+
+from amcos_output_utils import AmcosOutput
 
 
 def get_state_file(cwd: str) -> Path:
@@ -212,6 +214,8 @@ def main() -> int:
     Returns:
         Exit code: 0 for allow, 2 for block
     """
+    out = AmcosOutput("amcos_stop_check")
+
     # Read hook input from stdin
     try:
         stdin_data = sys.stdin.read()
@@ -225,9 +229,12 @@ def main() -> int:
     # Get working directory from input or environment
     cwd = hook_input.get("cwd", os.getcwd())
     state_file = get_state_file(cwd)
+    out.log(f"Working directory: {cwd}")
+    out.log(f"State file: {state_file}")
 
     # Read state file
     content = read_file_safely(state_file) if state_file.exists() else ""
+    out.log(f"State file exists: {state_file.exists()}, content length: {len(content)}")
 
     # Collect all blocking issues
     issues: dict[str, Any] = {}
@@ -237,32 +244,42 @@ def main() -> int:
     if agents_count > 0:
         issues["active_agents"] = agents_count
         issues["active_agents_list"] = agents_list
+    out.log(f"Active agents with incomplete work: {agents_count}")
 
     # 2. Check pending tasks
     tasks_count, tasks_list = check_pending_tasks(content)
     if tasks_count > 0:
         issues["pending_tasks"] = tasks_count
         issues["pending_tasks_list"] = tasks_list
+    out.log(f"Pending tasks: {tasks_count}")
 
     # 3. Check AI Maestro inbox
     unread_count, unread_subjects = check_ai_maestro_inbox()
     if unread_count > 0:
         issues["unread_messages"] = unread_count
         issues["unread_subjects"] = unread_subjects
+    out.log(f"Unread messages: {unread_count}")
 
     # 4. Check handoffs
     handoffs_count, handoffs_list = check_handoffs(cwd)
     if handoffs_count > 0:
         issues["pending_handoffs"] = handoffs_count
         issues["pending_handoffs_list"] = handoffs_list
+    out.log(f"Pending handoffs: {handoffs_count}")
 
     # Decision: block if any issues found
     if issues:
         response = build_blocking_response(issues)
-        print(json.dumps(response, indent=2))
+        out.log_json(response, label="blocking_response")
+        out.log("Decision: BLOCK - Exit blocked due to incomplete work")
+        out.close()
+        # Hook system requires clean JSON on stdout — no summary lines
+        print(json.dumps(response, separators=(",", ":")))
         return 2  # Block exit
 
     # No issues - allow exit
+    out.summary("DONE", "Stop check complete")
+    out.close()
     return 0
 
 

@@ -26,6 +26,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from amcos_output_utils import AmcosOutput
+
 
 def get_state_file(cwd: str) -> Path:
     """Get the Chief of Staff state file path.
@@ -238,6 +240,8 @@ def main() -> int:
     Returns:
         Exit code: 0 for success
     """
+    out = AmcosOutput("amcos_session_end")
+
     # Read hook input from stdin
     try:
         stdin_data = sys.stdin.read()
@@ -248,20 +252,28 @@ def main() -> int:
     except json.JSONDecodeError:
         hook_input = {}
 
+    out.log_json(hook_input, label="hook_input")
+
     # Get working directory from input or environment
     cwd = hook_input.get("cwd", os.getcwd())
     state_file = get_state_file(cwd)
+    out.log(f"State file: {state_file}")
 
     # Read existing state or create default
     if state_file.exists():
         content = read_file_safely(state_file)
         if not content:
+            out.log("Existing state file empty, creating default")
             content = create_default_state()
+        else:
+            out.log("Read existing state file")
     else:
+        out.log("No existing state file, creating default")
         content = create_default_state()
 
     # Get session ID if available
     session_id = hook_input.get("session_id", hook_input.get("sessionId", ""))
+    out.log(f"Session ID: {session_id or 'unknown'}")
 
     # Update state file
     content = update_timestamp(content)
@@ -271,10 +283,13 @@ def main() -> int:
 
     # Save updated state
     if write_file_safely(state_file, content):
-        print(f"Chief of Staff state saved to {state_file}")
+        out.log(f"State saved to {state_file}")
+        out.summary("DONE", "Session state saved")
     else:
-        print("WARNING: Failed to save Chief of Staff state", file=sys.stderr)
+        out.log("Failed to save state file")
+        out.summary("WARN", "Failed to save Chief of Staff state")
 
+    out.close()
     return 0
 
 

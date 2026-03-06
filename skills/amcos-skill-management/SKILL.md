@@ -28,6 +28,8 @@ Before using this skill, ensure:
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 1. Identify skill operation needed (validate, reindex, update)
 2. Execute the operation
 3. Verify skill integrity

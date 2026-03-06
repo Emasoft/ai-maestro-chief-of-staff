@@ -46,6 +46,15 @@ All validation reports must include:
 4. **Remediation steps**: Specific actions to fix each issue
 5. **PSS reindex status**: Whether reindex was triggered and result
 
+## Reporting Rules (MANDATORY)
+
+When returning results to the Chief of Staff or any parent agent:
+1. Write ALL detailed output to a timestamped .md file in `docs_dev/`
+2. Return to parent agent ONLY: `[DONE/FAILED] <task> - <one-line result>. Report: <filepath>`
+3. NEVER return code blocks, file contents, long lists, or verbose explanations
+4. Max 2 lines of text back to parent agent
+5. When calling scripts, reference the log file path from the script's summary output
+
 ---
 
 ## Examples

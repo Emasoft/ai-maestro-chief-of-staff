@@ -21,6 +21,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from amcos_output_utils import AmcosOutput
+
 
 def get_marketplace_plugin_path(plugin_name: str) -> Path | None:
     """Get the path to a marketplace-installed plugin.
@@ -137,11 +139,13 @@ def main() -> int:
         0 on success, 1 on error, 2 if agent exists, 127 if CLI not found.
     """
     args = parse_args()
+    out = AmcosOutput("amcos_spawn_agent")
 
     # Build agent directory path (FLAT structure)
     agent_dir = Path.home() / "agents" / args.session_name
 
     # Check if agent already exists
+    out.log(f"Checking if agent '{args.session_name}' already exists...")
     returncode, stdout, stderr = run_aimaestro_command(["show", args.session_name])
     if returncode == 127:
         result: dict[str, Any] = {
@@ -149,7 +153,9 @@ def main() -> int:
             "message": "aimaestro-agent.sh not found in PATH",
             "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         }
-        print(json.dumps(result, indent=2), file=sys.stderr)
+        out.log_json(result, label="error_result")
+        out.summary("FAILED", "aimaestro-agent.sh not found in PATH")
+        out.close()
         return 127
     elif returncode == 0 and stdout:
         # Agent exists
@@ -159,7 +165,9 @@ def main() -> int:
             "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "session_name": args.session_name,
         }
-        print(json.dumps(result, indent=2), file=sys.stderr)
+        out.log_json(result, label="exists_result")
+        out.summary("FAILED", f"Agent '{args.session_name}' already exists")
+        out.close()
         return 2
 
     # Parse plugins list if provided
@@ -172,6 +180,7 @@ def main() -> int:
     plugins_installed = []
     plugins_failed = []
     for plugin in plugins_list:
+        out.log(f"Installing plugin: {plugin}")
         if install_marketplace_plugin(plugin, agent_dir):
             plugins_installed.append(plugin)
         else:
@@ -186,7 +195,9 @@ def main() -> int:
             "plugins_installed": plugins_installed,
             "plugins_failed": plugins_failed,
         }
-        print(json.dumps(result, indent=2), file=sys.stderr)
+        out.log_json(result, label="plugin_install_error")
+        out.summary("FAILED", f"Plugin install failed: {plugins_failed}")
+        out.close()
         return 1
 
     # Build create command
@@ -221,6 +232,7 @@ def main() -> int:
         create_args.extend(["--agent", args.agent])
 
     # Execute the create command
+    out.log(f"Creating agent with args: {create_args}")
     returncode, stdout, stderr = run_aimaestro_command(create_args, timeout=120)
 
     if returncode != 0:
@@ -237,7 +249,9 @@ def main() -> int:
                 "agent": args.agent,
             },
         }
-        print(json.dumps(result, indent=2), file=sys.stderr)
+        out.log_json(result, label="create_error")
+        out.summary("FAILED", f"Failed to create agent '{args.session_name}'")
+        out.close()
         return 1
 
     # Success
@@ -255,7 +269,9 @@ def main() -> int:
         },
         "output": stdout,
     }
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="success_result")
+    out.summary("DONE", f"Agent '{args.session_name}' spawned successfully")
+    out.close()
     return 0
 
 

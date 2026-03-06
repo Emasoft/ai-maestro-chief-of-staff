@@ -24,6 +24,8 @@ Creates new agent instances with pre-flight OAuth validation, plugin setup, and 
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 Copy this checklist and track your progress:
 - [ ] Request GovernanceRequest approval from sourceManager via amcos-permission-management
 - [ ] Validate OAuth scopes (repo, project, read:project)

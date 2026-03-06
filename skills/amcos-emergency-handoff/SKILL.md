@@ -25,6 +25,8 @@ Transfer critical work immediately when deadlines cannot wait for full replaceme
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 ### Phase 5: Emergency Work Handoff
 
 1. Identify critical tasks at risk

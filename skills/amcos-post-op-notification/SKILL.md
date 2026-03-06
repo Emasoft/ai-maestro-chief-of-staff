@@ -26,6 +26,8 @@ Post-operation notifications confirm that operations completed successfully and 
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 ### PROCEDURE 2: Post-Operation Notification
 
 **When to use:** After skill installation, agent restart, configuration changes, or any operation that affected an agent.

@@ -9,7 +9,7 @@ Checks system resources before spawning new agents and warns if thresholds excee
 
 Light-weight check designed to complete within 5 seconds.
 
-Dependencies: Python 3.8+ stdlib only
+Dependencies: Python 3.8+ stdlib only, amcos_output_utils.py
 
 Usage (as Claude Code hook):
     Receives JSON via stdin from UserPromptSubmit hook event.
@@ -26,6 +26,8 @@ import os
 import subprocess
 import sys
 from typing import Any
+
+from amcos_output_utils import AmcosOutput
 
 
 # Resource thresholds (percentage)
@@ -201,10 +203,13 @@ def main() -> int:
     """Main entry point for UserPromptSubmit hook.
 
     Checks system resources and outputs warning if thresholds exceeded.
+    For the SUCCESS case (resources OK), prints NOTHING to stdout.
 
     Returns:
         Exit code: 0 for success
     """
+    out = AmcosOutput("amcos_resource_check")
+
     # Read hook input from stdin
     try:
         stdin_data = sys.stdin.read()
@@ -215,19 +220,24 @@ def main() -> int:
     except json.JSONDecodeError:
         hook_input = {}
 
+    out.log(f"Hook input parsed: {bool(hook_input)}")
+
     # Get working directory for disk check
     cwd = hook_input.get("cwd", os.getcwd())
+    out.log(f"Checking resources for cwd: {cwd}")
 
     # Collect resource alerts
     alerts: list[dict[str, Any]] = []
 
     # Check CPU
     cpu = get_cpu_usage()
+    out.log(f"CPU usage: {cpu}")
     if cpu is not None and cpu > CPU_THRESHOLD:
         alerts.append({"resource": "CPU", "current": cpu, "threshold": CPU_THRESHOLD})
 
     # Check memory
     memory = get_memory_usage()
+    out.log(f"Memory usage: {memory}")
     if memory is not None and memory > MEMORY_THRESHOLD:
         alerts.append(
             {"resource": "Memory", "current": memory, "threshold": MEMORY_THRESHOLD}
@@ -235,21 +245,30 @@ def main() -> int:
 
     # Check disk
     disk = get_disk_usage(cwd)
+    out.log(f"Disk usage: {disk}")
     if disk is not None and disk > DISK_THRESHOLD:
         alerts.append(
             {"resource": "Disk", "current": disk, "threshold": DISK_THRESHOLD}
         )
 
-    # Output warning if any alerts
+    # Output warning ONLY if thresholds exceeded; silence on success
     if alerts:
         warning = format_resource_warning(alerts)
+        out.log(f"Resource alerts triggered: {len(alerts)}")
+        out.log_json(alerts, label="resource_alerts")
         # Output as JSON with systemMessage for Claude to see
         output = {
             "systemMessage": warning,
             "continue": True,  # Don't block, just warn
         }
+        # Use out.summary for the WARNING case so it appears in stdout
+        out.summary("WARNING", f"{len(alerts)} resource threshold(s) exceeded")
         print(json.dumps(output))
+    else:
+        # SUCCESS: print nothing to stdout, only log
+        out.log("All resources within thresholds - no warning needed")
 
+    out.close()
     return 0
 
 

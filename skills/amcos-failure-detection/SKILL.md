@@ -25,6 +25,8 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 ### Phase 1: Failure Detection
 
 1. Check heartbeat status via AI Maestro agent status API

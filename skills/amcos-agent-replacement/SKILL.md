@@ -25,6 +25,8 @@ Replace a failed agent when recovery has failed or failure is terminal. Covers f
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 ### Phase 4: Agent Replacement Protocol
 
 1. **Confirm failure** -- verify all recovery strategies attempted or failure is terminal

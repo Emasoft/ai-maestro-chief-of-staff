@@ -28,6 +28,8 @@ Before using this skill, ensure:
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 1. Analyze task requirements
 2. Determine required agent count and types
 3. Check resource availability

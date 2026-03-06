@@ -28,6 +28,8 @@ Before using this skill, ensure:
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 1. Identify resource to monitor
 2. Query current usage levels
 3. Compare against limits

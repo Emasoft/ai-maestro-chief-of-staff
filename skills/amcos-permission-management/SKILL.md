@@ -90,6 +90,8 @@ For **critical operations** (risk_level=critical), the manager provides a govern
 
 ## Instructions
 
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+
 ### PROCEDURE 1: Submit GovernanceRequest
 
 > **API-First Model**: All GovernanceRequests are submitted to the AI Maestro REST API

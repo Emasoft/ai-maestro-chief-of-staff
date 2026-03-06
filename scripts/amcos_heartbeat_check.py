@@ -8,7 +8,7 @@ Checks last heartbeat of all registered agents and warns if any are unresponsive
 Light-weight check designed to complete within 5 seconds.
 Uses AMP delivery confirmation when available (falls back to state file check).
 
-Dependencies: Python 3.8+ stdlib only
+Dependencies: Python 3.8+ stdlib + amcos_output_utils
 
 Usage (as Claude Code hook):
     Receives JSON via stdin from UserPromptSubmit hook event.
@@ -28,6 +28,8 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from amcos_output_utils import AmcosOutput
 
 
 # Heartbeat timeout in seconds (5 minutes)
@@ -219,10 +221,13 @@ def main() -> int:
     """Main entry point for UserPromptSubmit hook.
 
     Checks agent heartbeats and outputs warning if any are unresponsive.
+    Silent on success (no stdout) since this runs on every UserPromptSubmit.
 
     Returns:
         Exit code: 0 for success
     """
+    out = AmcosOutput("amcos_heartbeat_check")
+
     # Read hook input from stdin
     try:
         stdin_data = sys.stdin.read()
@@ -240,16 +245,24 @@ def main() -> int:
     # Read state file
     if not state_file.exists():
         # No state file - nothing to check
+        out.log("No state file found, skipping heartbeat check")
+        out.close()
         return 0
 
     content = read_file_safely(state_file)
     if not content:
+        out.log("State file empty, skipping heartbeat check")
+        out.close()
         return 0
 
     # Parse agents and check heartbeats
     agents = parse_agents_heartbeats(content)
     if not agents:
+        out.log("No agents found in state file")
+        out.close()
         return 0
+
+    out.log(f"Found {len(agents)} agent(s) in state file")
 
     # Try AMP-based heartbeat check if AI Maestro API is available
     api_base = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
@@ -262,6 +275,7 @@ def main() -> int:
             with urllib.request.urlopen(req, timeout=3) as resp:
                 api_agents = json.loads(resp.read().decode())
                 if isinstance(api_agents, list) and len(api_agents) > 0:
+                    out.log(f"Using AMP API data: {len(api_agents)} active agent(s)")
                     # Use API data instead of state file data
                     agents = []
                     for a in api_agents:
@@ -276,20 +290,29 @@ def main() -> int:
                             }
                         )
         except (urllib.error.URLError, OSError, json.JSONDecodeError, KeyError):
-            pass  # Fall back to state file data already parsed
+            out.log("AMP API unavailable, using state file data")
 
     unresponsive = check_unresponsive_agents(agents)
 
-    # Output warning if any unresponsive agents
+    # Only output to stdout if there are unresponsive agents (silent on success)
     if unresponsive:
+        out.log(f"{len(unresponsive)} unresponsive agent(s) detected")
+        out.log_json(unresponsive, label="unresponsive_agents")
+
         warning = format_unresponsive_warning(unresponsive)
         # Output as JSON with systemMessage for Claude to see
         output = {
             "systemMessage": warning,
             "continue": True,  # Don't block, just warn
         }
+        # Print warning JSON to stdout (only output for unhealthy case)
+        out.summary("WARNING", f"{len(unresponsive)} agent(s) unresponsive")
         print(json.dumps(output))
+    else:
+        # SUCCESS case: print NOTHING to stdout, only log to file
+        out.log("All agents healthy")
 
+    out.close()
     return 0
 
 
