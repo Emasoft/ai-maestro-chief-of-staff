@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -258,8 +259,6 @@ def increment_session_count(content: str) -> str:
     Returns:
         Updated content with incremented session count
     """
-    import re
-
     # Find and increment session count
     match = re.search(r"\*\*Session Count\*\*:\s*(\d+)", content)
     if match:
@@ -287,8 +286,6 @@ def get_session_count(content: str) -> int:
     Returns:
         Session count integer
     """
-    import re
-
     match = re.search(r"\*\*Session Count\*\*:\s*(\d+)", content)
     if match:
         return int(match.group(1))
@@ -335,8 +332,6 @@ def main() -> int:
     timestamp = get_timestamp()
 
     # Update last updated timestamp
-    import re
-
     content = re.sub(
         r"\*\*Last Updated\*\*:\s*[^\n]+", f"**Last Updated**: {timestamp}", content
     )

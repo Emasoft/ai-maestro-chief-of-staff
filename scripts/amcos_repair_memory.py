@@ -18,7 +18,7 @@ import argparse
 import re
 import sys
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -115,7 +115,7 @@ class RepairReport:
 
 def _get_timestamp() -> str:
     """Get current timestamp in standard format."""
-    return datetime.now().strftime("%Y-%m-%d %H:%M")
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
 
 
 def _read_file(path: Path) -> str:

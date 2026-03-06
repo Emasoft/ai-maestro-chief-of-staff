@@ -286,11 +286,6 @@ def main() -> int:
     args = _create_parser().parse_args()
     project_root = args.project_root.resolve()
 
-    # Require at least one filter
-    if not any([args.query, args.doc_type, args.status, args.uuid]):
-        # No filter given -- show all documents
-        pass
-
     design_dir = project_root / "design"
     if not design_dir.exists():
         print(f"ERROR: Design directory does not exist: {design_dir}", file=sys.stderr)

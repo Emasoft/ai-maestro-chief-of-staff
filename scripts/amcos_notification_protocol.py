@@ -63,22 +63,32 @@ def _send_message(
             "Please acknowledge this message by sending a reply with type='acknowledgment'"
         )
 
-    result = subprocess.run(
-        [
-            "amp-send",
-            to,
-            subject,
-            full_message,
-            "--priority",
-            priority,
-            "--type",
-            msg_type,
-        ],
-        capture_output=True,
-        text=True,
-        timeout=30,
-    )
-    return result.returncode == 0
+    try:
+        result = subprocess.run(
+            [
+                "amp-send",
+                to,
+                subject,
+                full_message,
+                "--priority",
+                priority,
+                "--type",
+                msg_type,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        return result.returncode == 0
+    except FileNotFoundError:
+        print("WARNING: amp-send not found on PATH", file=sys.stderr)
+        return False
+    except subprocess.TimeoutExpired:
+        print(f"WARNING: amp-send timed out sending to {to}", file=sys.stderr)
+        return False
+    except subprocess.SubprocessError as e:
+        print(f"WARNING: amp-send failed: {e}", file=sys.stderr)
+        return False
 
 
 def _get_messages(agent: str, status: str = "unread") -> list[dict[str, object]]:
@@ -92,7 +102,8 @@ def _get_messages(agent: str, status: str = "unread") -> list[dict[str, object]]
     Returns:
         List of message dicts
     """
-    script_path = os.path.expanduser("~/.local/bin/check-aimaestro-messages.sh")
+    # Use AIMAESTRO_CLI env var for agent CLI, fall back to PATH lookup
+    script_path = os.environ.get("AIMAESTRO_CLI", "check-aimaestro-messages.sh")
 
     try:
         result = subprocess.run(
@@ -120,7 +131,8 @@ def _list_agents_via_script() -> list[dict[str, object]]:
     Returns:
         List of agent info dicts with keys: session_name, role, project, status
     """
-    script_path = os.path.expanduser("~/.local/bin/aimaestro-agent.sh")
+    # Use AIMAESTRO_CLI env var for agent CLI, fall back to PATH lookup
+    script_path = os.environ.get("AIMAESTRO_CLI", "aimaestro-agent.sh")
 
     try:
         result = subprocess.run(

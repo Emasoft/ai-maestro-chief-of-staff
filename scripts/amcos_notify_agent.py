@@ -1,72 +1,86 @@
 #!/usr/bin/env python3
 """
-Chief of Staff Notify Agent Script
+AI Maestro Chief of Staff - Notify Agent Script (amcos_notify_agent.py)
 
-Sends an AI Maestro message to a registered agent.
+Sends an AI Maestro message to an agent via AMP CLI (amp-send.sh).
+
+Resolves the agent name via the AI Maestro API when available,
+otherwise falls back to sending directly by session name.
 
 Usage:
-    python3 am_notify_agent.py implementer-1 --subject "Update" --message "Requirements changed"
+    python amcos_notify_agent.py my-agent --subject "Update" --message "Requirements changed"
+    python amcos_notify_agent.py my-agent -s "Task" -m "Please review" -p high
+    python amcos_notify_agent.py my-agent -s "Info" -m "Done" --type acknowledgment
+
+Output: Human-readable status lines + JSON summary on success
 """
 
 import argparse
+import json
+import os
 import subprocess
 import sys
-from pathlib import Path
-from typing import Any
-
-import yaml
-
-# State file location
-EXEC_STATE_FILE = Path("design/exec-phase.local.md")
+from datetime import datetime, timezone
 
 
-def parse_frontmatter(file_path: Path) -> tuple[dict[str, Any], str]:
-    """Parse YAML frontmatter and return (data, body)."""
-    if not file_path.exists():
-        return {}, ""
+def resolve_agent(agent_name: str) -> str | None:
+    """
+    Resolve agent name to session name via the AI Maestro API.
 
-    content = file_path.read_text(encoding="utf-8")
-
-    if not content.startswith("---"):
-        return {}, content
-
-    end_index = content.find("---", 3)
-    if end_index == -1:
-        return {}, content
-
-    yaml_content = content[3:end_index].strip()
-    body = content[end_index + 3 :].strip()
+    Queries $AIMAESTRO_API/api/agents?name=<agent_name>.
+    Returns the session name if found, None otherwise.
+    """
+    api_base = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
+    url = f"{api_base}/api/agents?name={agent_name}"
 
     try:
-        data = yaml.safe_load(yaml_content) or {}
-        return data, body
-    except yaml.YAMLError:
-        return {}, content
+        result = subprocess.run(
+            ["curl", "-sf", url],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        if result.returncode != 0:
+            return None
 
+        data = json.loads(result.stdout)
 
-def find_agent_session(data: dict[str, Any], agent_id: str) -> str | None:
-    """Find the session name for an AI agent."""
-    agents = data.get("registered_agents", {})
-    for agent in agents.get("ai_agents", []):
-        if agent.get("agent_id") == agent_id:
-            session = agent.get("session_name")
-            return str(session) if session else None
+        # Handle both single-agent and list responses
+        if isinstance(data, list) and len(data) > 0:
+            return data[0].get("session_name") or data[0].get("name")
+        if isinstance(data, dict):
+            return data.get("session_name") or data.get("name")
+    except (subprocess.TimeoutExpired, json.JSONDecodeError, OSError):
+        pass
+
     return None
 
 
-def send_ai_maestro_message(
-    session_name: str,
+def send_message(
+    to: str,
     subject: str,
     message: str,
     priority: str = "normal",
     msg_type: str = "notification",
 ) -> bool:
-    """Send a message via AI Maestro using the AMP CLI."""
+    """
+    Send a message via AMP CLI (amp-send).
+
+    Args:
+        to: Target agent session name
+        subject: Message subject
+        message: Message content
+        priority: Message priority (low, normal, high, urgent)
+        msg_type: Message type (notification, request, acknowledgment, etc.)
+
+    Returns:
+        True if message was sent successfully, False otherwise.
+    """
     try:
         result = subprocess.run(
             [
                 "amp-send",
-                session_name,
+                to,
                 subject,
                 message,
                 "--priority",
@@ -78,17 +92,29 @@ def send_ai_maestro_message(
             text=True,
             timeout=30,
         )
+        if result.returncode != 0 and result.stderr:
+            print(f"amp-send stderr: {result.stderr.strip()}", file=sys.stderr)
         return result.returncode == 0
-    except Exception as e:
-        print(f"Error: {e}")
+    except subprocess.TimeoutExpired:
+        print("Error: amp-send timed out after 30s", file=sys.stderr)
+        return False
+    except FileNotFoundError:
+        print("Error: amp-send not found on PATH", file=sys.stderr)
+        return False
+    except OSError as exc:
+        print(f"Error running amp-send: {exc}", file=sys.stderr)
         return False
 
 
 def main() -> int:
+    """Main entry point for CLI."""
     parser = argparse.ArgumentParser(
-        description="Send AI Maestro message to a registered agent"
+        description="Send an AI Maestro message to an agent via AMP CLI"
     )
-    parser.add_argument("agent_id", help="ID of the registered AI agent")
+    parser.add_argument(
+        "agent_name",
+        help="Agent session name or registered name (e.g. libs-svg-svgbbox)",
+    )
     parser.add_argument("--subject", "-s", required=True, help="Message subject")
     parser.add_argument("--message", "-m", required=True, help="Message content")
     parser.add_argument(
@@ -96,57 +122,53 @@ def main() -> int:
         "-p",
         choices=["low", "normal", "high", "urgent"],
         default="normal",
-        help="Message priority",
+        help="Message priority (default: normal)",
     )
     parser.add_argument(
         "--type",
         "-t",
         dest="msg_type",
         default="notification",
-        help="Message type (notification, task_assignment, progress_poll, etc.)",
+        help="Message type (notification, request, acknowledgment, etc.)",
     )
 
     args = parser.parse_args()
 
-    # Check if in orchestration phase
-    if not EXEC_STATE_FILE.exists():
-        print("ERROR: Not in Orchestration Phase")
-        return 1
-
-    data, _ = parse_frontmatter(EXEC_STATE_FILE)
-    if not data:
-        print("ERROR: Could not parse orchestration state file")
-        return 1
-
-    # Find agent session
-    session = find_agent_session(data, args.agent_id)
-    if not session:
-        # Check if it's a human agent
-        agents = data.get("registered_agents", {})
-        for dev in agents.get("human_developers", []):
-            if dev.get("github_username") == args.agent_id:
-                print(f"ERROR: '{args.agent_id}' is a human developer")
-                print("Use GitHub notifications for human agents")
-                return 1
-
-        print(f"ERROR: Agent '{args.agent_id}' not registered")
-        return 1
+    # Try to resolve agent name via the AI Maestro API
+    session_name = resolve_agent(args.agent_name)
+    if session_name:
+        print(f"Resolved '{args.agent_name}' -> session '{session_name}'")
+    else:
+        # Fall back to using the provided name directly as session name
+        session_name = args.agent_name
+        print(f"API lookup failed; sending directly to '{session_name}'")
 
     # Send message
-    print(f"Sending message to {args.agent_id} ({session})...")
-    sent = send_ai_maestro_message(
-        session, args.subject, args.message, args.priority, args.msg_type
+    timestamp = datetime.now(timezone.utc).isoformat()
+    print(f"Sending message to '{session_name}' at {timestamp} ...")
+
+    sent = send_message(
+        to=session_name,
+        subject=args.subject,
+        message=args.message,
+        priority=args.priority,
+        msg_type=args.msg_type,
     )
 
     if sent:
-        print("✓ Message sent successfully")
-        print(f"  Subject: {args.subject}")
-        print(f"  Priority: {args.priority}")
+        summary = {
+            "status": "sent",
+            "to": session_name,
+            "subject": args.subject,
+            "priority": args.priority,
+            "type": args.msg_type,
+            "timestamp": timestamp,
+        }
+        print(json.dumps(summary, indent=2))
         return 0
-    else:
-        print("✗ Failed to send message")
-        print("  Check AI Maestro service status")
-        return 1
+
+    print("Failed to send message. Check AI Maestro service status.", file=sys.stderr)
+    return 1
 
 
 if __name__ == "__main__":

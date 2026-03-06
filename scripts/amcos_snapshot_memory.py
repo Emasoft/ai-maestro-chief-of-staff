@@ -16,7 +16,7 @@ import hashlib
 import json
 import shutil
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -81,7 +81,7 @@ def create_snapshot(project_root: Path, reason: str, label: str | None = None) -
         raise FileNotFoundError(f"Missing memory files: {', '.join(missing)}")
 
     # Build snapshot directory name: YYYY-MM-DD-HHMMSS[-label]
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     dir_name = now.strftime("%Y-%m-%d-%H%M%S")
     if label:
         # Sanitize label: lowercase, replace spaces/special chars with hyphens

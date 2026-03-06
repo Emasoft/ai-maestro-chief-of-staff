@@ -249,5 +249,5 @@ EOA: Sends handoff to agent-456
 ---
 
 **Plugin**: `ai-maestro-chief-of-staff`
-**Document Version**: 2.0.0
-**Last Updated**: 2026-02-27
+**Document Version**: 2.9.0
+**Last Updated**: 2026-03-06

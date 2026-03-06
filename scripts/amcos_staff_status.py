@@ -22,7 +22,7 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -225,7 +225,7 @@ def main() -> int:
 
     result = {
         "success": True,
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "filter": {"project": args.project},
         "count": len(filtered_agents),
         "agents": filtered_agents,

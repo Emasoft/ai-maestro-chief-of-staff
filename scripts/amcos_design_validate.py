@@ -392,7 +392,7 @@ def main():
             sys.stdout.write(json.dumps(output, indent=2) + "\n")
         else:
             sys.stdout.write(f"ERROR: {exc}\n")
-        sys.exit(1)
+        return 1
 
     # Validate each file
     results = []
@@ -408,7 +408,7 @@ def main():
 
     # Determine exit code: 0 if all passed, 1 if any failed
     has_failures = any(errs for _, errs in results)
-    sys.exit(1 if has_failures else 0)
+    return 1 if has_failures else 0
 
 
 if __name__ == "__main__":

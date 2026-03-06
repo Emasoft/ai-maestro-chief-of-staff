@@ -1,6 +1,6 @@
 # AI Maestro Chief of Staff (amcos-)
 
-**Version**: 2.8.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.69
+**Version**: 2.9.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.69
 
 > Derived from emasoft-chief-of-staff v1.3.9, adapted for AI Maestro governance v0.26.0
 
@@ -63,7 +63,7 @@ AMCOS (Chief of Staff) ---- one per team
 
 | Agent | Purpose |
 |-------|---------|
-| `amcos-main` | Main COS coordinator |
+| `amcos-chief-of-staff-main-agent` | Main COS coordinator |
 | `amcos-staff-planner` | Analyze task requirements, determine staffing needs |
 | `amcos-lifecycle-manager` | Agent create/terminate/hibernate/wake |
 | `amcos-plugin-configurator` | Configure plugins for agents |

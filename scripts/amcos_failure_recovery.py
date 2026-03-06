@@ -26,13 +26,14 @@ import json
 import os
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, cast
 
 # aimaestro-agent.sh CLI path
 AIMAESTRO_CLI = os.environ.get(
-    "AIMAESTRO_CLI", os.path.expanduser("~/.local/bin/aimaestro-agent.sh")
+    "AIMAESTRO_CLI", "aimaestro-agent.sh"
 )
 
 # Failure classification thresholds (seconds)
@@ -355,8 +356,6 @@ def execute_recovery(agent: str, strategy: str) -> dict[str, Any]:
             return result
 
         # Wait a moment then wake
-        import time
-
         time.sleep(2)
 
         w_code, w_stdout, w_stderr = run_cli("wake", agent)
@@ -498,7 +497,7 @@ def replace_agent(
         f"Role: {role}, Project: {project}"
     )
     if _amp_send(
-        recipient="orchestrator-master",
+        recipient=os.environ.get("AMCOS_ORCHESTRATOR_SESSION", "orchestrator-master"),
         subject=f"Handoff request: {failed_agent} -> {new_name}",
         message=handoff_msg,
         priority="high",
@@ -514,7 +513,7 @@ def replace_agent(
         f"Mark {failed_agent} as failed, assign tasks to {new_name}"
     )
     if _amp_send(
-        recipient="orchestrator-master",
+        recipient=os.environ.get("AMCOS_ORCHESTRATOR_SESSION", "orchestrator-master"),
         subject=f"Kanban update: agent replacement {new_name}",
         message=kanban_msg,
         priority="normal",

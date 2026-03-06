@@ -4,9 +4,8 @@ Chief of Staff Skills Reindex Script
 
 Triggers a PSS (Perfect Skill Suggester) reindex for an agent session.
 
-This script is a STUB that will be implemented once the AI Maestro command
-forwarding mechanism is established. The intended behavior is to send
-the /pss-reindex-skills command to the target agent via AI Maestro.
+Sends the /pss-reindex-skills command to the target agent via AI Maestro
+AMP messaging. Supports --force and --dry-run flags.
 
 Usage:
     python3 amcos_reindex_skills.py SESSION_NAME
@@ -17,13 +16,8 @@ Output:
     JSON with reindex request status including:
     - success: boolean indicating if request was sent
     - session: target session name
-    - status: current status (stub/pending/sent/completed)
+    - status: current status (pending/sent/completed)
     - message: human-readable status message
-
-TODO:
-    - Implement AI Maestro command forwarding
-    - Add support for /pss-reindex-skills command via message
-    - Add status tracking for reindex completion
 """
 
 import argparse
@@ -117,9 +111,6 @@ Examples:
     # Dry run - show what would be done
     python3 amcos_reindex_skills.py my-session --dry-run
 
-Note:
-    This script is currently a STUB. The actual implementation
-    requires AI Maestro command forwarding to be established.
         """,
     )
 

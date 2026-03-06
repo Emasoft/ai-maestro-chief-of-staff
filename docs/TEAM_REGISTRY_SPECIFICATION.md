@@ -3,8 +3,8 @@
 > **SUPERSEDED**: The file-based `.ai-maestro/team-registry.json` approach is superseded.
 > Team registries are now managed exclusively via the **AI Maestro REST API**.
 
-**Version**: 2.0.0
-**Last Updated**: 2026-02-27
+**Version**: 2.9.0
+**Last Updated**: 2026-03-06
 
 This document specifies the team registry API, agent registration, and naming conventions for the AMCOS plugin.
 
@@ -31,8 +31,9 @@ Team registries are managed centrally through the **AI Maestro REST API**. There
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/api/agents/register` | Register an agent to a team |
+| `POST` | `/api/teams/[id]/agents` | Register an agent to a team |
 | `GET` | `/api/teams/[id]/agents` | List agents in a team |
+| `PATCH` | `/api/teams/[id]/agents/[agent_id]` | Update agent status |
 
 ### Base URL
 
@@ -60,10 +61,9 @@ curl -X POST "$AIMAESTRO_API/api/teams" \
 ### Register an Agent to a Team
 
 ```bash
-curl -X POST "$AIMAESTRO_API/api/agents/register" \
+curl -X POST "$AIMAESTRO_API/api/teams/svgbbox-library-team/agents" \
   -H "Content-Type: application/json" \
   -d '{
-    "team_id": "svgbbox-library-team",
     "name": "svgbbox-orchestrator",
     "role": "member",
     "sub_role": "orchestrator",
@@ -141,8 +141,8 @@ Team names must be **globally unique** across all projects managed by AMCOS. The
 |------|------|----------|------------|
 | svgbbox-library-team | orchestrator | - | `svgbbox-orchestrator` |
 | svgbbox-library-team | architect | - | `svgbbox-architect` |
-| svgbbox-library-team | implementer | 1 | `svgbbox-impl-01` |
-| svgbbox-library-team | implementer | 2 | `svgbbox-impl-02` |
+| svgbbox-library-team | programmer | 1 | `svgbbox-impl-01` |
+| svgbbox-library-team | programmer | 2 | `svgbbox-impl-02` |
 | ai-maestro-api-team | tester | 1 | `maestro-tester-01` |
 
 ### Organization-Wide Agents (No Team Prefix)
@@ -161,7 +161,7 @@ Team names must be **globally unique** across all projects managed by AMCOS. The
 |------|--------|-------|-------------|
 | `manager` | ai-maestro-assistant-manager-agent | Organization-wide | User interface, approvals |
 | `chief-of-staff` | ai-maestro-chief-of-staff | Per-team | Agent lifecycle, team management (one per team) |
-| `member` | ai-maestro-*-agent | Per-team | Any team member (orchestrator, architect, implementer, tester, devops, integrator) |
+| `member` | ai-maestro-*-agent | Per-team | Any team member (orchestrator, architect, programmer, tester, devops, integrator) |
 
 ### Governance Roles
 
@@ -180,7 +180,7 @@ These are the AI Maestro governance roles used in the API:
 | `orchestrator` | ai-maestro-orchestrator-agent | **Exactly 1** | Task management, kanban, coordination |
 | `architect` | ai-maestro-architect-agent | **Exactly 1** | Design documents |
 | `integrator` | ai-maestro-integrator-agent | 1+ (can be shared) | PR review, merge, CI/CD, release |
-| `implementer` | ai-maestro-implementer-agent | 1+ | Code implementation |
+| `programmer` | ai-maestro-programmer-agent | 1+ | Code implementation |
 | `tester` | ai-maestro-tester-agent | 0+ | Testing, QA |
 | `devops` | ai-maestro-devops-agent | 0+ | CI/CD, deployment |
 
@@ -233,8 +233,8 @@ Fix login validation bug
 - Added unit tests
 
 Agent: svgbbox-impl-01
-Role: member/implementer
-Plugin: ai-maestro-implementer-agent
+Role: member/programmer
+Plugin: ai-maestro-programmer-agent
 Host: macbook-dev-01
 Team: svgbbox-library-team
 GitHub-Bot: ai-maestro-bot
@@ -275,8 +275,8 @@ Fix login validation bug
 ## AMCOS Responsibilities
 
 1. **Create teams** via `POST /api/teams`
-2. **Register agents** via `POST /api/agents/register`
-3. **Update agent status** when agents hibernate/wake/terminate via `PATCH /api/agents/[id]`
+2. **Register agents** via `POST /api/teams/[id]/agents`
+3. **Update agent status** when agents hibernate/wake/terminate via `PATCH /api/teams/[id]/agents/[agent_id]`
 4. **Notify all team agents** of registry changes via AMP:
 
 ```bash
@@ -295,7 +295,7 @@ amp-send.sh --to svgbbox-orchestrator \
 2. **Agent name must be unique** within the team (enforced by API)
 3. **Exactly one orchestrator** per team
 4. **Exactly one architect** per team
-5. **At least one implementer** per team
+5. **At least one programmer** per team
 6. **All agents must have valid AI Maestro addresses**
 7. **Manager agent is organization-wide; chief-of-staff is assigned one per team**
 
