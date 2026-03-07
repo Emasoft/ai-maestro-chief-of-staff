@@ -31,6 +31,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, cast
 
+from amcos_output_utils import AmcosOutput
+
 # aimaestro-agent.sh CLI path
 AIMAESTRO_CLI = os.environ.get(
     "AIMAESTRO_CLI", "aimaestro-agent.sh"
@@ -608,14 +610,17 @@ def transfer_work(from_agent: str, to_agent: str, handoff_file: str) -> dict[str
     return result
 
 
-def cmd_health(args: argparse.Namespace) -> int:
+def cmd_health(args: argparse.Namespace, out: AmcosOutput) -> int:
     """Handle 'health' command."""
     result = check_agent_health(args.agent)
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="health")
+    print(json.dumps(result, separators=(",", ":")))
+    out.summary("DONE", f"Health check for '{args.agent}': {result.get('status', 'unknown')}")
+    out.close()
     return 0
 
 
-def cmd_classify(args: argparse.Namespace) -> int:
+def cmd_classify(args: argparse.Namespace, out: AmcosOutput) -> int:
     """Handle 'classify' command."""
     health = check_agent_health(args.agent)
     classification = classify_failure(args.agent, health)
@@ -626,18 +631,25 @@ def cmd_classify(args: argparse.Namespace) -> int:
         "health": health,
         "timestamp": iso_now(),
     }
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="classify")
+    print(json.dumps(result, separators=(",", ":")))
+    out.summary("DONE", f"Failure classification for '{args.agent}': {classification}")
+    out.close()
     return 0
 
 
-def cmd_recover(args: argparse.Namespace) -> int:
+def cmd_recover(args: argparse.Namespace, out: AmcosOutput) -> int:
     """Handle 'recover' command."""
     result = execute_recovery(args.agent, args.strategy)
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="recover")
+    print(json.dumps(result, separators=(",", ":")))
+    if result["success"]:
+        out.summary("DONE", f"Recovery '{args.strategy}' succeeded for '{args.agent}'")
+    out.close()
     return 0 if result["success"] else 1
 
 
-def cmd_replace(args: argparse.Namespace) -> int:
+def cmd_replace(args: argparse.Namespace, out: AmcosOutput) -> int:
     """Handle 'replace' command."""
     result = replace_agent(
         failed_agent=args.failed,
@@ -646,16 +658,24 @@ def cmd_replace(args: argparse.Namespace) -> int:
         project=args.project,
         work_dir=args.dir,
     )
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="replace")
+    print(json.dumps(result, separators=(",", ":")))
+    if result["success"]:
+        out.summary("DONE", f"Replaced '{args.failed}' with '{args.new}'")
+    out.close()
     return 0 if result["success"] else 1
 
 
-def cmd_transfer(args: argparse.Namespace) -> int:
+def cmd_transfer(args: argparse.Namespace, out: AmcosOutput) -> int:
     """Handle 'transfer' command."""
     result = transfer_work(
         from_agent=getattr(args, "from"), to_agent=args.to, handoff_file=args.handoff
     )
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="transfer")
+    print(json.dumps(result, separators=(",", ":")))
+    if result["success"]:
+        out.summary("DONE", f"Work transferred from '{getattr(args, 'from')}' to '{args.to}'")
+    out.close()
     return 0 if result["success"] else 1
 
 
@@ -760,8 +780,9 @@ Examples:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_failure_recovery")
     args = parse_args()
-    return cast(int, args.func(args))
+    return cast(int, args.func(args, out))
 
 
 if __name__ == "__main__":

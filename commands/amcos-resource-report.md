@@ -186,4 +186,4 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_monitor.py" $ARGUMENTS
 ## Related Commands
 
 - `/amcos-performance-report` - Detailed agent performance metrics
-- `/amcos-orchestration-status` - Orchestration-specific status
+- `/amcos-staff-status` - Staff and orchestration status

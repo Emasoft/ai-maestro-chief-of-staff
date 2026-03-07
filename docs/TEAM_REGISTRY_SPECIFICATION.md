@@ -3,8 +3,8 @@
 > **SUPERSEDED**: The file-based `.ai-maestro/team-registry.json` approach is superseded.
 > Team registries are now managed exclusively via the **AI Maestro REST API**.
 
-**Version**: 2.9.0
-**Last Updated**: 2026-03-06
+**Version**: 2.10.0
+**Last Updated**: 2026-03-07
 
 This document specifies the team registry API, agent registration, and naming conventions for the AMCOS plugin.
 
@@ -219,6 +219,8 @@ amp-reply.sh --id <message-id> \
   --message "Acknowledged. Proceed with merge when tests pass."
 ```
 
+> **Note**: These examples use amp-*.sh scripts directly. In production, use the `agent-messaging` skill which wraps these scripts.
+
 ---
 
 ## Git Commit Message Format
@@ -262,8 +264,8 @@ Fix login validation bug
 | Field | Value |
 |-------|-------|
 | Agent | svgbbox-impl-01 |
-| Role | member/implementer |
-| Plugin | ai-maestro-implementer-agent |
+| Role | member/programmer |
+| Plugin | ai-maestro-programmer-agent |
 | Host | macbook-dev-01 |
 | Team | svgbbox-library-team |
 

@@ -23,6 +23,8 @@ from typing import Any
 import urllib.error
 import urllib.request
 
+from amcos_output_utils import AmcosOutput
+
 
 # API base URL from environment, default to localhost
 API_BASE = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
@@ -295,6 +297,7 @@ def format_all_teams(data: dict[str, Any]) -> str:
 
 
 def main() -> int:
+    out = AmcosOutput("amcos_team_registry")
     parser = argparse.ArgumentParser(
         description="AMCOS Team Registry Manager (REST API)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -367,8 +370,11 @@ Examples:
     try:
         if args.command == "create":
             result = create_team(args.team, args.repo, args.project_board)
-            print(f"Created team: {args.team}")
-            print(json.dumps(result, indent=2))
+            out.log(f"Created team: {args.team}")
+            out.log_json(result, label="create")
+            print(json.dumps(result, separators=(",", ":")))
+            out.summary("DONE", f"Team '{args.team}' created")
+            out.close()
             return 0
 
         elif args.command == "add-agent":
@@ -381,8 +387,11 @@ Examples:
                 args.host,
                 args.address,
             )
-            print(f"Added agent '{args.agent_name}' to team '{args.team}'")
-            print(json.dumps(result, indent=2))
+            out.log(f"Added agent '{args.agent_name}' to team '{args.team}'")
+            out.log_json(result, label="add-agent")
+            print(json.dumps(result, separators=(",", ":")))
+            out.summary("DONE", f"Agent '{args.agent_name}' added to '{args.team}'")
+            out.close()
             return 0
 
         elif args.command == "remove-agent":
@@ -392,7 +401,9 @@ Examples:
             team_id = str(team.get("id") or team.get("_id") or team["name"])
             agent_id = _resolve_agent_id(team, args.agent_name)
             remove_agent(team_id, agent_id)
-            print(f"Removed agent '{args.agent_name}' from team '{args.team}'")
+            out.log(f"Removed agent '{args.agent_name}' from team '{args.team}'")
+            out.summary("DONE", f"Agent '{args.agent_name}' removed from '{args.team}'")
+            out.close()
             return 0
 
         elif args.command == "update-status":
@@ -421,7 +432,9 @@ Examples:
                 _handle_urllib_response(patch_resp, patch_resp.status, patch_ctx)
             except urllib.error.HTTPError as exc:
                 _handle_http_error(exc, patch_ctx)
-            print(f"Updated '{args.agent_name}' status to '{args.status}'")
+            out.log(f"Updated '{args.agent_name}' status to '{args.status}'")
+            out.summary("DONE", f"Agent '{args.agent_name}' status -> '{args.status}'")
+            out.close()
             return 0
 
         elif args.command == "list":
@@ -429,23 +442,27 @@ Examples:
                 team = get_team_by_name(args.team)
                 if team is None:
                     raise ValueError(f"Team '{args.team}' not found")
-                print(format_team_list(team))
+                out.log(format_team_list(team))
             else:
                 data = list_teams()
-                print(format_all_teams(data))
+                out.log(format_all_teams(data))
+            out.summary("DONE", "Team listing complete")
+            out.close()
             return 0
 
     except urllib.error.URLError as e:
         # URLError covers connection failures (including timeouts via socket.timeout)
-        print(
-            f"Error: Cannot connect to AI Maestro API at {API_BASE}: {e.reason}",
-            file=sys.stderr,
+        out.log(
+            f"Error: Cannot connect to AI Maestro API at {API_BASE}: {e.reason}"
         )
+        out.close()
         return 1
     except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+        out.log(f"Error: {e}")
+        out.close()
         return 1
 
+    out.close()
     return 0
 
 

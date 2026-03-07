@@ -19,6 +19,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
+from amcos_output_utils import AmcosOutput
+
 
 def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
@@ -69,6 +71,7 @@ def main() -> int:
     Returns:
         0 on success, 1 on error.
     """
+    out = AmcosOutput("amcos_terminate_agent")
     args = parse_args()
 
     # Step 1: Check if agent exists
@@ -82,7 +85,9 @@ def main() -> int:
             "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "error": stderr if stderr else "Agent not found",
         }
-        print(json.dumps(result, indent=2), file=sys.stderr)
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     # Step 2: Terminate the agent
@@ -114,7 +119,10 @@ def main() -> int:
         },
         "output": stdout,
     }
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="success")
+    print(json.dumps(result, separators=(",", ":")))
+    out.summary("DONE", f"Agent '{args.session_name}' terminated")
+    out.close()
     return 0
 
 

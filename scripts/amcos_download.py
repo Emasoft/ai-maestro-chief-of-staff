@@ -26,6 +26,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from amcos_output_utils import AmcosOutput
+
 # Category definitions with folder structure
 CATEGORIES: dict[str, dict[str, Any]] = {
     "tasks": {
@@ -479,6 +481,7 @@ def verify_storage(project_root: Path | None = None) -> dict[str, Any]:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_download")
     parser = argparse.ArgumentParser(
         description="AMCOS Document Download and Storage Manager",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -533,10 +536,13 @@ def main() -> int:
 
     if not args.command:
         parser.print_help()
+        out.close()
         return 1
 
     if args.command == "init":
         init_storage(args.project_root)
+        out.summary("DONE", "Storage initialized")
+        out.close()
         return 0
 
     elif args.command == "download":
@@ -549,7 +555,12 @@ def main() -> int:
             sender=args.sender,
             project_root=args.project_root,
         )
-        return 0 if result else 1
+        if result:
+            out.summary("DONE", f"Downloaded document for {args.task_id}")
+            out.close()
+            return 0
+        out.close()
+        return 1
 
     elif args.command == "lookup":
         results = lookup_documents(
@@ -558,40 +569,49 @@ def main() -> int:
             category=args.category,
         )
         if results:
-            print(f"\nFound {len(results)} document(s) for {args.task_id}:\n")
+            out.log(f"\nFound {len(results)} document(s) for {args.task_id}:\n")
             for doc in results:
-                print(f"  [{doc['category']}] {doc['path']}")
+                out.log(f"  [{doc['category']}] {doc['path']}")
                 if doc["metadata"]:
                     ts = doc["metadata"].get("download", {}).get("timestamp", "?")
-                    print(f"           Downloaded: {ts}")
+                    out.log(f"           Downloaded: {ts}")
         else:
-            print(f"No documents found for task: {args.task_id}")
+            out.log(f"No documents found for task: {args.task_id}")
+        out.summary("DONE", f"Lookup complete for {args.task_id}")
+        out.close()
         return 0
 
     elif args.command == "verify":
         report = verify_storage(args.project_root)
         if args.json:
-            print(json.dumps(report, indent=2))
+            out.log_json(report, label="verify")
+            print(json.dumps(report, separators=(",", ":")))
         else:
-            print("\n=== AMCOS Storage Verification Report ===\n")
-            print(f"Storage Root: {report['storage_root']}")
-            print(f"Total Files: {report['stats']['total_files']}")
-            print(f"Total Size: {report['stats']['total_size_bytes']} bytes")
-            print("\nBy Category:")
+            out.log("\n=== AMCOS Storage Verification Report ===\n")
+            out.log(f"Storage Root: {report['storage_root']}")
+            out.log(f"Total Files: {report['stats']['total_files']}")
+            out.log(f"Total Size: {report['stats']['total_size_bytes']} bytes")
+            out.log("\nBy Category:")
             for cat, stats in report["stats"]["by_category"].items():
-                print(f"  {cat}: {stats['files']} files, {stats['size_bytes']} bytes")
+                out.log(f"  {cat}: {stats['files']} files, {stats['size_bytes']} bytes")
 
             if report["issues"]:
-                print(f"\nIssues Found: {len(report['issues'])}")
+                out.log(f"\nIssues Found: {len(report['issues'])}")
                 for issue in report["issues"]:
-                    print(f"  [{issue['type']}] {issue['message']}")
+                    out.log(f"  [{issue['type']}] {issue['message']}")
                     if "path" in issue:
-                        print(f"    Path: {issue['path']}")
+                        out.log(f"    Path: {issue['path']}")
             else:
-                print("\nNo issues found. Storage is healthy.")
+                out.log("\nNo issues found. Storage is healthy.")
 
-        return 1 if report["issues"] else 0
+        if report["issues"]:
+            out.close()
+            return 1
+        out.summary("DONE", "Storage verification passed")
+        out.close()
+        return 0
 
+    out.close()
     return 0
 
 

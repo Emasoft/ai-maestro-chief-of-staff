@@ -1,24 +1,11 @@
 {
   "name": "ai-maestro-chief-of-staff",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "description": "Per-team agent management - staff planning, lifecycle, governance workflows, failure recovery. Requires AI Maestro v0.26.0+.",
   "author": {
     "name": "Emasoft",
     "email": "713559+Emasoft@users.noreply.github.com"
   },
   "repository": "https://github.com/Emasoft/ai-maestro-chief-of-staff",
-  "license": "MIT",
-  "agents": [
-    "./agents/amcos-chief-of-staff-main-agent.md",
-    "./agents/amcos-staff-planner.md",
-    "./agents/amcos-lifecycle-manager.md",
-    "./agents/amcos-team-coordinator.md",
-    "./agents/amcos-plugin-configurator.md",
-    "./agents/amcos-skill-validator.md",
-    "./agents/amcos-resource-monitor.md",
-    "./agents/amcos-performance-reporter.md",
-    "./agents/amcos-recovery-coordinator.md",
-    "./agents/amcos-approval-coordinator.md"
-  ],
-  "skills": "./skills/"
+  "license": "MIT"
 }

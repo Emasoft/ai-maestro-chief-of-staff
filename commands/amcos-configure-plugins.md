@@ -132,4 +132,4 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 
 - `/amcos-validate-skills` - Validate skills for an agent
 - `/amcos-reindex-skills` - Trigger PSS reindex for an agent
-- `/amcos-orchestration-status` - Check agent orchestration status
+- `/amcos-staff-status` - Check staff and orchestration status

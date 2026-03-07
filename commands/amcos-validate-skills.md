@@ -102,4 +102,4 @@ The CPV validator performs these checks:
 
 - `/amcos-configure-plugins` - Configure plugins for an agent
 - `/amcos-reindex-skills` - Trigger PSS reindex after skill changes
-- `/amcos-orchestration-status` - Check agent orchestration status
+- `/amcos-staff-status` - Check staff and orchestration status

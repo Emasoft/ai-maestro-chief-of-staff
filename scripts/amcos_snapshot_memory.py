@@ -19,6 +19,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from amcos_output_utils import AmcosOutput
+
 
 # =============================================================================
 # Constants
@@ -241,53 +243,64 @@ def _create_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_snapshot_memory")
     args = _create_parser().parse_args()
     project_root = args.project_root.resolve()
 
     if args.list:
         snapshots = list_snapshots(project_root)
         if not snapshots:
-            print("No snapshots found.")
+            out.log("No snapshots found.")
+            out.summary("DONE", "No snapshots found")
+            out.close()
             return 0
-        print(f"{'Timestamp':<26} {'Label':<20} {'Reason'}")
-        print("-" * 80)
+        out.log(f"{'Timestamp':<26} {'Label':<20} {'Reason'}")
+        out.log("-" * 80)
         for snap in snapshots:
             ts = snap.get("timestamp", "unknown")
             label = snap.get("label", "") or "-"
             reason = snap.get("reason", "")
-            print(f"{ts:<26} {label:<20} {reason}")
-            print(f"  Path: {snap['path']}")
-        print(f"\nTotal: {len(snapshots)} snapshot(s)")
+            out.log(f"{ts:<26} {label:<20} {reason}")
+            out.log(f"  Path: {snap['path']}")
+        out.log(f"\nTotal: {len(snapshots)} snapshot(s)")
+        out.summary("DONE", f"Listed {len(snapshots)} snapshot(s)")
+        out.close()
         return 0
 
     if args.restore:
         restore_path = args.restore.resolve()
-        print(f"Restoring memory files from {restore_path}")
+        out.log(f"Restoring memory files from {restore_path}")
         try:
             restore_snapshot(project_root, restore_path)
         except FileNotFoundError as e:
-            print(f"ERROR: {e}", file=sys.stderr)
+            out.log(f"ERROR: {e}")
+            out.close()
             return 1
-        print("RESTORED: All memory files restored successfully")
+        out.log("RESTORED: All memory files restored successfully")
+        out.summary("DONE", "Snapshot restored")
+        out.close()
         return 0
 
     # Create snapshot (--reason was provided)
-    print("Creating snapshot of memory files...")
+    out.log("Creating snapshot of memory files...")
     try:
         snapshot_dir = create_snapshot(
             project_root, reason=args.reason, label=args.label
         )
     except FileNotFoundError as e:
-        print(f"ERROR: {e}", file=sys.stderr)
+        out.log(f"ERROR: {e}")
+        out.close()
         return 1
-    print(f"CREATED: Snapshot at {snapshot_dir}")
-    # Print file details
+    out.log(f"CREATED: Snapshot at {snapshot_dir}")
+    # Log file details
     meta_path = snapshot_dir / METADATA_FILENAME
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     for filename, size in meta["file_sizes"].items():
-        print(
+        out.log(
             f"  {filename}: {size} bytes (sha256: {meta['file_hashes'][filename][:16]}...)"
         )
+    out.summary("DONE", f"Snapshot created at {snapshot_dir.name}")
+    out.close()
     return 0
 
 

@@ -19,6 +19,8 @@ import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from amcos_output_utils import AmcosOutput
+
 
 # =============================================================================
 # Data Structures
@@ -283,12 +285,15 @@ def _create_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_design_search")
     args = _create_parser().parse_args()
     project_root = args.project_root.resolve()
 
     design_dir = project_root / "design"
     if not design_dir.exists():
+        out.log(f"ERROR: Design directory does not exist: {design_dir}")
         print(f"ERROR: Design directory does not exist: {design_dir}", file=sys.stderr)
+        out.close()
         return 1
 
     results = search_design_docs(
@@ -300,11 +305,24 @@ def main() -> int:
     )
 
     if args.output_format == "json":
-        _print_json(results)
+        output = []
+        for r in results:
+            d = asdict(r)
+            d.pop("raw_frontmatter", None)
+            output.append(d)
+        out.log_json(output, label="search_results")
+        print(json.dumps(output, separators=(",", ":")))
     else:
         _print_text_table(results)
+        out.log(f"Found {len(results)} document(s)")
 
-    return 0 if results else 1
+    if results:
+        out.summary("DONE", f"Found {len(results)} design document(s)")
+        out.close()
+        return 0
+    else:
+        out.close()
+        return 1
 
 
 if __name__ == "__main__":

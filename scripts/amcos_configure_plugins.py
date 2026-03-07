@@ -26,6 +26,8 @@ import json
 import subprocess
 import sys
 
+from amcos_output_utils import AmcosOutput
+
 
 def run_claude_command(args: list[str], timeout: int = 30) -> tuple[bool, str, str]:
     """
@@ -172,6 +174,7 @@ def remove_plugin(plugin_name: str, scope: str) -> dict:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_configure_plugins")
     parser = argparse.ArgumentParser(
         description="Configure Claude Code plugins for an agent session",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -227,10 +230,17 @@ Examples:
     result.update(operation_result)
 
     # Output JSON
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="configure_plugins")
+    print(json.dumps(result, separators=(",", ":")))
 
     # Return exit code based on success
-    return 0 if result.get("success", False) else 1
+    if result.get("success", False):
+        out.summary("DONE", f"Plugin configuration: {result.get('operation', 'unknown')}")
+        out.close()
+        return 0
+    else:
+        out.close()
+        return 1
 
 
 if __name__ == "__main__":

@@ -15,13 +15,17 @@ from __future__ import annotations
 
 import re
 import shutil
-import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from amcos_output_utils import AmcosOutput
+
 if TYPE_CHECKING:
     from amcos_memory_manager import MemoryConfig
+
+# Module-level output instance for logging from library functions
+_out = AmcosOutput("amcos_memory_operations")
 
 __all__ = [
     "get_timestamp",
@@ -49,12 +53,12 @@ __all__ = [
 
 def get_timestamp() -> str:
     """Get current timestamp in standard format."""
-    return datetime.now().strftime("%Y-%m-%d %H:%M")
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
 
 
 def get_date() -> str:
     """Get current date in standard format."""
-    return datetime.now().strftime("%Y-%m-%d")
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
 def ensure_memory_root(config: MemoryConfig) -> bool:
@@ -63,7 +67,7 @@ def ensure_memory_root(config: MemoryConfig) -> bool:
         config.memory_root.mkdir(parents=True, exist_ok=True)
         return True
     except OSError as e:
-        print(f"ERROR: Cannot create memory root: {e}", file=sys.stderr)
+        _out.log(f"ERROR: Cannot create memory root: {e}")
         return False
 
 
@@ -82,7 +86,7 @@ def write_file_safely(path: Path, content: str) -> bool:
         path.write_text(content, encoding="utf-8")
         return True
     except OSError as e:
-        print(f"ERROR: Cannot write file {path}: {e}", file=sys.stderr)
+        _out.log(f"ERROR: Cannot write file {path}: {e}")
         return False
 
 
@@ -92,14 +96,14 @@ def backup_file(path: Path, backup_dir: Path) -> Path | None:
         return None
 
     backup_dir.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     backup_path = backup_dir / f"{path.stem}_{timestamp}{path.suffix}"
 
     try:
         shutil.copy2(path, backup_path)
         return backup_path
     except OSError as e:
-        print(f"ERROR: Backup failed: {e}", file=sys.stderr)
+        _out.log(f"ERROR: Backup failed: {e}")
         return None
 
 
@@ -138,7 +142,7 @@ def add_decision(
             new_content = f"## Active Decisions\n\n{decision_entry}\n" + content
 
     if write_file_safely(config.active_context_path, new_content):
-        print("ADDED: Decision -> activeContext.md")
+        _out.log("ADDED: Decision -> activeContext.md")
         return True
     return False
 
@@ -164,7 +168,7 @@ def set_focus(config: MemoryConfig, focus_text: str) -> bool:
         new_content = focus_section + "\n" + content
 
     if write_file_safely(config.active_context_path, new_content):
-        print("UPDATED: Current Focus -> activeContext.md")
+        _out.log("UPDATED: Current Focus -> activeContext.md")
         return True
     return False
 
@@ -198,7 +202,7 @@ def log_error(
         new_content = content.rstrip() + f"\n\n## In-Flight Errors\n{error_entry}"
 
     if write_file_safely(config.active_context_path, new_content):
-        print(f"LOGGED: Error ({impact}) -> activeContext.md")
+        _out.log(f"LOGGED: Error ({impact}) -> activeContext.md")
         return True
     return False
 
@@ -208,14 +212,14 @@ def clear_errors(config: MemoryConfig) -> bool:
     content = read_file_safely(config.active_context_path)
 
     if "## In-Flight Errors" not in content:
-        print("No In-Flight Errors section found")
+        _out.log("No In-Flight Errors section found")
         return True
 
     pattern = r"\n## In-Flight Errors.*?(?=\n## |\Z)"
     new_content = re.sub(pattern, "", content, flags=re.DOTALL)
 
     if write_file_safely(config.active_context_path, new_content.strip() + "\n"):
-        print("CLEARED: All In-Flight Errors")
+        _out.log("CLEARED: All In-Flight Errors")
         return True
     return False
 
@@ -280,7 +284,7 @@ def add_progress(
             new_content = f"{date_header}\n\n{entry}" + content
 
     if write_file_safely(config.progress_path, new_content):
-        print("ADDED: Progress entry -> progress.md")
+        _out.log("ADDED: Progress entry -> progress.md")
         return True
     return False
 
@@ -293,7 +297,7 @@ def get_progress_entries(config: MemoryConfig, days: int = 7) -> list[dict[str, 
     date_pattern = r"## (\d{4}-\d{2}-\d{2})\n(.*?)(?=\n## |\Z)"
     matches = re.findall(date_pattern, content, re.DOTALL)
 
-    cutoff = datetime.now() - timedelta(days=days)
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
 
     for date_str, section in matches:
         try:
@@ -348,7 +352,7 @@ def add_pattern(
         new_content = content.rstrip() + f"\n\n{category_header}\n{pattern_entry}"
 
     if write_file_safely(config.patterns_path, new_content):
-        print(f"ADDED: Pattern '{name}' -> patterns.md")
+        _out.log(f"ADDED: Pattern '{name}' -> patterns.md")
         return True
     return False
 

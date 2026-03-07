@@ -19,6 +19,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from amcos_output_utils import AmcosOutput
+
 # ANSI Colors
 RED = "\033[0;31m"
 GREEN = "\033[0;32m"
@@ -236,33 +238,33 @@ def check_unicode_compliance(plugin_dir: Path) -> list[tuple[str, str]]:
 
 def main() -> int:
     """Main pre-push validation."""
+    out = AmcosOutput("amcos_pre_push_hook")
     # Get repo root
     result = subprocess.run(
         ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True
     )
     repo_root = Path(result.stdout.strip())
 
-    print(f"{BOLD}{'=' * 60}{NC}")
-    print(f"{BOLD}Pre-Push Validation - Blocking broken plugins{NC}")
-    print(f"{BOLD}{'=' * 60}{NC}")
-    print()
+    out.log(f"{'=' * 60}")
+    out.log("Pre-Push Validation - Blocking broken plugins")
+    out.log(f"{'=' * 60}")
 
     all_issues: list[tuple[str, str]] = []
 
     # 1. Validate plugin manifest
-    print(f"{BLUE}Validating plugin manifest...{NC}")
+    out.log("Validating plugin manifest...")
     all_issues.extend(validate_plugin_manifest(repo_root))
 
     # 2. Validate hooks
-    print(f"{BLUE}Validating hooks configuration...{NC}")
+    out.log("Validating hooks configuration...")
     all_issues.extend(validate_hooks_config(repo_root))
 
     # 3. Lint Python scripts
-    print(f"{BLUE}Linting Python scripts...{NC}")
+    out.log("Linting Python scripts...")
     all_issues.extend(lint_python_scripts(repo_root))
 
     # 4. Unicode compliance check
-    print(f"{BLUE}Checking Unicode compliance...{NC}")
+    out.log("Checking Unicode compliance...")
     all_issues.extend(check_unicode_compliance(repo_root))
 
     # Categorize issues
@@ -271,44 +273,39 @@ def main() -> int:
     minor = [msg for sev, msg in all_issues if sev == "MINOR"]
 
     # Report
-    print()
-    print(f"{BOLD}{'=' * 60}{NC}")
-    print(f"{BOLD}Validation Results{NC}")
-    print(f"{BOLD}{'=' * 60}{NC}")
+    out.log(f"\n{'=' * 60}")
+    out.log("Validation Results")
+    out.log(f"{'=' * 60}")
 
     if critical:
-        print(f"\n{RED}CRITICAL Issues (push blocked):{NC}")
+        out.log("\nCRITICAL Issues (push blocked):")
         for msg in critical:
-            print(f"  {RED}✘{NC} {msg}")
+            out.log(f"  X {msg}")
 
     if major:
-        print(f"\n{YELLOW}MAJOR Issues (push blocked):{NC}")
+        out.log("\nMAJOR Issues (push blocked):")
         for msg in major:
-            print(f"  {YELLOW}⚠{NC} {msg}")
+            out.log(f"  ! {msg}")
 
     if minor:
-        print(f"\n{BLUE}MINOR Issues (push blocked):{NC}")
+        out.log("\nMINOR Issues (push blocked):")
         for msg in minor:
-            print(f"  {BLUE}ℹ{NC} {msg}")
+            out.log(f"  i {msg}")
 
-    print()
-    print(
-        f"Summary: {RED}{len(critical)} critical{NC}, {YELLOW}{len(major)} major{NC}, {BLUE}{len(minor)} minor{NC}"
-    )
-    print()
+    out.log(f"\nSummary: {len(critical)} critical, {len(major)} major, {len(minor)} minor")
 
-    # Decision — strict mode: block on ALL issues including MINOR
+    # Decision -- strict mode: block on ALL issues including MINOR
     if critical or major or minor:
-        print(f"{RED}{'=' * 60}{NC}")
-        print(f"{RED}PUSH BLOCKED - Fix ALL issues (CRITICAL, MAJOR, and MINOR){NC}")
-        print(f"{RED}{'=' * 60}{NC}")
-        print()
+        out.log("PUSH BLOCKED - Fix ALL issues (CRITICAL, MAJOR, and MINOR)")
+        # Print to stdout/stderr so git hook sees it
+        print(f"{RED}PUSH BLOCKED{NC}: {len(critical)} critical, {len(major)} major, {len(minor)} minor issue(s)")
         print("To bypass (NOT RECOMMENDED): git push --no-verify")
+        out.close()
         return 1
 
-    print(f"{GREEN}{'=' * 60}{NC}")
     print(f"{GREEN}VALIDATION PASSED - Push allowed{NC}")
-    print(f"{GREEN}{'=' * 60}{NC}")
+    out.summary("DONE", "Pre-push validation passed")
+    out.close()
     return 0
 
 

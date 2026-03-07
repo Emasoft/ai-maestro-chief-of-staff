@@ -86,7 +86,7 @@ With `--verbose` flag, additional metrics are shown:
   Health:           HEALTHY
 
   Heartbeat:
-    Last:           2024-01-15 10:30:45 UTC
+    Last:           2026-03-01 10:30:45 UTC
     Age:            2 seconds ago
     Threshold:      60 seconds
 
@@ -127,13 +127,13 @@ With `--verbose` flag, additional metrics are shown:
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:47Z",
+  "timestamp": "2026-03-01T10:30:47Z",
   "agents": [
     {
       "name": "backend-api",
       "status": "online",
       "health": "HEALTHY",
-      "lastHeartbeat": "2024-01-15T10:30:45Z",
+      "lastHeartbeat": "2026-03-01T10:30:45Z",
       "heartbeatAge": 2,
       "responseMs": 45,
       "resources": {

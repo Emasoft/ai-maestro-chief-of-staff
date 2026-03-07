@@ -261,8 +261,8 @@ def main() -> int:
             "systemMessage": warning,
             "continue": True,  # Don't block, just warn
         }
-        # Use out.summary for the WARNING case so it appears in stdout
-        out.summary("WARNING", f"{len(alerts)} resource threshold(s) exceeded")
+        # Hook stdout must be clean JSON only — log the summary instead
+        out.log(f"[WARNING] {len(alerts)} resource threshold(s) exceeded")
         print(json.dumps(output))
     else:
         # SUCCESS: print nothing to stdout, only log

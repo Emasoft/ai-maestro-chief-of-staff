@@ -13,7 +13,6 @@ Example:
 """
 
 import argparse
-import json
 import shutil
 import subprocess
 import sys

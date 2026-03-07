@@ -1,6 +1,6 @@
 # AGENT_OPERATIONS.md - AMCOS Chief of Staff
 
-**Version**: 2.9.0 | **Last Updated**: 2026-03-06
+**Version**: 2.10.0 | **Last Updated**: 2026-03-07
 **SINGLE SOURCE OF TRUTH** for AMCOS (AI Maestro Chief of Staff) agent operations.
 **SCOPE**: TEAM-SCOPED. Each AMCOS instance manages exactly ONE team.
 **Distribution**: Bundled with AI Maestro v0.26.0+.
@@ -68,7 +68,7 @@ Cross-team operations require a GovernanceRequest sent to the MANAGER:
 | Message agent in another team | Yes |
 | Borrow agent from another team | Yes |
 | Share resources across teams | Yes |
-| Spawn agent for own team | No |
+| Spawn agent for own team | Yes (sourceManager only) |
 | Message own team members | No |
 
 **GovernanceRequest format** (sent via `agent-messaging` skill):
@@ -526,6 +526,8 @@ All projects use the canonical **8-column kanban system** on GitHub Projects:
 | `scripts/amcos_heartbeat_check.py` | Agent heartbeat monitoring |
 | `scripts/amcos_team_registry.py` | Team registry management |
 | `scripts/amcos_download.py` | Plugin download utility |
+
+> **Note**: This section lists key hook and utility scripts. The complete set of operational scripts (spawning, termination, memory management, notifications, etc.) is available in the `scripts/` directory.
 
 ---
 

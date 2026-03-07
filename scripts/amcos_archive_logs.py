@@ -26,6 +26,8 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any
 
+from amcos_output_utils import AmcosOutput
+
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -183,6 +185,7 @@ def main() -> int:
     Returns:
         Exit code: 0 for success, 1 for error.
     """
+    out = AmcosOutput("amcos_archive_logs")
     parser = argparse.ArgumentParser(
         description="Archive operation logs older than N days"
     )
@@ -215,7 +218,9 @@ def main() -> int:
     project_root = Path(args.project_root) if args.project_root else Path.cwd()
     if not project_root.is_dir():
         result = {"success": False, "error": f"Not a directory: {project_root}"}
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")))
+        out.close()
         return 1
 
     logs_dir = get_logs_path(project_root)
@@ -226,12 +231,17 @@ def main() -> int:
             "files_archived": 0,
             "space_saved": "0 B",
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="no-logs")
+        print(json.dumps(result, separators=(",", ":")))
+        out.summary("DONE", "No logs directory found")
+        out.close()
         return 0
 
     if not logs_dir.is_dir():
         result = {"success": False, "error": f"Not a directory: {logs_dir}"}
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")))
+        out.close()
         return 1
 
     # Calculate cutoff date
@@ -256,7 +266,10 @@ def main() -> int:
             "space_saved_bytes": 0,
             "message": f"No log files older than {args.days} days found",
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="no-old-files")
+        print(json.dumps(result, separators=(",", ":")))
+        out.summary("DONE", "No old log files found")
+        out.close()
         return 0
 
     if args.verbose:
@@ -314,7 +327,10 @@ def main() -> int:
     if args.verbose or args.dry_run:
         result_out["files"] = archived_files
 
-    print(json.dumps(result_out, indent=2))
+    out.log_json(result_out, label="archive-result")
+    print(json.dumps(result_out, separators=(",", ":")))
+    out.summary("DONE", f"Archived {archived_count} file(s), saved {format_size(total_size)}")
+    out.close()
     return 0
 
 

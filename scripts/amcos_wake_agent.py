@@ -20,6 +20,8 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 
+from amcos_output_utils import AmcosOutput
+
 
 def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
@@ -69,6 +71,7 @@ def main() -> int:
     Returns:
         0 on success, 1 on error.
     """
+    out = AmcosOutput("amcos_wake_agent")
     args = parse_args()
     timestamp = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -82,7 +85,9 @@ def main() -> int:
             "timestamp": timestamp,
             "error": stderr if stderr else "Agent does not exist",
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     # Step 2: Parse agent info to check status
@@ -98,7 +103,9 @@ def main() -> int:
                 "timestamp": timestamp,
                 "agent_status": agent_status,
             }
-            print(json.dumps(result, indent=2))
+            out.log_json(result, label="error")
+            print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+            out.close()
             return 1
 
         if agent_status not in ["hibernated", "sleeping"]:
@@ -108,7 +115,9 @@ def main() -> int:
                 "timestamp": timestamp,
                 "agent_status": agent_status,
             }
-            print(json.dumps(result, indent=2))
+            out.log_json(result, label="error")
+            print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+            out.close()
             return 1
 
     except (json.JSONDecodeError, KeyError) as e:
@@ -118,7 +127,9 @@ def main() -> int:
             "timestamp": timestamp,
             "error": str(e),
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     # Step 4: Execute wake command
@@ -131,7 +142,9 @@ def main() -> int:
             "timestamp": timestamp,
             "error": stderr if stderr else "Wake command failed",
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     # Success
@@ -142,7 +155,10 @@ def main() -> int:
         "session_name": args.session_name,
         "previous_status": agent_status,
     }
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="success")
+    print(json.dumps(result, separators=(",", ":")))
+    out.summary("DONE", f"Agent '{args.session_name}' woken")
+    out.close()
     return 0
 
 

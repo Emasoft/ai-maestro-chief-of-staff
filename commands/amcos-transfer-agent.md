@@ -1,7 +1,7 @@
 ---
 name: amcos-transfer-agent
 description: Transfer an agent from the current team to a target team via GovernanceRequest
-allowed_agents:
+allowed-tools:
   - amcos-chief-of-staff
   - amcos-team-manager
 ---

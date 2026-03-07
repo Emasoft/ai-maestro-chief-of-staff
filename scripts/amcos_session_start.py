@@ -24,7 +24,7 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from amcos_output_utils import AmcosOutput
@@ -44,7 +44,7 @@ def get_state_file(cwd: str) -> Path:
 
 def get_timestamp() -> str:
     """Get current timestamp in ISO format."""
-    return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
 
 
 def create_default_state() -> str:

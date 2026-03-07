@@ -25,7 +25,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -79,7 +79,7 @@ def parse_timestamp(ts_str: str) -> datetime | None:
             dt = datetime.strptime(ts_str, fmt)
             # If no date, assume today
             if fmt in ("%H:%M:%S", "%H:%M"):
-                today = datetime.now().date()
+                today = datetime.now(timezone.utc).date()
                 dt = dt.replace(year=today.year, month=today.month, day=today.day)
             return dt
         except ValueError:
@@ -145,7 +145,7 @@ def check_unresponsive_agents(agents: list[dict[str, Any]]) -> list[dict[str, An
         List of unresponsive agent dicts
     """
     unresponsive: list[dict[str, Any]] = []
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
 
     for agent in agents:
         # Skip agents marked as done or idle
@@ -305,8 +305,8 @@ def main() -> int:
             "systemMessage": warning,
             "continue": True,  # Don't block, just warn
         }
-        # Print warning JSON to stdout (only output for unhealthy case)
-        out.summary("WARNING", f"{len(unresponsive)} agent(s) unresponsive")
+        # Hook stdout must be clean JSON only — log the summary instead
+        out.log(f"[WARNING] {len(unresponsive)} agent(s) unresponsive")
         print(json.dumps(output))
     else:
         # SUCCESS case: print NOTHING to stdout, only log to file

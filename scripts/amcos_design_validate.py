@@ -19,6 +19,8 @@ import re
 import sys
 from datetime import datetime
 
+from amcos_output_utils import AmcosOutput
+
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -353,6 +355,7 @@ def format_json(results):
 
 def main():
     """Main entry point for the CLI validator."""
+    out = AmcosOutput("amcos_design_validate")
     parser = argparse.ArgumentParser(
         description="Validate YAML frontmatter in AMCOS design documents.",
         epilog="Exit code 0 means all documents are valid; 1 means errors were found.",
@@ -389,9 +392,12 @@ def main():
                 "failed": 0,
                 "errors": [{"file": args.path, "error": str(exc)}],
             }
-            sys.stdout.write(json.dumps(output, indent=2) + "\n")
+            out.log_json(output, label="error")
+            sys.stdout.write(json.dumps(output, separators=(",", ":")) + "\n")
         else:
+            out.log(f"ERROR: {exc}")
             sys.stdout.write(f"ERROR: {exc}\n")
+        out.close()
         return 1
 
     # Validate each file
@@ -401,14 +407,33 @@ def main():
         results.append((filepath, errors))
 
     # Format and print output
+    total = len(results)
+    passed = sum(1 for _, errs in results if not errs)
+    failed = total - passed
+
     if args.output_format == "json":
-        sys.stdout.write(format_json(results))
+        json_output = {
+            "total": total,
+            "passed": passed,
+            "failed": failed,
+            "errors": [{"file": fp, "error": err} for fp, errs in results for err in errs],
+        }
+        out.log_json(json_output, label="validation")
+        sys.stdout.write(json.dumps(json_output, separators=(",", ":")) + "\n")
     else:
-        sys.stdout.write(format_text(results, verbose=args.verbose))
+        text_output = format_text(results, verbose=args.verbose)
+        out.log(text_output)
+        sys.stdout.write(text_output)
 
     # Determine exit code: 0 if all passed, 1 if any failed
     has_failures = any(errs for _, errs in results)
-    return 1 if has_failures else 0
+    if has_failures:
+        out.close()
+        return 1
+    else:
+        out.summary("DONE", f"Validated {total} file(s): {passed} passed, {failed} failed")
+        out.close()
+        return 0
 
 
 if __name__ == "__main__":

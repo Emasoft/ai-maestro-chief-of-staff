@@ -27,6 +27,8 @@ import sys
 import time
 from datetime import datetime, timezone
 
+from amcos_output_utils import AmcosOutput
+
 # Default timeouts and intervals
 DEFAULT_TIMEOUT = 120
 DEFAULT_REMIND_INTERVAL = 30
@@ -596,6 +598,7 @@ def _cmd_install_skill(args: argparse.Namespace) -> dict[str, object]:
 
 def main() -> int:
     """Main entry point for CLI."""
+    out = AmcosOutput("amcos_notification_protocol")
     parser = argparse.ArgumentParser(
         description="Notification Protocol for Chief of Staff - Agent Communication via AI Maestro",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -717,6 +720,7 @@ Examples:
 
     if not args.command:
         parser.print_help()
+        out.close()
         return 1
 
     # Execute the appropriate command
@@ -733,20 +737,29 @@ Examples:
             result = {"error": f"Unknown command: {args.command}"}
 
         # Output JSON result
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label=args.command)
+        print(json.dumps(result, separators=(",", ":")))
 
         # Return appropriate exit code
         if "error" in result:
+            out.close()
             return 1
         if result.get("success") is False:
+            out.close()
             return 1
+        out.summary("DONE", f"Notification protocol: {args.command} completed")
+        out.close()
         return 0
 
     except KeyboardInterrupt:
-        print(json.dumps({"error": "Interrupted by user"}))
+        out.log("Interrupted by user")
+        print(json.dumps({"error": "Interrupted by user"}, separators=(",", ":")))
+        out.close()
         return 130
     except Exception as e:
-        print(json.dumps({"error": str(e)}))
+        out.log(f"Exception: {e}")
+        print(json.dumps({"error": str(e)}, separators=(",", ":")))
+        out.close()
         return 1
 
 

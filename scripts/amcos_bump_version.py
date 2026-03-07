@@ -17,6 +17,8 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+from amcos_output_utils import AmcosOutput
+
 
 def get_plugin_root() -> Path:
     """Get the plugin root directory (parent of scripts/)."""
@@ -241,6 +243,7 @@ def get_current_version(plugin_root: Path) -> Optional[str]:
 
 def main() -> int:
     """Main entry point for the version bump CLI tool."""
+    out = AmcosOutput("amcos_bump_version")
     parser = argparse.ArgumentParser(
         description="Bump semantic version across all plugin files.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -287,38 +290,35 @@ Examples:
     plugin_root = plugin_root.resolve()
 
     if not plugin_root.exists():
-        print(f"Error: Plugin directory not found: {plugin_root}", file=sys.stderr)
+        out.log(f"Error: Plugin directory not found: {plugin_root}")
+        out.close()
         return 1
 
     # Get current version
     current_version = get_current_version(plugin_root)
     if current_version is None:
-        print("Error: Could not read current version from plugin.json", file=sys.stderr)
+        out.log("Error: Could not read current version from plugin.json")
+        out.close()
         return 1
 
     # Determine new version
     if args.set:
         if parse_semver(args.set) is None:
-            print(
-                f"Error: Invalid version format '{args.set}'. Expected X.Y.Z",
-                file=sys.stderr,
-            )
+            out.log(f"Error: Invalid version format '{args.set}'. Expected X.Y.Z")
+            out.close()
             return 1
         new_version = args.set
     else:
         bump_type = "major" if args.major else "minor" if args.minor else "patch"
         new_version = bump_version(current_version, bump_type)
         if new_version is None:
-            print(
-                f"Error: Current version '{current_version}' is not valid semver",
-                file=sys.stderr,
-            )
+            out.log(f"Error: Current version '{current_version}' is not valid semver")
+            out.close()
             return 1
 
-    print(f"Bumping version: {current_version} -> {new_version}")
+    out.log(f"Bumping version: {current_version} -> {new_version}")
     if args.dry_run:
-        print("(dry-run mode - no files will be changed)")
-    print()
+        out.log("(dry-run mode - no files will be changed)")
 
     # Collect all updates
     all_results: list[tuple[bool, str]] = []
@@ -368,25 +368,28 @@ Examples:
             except Exception:
                 pass
 
-    # Print summary
-    print("Summary:")
-    print("-" * 50)
+    # Log summary
+    out.log("Summary:")
+    out.log("-" * 50)
 
     errors = 0
     for success, msg in all_results:
         status = "[OK]" if success else "[ERROR]"
-        print(f"  {status} {msg}")
+        out.log(f"  {status} {msg}")
         if not success:
             errors += 1
 
-    print("-" * 50)
+    out.log("-" * 50)
 
     if errors > 0:
-        print(f"\nCompleted with {errors} error(s)")
+        out.log(f"\nCompleted with {errors} error(s)")
+        out.close()
         return 1
     else:
         file_count = len([r for r in all_results if "skipped" not in r[1].lower()])
-        print(f"\nSuccessfully updated {file_count} file(s)")
+        out.log(f"\nSuccessfully updated {file_count} file(s)")
+        out.summary("DONE", f"Version bumped {current_version} -> {new_version}")
+        out.close()
         return 0
 
 

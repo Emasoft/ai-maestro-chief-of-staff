@@ -28,6 +28,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from amcos_output_utils import AmcosOutput
+
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -337,6 +339,7 @@ def main() -> int:
     Returns:
         Exit code: 0 for success, 1 for error.
     """
+    out = AmcosOutput("amcos_generate_team_report")
     parser = argparse.ArgumentParser(
         description="Generate team assignments report from the AI Maestro REST API"
     )
@@ -396,9 +399,12 @@ def main() -> int:
             },
         }
         if args.format == "json":
-            print(json.dumps(result, indent=2))
+            out.log_json(result, label="empty-report")
+            print(json.dumps(result, separators=(",", ":")))
         else:
-            print("No teams returned by the AI Maestro API.")
+            out.log("No teams returned by the AI Maestro API.")
+        out.summary("DONE", "No teams found")
+        out.close()
         return 0
 
     # Aggregate
@@ -418,7 +424,7 @@ def main() -> int:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(output_text + "\n", encoding="utf-8")
         if args.verbose:
-            print(f"Wrote report to: {output_path}", file=sys.stderr)
+            out.log(f"Wrote report to: {output_path}")
         # Print a brief summary to stdout
         summary = {
             "success": True,
@@ -426,10 +432,13 @@ def main() -> int:
             "total_agents": report["total_agents"],
             "output_file": str(output_path),
         }
-        print(json.dumps(summary, indent=2))
+        out.log_json(summary, label="summary")
+        print(json.dumps(summary, separators=(",", ":")))
     else:
-        print(output_text)
+        out.log(output_text)
 
+    out.summary("DONE", f"Report generated: {report['total_teams']} teams, {report['total_agents']} agents")
+    out.close()
     return 0
 
 

@@ -26,6 +26,8 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 
+from amcos_output_utils import AmcosOutput
+
 
 def send_ai_maestro_message(
     to_session: str,
@@ -97,6 +99,7 @@ def check_ai_maestro_available() -> bool:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_reindex_skills")
     parser = argparse.ArgumentParser(
         description="Trigger PSS skill reindex for an agent session",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -152,7 +155,10 @@ Examples:
                 "command_to_send": command,
             }
         )
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="dry_run")
+        print(json.dumps(result, separators=(",", ":")))
+        out.summary("DONE", f"Dry run: reindex for '{args.session_name}'")
+        out.close()
         return 0
 
     # Check if AMP CLI is available
@@ -169,7 +175,9 @@ Examples:
                 ],
             }
         )
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     # Send the reindex request via AI Maestro
@@ -205,8 +213,15 @@ Examples:
             }
         )
 
-    print(json.dumps(result, indent=2))
-    return 0 if result.get("success", False) else 1
+    out.log_json(result, label="reindex_result")
+    print(json.dumps(result, separators=(",", ":")))
+    if result.get("success", False):
+        out.summary("DONE", f"Reindex sent to '{args.session_name}'")
+        out.close()
+        return 0
+    else:
+        out.close()
+        return 1
 
 
 if __name__ == "__main__":

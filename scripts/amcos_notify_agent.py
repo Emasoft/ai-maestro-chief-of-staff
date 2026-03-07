@@ -22,6 +22,8 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 
+from amcos_output_utils import AmcosOutput
+
 
 def resolve_agent(agent_name: str) -> str | None:
     """
@@ -108,6 +110,7 @@ def send_message(
 
 def main() -> int:
     """Main entry point for CLI."""
+    out = AmcosOutput("amcos_notify_agent")
     parser = argparse.ArgumentParser(
         description="Send an AI Maestro message to an agent via AMP CLI"
     )
@@ -137,15 +140,15 @@ def main() -> int:
     # Try to resolve agent name via the AI Maestro API
     session_name = resolve_agent(args.agent_name)
     if session_name:
-        print(f"Resolved '{args.agent_name}' -> session '{session_name}'")
+        out.log(f"Resolved '{args.agent_name}' -> session '{session_name}'")
     else:
         # Fall back to using the provided name directly as session name
         session_name = args.agent_name
-        print(f"API lookup failed; sending directly to '{session_name}'")
+        out.log(f"API lookup failed; sending directly to '{session_name}'")
 
     # Send message
     timestamp = datetime.now(timezone.utc).isoformat()
-    print(f"Sending message to '{session_name}' at {timestamp} ...")
+    out.log(f"Sending message to '{session_name}' at {timestamp} ...")
 
     sent = send_message(
         to=session_name,
@@ -164,10 +167,14 @@ def main() -> int:
             "type": args.msg_type,
             "timestamp": timestamp,
         }
-        print(json.dumps(summary, indent=2))
+        out.log_json(summary, label="sent")
+        print(json.dumps(summary, separators=(",", ":")))
+        out.summary("DONE", f"Message sent to '{session_name}'")
+        out.close()
         return 0
 
-    print("Failed to send message. Check AI Maestro service status.", file=sys.stderr)
+    out.log("Failed to send message. Check AI Maestro service status.")
+    out.close()
     return 1
 
 

@@ -1,6 +1,6 @@
 # AI Maestro Chief of Staff (amcos-)
 
-**Version**: 2.9.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.69
+**Version**: 2.10.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.69
 
 > Derived from emasoft-chief-of-staff v1.3.9, adapted for AI Maestro governance v0.26.0
 
@@ -40,7 +40,7 @@ AMCOS (Chief of Staff) ---- one per team
 
 ## Core Responsibilities
 
-1. **Approval Workflows** -- Request dual-manager approval before agent spawn/terminate/replace
+1. **Approval Workflows** -- Request governance approval before agent spawn/terminate/replace (sourceManager for local operations, dual-manager for cross-team)
 2. **Agent Lifecycle** -- Create, hibernate, wake, terminate agents within the team scope
 3. **Notification Protocols** -- Notify team agents before/after operations, wait for acknowledgment
 4. **Failure Recovery** -- Detect failures, classify severity, execute recovery strategies
@@ -204,9 +204,15 @@ All cross-plugin communication uses AMP (AI Maestro Protocol). AMCOS never calls
 | **Chief of Staff** | Submit GovernanceRequests, manage agent lifecycle, configure skills/plugins | AMCOS (this plugin) |
 | **Member** | Execute assigned tasks, report status | EOA, EAA, EIA, task agents |
 
-Critical operations (spawn, terminate, replace) require a GovernanceRequest approved by the team manager. Dual-manager approval is required for cross-team agent transfers.
+Critical operations (spawn, terminate, replace) require a GovernanceRequest (sourceManager for local operations, dual-manager for cross-team). Dual-manager approval is required for cross-team agent transfers.
 
 ## Validation
+
+### Requirements/Dependencies
+
+- AI Maestro v0.26.0+
+- Claude Code v2.1.69+
+- External skills: `ai-maestro-agents-management` and `agent-messaging` (provided by AI Maestro core)
 
 ```bash
 cd ai-maestro-chief-of-staff

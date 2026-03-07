@@ -188,5 +188,4 @@ Performance data is collected from:
 ## Related Commands
 
 - `/amcos-resource-report` - System resource monitoring
-- `/amcos-orchestration-status` - Current orchestration state
-- `/amcos-planning-status` - Planning phase progress
+- `/amcos-staff-status` - Current staff and orchestration state

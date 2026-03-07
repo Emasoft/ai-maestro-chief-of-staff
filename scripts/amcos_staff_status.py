@@ -26,6 +26,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from amcos_output_utils import AmcosOutput
+
 
 def get_state_file_path(cwd: str | None = None) -> Path:
     """Get the chief-of-staff state file path.
@@ -182,6 +184,7 @@ def main() -> int:
     Returns:
         Exit code: 0 for success, 1 for error
     """
+    out = AmcosOutput("amcos_staff_status")
     parser = argparse.ArgumentParser(description="Get status of all managed agents")
     parser.add_argument(
         "--project",
@@ -207,7 +210,9 @@ def main() -> int:
             "error": f"State file not found: {state_file}",
             "agents": [],
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     content = read_file_safely(state_file)
@@ -217,7 +222,9 @@ def main() -> int:
             "error": "Failed to read state file or file is empty",
             "agents": [],
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     agents = parse_agents_from_state(content)
@@ -231,7 +238,10 @@ def main() -> int:
         "agents": filtered_agents,
     }
 
-    print(json.dumps(result, indent=2))
+    out.log_json(result, label="staff_status")
+    print(json.dumps(result, separators=(",", ":")))
+    out.summary("DONE", f"Staff status: {len(filtered_agents)} agent(s)")
+    out.close()
     return 0
 
 

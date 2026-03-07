@@ -21,6 +21,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 
+from amcos_output_utils import AmcosOutput
+
 
 # =============================================================================
 # Constants
@@ -391,31 +393,35 @@ def _create_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_repair_memory")
     args = _create_parser().parse_args()
     project_root = args.project_root.resolve()
 
     if args.dry_run:
-        print(f"DRY-RUN: Scanning {project_root / 'design' / 'memory'}")
+        out.log(f"DRY-RUN: Scanning {project_root / 'design' / 'memory'}")
     else:
-        print(f"Repairing memory files in {project_root / 'design' / 'memory'}")
+        out.log(f"Repairing memory files in {project_root / 'design' / 'memory'}")
 
     report = repair_memory(project_root, dry_run=args.dry_run, verbose=args.verbose)
 
     # Print summary
     if report.has_unrecoverable:
-        print(f"\nUNRECOVERABLE ERRORS ({len(report.unrecoverable)}):")
+        out.log(f"\nUNRECOVERABLE ERRORS ({len(report.unrecoverable)}):")
         for err in report.unrecoverable:
-            print(f"  FATAL: {err}")
+            out.log(f"  FATAL: {err}")
+        out.close()
         return 1
 
     if report.action_count == 0:
-        print("\nAll memory files are healthy. Nothing to repair.")
+        out.log("\nAll memory files are healthy. Nothing to repair.")
     else:
         prefix = "Would repair" if args.dry_run else "Repaired"
-        print(f"\n{prefix} {report.action_count} issue(s):")
+        out.log(f"\n{prefix} {report.action_count} issue(s):")
         for action in report.actions:
-            print(f"  [{action.severity.upper()}] {action.file}: {action.description}")
+            out.log(f"  [{action.severity.upper()}] {action.file}: {action.description}")
 
+    out.summary("DONE", f"Repair complete: {report.action_count} issue(s) fixed")
+    out.close()
     return 0
 
 

@@ -34,6 +34,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
+from amcos_output_utils import AmcosOutput
+
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -917,6 +919,7 @@ def sync_local_to_api(api: GovernanceAPI) -> dict[str, Any]:
 
 def main() -> None:
     """Main CLI entry point."""
+    out = AmcosOutput("amcos_approval_manager")
     parser = argparse.ArgumentParser(
         description="AMCOS Approval Manager - Dual-authority GovernanceRequest management",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1034,6 +1037,7 @@ Examples:
 
     if args.command is None:
         parser.print_help()
+        out.close()
         sys.exit(1)
 
     # Initialize API client (disabled in offline mode)
@@ -1079,10 +1083,17 @@ Examples:
         result = sync_local_to_api(api)
 
     # Output JSON
-    print(json.dumps(result, indent=2, default=str))
+    out.log_json(result, label=args.command)
+    print(json.dumps(result, separators=(",", ":"), default=str))
 
     # Exit with appropriate code
-    sys.exit(0 if result.get("success", True) else 1)
+    if result.get("success", True):
+        out.summary("DONE", f"Approval manager: {args.command} completed")
+        out.close()
+        sys.exit(0)
+    else:
+        out.close()
+        sys.exit(1)
 
 
 if __name__ == "__main__":

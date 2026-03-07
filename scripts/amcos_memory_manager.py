@@ -13,8 +13,10 @@ import json
 import re
 import sys
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+
+from amcos_output_utils import AmcosOutput
 
 from amcos_memory_operations import (
     add_decision,
@@ -98,7 +100,7 @@ def compact_memory(
         matches = list(re.finditer(date_pattern, progress_content, re.DOTALL))
         results["progress"]["before"] = len(matches)
         days_to_keep = max(7, keep_entries // 10)
-        cutoff = datetime.now() - timedelta(days=days_to_keep)
+        cutoff = datetime.now(timezone.utc) - timedelta(days=days_to_keep)
         new_sections = []
         for match in matches:
             try:
@@ -458,82 +460,126 @@ def _print_health(health: MemoryHealth, as_json: bool) -> None:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_memory_manager")
     args = _create_parser().parse_args()
     config = MemoryConfig(memory_root=args.memory_root)
 
     if args.command == "add-decision":
-        return 0 if add_decision(config, args.text, args.category) else 1
+        ok = add_decision(config, args.text, args.category)
+        if ok:
+            out.summary("DONE", "Decision added")
+        out.close()
+        return 0 if ok else 1
     if args.command == "set-focus":
-        return 0 if set_focus(config, args.text) else 1
+        ok = set_focus(config, args.text)
+        if ok:
+            out.summary("DONE", "Focus updated")
+        out.close()
+        return 0 if ok else 1
     if args.command == "log-error":
-        return (
-            0
-            if log_error(
-                config, args.step, args.agent, args.error, args.impact, args.context
-            )
-            else 1
+        ok = log_error(
+            config, args.step, args.agent, args.error, args.impact, args.context
         )
+        if ok:
+            out.summary("DONE", "Error logged")
+        out.close()
+        return 0 if ok else 1
     if args.command == "clear-errors":
-        return 0 if clear_errors(config) else 1
+        ok = clear_errors(config)
+        if ok:
+            out.summary("DONE", "Errors cleared")
+        out.close()
+        return 0 if ok else 1
     if args.command == "get-errors":
         errors = get_recent_errors(config, args.limit)
         if args.json:
-            print(json.dumps(errors, indent=2))
+            out.log_json(errors, label="errors")
+            print(json.dumps(errors, separators=(",", ":")))
         elif not errors:
-            print("No in-flight errors")
+            out.log("No in-flight errors")
         else:
             for e in errors:
-                print(
+                out.log(
                     f"[{e.get('timestamp', '?')}] {e.get('step', '?')}/{e.get('agent', '?')}: {e.get('error', '?')}"
                 )
+        out.summary("DONE", f"Retrieved {len(errors)} error(s)")
+        out.close()
         return 0
     if args.command == "add-progress":
-        return 0 if add_progress(config, args.text, args.category, args.workflow) else 1
+        ok = add_progress(config, args.text, args.category, args.workflow)
+        if ok:
+            out.summary("DONE", "Progress entry added")
+        out.close()
+        return 0 if ok else 1
     if args.command == "add-pattern":
-        return 0 if add_pattern(config, args.name, args.text, args.category) else 1
+        ok = add_pattern(config, args.name, args.text, args.category)
+        if ok:
+            out.summary("DONE", f"Pattern '{args.name}' added")
+        out.close()
+        return 0 if ok else 1
     if args.command == "search-patterns":
         results = search_patterns(config, args.query)
         if args.json:
-            print(json.dumps(results, indent=2))
+            out.log_json(results, label="patterns")
+            print(json.dumps(results, separators=(",", ":")))
         elif not results:
-            print("No patterns found")
+            out.log("No patterns found")
         else:
             for r in results:
-                print(f"### {r['name']}\n{r['content'][:200]}...\n")
+                out.log(f"### {r['name']}\n{r['content'][:200]}...\n")
+        out.summary("DONE", f"Found {len(results)} pattern(s)")
+        out.close()
         return 0
     if args.command == "compact":
         res = compact_memory(config, args.keep_entries, backup=not args.no_backup)
-        print("Compact results:")
+        out.log("Compact results:")
         for fname, stats in res.items():
-            print(
+            out.log(
                 f"  {fname}: {stats['before']} -> {stats['after']} ({stats['archived']} archived)"
             )
+        out.summary("DONE", "Memory compacted")
+        out.close()
         return 0
     if args.command == "validate":
         valid, issues = validate_memory(config)
         if valid:
-            print("OK: Memory structure is valid")
+            out.log("OK: Memory structure is valid")
+            out.summary("DONE", "Validation passed")
+            out.close()
             return 0
-        print("ERROR: Memory structure has issues:")
+        out.log("ERROR: Memory structure has issues:")
         for issue in issues:
-            print(f"  - {issue}")
+            out.log(f"  - {issue}")
+        out.close()
         return 1
     if args.command == "validate-progress":
         valid, issues = validate_progress(config, verbose=args.verbose)
         if args.json:
-            print(json.dumps({"valid": valid, "issues": issues}, indent=2))
+            vp_result = {"valid": valid, "issues": issues}
+            out.log_json(vp_result, label="validate-progress")
+            print(json.dumps(vp_result, separators=(",", ":")))
         elif valid:
-            print("OK: progress.md passes deep validation")
+            out.log("OK: progress.md passes deep validation")
         else:
-            print("ERROR: progress.md has issues:")
+            out.log("ERROR: progress.md has issues:")
             for issue in issues:
-                print(f"  - {issue}")
+                out.log(f"  - {issue}")
+        if valid:
+            out.summary("DONE", "Progress validation passed")
+        out.close()
         return 0 if valid else 1
     if args.command == "health":
         _print_health(get_memory_health(config), args.json)
+        out.summary("DONE", "Health report generated")
+        out.close()
         return 0
     if args.command == "init":
-        return 0 if initialize_memory(config) else 1
+        ok = initialize_memory(config)
+        if ok:
+            out.summary("DONE", "Memory initialized")
+        out.close()
+        return 0 if ok else 1
+    out.close()
     return 0
 
 

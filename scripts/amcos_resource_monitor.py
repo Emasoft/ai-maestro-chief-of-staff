@@ -28,6 +28,8 @@ import json
 import subprocess
 import sys
 
+from amcos_output_utils import AmcosOutput
+
 
 # Resource thresholds for spawning new agents
 THRESHOLDS = {
@@ -233,6 +235,7 @@ def generate_recommendations(can_spawn: bool, reasons: list) -> list:
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_resource_monitor")
     parser = argparse.ArgumentParser(
         description="Monitor system resources for agent spawning decisions",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -289,10 +292,17 @@ Examples:
             "recommendations": recommendations,
         }
 
-    indent = None if args.compact else 2
-    print(json.dumps(result, indent=indent))
+    out.log_json(result, label="resource_status")
+    print(json.dumps(result, separators=(",", ":")))
 
-    return 0 if can_spawn else 1
+    if can_spawn:
+        out.summary("DONE", "Resources OK, can spawn")
+        out.close()
+        return 0
+    else:
+        out.summary("DONE", "Resources constrained, cannot spawn")
+        out.close()
+        return 1
 
 
 if __name__ == "__main__":

@@ -31,6 +31,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from amcos_output_utils import AmcosOutput
+
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -327,6 +329,7 @@ def main() -> int:
     Returns:
         Exit code: 0 for success, 1 for error.
     """
+    out = AmcosOutput("pss_reindex_skills")
     parser = argparse.ArgumentParser(
         description="Local PSS skill reindexing - scan skills and generate index JSON"
     )
@@ -363,22 +366,26 @@ def main() -> int:
             "success": False,
             "error": f"Skills directory not found: {skills_dir}",
         }
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")))
+        out.close()
         return 1
 
     if not skills_dir.is_dir():
         result = {"success": False, "error": f"Not a directory: {skills_dir}"}
-        print(json.dumps(result, indent=2))
+        out.log_json(result, label="error")
+        print(json.dumps(result, separators=(",", ":")))
+        out.close()
         return 1
 
     if args.verbose:
-        print(f"Scanning skills in: {skills_dir}", file=sys.stderr)
+        out.log(f"Scanning skills in: {skills_dir}")
 
     # Scan
     skills = scan_skills_tree(skills_dir, verbose=args.verbose)
 
     if args.verbose:
-        print(f"Found {len(skills)} skill(s)", file=sys.stderr)
+        out.log(f"Found {len(skills)} skill(s)")
 
     # Generate index
     index = generate_index(skills, str(skills_dir))
@@ -391,18 +398,22 @@ def main() -> int:
             json.dumps(index, indent=2, default=str) + "\n", encoding="utf-8"
         )
         if args.verbose:
-            print(f"Wrote index to: {output_path}", file=sys.stderr)
+            out.log(f"Wrote index to: {output_path}")
         # Also print success summary to stdout
         summary = {
             "success": True,
             "skill_count": len(skills),
             "output_file": str(output_path),
         }
-        print(json.dumps(summary, indent=2))
+        out.log_json(summary, label="summary")
+        print(json.dumps(summary, separators=(",", ":")))
     else:
         # Print full index to stdout
-        print(json.dumps(index, indent=2, default=str))
+        out.log_json(index, label="index")
+        print(json.dumps(index, separators=(",", ":"), default=str))
 
+    out.summary("DONE", f"Reindexed {len(skills)} skill(s)")
+    out.close()
     return 0
 
 

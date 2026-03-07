@@ -28,6 +28,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional, TypedDict
 
+from amcos_output_utils import AmcosOutput
+
 
 class TimelineEntry(TypedDict):
     """Type for timeline entries."""
@@ -333,6 +335,7 @@ def generate_report(
 
 def main() -> int:
     """Main entry point."""
+    out = AmcosOutput("amcos_performance_report")
     parser = argparse.ArgumentParser(
         description="Generate performance reports for agents",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -383,19 +386,17 @@ Examples:
 
     # Validate period
     if args.period < 1:
-        print(
-            json.dumps(
-                {"success": False, "error": "Period must be at least 1 day"}, indent=2
-            )
-        )
+        err_result = {"success": False, "error": "Period must be at least 1 day"}
+        out.log_json(err_result, label="error")
+        print(json.dumps(err_result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     if args.period > 365:
-        print(
-            json.dumps(
-                {"success": False, "error": "Period cannot exceed 365 days"}, indent=2
-            )
-        )
+        err_result = {"success": False, "error": "Period cannot exceed 365 days"}
+        out.log_json(err_result, label="error")
+        print(json.dumps(err_result, separators=(",", ":")), file=sys.stderr)
+        out.close()
         return 1
 
     # Determine project directory
@@ -408,10 +409,16 @@ Examples:
     report = generate_report(agent_name, project_id, args.period, project_dir)
 
     # Output JSON
-    indent = None if args.compact else 2
-    print(json.dumps(report, indent=indent))
+    out.log_json(report, label="performance_report")
+    print(json.dumps(report, separators=(",", ":")))
 
-    return 0 if report.get("success", False) else 1
+    if report.get("success", False):
+        out.summary("DONE", f"Performance report generated ({args.period}d period)")
+        out.close()
+        return 0
+    else:
+        out.close()
+        return 1
 
 
 if __name__ == "__main__":
