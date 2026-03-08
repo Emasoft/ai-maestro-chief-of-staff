@@ -25,12 +25,15 @@ Team coordination manages distributed agent teams, assigns roles, coordinates me
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
-
 1. Identify coordination need
 2. Query team registry for current state
 3. Execute coordination action
 4. Update team registry and notify agents
+
+- [ ] Verify team registry is accessible and current
+- [ ] Confirm all target agents are active
+- [ ] Send coordination messages via AI Maestro API
+- [ ] Update roster with new assignments or status
 
 ## Output
 
@@ -62,17 +65,11 @@ See `references/teammate-awareness.md` and `references/op-maintain-teammate-awar
 
 ## Examples
 
-See `references/coordination-overview-and-examples.md` for full examples including role assignment, team broadcasts, status checks, and coordination workflows with input/output.
-- What Is Team Coordination
-- Team Coordination Components
-- Examples: Assigning a Role to a New Agent
-- Examples: Broadcasting a Team Update
-- Examples: Checking Team Status
-- Examples: Full Coordination Workflow with Input/Output
-- Examples: Role Assignment with Input/Output
-- Examples: Team Status Query with Input/Output
-- Key Takeaways
-- Task Checklist
+**Input:** "Assign agent libs-svg-renderer the role of QA lead for the SVG pipeline team"
+
+**Output:** "Role assigned: libs-svg-renderer -> QA lead. AMP notification sent (priority: high). Roster updated. Awaiting acknowledgment."
+
+See `references/coordination-overview-and-examples.md` for full examples including role assignment, team broadcasts, status checks, and coordination workflows.
 
 ## Error Handling
 

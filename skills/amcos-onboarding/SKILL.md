@@ -30,6 +30,13 @@ Agent onboarding integrates new AI agents into a coordinated team. The Chief of 
 3. Send onboarding materials to target
 4. Verify understanding and readiness
 
+### Checklist
+
+- [ ] Agent session is active and responsive
+- [ ] Role briefing delivered with responsibilities and reporting chain
+- [ ] Project context and conventions shared
+- [ ] Agent confirmed understanding of assigned tasks
+
 ## Output
 
 | Onboarding Type | Output |
@@ -65,6 +72,17 @@ Validate handoff documents before sending using the validation checklist and scr
 See `references/op-validate-handoff.md`.
 
 ## Examples
+
+**Input:** "Onboard new agent libs-svg-renderer for SVG rendering tasks on project svg-player"
+
+**Output:**
+```
+Onboarding libs-svg-renderer:
+1. Role briefing sent: SVG renderer, reports to apps-svgplayer-development
+2. Project handoff: svg-player repo, conventions, current sprint context
+3. Agent confirmed ready. Registry updated.
+[DONE] libs-svg-renderer onboarded successfully.
+```
 
 See `references/onboarding-overview-and-examples.md` for full examples including onboarding initiation, role briefings, project handoffs, and validation checklists.
 - What Is Agent Onboarding

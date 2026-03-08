@@ -25,12 +25,17 @@ Performance tracking enables the Chief of Staff to understand how well the agent
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
-
 1. Identify performance metrics needed
 2. Query agent activity logs
 3. Calculate performance indicators
 4. Generate performance report
+
+### Checklist
+
+- [ ] Metrics category identified (completion, quality, efficiency, communication)
+- [ ] Agent activity logs queried for target time period
+- [ ] Performance indicators calculated and compared to baselines
+- [ ] Report generated and saved to `.amcos-logs/`
 
 ## Output
 
@@ -76,6 +81,17 @@ Aggregate metrics, format for audience, include analysis. See `references/perfor
 - `references/op-generate-performance-report.md` - Runbook for creating reports
 
 ## Examples
+
+**Input:** "Generate weekly performance report for agent libs-svg-svgbbox"
+
+**Output:**
+```
+libs-svg-svgbbox weekly report (Mar 1-7):
+  Tasks completed: 12/14 (86%)  Avg time: 25min
+  Error rate: 7%  Rework: 1 task
+  Strength: Fast SVG parsing  Weakness: Error handling coverage
+[DONE] Report saved to .amcos-logs/perf-libs-svg-svgbbox-2026-03-07.md
+```
 
 See `references/examples-and-checklists.md` for full examples and task checklist.
   - [Task Checklist](#task-checklist)

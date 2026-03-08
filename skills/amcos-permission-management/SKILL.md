@@ -38,8 +38,6 @@ Permission management uses the **GovernanceRequest** state machine to obtain aut
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
-
 ### PROCEDURE 1: Submit GovernanceRequest
 
 1. Identify operation type and scope (local vs cross-team)
@@ -60,6 +58,12 @@ Permission management uses the **GovernanceRequest** state machine to obtain aut
 | 60s | Send reminder to pending approver(s) |
 | 90s | Send urgent notification |
 | 120s | Auto-action: proceed (spawn/wake) or abort (terminate/hibernate/critical) |
+
+- [ ] Determine operation scope (local vs cross-team)
+- [ ] Identify required approvers (source and/or target manager)
+- [ ] Submit GovernanceRequest via API and obtain requestId
+- [ ] Poll request state until dual-approved or rejected
+- [ ] Handle timeouts per escalation timeline
 
 ## Output
 
@@ -89,6 +93,14 @@ See `references/governance-details-and-examples.md` for payload format, governan
 | targetManager unknown | Query via `GET /api/v1/teams/{teamId}/manager` |
 | Governance password rejected | Re-request from sourceManager |
 | Conflicting approvals | Latest timestamp wins; log conflict |
+
+## Examples
+
+**Input:** `POST /api/v1/governance/requests` with `{"operation": "agent-spawn", "scope": "local", "sourceTeam": "libs-svg", "sourceManager": "libs-svg-lead"}`
+
+**Output:** `{"requestId": "gr-0042", "status": "pending"}` then after sourceManager approval: `{"requestId": "gr-0042", "status": "dual-approved"}`
+
+See `references/governance-details-and-examples.md` for full examples.
 
 ## Resources
 

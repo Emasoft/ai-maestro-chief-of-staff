@@ -1,28 +1,5 @@
 # Context Snapshots and Pruning
 
-This document covers creating context snapshots and pruning old content from active context.
-
-**Parent document**: [03-manage-active-context.md](./03-manage-active-context.md)
-
----
-
-## When to Create Snapshots
-
-Create context snapshots:
-- Before major context updates
-- Before compaction (mandatory)
-- After resolving complex questions
-- At user request
-- When context reaches size threshold
-
----
-
-## Snapshot Procedure
-
-```bash
-#!/bin/bash
-# create_context_snapshot.sh - Create timestamped context snapshot
-
 
 ## Table of Contents
 1. [When to Create Snapshots](#when-to-create-snapshots)
@@ -57,6 +34,30 @@ create_context_snapshot
 ```
 
 ---
+
+This document covers creating context snapshots and pruning old content from active context.
+
+**Parent document**: [03-manage-active-context.md](./03-manage-active-context.md)
+
+---
+
+## When to Create Snapshots
+
+Create context snapshots:
+- Before major context updates
+- Before compaction (mandatory)
+- After resolving complex questions
+- At user request
+- When context reaches size threshold
+
+---
+
+## Snapshot Procedure
+
+```bash
+#!/bin/bash
+# create_context_snapshot.sh - Create timestamped context snapshot
+
 
 ## When to Prune
 

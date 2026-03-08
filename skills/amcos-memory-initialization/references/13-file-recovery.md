@@ -1,5 +1,12 @@
 # Session Memory File Recovery - Index
 
+
+## Table of Contents
+
+- Part 2: Advanced Recovery and Prevention
+
+---
+
 This document was split into multiple parts for easier navigation. Each part covers specific aspects of memory file recovery.
 
 ---
@@ -25,13 +32,6 @@ This document was split into multiple parts for easier navigation. Each part cov
 **When to read:** Start here to understand corruption types and basic recovery methods.
 
 ---
-
-## Table of Contents
-
-- Part 2: Advanced Recovery and Prevention
-
----
-
 
 ## Part 2: Advanced Recovery and Prevention
 

@@ -1,35 +1,5 @@
 # Using Memory Scripts
 
-## Overview
-
-Memory operations are provided by the unified `amcos_memory_manager.py` script in the `scripts/` subdirectory. This script exposes subcommands for all common memory tasks and can be used manually or integrated into agent workflows. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, `load-memory.py`, `save-memory.py`, `archive-memory.py`) have been superseded by subcommands of `amcos_memory_manager.py`.
-
-**Benefits:**
-- Consistent memory operations via a single unified CLI
-- Automated validation
-- Error handling built-in
-- Immediate persistence (writes happen on each operation)
-- Standardized output formats
-
----
-
-## Quick Reference: Command Inventory
-
-| Command | Purpose | When to Use |
-|---------|---------|-------------|
-| `amcos_memory_manager.py init` | Create new memory structure | New project setup |
-| `amcos_memory_manager.py validate` | Check memory integrity | After manual edits, before compaction |
-| `amcos_memory_manager.py health --json` | Report on memory state | Session start, after compaction |
-| `amcos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes immediately | During work, before compaction |
-| `amcos_memory_manager.py compact` | Archive old content | Weekly maintenance |
-| `repair-memory.py` | Fix corrupted memory (planned) | After crashes, corruption |
-
----
-
-## Quick Reference: Common Commands
-
-```bash
-# Daily startup
 
 ## Table of Contents
 
@@ -113,3 +83,35 @@ python scripts/amcos_memory_manager.py init  # If beyond repair
 **Last Updated:** 2026-01-01
 **Target Audience:** Chief of Staff Agents
 **Related:** SKILL.md (Implementation Scripts section)
+
+
+## Overview
+
+Memory operations are provided by the unified `amcos_memory_manager.py` script in the `scripts/` subdirectory. This script exposes subcommands for all common memory tasks and can be used manually or integrated into agent workflows. The individual standalone scripts (`initialize-memory.py`, `validate-memory.py`, `load-memory.py`, `save-memory.py`, `archive-memory.py`) have been superseded by subcommands of `amcos_memory_manager.py`.
+
+**Benefits:**
+- Consistent memory operations via a single unified CLI
+- Automated validation
+- Error handling built-in
+- Immediate persistence (writes happen on each operation)
+- Standardized output formats
+
+---
+
+## Quick Reference: Command Inventory
+
+| Command | Purpose | When to Use |
+|---------|---------|-------------|
+| `amcos_memory_manager.py init` | Create new memory structure | New project setup |
+| `amcos_memory_manager.py validate` | Check memory integrity | After manual edits, before compaction |
+| `amcos_memory_manager.py health --json` | Report on memory state | Session start, after compaction |
+| `amcos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes immediately | During work, before compaction |
+| `amcos_memory_manager.py compact` | Archive old content | Weekly maintenance |
+| `repair-memory.py` | Fix corrupted memory (planned) | After crashes, corruption |
+
+---
+
+## Quick Reference: Common Commands
+
+```bash
+# Daily startup

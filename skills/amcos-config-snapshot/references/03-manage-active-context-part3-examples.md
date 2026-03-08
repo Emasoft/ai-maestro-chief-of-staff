@@ -1,5 +1,49 @@
 # Active Context Management Examples
 
+
+## Table of Contents
+1. [Example 1: Complete Context Update Workflow](#example-1-complete-context-update-workflow)
+2. [Example 2: Context Recovery After Compaction](#example-2-context-recovery-after-compaction)
+3. [Example 3: Structured Context Template](#example-3-structured-context-template)
+
+---
+
+recover_context_after_compaction() {
+    # 1. Check for latest snapshot
+    latest_snapshot=$(ls -t .session_memory/active_context/context_*.md 2>/dev/null | head -1)
+
+    if [ -z "$latest_snapshot" ]; then
+        echo "ERROR: No context snapshot found"
+        return 1
+    fi
+
+    echo "Found snapshot: $latest_snapshot"
+
+    # 2. Check snapshot age
+    snapshot_date=$(echo "$latest_snapshot" | grep -oP '\d{8}_\d{6}')
+    echo "Snapshot date: $snapshot_date"
+
+    # 3. Restore from snapshot
+    cp "$latest_snapshot" .session_memory/active_context.md
+
+    # 4. Add recovery note
+    cat >> .session_memory/active_context.md << EOF
+
+---
+**Context Restored**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+**Source**: $latest_snapshot
+**Action**: Review and update focus if needed
+
+EOF
+
+    echo "✓ Context restored from snapshot"
+}
+
+recover_context_after_compaction
+```
+
+---
+
 This document provides complete examples for active context management workflows.
 
 **Parent document**: [03-manage-active-context.md](./03-manage-active-context.md)
@@ -65,49 +109,6 @@ echo "✓ Context updated with focus, decision, and question"
 #!/bin/bash
 # Recover context after compaction
 
-
-## Table of Contents
-1. [Example 1: Complete Context Update Workflow](#example-1-complete-context-update-workflow)
-2. [Example 2: Context Recovery After Compaction](#example-2-context-recovery-after-compaction)
-3. [Example 3: Structured Context Template](#example-3-structured-context-template)
-
----
-
-recover_context_after_compaction() {
-    # 1. Check for latest snapshot
-    latest_snapshot=$(ls -t .session_memory/active_context/context_*.md 2>/dev/null | head -1)
-
-    if [ -z "$latest_snapshot" ]; then
-        echo "ERROR: No context snapshot found"
-        return 1
-    fi
-
-    echo "Found snapshot: $latest_snapshot"
-
-    # 2. Check snapshot age
-    snapshot_date=$(echo "$latest_snapshot" | grep -oP '\d{8}_\d{6}')
-    echo "Snapshot date: $snapshot_date"
-
-    # 3. Restore from snapshot
-    cp "$latest_snapshot" .session_memory/active_context.md
-
-    # 4. Add recovery note
-    cat >> .session_memory/active_context.md << EOF
-
----
-**Context Restored**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-**Source**: $latest_snapshot
-**Action**: Review and update focus if needed
-
-EOF
-
-    echo "✓ Context restored from snapshot"
-}
-
-recover_context_after_compaction
-```
-
----
 
 ## Example 3: Structured Context Template
 

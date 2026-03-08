@@ -25,12 +25,17 @@ Resource monitoring ensures the multi-agent team has sufficient capacity to oper
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
-
 1. Identify resource to monitor
 2. Query current usage levels
 3. Compare against limits
 4. Take action if limits exceeded
+
+### Checklist
+
+- [ ] Resource type identified (CPU/memory/disk/agents/API rate)
+- [ ] Current usage levels queried successfully
+- [ ] Usage compared against configured thresholds
+- [ ] Alerts triggered or corrective action taken if limits exceeded
 
 ## Output
 
@@ -76,6 +81,15 @@ Identify alert type, assess severity, take immediate action, notify parties. See
 - `references/op-handle-resource-alert.md` - Runbook for alert response
 
 ## Examples
+
+**Input:** "Check system resources before spawning 3 new agents"
+
+**Output:**
+```
+System resources: CPU 45%, Memory 6.2/16GB (39%), Disk 58GB free
+Active agents: 7/15 (headroom: 8). Spawning 3 is safe.
+[DONE] Resources OK - 3 agents can be spawned.
+```
 
 See `references/examples-and-checklists.md` for full examples and task checklist.
   - [Task Checklist](#task-checklist)

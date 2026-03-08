@@ -1,38 +1,5 @@
 # Context Synchronization - Index
 
-## Overview
-
-Context synchronization ensures session memory files accurately reflect the agent's actual work state. This document has been split into two parts for easier navigation and reduced token consumption.
-
----
-
-## Document Parts
-
-### Part 1: Foundations and Core Procedures
-**File:** [14-context-sync-part1-foundations.md](14-context-sync-part1-foundations.md)
-**Lines:** ~390
-
-**Contents:**
-- 1. Overview
-  - 1.1 What Is Context Synchronization?
-  - 1.2 Why Synchronization Matters
-- 2. Understanding Context Drift
-  - 2.1 Definition
-  - 2.2 Common Causes (Infrequent Updates, Failed Updates, Manual Interventions, External Changes, Missed Events)
-- 3. Synchronization Points
-  - 3.1 When to Synchronize (7 trigger points)
-- 4. Core Synchronization Procedures
-  - 4.1 Procedure 1: Detect Context Drift
-  - 4.2 Procedure 2: Sync After Task Completion
-  - 4.3 Procedure 3: Sync After File Switch
-  - 4.4 Procedure 4: Sync After Decision
-
-**When to read Part 1:**
-- Understanding what context sync is and why it matters
-- Learning how to detect drift
-- Performing routine sync after task/file/decision changes
-
----
 
 ## Table of Contents
 
@@ -71,6 +38,39 @@ Context synchronization ensures session memory files accurately reflect the agen
 
 ---
 
+## Overview
+
+Context synchronization ensures session memory files accurately reflect the agent's actual work state. This document has been split into two parts for easier navigation and reduced token consumption.
+
+---
+
+## Document Parts
+
+### Part 1: Foundations and Core Procedures
+**File:** [14-context-sync-part1-foundations.md](14-context-sync-part1-foundations.md)
+**Lines:** ~390
+
+**Contents:**
+- 1. Overview
+  - 1.1 What Is Context Synchronization?
+  - 1.2 Why Synchronization Matters
+- 2. Understanding Context Drift
+  - 2.1 Definition
+  - 2.2 Common Causes (Infrequent Updates, Failed Updates, Manual Interventions, External Changes, Missed Events)
+- 3. Synchronization Points
+  - 3.1 When to Synchronize (7 trigger points)
+- 4. Core Synchronization Procedures
+  - 4.1 Procedure 1: Detect Context Drift
+  - 4.2 Procedure 2: Sync After Task Completion
+  - 4.3 Procedure 3: Sync After File Switch
+  - 4.4 Procedure 4: Sync After Decision
+
+**When to read Part 1:**
+- Understanding what context sync is and why it matters
+- Learning how to detect drift
+- Performing routine sync after task/file/decision changes
+
+---
 
 ## Quick Reference
 

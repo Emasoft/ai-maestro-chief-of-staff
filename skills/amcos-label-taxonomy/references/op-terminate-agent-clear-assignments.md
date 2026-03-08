@@ -1,10 +1,9 @@
 ---
 name: op-terminate-agent-clear-assignments
-description: Operation procedure for terminating an agent and clearing all its issue assignments.
+description: Terminate agent and clear issue assignments.
 ---
 
 # Operation: Terminate Agent and Clear Assignments
-
 
 ## Contents
 
@@ -20,6 +19,7 @@ description: Operation procedure for terminating an agent and clearing all its i
 - [Example](#example)
 - [Error Handling](#error-handling)
 - [Considerations](#considerations)
+
 
 ## Purpose
 

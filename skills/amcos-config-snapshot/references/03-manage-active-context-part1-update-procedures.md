@@ -1,5 +1,40 @@
 # Update Procedures for Active Context
 
+
+## Table of Contents
+1. [Procedure 1: Update Current Focus](#procedure-1-update-current-focus)
+2. [Procedure 2: Add Decision to Recent Decisions](#procedure-2-add-decision-to-recent-decisions)
+3. [Procedure 3: Add Open Question](#procedure-3-add-open-question)
+4. [Procedure 4: Resolve Open Question](#procedure-4-resolve-open-question)
+
+---
+
+add_decision() {
+    local decision="$1"
+    local rationale="$2"
+    local context_file=".session_memory/active_context.md"
+
+    timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+    # Append to Recent Decisions section
+    cat >> "$context_file" << EOF
+
+### Decision: $decision
+- **Date**: $timestamp
+- **Rationale**: $rationale
+- **Impact**: [To be documented]
+
+EOF
+
+    echo "✓ Decision added"
+}
+
+# Usage
+add_decision "Use JWT tokens" "Better API support and mobile compatibility"
+```
+
+---
+
 This document contains the detailed bash scripts and procedures for updating active context.
 
 **Parent document**: [03-manage-active-context.md](./03-manage-active-context.md)
@@ -57,40 +92,6 @@ update_current_focus "Implementing OAuth2 authentication"
 #!/bin/bash
 # add_decision.sh - Add decision to active context
 
-
-## Table of Contents
-1. [Procedure 1: Update Current Focus](#procedure-1-update-current-focus)
-2. [Procedure 2: Add Decision to Recent Decisions](#procedure-2-add-decision-to-recent-decisions)
-3. [Procedure 3: Add Open Question](#procedure-3-add-open-question)
-4. [Procedure 4: Resolve Open Question](#procedure-4-resolve-open-question)
-
----
-
-add_decision() {
-    local decision="$1"
-    local rationale="$2"
-    local context_file=".session_memory/active_context.md"
-
-    timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-
-    # Append to Recent Decisions section
-    cat >> "$context_file" << EOF
-
-### Decision: $decision
-- **Date**: $timestamp
-- **Rationale**: $rationale
-- **Impact**: [To be documented]
-
-EOF
-
-    echo "✓ Decision added"
-}
-
-# Usage
-add_decision "Use JWT tokens" "Better API support and mobile compatibility"
-```
-
----
 
 ## Procedure 3: Add Open Question
 

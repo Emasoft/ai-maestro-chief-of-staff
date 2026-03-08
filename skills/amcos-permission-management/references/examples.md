@@ -1,5 +1,21 @@
 # Permission Management Examples
 
+
+## Table of Contents
+
+- Table of Contents (Use-Case Oriented)
+- Requesting Approval to Terminate an Agent
+- Request Message
+- Expected Response (Rejection with Alternative)
+- Key Points
+- Operating in Autonomous Mode
+- Prerequisite
+- Post-Operation Notification
+- Audit Trail Entry
+- Key Points
+
+---
+
 ## Table of Contents (Use-Case Oriented)
 
 - 1. Requesting Approval to Spawn an Agent - When you need to create a new agent
@@ -34,21 +50,6 @@ EAMA replies with type `approval_response`, `request_id`: "spawn-req-2025-02-02-
 
 ---
 
-
-## Table of Contents
-
-- Table of Contents (Use-Case Oriented)
-- Requesting Approval to Terminate an Agent
-- Request Message
-- Expected Response (Rejection with Alternative)
-- Key Points
-- Operating in Autonomous Mode
-- Prerequisite
-- Post-Operation Notification
-- Audit Trail Entry
-- Key Points
-
----
 
 ## 2. Requesting Approval to Terminate an Agent
 

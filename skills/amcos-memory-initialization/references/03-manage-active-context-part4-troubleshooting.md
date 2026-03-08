@@ -1,5 +1,25 @@
 # Active Context Troubleshooting
 
+
+## Table of Contents
+1. [Problem: Context File Too Large](#problem-context-file-too-large)
+2. [Problem: Lost Context After Compaction](#problem-lost-context-after-compaction)
+3. [Problem: Duplicate Information in Context](#problem-duplicate-information-in-context)
+4. [Problem: Cannot Find Recent Decision](#problem-cannot-find-recent-decision)
+5. [Problem: Open Questions Never Get Resolved](#problem-open-questions-never-get-resolved)
+6. [Problem: Context Updates Conflict with Active Work](#problem-context-updates-conflict-with-active-work)
+
+---
+
+ls .session_memory/archived/pre_compaction_*/
+
+# Restore from most recent archive
+latest_archive=$(ls -t .session_memory/archived/pre_compaction_* | head -1)
+cp "$latest_archive/active_context.md" .session_memory/active_context.md
+```
+
+---
+
 This document covers common problems and solutions for active context management.
 
 **Parent document**: [03-manage-active-context.md](./03-manage-active-context.md)
@@ -29,25 +49,6 @@ create_context_snapshot
 **Solution**:
 ```bash
 # Check for archived pre-compaction state
-
-## Table of Contents
-1. [Problem: Context File Too Large](#problem-context-file-too-large)
-2. [Problem: Lost Context After Compaction](#problem-lost-context-after-compaction)
-3. [Problem: Duplicate Information in Context](#problem-duplicate-information-in-context)
-4. [Problem: Cannot Find Recent Decision](#problem-cannot-find-recent-decision)
-5. [Problem: Open Questions Never Get Resolved](#problem-open-questions-never-get-resolved)
-6. [Problem: Context Updates Conflict with Active Work](#problem-context-updates-conflict-with-active-work)
-
----
-
-ls .session_memory/archived/pre_compaction_*/
-
-# Restore from most recent archive
-latest_archive=$(ls -t .session_memory/archived/pre_compaction_* | head -1)
-cp "$latest_archive/active_context.md" .session_memory/active_context.md
-```
-
----
 
 ## Problem: Duplicate Information in Context
 

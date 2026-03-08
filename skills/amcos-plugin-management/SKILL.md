@@ -30,6 +30,13 @@ Plugin management enables the Chief of Staff to install, configure, and maintain
 3. Verify plugin integrity
 4. Restart affected agents if needed
 
+### Checklist
+
+- [ ] Plugin operation type confirmed (install/update/validate/remove)
+- [ ] Plugin manifest (plugin.json) validated
+- [ ] Plugin hooks and components verified functional
+- [ ] Affected agents restarted and confirmed operational
+
 ## Output
 
 | Operation | Output |
@@ -65,6 +72,16 @@ See `references/plugin-validation.md` and `references/op-validate-plugin.md`.
 See `references/remote-plugin-management.md` and `references/op-install-plugin-remote.md`.
 
 ## Examples
+
+**Input:** "Install plugin grepika on agent libs-svg-svgbbox and validate"
+
+**Output:**
+```
+1. Installed grepika v1.2.0 from marketplace
+2. Validation: manifest OK, hooks OK, MCP tools OK
+3. Agent libs-svg-svgbbox restarted with plugin active
+[DONE] Plugin grepika installed and validated on libs-svg-svgbbox.
+```
 
 See `references/plugin-overview-and-examples.md` for full examples including marketplace install, local development, directory structure, validation, and remote agent operations.
 - Plugin Lifecycle

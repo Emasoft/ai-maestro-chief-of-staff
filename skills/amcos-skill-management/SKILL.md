@@ -30,6 +30,11 @@ Skill management enables the Chief of Staff to validate, index, and maintain age
 3. Verify skill integrity
 4. Notify agents of skill changes
 
+- [ ] Confirm skill directory exists and contains SKILL.md
+- [ ] Run skills-ref validate and check YAML frontmatter
+- [ ] Verify PSS index reflects current skill state
+- [ ] Notify affected agents of any skill changes
+
 ## Output
 
 | Operation | Output |
@@ -66,16 +71,11 @@ See `references/op-generate-agent-prompt-xml.md`.
 
 ## Examples
 
+**Input:** `skills-ref validate skills/amcos-onboarding/`
+
+**Output:** `PASS: SKILL.md frontmatter valid, 3 references found, TOC consistent`
+
 See `references/skill-overview-and-examples.md` for full examples including validation, frontmatter format, PSS reindex, and XML generation.
-- What Is Skill Management
-- Skill Architecture Diagram
-- Skill Components
-- Examples: Validating a Skill
-- Examples: SKILL.md Frontmatter
-- Examples: Triggering PSS Reindex
-- Examples: Generating Agent Prompt XML
-- Key Takeaways
-- Task Checklist
 
 ## Error Handling
 

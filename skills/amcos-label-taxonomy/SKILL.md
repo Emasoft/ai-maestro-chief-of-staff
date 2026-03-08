@@ -25,13 +25,18 @@ This skill provides the label taxonomy for the Chief of Staff Agent (AMCOS) role
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
-
 1. Identify the label category needed (assign, status, priority)
 2. Check if label exists on the issue/PR
 3. Apply or modify label using `gh` CLI
 4. Verify label was applied correctly
 5. Update team registry if assignment labels changed
+
+### Checklist
+
+- [ ] Correct label category identified (assign/status/priority)
+- [ ] Label exists in repo or created with `gh label create`
+- [ ] Label applied to correct issue/PR
+- [ ] Team registry updated if assignment changed
 
 ## Output
 
@@ -74,6 +79,14 @@ Full kanban column system, status labels, priority labels, and quick reference. 
 | Registry out of sync | Run sync check via REST API |
 
 ## Examples
+
+**Input:** "Assign issue #42 to agent libs-svg-svgbbox"
+
+**Output:**
+```
+gh issue edit 42 --add-label "assign:libs-svg-svgbbox"
+[DONE] Label assign:libs-svg-svgbbox applied to #42. Registry updated.
+```
 
 See `references/label-commands-and-examples.md` for label commands, registry sync, and full examples.
   - [AMCOS Label Commands](#amcos-label-commands)

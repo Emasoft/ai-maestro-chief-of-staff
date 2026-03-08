@@ -30,14 +30,21 @@ This skill is **TEAM-SCOPED**: you can only initiate transfers OUT of your team 
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
+1. Identify the agent to transfer and the target team
+2. Verify the agent is active in your team and the target team has capacity
+3. Submit a TransferRequest via `POST /api/v1/governance/requests` with `operation: "agent-transfer"`
+4. Obtain source manager approval (your side)
+5. Notify target team manager via AMP and await their approval
+6. Once dual-approved, the system executes the transfer automatically
+7. Verify agent appears in target team roster and is removed from source roster
 
-Transfer procedures involve creating a TransferRequest, obtaining dual approvals, and executing the move. See `references/transfer-procedures-and-examples.md` for detailed step-by-step procedures and API calls.
-  - [Initiating a Transfer (Outbound)](#initiating-a-transfer-outbound---from-your-team)
-  - [Approving a Transfer (Inbound)](#approving-a-transfer-inbound---into-your-team)
-  - [Rejecting a Transfer](#rejecting-a-transfer)
-  - [Transfer Checklist](#transfer-checklist)
-  - [AMP Notification Format](#amp-notification-format)
+- [ ] Confirm agent is active in source team
+- [ ] Verify target team exists and has capacity
+- [ ] Submit TransferRequest and obtain requestId
+- [ ] Get source and target manager approvals
+- [ ] Verify transfer executed and rosters updated
+
+See `references/transfer-procedures-and-examples.md` for detailed API calls.
 
 ## Output
 
@@ -62,10 +69,11 @@ Transfer procedures involve creating a TransferRequest, obtaining dual approvals
 
 ## Examples
 
+**Input:** Transfer agent `libs-svg-renderer` from team `libs-svg` to team `apps-editor`
+
+**Output:** `{"requestId": "tr-0017", "state": "pending"}` -> source approves -> target approves -> `{"state": "executed", "agent": "libs-svg-renderer", "newTeam": "apps-editor"}`
+
 See `references/transfer-procedures-and-examples.md` for full examples.
-  - [Example 1: Outbound Transfer](#example-1-outbound-transfer-moving-an-agent-out-of-your-team)
-  - [Example 2: Inbound Transfer Approval](#example-2-inbound-transfer-approval-accepting-an-agent-into-your-team)
-  - [Example 3: Rejecting a Transfer](#example-3-rejecting-a-transfer)
 
 ## Resources
 

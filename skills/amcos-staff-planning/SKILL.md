@@ -25,12 +25,15 @@ Staff planning analyzes project requirements, assesses agent capabilities, plans
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
-
 1. Analyze task requirements
 2. Determine required agent count and types
 3. Check resource availability
 4. Recommend team composition
+
+- [ ] List all tasks and required skill types
+- [ ] Map tasks to available agent capabilities
+- [ ] Verify resource limits are not exceeded
+- [ ] Document recommended team composition
 
 ## Output
 
@@ -62,16 +65,11 @@ See `references/staffing-templates.md` and `references/op-create-staffing-templa
 
 ## Examples
 
+**Input:** "Plan staffing for a 3-service microservices migration project"
+
+**Output:** "Recommended: 2 backend agents (Rust), 1 DevOps agent, 1 QA agent. Total: 4 agents. Bottleneck: DevOps (single point). Consider adding 1 backup DevOps agent."
+
 See `references/staffing-overview-and-examples.md` for full examples including role assessment, capacity planning, and template usage.
-- What Is Staff Planning
-- Staff Planning Components
-- Role Assessment Details
-- Capacity Planning Details
-- Staffing Templates Details
-- Examples: Role Assessment for Feature Development
-- Examples: Capacity Planning
-- Key Takeaways
-- Task Checklist
 
 ## Error Handling
 

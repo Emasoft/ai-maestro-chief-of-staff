@@ -1,5 +1,14 @@
 # Progress Tracking Reference Index
 
+
+## Table of Contents
+
+- Document Parts
+- Part 1: Structure and Task Management
+- Quick Navigation
+
+---
+
 This document provides navigation to the progress tracking reference materials.
 
 ## Document Parts
@@ -29,15 +38,6 @@ This document provides navigation to the progress tracking reference materials.
 **Use when**: Managing dependencies, creating backups, troubleshooting issues
 
 ---
-
-## Table of Contents
-
-- Document Parts
-- Part 1: Structure and Task Management
-- Quick Navigation
-
----
-
 
 ## Quick Navigation
 
