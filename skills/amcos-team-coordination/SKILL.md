@@ -30,6 +30,8 @@ Team coordination manages distributed agent teams, assigns roles, coordinates me
 3. Execute coordination action
 4. Update team registry and notify agents
 
+Copy this checklist and track your progress:
+
 - [ ] Verify team registry is accessible and current
 - [ ] Confirm all target agents are active
 - [ ] Send coordination messages via AI Maestro API

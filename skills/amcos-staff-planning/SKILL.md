@@ -30,6 +30,8 @@ Staff planning analyzes project requirements, assesses agent capabilities, plans
 3. Check resource availability
 4. Recommend team composition
 
+Copy this checklist and track your progress:
+
 - [ ] List all tasks and required skill types
 - [ ] Map tasks to available agent capabilities
 - [ ] Verify resource limits are not exceeded

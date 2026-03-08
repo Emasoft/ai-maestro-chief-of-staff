@@ -1,9 +1,9 @@
 ---
 name: amcos-performance-tracking
-description: Use when tracking team performance, analyzing agent strengths and weaknesses, collecting metrics, and generating performance reports. Trigger with performance review or metrics requests.
+description: Use when tracking team performance or generating reports. Trigger with metrics collection or performance analysis requests.
 user-invocable: false
 license: Apache-2.0
-compatibility: Requires AI Maestro for agent metrics, session memory for historical data, and reporting capabilities. Requires AI Maestro installed.
+compatibility: Requires AI Maestro (agent metrics, session memory, reporting).
 metadata:
   author: Emasoft
   version: 1.0.0
@@ -15,7 +15,7 @@ agent: amcos-chief-of-staff-main-agent
 
 ## Overview
 
-Performance tracking enables the Chief of Staff to understand how well the agent team is performing, identify individual strengths and weaknesses, and make data-driven decisions about team composition and task assignment.
+Track agent team performance, identify strengths/weaknesses, and make data-driven decisions about team composition and task assignment.
 
 ## Prerequisites
 
@@ -31,6 +31,8 @@ Performance tracking enables the Chief of Staff to understand how well the agent
 4. Generate performance report
 
 ### Checklist
+
+Copy this checklist and track your progress:
 
 - [ ] Metrics category identified (completion, quality, efficiency, communication)
 - [ ] Agent activity logs queried for target time period
@@ -49,30 +51,15 @@ Performance tracking enables the Chief of Staff to understand how well the agent
 
 ### PROCEDURE 1: Collect Performance Metrics
 
-Continuously capture data at relevant events and aggregate over time periods. See `references/performance-metrics.md`.
-  - [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
-  - [Task Completion Metrics](#12-task-completion-metrics)
-  - [Quality Metrics](#13-quality-metrics)
-  - [Efficiency Metrics](#14-efficiency-metrics)
-  - [Communication Metrics](#15-communication-metrics)
+Capture data at events and aggregate over time. See `references/performance-metrics.md` for categories: task completion, quality, efficiency, communication.
 
 ### PROCEDURE 2: Analyze Strengths and Weaknesses
 
 Review metrics, identify patterns, compare against benchmarks. See `references/strength-weakness-analysis.md`.
-  - [Performance Analysis Framework](#21-performance-analysis-framework)
-  - [Identifying Agent Strengths](#22-identifying-agent-strengths)
-  - [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
-  - [Comparing Against Benchmarks](#24-comparing-against-benchmarks)
-  - [Recognizing Performance Patterns](#25-recognizing-performance-patterns)
 
 ### PROCEDURE 3: Generate Performance Reports
 
 Aggregate metrics, format for audience, include analysis. See `references/performance-reporting.md`.
-  - [Types Of Performance Reports](#31-types-of-performance-reports)
-  - [Structuring Performance Reports](#32-structuring-performance-reports)
-  - [Daily Performance Summaries](#33-daily-performance-summaries)
-  - [Weekly Performance Reviews](#34-weekly-performance-reviews)
-  - [Individual Agent Reports](#35-individual-agent-reports)
 
 ## Operational Procedures
 
@@ -93,19 +80,15 @@ libs-svg-svgbbox weekly report (Mar 1-7):
 [DONE] Report saved to .amcos-logs/perf-libs-svg-svgbbox-2026-03-07.md
 ```
 
-See `references/examples-and-checklists.md` for full examples and task checklist.
-  - [Task Checklist](#task-checklist)
-  - [Example 1: Recording Task Completion Metric](#example-1-recording-task-completion-metric)
-  - [Example 2: Agent Strength-Weakness Summary](#example-2-agent-strength-weakness-summary)
-  - [Example 3: Weekly Performance Summary](#example-3-weekly-performance-summary)
+See `references/examples-and-checklists.md` for more examples and task checklist.
 
 ## Error Handling
 
 | Issue | Solution |
 |-------|----------|
-| Metrics data incomplete | Automate collection, add validation, backfill from logs |
-| Unfair comparison | Normalize by task complexity, compare similar task types |
-| Reports not driving improvements | Include action items, assign owners, track completion |
+| Metrics incomplete | Automate collection, validate, backfill from logs |
+| Unfair comparison | Normalize by complexity, compare similar tasks |
+| Reports not actionable | Add action items, assign owners, track follow-up |
 
 ## Resources
 
@@ -114,8 +97,3 @@ See `references/examples-and-checklists.md` for full examples and task checklist
 - `references/performance-reporting.md`
 - `references/report-formats.md`
 - `references/examples-and-checklists.md`
-
----
-
-**Version:** 1.0
-**Last Updated:** 2025-02-01

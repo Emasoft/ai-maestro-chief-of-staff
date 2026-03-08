@@ -1,6 +1,6 @@
 ---
 name: amcos-emergency-handoff
-description: Use when performing emergency work handoff from a failed agent or routing task blockers. Trigger with deadline-critical failures or task blocker escalations.
+description: Use when handling emergency work handoff from failed agents. Trigger with agent failure handoff or task blocker routing.
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.
@@ -15,13 +15,13 @@ agent: amcos-chief-of-staff-main-agent
 
 ## Overview
 
-Transfer critical work immediately when deadlines cannot wait for full replacement. Also covers routing task blocker escalations to EAMA for user decisions.
+Transfer critical work when deadlines cannot wait. Routes task blocker escalations to EAMA.
 
 ## Prerequisites
 
-- A deadline-critical failure has occurred, OR a task blocker escalation received from EOA
+- Deadline-critical failure OR task blocker escalation from EOA
 - AI Maestro running locally
-- Emergency handoff dir at `$CLAUDE_PROJECT_DIR/thoughts/shared/handoffs/emergency/`
+- Handoff dir: `$CLAUDE_PROJECT_DIR/thoughts/shared/handoffs/emergency/`
 
 ## Instructions
 
@@ -37,82 +37,73 @@ Transfer critical work immediately when deadlines cannot wait for full replaceme
 8. Monitor deadline compliance
 
 | Aspect | Regular | Emergency |
-|--------|---------|-----------|
+|---|---|---|
 | Timing | After replacement | Immediately |
 | Completeness | Full context | Minimum viable |
-| Recipient | Replacement agent | Any available |
+| Recipient | Replacement | Any available |
 | Duration | Permanent | Temporary |
-
-See `references/work-handoff-during-failure.md` and `references/op-emergency-handoff.md`.
 
 ### Task Blockers vs Agent Failures
 
-**Agent Failures** -- AMCOS resolves directly via failure recovery workflow.
+**Agent Failures** -- resolve via failure recovery workflow.
 
-**Task Blockers** -- work blocked by missing info/access/user decision. Routing steps:
+**Task Blockers** -- blocked by missing info/access/user decision:
 1. Receive escalation from EOA
-2. Can AMCOS resolve? (agent reassignment, permission) -> handle directly
-3. Needs user input? -> route to EAMA with `blocker-escalation` message
-4. Track blocker; when EAMA responds, route resolution back to EOA
-
-See `references/op-route-task-blocker.md`.
+2. AMCOS can resolve? (reassignment, permission) -> handle directly
+3. Needs user input? -> route to EAMA via `blocker-escalation`
+4. Track; route EAMA response back to EOA
 
 ### Decision Tree
 
 ```
-AMCOS receives escalation
-  +- Agent failure? -> failure recovery workflow
-  +- Blocker AMCOS can resolve? -> handle directly
-  +- Blocker needs user input? -> route to EAMA
+Escalation -> Agent failure? -> recovery workflow
+           -> Blocker AMCOS resolves? -> handle
+           -> Needs user input? -> route to EAMA
 ```
 
 ### Handoff Validation Checklist
 
 Copy this checklist and track your progress:
 
-```markdown
 - [ ] Required fields: from/to/type/UUID/task/failed_agent/failure_reason
-- [ ] UUID unique, target agent alive, referenced files exist
-- [ ] No [TBD] placeholders, deadline stated, acceptance criteria defined
-```
+- [ ] UUID unique, target alive, files exist
+- [ ] No [TBD] placeholders, deadline and acceptance criteria set
 
 ## Output
 
 | Result | Output |
-|--------|--------|
-| Emergency handoff sent | Work transferred to available agent |
-| Blocker routed to EAMA | Awaiting user decision |
-| Blocker resolved by AMCOS | Agent reassigned directly |
+|---|---|
+| Handoff sent | Work transferred to available agent |
+| Blocker routed | Awaiting EAMA user decision |
+| Blocker resolved | Agent reassigned directly |
 
 ## Error Handling
 
 | Issue | Resolution |
-|-------|------------|
-| No available agent | Notify EAMA urgently for manual intervention |
+|---|---|
+| No available agent | Notify EAMA for manual intervention |
 | Handoff rejected | Try next available agent |
-| Deadline missed | Document, notify stakeholders, post-mortem |
-| EAMA does not respond | Wait 15 min, reminder, escalate to user |
+| Deadline missed | Document, notify, post-mortem |
+| EAMA unresponsive | 15 min wait, reminder, escalate |
 
 ## Examples
 
-### Emergency handoff with deadline
+### Emergency handoff
 
 ```bash
-curl -X POST "$AIMAESTRO_API/api/messages" \
-  -H "Content-Type: application/json" \
-  -d '{"to":"apps-svgplayer-development","subject":"EMERGENCY: SVG fix (2h deadline)","priority":"urgent","content":{"type":"emergency-handoff","message":"libs-svg-svgbbox crashed. Fix needed by 18:00 UTC.","task":"Fix SVG rendering bug","failed_agent":"libs-svg-svgbbox","deadline":"2025-02-05T18:00:00Z"}}'
+amp-send.sh apps-svgplayer-development "EMERGENCY: SVG fix (2h)" urgent \
+  '{"type":"emergency-handoff","message":"svgbbox crashed. Fix by 18:00 UTC.","task":"Fix SVG rendering","failed_agent":"libs-svg-svgbbox","deadline":"2025-02-05T18:00:00Z"}'
 ```
 
-### Routing a task blocker
+### Task blocker routing
 
 ```bash
-curl -X POST "$AIMAESTRO_API/api/messages" \
-  -H "Content-Type: application/json" \
-  -d '{"to":"eama-assistant-manager","subject":"BLOCKER: API key required","priority":"high","content":{"type":"blocker-escalation","message":"Production API key needed, only user can provide.","blocker_type":"user-decision","impact":"Deployment blocked, 3 tasks waiting","escalated_from":"eoa-deployment"}}'
+amp-send.sh eama-assistant-manager "BLOCKER: API key needed" high \
+  '{"type":"blocker-escalation","message":"API key needed, user must provide.","blocker_type":"user-decision","impact":"Deploy blocked","escalated_from":"eoa-deployment"}'
 ```
 
 ## Resources
 
-- `references/work-handoff-during-failure.md` - Emergency handoff procedures
-- `references/op-emergency-handoff.md` - Emergency handoff runbook
-- `references/op-route-task-blocker.md` - Task blocker routing runbook
+- `references/work-handoff-during-failure.md` - Handoff procedures
+- `references/op-emergency-handoff.md` - Handoff runbook
+- `references/op-route-task-blocker.md` - Blocker routing runbook

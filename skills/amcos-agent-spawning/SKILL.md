@@ -61,8 +61,6 @@ Required: `repo`, `project`, `read:project`. If missing, request human to run `g
 | Integrator | `eia-integrator-main-agent` |
 | Programmer | `epa-programmer-main-agent` |
 
-Remote host spawning requires a GovernanceRequest; state replicated via GovernanceSyncMessage.
-
 ## Output
 
 | Step | Expected Output |

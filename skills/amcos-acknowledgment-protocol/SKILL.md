@@ -38,8 +38,6 @@ The acknowledgment protocol ensures agents confirm readiness before disruptive o
 4. **Process response** - Handle "ok" or other responses
 5. **Proceed or timeout** - Continue if ACK received, or follow timeout behavior
 
-**Triggers:** Disruptive operations, state-changing operations, multi-agent coordination.
-
 Copy this checklist and track your progress:
 - [ ] Sent ACK request and started timeout timer per policy table
 - [ ] Sent reminders at defined intervals if no response received
@@ -60,12 +58,7 @@ See `references/op-acknowledgment-protocol.md` for the step-by-step runbook.
 | Emergency handoff | **30s** | 10s, 20s | Time-critical emergencies |
 | Health check | **30s** | None | Verifying agent alive |
 
-Timeouts are **sequential**. Example total: 60s + 2min + 30s = 3min 30s.
-
-**Timeout behavior:**
-- Pre-op ACK: Send final notice, then proceed
-- Approval: Log timeout, proceed if autonomous mode, else abort
-- Emergency: Proceed immediately
+**Timeout behavior:** Pre-op ACK: proceed after final notice. Approval: proceed if autonomous, else abort. Emergency: proceed immediately.
 
 ## Output
 

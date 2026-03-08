@@ -30,6 +30,8 @@ Skill management enables the Chief of Staff to validate, index, and maintain age
 3. Verify skill integrity
 4. Notify agents of skill changes
 
+Copy this checklist and track your progress:
+
 - [ ] Confirm skill directory exists and contains SKILL.md
 - [ ] Run skills-ref validate and check YAML frontmatter
 - [ ] Verify PSS index reflects current skill state

@@ -15,13 +15,13 @@ agent: amcos-chief-of-staff-main-agent
 
 ## Overview
 
-Suspends idle agents to conserve resources and resumes them when work is available. Hibernation preserves full state so agents resume exactly where they left off. Use for idle timeouts, resource pressure, scheduled pauses, and wake operations.
+Suspends idle agents and resumes them when needed. Preserves full state so agents resume where they left off.
 
 ## Prerequisites
 
-- AI Maestro running, `ai-maestro-agents-management` and `agent-messaging` skills available
-- Target agent in RUNNING state (hibernate) or HIBERNATED state (wake)
-- Team registry accessible via REST API
+- AI Maestro running with `ai-maestro-agents-management` and `agent-messaging` skills
+- Agent in RUNNING (hibernate) or HIBERNATED (wake) state
+- Team registry accessible
 
 ## Instructions
 
@@ -44,33 +44,33 @@ SPAWNING -> RUNNING <-> HIBERNATED
 
 ### Hibernate Procedure (PROCEDURE 3)
 
-1. **Request GovernanceRequest approval** - Submit hibernate request to sourceManager via `amcos-permission-management` skill. BLOCK until approved.
-2. **Confirm idle** - Verify no active work via status request message
-3. **Send warning** via `agent-messaging` with `hibernation-warning` type
-4. **Request state capture** - Agent saves context and handoff to storage
-5. **Execute hibernation** via `ai-maestro-agents-management` skill
+1. **Request approval** via `amcos-permission-management`. BLOCK until approved.
+2. **Confirm idle** - Verify no active work
+3. **Send warning** via `agent-messaging` (type: `hibernation-warning`)
+4. **Request state capture** - Agent saves context/handoff
+5. **Execute** via `ai-maestro-agents-management`
 6. **Update registry** - `uv run python scripts/amcos_team_registry.py update-status --name <agent> --status hibernated`
-7. **Log event** in lifecycle log
+7. **Log event**
 
 ### Wake Procedure
 
-1. **Verify hibernated** - Check registry status
-2. **Check resources** - Confirm slot available (max 5 concurrent)
-3. **Execute wake** via `ai-maestro-agents-management` skill (uses `--continue`)
-4. **Verify responsive** - Health check, expect response within 30s
+1. **Verify hibernated** - Check registry
+2. **Check resources** - Confirm slot available (max 5)
+3. **Execute wake** via `ai-maestro-agents-management` (`--continue`)
+4. **Verify responsive** - Expect response within 30s
 5. **Restore state** - Agent reads saved handoff/context
-6. **Update registry** - Mark as "running"
-7. **Log event** in lifecycle log
+6. **Update registry** - Mark "running"
+7. **Log event**
 
 ### Resource Limits
 
 | Resource | Limit | Action |
 |----------|-------|--------|
-| Max concurrent agents | 5 | Queue, hibernate oldest idle |
-| Max memory per agent | 2GB | Terminate or hibernate |
-| Idle timeout | 30 min | Hibernate agent |
+| Concurrent agents | 5 | Queue/hibernate oldest idle |
+| Memory per agent | 2GB | Terminate/hibernate |
+| Idle timeout | 30 min | Hibernate |
 
-Remote host operations require GovernanceRequest; state replicated via GovernanceSyncMessage.
+Remote host ops require GovernanceRequest; state replicated via GovernanceSyncMessage.
 
 ## Output
 
@@ -83,21 +83,18 @@ Remote host operations require GovernanceRequest; state replicated via Governanc
 
 | Issue | Resolution |
 |-------|-----------|
-| Active work during hibernate | Wait for task to complete or request checkpoint |
-| State capture fails | Retry once, proceed with warning (state loss risk) |
-| Wake fails | See `references/hibernation-procedures.md` 3.7. Try force-wake, respawn if needed |
+| Active work during hibernate | Wait for completion or checkpoint |
+| State capture fails | Retry once, warn (state loss risk) |
+| Wake fails | Force-wake, respawn if needed (see 3.7) |
 | Resource limit on wake | Hibernate another idle agent first |
-| Unresponsive after wake | Wait 60s, retry. If still unresponsive, terminate and respawn |
+| Unresponsive after wake | Wait 60s, retry, then terminate/respawn |
 
 ## Examples
 
 ### Hibernate an Idle Agent
 
 ```bash
-# 1. Warn via agent-messaging: type=hibernation-warning
-# 2. Wait 2 min for state capture
-# 3. Hibernate via ai-maestro-agents-management skill
-# 4. Update registry
+# Warn -> wait 2min -> hibernate -> update registry
 uv run python scripts/amcos_team_registry.py update-status \
   --name epa-svgbbox-impl --status hibernated
 ```
@@ -105,9 +102,7 @@ uv run python scripts/amcos_team_registry.py update-status \
 ### Wake a Hibernated Agent
 
 ```bash
-# 1. Wake via ai-maestro-agents-management skill (uses --continue)
-# 2. Notify via agent-messaging: type=wake-notification
-# 3. Update registry
+# Wake (--continue) -> notify -> update registry
 uv run python scripts/amcos_team_registry.py update-status \
   --name epa-svgbbox-impl --status running
 ```

@@ -57,13 +57,9 @@ Always attempt graceful first.
 ### Quality Standards
 
 - Terminated agents MUST be cleaned from registry
-- Session names MUST follow `<role-prefix>-<project>-<descriptive>` convention
 - ALWAYS hibernate instead of terminate when agent may be needed again
 - ALWAYS save state before termination
-
-### Record-Keeping
-
-Log every termination: timestamp (ISO 8601), session name, type (graceful/forced), reason, state saved (y/n), registry updated (y/n). See `references/record-keeping.md` for format.
+- Log every termination per `references/record-keeping.md`
 
 ## Output
 

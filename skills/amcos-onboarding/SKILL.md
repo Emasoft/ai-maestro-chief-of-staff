@@ -32,6 +32,8 @@ Agent onboarding integrates new AI agents into a coordinated team. The Chief of 
 
 ### Checklist
 
+Copy this checklist and track your progress:
+
 - [ ] Agent session is active and responsive
 - [ ] Role briefing delivered with responsibilities and reporting chain
 - [ ] Project context and conventions shared
@@ -84,16 +86,7 @@ Onboarding libs-svg-renderer:
 [DONE] libs-svg-renderer onboarded successfully.
 ```
 
-See `references/onboarding-overview-and-examples.md` for full examples including onboarding initiation, role briefings, project handoffs, and validation checklists.
-- What Is Agent Onboarding
-- Onboarding Components
-- Examples: Initiating Onboarding for New Developer
-- Examples: Role Briefing Message
-- Examples: Project Handoff Summary
-- Handoff Validation Checklist
-- Handoff Required Fields
-- Key Takeaways
-- Task Checklist
+See `references/onboarding-overview-and-examples.md` for full examples.
 
 ## Error Handling
 
@@ -114,7 +107,3 @@ See `references/onboarding-overview-and-examples.md` for full examples including
 - `references/op-conduct-project-handoff.md`
 - `references/op-validate-handoff.md`
 
----
-
-**Version:** 1.0
-**Last Updated:** 2025-02-01

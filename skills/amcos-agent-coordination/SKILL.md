@@ -15,15 +15,20 @@ agent: amcos-chief-of-staff-main-agent
 
 ## Overview
 
-Manages team registry, inter-agent messaging, role boundary enforcement, and agent vs sub-agent delegation. Use for registry updates, message routing, role assignment, and workflow orchestration.
+Manages team registry, messaging, role boundaries, and delegation.
 
 ## Prerequisites
 
-- AI Maestro running, `agent-messaging` skill available
-- Team registry accessible via REST API (`GET /api/teams/{id}/agents`)
-- Registry script: `uv run python scripts/amcos_team_registry.py`
+- AI Maestro running with `agent-messaging` skill
+- Registry via REST API (`GET /api/teams/{id}/agents`)
+- Script: `uv run python scripts/amcos_team_registry.py`
 
 ## Instructions
+
+1. Identify the coordination action needed (registry, messaging, delegation)
+2. Execute the action using the appropriate procedure below
+3. Verify the result and update team registry
+4. Log the operation and notify affected agents
 
 Copy this checklist and track your progress:
 - [ ] Identify registry update type (add, remove, or status change)
@@ -36,12 +41,7 @@ Copy this checklist and track your progress:
 
 Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
 
-**Update steps:**
-1. Identify update type (add, remove, status change)
-2. Execute command
-3. Verify via `list`
-4. Optionally publish update to team
-5. Backup registry
+**Steps:** Identify type -> Execute -> Verify via `list` -> Optionally publish -> Backup
 
 ### Inter-Agent Messaging
 
@@ -49,7 +49,7 @@ Use `agent-messaging` skill. Always use FULL session names (e.g., `eoa-svgbbox-o
 
 **Message types:** `role-assignment`, `project-assignment`, `task-delegation`, `status-request`, `status-report`, `team-notification`, `hibernation-warning`, `wake-notification`, `registry-update`
 
-**Standards:** All messages include `from` field. Role assignments must be acknowledged. Failed delivery retried 3x before escalating.
+**Standards:** Include `from` field. Acknowledge role assignments. Retry 3x before escalating.
 
 ### Role Boundaries (CRITICAL)
 
@@ -64,34 +64,30 @@ Use `agent-messaging` skill. Always use FULL session names (e.g., `eoa-svgbbox-o
 
 | Term | Definition |
 |------|------------|
-| **Agent** | Separate Claude Code process in own tmux session. Own context, can hibernate/terminate. Created via `ai-maestro-agents-management`. |
-| **Sub-agent** | Spawned inside same instance via Task tool. Shares parent context, terminates with parent. |
+| **Agent** | Separate process in own tmux session. Own context, hibernates/terminates independently. |
+| **Sub-agent** | Spawned via Task tool inside parent. Shares context, terminates with parent. |
 
 ### Cross-Host Awareness
 
-Remote host operations require GovernanceRequest + ConfigOperationType. Messages route via AI Maestro API.
+Remote ops require GovernanceRequest + ConfigOperationType. Messages route via API.
 
 ### Workflow Checklists
 
-See `references/workflow-checklists.md` for structured checklists covering spawn, terminate, hibernate, wake, team formation, and registry updates.
+See `references/workflow-checklists.md` for spawn, terminate, hibernate, wake, team, and registry checklists.
 
 ## Output
 
-| Operation | Expected Output |
-|-----------|----------------|
-| Registry update | Registry reflects new state |
-| Message sent | Delivery confirmed |
-| Role assignment | Target acknowledges via reply |
+Registry update -> state reflected. Message -> delivery confirmed. Role assignment -> acknowledged.
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|-----------|
-| AI Maestro unavailable | Fallback file-based communication, retry after 30s |
-| Message delivery fails | Retry 3x with 10s delay, escalate to EAMA |
-| Registry update fails | Retry 3x, fallback to `POST /api/teams/{id}/agents` |
-| Role boundary violation | Log, reject operation, notify EAMA |
-| Agent not in registry | Verify FULL session name, check if terminated |
+| Maestro unavailable | File-based fallback, retry 30s |
+| Delivery fails | Retry 3x/10s, escalate to EAMA |
+| Registry fails | Retry 3x, fallback `POST /api/teams/{id}/agents` |
+| Boundary violation | Log, reject, notify EAMA |
+| Not in registry | Verify FULL name, check if terminated |
 
 ## Examples
 
@@ -100,18 +96,14 @@ See `references/workflow-checklists.md` for structured checklists covering spawn
 ```bash
 uv run python scripts/amcos_team_registry.py add-agent \
   --team svgbbox-team --name epa-svgbbox-impl --role programmer --status running
-# Verify
 uv run python scripts/amcos_team_registry.py list --team svgbbox-team
-# Notify team via agent-messaging: type=registry-update
 ```
 
 ### Send Team Notification
 
 ```bash
-# Via agent-messaging skill:
-#   To: eoa-svgbbox-orchestrator, Priority: normal
-#   Content: { "type": "team-notification",
-#     "message": "Agent epa-svgbbox-impl online and ready" }
+# Via agent-messaging: To: eoa-svgbbox-orchestrator
+# Content: { "type": "team-notification", "message": "Agent online" }
 ```
 
 ## Resources

@@ -23,13 +23,6 @@ Pre-operation notifications warn agents about upcoming disruptive operations bef
 - AMP initialized: `amp-init.sh --auto`
 - Target agents registered and reachable
 
-## What Are Notification Protocols?
-
-Standardized communication patterns ensuring:
-- **No surprise interruptions**: Agents know when operations affect them
-- **Graceful state preservation**: Time to save work before operations
-- **Acknowledgment tracking**: Operations proceed only when agents are ready
-
 ## AMP Protocol Compliance
 
 - **Send**: Use `amp-send.sh` exclusively. Never call HTTP API directly.

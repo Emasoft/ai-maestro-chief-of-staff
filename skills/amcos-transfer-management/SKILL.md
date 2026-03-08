@@ -38,6 +38,8 @@ This skill is **TEAM-SCOPED**: you can only initiate transfers OUT of your team 
 6. Once dual-approved, the system executes the transfer automatically
 7. Verify agent appears in target team roster and is removed from source roster
 
+Copy this checklist and track your progress:
+
 - [ ] Confirm agent is active in source team
 - [ ] Verify target team exists and has capacity
 - [ ] Submit TransferRequest and obtain requestId

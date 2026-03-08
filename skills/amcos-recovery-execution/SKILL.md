@@ -15,7 +15,7 @@ agent: amcos-chief-of-staff-main-agent
 
 ## Overview
 
-Execute recovery strategies for transient and recoverable agent failures. Covers strategy selection, execution, verification, and escalation to replacement when recovery fails.
+Execute recovery strategies for transient and recoverable agent failures. Covers strategy selection, execution, verification, and escalation.
 
 ## Prerequisites
 
@@ -72,13 +72,11 @@ See `references/troubleshooting.md` for full details.
 
 Copy this checklist and track your progress:
 
-```markdown
 - [ ] Strategy selected based on failure classification
 - [ ] Recovery executed per operational runbook
 - [ ] Agent verified: ping, heartbeat, task resumption
 - [ ] Outcome logged to recovery-log.jsonl
 - [ ] EAMA notified of recovery result
-```
 
 ## Output
 

@@ -33,6 +33,8 @@ This skill provides the label taxonomy for the Chief of Staff Agent (AMCOS) role
 
 ### Checklist
 
+Copy this checklist and track your progress:
+
 - [ ] Correct label category identified (assign/status/priority)
 - [ ] Label exists in repo or created with `gh label create`
 - [ ] Label applied to correct issue/PR
@@ -61,13 +63,6 @@ AMCOS tracks assignments, reassigns when agents become unavailable, and clears a
 ## Kanban and Label Details
 
 Full kanban column system, status labels, priority labels, and quick reference. See `references/kanban-and-label-details.md`.
-  - [Kanban Columns (Canonical 8-Column System)](#kanban-columns-canonical-8-column-system)
-  - [Task Routing Rules](#task-routing-rules)
-  - [Status Labels AMCOS Updates](#status-labels-amcos-updates)
-  - [Labels AMCOS Monitors](#labels-amcos-monitors)
-  - [Quick Reference: AMCOS Label Responsibilities](#quick-reference-amcos-label-responsibilities)
-  - [Labels AMCOS Never Sets](#labels-amcos-never-sets)
-  - [Checklist](#checklist)
 
 ## Error Handling
 
@@ -89,12 +84,6 @@ gh issue edit 42 --add-label "assign:libs-svg-svgbbox"
 ```
 
 See `references/label-commands-and-examples.md` for label commands, registry sync, and full examples.
-  - [AMCOS Label Commands](#amcos-label-commands)
-  - [Agent Registry and Labels](#agent-registry-and-labels)
-  - [Sync Check](#sync-check)
-  - [Example 1: Spawning Agent and Assigning to Issue](#example-1-spawning-agent-and-assigning-to-issue)
-  - [Example 2: Terminating Agent and Clearing Assignments](#example-2-terminating-agent-and-clearing-assignments)
-  - [Example 3: Handling Blocked Agent](#example-3-handling-blocked-agent)
 
 ## Operational Procedures
 

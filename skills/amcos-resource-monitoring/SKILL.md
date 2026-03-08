@@ -1,9 +1,9 @@
 ---
 name: amcos-resource-monitoring
-description: Use when monitoring system resources, tracking instance limits, managing resource alerts, and ensuring team capacity is maintained. Trigger with resource checks or limit alerts.
+description: Use when monitoring system resources or managing capacity. Trigger with resource checks, alerts, or instance limit queries.
 user-invocable: false
 license: Apache-2.0
-compatibility: Requires system access for resource checks, AI Maestro for agent monitoring, and alerting capabilities. Requires AI Maestro installed.
+compatibility: Requires system access, AI Maestro installed, alerting capabilities.
 metadata:
   author: Emasoft
   version: 1.0.0
@@ -15,41 +15,39 @@ agent: amcos-chief-of-staff-main-agent
 
 ## Overview
 
-Resource monitoring ensures the multi-agent team has sufficient capacity to operate effectively. The Chief of Staff tracks system resources, monitors instance limits, and responds to resource alerts before they cause coordination failures.
+Track system resources, instance limits, and resource alerts to ensure multi-agent team capacity.
 
 ## Prerequisites
 
-1. Resource monitoring scripts are available
-2. Resource limits are configured
-3. Alert thresholds are defined
+1. Resource monitoring scripts available
+2. Resource limits configured
+3. Alert thresholds defined
 
 ## Instructions
 
 1. Identify resource to monitor
-2. Query current usage levels
+2. Query current usage
 3. Compare against limits
-4. Take action if limits exceeded
+4. Act if limits exceeded
 
 ### Checklist
 
+Copy this checklist and track your progress:
+
 - [ ] Resource type identified (CPU/memory/disk/agents/API rate)
-- [ ] Current usage levels queried successfully
-- [ ] Usage compared against configured thresholds
-- [ ] Alerts triggered or corrective action taken if limits exceeded
+- [ ] Current usage queried
+- [ ] Usage compared against thresholds
+- [ ] Alerts triggered or corrective action taken if exceeded
 
 ## Output
 
-| Check Type | Output |
-|------------|--------|
-| Memory | Current usage, limit, percentage |
-| Agents | Active count, max allowed |
-| API calls | Rate, remaining quota |
+Memory: usage/limit/%. Agents: active/max. API: rate/quota.
 
 ## Core Procedures
 
 ### PROCEDURE 1: Check System Resources
 
-Check CPU, memory, disk, and network regularly (every 15 min), before spawning agents, or when issues reported. See `references/system-resources.md`.
+Check CPU/memory/disk/network every 15 min, before spawning agents, or on issues. See `references/system-resources.md`.
   - [Types Of System Resources](#11-types-of-system-resources)
   - [Monitoring CPU Usage](#12-monitoring-cpu-usage)
   - [Monitoring Memory](#13-monitoring-memory)
@@ -58,7 +56,7 @@ Check CPU, memory, disk, and network regularly (every 15 min), before spawning a
 
 ### PROCEDURE 2: Monitor Instance Limits
 
-Count active sessions, check API rate limits, verify concurrency headroom. See `references/instance-limits.md`.
+Count sessions, check API rate limits, verify concurrency. See `references/instance-limits.md`.
   - [Types Of Instance Limits](#21-types-of-instance-limits)
   - [Counting Active Sessions](#22-counting-active-sessions)
   - [Tracking API Rate Limits](#23-tracking-api-rate-limits)
@@ -67,7 +65,7 @@ Count active sessions, check API rate limits, verify concurrency headroom. See `
 
 ### PROCEDURE 3: Handle Resource Alerts
 
-Identify alert type, assess severity, take immediate action, notify parties. See `references/resource-alerts.md`.
+Identify alert, assess severity, act, notify. See `references/resource-alerts.md`.
   - [Types Of Resource Alerts](#31-types-of-resource-alerts)
   - [Alert Severity Levels](#32-alert-severity-levels)
   - [Alert Response Procedures](#33-alert-response-procedures)
@@ -76,9 +74,9 @@ Identify alert type, assess severity, take immediate action, notify parties. See
 
 ## Operational Procedures
 
-- `references/op-check-system-resources.md` - Runbook for CPU/memory/disk/network checks
-- `references/op-monitor-instance-limits.md` - Runbook for session/rate/concurrency tracking
-- `references/op-handle-resource-alert.md` - Runbook for alert response
+- `references/op-check-system-resources.md` - System checks runbook
+- `references/op-monitor-instance-limits.md` - Instance limits runbook
+- `references/op-handle-resource-alert.md` - Alert response runbook
 
 ## Examples
 
@@ -99,11 +97,9 @@ See `references/examples-and-checklists.md` for full examples and task checklist
 
 ## Error Handling
 
-| Issue | Solution |
-|-------|----------|
-| Unable to check resources | Verify command availability, check permissions |
-| Instance count inconsistent | Force session registry refresh, reconcile |
-| Alerts not triggering | Verify config, check interval, test mechanism |
+- Unable to check resources: verify commands, check permissions
+- Instance count inconsistent: force registry refresh, reconcile
+- Alerts not triggering: verify config, check interval, test mechanism
 
 ## Resources
 
@@ -112,8 +108,3 @@ See `references/examples-and-checklists.md` for full examples and task checklist
 - `references/resource-alerts.md`
 - `references/monitoring-commands.md`
 - `references/examples-and-checklists.md`
-
----
-
-**Version:** 1.0
-**Last Updated:** 2025-02-01
