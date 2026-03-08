@@ -26,8 +26,6 @@ The acknowledgment protocol ensures agents confirm readiness before disruptive o
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
-
 ### PROCEDURE 3: Acknowledgment Protocol
 
 **When to use:** When agent confirmation is needed before proceeding, or when coordinating multi-agent operations.

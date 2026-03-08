@@ -13,33 +13,13 @@ workflow-instruction: "support"
 procedure: "support-skill"
 ---
 
-# AMCOS Permission Management Skill — GovernanceRequest
+# AMCOS Permission Management Skill -- GovernanceRequest
 
 ## Overview
 
-Permission management uses the **GovernanceRequest** state machine to obtain authorization before executing privileged operations. AMCOS submits a GovernanceRequest via the API; the request transitions through defined states until dual approval is obtained or the request is rejected.
+Permission management uses the **GovernanceRequest** state machine to obtain authorization before executing privileged operations. AMCOS submits requests via the API; they transition through defined states until dual approval is obtained or rejected.
 
-## GovernanceRequest State Machine
-
-```
-                    ┌──────────────────────────────────────────────────────────┐
-                    │                    GovernanceRequest                     │
-                    │                                                          │
-  POST /api/v1/     │   pending                                                │
-  governance/       │     │                                                    │
-  requests          │     ├──→ remote-approved (targetManager approved)         │
-  ─────────────────►│     │        │                                            │
-                    │     │        └──→ dual-approved ──→ executed              │
-                    │     │                 ▲                                   │
-                    │     ├──→ local-approved (sourceManager approved)          │
-                    │     │        │                                            │
-                    │     │        └──→ dual-approved ──→ executed              │
-                    │     │                                                    │
-                    │     └──→ rejected                                        │
-                    └──────────────────────────────────────────────────────────┘
-```
-
-**States:** `pending → remote-approved/local-approved → dual-approved → executed/rejected`
+**States:** `pending -> remote-approved/local-approved -> dual-approved -> executed/rejected`
 
 ## Prerequisites
 
@@ -52,66 +32,28 @@ Permission management uses the **GovernanceRequest** state machine to obtain aut
 | Operation | Scope | Approval Type |
 |-----------|-------|---------------|
 | Agent Spawn | local | sourceManager only |
-| Agent Spawn | cross-team | dual-manager (source + target) |
-| Agent Terminate | any | sourceManager (+ targetManager if cross-team) |
-| Agent Hibernate | local | sourceManager only |
-| Agent Wake | local | sourceManager only |
-| Plugin Install | any | sourceManager (+ targetManager if cross-team) |
+| Agent Spawn | cross-team | dual-manager |
+| Agent Terminate | any | sourceManager (+ target if cross-team) |
+| Agent Hibernate/Wake | local | sourceManager only |
+| Plugin Install | any | sourceManager (+ target if cross-team) |
 | Critical Operation | any | dual-manager + governance password |
-
-**Local operations** (same host, same team): simplified single-manager approval.
-**Cross-team operations**: DUAL-MANAGER approval required (both sourceCOS→sourceManager and targetCOS→targetManager).
-
-## GovernanceRequest Payload
-
-```json
-{
-  "requestId": "GR-<timestamp>-<random>",
-  "type": "agent_spawn|agent_terminate|agent_hibernate|agent_wake|plugin_install|critical_operation",
-  "sourceCOS": "<chief-of-staff-session>",
-  "sourceManager": "<source-manager-session>",
-  "targetCOS": "<target-chief-of-staff-session>",
-  "targetManager": "<target-manager-session>",
-  "operation": {"action": "...", "target": "...", "parameters": {}},
-  "justification": "why this operation is needed",
-  "impact": {"scope": "local|cross-team", "risk_level": "low|medium|high|critical"},
-  "governancePassword": "<password-if-critical>",
-  "status": "pending"
-}
-```
-
-## Governance Password
-
-For **critical operations** (risk_level=critical), the manager provides a governance password:
-- Password is set per-team by the manager
-- Included in the GovernanceRequest payload for critical ops
-- API validates password before transitioning to `approved` state
-- Never log or store the password after submission
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
 
 ### PROCEDURE 1: Submit GovernanceRequest
 
-> **API-First Model**: All GovernanceRequests are submitted to the AI Maestro REST API
-> (`POST /api/v1/governance/requests`) as the primary authority. Local YAML files at
-> `.claude/approvals/` serve as an audit trail and offline cache. When the API is
-> unreachable, the system operates in degraded YAML-only mode with warnings.
-
 1. Identify operation type and scope (local vs cross-team)
-2. Determine required approvers: `sourceManager` (always), `targetManager` (if cross-team)
-3. Compose GovernanceRequest payload
-4. `POST /api/v1/governance/requests` with payload
-5. Receive `requestId` and initial `status: pending`
-6. Register in local tracking
+2. Determine required approvers
+3. Compose payload and `POST /api/v1/governance/requests`
+4. Receive `requestId` and `status: pending`
 
 ### PROCEDURE 2: Track GovernanceRequest State
 
 1. `GET /api/v1/governance/requests/{requestId}` to poll state
-2. Monitor transitions: `pending → local-approved/remote-approved → dual-approved`
-3. Handle rate limiting (API returns `429` — back off exponentially)
-4. Update local tracking on each state change
+2. Monitor transitions through approval states
+3. Handle rate limiting (`429` -- back off exponentially)
 
 ### PROCEDURE 3: Handle Timeouts and Escalation
 
@@ -119,116 +61,26 @@ For **critical operations** (risk_level=critical), the manager provides a govern
 |---------|--------|
 | 60s | Send reminder to pending approver(s) |
 | 90s | Send urgent notification |
-| 120s | Auto-action: proceed (spawn/wake) or abort (terminate/hibernate/plugin/critical) |
-
-## Simplified Local Approval
-
-When scope is **local** (same host, same team):
-- Only `sourceManager` approval needed
-- State: `pending → local-approved → executed`
-- No `targetCOS`/`targetManager` fields required
-
-## Rate Limiting
-
-The GovernanceRequest API may rate-limit submissions:
-- `429 Too Many Requests` — retry after `Retry-After` header value
-- Max 10 requests/minute per COS agent
-- Back off exponentially on repeated 429s
-
-## Audit Trail
-
-```yaml
-audit_trail:
-  - timestamp: "ISO-8601"
-    requestId: "GR-..."
-    operation: "spawn|terminate|hibernate|wake|plugin_install|critical"
-    scope: "local|cross-team"
-    status: "pending|local-approved|remote-approved|dual-approved|executed|rejected"
-    sourceCOS: "..."
-    sourceManager: "..."
-    targetCOS: "..."
-    targetManager: "..."
-    governancePasswordUsed: true|false
-    decided_at: "ISO-8601"
-    escalation_count: 0|1|2|3
-```
-
-**Audit file location:** `docs_dev/audit/amcos-governance-{date}.yaml`
-
-### Quick Checklist
-
-Copy this checklist and track your progress:
-
-- [ ] Identify operation requiring approval and risk level
-- [ ] Submit GovernanceRequest via API (`POST /api/v1/governance/requests`)
-- [ ] Send AMP notification to manager
-- [ ] Wait for manager decision (poll API or use `amcos_approval_manager.py wait`)
-- [ ] On approval: execute the operation
-- [ ] On rejection: log reason and notify requester
-- [ ] Update local YAML audit trail
+| 120s | Auto-action: proceed (spawn/wake) or abort (terminate/hibernate/critical) |
 
 ## Output
 
-Successful GovernanceRequest approval returns:
+Successful approval returns JSON with `status: "dual-approved"` and approvals from sourceManager and targetManager. Rejected requests return `status: "rejected"` with a `reason` field.
 
-```json
-{
-  "requestId": "gov-req-20260227-abc123",
-  "status": "dual-approved",
-  "operation": "spawn",
-  "approvals": {
-    "sourceManager": {"approved": true, "at": "2026-02-27T10:31:00Z"},
-    "targetManager": {"approved": true, "at": "2026-02-27T10:32:00Z"}
-  }
-}
-```
+## Governance Details
 
-Failed or rejected requests return `status: "rejected"` with a `reason` field.
-
-### API Response (Primary)
-
-When the API is available, the authoritative response comes from the REST API:
-
-```json
-{
-  "request_id": "GR-20260227-abcd1234",
-  "status": "local-approved",
-  "decision": "approved",
-  "decided_by": "user",
-  "decided_at": "2026-02-27T10:30:00Z",
-  "api_synced": true,
-  "_source": "api"
-}
-```
-
-### Offline Degradation
-
-When the API is unreachable, responses include `"api_synced": false` and `"_source": "local-only"`.
-Run `amcos_approval_manager.py sync` to reconcile once the API is available.
-
-## Examples
-
-### Example 1: Spawn Agent (Local, Same Team)
-
-```
-PROCEDURE 1 → POST /api/v1/governance/requests
-  operation: spawn, scope: local, agent: worker-impl-03
-PROCEDURE 2 → Poll: pending → local-approved (sourceManager approved in 15s)
-Result: status=dual-approved (local ops need only sourceManager)
-→ Proceed with agent spawn
-```
-
-### Example 2: Cross-Team Plugin Install
-
-```
-PROCEDURE 1 → POST /api/v1/governance/requests
-  operation: configure-agent, scope: cross-team
-  sourceTeam: svgbbox-library-team, targetTeam: maestro-api-team
-PROCEDURE 2 → Poll: pending → local-approved → remote-approved → dual-approved
-PROCEDURE 3 → 60s reminder sent to targetManager (no response yet)
-Result: status=dual-approved after 75s
-→ Proceed with plugin install on remote agent
-```
+See [governance-details-and-examples.md](references/governance-details-and-examples.md) for payload format, governance password, local approval, rate limiting, audit trail, API responses, and examples.
+  - [GovernanceRequest Payload](#governancerequest-payload)
+  - [Governance Password](#governance-password)
+  - [Simplified Local Approval](#simplified-local-approval)
+  - [Rate Limiting](#rate-limiting)
+  - [Audit Trail](#audit-trail)
+  - [Quick Checklist](#quick-checklist)
+  - [API Response (Primary)](#api-response-primary)
+  - [Offline Degradation](#offline-degradation)
+  - [Example 1: Spawn Agent (Local, Same Team)](#example-1-spawn-agent-local-same-team)
+  - [Example 2: Cross-Team Plugin Install](#example-2-cross-team-plugin-install)
+  - [Plugin Prefix Reference](#plugin-prefix-reference)
 
 ## Error Handling
 
@@ -236,49 +88,16 @@ Result: status=dual-approved after 75s
 |-------|------------|
 | Manager offline | Escalation timeline applies (60s/90s/120s) |
 | API returns 429 | Back off per Retry-After header |
-| Cross-team targetManager unknown | Query team registry via `GET /api/v1/teams/{teamId}/manager` |
-| Governance password rejected | Re-request password from sourceManager, do not retry blindly |
+| targetManager unknown | Query via `GET /api/v1/teams/{teamId}/manager` |
+| Governance password rejected | Re-request from sourceManager |
 | Conflicting approvals | Latest timestamp wins; log conflict |
-
-## Plugin Prefix Reference
-
-| Role | Prefix |
-|------|--------|
-| Chief of Staff | `amcos-` |
-| Assistant Manager | `eama-` |
-| Architect | `eaa-` |
-| Orchestrator | `eoa-` |
-| Integrator | `eia-` |
 
 ## Resources
 
+- [Governance Details and Examples](references/governance-details-and-examples.md)
 - [Approval Request Procedure](references/approval-request-procedure.md)
-  <!-- TOC: approval-request-procedure.md -->
-  - 1 What is an approval request - Understanding the request format
-  - 2 When to request approval - Triggers for approval workflow
-  - 1 Agent spawn triggers - New agent needed
-  - 2 Agent terminate triggers - Agent work complete or failed
-  - 3 Agent hibernate triggers - Resource optimization needed
-  - ...and 12 more sections
-  <!-- /TOC -->
 - [Approval Tracking](references/approval-tracking.md)
-  <!-- TOC: approval-tracking.md -->
-  - 1 What is approval tracking - Understanding state management
-  - 2 Tracking data structure - Approval state format
-  - 3 Tracking procedure - Step-by-step tracking process
-  - 1 Request registration - Recording new requests
-  - 2 Status monitoring - Checking for responses
-  - ...and 6 more sections
-  <!-- /TOC -->
 - [Approval Escalation](references/approval-escalation.md)
-  <!-- TOC: approval-escalation.md -->
-  - 1 What is approval escalation - Understanding timeout handling
-  - 2 Escalation triggers - When escalation occurs
-  - 1 First timeout (60 seconds) - Reminder notification
-  - 2 Second timeout (90 seconds) - Urgent notification
-  - 3 Final timeout (120 seconds) - Proceed or abort decision
-  - ...and 10 more sections
-  <!-- /TOC -->
 - [Approval Types Detailed](references/approval-types-detailed.md)
 - [Approval Workflow Engine](references/approval-workflow-engine.md)
 
@@ -286,4 +105,3 @@ Result: status=dual-approved after 75s
 
 **Version:** 2.0
 **Last Updated:** 2026-02-27
-**Target Audience:** Chief of Staff Agents

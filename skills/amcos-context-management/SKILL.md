@@ -24,8 +24,6 @@ Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, 
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
-
 Copy this checklist and track your progress:
 - [ ] Update active context on change
 - [ ] Record patterns

@@ -17,18 +17,15 @@ procedure: "proc-create-team"
 
 ## Overview
 
-Skill management enables the Chief of Staff to validate, index, and maintain agent skills across plugins and projects. This skill teaches you how to validate skill directory structure, trigger skill reindexing for Perfect Skill Suggester, and manage skill activation and discovery.
+Skill management enables the Chief of Staff to validate, index, and maintain agent skills across plugins and projects. Covers skill directory validation, PSS reindexing, and skill discovery optimization.
 
 ## Prerequisites
 
-Before using this skill, ensure:
 1. Skill validation scripts are available
 2. PSS (Perfect Skill Suggester) is configured if reindexing
 3. Skill directories are accessible
 
 ## Instructions
-
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
 
 1. Identify skill operation needed (validate, reindex, update)
 2. Execute the operation
@@ -43,371 +40,66 @@ Before using this skill, ensure:
 | Reindex | PSS index updated |
 | Update | Skill content modified, agents notified |
 
-## What Is Skill Management?
-
-Skill management is the administration of agent skills that provide specialized knowledge and procedures. It includes:
-
-- **Validation**: Ensuring skills conform to the Agent Skills specification
-- **Reindexing**: Updating the skill index for PSS discovery
-- **PSS Integration**: Configuring skills for AI-analyzed keyword matching
-
-## Skill Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    SKILL DIRECTORY                       │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  SKILL.md                                        │    │
-│  │  - YAML frontmatter (name, description, etc.)   │    │
-│  │  - Procedures with TOC                          │    │
-│  │  - References links                             │    │
-│  └─────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  references/                                     │    │
-│  │  - Detailed procedure documentation             │    │
-│  │  - Each file has own TOC                        │    │
-│  └─────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  scripts/   (optional)                          │    │
-│  │  - Automation helpers                           │    │
-│  └─────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│              PERFECT SKILL SUGGESTER                     │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  Skill Index                                     │    │
-│  │  - Keywords extracted from skills               │    │
-│  │  - Co-usage relationships                       │    │
-│  │  - Weighted scoring for activation              │    │
-│  └─────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────┘
-```
-
 ## Core Procedures
 
 ### PROCEDURE 1: Validate Skill Structure
 
-**When to use:** Before publishing a skill, after modifying skill files, or when skill fails to load.
+**When/Steps:** Run skills-ref validate, check YAML frontmatter, verify references, confirm TOC accuracy.
 
-**Steps:** Run skills-ref validate, check YAML frontmatter, verify references exist, confirm TOC accuracy.
-
-**Related documentation:**
-
-#### Skill Validation ([references/skill-validation.md](references/skill-validation.md))
-- 1.1 What is skill validation - Checking skill correctness
-- 1.2 Validation requirements - Agent Skills specification
-  - 1.2.1 Directory structure - Required layout
-  - 1.2.2 SKILL.md format - Frontmatter and content
-  - 1.2.3 References structure - Reference file format
-- 1.3 Validation procedure - Step-by-step validation
-  - 1.3.1 Using skills-ref - CLI validation tool
-  - 1.3.2 Frontmatter check - YAML syntax and fields
-  - 1.3.3 References check - File existence and links
-  - 1.3.4 TOC verification - Heading accuracy
-- 1.4 Required frontmatter fields - Mandatory YAML fields
-  - 1.4.1 name - Skill identifier
-  - 1.4.2 description - Use case description
-  - 1.4.3 license - License identifier
-  - 1.4.4 compatibility - Requirements
-- 1.5 Optional Claude Code fields - Extended metadata
-  - 1.5.1 context - Fork behavior (value: fork)
-  - 1.5.2 agent - Target agent types
-  - 1.5.3 user-invocable - Direct user activation
-- 1.6 Examples - Validation scenarios
-- 1.7 Troubleshooting - Validation issues
+See [references/skill-validation.md](references/skill-validation.md) and [references/op-validate-skill.md](references/op-validate-skill.md).
 
 ### PROCEDURE 2: Reindex Skills for PSS
 
-**When to use:** After adding new skills, after modifying skill content, or when PSS suggestions are stale.
+**When/Steps:** Run pss-reindex-skills, verify index updated, test skill discovery.
 
-**Steps:** Run pss-reindex-skills command, verify index updated, test skill discovery.
-
-**Related documentation:**
-
-#### Skill Reindexing ([references/skill-reindexing.md](references/skill-reindexing.md))
-- 2.1 What is skill reindexing - Updating PSS index
-- 2.2 When to reindex - Reindexing triggers
-  - 2.2.1 New skills added - Fresh skills need indexing
-  - 2.2.2 Skills modified - Content changes need re-extraction
-  - 2.2.3 Keywords stale - Suggestions not matching
-- 2.3 Reindexing procedure - Step-by-step reindexing
-  - 2.3.1 Trigger reindex - Running the command
-  - 2.3.2 Index generation - Two-pass extraction
-  - 2.3.3 Verification - Confirming index updated
-  - 2.3.4 Testing - Checking skill discovery
-- 2.4 Two-pass generation - How indexing works
-  - 2.4.1 Pass 1 - Factual data extraction
-  - 2.4.2 Pass 2 - AI co-usage relationships
-- 2.5 Index structure - What gets indexed
-- 2.6 Examples - Reindexing scenarios
-- 2.7 Troubleshooting - Reindexing issues
+See [references/skill-reindexing.md](references/skill-reindexing.md) and [references/op-reindex-skills-pss.md](references/op-reindex-skills-pss.md).
 
 ### PROCEDURE 3: Configure PSS Integration
 
-**When to use:** When optimizing skill discovery, adjusting keyword weights, or customizing activation behavior.
+**When/Steps:** Review descriptions, add keywords, configure weights, test discovery.
 
-**Steps:** Review skill descriptions, add activation keywords, configure weights, test discovery.
+See [references/pss-integration.md](references/pss-integration.md) and [references/op-configure-pss-integration.md](references/op-configure-pss-integration.md).
 
-**Related documentation:**
+### Generate Agent Prompt XML
 
-#### PSS Integration ([references/pss-integration.md](references/pss-integration.md))
-- 3.1 What is PSS integration - AI-analyzed skill activation
-- 3.2 How PSS works - Discovery algorithm
-  - 3.2.1 Index as superset - All skills indexed
-  - 3.2.2 Agent filtering - Available skills filter
-  - 3.2.3 Weighted scoring - Keyword relevance
-- 3.3 Integration procedure - Optimizing for PSS
-  - 3.3.1 Description optimization - Clear use cases
-  - 3.3.2 Keyword embedding - Natural keyword inclusion
-  - 3.3.3 Co-usage hints - Related skill references
-- 3.4 Categories vs keywords - Understanding the difference
-  - 3.4.1 Categories (16) - Fields of competence
-  - 3.4.2 Keywords - Tools, actions, concepts
-- 3.5 Testing discovery - Verifying activation
-- 3.6 Examples - PSS integration scenarios
-- 3.7 Troubleshooting - Discovery issues
+Use skills-ref to-prompt to generate available_skills XML blocks for agent prompt definitions.
 
-## Operational Procedures (Runbooks)
-
-These operational runbooks provide step-by-step instructions for executing each skill management procedure. Use them as quick-reference guides when performing the corresponding operation.
-
-#### Validate Skill Structure ([references/op-validate-skill.md](references/op-validate-skill.md))
-Runbook for validating a skill directory structure, YAML frontmatter, reference links, and TOC accuracy using skills-ref and manual checks.
-- Steps - Install skills-ref, run validate, check frontmatter, verify directory structure, check reference links, validate TOC, read properties
-- Examples - Complete skill validation, fixing common validation errors
-- Error Handling - What to do when validation fails
-- Checklist - Verification steps after validation
-
-#### Reindex Skills for PSS ([references/op-reindex-skills-pss.md](references/op-reindex-skills-pss.md))
-Runbook for triggering a skill reindex to update the Perfect Skill Suggester index after adding or modifying skills.
-- Steps - Validate skills first, trigger reindex, verify index updated, test discovery, check keywords extracted
-- Examples - Full reindex after plugin update, checking why skill not discovered, two-pass index generation
-- Error Handling - What to do when reindexing fails
-
-#### Generate Agent Prompt XML ([references/op-generate-agent-prompt-xml.md](references/op-generate-agent-prompt-xml.md))
-Runbook for generating available_skills XML blocks using skills-ref to-prompt for embedding into agent prompt definitions.
-- Steps - Identify skills to include, generate XML with skills-ref, save to file, integrate into agent prompt, verify integration
-- Examples - Generate XML for AMCOS skills, save and use in agent definition, programmatic generation, dynamic skill list
-- Error Handling - What to do when generation fails
-
-#### Configure PSS Integration ([references/op-configure-pss-integration.md](references/op-configure-pss-integration.md))
-Runbook for optimizing a skill's description, keywords, categories, and co-usage hints to improve discovery by the Perfect Skill Suggester.
-- Steps - Understand PSS algorithm, optimize skill description, add activation keywords naturally, configure categories, add co-usage hints, reindex and test, iterate
-- Examples - Optimizing agent lifecycle skill, testing discovery
-- Checklist - Verification steps after PSS configuration
-
-## Task Checklist
-
-Copy this checklist and track your progress:
-
-- [ ] Understand skill architecture and PSS integration
-- [ ] Learn PROCEDURE 1: Validate skill structure
-- [ ] Learn PROCEDURE 2: Reindex skills for PSS
-- [ ] Learn PROCEDURE 3: Configure PSS integration
-- [ ] Practice validating a skill with skills-ref
-- [ ] Practice triggering a skill reindex
-- [ ] Practice optimizing a skill for PSS discovery
-- [ ] Verify skill appears in PSS suggestions
+See [references/op-generate-agent-prompt-xml.md](references/op-generate-agent-prompt-xml.md).
 
 ## Examples
 
-### Example 1: Validating a Skill
-
-```bash
-# Install skills-ref if not present
-pip install skills-ref
-
-# Validate a skill directory
-skills-ref validate /path/to/my-skill
-
-# Expected output for valid skill
-# Skill: my-skill
-# Status: VALID
-# Warnings: 0
-# Errors: 0
-
-# Read skill properties
-skills-ref read-properties /path/to/my-skill
-```
-
-### Example 2: SKILL.md Frontmatter
-
-```yaml
----
-name: amcos-staff-planning
-description: Use when analyzing staffing needs, assessing role requirements, planning agent capacity, or creating staffing templates for multi-agent orchestration
-license: Apache-2.0
-compatibility: Requires access to agent registry, project configuration files, and understanding of agent capabilities and workload patterns.
-metadata:
-  author: Emasoft
-  version: 1.0.0
-context: fork
----
-```
-
-### Example 3: Triggering PSS Reindex
-
-```bash
-# Using PSS slash command
-/pss-reindex-skills
-
-# Or via script
-python scripts/pss_reindex_skills.py --skills-dir /path/to/skills
-
-# Verify index updated
-cat ~/.claude/skills-index.json | jq '.skills | length'
-```
-
-### Example 4: Generating Agent Prompt XML
-
-```bash
-# Generate available_skills XML for agent prompts
-skills-ref to-prompt /path/to/skill-a /path/to/skill-b
-
-# Output
-# <available_skills>
-# <skill>
-# <name>skill-a</name>
-# <description>What skill-a does</description>
-# <location>/path/to/skill-a/SKILL.md</location>
-# </skill>
-# ...
-# </available_skills>
-```
+See [references/skill-overview-and-examples.md](references/skill-overview-and-examples.md) for full examples including validation, frontmatter format, PSS reindex, and XML generation.
+- What Is Skill Management
+- Skill Architecture Diagram
+- Skill Components
+- Examples: Validating a Skill
+- Examples: SKILL.md Frontmatter
+- Examples: Triggering PSS Reindex
+- Examples: Generating Agent Prompt XML
+- Key Takeaways
+- Task Checklist
 
 ## Error Handling
 
-### Issue: Skill validation fails
-
-**Symptoms:** skills-ref reports errors, missing fields, broken links.
-
-See [references/skill-validation.md](references/skill-validation.md) Section 1.7 Troubleshooting for resolution.
-  <!-- TOC: skill-validation.md -->
-  - 1 What is skill validation - Checking skill correctness
-  - 2 Validation requirements - Agent Skills specification
-  - 1 Directory structure - Required layout
-  - 2 SKILL.md format - Frontmatter and content
-  - 3 References structure - Reference file format
-  - ...and 17 more sections
-  <!-- /TOC -->
-
-### Issue: Skill not appearing in PSS suggestions
-
-**Symptoms:** Skill indexed but not suggested, wrong skills activated.
-
-See [references/skill-reindexing.md](references/skill-reindexing.md) Section 2.7 Troubleshooting for resolution.
-  <!-- TOC: skill-reindexing.md -->
-  - 1 What is skill reindexing - Updating PSS index
-  - 2 When to reindex - Reindexing triggers
-  - 1 New skills added - Fresh skills need indexing
-  - 2 Skills modified - Content changes need re-extraction
-  - 3 Keywords stale - Suggestions not matching
-  - ...and 12 more sections
-  <!-- /TOC -->
-
-### Issue: PSS keyword matching is poor
-
-**Symptoms:** Irrelevant skills suggested, relevant skills missed.
-
-See [references/pss-integration.md](references/pss-integration.md) Section 3.7 Troubleshooting for resolution.
-  <!-- TOC: pss-integration.md -->
-  - 1 What is PSS integration - AI-analyzed skill activation
-  - 2 How PSS works - Discovery algorithm
-  - 1 Index as superset - All skills indexed
-  - 2 Agent filtering - Available skills filter
-  - 3 Weighted scoring - Keyword relevance
-  - ...and 11 more sections
-  <!-- /TOC -->
-
-## Key Takeaways
-
-1. **Validate before publish** - Catch errors early with skills-ref
-2. **Reindex after changes** - PSS needs fresh index to discover updates
-3. **Description is key** - PSS extracts keywords from description
-4. **Use natural language** - Keywords should appear naturally in content
-5. **Test discovery** - Verify skills activate for expected queries
-
-## Next Steps
-
-### 1. Read Skill Validation
-See [references/skill-validation.md](references/skill-validation.md) for validation procedures.
-  <!-- TOC: skill-validation.md -->
-  - 1 What is skill validation - Checking skill correctness
-  - 2 Validation requirements - Agent Skills specification
-  - 1 Directory structure - Required layout
-  - 2 SKILL.md format - Frontmatter and content
-  - 3 References structure - Reference file format
-  - ...and 17 more sections
-  <!-- /TOC -->
-
-### 2. Read Skill Reindexing
-See [references/skill-reindexing.md](references/skill-reindexing.md) for reindexing procedures.
-  <!-- TOC: skill-reindexing.md -->
-  - 1 What is skill reindexing - Updating PSS index
-  - 2 When to reindex - Reindexing triggers
-  - 1 New skills added - Fresh skills need indexing
-  - 2 Skills modified - Content changes need re-extraction
-  - 3 Keywords stale - Suggestions not matching
-  - ...and 12 more sections
-  <!-- /TOC -->
-
-### 3. Read PSS Integration
-See [references/pss-integration.md](references/pss-integration.md) for discovery optimization.
-  <!-- TOC: pss-integration.md -->
-  - 1 What is PSS integration - AI-analyzed skill activation
-  - 2 How PSS works - Discovery algorithm
-  - 1 Index as superset - All skills indexed
-  - 2 Agent filtering - Available skills filter
-  - 3 Weighted scoring - Keyword relevance
-  - ...and 11 more sections
-  <!-- /TOC -->
-
----
+| Issue | Resolution |
+|-------|------------|
+| Skill validation fails | See [skill-validation.md](references/skill-validation.md) Section 1.7 |
+| Skill not in PSS suggestions | See [skill-reindexing.md](references/skill-reindexing.md) Section 2.7 |
+| Poor keyword matching | See [pss-integration.md](references/pss-integration.md) Section 3.7 |
 
 ## Resources
 
 - [Skill Validation](references/skill-validation.md)
-  <!-- TOC: skill-validation.md -->
-  - 1 What is skill validation - Checking skill correctness
-  - 2 Validation requirements - Agent Skills specification
-  - 1 Directory structure - Required layout
-  - 2 SKILL.md format - Frontmatter and content
-  - 3 References structure - Reference file format
-  - ...and 17 more sections
-  <!-- /TOC -->
-- [Validation Procedures](references/validation-procedures.md) - Skill validation procedures
-  <!-- TOC: validation-procedures.md -->
-  - 0 When validating a single skill directory
-  - 1 Required skill structure components
-  - 2 SKILL.md frontmatter validation rules
-  - 3 Single skill validation step-by-step procedure
-  - 4 Using skills-ref for validation
-  - ...and 29 more sections
-  <!-- /TOC -->
 - [Skill Reindexing](references/skill-reindexing.md)
-  <!-- TOC: skill-reindexing.md -->
-  - 1 What is skill reindexing - Updating PSS index
-  - 2 When to reindex - Reindexing triggers
-  - 1 New skills added - Fresh skills need indexing
-  - 2 Skills modified - Content changes need re-extraction
-  - 3 Keywords stale - Suggestions not matching
-  - ...and 12 more sections
-  <!-- /TOC -->
 - [PSS Integration](references/pss-integration.md)
-  <!-- TOC: pss-integration.md -->
-  - 1 What is PSS integration - AI-analyzed skill activation
-  - 2 How PSS works - Discovery algorithm
-  - 1 Index as superset - All skills indexed
-  - 2 Agent filtering - Available skills filter
-  - 3 Weighted scoring - Keyword relevance
-  - ...and 11 more sections
-  <!-- /TOC -->
+- [Validation Procedures](references/validation-procedures.md)
+- [Overview and Examples](references/skill-overview-and-examples.md)
+- [Op: Validate Skill](references/op-validate-skill.md)
+- [Op: Reindex Skills](references/op-reindex-skills-pss.md)
+- [Op: Generate Prompt XML](references/op-generate-agent-prompt-xml.md)
+- [Op: Configure PSS](references/op-configure-pss-integration.md)
 
 ---
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** Chief of Staff Agents
-**Difficulty Level:** Intermediate

@@ -25,8 +25,6 @@ Suspends idle agents to conserve resources and resumes them when work is availab
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
-
 Copy this checklist and track your progress:
 - [ ] Request GovernanceRequest approval from sourceManager via amcos-permission-management
 - [ ] Confirm agent idle with no active work

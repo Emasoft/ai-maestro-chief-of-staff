@@ -25,8 +25,6 @@ Manages team registry, inter-agent messaging, role boundary enforcement, and age
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
-
 Copy this checklist and track your progress:
 - [ ] Identify registry update type (add, remove, or status change)
 - [ ] Execute registry command and verify via list

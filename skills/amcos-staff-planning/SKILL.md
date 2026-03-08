@@ -17,18 +17,17 @@ procedure: "proc-evaluate-project, proc-negotiate-team"
 
 ## Overview
 
-Staff planning is a core responsibility of the Chief of Staff agent. It involves analyzing project requirements, assessing available agent capabilities, planning capacity allocation, and creating staffing templates that ensure efficient multi-agent orchestration. This skill teaches you how to perform comprehensive staffing analysis and planning.
+Staff planning analyzes project requirements, assesses agent capabilities, plans capacity allocation, and creates staffing templates for efficient multi-agent orchestration.
 
 ## Prerequisites
 
-Before using this skill, ensure:
 1. Task requirements are defined
 2. Available agent pool is known
 3. Resource limits are understood
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
 
 1. Analyze task requirements
 2. Determine required agent count and types
@@ -43,336 +42,59 @@ Before using this skill, ensure:
 | Team sizing | Recommended agent count by role |
 | Resource check | Availability vs requirements |
 
-## What Is Staff Planning?
-
-Staff planning is the process of determining which agents are needed, when they are needed, and how they should be allocated across projects and tasks. Unlike simple task assignment, staff planning considers:
-
-- **Agent capabilities**: What each agent type can do
-- **Workload patterns**: When agents are busy vs available
-- **Project dependencies**: Which tasks must complete before others can start
-- **Resource constraints**: Context limits, API quotas, concurrent execution limits
-
-## Staff Planning Components
-
-### 1. Role Assessment
-
-Evaluating what agent roles are required for a project or task set:
-- Identifying required capabilities (coding, testing, documentation, etc.)
-- Matching capabilities to available agent types
-- Determining specialization depth needed
-- Assessing multi-role requirements
-
-### 2. Capacity Planning
-
-Determining how much work agents can handle:
-- Estimating task durations
-- Calculating parallel execution limits
-- Planning for context window constraints
-- Scheduling around blocking operations
-
-### 3. Staffing Templates
-
-Reusable configurations for common scenarios:
-- Project bootstrap templates
-- Feature development templates
-- Bug triage templates
-- Release preparation templates
-
 ## Core Procedures
 
 ### PROCEDURE 1: Assess Role Requirements
 
-**When to use:** At project start, when adding new features, or when task patterns change.
+**When/Steps:** Analyze requirements, list capabilities, map to agent types, identify gaps.
 
-**Steps:** Analyze project requirements, list required capabilities, map to agent types, identify gaps.
-
-**Related documentation:**
-
-#### Role Assessment ([references/role-assessment.md](references/role-assessment.md))
-- 1.1 What is role assessment - Understanding role requirements analysis
-- 1.2 When to perform assessment - Triggers for role evaluation
-- 1.3 Assessment procedure - Step-by-step role analysis
-  - 1.3.1 Capability extraction - Identifying required skills
-  - 1.3.2 Agent type mapping - Matching skills to agent types
-  - 1.3.3 Gap analysis - Finding missing capabilities
-  - 1.3.4 Priority ordering - Ranking requirements by importance
-- 1.4 Assessment output format - Structured assessment results
-- 1.5 Validation checklist - Verifying assessment completeness
-- 1.6 Examples - Role assessment scenarios
-- 1.7 Troubleshooting - Common assessment issues
+See [references/role-assessment.md](references/role-assessment.md) and [references/op-assess-role-requirements.md](references/op-assess-role-requirements.md).
 
 ### PROCEDURE 2: Plan Agent Capacity
 
-**When to use:** When scheduling work, handling resource conflicts, or optimizing throughput.
+**When/Steps:** Inventory agents, estimate task requirements, calculate allocation, identify bottlenecks.
 
-**Steps:** Inventory available agents, estimate task requirements, calculate allocation, identify bottlenecks.
-
-**Related documentation:**
-
-#### Capacity Planning ([references/capacity-planning.md](references/capacity-planning.md))
-- 2.1 What is capacity planning - Understanding capacity constraints
-- 2.2 Capacity metrics - Measuring agent capacity
-  - 2.2.1 Context window utilization - Token budget tracking
-  - 2.2.2 Concurrent execution limits - Parallel task boundaries
-  - 2.2.3 Blocking operation impact - Synchronous wait times
-- 2.3 Capacity planning procedure - Step-by-step planning
-  - 2.3.1 Agent inventory - Listing available agents
-  - 2.3.2 Task estimation - Sizing work items
-  - 2.3.3 Allocation calculation - Assigning agents to tasks
-  - 2.3.4 Bottleneck identification - Finding constraints
-- 2.4 Load balancing strategies - Distributing work evenly
-- 2.5 Scaling decisions - When to add more agents
-- 2.6 Examples - Capacity planning scenarios
-- 2.7 Troubleshooting - Capacity planning issues
+See [references/capacity-planning.md](references/capacity-planning.md) and [references/op-plan-agent-capacity.md](references/op-plan-agent-capacity.md).
 
 ### PROCEDURE 3: Create Staffing Templates
 
-**When to use:** When establishing repeatable staffing patterns or standardizing team compositions.
+**When/Steps:** Identify scenario, list roles, define assignments, document template.
 
-**Steps:** Identify common scenario, list required roles, define agent assignments, document template.
-
-**Related documentation:**
-
-#### Staffing Templates ([references/staffing-templates.md](references/staffing-templates.md))
-- 3.1 What are staffing templates - Reusable staffing configurations
-- 3.2 Template structure - Standard template format
-  - 3.2.1 Metadata section - Template identification
-  - 3.2.2 Roles section - Required agent types
-  - 3.2.3 Assignments section - Default agent allocations
-  - 3.2.4 Constraints section - Scheduling limitations
-- 3.3 Built-in templates - Standard templates included
-  - 3.3.1 Project bootstrap template - New project setup
-  - 3.3.2 Feature development template - Feature implementation
-  - 3.3.3 Bug triage template - Issue investigation
-  - 3.3.4 Release preparation template - Release workflow
-- 3.4 Creating custom templates - Building new templates
-- 3.5 Template validation - Ensuring template correctness
-- 3.6 Examples - Template usage scenarios
-- 3.7 Troubleshooting - Template issues
-
-## Operational Procedures (Runbooks)
-
-These operational runbooks provide step-by-step instructions for executing each staff planning procedure. Use them as quick-reference guides when performing the corresponding operation.
-
-#### Assess Role Requirements ([references/op-assess-role-requirements.md](references/op-assess-role-requirements.md))
-Runbook for analyzing project requirements, extracting required capabilities, mapping them to agent types, performing gap analysis, and creating staffing recommendations.
-- Steps - Extract capabilities from requirements, map capabilities to agent types, perform gap analysis, assign priorities, create staffing recommendation
-- Examples - Web authentication feature assessment
-- Error Handling - What to do when role gaps are found
-- Checklist - Verification steps after assessment
-
-#### Plan Agent Capacity ([references/op-plan-agent-capacity.md](references/op-plan-agent-capacity.md))
-Runbook for creating agent inventories, estimating task requirements, calculating task allocation, identifying bottlenecks, and recommending mitigations.
-- Steps - Create agent inventory, estimate task requirements, calculate task allocation, identify bottlenecks, recommend mitigations
-- Examples - Sprint capacity planning
-- Error Handling - What to do when capacity is exceeded
-- Checklist - Verification steps after capacity planning
-
-#### Create Staffing Templates ([references/op-create-staffing-templates.md](references/op-create-staffing-templates.md))
-Runbook for building reusable staffing configurations for common scenarios like project bootstrap, feature development, bug triage, and release preparation.
-- Steps - Identify the scenario, define required roles, define task assignments, define constraints, validate and store template
-- Examples - Creating a code review template
-- Error Handling - What to do when template does not fit
-- Built-in Templates Reference - Standard templates included
-- Checklist - Verification steps after template creation
-
-## Task Checklist
-
-Copy this checklist and track your progress:
-
-- [ ] Understand staff planning purpose and components
-- [ ] Learn PROCEDURE 1: Assess role requirements
-- [ ] Learn PROCEDURE 2: Plan agent capacity
-- [ ] Learn PROCEDURE 3: Create staffing templates
-- [ ] Practice role assessment for a sample project
-- [ ] Practice capacity planning with constraints
-- [ ] Create a custom staffing template
-- [ ] Validate templates work correctly
+See [references/staffing-templates.md](references/staffing-templates.md) and [references/op-create-staffing-templates.md](references/op-create-staffing-templates.md).
 
 ## Examples
 
-### Example 1: Role Assessment for Feature Development
-
-```markdown
-## Role Assessment: User Authentication Feature
-
-### Required Capabilities
-1. Python backend development
-2. API design and implementation
-3. Security best practices
-4. Unit test creation
-5. Integration test creation
-6. Documentation writing
-
-### Agent Type Mapping
-| Capability | Agent Type | Priority |
-|------------|------------|----------|
-| Backend development | code-implementer | HIGH |
-| API design | architect-agent | HIGH |
-| Security practices | security-reviewer | MEDIUM |
-| Unit tests | test-engineer | HIGH |
-| Integration tests | test-engineer | MEDIUM |
-| Documentation | doc-writer | LOW |
-
-### Gap Analysis
-- No security-reviewer agent available
-- Mitigation: code-implementer will follow security checklist
-```
-
-### Example 2: Capacity Planning
-
-```markdown
-## Capacity Plan: Sprint 42
-
-### Available Agents
-- code-implementer: 2 instances
-- test-engineer: 1 instance
-- doc-writer: 1 instance
-
-### Task Allocation
-| Task | Agent | Duration | Parallel |
-|------|-------|----------|----------|
-| Auth module | code-impl-1 | 4h | Yes |
-| User profile | code-impl-2 | 3h | Yes |
-| Auth tests | test-eng | 2h | After auth |
-| API docs | doc-writer | 1h | After auth |
-
-### Bottleneck
-- test-engineer is single instance
-- All test tasks must serialize through it
-```
+See [references/staffing-overview-and-examples.md](references/staffing-overview-and-examples.md) for full examples including role assessment, capacity planning, and template usage.
+- What Is Staff Planning
+- Staff Planning Components
+- Role Assessment Details
+- Capacity Planning Details
+- Staffing Templates Details
+- Examples: Role Assessment for Feature Development
+- Examples: Capacity Planning
+- Key Takeaways
+- Task Checklist
 
 ## Error Handling
 
-### Issue: Not enough agents for required roles
-
-**Symptoms:** Role assessment shows gaps, tasks remain unassigned.
-
-See [references/role-assessment.md](references/role-assessment.md) Section 1.7 Troubleshooting for resolution.
-  <!-- TOC: role-assessment.md -->
-  - 1 What is role assessment - Understanding role requirements analysis
-  - 2 When to perform assessment - Triggers for role evaluation
-  - 3 Assessment procedure - Step-by-step role analysis
-  - 1 Capability extraction - Identifying required skills
-  - 2 Agent type mapping - Matching skills to agent types
-  - ...and 7 more sections
-  <!-- /TOC -->
-
-### Issue: Agent capacity exceeded
-
-**Symptoms:** Tasks queue indefinitely, context windows exhausted.
-
-See [references/capacity-planning.md](references/capacity-planning.md) Section 2.7 Troubleshooting for resolution.
-  <!-- TOC: capacity-planning.md -->
-  - 1 What is capacity planning - Understanding capacity constraints
-  - 2 Capacity metrics - Measuring agent capacity
-  - 1 Context window utilization - Token budget tracking
-  - 2 Concurrent execution limits - Parallel task boundaries
-  - 3 Blocking operation impact - Synchronous wait times
-  - ...and 10 more sections
-  <!-- /TOC -->
-
-### Issue: Template does not fit project needs
-
-**Symptoms:** Template roles do not match requirements, assignments incorrect.
-
-See [references/staffing-templates.md](references/staffing-templates.md) Section 3.7 Troubleshooting for resolution.
-  <!-- TOC: staffing-templates.md -->
-  - 1 What are staffing templates - Reusable staffing configurations
-  - 2 Template structure - Standard template format
-  - 1 Metadata section - Template identification
-  - 2 Roles section - Required agent types
-  - 3 Assignments section - Default agent allocations
-  - ...and 11 more sections
-  <!-- /TOC -->
-
-## Key Takeaways
-
-1. **Role assessment precedes staffing** - Know what you need before allocating
-2. **Capacity planning prevents overload** - Plan around constraints
-3. **Templates accelerate setup** - Reuse proven patterns
-4. **Gaps require mitigation** - Document workarounds for missing roles
-5. **Bottlenecks need attention** - Single-instance agents create serialization
-
-## Next Steps
-
-### 1. Read Role Assessment
-See [references/role-assessment.md](references/role-assessment.md) for complete role analysis procedures.
-  <!-- TOC: role-assessment.md -->
-  - 1 What is role assessment - Understanding role requirements analysis
-  - 2 When to perform assessment - Triggers for role evaluation
-  - 3 Assessment procedure - Step-by-step role analysis
-  - 1 Capability extraction - Identifying required skills
-  - 2 Agent type mapping - Matching skills to agent types
-  - ...and 7 more sections
-  <!-- /TOC -->
-
-### 2. Read Capacity Planning
-See [references/capacity-planning.md](references/capacity-planning.md) for capacity calculation methods.
-  <!-- TOC: capacity-planning.md -->
-  - 1 What is capacity planning - Understanding capacity constraints
-  - 2 Capacity metrics - Measuring agent capacity
-  - 1 Context window utilization - Token budget tracking
-  - 2 Concurrent execution limits - Parallel task boundaries
-  - 3 Blocking operation impact - Synchronous wait times
-  - ...and 10 more sections
-  <!-- /TOC -->
-
-### 3. Read Staffing Templates
-See [references/staffing-templates.md](references/staffing-templates.md) for template creation and usage.
-  <!-- TOC: staffing-templates.md -->
-  - 1 What are staffing templates - Reusable staffing configurations
-  - 2 Template structure - Standard template format
-  - 1 Metadata section - Template identification
-  - 2 Roles section - Required agent types
-  - 3 Assignments section - Default agent allocations
-  - ...and 11 more sections
-  <!-- /TOC -->
-
----
+| Issue | Resolution |
+|-------|------------|
+| Not enough agents for roles | See [role-assessment.md](references/role-assessment.md) Section 1.7 |
+| Agent capacity exceeded | See [capacity-planning.md](references/capacity-planning.md) Section 2.7 |
+| Template does not fit | See [staffing-templates.md](references/staffing-templates.md) Section 3.7 |
 
 ## Resources
 
 - [Role Assessment](references/role-assessment.md)
-  <!-- TOC: role-assessment.md -->
-  - 1 What is role assessment - Understanding role requirements analysis
-  - 2 When to perform assessment - Triggers for role evaluation
-  - 3 Assessment procedure - Step-by-step role analysis
-  - 1 Capability extraction - Identifying required skills
-  - 2 Agent type mapping - Matching skills to agent types
-  - ...and 7 more sections
-  <!-- /TOC -->
 - [Capacity Planning](references/capacity-planning.md)
-  <!-- TOC: capacity-planning.md -->
-  - 1 What is capacity planning - Understanding capacity constraints
-  - 2 Capacity metrics - Measuring agent capacity
-  - 1 Context window utilization - Token budget tracking
-  - 2 Concurrent execution limits - Parallel task boundaries
-  - 3 Blocking operation impact - Synchronous wait times
-  - ...and 10 more sections
-  <!-- /TOC -->
 - [Staffing Templates](references/staffing-templates.md)
-  <!-- TOC: staffing-templates.md -->
-  - 1 What are staffing templates - Reusable staffing configurations
-  - 2 Template structure - Standard template format
-  - 1 Metadata section - Template identification
-  - 2 Roles section - Required agent types
-  - 3 Assignments section - Default agent allocations
-  - ...and 11 more sections
-  <!-- /TOC -->
-- [Framework Details](references/framework-details.md) - Staff planning framework details
-  <!-- TOC: framework-details.md -->
-  - 0 Analyzing task requirements to determine staffing needs
-  - 1 Classifying tasks by project type, complexity, and timeline
-  - 2 Assessing task complexity to determine agent count
-  - 3 Matching task requirements to agent specializations
-  - 4 Evaluating resource constraints before staffing
-  - ...and 20 more sections
-  <!-- /TOC -->
+- [Framework Details](references/framework-details.md)
+- [Overview and Examples](references/staffing-overview-and-examples.md)
+- [Op: Assess Role Requirements](references/op-assess-role-requirements.md)
+- [Op: Plan Agent Capacity](references/op-plan-agent-capacity.md)
+- [Op: Create Staffing Templates](references/op-create-staffing-templates.md)
 
 ---
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** Chief of Staff Agents
-**Difficulty Level:** Intermediate

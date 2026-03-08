@@ -17,18 +17,17 @@ procedure: "proc-notify-team-ready"
 
 ## Overview
 
-Team coordination is a core responsibility of the Chief of Staff agent. This skill teaches you how to manage distributed agent teams, assign roles effectively, coordinate messaging between team members, and maintain awareness of all active teammates and their current status.
+Team coordination manages distributed agent teams, assigns roles, coordinates messaging between members, and maintains awareness of all active teammates and their current status.
 
 ## Prerequisites
 
-Before using this skill, ensure:
 1. Team registry is accessible
 2. AI Maestro messaging is available
 3. Agent roles are defined
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
 
 1. Identify coordination need
 2. Query team registry for current state
@@ -43,303 +42,59 @@ Before using this skill, ensure:
 | Role assignment | Agent roles updated, registry modified |
 | Status sync | All agents aligned on current state |
 
-## What Is Team Coordination?
-
-Team coordination is the process of organizing multiple AI agents to work together on shared goals. The Chief of Staff acts as the central coordination point, ensuring agents are assigned appropriate roles, can communicate effectively, and remain aware of each other's progress and status.
-
-**Key characteristics:**
-- **Distributed**: Team members run in separate Claude Code sessions
-- **Asynchronous**: Communication happens via message queues, not direct calls
-- **Role-based**: Each agent has a defined role with specific responsibilities
-- **Status-aware**: Chief of Staff tracks all team member states
-
-## Team Coordination Components
-
-### 1. Role Assignment
-Matching agents to roles based on capabilities and task requirements.
-
-### 2. Team Messaging
-Facilitating communication between team members via AI Maestro.
-
-### 3. Teammate Awareness
-Maintaining visibility into all team members' current status and activities.
-
 ## Core Procedures
 
 ### PROCEDURE 1: Assign Agent Roles
 
-**When to use:** When onboarding a new agent, reassigning responsibilities, or restructuring the team.
+**When/Steps:** Identify role, match capabilities, send assignment message, confirm acceptance, update roster.
 
-**Steps:** Identify required role, match agent capabilities, send role assignment message, confirm acceptance, update team roster.
-
-**Related documentation:**
-
-#### Role Assignment ([references/role-assignment.md](references/role-assignment.md))
-  <!-- TOC: role-assignment.md -->
-  - 1 [What Are Agent Roles](#11-what-are-agent-roles)
-  - 2 [Standard Role Definitions](#12-standard-role-definitions)
-  - 3 [Matching Agents To Roles](#13-matching-agents-to-roles)
-  - 4 [Role Assignment Procedure](#14-role-assignment-procedure)
-  - 5 [Confirming Role Acceptance](#15-confirming-role-acceptance)
-  - ...and 4 more sections
-  <!-- /TOC -->
-- 1.1 Understanding roles → What Are Agent Roles section
-- 1.2 Role definitions → Standard Role Definitions section
-- 1.3 Capability matching → Matching Agents To Roles section
-- 1.4 Assignment procedure → Role Assignment Procedure section
-- 1.5 Role confirmation → Confirming Role Acceptance section
-- 1.6 Role transitions → Managing Role Transitions section
-- 1.7 Examples → Role Assignment Examples section
-- 1.8 Issues → Troubleshooting section
+See [references/role-assignment.md](references/role-assignment.md) and [references/op-assign-agent-roles.md](references/op-assign-agent-roles.md).
 
 ### PROCEDURE 2: Send Team Messages
 
-**When to use:** When broadcasting updates, sending targeted instructions, or facilitating inter-agent communication.
+**When/Steps:** Identify recipients, compose with priority, send via AI Maestro API, confirm delivery, log.
 
-**Steps:** Identify recipients, compose message with priority, send via AI Maestro API, confirm delivery, log in coordination state.
-
-**Related documentation:**
-
-#### Team Messaging ([references/team-messaging.md](references/team-messaging.md))
-  <!-- TOC: team-messaging.md -->
-  - 1 [Team Message Types](#21-team-message-types)
-  - 2 [Message Priority Levels](#22-message-priority-levels)
-  - 3 [Sending Broadcast Messages](#23-sending-broadcast-messages)
-  - 4 [Sending Targeted Messages](#24-sending-targeted-messages)
-  - 5 [Message Routing Rules](#25-message-routing-rules)
-  - ...and 4 more sections
-  <!-- /TOC -->
-- 2.1 Message types → Team Message Types section
-- 2.2 Message priorities → Message Priority Levels section
-- 2.3 Broadcast messages → Sending Broadcast Messages section
-- 2.4 Targeted messages → Sending Targeted Messages section
-- 2.5 Message routing → Message Routing Rules section
-- 2.6 Delivery confirmation → Confirming Message Delivery section
-- 2.7 Examples → Team Messaging Examples section
-- 2.8 Issues → Troubleshooting section
+See [references/team-messaging.md](references/team-messaging.md) and [references/op-send-team-messages.md](references/op-send-team-messages.md).
 
 ### PROCEDURE 3: Maintain Teammate Awareness
 
-**When to use:** Continuously during coordination, before assigning tasks, when reporting team status.
+**When/Steps:** Poll for active sessions, query status, update roster, identify inactive agents, flag issues.
 
-**Steps:** Poll AI Maestro for active sessions, query each agent's status, update team roster, identify inactive agents, flag issues.
-
-**Related documentation:**
-
-#### Teammate Awareness ([references/teammate-awareness.md](references/teammate-awareness.md))
-  <!-- TOC: teammate-awareness.md -->
-  - 1 [Managing The Team Roster](#31-managing-the-team-roster)
-  - 2 [Polling Agent Status](#32-polling-agent-status)
-  - 3 [Detecting Agent Activity](#33-detecting-agent-activity)
-  - 4 [Handling Inactive Agents](#34-handling-inactive-agents)
-  - 5 [Reporting Team Status](#35-reporting-team-status)
-  - ...and 3 more sections
-  <!-- /TOC -->
-- 3.1 Team roster → Managing The Team Roster section
-- 3.2 Status polling → Polling Agent Status section
-- 3.3 Activity detection → Detecting Agent Activity section
-- 3.4 Inactive handling → Handling Inactive Agents section
-- 3.5 Status reporting → Reporting Team Status section
-- 3.6 Examples → Teammate Awareness Examples section
-- 3.7 Issues → Troubleshooting section
-
-## Operational Procedures (Runbooks)
-
-These operational runbooks provide step-by-step instructions for executing each team coordination procedure. Use them as quick-reference guides when performing the corresponding operation.
-
-#### Assign Agent Roles ([references/op-assign-agent-roles.md](references/op-assign-agent-roles.md))
-Runbook for identifying required roles, matching agent capabilities, sending role assignment messages, confirming acceptance, and updating the team roster.
-- Steps - Identify required role, match agent capabilities, send role assignment message, confirm acceptance, update team roster
-- Examples - Assigning code reviewer role, reassigning role during restructure
-- Error Handling - What to do when role assignment fails
-- Checklist - Verification steps after role assignment
-
-#### Send Team Messages ([references/op-send-team-messages.md](references/op-send-team-messages.md))
-Runbook for composing and sending broadcast or targeted messages to team members via the AI Maestro API, confirming delivery, and logging coordination actions.
-- Steps - Identify recipients, compose message with priority, send message, confirm delivery, log in coordination state
-- Examples - Broadcasting sprint start, targeted instruction to developer, multi-recipient status request
-- Error Handling - What to do when message delivery fails
-- Checklist - Verification steps after sending
-
-#### Maintain Teammate Awareness ([references/op-maintain-teammate-awareness.md](references/op-maintain-teammate-awareness.md))
-Runbook for polling AI Maestro for active sessions, querying agent status, updating the team roster, identifying inactive agents, and flagging issues.
-- Steps - Poll AI Maestro for active sessions, query each agent's status, update team roster, identify inactive agents, flag issues
-- Examples - Initial team state discovery, pre-task assignment check, team status report generation
-- Error Handling - What to do when status polling fails
-- Checklist - Verification steps after status update
-
-## Task Checklist
-
-Copy this checklist and track your progress:
-
-- [ ] Understand team coordination purpose and components
-- [ ] Learn PROCEDURE 1: Assign agent roles
-- [ ] Learn PROCEDURE 2: Send team messages
-- [ ] Learn PROCEDURE 3: Maintain teammate awareness
-- [ ] Practice role assignment workflow
-- [ ] Practice team messaging via AI Maestro
-- [ ] Practice status monitoring and reporting
+See [references/teammate-awareness.md](references/teammate-awareness.md) and [references/op-maintain-teammate-awareness.md](references/op-maintain-teammate-awareness.md).
 
 ## Examples
 
-### Example 1: Assigning a Role to a New Agent
-
-Use the `agent-messaging` skill to send a role assignment message:
-- **Recipient**: `helper-agent-generic`
-- **Subject**: `Role Assignment: Code Reviewer`
-- **Priority**: `high`
-- **Content**: type `role-assignment`, explaining that the agent is assigned the Code Reviewer role with responsibilities: review PRs, enforce code standards, provide feedback
-
-**Verify**: confirm message delivery and await role acceptance acknowledgment.
-
-### Example 2: Broadcasting a Team Update
-
-Use the `agent-messaging` skill to broadcast a message to all team members:
-- **Subject**: `Sprint Planning Complete`
-- **Priority**: `normal`
-- **Content**: type `announcement`, informing that Sprint 5 planning is complete and all tasks are assigned
-
-**Verify**: confirm delivery to all team members.
-
-### Example 3: Checking Team Status
-
-Use the `ai-maestro-agents-management` skill to list all active sessions and their status, including each agent's name, status, and last seen timestamp.
-
-**Verify**: all expected team members appear in the list with correct status.
-
-### Example 4: Full Coordination Workflow with Input/Output
-
-This example shows a complete team coordination cycle with concrete inputs and outputs.
-
-**Input:** User requests a new team for project "auth-service"
-
-```
-User message: "Set up a team for the auth-service project.
-I need an architect, an orchestrator, and two programmers."
-```
-
-**Output:** AMCOS creates the team and confirms formation
-
-```
-[TEAM-FORMED] auth-service
-  Agents spawned:
-    - eaa-auth-service-architect (Architect) - ACTIVE
-    - eoa-auth-service-orchestrator (Orchestrator) - ACTIVE
-    - auth-service-programmer-001 (Programmer) - ACTIVE
-    - auth-service-programmer-002 (Programmer) - ACTIVE
-  Team registry updated via REST API
-  Messages sent: 4 role assignments delivered
-```
-
-### Example 5: Role Assignment with Input/Output
-
-**Input:** AMCOS assigns a code reviewer role to an existing agent
-
-```json
-{
-  "to": "eia-feature-reviewer",
-  "subject": "Role Assignment: Code Reviewer for auth-service",
-  "priority": "high",
-  "content": {
-    "type": "role-assignment",
-    "message": "You are assigned as Code Reviewer for auth-service. Responsibilities: review all PRs, enforce code standards, verify test coverage above 80%."
-  }
-}
-```
-
-**Output:** Agent acknowledges the role assignment
-
-```json
-{
-  "from": "eia-feature-reviewer",
-  "subject": "Role Accepted: Code Reviewer for auth-service",
-  "content": {
-    "type": "role-acceptance",
-    "message": "Role accepted. Ready to review PRs for auth-service."
-  }
-}
-```
-
-### Example 6: Team Status Query with Input/Output
-
-**Input:** Query team status via AI Maestro API
-
-```bash
-curl -s "http://localhost:23000/api/sessions" | jq '.sessions[] | select(.project == "auth-service")'
-```
-
-**Output:** Current team status result
-
-```json
-[
-  {"name": "eaa-auth-service-architect", "role": "Architect", "status": "active", "last_seen": "2026-02-14T10:30:00Z"},
-  {"name": "eoa-auth-service-orchestrator", "role": "Orchestrator", "status": "active", "last_seen": "2026-02-14T10:29:45Z"},
-  {"name": "auth-service-programmer-001", "role": "Programmer", "status": "active", "last_seen": "2026-02-14T10:28:12Z"},
-  {"name": "auth-service-programmer-002", "role": "Programmer", "status": "idle", "last_seen": "2026-02-14T10:15:00Z"}
-]
-```
+See [references/coordination-overview-and-examples.md](references/coordination-overview-and-examples.md) for full examples including role assignment, team broadcasts, status checks, and coordination workflows with input/output.
+- What Is Team Coordination
+- Team Coordination Components
+- Examples: Assigning a Role to a New Agent
+- Examples: Broadcasting a Team Update
+- Examples: Checking Team Status
+- Examples: Full Coordination Workflow with Input/Output
+- Examples: Role Assignment with Input/Output
+- Examples: Team Status Query with Input/Output
+- Key Takeaways
+- Task Checklist
 
 ## Error Handling
 
-### Issue: Agent does not respond to role assignment
-
-**Symptoms:** No acknowledgment received, agent continues previous behavior.
-
-**Solution:** Retry with higher priority, check if agent is active, escalate to user if unresponsive after 3 attempts.
-
-### Issue: Team messages are not delivered
-
-**Symptoms:** Delivery confirmation missing, recipients unaware of messages.
-
-**Solution:** Verify AI Maestro is running, check recipient session names, validate message format.
-
-### Issue: Team roster becomes stale
-
-**Symptoms:** Inactive agents shown as active, missing new agents, wrong status.
-
-**Solution:** Force refresh via status polling, clear and rebuild roster, verify session registry.
-
-## Key Takeaways
-
-1. **Role assignment requires confirmation** - Do not assume assignment succeeded without acknowledgment
-2. **Message priority matters** - Use appropriate priority to ensure timely delivery
-3. **Continuous awareness is essential** - Poll status regularly, not just when needed
-4. **Log all coordination actions** - Maintain audit trail for debugging and recovery
-5. **Handle failures gracefully** - Retry, escalate, but never ignore coordination failures
+| Issue | Resolution |
+|-------|------------|
+| Agent does not respond to role | Retry with higher priority, check if active, escalate after 3 attempts |
+| Messages not delivered | Verify AI Maestro running, check session names, validate format |
+| Team roster stale | Force refresh via polling, clear and rebuild, verify registry |
 
 ## Resources
 
 - [Role Assignment](references/role-assignment.md)
-  <!-- TOC: role-assignment.md -->
-  - 1 [What Are Agent Roles](#11-what-are-agent-roles)
-  - 2 [Standard Role Definitions](#12-standard-role-definitions)
-  - 3 [Matching Agents To Roles](#13-matching-agents-to-roles)
-  - 4 [Role Assignment Procedure](#14-role-assignment-procedure)
-  - 5 [Confirming Role Acceptance](#15-confirming-role-acceptance)
-  - ...and 4 more sections
-  <!-- /TOC -->
 - [Team Messaging](references/team-messaging.md)
-  <!-- TOC: team-messaging.md -->
-  - 1 [Team Message Types](#21-team-message-types)
-  - 2 [Message Priority Levels](#22-message-priority-levels)
-  - 3 [Sending Broadcast Messages](#23-sending-broadcast-messages)
-  - 4 [Sending Targeted Messages](#24-sending-targeted-messages)
-  - 5 [Message Routing Rules](#25-message-routing-rules)
-  - ...and 4 more sections
-  <!-- /TOC -->
 - [Teammate Awareness](references/teammate-awareness.md)
-  <!-- TOC: teammate-awareness.md -->
-  - 1 [Managing The Team Roster](#31-managing-the-team-roster)
-  - 2 [Polling Agent Status](#32-polling-agent-status)
-  - 3 [Detecting Agent Activity](#33-detecting-agent-activity)
-  - 4 [Handling Inactive Agents](#34-handling-inactive-agents)
-  - 5 [Reporting Team Status](#35-reporting-team-status)
-  - ...and 3 more sections
-  <!-- /TOC -->
+- [Overview and Examples](references/coordination-overview-and-examples.md)
+- [Op: Assign Agent Roles](references/op-assign-agent-roles.md)
+- [Op: Send Team Messages](references/op-send-team-messages.md)
+- [Op: Maintain Teammate Awareness](references/op-maintain-teammate-awareness.md)
 
 ---
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** AI Maestro Chief of Staff Agent
-**Difficulty Level:** Intermediate

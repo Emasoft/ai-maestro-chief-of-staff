@@ -24,8 +24,6 @@ Captures config state at session start, detects drift, and resolves conflicts.
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
-
 Copy this checklist and track your progress:
 - [ ] Capture config snapshot at session start
 - [ ] Detect, classify, and resolve conflicts

@@ -25,8 +25,6 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
-
 ### Phase 3: Recovery Strategies
 
 1. Select strategy based on failure classification

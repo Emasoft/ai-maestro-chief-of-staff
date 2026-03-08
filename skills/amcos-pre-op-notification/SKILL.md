@@ -48,8 +48,6 @@ Before sending, validate recipient against `GET /api/teams`. Block and log viola
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
-
 ### PROCEDURE 1: Pre-Operation Notification
 
 **When to use:** Before skill/plugin installation, agent restart, configuration changes, or any disruptive operation.

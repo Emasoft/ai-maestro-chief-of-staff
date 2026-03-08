@@ -17,18 +17,17 @@ procedure: "support-skill"
 
 ## Overview
 
-Performance tracking enables the Chief of Staff to understand how well the agent team is performing, identify individual strengths and weaknesses, and make data-driven decisions about team composition and task assignment. This skill teaches systematic approaches to collecting metrics, analyzing performance, and generating useful reports.
+Performance tracking enables the Chief of Staff to understand how well the agent team is performing, identify individual strengths and weaknesses, and make data-driven decisions about team composition and task assignment.
 
 ## Prerequisites
 
-Before using this skill, ensure:
 1. Agent metrics are being collected
 2. Performance baselines are established
 3. Reporting templates are available
 
 ## Instructions
 
-> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`. Always reference log file paths in reports instead of reproducing script output.
+> **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
 
 1. Identify performance metrics needed
 2. Query agent activity logs
@@ -43,299 +42,66 @@ Before using this skill, ensure:
 | Resource usage | Memory, CPU, API calls |
 | Quality metrics | Error rate, rework rate |
 
-## What Is Performance Tracking?
-
-Performance tracking is the systematic collection and analysis of metrics about agent behavior, output quality, and efficiency. Unlike traditional employee performance reviews, agent performance tracking happens continuously and focuses on measurable outcomes rather than subjective assessments.
-
-**Key characteristics:**
-- **Data-driven**: Based on measurable metrics, not impressions
-- **Continuous**: Ongoing tracking, not point-in-time reviews
-- **Actionable**: Insights lead to concrete improvements
-- **Fair**: Consistent criteria applied to all agents
-
-## Performance Tracking Components
-
-### 1. Performance Metrics
-Quantifiable measures of agent output and behavior.
-
-### 2. Strength-Weakness Analysis
-Identification of what each agent does well and where they struggle.
-
-### 3. Performance Reporting
-Communication of findings to relevant stakeholders.
-
 ## Core Procedures
 
 ### PROCEDURE 1: Collect Performance Metrics
 
-**When to use:** Continuously during agent operation, at task completion, during periodic reviews.
-
-**Steps:** Define metrics to track, capture data at relevant events, aggregate over time periods, validate data quality.
-
-**Related documentation:**
-
-#### Performance Metrics ([references/performance-metrics.md](references/performance-metrics.md))
-  <!-- TOC: performance-metrics.md -->
-  - 1 [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
-  - 2 [Task Completion Metrics](#12-task-completion-metrics)
-  - 3 [Quality Metrics](#13-quality-metrics)
-  - 4 [Efficiency Metrics](#14-efficiency-metrics)
-  - 5 [Communication Metrics](#15-communication-metrics)
-  - ...and 4 more sections
-  <!-- /TOC -->
-- 1.1 Metric categories → Categories Of Performance Metrics section
-- 1.2 Task metrics → Task Completion Metrics section
-- 1.3 Quality metrics → Quality Metrics section
-- 1.4 Efficiency metrics → Efficiency Metrics section
-- 1.5 Communication metrics → Communication Metrics section
-- 1.6 Data collection → Collecting Metric Data section
-- 1.7 Examples → Performance Metrics Examples section
-- 1.8 Issues → Troubleshooting section
+Continuously capture data at relevant events and aggregate over time periods. See [performance-metrics.md](references/performance-metrics.md).
+  - [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
+  - [Task Completion Metrics](#12-task-completion-metrics)
+  - [Quality Metrics](#13-quality-metrics)
+  - [Efficiency Metrics](#14-efficiency-metrics)
+  - [Communication Metrics](#15-communication-metrics)
 
 ### PROCEDURE 2: Analyze Strengths and Weaknesses
 
-**When to use:** When making role assignments, after performance issues, during team planning.
-
-**Steps:** Review collected metrics, identify patterns, compare against benchmarks, document findings.
-
-**Related documentation:**
-
-#### Strength-Weakness Analysis ([references/strength-weakness-analysis.md](references/strength-weakness-analysis.md))
-  <!-- TOC: strength-weakness-analysis.md -->
-  - 1 [Performance Analysis Framework](#21-performance-analysis-framework)
-  - 2 [Identifying Agent Strengths](#22-identifying-agent-strengths)
-  - 3 [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
-  - 4 [Comparing Against Benchmarks](#24-comparing-against-benchmarks)
-  - 5 [Recognizing Performance Patterns](#25-recognizing-performance-patterns)
-  - ...and 4 more sections
-  <!-- /TOC -->
-- 2.1 Analysis framework → Performance Analysis Framework section
-- 2.2 Identifying strengths → Identifying Agent Strengths section
-- 2.3 Identifying weaknesses → Identifying Agent Weaknesses section
-- 2.4 Benchmarking → Comparing Against Benchmarks section
-- 2.5 Pattern recognition → Recognizing Performance Patterns section
-- 2.6 Recommendations → Making Performance Recommendations section
-- 2.7 Examples → Analysis Examples section
-- 2.8 Issues → Troubleshooting section
+Review metrics, identify patterns, compare against benchmarks. See [strength-weakness-analysis.md](references/strength-weakness-analysis.md).
+  - [Performance Analysis Framework](#21-performance-analysis-framework)
+  - [Identifying Agent Strengths](#22-identifying-agent-strengths)
+  - [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
+  - [Comparing Against Benchmarks](#24-comparing-against-benchmarks)
+  - [Recognizing Performance Patterns](#25-recognizing-performance-patterns)
 
 ### PROCEDURE 3: Generate Performance Reports
 
-**When to use:** On regular schedule (daily/weekly), on request, after significant events.
-
-**Steps:** Aggregate metrics, format for audience, include analysis, provide recommendations.
-
-**Related documentation:**
-
-#### Performance Reporting ([references/performance-reporting.md](references/performance-reporting.md))
-  <!-- TOC: performance-reporting.md -->
-  - 1 [Types Of Performance Reports](#31-types-of-performance-reports)
-  - 2 [Structuring Performance Reports](#32-structuring-performance-reports)
-  - 3 [Daily Performance Summaries](#33-daily-performance-summaries)
-  - 4 [Weekly Performance Reviews](#34-weekly-performance-reviews)
-  - 5 [Individual Agent Reports](#35-individual-agent-reports)
-  - ...and 4 more sections
-  <!-- /TOC -->
-- 3.1 Report types → Types Of Performance Reports section
-- 3.2 Report structure → Structuring Performance Reports section
-- 3.3 Daily reports → Daily Performance Summaries section
-- 3.4 Weekly reports → Weekly Performance Reviews section
-- 3.5 Individual reports → Individual Agent Reports section
-- 3.6 Distribution → Distributing Reports section
-- 3.7 Examples → Performance Report Examples section
-- 3.8 Issues → Troubleshooting section
-
-## Task Checklist
-
-Copy this checklist and track your progress:
-
-- [ ] Understand performance tracking purpose and scope
-- [ ] Learn PROCEDURE 1: Collect performance metrics
-- [ ] Learn PROCEDURE 2: Analyze strengths and weaknesses
-- [ ] Learn PROCEDURE 3: Generate performance reports
-- [ ] Configure metric collection
-- [ ] Establish performance baselines
-- [ ] Create reporting templates
-
-## Examples
-
-### Example 1: Recording Task Completion Metric
-
-```markdown
-# Task Completion Record
-
-Agent: helper-agent-generic
-Task: TASK-042 (Implement logout endpoint)
-Assigned: 2025-02-01T08:00:00Z
-Completed: 2025-02-01T12:30:00Z
-Duration: 4.5 hours
-Estimated: 4 hours
-Quality: Passed review on first attempt
-Blockers: None
-
-Metrics:
-- On-time: YES (within 110% of estimate)
-- First-pass quality: YES
-- Blocker-free: YES
-```
-
-### Example 2: Agent Strength-Weakness Summary
-
-```markdown
-# Agent Analysis: helper-agent-generic
-
-## Strengths
-1. **Code Review Speed**: Completes reviews 25% faster than average
-2. **First-Pass Quality**: 90% of code passes review on first attempt
-3. **Communication**: Clear, concise status updates
-
-## Weaknesses
-1. **Complex Algorithms**: Struggles with optimization tasks
-2. **Documentation**: Often leaves docs incomplete
-3. **Estimation**: Underestimates by average of 30%
-
-## Recommendations
-- Assign code review tasks (strength)
-- Pair with senior agent for algorithm work (weakness mitigation)
-- Require documentation checklist for all tasks
-```
-
-### Example 3: Weekly Performance Summary
-
-```markdown
-# Weekly Performance Summary
-
-Period: 2025-01-27 to 2025-02-02
-
-## Team Overview
-- Active Agents: 8
-- Tasks Completed: 45
-- On-Time Rate: 82%
-- First-Pass Quality: 75%
-
-## Top Performers
-1. libs-svg-svgbbox: 12 tasks, 100% on-time
-2. helper-agent-generic: 8 tasks, 88% first-pass
-
-## Areas for Improvement
-1. Documentation completion rate: 65% (target: 90%)
-2. Estimation accuracy: +35% average overrun
-
-## Recommendations
-- Add documentation checkpoint to workflow
-- Review estimation process with underperforming agents
-```
+Aggregate metrics, format for audience, include analysis. See [performance-reporting.md](references/performance-reporting.md).
+  - [Types Of Performance Reports](#31-types-of-performance-reports)
+  - [Structuring Performance Reports](#32-structuring-performance-reports)
+  - [Daily Performance Summaries](#33-daily-performance-summaries)
+  - [Weekly Performance Reviews](#34-weekly-performance-reviews)
+  - [Individual Agent Reports](#35-individual-agent-reports)
 
 ## Operational Procedures
 
-Step-by-step runbooks for executing each performance tracking operation. Use these when performing the actual procedures described above.
+- [op-collect-performance-metrics.md](references/op-collect-performance-metrics.md) - Runbook for collecting metrics
+- [op-analyze-strengths-weaknesses.md](references/op-analyze-strengths-weaknesses.md) - Runbook for analyzing performance
+- [op-generate-performance-report.md](references/op-generate-performance-report.md) - Runbook for creating reports
 
-### Collect Performance Metrics ([references/op-collect-performance-metrics.md](references/op-collect-performance-metrics.md))
+## Examples
 
-Detailed step-by-step runbook for systematically collecting quantifiable metrics about agent behavior, output quality, and efficiency.
-
-- When to Use: Continuously during agent operation, at task completion, during periodic reviews
-- Step 1: Define Metrics to Track (task, quality, efficiency, communication)
-- Step 2: Capture Data at Task Completion (JSON record format)
-- Step 3: Aggregate Over Time Periods
-- Step 4: Validate Data Quality
-- Step 5: Store Metrics
-- Metric Collection Automation script, Checklist
-
-### Analyze Strengths and Weaknesses ([references/op-analyze-strengths-weaknesses.md](references/op-analyze-strengths-weaknesses.md))
-
-Detailed step-by-step runbook for identifying agent strengths and weaknesses to enable better task assignment and team optimization.
-
-- When to Use: Making role assignments, after performance issues, during team planning, weekly reviews
-- Step 1: Review Collected Metrics
-- Step 2: Identify Performance Patterns (task type and time-based)
-- Step 3: Compare Against Benchmarks
-- Step 4: Document Findings (strengths, weaknesses, evidence)
-- Step 5: Make Recommendations
-- Example Analysis Output, Checklist
-
-### Generate Performance Report ([references/op-generate-performance-report.md](references/op-generate-performance-report.md))
-
-Detailed step-by-step runbook for creating formatted performance reports for stakeholders with actionable insights.
-
-- When to Use: Regular schedule (daily/weekly), on request, after significant events, at milestones
-- Report Types: Daily Summary, Weekly Review, Individual Report, Project Report
-- Step 1: Aggregate Metrics
-- Step 2: Format for Audience (daily, weekly, individual templates)
-- Step 3: Include Analysis (trends, anomalies, correlations)
-- Step 4: Provide Recommendations (action items with owners)
-- Step 5: Distribute Report
-- Report File Locations, Checklist
+See [examples-and-checklists.md](references/examples-and-checklists.md) for full examples and task checklist.
+  - [Task Checklist](#task-checklist)
+  - [Example 1: Recording Task Completion Metric](#example-1-recording-task-completion-metric)
+  - [Example 2: Agent Strength-Weakness Summary](#example-2-agent-strength-weakness-summary)
+  - [Example 3: Weekly Performance Summary](#example-3-weekly-performance-summary)
 
 ## Error Handling
 
-### Issue: Metrics data is incomplete
-
-**Symptoms:** Missing entries, gaps in timelines, inconsistent records.
-
-**Solution:** Automate metric collection, add validation at data entry, backfill where possible from logs.
-
-### Issue: Performance comparison seems unfair
-
-**Symptoms:** Agent assigned harder tasks appears to underperform.
-
-**Solution:** Normalize metrics by task complexity, compare similar task types, consider external factors.
-
-### Issue: Reports not driving improvements
-
-**Symptoms:** Same issues appear week after week, no action taken.
-
-**Solution:** Include specific action items, assign owners, track action completion, escalate stalled items.
-
-## Key Takeaways
-
-1. **Metrics must be meaningful** - Measure what matters, not just what is easy
-2. **Context is crucial** - Raw numbers need interpretation
-3. **Fairness requires consistency** - Apply same standards to all
-4. **Reports should drive action** - Information without action is waste
-5. **Track improvement over time** - Performance is a journey, not a snapshot
+| Issue | Solution |
+|-------|----------|
+| Metrics data incomplete | Automate collection, add validation, backfill from logs |
+| Unfair comparison | Normalize by task complexity, compare similar task types |
+| Reports not driving improvements | Include action items, assign owners, track completion |
 
 ## Resources
 
 - [Performance Metrics](references/performance-metrics.md)
-  <!-- TOC: performance-metrics.md -->
-  - 1 [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
-  - 2 [Task Completion Metrics](#12-task-completion-metrics)
-  - 3 [Quality Metrics](#13-quality-metrics)
-  - 4 [Efficiency Metrics](#14-efficiency-metrics)
-  - 5 [Communication Metrics](#15-communication-metrics)
-  - ...and 4 more sections
-  <!-- /TOC -->
 - [Strength-Weakness Analysis](references/strength-weakness-analysis.md)
-  <!-- TOC: strength-weakness-analysis.md -->
-  - 1 [Performance Analysis Framework](#21-performance-analysis-framework)
-  - 2 [Identifying Agent Strengths](#22-identifying-agent-strengths)
-  - 3 [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
-  - 4 [Comparing Against Benchmarks](#24-comparing-against-benchmarks)
-  - 5 [Recognizing Performance Patterns](#25-recognizing-performance-patterns)
-  - ...and 4 more sections
-  <!-- /TOC -->
 - [Performance Reporting](references/performance-reporting.md)
-  <!-- TOC: performance-reporting.md -->
-  - 1 [Types Of Performance Reports](#31-types-of-performance-reports)
-  - 2 [Structuring Performance Reports](#32-structuring-performance-reports)
-  - 3 [Daily Performance Summaries](#33-daily-performance-summaries)
-  - 4 [Weekly Performance Reviews](#34-weekly-performance-reviews)
-  - 5 [Individual Agent Reports](#35-individual-agent-reports)
-  - ...and 4 more sections
-  <!-- /TOC -->
-- [Report Formats](references/report-formats.md) - Performance report formats
-  <!-- TOC: report-formats.md -->
-  - When to use each report format based on analysis needs
-  - 1 Individual agent performance analysis
-  - 2 Team/project aggregate performance review
-  - 3 Cross-project performance comparison
-  - 4 Time-based trend analysis
-  - ...and 24 more sections
-  <!-- /TOC -->
+- [Report Formats](references/report-formats.md)
+- [Examples and Checklists](references/examples-and-checklists.md)
 
 ---
 
 **Version:** 1.0
 **Last Updated:** 2025-02-01
-**Target Audience:** AI Maestro Chief of Staff Agent
-**Difficulty Level:** Intermediate
