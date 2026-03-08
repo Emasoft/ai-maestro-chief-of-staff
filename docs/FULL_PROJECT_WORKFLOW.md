@@ -1,7 +1,7 @@
 # Full Project Workflow: From Requirements to Delivery
 
-**Version**: 2.10.0
-**Last Updated**: 2026-03-07
+**Version**: 2.10.2
+**Last Updated**: 2026-03-08
 
 This document describes the complete workflow for how the AI Maestro agent system handles a project from initial requirements to delivery. AMCOS (AI Maestro Chief of Staff) is **team-scoped**: it manages agents within ONE team only. Cross-team operations require GovernanceRequests. All inter-agent messaging uses the AMP protocol.
 

@@ -1,6 +1,6 @@
 # AI Maestro Chief of Staff (amcos-)
 
-**Version**: 2.10.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.69
+**Version**: 2.10.2 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.69
 
 > Derived from emasoft-chief-of-staff v1.3.9, adapted for AI Maestro governance v0.26.0
 
@@ -218,3 +218,5 @@ Critical operations (spawn, terminate, replace) require a GovernanceRequest (sou
 cd ai-maestro-chief-of-staff
 uv run python scripts/validate_plugin.py . --verbose
 ```
+
+**Current status (v2.10.2)**: 0 CRITICAL, 0 MAJOR, 0 MINOR, 0 WARNING — all checks pass.

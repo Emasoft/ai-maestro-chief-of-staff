@@ -1,6 +1,6 @@
 # AGENT_OPERATIONS.md - AMCOS Chief of Staff
 
-**Version**: 2.10.0 | **Last Updated**: 2026-03-07
+**Version**: 2.10.2 | **Last Updated**: 2026-03-08
 **SINGLE SOURCE OF TRUTH** for AMCOS (AI Maestro Chief of Staff) agent operations.
 **SCOPE**: TEAM-SCOPED. Each AMCOS instance manages exactly ONE team.
 **Distribution**: Bundled with AI Maestro v0.26.0+.

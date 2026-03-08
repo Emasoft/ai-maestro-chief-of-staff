@@ -3,8 +3,8 @@
 > **SUPERSEDED**: The file-based `.ai-maestro/team-registry.json` approach is superseded.
 > Team registries are now managed exclusively via the **AI Maestro REST API**.
 
-**Version**: 2.10.0
-**Last Updated**: 2026-03-07
+**Version**: 2.10.2
+**Last Updated**: 2026-03-08
 
 This document specifies the team registry API, agent registration, and naming conventions for the AMCOS plugin.
 
