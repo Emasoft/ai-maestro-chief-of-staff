@@ -85,7 +85,7 @@ Remote host operations require GovernanceRequest; state replicated via Governanc
 |-------|-----------|
 | Active work during hibernate | Wait for task to complete or request checkpoint |
 | State capture fails | Retry once, proceed with warning (state loss risk) |
-| Wake fails | See [hibernation-procedures.md](references/hibernation-procedures.md) 3.7. Try force-wake, respawn if needed |
+| Wake fails | See `references/hibernation-procedures.md` 3.7. Try force-wake, respawn if needed |
 | Resource limit on wake | Hibernate another idle agent first |
 | Unresponsive after wake | Wait 60s, retry. If still unresponsive, terminate and respawn |
 
@@ -114,21 +114,6 @@ uv run python scripts/amcos_team_registry.py update-status \
 
 ## Resources
 
-- [Hibernation Procedures](references/hibernation-procedures.md)
-  <!-- TOC: hibernation-procedures.md -->
-  - What is agent hibernation - Understanding state suspension
-  - Hibernation procedure - Step-by-step suspension
-  - ...and 5 more sections
-  <!-- /TOC -->
-- [op-hibernate-agent.md](references/op-hibernate-agent.md)
-  <!-- TOC: op-hibernate-agent.md -->
-  - Procedure (Steps 1-6)
-  - Examples
-  - Error Handling
-  <!-- /TOC -->
-- [op-wake-agent.md](references/op-wake-agent.md)
-  <!-- TOC: op-wake-agent.md -->
-  - Procedure (Steps 1-7)
-  - Examples
-  - Error Handling
-  <!-- /TOC -->
+- `references/hibernation-procedures.md`
+- `references/op-hibernate-agent.md`
+- `references/op-wake-agent.md`

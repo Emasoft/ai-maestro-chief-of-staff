@@ -73,12 +73,7 @@ Remote host operations require GovernanceRequest + ConfigOperationType. Messages
 
 ### Workflow Checklists
 
-See [workflow-checklists.md](references/workflow-checklists.md) for structured checklists covering spawn, terminate, hibernate, wake, team formation, and registry updates.
-<!-- TOC: workflow-checklists.md -->
-- Spawning New Agent Checklist
-- Terminating Agent Checklist
-- ...and 4 more sections
-<!-- /TOC -->
+See `references/workflow-checklists.md` for structured checklists covering spawn, terminate, hibernate, wake, team formation, and registry updates.
 
 ## Output
 
@@ -121,27 +116,7 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 
 ## Resources
 
-- [op-update-team-registry.md](references/op-update-team-registry.md)
-  <!-- TOC: op-update-team-registry.md -->
-  - Procedure (Steps 1-5)
-  - Examples
-  - Error Handling
-  <!-- /TOC -->
-- [op-send-maestro-message.md](references/op-send-maestro-message.md)
-  <!-- TOC: op-send-maestro-message.md -->
-  - Procedure (Steps 1-6)
-  - Examples
-  - Error Handling
-  <!-- /TOC -->
-- [Sub-Agent Role Boundaries](references/sub-agent-role-boundaries-template.md)
-  <!-- TOC: sub-agent-role-boundaries-template.md -->
-  - Agent File Structure
-  - Core Responsibilities
-  - Iron Rules
-  <!-- /TOC -->
-- [Workflow Checklists](references/workflow-checklists.md)
-  <!-- TOC: workflow-checklists.md -->
-  - Spawning New Agent Checklist
-  - Terminating Agent Checklist
-  - Forming Team Checklist
-  <!-- /TOC -->
+- `references/op-update-team-registry.md`
+- `references/op-send-maestro-message.md`
+- `references/sub-agent-role-boundaries-template.md`
+- `references/workflow-checklists.md`

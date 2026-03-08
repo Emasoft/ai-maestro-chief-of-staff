@@ -32,7 +32,7 @@ This skill is **TEAM-SCOPED**: you can only initiate transfers OUT of your team 
 
 > **Output Rule**: All AMCOS scripts produce 2-line stdout summaries. Full output is written to `.amcos-logs/`.
 
-Transfer procedures involve creating a TransferRequest, obtaining dual approvals, and executing the move. See [transfer-procedures-and-examples.md](references/transfer-procedures-and-examples.md) for detailed step-by-step procedures and API calls.
+Transfer procedures involve creating a TransferRequest, obtaining dual approvals, and executing the move. See `references/transfer-procedures-and-examples.md` for detailed step-by-step procedures and API calls.
   - [Initiating a Transfer (Outbound)](#initiating-a-transfer-outbound---from-your-team)
   - [Approving a Transfer (Inbound)](#approving-a-transfer-inbound---into-your-team)
   - [Rejecting a Transfer](#rejecting-a-transfer)
@@ -62,16 +62,16 @@ Transfer procedures involve creating a TransferRequest, obtaining dual approvals
 
 ## Examples
 
-See [transfer-procedures-and-examples.md](references/transfer-procedures-and-examples.md) for full examples.
+See `references/transfer-procedures-and-examples.md` for full examples.
   - [Example 1: Outbound Transfer](#example-1-outbound-transfer-moving-an-agent-out-of-your-team)
   - [Example 2: Inbound Transfer Approval](#example-2-inbound-transfer-approval-accepting-an-agent-into-your-team)
   - [Example 3: Rejecting a Transfer](#example-3-rejecting-a-transfer)
 
 ## Resources
 
-- [Transfer Procedures and Examples](references/transfer-procedures-and-examples.md)
-- [op-create-transfer-request.md](references/op-create-transfer-request.md) - Creating a TransferRequest
-- [op-approve-transfer-request.md](references/op-approve-transfer-request.md) - Approving/rejecting transfers
+- `references/transfer-procedures-and-examples.md`
+- `references/op-create-transfer-request.md` - Creating a TransferRequest
+- `references/op-approve-transfer-request.md` - Approving/rejecting transfers
 
 ---
 

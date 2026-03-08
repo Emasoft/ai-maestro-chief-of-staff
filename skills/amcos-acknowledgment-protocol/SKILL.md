@@ -45,20 +45,9 @@ Copy this checklist and track your progress:
 - [ ] Sent reminders at defined intervals if no response received
 - [ ] Processed response (or timeout) and proceeded accordingly
 
-See [references/acknowledgment-protocol.md](references/acknowledgment-protocol.md) for detailed procedures.
-<!-- TOC: acknowledgment-protocol.md -->
-- What is the acknowledgment protocol - Understanding coordination
-- When to require acknowledgments - Acknowledgment triggers
-- ...+16 more
-<!-- /TOC -->
+See `references/acknowledgment-protocol.md` for detailed procedures.
 
-See [references/op-acknowledgment-protocol.md](references/op-acknowledgment-protocol.md) for the step-by-step runbook.
-  <!-- TOC: op-acknowledgment-protocol.md -->
-  - When to Use
-  - Procedure
-  - Verification and Rollback
-  - ...and 9 more sections
-  <!-- /TOC -->
+See `references/op-acknowledgment-protocol.md` for the step-by-step runbook.
 
 ### Standardized ACK Timeout Policy
 
@@ -91,14 +80,9 @@ Timeouts are **sequential**. Example total: 60s + 2min + 30s = 3min 30s.
 | Issue | Resolution |
 |-------|------------|
 | ACK timeout | Send final notice, log, proceed per policy |
-| Unexpected response | See [references/acknowledgment-protocol.md](references/acknowledgment-protocol.md) Section 3.6 |
+| Unexpected response | See `references/acknowledgment-protocol.md` Section 3.6 |
 | Reminder not delivered | Health check agent. If offline, proceed per timeout |
 | Partial ACK (multi-agent) | Track per-agent. Proceed when all respond or all timeout |
-
-<!-- TOC: acknowledgment-protocol.md -->
-- What is the acknowledgment protocol - Understanding coordination
-- When to require acknowledgments - Acknowledgment triggers
-<!-- /TOC -->
 
 ## Examples
 
@@ -122,11 +106,6 @@ After 60s with no response:
 
 ## Resources
 
-- [Acknowledgment Protocol](references/acknowledgment-protocol.md)
-- [Acknowledgment Runbook](references/op-acknowledgment-protocol.md)
-- [Message Response Decision Tree](references/message-response-decision-tree.md)
-<!-- TOC: message-response-decision-tree.md -->
-- Step 1: Priority Triage
-- Step 2: Message Type Routing
-- ...+7 more
-<!-- /TOC -->
+- `references/acknowledgment-protocol.md`
+- `references/op-acknowledgment-protocol.md`
+- `references/message-response-decision-tree.md`

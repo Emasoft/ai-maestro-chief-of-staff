@@ -13,6 +13,24 @@ Memory operations are provided by the unified `amcos_memory_manager.py` script i
 
 ---
 
+## Quick Reference: Command Inventory
+
+| Command | Purpose | When to Use |
+|---------|---------|-------------|
+| `amcos_memory_manager.py init` | Create new memory structure | New project setup |
+| `amcos_memory_manager.py validate` | Check memory integrity | After manual edits, before compaction |
+| `amcos_memory_manager.py health --json` | Report on memory state | Session start, after compaction |
+| `amcos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes immediately | During work, before compaction |
+| `amcos_memory_manager.py compact` | Archive old content | Weekly maintenance |
+| `repair-memory.py` | Fix corrupted memory (planned) | After crashes, corruption |
+
+---
+
+## Quick Reference: Common Commands
+
+```bash
+# Daily startup
+
 ## Table of Contents
 
 This document is split into parts for efficient loading. Read the section relevant to your current task.
@@ -72,23 +90,6 @@ This document is split into parts for efficient loading. Read the section releva
 
 ---
 
-## Quick Reference: Command Inventory
-
-| Command | Purpose | When to Use |
-|---------|---------|-------------|
-| `amcos_memory_manager.py init` | Create new memory structure | New project setup |
-| `amcos_memory_manager.py validate` | Check memory integrity | After manual edits, before compaction |
-| `amcos_memory_manager.py health --json` | Report on memory state | Session start, after compaction |
-| `amcos_memory_manager.py add-decision\|set-focus\|add-progress\|add-pattern` | Persist changes immediately | During work, before compaction |
-| `amcos_memory_manager.py compact` | Archive old content | Weekly maintenance |
-| `repair-memory.py` | Fix corrupted memory (planned) | After crashes, corruption |
-
----
-
-## Quick Reference: Common Commands
-
-```bash
-# Daily startup
 python scripts/amcos_memory_manager.py validate
 python scripts/amcos_memory_manager.py health
 

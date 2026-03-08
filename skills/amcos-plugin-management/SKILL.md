@@ -9,8 +9,6 @@ metadata:
   version: 1.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "Step 4"
-procedure: "proc-create-team"
 ---
 
 # AI Maestro Chief of Staff - Plugin Management Skill
@@ -46,29 +44,29 @@ Plugin management enables the Chief of Staff to install, configure, and maintain
 
 **When/Steps:** Check marketplace, verify plugin, run install, restart Claude Code, verify.
 
-See [references/plugin-installation.md](references/plugin-installation.md) and [references/op-install-plugin-marketplace.md](references/op-install-plugin-marketplace.md).
+See `references/plugin-installation.md` and `references/op-install-plugin-marketplace.md`.
 
 ### PROCEDURE 2: Configure Local Plugin Directory
 
 **When/Steps:** Create directory structure, add plugin.json, configure components, launch with --plugin-dir.
 
-See [references/local-configuration.md](references/local-configuration.md) and [references/op-configure-local-plugin.md](references/op-configure-local-plugin.md).
+See `references/local-configuration.md` and `references/op-configure-local-plugin.md`.
 
 ### PROCEDURE 3: Validate Plugin Installation
 
 **When/Steps:** Run validate command, check errors, verify components, test hooks.
 
-See [references/plugin-validation.md](references/plugin-validation.md) and [references/op-validate-plugin.md](references/op-validate-plugin.md).
+See `references/plugin-validation.md` and `references/op-validate-plugin.md`.
 
 ### PROCEDURE 4: Manage Plugins on Remote Agents
 
 **When/Steps:** Use `ai-maestro-agents-management` skill or GovernanceRequest pipeline for cross-host operations.
 
-See [references/remote-plugin-management.md](references/remote-plugin-management.md) and [references/op-install-plugin-remote.md](references/op-install-plugin-remote.md).
+See `references/remote-plugin-management.md` and `references/op-install-plugin-remote.md`.
 
 ## Examples
 
-See [references/plugin-overview-and-examples.md](references/plugin-overview-and-examples.md) for full examples including marketplace install, local development, directory structure, validation, and remote agent operations.
+See `references/plugin-overview-and-examples.md` for full examples including marketplace install, local development, directory structure, validation, and remote agent operations.
 - Plugin Lifecycle
 - What Is Plugin Management
 - Plugin Components
@@ -86,23 +84,23 @@ See [references/plugin-overview-and-examples.md](references/plugin-overview-and-
 
 | Issue | Resolution |
 |-------|------------|
-| Plugin install fails | See [plugin-installation.md](references/plugin-installation.md) Section 1.8 |
-| Local plugin not loading | See [local-configuration.md](references/local-configuration.md) Section 2.7 |
-| Validation errors | See [plugin-validation.md](references/plugin-validation.md) Section 3.7 |
+| Plugin install fails | See `references/plugin-installation.md` Section 1.8 |
+| Local plugin not loading | See `references/local-configuration.md` Section 2.7 |
+| Validation errors | See `references/plugin-validation.md` Section 3.7 |
 
 ## Resources
 
-- [Plugin Installation](references/plugin-installation.md)
-- [Local Configuration](references/local-configuration.md)
-- [Plugin Validation](references/plugin-validation.md)
-- [Remote Plugin Management](references/remote-plugin-management.md)
-- [Installation Procedures](references/installation-procedures.md)
-- [Overview and Examples](references/plugin-overview-and-examples.md)
-- [Op: Install from Marketplace](references/op-install-plugin-marketplace.md)
-- [Op: Configure Local Plugin](references/op-configure-local-plugin.md)
-- [Op: Install on Remote Agent](references/op-install-plugin-remote.md)
-- [Op: Restart Agent](references/op-restart-agent-plugin.md)
-- [Op: Validate Plugin](references/op-validate-plugin.md)
+- `references/plugin-installation.md`
+- `references/local-configuration.md`
+- `references/plugin-validation.md`
+- `references/remote-plugin-management.md`
+- `references/installation-procedures.md`
+- `references/plugin-overview-and-examples.md`
+- `references/op-install-plugin-marketplace.md`
+- `references/op-configure-local-plugin.md`
+- `references/op-install-plugin-remote.md`
+- `references/op-restart-agent-plugin.md`
+- `references/op-validate-plugin.md`
 
 ---
 

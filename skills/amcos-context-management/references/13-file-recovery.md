@@ -26,12 +26,12 @@ This document was split into multiple parts for easier navigation. Each part cov
 
 ---
 
-
 ## Table of Contents
 
 - Part 2: Advanced Recovery and Prevention
 
 ---
+
 
 ## Part 2: Advanced Recovery and Prevention
 

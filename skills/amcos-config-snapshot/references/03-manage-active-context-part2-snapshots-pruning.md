@@ -6,15 +6,6 @@ This document covers creating context snapshots and pruning old content from act
 
 ---
 
-## Table of Contents
-1. [When to Create Snapshots](#when-to-create-snapshots)
-2. [Snapshot Procedure](#snapshot-procedure)
-3. [When to Prune](#when-to-prune)
-4. [Pruning Procedure](#pruning-procedure)
-5. [Safe Pruning Checklist](#safe-pruning-checklist)
-
----
-
 ## When to Create Snapshots
 
 Create context snapshots:
@@ -31,6 +22,16 @@ Create context snapshots:
 ```bash
 #!/bin/bash
 # create_context_snapshot.sh - Create timestamped context snapshot
+
+
+## Table of Contents
+1. [When to Create Snapshots](#when-to-create-snapshots)
+2. [Snapshot Procedure](#snapshot-procedure)
+3. [When to Prune](#when-to-prune)
+4. [Pruning Procedure](#pruning-procedure)
+5. [Safe Pruning Checklist](#safe-pruning-checklist)
+
+---
 
 create_context_snapshot() {
     local timestamp=$(date -u +"%Y%m%d_%H%M%S")

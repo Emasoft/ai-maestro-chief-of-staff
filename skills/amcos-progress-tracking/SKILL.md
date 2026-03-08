@@ -41,28 +41,11 @@ Copy this checklist and track your progress:
 5. Cascade state changes to dependent tasks
 6. Write immediately
 
-**Guide:** [references/08-manage-progress-tracking.md](references/08-manage-progress-tracking.md)
-<!-- TOC: 08-manage-progress-tracking.md -->
-- Purpose
-- Part Files
-- Quick Reference
-<!-- /TOC -->
+**Guide:** `references/08-manage-progress-tracking.md`
 
-**Dependencies:** [references/09-task-dependencies.md](references/09-task-dependencies.md)
-<!-- TOC: 09-task-dependencies.md -->
-- Part 1: Dependency Types and Notation
-- Part 2: Dependency Management
-- Part 3: Critical Path Analysis
-- ...+1 more
-<!-- /TOC -->
+**Dependencies:** `references/09-task-dependencies.md`
 
-**Runbook:** [references/op-update-task-progress.md](references/op-update-task-progress.md)
-<!-- TOC: op-update-task-progress.md -->
-- Purpose
-- Task States
-- Steps
-- ...+4 more
-<!-- /TOC -->
+**Runbook:** `references/op-update-task-progress.md`
 
 ### PROCEDURE 5: Recover Session After Interruption
 
@@ -73,28 +56,13 @@ Copy this checklist and track your progress:
 3. Validate consistency; present summary
 4. Ask user to confirm resumption
 
-**Guide:** [references/10-recovery-procedures.md](references/10-recovery-procedures.md)
-<!-- TOC: 10-recovery-procedures.md -->
-- Understanding recovery scenarios
-- Recovering from failed compaction
-- Recovering from corrupted memory
-- ...+6 more
-<!-- /TOC -->
+**Guide:** `references/10-recovery-procedures.md`
 
-**Runbook:** [references/op-recover-session.md](references/op-recover-session.md)
-<!-- TOC: op-recover-session.md -->
-- Purpose
-- When To Use This Operation
-<!-- /TOC -->
+**Runbook:** `references/op-recover-session.md`
 
 ### Implementation Scripts
 
-Script `amcos_memory_manager.py`. See [references/18-using-scripts.md](references/18-using-scripts.md).
-<!-- TOC: 18-using-scripts.md -->
-- Part 1: Initialize and Validate
-- Part 2: Advanced Workflows
-- Part 3: Common Workflows
-<!-- /TOC -->
+Script `amcos_memory_manager.py`. See `references/18-using-scripts.md`.
 
 ## Output
 
@@ -107,33 +75,11 @@ Script `amcos_memory_manager.py`. See [references/18-using-scripts.md](reference
 
 | Issue | Resolution |
 |-------|------------|
-| Inconsistent progress | See [15-progress-validation.md](references/15-progress-validation.md) |
-| Corrupted files | See [13-file-recovery.md](references/13-file-recovery.md) |
-| Context drift | See [14-context-sync.md](references/14-context-sync.md) |
-| Files too large | See [16-memory-archival.md](references/16-memory-archival.md) |
-| Not surviving compaction | See [17-compaction-integration.md](references/17-compaction-integration.md) |
-
-<!-- TOC: 15-progress-validation.md -->
-- Parts
-<!-- /TOC -->
-<!-- TOC: 13-file-recovery.md -->
-- Part 1: Detection and Basic Recovery
-- Part 2: Advanced Recovery and Prevention
-<!-- /TOC -->
-<!-- TOC: 14-context-sync.md -->
-- Overview
-- Document Parts
-<!-- /TOC -->
-<!-- TOC: 16-memory-archival.md -->
-- Overview
-- When to Archive
-- Archival Procedures
-- ...+4 more
-<!-- /TOC -->
-<!-- TOC: 17-compaction-integration.md -->
-- Document Parts
-- Quick Reference
-<!-- /TOC -->
+| Inconsistent progress | See `references/15-progress-validation.md` |
+| Corrupted files | See `references/13-file-recovery.md` |
+| Context drift | See `references/14-context-sync.md` |
+| Files too large | See `references/16-memory-archival.md` |
+| Not surviving compaction | See `references/17-compaction-integration.md` |
 
 ## Examples
 
@@ -146,8 +92,8 @@ Script `amcos_memory_manager.py`. See [references/18-using-scripts.md](reference
 
 ## Resources
 
-- [08-manage-progress-tracking.md](references/08-manage-progress-tracking.md)
-- [09-task-dependencies.md](references/09-task-dependencies.md)
-- [10-recovery-procedures.md](references/10-recovery-procedures.md)
-- [op-update-task-progress.md](references/op-update-task-progress.md)
-- [op-recover-session.md](references/op-recover-session.md)
+- `references/08-manage-progress-tracking.md`
+- `references/09-task-dependencies.md`
+- `references/10-recovery-procedures.md`
+- `references/op-update-task-progress.md`
+- `references/op-recover-session.md`

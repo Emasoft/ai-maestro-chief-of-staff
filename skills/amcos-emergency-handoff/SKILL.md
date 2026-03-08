@@ -43,18 +43,7 @@ Transfer critical work immediately when deadlines cannot wait for full replaceme
 | Recipient | Replacement agent | Any available |
 | Duration | Permanent | Temporary |
 
-See [references/work-handoff-during-failure.md](references/work-handoff-during-failure.md) and [references/op-emergency-handoff.md](references/op-emergency-handoff.md).
-  <!-- TOC: work-handoff-during-failure.md -->
-  - Triggering emergency handoff
-  - Creating emergency handoff documentation
-  - ...and 6 more sections
-  <!-- /TOC -->
-  <!-- TOC: op-emergency-handoff.md -->
-  - Purpose
-  - When To Use This Operation
-  - Steps
-  - ...and 5 more sections
-  <!-- /TOC -->
+See `references/work-handoff-during-failure.md` and `references/op-emergency-handoff.md`.
 
 ### Task Blockers vs Agent Failures
 
@@ -66,12 +55,7 @@ See [references/work-handoff-during-failure.md](references/work-handoff-during-f
 3. Needs user input? -> route to EAMA with `blocker-escalation` message
 4. Track blocker; when EAMA responds, route resolution back to EOA
 
-See [references/op-route-task-blocker.md](references/op-route-task-blocker.md).
-  <!-- TOC: op-route-task-blocker.md -->
-  - Decision Tree
-  - Step 1: Receive and Classify Escalation
-  - ...and 6 more sections
-  <!-- /TOC -->
+See `references/op-route-task-blocker.md`.
 
 ### Decision Tree
 
@@ -129,6 +113,6 @@ curl -X POST "$AIMAESTRO_API/api/messages" \
 
 ## Resources
 
-- [references/work-handoff-during-failure.md](references/work-handoff-during-failure.md) - Emergency handoff procedures
-- [references/op-emergency-handoff.md](references/op-emergency-handoff.md) - Emergency handoff runbook
-- [references/op-route-task-blocker.md](references/op-route-task-blocker.md) - Task blocker routing runbook
+- `references/work-handoff-during-failure.md` - Emergency handoff procedures
+- `references/op-emergency-handoff.md` - Emergency handoff runbook
+- `references/op-route-task-blocker.md` - Task blocker routing runbook

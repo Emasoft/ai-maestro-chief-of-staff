@@ -45,20 +45,9 @@ Copy this checklist and track your progress:
 - [ ] Sent AMP confirmation via `amp-send.sh` and requested agent verification
 - [ ] Logged outcome with timestamp and verification response
 
-See [references/post-operation-notifications.md](references/post-operation-notifications.md) for detailed procedures.
-<!-- TOC: post-operation-notifications.md -->
-- What are post-operation notifications - Understanding confirmation messages
-- When to send post-operation notifications - Confirmation triggers
-- ...+14 more
-<!-- /TOC -->
+See `references/post-operation-notifications.md` for detailed procedures.
 
-See [references/op-post-operation-notification.md](references/op-post-operation-notification.md) for the step-by-step runbook.
-  <!-- TOC: op-post-operation-notification.md -->
-  - When to Use
-  - Procedure
-  - Verification and Rollback
-  - ...and 8 more sections
-  <!-- /TOC -->
+See `references/op-post-operation-notification.md` for the step-by-step runbook.
 
 ## Message Type Quick Reference
 
@@ -106,12 +95,6 @@ Send via `agent-messaging` skill:
 
 ## Resources
 
-- [Post-Operation Notifications](references/post-operation-notifications.md)
-- [Post-Operation Runbook](references/op-post-operation-notification.md)
-- [Task Completion Checklist](references/task-completion-checklist.md)
-  <!-- TOC: task-completion-checklist.md -->
-  - Before Reporting Task Complete
-  - Acceptance Criteria Met
-  - Quality Gates Passed
-  - ...and 45 more sections
-  <!-- /TOC -->
+- `references/post-operation-notifications.md`
+- `references/op-post-operation-notification.md`
+- `references/task-completion-checklist.md`

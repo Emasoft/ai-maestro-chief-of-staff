@@ -2,44 +2,6 @@
 
 This document defines standardized protocols for handling edge cases and failure scenarios in the Chief of Staff Agent (amcos-) plugin.
 
-## Table of Contents
-
-- 1.0 AI Maestro Unavailable
-  - 1.1 Detection Methods
-  - 1.2 Response Workflow
-  - 1.3 Fallback Communication
-- 2.0 GitHub Unavailable
-  - 2.1 Detection Methods
-  - 2.2 Response Workflow
-  - 2.3 Status Caching
-- 3.0 Remote Agent Timeout
-  - 3.1 Detection Methods
-  - 3.2 Architect Agent Timeout
-  - 3.3 Orchestrator Agent Timeout
-  - 3.4 Integrator Agent Timeout
-- 4.0 User Incomplete Input
-  - 4.1 Detection Methods
-  - 4.2 Clarification Protocol
-  - 4.3 Progressive Requirement Gathering
-- 5.0 Approval Workflow Failures
-  - 5.1 User Unresponsive
-  - 5.2 Conflicting Approvals
-  - 5.3 Approval Timeout
-- 6.0 Role Routing Failures
-  - 6.1 Agent Unavailable
-  - 6.2 Ambiguous Routing
-  - 6.3 Capacity Issues
-- 7.0 Handoff Failures
-  - 7.1 Missing Handoff Files
-  - 7.2 Corrupted Handoff Data
-  - 7.3 Version Mismatch
-- 8.0 Session Memory Failures
-  - 8.1 Memory Load Failure
-  - 8.2 Memory Save Failure
-  - 8.3 Memory Corruption
-
----
-
 ## 1.0 AI Maestro Unavailable
 
 ### 1.1 Detection Methods
@@ -139,6 +101,45 @@ EOF
 ```
 
 ---
+
+## Table of Contents
+
+- 1.0 AI Maestro Unavailable
+  - 1.1 Detection Methods
+  - 1.2 Response Workflow
+  - 1.3 Fallback Communication
+- 2.0 GitHub Unavailable
+  - 2.1 Detection Methods
+  - 2.2 Response Workflow
+  - 2.3 Status Caching
+- 3.0 Remote Agent Timeout
+  - 3.1 Detection Methods
+  - 3.2 Architect Agent Timeout
+  - 3.3 Orchestrator Agent Timeout
+  - 3.4 Integrator Agent Timeout
+- 4.0 User Incomplete Input
+  - 4.1 Detection Methods
+  - 4.2 Clarification Protocol
+  - 4.3 Progressive Requirement Gathering
+- 5.0 Approval Workflow Failures
+  - 5.1 User Unresponsive
+  - 5.2 Conflicting Approvals
+  - 5.3 Approval Timeout
+- 6.0 Role Routing Failures
+  - 6.1 Agent Unavailable
+  - 6.2 Ambiguous Routing
+  - 6.3 Capacity Issues
+- 7.0 Handoff Failures
+  - 7.1 Missing Handoff Files
+  - 7.2 Corrupted Handoff Data
+  - 7.3 Version Mismatch
+- 8.0 Session Memory Failures
+  - 8.1 Memory Load Failure
+  - 8.2 Memory Save Failure
+  - 8.3 Memory Corruption
+
+---
+
 
 ## 2.0 GitHub Unavailable
 

@@ -41,19 +41,9 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 | Hibernate-Wake | Suspended session | 2-5 min |
 | Resource Adjustment | Memory/disk exhaustion | 15-60 min |
 
-See [references/recovery-strategies.md](references/recovery-strategies.md) and [references/op-execute-recovery-strategy.md](references/op-execute-recovery-strategy.md).
-  <!-- TOC: recovery-strategies.md -->
-  - Overview of recovery strategies
-  - Strategy: Wait and Retry
-  - ...and 7 more sections
-  <!-- /TOC -->
+See `references/recovery-strategies.md` and `references/op-execute-recovery-strategy.md`.
 
-Detailed operations: [references/recovery-operations.md](references/recovery-operations.md).
-  <!-- TOC: recovery-operations.md -->
-  - Detecting Agent Failures Using Health Checks
-  - Verifying tmux Session Existence
-  - ...and 10 more sections
-  <!-- /TOC -->
+Detailed operations: `references/recovery-operations.md`.
 
 ### File Locations
 
@@ -76,12 +66,7 @@ Detailed operations: [references/recovery-operations.md](references/recovery-ope
 
 ### Troubleshooting
 
-See [references/troubleshooting.md](references/troubleshooting.md) for full details.
-  <!-- TOC: troubleshooting.md -->
-  - Agent shows online but unresponsive
-  - Cannot determine failure type
-  - ...and 3 more sections
-  <!-- /TOC -->
+See `references/troubleshooting.md` for full details.
 
 ### Recovery Execution Checklist
 
@@ -114,12 +99,7 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-See [references/examples.md](references/examples.md) for complete scenarios.
-  <!-- TOC: examples.md -->
-  - Example 1: Agent Crash Recovery
-  - Example 3: Transient Network Failure
-  - ...and 3 more sections
-  <!-- /TOC -->
+See `references/examples.md` for complete scenarios.
 
 ```bash
 # Soft restart: check tmux session
@@ -131,8 +111,8 @@ curl -s "$AIMAESTRO_API/api/agents" | jq '.agents[] | select(.name=="libs-svg-sv
 
 ## Resources
 
-- [references/recovery-strategies.md](references/recovery-strategies.md) - Recovery strategy procedures
-- [references/recovery-operations.md](references/recovery-operations.md) - Detailed recovery operations
-- [references/op-execute-recovery-strategy.md](references/op-execute-recovery-strategy.md) - Execute recovery runbook
-- [references/examples.md](references/examples.md) - Complete recovery examples
-- [references/troubleshooting.md](references/troubleshooting.md) - Common issues and solutions
+- `references/recovery-strategies.md` - Recovery strategy procedures
+- `references/recovery-operations.md` - Detailed recovery operations
+- `references/op-execute-recovery-strategy.md` - Execute recovery runbook
+- `references/examples.md` - Complete recovery examples
+- `references/troubleshooting.md` - Common issues and solutions

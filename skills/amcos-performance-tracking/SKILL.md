@@ -9,8 +9,6 @@ metadata:
   version: 1.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "support"
-procedure: "support-skill"
 ---
 
 # AI Maestro Chief of Staff Performance Tracking Skill
@@ -46,7 +44,7 @@ Performance tracking enables the Chief of Staff to understand how well the agent
 
 ### PROCEDURE 1: Collect Performance Metrics
 
-Continuously capture data at relevant events and aggregate over time periods. See [performance-metrics.md](references/performance-metrics.md).
+Continuously capture data at relevant events and aggregate over time periods. See `references/performance-metrics.md`.
   - [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
   - [Task Completion Metrics](#12-task-completion-metrics)
   - [Quality Metrics](#13-quality-metrics)
@@ -55,7 +53,7 @@ Continuously capture data at relevant events and aggregate over time periods. Se
 
 ### PROCEDURE 2: Analyze Strengths and Weaknesses
 
-Review metrics, identify patterns, compare against benchmarks. See [strength-weakness-analysis.md](references/strength-weakness-analysis.md).
+Review metrics, identify patterns, compare against benchmarks. See `references/strength-weakness-analysis.md`.
   - [Performance Analysis Framework](#21-performance-analysis-framework)
   - [Identifying Agent Strengths](#22-identifying-agent-strengths)
   - [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
@@ -64,7 +62,7 @@ Review metrics, identify patterns, compare against benchmarks. See [strength-wea
 
 ### PROCEDURE 3: Generate Performance Reports
 
-Aggregate metrics, format for audience, include analysis. See [performance-reporting.md](references/performance-reporting.md).
+Aggregate metrics, format for audience, include analysis. See `references/performance-reporting.md`.
   - [Types Of Performance Reports](#31-types-of-performance-reports)
   - [Structuring Performance Reports](#32-structuring-performance-reports)
   - [Daily Performance Summaries](#33-daily-performance-summaries)
@@ -73,13 +71,13 @@ Aggregate metrics, format for audience, include analysis. See [performance-repor
 
 ## Operational Procedures
 
-- [op-collect-performance-metrics.md](references/op-collect-performance-metrics.md) - Runbook for collecting metrics
-- [op-analyze-strengths-weaknesses.md](references/op-analyze-strengths-weaknesses.md) - Runbook for analyzing performance
-- [op-generate-performance-report.md](references/op-generate-performance-report.md) - Runbook for creating reports
+- `references/op-collect-performance-metrics.md` - Runbook for collecting metrics
+- `references/op-analyze-strengths-weaknesses.md` - Runbook for analyzing performance
+- `references/op-generate-performance-report.md` - Runbook for creating reports
 
 ## Examples
 
-See [examples-and-checklists.md](references/examples-and-checklists.md) for full examples and task checklist.
+See `references/examples-and-checklists.md` for full examples and task checklist.
   - [Task Checklist](#task-checklist)
   - [Example 1: Recording Task Completion Metric](#example-1-recording-task-completion-metric)
   - [Example 2: Agent Strength-Weakness Summary](#example-2-agent-strength-weakness-summary)
@@ -95,11 +93,11 @@ See [examples-and-checklists.md](references/examples-and-checklists.md) for full
 
 ## Resources
 
-- [Performance Metrics](references/performance-metrics.md)
-- [Strength-Weakness Analysis](references/strength-weakness-analysis.md)
-- [Performance Reporting](references/performance-reporting.md)
-- [Report Formats](references/report-formats.md)
-- [Examples and Checklists](references/examples-and-checklists.md)
+- `references/performance-metrics.md`
+- `references/strength-weakness-analysis.md`
+- `references/performance-reporting.md`
+- `references/report-formats.md`
+- `references/examples-and-checklists.md`
 
 ---
 

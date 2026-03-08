@@ -76,7 +76,7 @@ Remote host spawning requires a GovernanceRequest; state replicated via Governan
 | Issue | Resolution |
 |-------|-----------|
 | OAuth scopes missing | Block spawn, request human `gh auth refresh` |
-| Spawn failed | Retry once, report to EAMA. See [spawn-procedures.md](references/spawn-procedures.md) 1.7 |
+| Spawn failed | Retry once, report to EAMA. See `references/spawn-procedures.md` 1.7 |
 | Plugin validation failed | Verify cache exists at source path |
 | Session name collision | Choose different unique name |
 | Resource limit exceeded | Queue request, hibernate oldest idle |
@@ -102,33 +102,8 @@ cp -r ~/.claude/plugins/cache/ai-maestro/ai-maestro-programmer-agent/latest/* \
 
 ## Resources
 
-- [Spawn Procedures](references/spawn-procedures.md)
-  <!-- TOC: spawn-procedures.md -->
-  - What is agent spawning - Understanding agent creation
-  - Spawn procedure - Step-by-step agent creation
-  - ...and 5 more sections
-  <!-- /TOC -->
-- [op-spawn-agent.md](references/op-spawn-agent.md)
-  <!-- TOC: op-spawn-agent.md -->
-  - Procedure (Steps 1-6)
-  - Examples
-  - Error Handling
-  <!-- /TOC -->
-- [Workflow Examples](references/workflow-examples.md)
-  <!-- TOC: workflow-examples.md -->
-  - Setting Up a Development Team
-  - Hibernating Idle Agents
-  - Skill Reindex After Plugin Update
-  <!-- /TOC -->
-- [CLI Examples](references/cli-examples.md)
-  <!-- TOC: cli-examples.md -->
-  - Creating a Code Implementer Agent
-  - End of Day Hibernate All
-  - Resume Work Next Day
-  <!-- /TOC -->
-- [CLI Reference](references/cli-reference.md)
-  <!-- TOC: cli-reference.md -->
-  - Quick Operations Reference
-  - Creating new agents
-  - Listing and filtering
-  <!-- /TOC -->
+- `references/spawn-procedures.md`
+- `references/op-spawn-agent.md`
+- `references/workflow-examples.md`
+- `references/cli-examples.md`
+- `references/cli-reference.md`

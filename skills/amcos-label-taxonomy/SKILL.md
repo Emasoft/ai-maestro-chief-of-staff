@@ -9,8 +9,6 @@ compatibility: Requires AI Maestro installed.
 metadata:
   author: Emasoft
   version: 1.0.0
-workflow-instruction: "support"
-procedure: "support-skill"
 ---
 
 # AMCOS Label Taxonomy
@@ -57,7 +55,7 @@ AMCOS tracks assignments, reassigns when agents become unavailable, and clears a
 
 ## Kanban and Label Details
 
-Full kanban column system, status labels, priority labels, and quick reference. See [kanban-and-label-details.md](references/kanban-and-label-details.md).
+Full kanban column system, status labels, priority labels, and quick reference. See `references/kanban-and-label-details.md`.
   - [Kanban Columns (Canonical 8-Column System)](#kanban-columns-canonical-8-column-system)
   - [Task Routing Rules](#task-routing-rules)
   - [Status Labels AMCOS Updates](#status-labels-amcos-updates)
@@ -77,7 +75,7 @@ Full kanban column system, status labels, priority labels, and quick reference. 
 
 ## Examples
 
-See [label-commands-and-examples.md](references/label-commands-and-examples.md) for label commands, registry sync, and full examples.
+See `references/label-commands-and-examples.md` for label commands, registry sync, and full examples.
   - [AMCOS Label Commands](#amcos-label-commands)
   - [Agent Registry and Labels](#agent-registry-and-labels)
   - [Sync Check](#sync-check)
@@ -87,14 +85,14 @@ See [label-commands-and-examples.md](references/label-commands-and-examples.md) 
 
 ## Operational Procedures
 
-- [op-assign-agent-to-issue.md](references/op-assign-agent-to-issue.md) - Assign agent to issue
-- [op-terminate-agent-clear-assignments.md](references/op-terminate-agent-clear-assignments.md) - Clear assignments on termination
-- [op-handle-blocked-agent.md](references/op-handle-blocked-agent.md) - Handle blocked agent
-- [op-sync-registry-with-labels.md](references/op-sync-registry-with-labels.md) - Sync registry with labels
+- `references/op-assign-agent-to-issue.md` - Assign agent to issue
+- `references/op-terminate-agent-clear-assignments.md` - Clear assignments on termination
+- `references/op-handle-blocked-agent.md` - Handle blocked agent
+- `references/op-sync-registry-with-labels.md` - Sync registry with labels
 
 ## Resources
 
-- [Kanban and Label Details](references/kanban-and-label-details.md)
-- [Label Commands and Examples](references/label-commands-and-examples.md)
+- `references/kanban-and-label-details.md`
+- `references/label-commands-and-examples.md`
 - **AGENT_OPERATIONS.md** - Canonical operations reference (in docs/ folder)
 - [GitHub Labels Documentation](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)

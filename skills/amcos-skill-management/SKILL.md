@@ -9,8 +9,6 @@ metadata:
   version: 1.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "Step 4"
-procedure: "proc-create-team"
 ---
 
 # AI Maestro Chief of Staff - Skill Management Skill
@@ -46,29 +44,29 @@ Skill management enables the Chief of Staff to validate, index, and maintain age
 
 **When/Steps:** Run skills-ref validate, check YAML frontmatter, verify references, confirm TOC accuracy.
 
-See [references/skill-validation.md](references/skill-validation.md) and [references/op-validate-skill.md](references/op-validate-skill.md).
+See `references/skill-validation.md` and `references/op-validate-skill.md`.
 
 ### PROCEDURE 2: Reindex Skills for PSS
 
 **When/Steps:** Run pss-reindex-skills, verify index updated, test skill discovery.
 
-See [references/skill-reindexing.md](references/skill-reindexing.md) and [references/op-reindex-skills-pss.md](references/op-reindex-skills-pss.md).
+See `references/skill-reindexing.md` and `references/op-reindex-skills-pss.md`.
 
 ### PROCEDURE 3: Configure PSS Integration
 
 **When/Steps:** Review descriptions, add keywords, configure weights, test discovery.
 
-See [references/pss-integration.md](references/pss-integration.md) and [references/op-configure-pss-integration.md](references/op-configure-pss-integration.md).
+See `references/pss-integration.md` and `references/op-configure-pss-integration.md`.
 
 ### Generate Agent Prompt XML
 
 Use skills-ref to-prompt to generate available_skills XML blocks for agent prompt definitions.
 
-See [references/op-generate-agent-prompt-xml.md](references/op-generate-agent-prompt-xml.md).
+See `references/op-generate-agent-prompt-xml.md`.
 
 ## Examples
 
-See [references/skill-overview-and-examples.md](references/skill-overview-and-examples.md) for full examples including validation, frontmatter format, PSS reindex, and XML generation.
+See `references/skill-overview-and-examples.md` for full examples including validation, frontmatter format, PSS reindex, and XML generation.
 - What Is Skill Management
 - Skill Architecture Diagram
 - Skill Components
@@ -83,21 +81,21 @@ See [references/skill-overview-and-examples.md](references/skill-overview-and-ex
 
 | Issue | Resolution |
 |-------|------------|
-| Skill validation fails | See [skill-validation.md](references/skill-validation.md) Section 1.7 |
-| Skill not in PSS suggestions | See [skill-reindexing.md](references/skill-reindexing.md) Section 2.7 |
-| Poor keyword matching | See [pss-integration.md](references/pss-integration.md) Section 3.7 |
+| Skill validation fails | See `references/skill-validation.md` Section 1.7 |
+| Skill not in PSS suggestions | See `references/skill-reindexing.md` Section 2.7 |
+| Poor keyword matching | See `references/pss-integration.md` Section 3.7 |
 
 ## Resources
 
-- [Skill Validation](references/skill-validation.md)
-- [Skill Reindexing](references/skill-reindexing.md)
-- [PSS Integration](references/pss-integration.md)
-- [Validation Procedures](references/validation-procedures.md)
-- [Overview and Examples](references/skill-overview-and-examples.md)
-- [Op: Validate Skill](references/op-validate-skill.md)
-- [Op: Reindex Skills](references/op-reindex-skills-pss.md)
-- [Op: Generate Prompt XML](references/op-generate-agent-prompt-xml.md)
-- [Op: Configure PSS](references/op-configure-pss-integration.md)
+- `references/skill-validation.md`
+- `references/skill-reindexing.md`
+- `references/pss-integration.md`
+- `references/validation-procedures.md`
+- `references/skill-overview-and-examples.md`
+- `references/op-validate-skill.md`
+- `references/op-reindex-skills-pss.md`
+- `references/op-generate-agent-prompt-xml.md`
+- `references/op-configure-pss-integration.md`
 
 ---
 

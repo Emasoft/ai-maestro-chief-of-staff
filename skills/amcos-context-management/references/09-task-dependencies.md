@@ -11,6 +11,33 @@ Task dependency management tracks relationships between tasks to:
 
 ---
 
+## Quick Reference
+
+### Dependency Type Summary
+
+| Type | Notation | Use Case |
+|------|----------|----------|
+| Sequential | `A → B` | B needs artifacts from A |
+| Parallel Merge | `A,B → C` | Independent tasks with common successor |
+| Split | `A → B,C,D` | One task enables multiple workstreams |
+| Partial | `A (milestone) → B` | Start before full completion |
+| Optional | `A ~~> B` | Nice-to-have, not blocking |
+
+### When to Read Each Part
+
+| If you need to... | Read |
+|-------------------|------|
+| Understand dependency types | Part 1 |
+| Learn dependency notation | Part 1 |
+| Record or check dependencies | Part 2 |
+| Detect circular dependencies | Part 2 |
+| Calculate critical path | Part 3 |
+| Validate dependencies | Part 3 |
+| See real-world examples | Part 4 |
+| Fix dependency problems | Part 4 |
+
+---
+
 ## Table of Contents
 
 This document is split into 4 parts for efficient context loading.
@@ -68,32 +95,6 @@ This document is split into 4 parts for efficient context loading.
 
 ---
 
-## Quick Reference
-
-### Dependency Type Summary
-
-| Type | Notation | Use Case |
-|------|----------|----------|
-| Sequential | `A → B` | B needs artifacts from A |
-| Parallel Merge | `A,B → C` | Independent tasks with common successor |
-| Split | `A → B,C,D` | One task enables multiple workstreams |
-| Partial | `A (milestone) → B` | Start before full completion |
-| Optional | `A ~~> B` | Nice-to-have, not blocking |
-
-### When to Read Each Part
-
-| If you need to... | Read |
-|-------------------|------|
-| Understand dependency types | Part 1 |
-| Learn dependency notation | Part 1 |
-| Record or check dependencies | Part 2 |
-| Detect circular dependencies | Part 2 |
-| Calculate critical path | Part 3 |
-| Validate dependencies | Part 3 |
-| See real-world examples | Part 4 |
-| Fix dependency problems | Part 4 |
-
----
 
 ## Related References
 

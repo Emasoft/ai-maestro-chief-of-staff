@@ -36,18 +36,7 @@ Replace a failed agent when recovery has failed or failure is terminal. Covers f
 7. **Verify acknowledgment** -- confirm new agent received handoff and began work
 8. **Close incident** -- log resolution, notify EAMA
 
-See [references/agent-replacement-protocol.md](references/agent-replacement-protocol.md) and [references/op-replace-agent.md](references/op-replace-agent.md).
-  <!-- TOC: agent-replacement-protocol.md -->
-  - Phase 1: Failure confirmation and artifact preservation
-  - Phase 2: Manager notification and approval
-  - ...and 8 more sections
-  <!-- /TOC -->
-  <!-- TOC: op-replace-agent.md -->
-  - Purpose
-  - When To Use This Operation
-  - Steps
-  - ...and 5 more sections
-  <!-- /TOC -->
+See `references/agent-replacement-protocol.md` and `references/op-replace-agent.md`.
 
 ### Replacement Protocol Summary
 
@@ -113,5 +102,5 @@ curl -X POST "$AIMAESTRO_API/api/messages" \
 
 ## Resources
 
-- [references/agent-replacement-protocol.md](references/agent-replacement-protocol.md) - Full replacement protocol
-- [references/op-replace-agent.md](references/op-replace-agent.md) - Replace agent runbook
+- `references/agent-replacement-protocol.md` - Full replacement protocol
+- `references/op-replace-agent.md` - Replace agent runbook

@@ -4,20 +4,6 @@ Reference for all inter-agent message templates used by AI Maestro Chief of Staf
 
 All messages use the AMP protocol via `amp-send.sh`. Never call the HTTP API directly.
 
-## Contents
-
-- [1. Standard Message Format (AMP)](#1-standard-message-format-amp)
-- [2. When Requesting Approval from EAMA](#2-when-requesting-approval-from-eama)
-- [3. When Escalating Issues to EAMA](#3-when-escalating-issues-to-eama)
-- [4. When Notifying Agents of Upcoming Operations](#4-when-notifying-agents-of-upcoming-operations)
-- [5. When Reporting Operation Results](#5-when-reporting-operation-results)
-- [6. When Notifying EOA of New Agent Availability](#6-when-notifying-eoa-of-new-agent-availability)
-- [7. When Requesting Team Status from EOA](#7-when-requesting-team-status-from-eoa)
-- [8. When Broadcasting Team Updates](#8-when-broadcasting-team-updates)
-- [9. Message Type Reference](#9-message-type-reference)
-
----
-
 ## 1. Standard Message Format (AMP)
 
 All messages are sent using `amp-send.sh`. Messages are automatically Ed25519-signed by the AMP transport layer.
@@ -51,6 +37,21 @@ amp-send.sh --to eama-main \
 **Expected response fields:** `decision` (approved|rejected|revision_needed), `reason`, `conditions` (optional).
 
 ---
+
+## Contents
+
+- [1. Standard Message Format (AMP)](#1-standard-message-format-amp)
+- [2. When Requesting Approval from EAMA](#2-when-requesting-approval-from-eama)
+- [3. When Escalating Issues to EAMA](#3-when-escalating-issues-to-eama)
+- [4. When Notifying Agents of Upcoming Operations](#4-when-notifying-agents-of-upcoming-operations)
+- [5. When Reporting Operation Results](#5-when-reporting-operation-results)
+- [6. When Notifying EOA of New Agent Availability](#6-when-notifying-eoa-of-new-agent-availability)
+- [7. When Requesting Team Status from EOA](#7-when-requesting-team-status-from-eoa)
+- [8. When Broadcasting Team Updates](#8-when-broadcasting-team-updates)
+- [9. Message Type Reference](#9-message-type-reference)
+
+---
+
 
 ## 3. When Escalating Issues to EAMA
 

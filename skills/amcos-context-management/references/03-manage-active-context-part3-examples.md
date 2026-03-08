@@ -6,13 +6,6 @@ This document provides complete examples for active context management workflows
 
 ---
 
-## Table of Contents
-1. [Example 1: Complete Context Update Workflow](#example-1-complete-context-update-workflow)
-2. [Example 2: Context Recovery After Compaction](#example-2-context-recovery-after-compaction)
-3. [Example 3: Structured Context Template](#example-3-structured-context-template)
-
----
-
 ## Example 1: Complete Context Update Workflow
 
 ```bash
@@ -71,6 +64,14 @@ echo "✓ Context updated with focus, decision, and question"
 ```bash
 #!/bin/bash
 # Recover context after compaction
+
+
+## Table of Contents
+1. [Example 1: Complete Context Update Workflow](#example-1-complete-context-update-workflow)
+2. [Example 2: Context Recovery After Compaction](#example-2-context-recovery-after-compaction)
+3. [Example 3: Structured Context Template](#example-3-structured-context-template)
+
+---
 
 recover_context_after_compaction() {
     # 1. Check for latest snapshot

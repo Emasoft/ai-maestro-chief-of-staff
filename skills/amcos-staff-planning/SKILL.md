@@ -9,8 +9,6 @@ metadata:
   version: 1.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "Steps 2, 3"
-procedure: "proc-evaluate-project, proc-negotiate-team"
 ---
 
 # AI Maestro Chief of Staff - Staff Planning Skill
@@ -48,23 +46,23 @@ Staff planning analyzes project requirements, assesses agent capabilities, plans
 
 **When/Steps:** Analyze requirements, list capabilities, map to agent types, identify gaps.
 
-See [references/role-assessment.md](references/role-assessment.md) and [references/op-assess-role-requirements.md](references/op-assess-role-requirements.md).
+See `references/role-assessment.md` and `references/op-assess-role-requirements.md`.
 
 ### PROCEDURE 2: Plan Agent Capacity
 
 **When/Steps:** Inventory agents, estimate task requirements, calculate allocation, identify bottlenecks.
 
-See [references/capacity-planning.md](references/capacity-planning.md) and [references/op-plan-agent-capacity.md](references/op-plan-agent-capacity.md).
+See `references/capacity-planning.md` and `references/op-plan-agent-capacity.md`.
 
 ### PROCEDURE 3: Create Staffing Templates
 
 **When/Steps:** Identify scenario, list roles, define assignments, document template.
 
-See [references/staffing-templates.md](references/staffing-templates.md) and [references/op-create-staffing-templates.md](references/op-create-staffing-templates.md).
+See `references/staffing-templates.md` and `references/op-create-staffing-templates.md`.
 
 ## Examples
 
-See [references/staffing-overview-and-examples.md](references/staffing-overview-and-examples.md) for full examples including role assessment, capacity planning, and template usage.
+See `references/staffing-overview-and-examples.md` for full examples including role assessment, capacity planning, and template usage.
 - What Is Staff Planning
 - Staff Planning Components
 - Role Assessment Details
@@ -79,20 +77,20 @@ See [references/staffing-overview-and-examples.md](references/staffing-overview-
 
 | Issue | Resolution |
 |-------|------------|
-| Not enough agents for roles | See [role-assessment.md](references/role-assessment.md) Section 1.7 |
-| Agent capacity exceeded | See [capacity-planning.md](references/capacity-planning.md) Section 2.7 |
-| Template does not fit | See [staffing-templates.md](references/staffing-templates.md) Section 3.7 |
+| Not enough agents for roles | See `references/role-assessment.md` Section 1.7 |
+| Agent capacity exceeded | See `references/capacity-planning.md` Section 2.7 |
+| Template does not fit | See `references/staffing-templates.md` Section 3.7 |
 
 ## Resources
 
-- [Role Assessment](references/role-assessment.md)
-- [Capacity Planning](references/capacity-planning.md)
-- [Staffing Templates](references/staffing-templates.md)
-- [Framework Details](references/framework-details.md)
-- [Overview and Examples](references/staffing-overview-and-examples.md)
-- [Op: Assess Role Requirements](references/op-assess-role-requirements.md)
-- [Op: Plan Agent Capacity](references/op-plan-agent-capacity.md)
-- [Op: Create Staffing Templates](references/op-create-staffing-templates.md)
+- `references/role-assessment.md`
+- `references/capacity-planning.md`
+- `references/staffing-templates.md`
+- `references/framework-details.md`
+- `references/staffing-overview-and-examples.md`
+- `references/op-assess-role-requirements.md`
+- `references/op-plan-agent-capacity.md`
+- `references/op-create-staffing-templates.md`
 
 ---
 

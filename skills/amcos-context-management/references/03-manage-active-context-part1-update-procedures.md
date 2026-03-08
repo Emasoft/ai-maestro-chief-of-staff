@@ -6,14 +6,6 @@ This document contains the detailed bash scripts and procedures for updating act
 
 ---
 
-## Table of Contents
-1. [Procedure 1: Update Current Focus](#procedure-1-update-current-focus)
-2. [Procedure 2: Add Decision to Recent Decisions](#procedure-2-add-decision-to-recent-decisions)
-3. [Procedure 3: Add Open Question](#procedure-3-add-open-question)
-4. [Procedure 4: Resolve Open Question](#procedure-4-resolve-open-question)
-
----
-
 ## Procedure 1: Update Current Focus
 
 ```bash
@@ -64,6 +56,15 @@ update_current_focus "Implementing OAuth2 authentication"
 ```bash
 #!/bin/bash
 # add_decision.sh - Add decision to active context
+
+
+## Table of Contents
+1. [Procedure 1: Update Current Focus](#procedure-1-update-current-focus)
+2. [Procedure 2: Add Decision to Recent Decisions](#procedure-2-add-decision-to-recent-decisions)
+3. [Procedure 3: Add Open Question](#procedure-3-add-open-question)
+4. [Procedure 4: Resolve Open Question](#procedure-4-resolve-open-question)
+
+---
 
 add_decision() {
     local decision="$1"

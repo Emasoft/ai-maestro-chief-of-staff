@@ -39,18 +39,7 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 | Acknowledgment timeout | No ACK | 5-15 minutes |
 | Task completion timeout | Stalled progress | Variable |
 
-See [references/failure-detection.md](references/failure-detection.md) and [references/op-detect-agent-failure.md](references/op-detect-agent-failure.md).
-  <!-- TOC: failure-detection.md -->
-  - Heartbeat monitoring via AI Maestro
-  - Message delivery failure detection
-  - ...and 5 more sections
-  <!-- /TOC -->
-  <!-- TOC: op-detect-agent-failure.md -->
-  - Purpose
-  - When To Use This Operation
-  - Steps
-  - ...and 5 more sections
-  <!-- /TOC -->
+See `references/failure-detection.md` and `references/op-detect-agent-failure.md`.
 
 ### Phase 2: Failure Classification
 
@@ -65,18 +54,7 @@ See [references/failure-detection.md](references/failure-detection.md) and [refe
 | **Recoverable** | Intervention | Session hibernated, OOM |
 | **Terminal** | Replacement | Host crash, disk corruption |
 
-See [references/failure-classification.md](references/failure-classification.md) and [references/op-classify-failure-severity.md](references/op-classify-failure-severity.md).
-  <!-- TOC: failure-classification.md -->
-  - Overview of failure categories
-  - Transient failures
-  - ...and 6 more sections
-  <!-- /TOC -->
-  <!-- TOC: op-classify-failure-severity.md -->
-  - Purpose
-  - When To Use This Operation
-  - Failure Categories
-  - ...and 7 more sections
-  <!-- /TOC -->
+See `references/failure-classification.md` and `references/op-classify-failure-severity.md`.
 
 ### Quick Reference Workflow
 
@@ -131,7 +109,7 @@ curl -X POST "$AIMAESTRO_API/api/messages" \
 
 ## Resources
 
-- [references/failure-detection.md](references/failure-detection.md) - Detection procedures
-- [references/failure-classification.md](references/failure-classification.md) - Classification criteria
-- [references/op-detect-agent-failure.md](references/op-detect-agent-failure.md) - Detect failure runbook
-- [references/op-classify-failure-severity.md](references/op-classify-failure-severity.md) - Classify severity runbook
+- `references/failure-detection.md` - Detection procedures
+- `references/failure-classification.md` - Classification criteria
+- `references/op-detect-agent-failure.md` - Detect failure runbook
+- `references/op-classify-failure-severity.md` - Classify severity runbook

@@ -34,7 +34,6 @@ Context synchronization ensures session memory files accurately reflect the agen
 
 ---
 
-
 ## Table of Contents
 
 - Overview
@@ -71,6 +70,7 @@ Context synchronization ensures session memory files accurately reflect the agen
 - Debugging sync problems
 
 ---
+
 
 ## Quick Reference
 

@@ -43,7 +43,6 @@ This document was split into two parts for better organization and to keep files
 
 ---
 
-
 ## Table of Contents
 
 - Parts
@@ -51,6 +50,7 @@ This document was split into two parts for better organization and to keep files
 - Quick Reference
 
 ---
+
 
 ## Quick Reference
 

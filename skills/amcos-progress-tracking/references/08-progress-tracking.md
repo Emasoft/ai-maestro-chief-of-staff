@@ -30,7 +30,6 @@ This document provides navigation to the progress tracking reference materials.
 
 ---
 
-
 ## Table of Contents
 
 - Document Parts
@@ -38,6 +37,7 @@ This document provides navigation to the progress tracking reference materials.
 - Quick Navigation
 
 ---
+
 
 ## Quick Navigation
 

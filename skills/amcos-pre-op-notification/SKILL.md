@@ -66,20 +66,9 @@ Copy this checklist and track your progress:
 - [ ] Composed and sent AMP notification via `amp-send.sh`
 - [ ] Tracked acknowledgments and handled any timeouts
 
-See [references/pre-operation-notifications.md](references/pre-operation-notifications.md) for detailed procedures.
-<!-- TOC: pre-operation-notifications.md -->
-- What are pre-operation notifications - Understanding warning messages
-- When to send pre-operation notifications - Notification triggers
-- ...+15 more
-<!-- /TOC -->
+See `references/pre-operation-notifications.md` for detailed procedures.
 
-See [references/op-pre-operation-notification.md](references/op-pre-operation-notification.md) for the step-by-step runbook.
-  <!-- TOC: op-pre-operation-notification.md -->
-  - When to Use
-  - Procedure
-  - Verification and Rollback
-  - ...and 8 more sections
-  <!-- /TOC -->
+See `references/op-pre-operation-notification.md` for the step-by-step runbook.
 
 ## Output
 
@@ -118,12 +107,6 @@ For each agent (`code-impl-auth`, `test-engineer-01`, `docs-writer`), send:
 
 ## Resources
 
-- [Pre-Operation Notifications](references/pre-operation-notifications.md)
-- [Pre-Operation Runbook](references/op-pre-operation-notification.md)
-- [AI Maestro Message Templates](references/ai-maestro-message-templates.md)
-  <!-- TOC: ai-maestro-message-templates.md -->
-  - Standard Message Format (AMP)
-  - When Notifying Agents of Upcoming Operations
-  - When Reporting Operation Results
-  - ...and 5 more sections
-  <!-- /TOC -->
+- `references/pre-operation-notifications.md`
+- `references/op-pre-operation-notification.md`
+- `references/ai-maestro-message-templates.md`

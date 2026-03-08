@@ -9,8 +9,6 @@ metadata:
   version: 1.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "support"
-procedure: "support-skill"
 ---
 
 # AI Maestro Chief of Staff Resource Monitoring Skill
@@ -46,7 +44,7 @@ Resource monitoring ensures the multi-agent team has sufficient capacity to oper
 
 ### PROCEDURE 1: Check System Resources
 
-Check CPU, memory, disk, and network regularly (every 15 min), before spawning agents, or when issues reported. See [system-resources.md](references/system-resources.md).
+Check CPU, memory, disk, and network regularly (every 15 min), before spawning agents, or when issues reported. See `references/system-resources.md`.
   - [Types Of System Resources](#11-types-of-system-resources)
   - [Monitoring CPU Usage](#12-monitoring-cpu-usage)
   - [Monitoring Memory](#13-monitoring-memory)
@@ -55,7 +53,7 @@ Check CPU, memory, disk, and network regularly (every 15 min), before spawning a
 
 ### PROCEDURE 2: Monitor Instance Limits
 
-Count active sessions, check API rate limits, verify concurrency headroom. See [instance-limits.md](references/instance-limits.md).
+Count active sessions, check API rate limits, verify concurrency headroom. See `references/instance-limits.md`.
   - [Types Of Instance Limits](#21-types-of-instance-limits)
   - [Counting Active Sessions](#22-counting-active-sessions)
   - [Tracking API Rate Limits](#23-tracking-api-rate-limits)
@@ -64,7 +62,7 @@ Count active sessions, check API rate limits, verify concurrency headroom. See [
 
 ### PROCEDURE 3: Handle Resource Alerts
 
-Identify alert type, assess severity, take immediate action, notify parties. See [resource-alerts.md](references/resource-alerts.md).
+Identify alert type, assess severity, take immediate action, notify parties. See `references/resource-alerts.md`.
   - [Types Of Resource Alerts](#31-types-of-resource-alerts)
   - [Alert Severity Levels](#32-alert-severity-levels)
   - [Alert Response Procedures](#33-alert-response-procedures)
@@ -73,13 +71,13 @@ Identify alert type, assess severity, take immediate action, notify parties. See
 
 ## Operational Procedures
 
-- [op-check-system-resources.md](references/op-check-system-resources.md) - Runbook for CPU/memory/disk/network checks
-- [op-monitor-instance-limits.md](references/op-monitor-instance-limits.md) - Runbook for session/rate/concurrency tracking
-- [op-handle-resource-alert.md](references/op-handle-resource-alert.md) - Runbook for alert response
+- `references/op-check-system-resources.md` - Runbook for CPU/memory/disk/network checks
+- `references/op-monitor-instance-limits.md` - Runbook for session/rate/concurrency tracking
+- `references/op-handle-resource-alert.md` - Runbook for alert response
 
 ## Examples
 
-See [examples-and-checklists.md](references/examples-and-checklists.md) for full examples and task checklist.
+See `references/examples-and-checklists.md` for full examples and task checklist.
   - [Task Checklist](#task-checklist)
   - [Example 1: Basic System Resource Check](#example-1-basic-system-resource-check)
   - [Example 2: Counting Active Agent Sessions](#example-2-counting-active-agent-sessions)
@@ -95,11 +93,11 @@ See [examples-and-checklists.md](references/examples-and-checklists.md) for full
 
 ## Resources
 
-- [System Resources](references/system-resources.md)
-- [Instance Limits](references/instance-limits.md)
-- [Resource Alerts](references/resource-alerts.md)
-- [Monitoring Commands](references/monitoring-commands.md)
-- [Examples and Checklists](references/examples-and-checklists.md)
+- `references/system-resources.md`
+- `references/instance-limits.md`
+- `references/resource-alerts.md`
+- `references/monitoring-commands.md`
+- `references/examples-and-checklists.md`
 
 ---
 

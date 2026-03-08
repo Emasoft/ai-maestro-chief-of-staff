@@ -63,12 +63,7 @@ Always attempt graceful first.
 
 ### Record-Keeping
 
-Log every termination: timestamp (ISO 8601), session name, type (graceful/forced), reason, state saved (y/n), registry updated (y/n). See [record-keeping.md](references/record-keeping.md) for format.
-<!-- TOC: record-keeping.md -->
-- Lifecycle Log
-- Operation Audit Trail
-- ...and 20 more sections
-<!-- /TOC -->
+Log every termination: timestamp (ISO 8601), session name, type (graceful/forced), reason, state saved (y/n), registry updated (y/n). See `references/record-keeping.md` for format.
 
 ## Output
 
@@ -83,7 +78,7 @@ Log every termination: timestamp (ISO 8601), session name, type (graceful/forced
 | Issue | Resolution |
 |-------|-----------|
 | Uncommitted work | Request commit/push first. Do NOT proceed until confirmed |
-| Unresponsive to warning | Wait 2 min, retry. After 5 min, force-terminate. See [termination-procedures.md](references/termination-procedures.md) 2.7 |
+| Unresponsive to warning | Wait 2 min, retry. After 5 min, force-terminate. See `references/termination-procedures.md` 2.7 |
 | tmux persists | `tmux kill-session -t <name>` |
 | Registry update fails | Retry 3x, then `DELETE /api/agents/{id}` |
 
@@ -110,27 +105,7 @@ uv run python scripts/amcos_team_registry.py remove-agent --name epa-stuck-agent
 
 ## Resources
 
-- [Termination Procedures](references/termination-procedures.md)
-  <!-- TOC: termination-procedures.md -->
-  - What is agent termination - Understanding clean shutdown
-  - Termination procedure - Step-by-step shutdown
-  - ...and 5 more sections
-  <!-- /TOC -->
-- [op-terminate-agent.md](references/op-terminate-agent.md)
-  <!-- TOC: op-terminate-agent.md -->
-  - Procedure (Steps 1-7)
-  - Examples
-  - Error Handling
-  <!-- /TOC -->
-- [Success Criteria](references/success-criteria.md)
-  <!-- TOC: success-criteria.md -->
-  - Agent Terminated Cleanly
-  - Common Self-Check Failures
-  - Completion Criteria Summary
-  <!-- /TOC -->
-- [Record-Keeping](references/record-keeping.md)
-  <!-- TOC: record-keeping.md -->
-  - Lifecycle Log
-  - Operation Audit Trail
-  - Log Query Examples
-  <!-- /TOC -->
+- `references/termination-procedures.md`
+- `references/op-terminate-agent.md`
+- `references/success-criteria.md`
+- `references/record-keeping.md`

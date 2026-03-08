@@ -37,21 +37,11 @@ Copy this checklist and track your progress:
 3. Update the relevant section with ISO timestamp
 4. Write immediately (no deferred saves)
 
-**Guide:** [references/03-manage-active-context.md](references/03-manage-active-context.md)
-<!-- TOC: 03-manage-active-context.md -->
-- Understanding what active context is
-- When to update context
-- ...+6 more
-<!-- /TOC -->
+**Guide:** `references/03-manage-active-context.md`
 
-**Update patterns:** [references/06-context-update-patterns.md](references/06-context-update-patterns.md)
-<!-- TOC: 06-context-update-patterns.md -->
-- Understanding update patterns overview
-- When switching tasks
-- ...+8 more
-<!-- /TOC -->
+**Update patterns:** `references/06-context-update-patterns.md`
 
-**Runbook:** [references/op-update-active-context.md](references/op-update-active-context.md)
+**Runbook:** `references/op-update-active-context.md`
 
 ### PROCEDURE 3: Record Discovered Patterns
 
@@ -61,21 +51,11 @@ Copy this checklist and track your progress:
 2. Open `patterns.md`, add entry with name, category, description, examples, date
 3. Update pattern index; write immediately
 
-**Guide:** [references/05-record-patterns.md](references/05-record-patterns.md)
-<!-- TOC: 05-record-patterns.md -->
-- Parts
-- Quick Navigation
-<!-- /TOC -->
+**Guide:** `references/05-record-patterns.md`
 
-**Categories:** [references/07-pattern-categories.md](references/07-pattern-categories.md)
-  <!-- TOC: 07-pattern-categories.md -->
-  - Category Definitions
-  - Pattern Category Details
-  - How to Choose Categories
-  - ...and 1 more sections
-  <!-- /TOC -->
+**Categories:** `references/07-pattern-categories.md`
 
-**Runbook:** [references/op-record-discovered-pattern.md](references/op-record-discovered-pattern.md)
+**Runbook:** `references/op-record-discovered-pattern.md`
 
 ### PROCEDURE 6: Prepare for Context Compaction
 
@@ -87,13 +67,7 @@ Copy this checklist and track your progress:
 4. Create backup
 5. Confirm ready
 
-**Safety:** [references/11-compaction-safety.md](references/11-compaction-safety.md) | **Runbook:** [references/op-prepare-context-compaction.md](references/op-prepare-context-compaction.md)
-  <!-- TOC: op-prepare-context-compaction.md -->
-  - Purpose
-  - Context Compaction Risks
-  - Steps
-  - ...and 5 more sections
-  <!-- /TOC -->
+**Safety:** `references/11-compaction-safety.md` | **Runbook:** `references/op-prepare-context-compaction.md`
 
 ## Output
 
@@ -107,20 +81,10 @@ Copy this checklist and track your progress:
 
 | Issue | Resolution |
 |-------|------------|
-| Context out of sync | See [14-context-sync.md](references/14-context-sync.md) |
-| Pattern file too large | See [16-memory-archival.md](references/16-memory-archival.md) |
-  <!-- TOC: 16-memory-archival.md -->
-  - Overview
-  - When to Archive
-  - Archival Procedures
-  - ...and 4 more sections
-  <!-- /TOC -->
+| Context out of sync | See `references/14-context-sync.md` |
+| Pattern file too large | See `references/16-memory-archival.md` |
 | Validation fails pre-compaction | Fix errors first; never compact invalid memory |
-| Files corrupted | See [04-memory-validation.md](references/04-memory-validation.md) |
-<!-- TOC: 04-memory-validation.md -->
-- Document Parts
-- Quick Reference
-<!-- /TOC -->
+| Files corrupted | See `references/04-memory-validation.md` |
 
 ## Examples
 
@@ -136,13 +100,13 @@ uv run python scripts/amcos_memory_manager.py add-pattern \
 
 ## Resources
 
-- [03-manage-active-context.md](references/03-manage-active-context.md)
-- [04-memory-validation.md](references/04-memory-validation.md)
-- [05-record-patterns.md](references/05-record-patterns.md)
-- [06-context-update-patterns.md](references/06-context-update-patterns.md)
-- [07-pattern-categories.md](references/07-pattern-categories.md)
-- [op-update-active-context.md](references/op-update-active-context.md)
-- [op-record-discovered-pattern.md](references/op-record-discovered-pattern.md)
-- [op-prepare-context-compaction.md](references/op-prepare-context-compaction.md)
+- `references/03-manage-active-context.md`
+- `references/04-memory-validation.md`
+- `references/05-record-patterns.md`
+- `references/06-context-update-patterns.md`
+- `references/07-pattern-categories.md`
+- `references/op-update-active-context.md`
+- `references/op-record-discovered-pattern.md`
+- `references/op-prepare-context-compaction.md`
 
 **Version:** 1.0.0

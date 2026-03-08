@@ -9,8 +9,6 @@ metadata:
   version: 1.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "Step 5"
-procedure: "proc-notify-team-ready"
 ---
 
 # AI Maestro Chief of Staff Team Coordination Skill
@@ -48,23 +46,23 @@ Team coordination manages distributed agent teams, assigns roles, coordinates me
 
 **When/Steps:** Identify role, match capabilities, send assignment message, confirm acceptance, update roster.
 
-See [references/role-assignment.md](references/role-assignment.md) and [references/op-assign-agent-roles.md](references/op-assign-agent-roles.md).
+See `references/role-assignment.md` and `references/op-assign-agent-roles.md`.
 
 ### PROCEDURE 2: Send Team Messages
 
 **When/Steps:** Identify recipients, compose with priority, send via AI Maestro API, confirm delivery, log.
 
-See [references/team-messaging.md](references/team-messaging.md) and [references/op-send-team-messages.md](references/op-send-team-messages.md).
+See `references/team-messaging.md` and `references/op-send-team-messages.md`.
 
 ### PROCEDURE 3: Maintain Teammate Awareness
 
 **When/Steps:** Poll for active sessions, query status, update roster, identify inactive agents, flag issues.
 
-See [references/teammate-awareness.md](references/teammate-awareness.md) and [references/op-maintain-teammate-awareness.md](references/op-maintain-teammate-awareness.md).
+See `references/teammate-awareness.md` and `references/op-maintain-teammate-awareness.md`.
 
 ## Examples
 
-See [references/coordination-overview-and-examples.md](references/coordination-overview-and-examples.md) for full examples including role assignment, team broadcasts, status checks, and coordination workflows with input/output.
+See `references/coordination-overview-and-examples.md` for full examples including role assignment, team broadcasts, status checks, and coordination workflows with input/output.
 - What Is Team Coordination
 - Team Coordination Components
 - Examples: Assigning a Role to a New Agent
@@ -86,13 +84,13 @@ See [references/coordination-overview-and-examples.md](references/coordination-o
 
 ## Resources
 
-- [Role Assignment](references/role-assignment.md)
-- [Team Messaging](references/team-messaging.md)
-- [Teammate Awareness](references/teammate-awareness.md)
-- [Overview and Examples](references/coordination-overview-and-examples.md)
-- [Op: Assign Agent Roles](references/op-assign-agent-roles.md)
-- [Op: Send Team Messages](references/op-send-team-messages.md)
-- [Op: Maintain Teammate Awareness](references/op-maintain-teammate-awareness.md)
+- `references/role-assignment.md`
+- `references/team-messaging.md`
+- `references/teammate-awareness.md`
+- `references/coordination-overview-and-examples.md`
+- `references/op-assign-agent-roles.md`
+- `references/op-send-team-messages.md`
+- `references/op-maintain-teammate-awareness.md`
 
 ---
 

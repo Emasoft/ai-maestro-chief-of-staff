@@ -9,8 +9,6 @@ metadata:
   version: 1.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "Step 4"
-procedure: "proc-create-team"
 ---
 
 # AI Maestro Chief of Staff Onboarding Skill
@@ -46,29 +44,29 @@ Agent onboarding integrates new AI agents into a coordinated team. The Chief of 
 
 **When/Steps:** Initiate session, verify identity, work through checklist items, confirm completion, document.
 
-See [references/onboarding-checklist.md](references/onboarding-checklist.md) and [references/op-execute-onboarding-checklist.md](references/op-execute-onboarding-checklist.md).
+See `references/onboarding-checklist.md` and `references/op-execute-onboarding-checklist.md`.
 
 ### PROCEDURE 2: Deliver Role Briefing
 
 **When/Steps:** Retrieve role definition, explain responsibilities, clarify reporting, set expectations, confirm understanding.
 
-See [references/role-briefing.md](references/role-briefing.md) and [references/op-deliver-role-briefing.md](references/op-deliver-role-briefing.md).
+See `references/role-briefing.md` and `references/op-deliver-role-briefing.md`.
 
 ### PROCEDURE 3: Conduct Project Handoff
 
 **When/Steps:** Provide project overview, share current state, explain conventions, transfer knowledge, verify comprehension.
 
-See [references/project-handoff.md](references/project-handoff.md) and [references/op-conduct-project-handoff.md](references/op-conduct-project-handoff.md).
+See `references/project-handoff.md` and `references/op-conduct-project-handoff.md`.
 
 ### Validate Handoff Document
 
 Validate handoff documents before sending using the validation checklist and scripts.
 
-See [references/op-validate-handoff.md](references/op-validate-handoff.md).
+See `references/op-validate-handoff.md`.
 
 ## Examples
 
-See [references/onboarding-overview-and-examples.md](references/onboarding-overview-and-examples.md) for full examples including onboarding initiation, role briefings, project handoffs, and validation checklists.
+See `references/onboarding-overview-and-examples.md` for full examples including onboarding initiation, role briefings, project handoffs, and validation checklists.
 - What Is Agent Onboarding
 - Onboarding Components
 - Examples: Initiating Onboarding for New Developer
@@ -89,14 +87,14 @@ See [references/onboarding-overview-and-examples.md](references/onboarding-overv
 
 ## Resources
 
-- [Onboarding Checklist](references/onboarding-checklist.md)
-- [Role Briefing](references/role-briefing.md)
-- [Project Handoff](references/project-handoff.md)
-- [Overview and Examples](references/onboarding-overview-and-examples.md)
-- [Op: Execute Onboarding](references/op-execute-onboarding-checklist.md)
-- [Op: Deliver Role Briefing](references/op-deliver-role-briefing.md)
-- [Op: Conduct Project Handoff](references/op-conduct-project-handoff.md)
-- [Op: Validate Handoff](references/op-validate-handoff.md)
+- `references/onboarding-checklist.md`
+- `references/role-briefing.md`
+- `references/project-handoff.md`
+- `references/onboarding-overview-and-examples.md`
+- `references/op-execute-onboarding-checklist.md`
+- `references/op-deliver-role-briefing.md`
+- `references/op-conduct-project-handoff.md`
+- `references/op-validate-handoff.md`
 
 ---
 

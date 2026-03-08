@@ -44,50 +44,21 @@ Copy this checklist and track your progress:
 - [ ] Sent failure notification via `amp-send.sh` with recovery guidance
 - [ ] Logged failure with full context and triggered escalation if needed
 
-See [references/failure-notifications.md](references/failure-notifications.md) for detailed procedures.
-<!-- TOC: failure-notifications.md -->
-- What are failure notifications - Understanding error messages
-- When to send failure notifications - Failure triggers
-- ...+16 more
-<!-- /TOC -->
+See `references/failure-notifications.md` for detailed procedures.
 
-See [references/op-failure-notification.md](references/op-failure-notification.md) for the step-by-step runbook.
-  <!-- TOC: op-failure-notification.md -->
-  - When to Use
-  - Procedure
-  - Verification and Rollback
-  - ...and 10 more sections
-  <!-- /TOC -->
+See `references/op-failure-notification.md` for the step-by-step runbook.
 
 ### Edge Cases
 
-Consult edge case protocols when standard notification is insufficient. See [references/edge-case-protocols.md](references/edge-case-protocols.md).
-  <!-- TOC: edge-case-protocols.md -->
-  - AI Maestro Unavailable
-  - GitHub Unavailable
-  - Cascading Failures
-  - ...and 29 more sections
-  <!-- /TOC -->
+Consult edge case protocols when standard notification is insufficient. See `references/edge-case-protocols.md`.
 
 ### Proactive Handoff
 
-When failure requires transferring work, use the proactive handoff protocol. See [references/proactive-handoff-protocol.md](references/proactive-handoff-protocol.md).
-  <!-- TOC: proactive-handoff-protocol.md -->
-  - Automatic Handoff Triggers
-  - Mandatory Handoff Sections
-  - Protocol for Handing Off GitHub Operations
-  - ...and 5 more sections
-  <!-- /TOC -->
+When failure requires transferring work, use the proactive handoff protocol. See `references/proactive-handoff-protocol.md`.
 
 ### Design Document Protocol
 
-When failures reveal systemic issues, create a design document. See [references/design-document-protocol.md](references/design-document-protocol.md).
-  <!-- TOC: design-document-protocol.md -->
-  - Document UUID Format (GUUID)
-  - Required Frontmatter Schema
-  - Document Lifecycle
-  - ...and 27 more sections
-  <!-- /TOC -->
+When failures reveal systemic issues, create a design document. See `references/design-document-protocol.md`.
 
 ## Output
 
@@ -126,8 +97,8 @@ Send via `agent-messaging` skill:
 
 ## Resources
 
-- [Failure Notifications](references/failure-notifications.md)
-- [Failure Notification Runbook](references/op-failure-notification.md)
-- [Edge Case Protocols](references/edge-case-protocols.md)
-- [Design Document Protocol](references/design-document-protocol.md)
-- [Proactive Handoff Protocol](references/proactive-handoff-protocol.md)
+- `references/failure-notifications.md`
+- `references/op-failure-notification.md`
+- `references/edge-case-protocols.md`
+- `references/design-document-protocol.md`
+- `references/proactive-handoff-protocol.md`

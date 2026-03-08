@@ -9,8 +9,6 @@ metadata:
   version: 2.0.0
 context: fork
 agent: amcos-chief-of-staff-main-agent
-workflow-instruction: "support"
-procedure: "support-skill"
 ---
 
 # AMCOS Permission Management Skill -- GovernanceRequest
@@ -69,7 +67,7 @@ Successful approval returns JSON with `status: "dual-approved"` and approvals fr
 
 ## Governance Details
 
-See [governance-details-and-examples.md](references/governance-details-and-examples.md) for payload format, governance password, local approval, rate limiting, audit trail, API responses, and examples.
+See `references/governance-details-and-examples.md` for payload format, governance password, local approval, rate limiting, audit trail, API responses, and examples.
   - [GovernanceRequest Payload](#governancerequest-payload)
   - [Governance Password](#governance-password)
   - [Simplified Local Approval](#simplified-local-approval)
@@ -94,12 +92,12 @@ See [governance-details-and-examples.md](references/governance-details-and-examp
 
 ## Resources
 
-- [Governance Details and Examples](references/governance-details-and-examples.md)
-- [Approval Request Procedure](references/approval-request-procedure.md)
-- [Approval Tracking](references/approval-tracking.md)
-- [Approval Escalation](references/approval-escalation.md)
-- [Approval Types Detailed](references/approval-types-detailed.md)
-- [Approval Workflow Engine](references/approval-workflow-engine.md)
+- `references/governance-details-and-examples.md`
+- `references/approval-request-procedure.md`
+- `references/approval-tracking.md`
+- `references/approval-escalation.md`
+- `references/approval-types-detailed.md`
+- `references/approval-workflow-engine.md`
 
 ---
 
