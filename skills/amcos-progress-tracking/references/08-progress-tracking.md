@@ -30,6 +30,15 @@ This document provides navigation to the progress tracking reference materials.
 
 ---
 
+
+## Table of Contents
+
+- Document Parts
+- Part 1: Structure and Task Management
+- Quick Navigation
+
+---
+
 ## Quick Navigation
 
 | Topic | Document |

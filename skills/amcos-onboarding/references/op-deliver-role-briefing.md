@@ -1,10 +1,6 @@
 ---
 operation: deliver-role-briefing
-procedure: proc-create-team
-workflow-instruction: Step 4 - Team Creation
 parent-skill: amcos-onboarding
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Deliver Role Briefing

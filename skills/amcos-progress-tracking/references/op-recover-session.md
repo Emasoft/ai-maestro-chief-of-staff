@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: recover-session
 parent-skill: amcos-progress-tracking
 ---

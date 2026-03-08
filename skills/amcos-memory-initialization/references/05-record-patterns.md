@@ -1,5 +1,16 @@
 # Record Patterns - Index
 
+
+## Table of Contents
+
+- Parts
+- Quick Navigation
+- Part 1: Fundamentals
+- Part 2: Examples & Troubleshooting
+- Reading Order
+
+---
+
 This document was split into multiple parts for better navigation and context efficiency.
 
 ## Parts

@@ -1,8 +1,6 @@
 ---
 name: op-sync-registry-with-labels
 description: Operation procedure for synchronizing team registry with GitHub issue labels.
-workflow-instruction: "support"
-procedure: "support-skill"
 ---
 
 # Operation: Sync Registry with Labels

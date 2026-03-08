@@ -1,10 +1,6 @@
 ---
 operation: create-staffing-templates
-procedure: proc-evaluate-project
-workflow-instruction: Step 2 - Chief of Staff Evaluates Project
 parent-skill: amcos-staff-planning
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Create Staffing Templates

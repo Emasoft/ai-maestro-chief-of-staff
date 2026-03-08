@@ -1,8 +1,6 @@
 ---
 name: op-terminate-agent-clear-assignments
 description: Operation procedure for terminating an agent and clearing all its issue assignments.
-workflow-instruction: "support"
-procedure: "support-skill"
 ---
 
 # Operation: Terminate Agent and Clear Assignments

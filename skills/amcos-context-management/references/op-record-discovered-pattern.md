@@ -1,11 +1,26 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: record-discovered-pattern
 parent-skill: amcos-context-management
 ---
 
 # Operation: Record Discovered Pattern
+
+## Contents
+
+- [Purpose](#purpose)
+- [When To Use This Operation](#when-to-use-this-operation)
+- [Pattern Categories](#pattern-categories)
+- [Steps](#steps)
+  - [Step 1: Identify the Pattern](#step-1-identify-the-pattern)
+  - [Step 2: Open patterns.md](#step-2-open-patternsmd)
+  - [Step 3: Add Pattern Entry](#step-3-add-pattern-entry)
+  - [Step 4: Update Index](#step-4-update-index)
+  - [Step 5: Update Timestamp](#step-5-update-timestamp)
+- [Checklist](#checklist)
+- [Example Pattern Entry](#example-pattern-entry)
+- [Output](#output)
+- [Related References](#related-references)
+- [Next Operation](#next-operation)
 
 ## Purpose
 

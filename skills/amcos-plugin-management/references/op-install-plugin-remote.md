@@ -1,10 +1,6 @@
 ---
 operation: install-plugin-remote
-procedure: proc-create-team
-workflow-instruction: Step 4 - Team Creation
 parent-skill: amcos-plugin-management
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Install Plugin on Remote Agent

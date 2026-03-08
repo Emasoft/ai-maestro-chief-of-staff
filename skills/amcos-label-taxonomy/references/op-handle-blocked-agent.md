@@ -1,8 +1,6 @@
 ---
-name: op-handle-blocked-agent
-description: Operation procedure for handling a blocked agent by updating issue status and optionally escalating.
-workflow-instruction: "support"
-procedure: "support-skill"
+operation: op-handle-blocked-agent
+parent-skill: amcos-label-taxonomy
 ---
 
 # Operation: Handle Blocked Agent

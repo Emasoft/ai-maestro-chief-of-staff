@@ -1,8 +1,6 @@
 ---
-name: op-assign-agent-to-issue
-description: Operation procedure for spawning an agent and assigning it to a GitHub issue using labels.
-workflow-instruction: "support"
-procedure: "support-skill"
+operation: op-assign-agent-to-issue
+parent-skill: amcos-label-taxonomy
 ---
 
 # Operation: Assign Agent to Issue

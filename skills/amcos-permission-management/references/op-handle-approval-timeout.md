@@ -1,8 +1,6 @@
 ---
-name: op-handle-approval-timeout
-description: Operation procedure for handling approval request timeouts and escalation.
-workflow-instruction: "support"
-procedure: "support-skill"
+operation: op-handle-approval-timeout
+parent-skill: amcos-permission-management
 ---
 
 # Operation: Handle Approval Timeout

@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: monitor-instance-limits
 parent-skill: amcos-resource-monitoring
 ---

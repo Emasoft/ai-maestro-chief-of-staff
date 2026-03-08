@@ -1,8 +1,6 @@
 ---
 name: op-track-pending-approvals
 description: Operation procedure for tracking multiple pending approval requests.
-workflow-instruction: "support"
-procedure: "support-skill"
 ---
 
 # Operation: Track Pending Approvals

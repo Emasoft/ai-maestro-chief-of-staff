@@ -1,8 +1,6 @@
 ---
-name: op-request-approval
-description: Operation procedure for requesting approval from EAMA before executing privileged operations.
-workflow-instruction: "support"
-procedure: "support-skill"
+operation: op-request-approval
+parent-skill: amcos-permission-management
 ---
 
 # Operation: Request Approval

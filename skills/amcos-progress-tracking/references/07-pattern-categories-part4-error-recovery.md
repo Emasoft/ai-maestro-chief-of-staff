@@ -1,5 +1,27 @@
 # Error-Recovery Patterns
 
+
+## Table of Contents
+
+- Definition
+- Structure
+- Error Description
+- Detection
+- Root Cause
+- Recovery Procedure
+- Step 1: Stop Further Damage
+- Step 2: Assess State
+- Step 3: Restore to Known-Good State
+- Step 4: Verify Recovery
+- Prevention
+- Examples
+- Related Patterns
+- When to Create
+- Examples of Good Error-Recovery Patterns
+- Examples of Bad Error-Recovery Patterns
+
+---
+
 ## Definition
 
 An Error-Recovery pattern documents:

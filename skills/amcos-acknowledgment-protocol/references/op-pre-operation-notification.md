@@ -1,10 +1,6 @@
 ---
 operation: pre-operation-notification
-procedure: proc-notify-team-ready
-workflow-instruction: Step 5 - Team Ready Notification
 parent-skill: amcos-acknowledgment-protocol
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Pre-Operation Notification

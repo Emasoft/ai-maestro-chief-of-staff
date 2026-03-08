@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: detect-agent-failure
 parent-skill: amcos-failure-detection
 ---

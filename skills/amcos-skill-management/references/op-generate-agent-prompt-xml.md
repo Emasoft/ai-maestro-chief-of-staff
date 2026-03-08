@@ -1,10 +1,6 @@
 ---
 operation: generate-agent-prompt-xml
-procedure: proc-create-team
-workflow-instruction: Step 4 - Team Creation
 parent-skill: amcos-skill-management
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Generate Agent Prompt XML

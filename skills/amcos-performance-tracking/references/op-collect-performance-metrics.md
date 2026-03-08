@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: collect-performance-metrics
 parent-skill: amcos-performance-tracking
 ---

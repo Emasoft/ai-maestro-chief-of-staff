@@ -26,6 +26,13 @@ This document was split into multiple parts for easier navigation. Each part cov
 
 ---
 
+
+## Table of Contents
+
+- Part 2: Advanced Recovery and Prevention
+
+---
+
 ## Part 2: Advanced Recovery and Prevention
 
 **File:** [13-file-recovery-part2-advanced-recovery-and-prevention.md](13-file-recovery-part2-advanced-recovery-and-prevention.md)

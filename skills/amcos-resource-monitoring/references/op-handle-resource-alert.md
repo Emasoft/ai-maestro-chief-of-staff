@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: handle-resource-alert
 parent-skill: amcos-resource-monitoring
 ---

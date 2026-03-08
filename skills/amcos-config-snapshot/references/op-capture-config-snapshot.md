@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: capture-config-snapshot
 parent-skill: amcos-config-snapshot
 ---

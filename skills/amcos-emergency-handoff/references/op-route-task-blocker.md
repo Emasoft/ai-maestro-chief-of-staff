@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: route-task-blocker
 parent-skill: amcos-emergency-handoff
 ---

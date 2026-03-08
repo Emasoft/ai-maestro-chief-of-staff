@@ -1,7 +1,5 @@
 ---
 operation: update-team-registry
-procedure: proc-create-team
-workflow-instruction: Step 4 - Team Creation
 parent-skill: amcos-agent-hibernation
 parent-plugin: ai-maestro-chief-of-staff
 version: 1.0.0

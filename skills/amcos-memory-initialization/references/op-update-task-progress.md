@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: update-task-progress
 parent-skill: amcos-memory-initialization
 ---

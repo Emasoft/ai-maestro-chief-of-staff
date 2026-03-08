@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: handle-config-conflicts
 parent-skill: amcos-config-snapshot
 ---

@@ -1,5 +1,29 @@
 # Workflow Patterns
 
+
+## Table of Contents
+
+- Definition
+- Structure
+- Task Description
+- Prerequisites
+- Procedure
+- Phase 1: [Phase Name]
+- Step 1: [Action]
+- Step 2: [Action]
+- Phase 2: [Phase Name]
+- Expected Outcome
+- Variations
+- Variation A: [When to use]
+- Variation B: [When to use]
+- Common Issues
+- Examples
+- When to Create
+- Examples of Good Workflow Patterns
+- Examples of Bad Workflow Patterns
+
+---
+
 ## Definition
 
 A Workflow pattern documents:

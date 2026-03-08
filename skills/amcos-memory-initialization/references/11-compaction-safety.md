@@ -43,6 +43,15 @@ This document was split into two parts for better organization and to keep files
 
 ---
 
+
+## Table of Contents
+
+- Parts
+- Part 1: Preparation and Execution
+- Quick Reference
+
+---
+
 ## Quick Reference
 
 | Task | Go To |

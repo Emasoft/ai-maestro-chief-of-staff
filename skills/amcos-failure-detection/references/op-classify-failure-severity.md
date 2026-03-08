@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: classify-failure-severity
 parent-skill: amcos-failure-detection
 ---

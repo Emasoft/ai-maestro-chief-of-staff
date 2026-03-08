@@ -1,10 +1,6 @@
 ---
 operation: assess-role-requirements
-procedure: proc-evaluate-project
-workflow-instruction: Step 2 - Chief of Staff Evaluates Project
 parent-skill: amcos-staff-planning
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Assess Role Requirements

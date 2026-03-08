@@ -1,5 +1,25 @@
 # Problem-Solution Patterns
 
+
+## Table of Contents
+
+- Definition
+- Structure
+- Problem Description
+- Root Cause
+- Solution
+- Step 1: [Action]
+- Step 2: [Action]
+- Why This Works
+- When to Use
+- Examples
+- Prevention
+- When to Create
+- Examples of Good Problem-Solution Patterns
+- Examples of Bad Problem-Solution Patterns
+
+---
+
 ## Definition
 
 A Problem-Solution pattern documents:

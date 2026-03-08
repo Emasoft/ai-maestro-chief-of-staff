@@ -1,11 +1,25 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: initialize-session-memory
 parent-skill: amcos-memory-initialization
 ---
 
 # Operation: Initialize Session Memory
+
+## Contents
+
+- [Purpose](#purpose)
+- [When To Use This Operation](#when-to-use-this-operation)
+- [Session Memory Components](#session-memory-components)
+- [Steps](#steps)
+  - [Step 1: Check Directory Exists](#step-1-check-directory-exists)
+  - [Step 2: Read or Create Memory Files](#step-2-read-or-create-memory-files)
+  - [Step 3: Validate Markdown Syntax](#step-3-validate-markdown-syntax)
+  - [Step 4: Report Loaded State](#step-4-report-loaded-state)
+- [Checklist](#checklist)
+- [Output](#output)
+- [Directory Structure](#directory-structure)
+- [Related References](#related-references)
+- [Next Operation](#next-operation)
 
 ## Purpose
 

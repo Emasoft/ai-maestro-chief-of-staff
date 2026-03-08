@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: detect-config-changes
 parent-skill: amcos-config-snapshot
 ---

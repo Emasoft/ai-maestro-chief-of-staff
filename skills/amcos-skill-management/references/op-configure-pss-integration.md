@@ -1,10 +1,6 @@
 ---
 operation: configure-pss-integration
-procedure: proc-create-team
-workflow-instruction: Step 4 - Team Creation
 parent-skill: amcos-skill-management
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Configure PSS Integration

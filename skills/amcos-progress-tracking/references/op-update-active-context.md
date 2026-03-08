@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: update-active-context
 parent-skill: amcos-progress-tracking
 ---

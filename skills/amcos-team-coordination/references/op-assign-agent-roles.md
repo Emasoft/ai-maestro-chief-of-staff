@@ -1,10 +1,6 @@
 ---
 operation: assign-agent-roles
-procedure: proc-notify-team-ready
-workflow-instruction: Step 5 - Team Ready Notification
 parent-skill: amcos-team-coordination
-parent-plugin: ai-maestro-chief-of-staff
-version: 1.0.0
 ---
 
 # Assign Agent Roles

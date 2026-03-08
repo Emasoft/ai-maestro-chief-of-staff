@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: analyze-strengths-weaknesses
 parent-skill: amcos-performance-tracking
 ---

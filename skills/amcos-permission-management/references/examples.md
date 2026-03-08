@@ -34,6 +34,22 @@ EAMA replies with type `approval_response`, `request_id`: "spawn-req-2025-02-02-
 
 ---
 
+
+## Table of Contents
+
+- Table of Contents (Use-Case Oriented)
+- Requesting Approval to Terminate an Agent
+- Request Message
+- Expected Response (Rejection with Alternative)
+- Key Points
+- Operating in Autonomous Mode
+- Prerequisite
+- Post-Operation Notification
+- Audit Trail Entry
+- Key Points
+
+---
+
 ## 2. Requesting Approval to Terminate an Agent
 
 **Use this example when:** An agent has completed its work and you need approval to terminate it.

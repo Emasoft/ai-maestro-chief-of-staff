@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: emergency-handoff
 parent-skill: amcos-emergency-handoff
 ---

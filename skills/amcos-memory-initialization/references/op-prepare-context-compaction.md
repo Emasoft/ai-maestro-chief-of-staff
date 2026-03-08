@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: prepare-context-compaction
 parent-skill: amcos-memory-initialization
 ---

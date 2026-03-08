@@ -1,6 +1,4 @@
 ---
-procedure: support-skill
-workflow-instruction: support
 operation: execute-recovery-strategy
 parent-skill: amcos-recovery-execution
 ---
