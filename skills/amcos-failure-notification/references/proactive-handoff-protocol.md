@@ -315,7 +315,7 @@ All UUIDs are registered in: `$CLAUDE_PROJECT_DIR/docs_dev/.uuid-registry.json`
 {
   "handoffs": {
     "hoff-20250129-a1b2c3": {
-      "from": "ecos",
+      "from": "amcos",
       "to": "amaa",
       "timestamp": "2025-01-29T10:00:00Z",
       "type": "design",

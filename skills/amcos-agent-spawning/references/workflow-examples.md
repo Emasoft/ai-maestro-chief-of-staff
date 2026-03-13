@@ -44,7 +44,7 @@
    - svgbbox-impl-03: "Implement api-gateway feature"
    - svgbbox-reviewer-01: "Review PRs from dev agents"
 
-6. Report team composition to AMA
+6. Report team composition to AMAMA
 ```
 
 **Key Points:**
@@ -75,7 +75,7 @@
 
 5. Update team registry with hibernated status
 
-6. Report hibernation to AMA
+6. Report hibernation to AMAMA
 ```
 
 **Key Points:**
@@ -103,16 +103,17 @@
 3. Notify all active agents of skill update:
    - Send AI Maestro broadcast: "Skills updated. Reload if needed."
 
-4. Report completion to AMA
+4. Report completion to AMAMA
 ```
 
 **Key Points:**
 - Always validate skills before reindexing
 - Only trigger PSS reindex if validation passes
 - Notify all active agents of updates
-- Report completion to AMA for tracking
+- Report completion to AMAMA for tracking
 
 ---
 
 **Version:** 1.0
 **Last Updated:** 2025-02-03
+

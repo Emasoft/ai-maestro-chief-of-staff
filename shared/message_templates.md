@@ -239,7 +239,7 @@ Request for detailed performance metrics from an agent.
   "content": {
     "type": "completion",
     "message": "{summary_of_deliverables}",
-    "handoff_file": "docs_dev/handoffs/handoff-{uuid}-{role}-to-ecos.md",
+    "handoff_file": "docs_dev/handoffs/handoff-{uuid}-{role}-to-amcos.md",
     "github_issue": "#{issue_number}",
     "artifacts": ["path/to/artifact1", "path/to/artifact2"],
     "verification_status": "passed" | "failed" | "partial"
@@ -270,6 +270,7 @@ Request for detailed performance metrics from an agent.
 ### 11. Approval Response
 
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+
 
 
 ```json

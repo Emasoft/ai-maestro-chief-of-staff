@@ -25,7 +25,7 @@ The AMCOS plugin defines four specializations that all map to governance role `m
 | Integrator | AMIA | `member` |
 | Programmer | AMPA | `member` |
 
-AMCOS itself maps to governance role `chief-of-staff`. AMA maps to `manager`.
+AMCOS itself maps to governance role `chief-of-staff`. AMAMA maps to `manager`.
 
 ---
 
@@ -38,7 +38,7 @@ AMCOS itself maps to governance role `chief-of-staff`. AMA maps to `manager`.
                              │
                              ▼
 ┌──────────────────────────────────────────────────────────────┐
-│                AMA (Manager)                                │
+│                AMAMA (Manager)                              │
 │                governance role: manager                       │
 │                - User's sole interlocutor                     │
 │                - Creates projects / teams                     │
@@ -72,23 +72,23 @@ AMCOS itself maps to governance role `chief-of-staff`. AMA maps to `manager`.
 **Scope: TEAM-SCOPED. One AMCOS per team. Manages agent lifecycle for its own team only.**
 
 ### AMCOS CAN:
-- Create agents for its team (with AMA approval)
-- Terminate agents in its team (with AMA approval)
-- Hibernate/wake agents in its team (with AMA approval)
+- Create agents for its team (with AMAMA approval)
+- Terminate agents in its team (with AMAMA approval)
+- Hibernate/wake agents in its team (with AMAMA approval)
 - Configure agents with skills and plugins
 - Assign agents to its team
 - Handle handoff protocols between agents in its team
 - Monitor agent health and availability within its team
-- Replace failed agents in its team (with AMA approval)
-- Report agent performance to AMA
+- Replace failed agents in its team (with AMAMA approval)
+- Report agent performance to AMAMA
 
 ### AMCOS CANNOT:
-- Create projects (AMA only)
+- Create projects (AMAMA only)
 - Assign tasks to agents (AMOA only)
 - Manage GitHub Project kanban (AMOA only)
 - Make architectural decisions (AMAA only)
 - Perform code review (AMIA only)
-- Communicate directly with user (AMA only)
+- Communicate directly with user (AMAMA only)
 - Manage agents in OTHER teams
 - Directly message members of other closed teams
 
@@ -100,13 +100,13 @@ AMCOS can send messages to:
 
 | Target | Allowed |
 |--------|---------|
-| AMA (Manager) | Yes |
+| AMAMA (Manager) | Yes |
 | Other AMCOS agents (other teams' COS) | Yes |
 | Own team members | Yes |
 | Agents not in any closed team (unassigned) | Yes |
 | Members of OTHER closed teams | **NO** |
 
-Cross-team operations (e.g., borrowing an agent, sharing resources) require a `GovernanceRequest` with **dual-manager approval** (both teams' managers, or AMA if AMA manages both).
+Cross-team operations (e.g., borrowing an agent, sharing resources) require a `GovernanceRequest` with **dual-manager approval** (both teams' managers, or AMAMA if AMAMA manages both).
 
 ---
 
@@ -126,7 +126,7 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 ### AMOA CANNOT:
 - Create agents directly (request via AMCOS)
 - Configure agent skills/plugins (AMCOS only)
-- Create projects (AMA only)
+- Create projects (AMAMA only)
 - Manage agents outside its project
 
 ### AMOA Scope:
@@ -136,11 +136,11 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 
 ---
 
-## AMA (Manager) - Responsibilities
+## AMAMA (Manager) - Responsibilities
 
 **Governance role: `manager`.**
 
-### AMA CAN:
+### AMAMA CAN:
 - Create projects and teams
 - Approve/reject AMCOS requests (agent create/terminate/etc.)
 - Approve cross-team GovernanceRequests
@@ -149,11 +149,11 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 - Override any agent decision
 - Grant autonomous operation directives
 
-### AMA CANNOT:
+### AMAMA CANNOT:
 - Create agents directly (delegates to AMCOS)
 - Assign tasks directly (delegates to AMOA)
 
-### AMA Scope:
+### AMAMA Scope:
 - **Organization-wide**: Oversees all teams and projects
 - **User-facing**: Only agent that talks to user
 - **Decision authority**: Final approval on all significant operations
@@ -161,6 +161,7 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 ---
 
 ## Interaction Patterns
+
 
 ### Creating an Agent for a Team
 
@@ -171,10 +172,10 @@ AMOA: "I need a frontend developer agent for Project X"
 AMCOS (team): Receives request, prepares agent specification
   │
   ▼
-AMCOS → AMA: "Request approval to spawn frontend-dev for Team Alpha / Project X"
+AMCOS → AMAMA: "Request approval to spawn frontend-dev for Team Alpha / Project X"
   │
   ▼
-AMA: Approves (or rejects with reason)
+AMAMA: Approves (or rejects with reason)
   │
   ▼
 AMCOS: Creates agent, configures skills, assigns to team
@@ -195,11 +196,11 @@ AMCOS-alpha: Needs agent from Team Beta for temporary work
 AMCOS-alpha → AMCOS-beta: "GovernanceRequest: borrow agent-X for 2 tasks"
   │
   ▼
-AMCOS-beta → AMA: "Cross-team request from Team Alpha, forward for approval"
-AMCOS-alpha → AMA: "Cross-team request, requesting dual approval"
+AMCOS-beta → AMAMA: "Cross-team request from Team Alpha, forward for approval"
+AMCOS-alpha → AMAMA: "Cross-team request, requesting dual approval"
   │
   ▼
-AMA: Approves both sides (dual-manager approval)
+AMAMA: Approves both sides (dual-manager approval)
   │
   ▼
 AMCOS-beta: Temporarily reassigns agent-X
@@ -212,10 +213,10 @@ AMCOS-alpha: Receives agent-X into team scope
 AMCOS: Detects agent-123 is unresponsive (terminal failure)
   │
   ▼
-AMCOS → AMA: "Request approval to replace agent-123"
+AMCOS → AMAMA: "Request approval to replace agent-123"
   │
   ▼
-AMA: Approves
+AMAMA: Approves
   │
   ▼
 AMCOS: Creates replacement agent-456, configures it
@@ -233,7 +234,7 @@ AMOA: Sends handoff to agent-456
 
 ## Summary Table
 
-| Responsibility | AMA (manager) | AMCOS (chief-of-staff) | AMOA (member) | AMIA (member) | AMAA (member) | AMPA (member) |
+| Responsibility | AMAMA (manager) | AMCOS (chief-of-staff) | AMOA (member) | AMIA (member) | AMAA (member) | AMPA (member) |
 |----------------|:-:|:-:|:-:|:-:|:-:|:-:|
 | Create projects/teams | Yes | -- | -- | -- | -- | -- |
 | Create agents | Approves | Yes | Requests | -- | -- | -- |

@@ -188,13 +188,13 @@ FAILURE_DETECTED
             |
             YES --> Notify affected parties:
                     - Orchestrator (AMOA) for task reassignment
-                    - Manager (AMA) for critical failure
+                    - Manager (AMAMA) for critical failure
                     |
                     +-- Check recovery policy
                         |
                         +-- Auto-replace authorized? --> Route to lifecycle-manager
                         |
-                        +-- Approval required? --> Request approval from AMA
+                        +-- Approval required? --> Request approval from AMAMA
 ```
 
 ### 3.2 Transient Recovery (Automatic)
@@ -244,7 +244,7 @@ FAILURE_DETECTED
    - **Content**: type `failure-report`, message: "Agent [agent-name] has TERMINAL failure. Assigned tasks need reassignment."
 
 2. Use the `agent-messaging` skill to notify the manager for critical failure:
-   - **Recipient**: `ama-assistant-manager` (or the manager session name)
+   - **Recipient**: `amama-assistant-manager` (or the manager session name)
    - **Subject**: `CRITICAL: Agent Failure`
    - **Priority**: `urgent`
    - **Content**: type `critical-failure`, message: "Agent [agent-name] has experienced TERMINAL failure. Classification: [reason]. Recovery options: 1) Replace agent, 2) Reassign tasks only, 3) Manual investigation. Awaiting approval."
@@ -445,7 +445,7 @@ Use the `agent-messaging` skill to send:
 **Purpose**: Get human approval for terminal recovery actions.
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `ama-assistant-manager` (or the manager session name)
+- **Recipient**: `amama-assistant-manager` (or the manager session name)
 - **Subject**: `CRITICAL: Agent Terminal Failure`
 - **Priority**: `urgent`
 - **Content**: type `critical-failure`, message: "Agent [agent-name] has experienced TERMINAL failure requiring approval." Include `failed_agent`, `failure_classification`: "TERMINAL`, `failure_reason`, `recovery_attempts` count, `orphaned_tasks` list, `recovery_options` array listing "replace", "reassign_only", and "investigate" options with descriptions, `awaiting`: "approval".
@@ -556,10 +556,10 @@ EVERY health_check_interval (default 5 minutes):
 | **amcos-main** | Routing target | Receives recovery coordination requests |
 | **amcos-resource-monitor** | Resource data | Check if failure is resource-related |
 | **orchestrator-master (AMOA)** | Task reassignment | Notify of orphaned tasks |
-| **assistant-manager (AMA)** | Escalation | Approve terminal recovery actions |
+| **assistant-manager (AMAMA)** | Escalation | Approve terminal recovery actions |
 
 **Key integration rules:**
 - Always notify AMOA when tasks are orphaned
-- Always notify AMA for terminal failures (unless pre-authorized)
+- Always notify AMAMA for terminal failures (unless pre-authorized)
 - Always route restart/replacement to lifecycle-manager
 - Always check resource-monitor for context on resource-related failures

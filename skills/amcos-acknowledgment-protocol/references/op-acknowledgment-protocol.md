@@ -127,7 +127,7 @@ On "ok" response: Proceed with skill installation.
 
 ### Example 2: Approval Request ACK
 
-**Scenario:** Requesting AMA approval for expensive operation.
+**Scenario:** Requesting AMAMA approval for expensive operation.
 
 Use the `agent-messaging` skill to send (2 minute timeout):
 - **Recipient**: `ai-maestro-assistant-manager-agent`
@@ -164,3 +164,4 @@ Send reminders at 10s and 20s. Proceed immediately after 30s regardless.
 - [op-post-operation-notification.md](op-post-operation-notification.md) - Verification is similar
 - [op-failure-notification.md](op-failure-notification.md) - May follow timeout
 - [acknowledgment-protocol.md](acknowledgment-protocol.md) - Complete reference documentation
+

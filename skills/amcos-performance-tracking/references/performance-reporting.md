@@ -408,8 +408,8 @@ design/memory/reports/
 
 **Via User Notification:**
 For critical issues or user-requested reports:
-Use the `agent-messaging` skill to send a user notification via AMA:
-- **Recipient**: `ama-assistant-manager` (for user escalation)
+Use the `agent-messaging` skill to send a user notification via AMAMA:
+- **Recipient**: `amama-assistant-manager` (for user escalation)
 - **Subject**: `Weekly Performance Report Available`
 - **Priority**: `normal`
 - **Content**: type `report`, message: "See design/memory/reports/weekly-W05.md"

@@ -32,7 +32,7 @@ Use the `status:blocked` label to flag blocked tasks at any stage (not a separat
 
 - **Small tasks**: In Progress -> Review -> Completed
 - **Big tasks**: In Progress -> Review (includes human review if needed) -> Completed
-- **Human Review** within the Review column is requested via AMA (Assistant Manager asks user to test/review)
+- **Human Review** within the Review column is requested via AMAMA (Assistant Manager asks user to test/review)
 - Not all tasks go through human review -- only significant changes requiring human judgment
 
 ## Status Labels AMCOS Updates
@@ -57,7 +57,7 @@ AMCOS uses priority for resource allocation:
 AMCOS monitors all status changes:
 - `status:blocked` - May need to reassign or escalate
 - `status:in_progress` - Track for timeout/health monitoring
-- `status:review` - Route to AMIA; request human review via AMA if needed
+- `status:review` - Route to AMIA; request human review via AMAMA if needed
 - `status:completed` - Task finished and merged
 
 ## Quick Reference: AMCOS Label Responsibilities
@@ -77,7 +77,7 @@ AMCOS monitors all status changes:
 - `type:*` - Set at issue creation
 - `effort:*` - Set during triage by AMOA
 - `review:*` - Managed by AMIA
-- `priority:*` - Set by AMOA or AMA (AMCOS can suggest changes)
+- `priority:*` - Set by AMOA or AMAMA (AMCOS can suggest changes)
 
 ## Checklist
 

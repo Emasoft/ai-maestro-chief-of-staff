@@ -146,7 +146,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
 
 1. **Track receiving agent's progress**
 2. **Escalate if deadline at risk**
-3. **Notify AMA of emergency handoff status**
+3. **Notify AMAMA of emergency handoff status**
 
 ### Step 6: Post-Emergency Reconciliation
 

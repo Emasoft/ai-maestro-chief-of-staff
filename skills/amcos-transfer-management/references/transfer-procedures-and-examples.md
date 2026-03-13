@@ -153,7 +153,7 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
   }'
 
 # Step 3: Notify source manager
-amp-send.sh "ama-main" "Transfer approval: ampa-alpha-backend -> team-beta" \
+amp-send.sh "amama-main" "Transfer approval: ampa-alpha-backend -> team-beta" \
   "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: ampa-alpha-backend moving to team-beta. Please approve as source manager."}'
 
 # Step 4: Notify target COS
@@ -192,7 +192,7 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
   }'
 
 # Step 4: Notify your manager for their approval
-amp-send.sh "ama-main" "Transfer approval: ampa-alpha-backend into team-beta" \
+amp-send.sh "amama-main" "Transfer approval: ampa-alpha-backend into team-beta" \
   "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: I approved ampa-alpha-backend into team-beta as target COS. Please approve as target manager."}'
 ```
 
@@ -215,4 +215,3 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-002/approve" \
 amp-send.sh "amcos-alpha" "Transfer rejected: tr-002" \
   "normal" '{"type": "transfer-rejected", "message": "TransferRequest tr-002 rejected by target COS. Reason: Team at full capacity."}'
 ```
-

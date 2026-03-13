@@ -132,7 +132,7 @@ Contradictory requirements that cannot be resolved automatically.
 
 1. **Stop all work immediately**
 2. Document the conflict
-3. Notify manager (AMA)
+3. Notify manager (AMAMA)
 4. Wait for user decision
 
 ```markdown
@@ -141,7 +141,7 @@ Contradictory requirements that cannot be resolved automatically.
 Action: Escalated to user
 Work stopped: [timestamp]
 Conflict: [description]
-Notified: AMA via [message-id]
+Notified: AMAMA via [message-id]
 Awaiting: User decision
 ```
 
@@ -200,7 +200,7 @@ Copy this checklist and track your progress:
 ### For Type D
 - [ ] Work stopped
 - [ ] Conflict documented
-- [ ] AMA notified
+- [ ] AMAMA notified
 - [ ] Awaiting user decision
 
 ## Output

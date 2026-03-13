@@ -167,7 +167,7 @@ Verify ALL criteria met:
 ## Approval Obtained
 
 Verify ALL criteria met:
-- [ ] Approval request submitted to AMA
+- [ ] Approval request submitted to AMAMA
 - [ ] Request ID generated and logged
 - [ ] Manager decision received within timeout
 - [ ] Decision is `approved` (not `rejected` or `revision_needed`)
@@ -175,7 +175,7 @@ Verify ALL criteria met:
 - [ ] Requester notified of approval
 
 **Evidence Required:**
-- Message to AMA with request details
+- Message to AMAMA with request details
 - Request ID in approval log
 - Manager response message with decision
 - Decision is explicitly `approved`
@@ -184,9 +184,10 @@ Verify ALL criteria met:
 
 **Verification Steps:**
 
+
 1. Check approval log: `grep "<request-id>" docs_dev/chief-of-staff/approval-requests.log`
 2. Verify audit trail entry: `tail -n 50 docs_dev/chief-of-staff/approval-audit.log | grep "<request-id>"`
-3. Use the `agent-messaging` skill to check inbox for messages from AMA containing approval decisions related to the request ID.
+3. Use the `agent-messaging` skill to check inbox for messages from AMAMA containing approval decisions related to the request ID.
 4. Verify decision is approved: `grep "<request-id>" docs_dev/chief-of-staff/approval-audit.log | grep -o '"decision":"[^"]*"'`
 
 ---
@@ -194,6 +195,7 @@ Verify ALL criteria met:
 ## Common Self-Check Failures and Solutions
 
 ### Agent Does Not Respond to Health Check
+
 
 **Symptom**: Health check message times out after 30s
 

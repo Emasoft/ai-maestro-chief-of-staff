@@ -286,7 +286,7 @@ Alerts indicating a system-threatening condition.
 ### User Notification Format
 
 Use the `agent-messaging` skill to send an urgent user notification:
-- **Recipient**: user (via AMA escalation)
+- **Recipient**: user (via AMAMA escalation)
 - **Subject**: `Memory Critical - Action Required`
 - **Priority**: `urgent`
 - **Content**: type `resource-alert`, severity `critical`, message: "Memory usage at 92%. Agents are being terminated. Please review."

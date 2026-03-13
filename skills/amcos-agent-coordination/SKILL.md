@@ -39,6 +39,7 @@ Copy this checklist and track your progress:
 
 ### Team Registry
 
+
 Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
 
 **Steps:** Identify type -> Execute -> Verify via `list` -> Optionally publish -> Backup
@@ -57,7 +58,7 @@ Use `agent-messaging` skill. Always use FULL session names (e.g., `amoa-svgbbox-
 - AMCOS CREATES agents and ASSIGNS to teams
 - AMCOS does NOT assign tasks (AMOA's job)
 - AMCOS does NOT manage kanban (AMOA's job)
-- AMCOS does NOT create projects (AMA's job)
+- AMCOS does NOT create projects (AMAMA's job)
 - AMCOS NEVER spawns a copy of itself
 
 ### Agent vs Sub-Agent
@@ -81,12 +82,13 @@ Registry update -> state reflected. Message -> delivery confirmed. Role assignme
 
 ## Error Handling
 
+
 | Issue | Resolution |
 |-------|-----------|
 | Maestro unavailable | File-based fallback, retry 30s |
-| Delivery fails | Retry 3x/10s, escalate to AMA |
+| Delivery fails | Retry 3x/10s, escalate to AMAMA |
 | Registry fails | Retry 3x, fallback `POST /api/teams/{id}/agents` |
-| Boundary violation | Log, reject, notify AMA |
+| Boundary violation | Log, reject, notify AMAMA |
 | Not in registry | Verify FULL name, check if terminated |
 
 ## Examples
@@ -112,4 +114,3 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 - `references/op-send-maestro-message.md`
 - `references/sub-agent-role-boundaries-template.md`
 - `references/workflow-checklists.md`
-

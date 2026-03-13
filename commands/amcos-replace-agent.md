@@ -28,7 +28,7 @@ Replace a failed, terminated, or unhealthy agent with a new one. This command or
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  1. REQUEST APPROVAL                                        │
-│     └─> Send request to AMA (Assistant Manager)            │
+│     └─> Send request to AMAMA (Assistant Manager)          │
 │     └─> Wait for approval/rejection                         │
 │                                                             │
 │  2. CREATE NEW AGENT (if approved)                          │
@@ -102,15 +102,15 @@ Replace a failed, terminated, or unhealthy agent with a new one. This command or
 
 ## Workflow Steps in Detail
 
-### Step 1: Request Approval from AMA
+### Step 1: Request Approval from AMAMA
 
-Send an approval request to the AMA using the `agent-messaging` skill:
-- **Recipient**: `ama-assistant-manager`
+Send an approval request to the AMAMA using the `agent-messaging` skill:
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Replace Agent: <failed-agent>`
 - **Content**: approval request with failed agent details, new agent name, role, project, and reason
 - **Priority**: `high`
 
-**Verify**: approval response received from AMA.
+**Verify**: approval response received from AMAMA.
 
 ### Step 2: Create New Agent
 
@@ -170,7 +170,7 @@ Use the `ai-maestro-agents-management` skill to check health of the new agent:
 ═══════════════════════════════════════════════════════════════
 
   Step 1: Request Approval
-    ✓ Sent approval request to ama-assistant-manager
+    ✓ Sent approval request to amama-assistant-manager
     ✓ Approval received (approved by: user)
 
   Step 2: Create New Agent

@@ -41,7 +41,7 @@
 Use this document when:
 - An agent has been classified as a **terminal failure** per `references/failure-classification.md`
 - All recovery strategies have been exhausted per `references/recovery-strategies.md`
-- Manager (AMA) has approved agent replacement
+- Manager (AMAMA) has approved agent replacement
 - You need to create a new agent to take over the failed agent's work
 
 **CRITICAL**: The replacement agent has NO MEMORY of the old agent. All context, in-progress work, and task understanding must be explicitly transferred through documentation.
@@ -62,7 +62,7 @@ Phase 6: Cleanup <-- Phase 5: Work Handoff <-- Phase 4: Orchestrator Notificatio
 | Phase | Owner | Duration | Key Output |
 |-------|-------|----------|------------|
 | 1. Failure Confirmation | AMCOS | 5-10 min | Artifact inventory |
-| 2. Manager Approval | AMA | 5-30 min | Approval decision |
+| 2. Manager Approval | AMAMA | 5-30 min | Approval decision |
 | 3. Create Agent | AMCOS + User | 10-30 min | New agent online |
 | 4. Orchestrator Notification | AMCOS -> AMOA | 5-10 min | Handoff docs, kanban update |
 | 5. Work Handoff | AMCOS -> New Agent | 10-20 min | Agent acknowledgment |
@@ -146,10 +146,10 @@ Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/artifac
 
 ### 4.4.1 Composing the Replacement Request
 
-AMCOS must request approval from the manager (AMA) before creating a replacement agent.
+AMCOS must request approval from the manager (AMAMA) before creating a replacement agent.
 
 Use the `agent-messaging` skill to send the replacement approval request:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUIRED] Agent replacement request`
 - **Priority**: `urgent`
 - **Content**: type `replacement-approval-request`, including:
@@ -191,7 +191,7 @@ When manager approves, the response will include any additional instructions:
     "Use the same session name (libs-svg-svgbbox) to maintain continuity",
     "Prioritize task-001 for the replacement agent"
   ],
-  "approved_by": "ama-assistant-manager",
+  "approved_by": "amama-assistant-manager",
   "approved_at": "2025-01-15T11:00:00Z"
 }
 ```
@@ -211,7 +211,7 @@ The manager may reject the replacement request:
   "message": "Replacement not approved at this time.",
   "reason": "The host machine is being repaired. Wait 2 hours and retry recovery.",
   "alternative_action": "wait_and_retry_in_2_hours",
-  "rejected_by": "ama-assistant-manager",
+  "rejected_by": "amama-assistant-manager",
   "rejected_at": "2025-01-15T11:00:00Z"
 }
 ```
@@ -396,7 +396,7 @@ Record the complete incident with resolution in the incident log at `$CLAUDE_PRO
 ### 4.8.2 Notifying Manager of Completion
 
 Use the `agent-messaging` skill to inform the manager that replacement is complete:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[RESOLVED] Agent replacement complete`
 - **Priority**: `normal`
 - **Content**: type `replacement-complete`, including:
@@ -426,3 +426,44 @@ Use this checklist to track progress through the replacement protocol:
 
 ```markdown
 ## Agent Replacement Checklist
+
+- [ ] 4.1 Confirm replacement is necessary (failure classification, recovery exhausted)
+- [ ] 4.2 Review replacement protocol overview
+- [ ] 4.3.1 Confirm agent cannot be recovered
+- [ ] 4.3.2 Identify recoverable artifacts
+- [ ] 4.3.3 Preserve git commits and logs
+- [ ] 4.4.1 Compose replacement request for manager
+- [ ] 4.4.2 Prepare required information for approval
+- [ ] 4.4.3 Handle approval response
+- [ ] 4.4.4 Handle rejection response
+- [ ] 4.5.1 Select host for new agent
+- [ ] 4.5.2 Create new local folder
+- [ ] 4.5.3 Clone git repository
+- [ ] 4.5.4 Start new Claude Code session
+- [ ] 4.5.5 Register with AI Maestro
+- [ ] 4.6.1 Notify orchestrator about replacement
+- [ ] 4.6.2 Request handoff document generation
+- [ ] 4.6.3 Request GitHub Project update
+- [ ] 4.7.1 Send handoff documentation to new agent
+- [ ] 4.7.2 Send task assignments to new agent
+- [ ] 4.7.3 Await acknowledgment from new agent
+- [ ] 4.7.4 Verify new agent understanding
+- [ ] 4.8.1 Update incident log
+- [ ] 4.8.2 Notify manager of completion
+- [ ] 4.8.3 Archive old agent records
+```
+
+## Summary
+
+| Phase | Step | Status |
+|-------|------|--------|
+| 1. Failure Confirmation | 4.3.1-4.3.3 | ☐ |
+| 2. Manager Approval | 4.4.1-4.4.4 | ☐ |
+| 3. Create Agent | 4.5.1-4.5.5 | ☐ |
+| 4. Orchestrator Notification | 4.6.1-4.6.3 | ☐ |
+| 5. Work Handoff | 4.7.1-4.7.4 | ☐ |
+| 6. Cleanup | 4.8.1-4.8.3 | ☐ |
+
+---
+
+*For questions about this protocol, contact the AI Maestro Chief of Staff (AMCOS).*

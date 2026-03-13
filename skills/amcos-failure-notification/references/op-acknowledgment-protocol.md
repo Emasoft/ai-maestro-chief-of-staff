@@ -127,7 +127,7 @@ On "ok" response: Proceed with skill installation.
 
 ### Example 2: Approval Request ACK
 
-**Scenario:** Requesting AMA approval for expensive operation.
+**Scenario:** Requesting AMAMA approval for expensive operation.
 
 Use the `agent-messaging` skill to send (2 minute timeout):
 - **Recipient**: `ai-maestro-assistant-manager-agent`

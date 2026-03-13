@@ -32,7 +32,7 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 3. Verify: send ping, check heartbeat, confirm task resumption
 4. Success -> log outcome, resume monitoring
 5. Failure -> escalate to `amcos-agent-replacement`
-6. Notify AMA of outcome
+6. Notify AMAMA of outcome
 
 | Strategy | When to Use | Recovery Time |
 |----------|-------------|---------------|
@@ -76,7 +76,7 @@ Copy this checklist and track your progress:
 - [ ] Recovery executed per operational runbook
 - [ ] Agent verified: ping, heartbeat, task resumption
 - [ ] Outcome logged to recovery-log.jsonl
-- [ ] AMA notified of recovery result
+- [ ] AMAMA notified of recovery result
 
 ## Output
 

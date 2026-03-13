@@ -15,7 +15,7 @@ agent: ai-maestro-chief-of-staff-main-agent
 
 ## Overview
 
-Transfer critical work when deadlines cannot wait. Routes task blocker escalations to AMA.
+Transfer critical work when deadlines cannot wait. Routes task blocker escalations to AMAMA.
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ Transfer critical work when deadlines cannot wait. Routes task blocker escalatio
 4. Create minimum-viable handoff doc (task, state, files, deadline)
 5. Send handoff via AI Maestro
 6. Verify receiving agent acknowledges
-7. Notify AMA (notification only, no approval needed)
+7. Notify AMAMA (notification only, no approval needed)
 8. Monitor deadline compliance
 
 | Aspect | Regular | Emergency |
@@ -50,15 +50,15 @@ Transfer critical work when deadlines cannot wait. Routes task blocker escalatio
 **Task Blockers** -- blocked by missing info/access/user decision:
 1. Receive escalation from AMOA
 2. AMCOS can resolve? (reassignment, permission) -> handle directly
-3. Needs user input? -> route to AMA via `blocker-escalation`
-4. Track; route AMA response back to AMOA
+3. Needs user input? -> route to AMAMA via `blocker-escalation`
+4. Track; route AMAMA response back to AMOA
 
 ### Decision Tree
 
 ```
 Escalation -> Agent failure? -> recovery workflow
            -> Blocker AMCOS resolves? -> handle
-           -> Needs user input? -> route to AMA
+           -> Needs user input? -> route to AMAMA
 ```
 
 ### Handoff Validation Checklist
@@ -74,17 +74,17 @@ Copy this checklist and track your progress:
 | Result | Output |
 |---|---|
 | Handoff sent | Work transferred to available agent |
-| Blocker routed | Awaiting AMA user decision |
+| Blocker routed | Awaiting AMAMA user decision |
 | Blocker resolved | Agent reassigned directly |
 
 ## Error Handling
 
 | Issue | Resolution |
 |---|---|
-| No available agent | Notify AMA for manual intervention |
+| No available agent | Notify AMAMA for manual intervention |
 | Handoff rejected | Try next available agent |
 | Deadline missed | Document, notify, post-mortem |
-| AMA unresponsive | 15 min wait, reminder, escalate |
+| AMAMA unresponsive | 15 min wait, reminder, escalate |
 
 ## Examples
 
@@ -98,7 +98,7 @@ amp-send.sh apps-svgplayer-development "EMERGENCY: SVG fix (2h)" urgent \
 ### Task blocker routing
 
 ```bash
-amp-send.sh ama-assistant-manager "BLOCKER: API key needed" high \
+amp-send.sh amama-assistant-manager "BLOCKER: API key needed" high \
   '{"type":"blocker-escalation","message":"API key needed, user must provide.","blocker_type":"user-decision","impact":"Deploy blocked","escalated_from":"amoa-deployment"}'
 ```
 

@@ -16,8 +16,8 @@ This template defines the standard format for handoff documents between roles in
 ```yaml
 ---
 uuid: "handoff-{uuid}"
-from_role: "ecos" | "amaa" | "amoa" | "amia"
-to_role: "ecos" | "amaa" | "amoa" | "amia"
+from_role: "amcos" | "amaa" | "amoa" | "amia"
+to_role: "amcos" | "amaa" | "amoa" | "amia"
 created: "ISO-8601 timestamp"
 github_issue: "#issue_number"  # Optional
 subject: "Brief description"
@@ -57,8 +57,8 @@ When Chief of Staff hands off context to another session (for session continuity
 ```yaml
 ---
 uuid: "handoff-{uuid}"
-from_role: "ecos"
-to_role: "ecos"  # Same role - session continuity
+from_role: "amcos"
+to_role: "amcos"  # Same role - session continuity
 created: "ISO-8601 timestamp"
 handoff_type: "session_continuity"
 reason: "context_limit" | "user_request" | "scheduled" | "error_recovery"
@@ -132,33 +132,33 @@ USER <-> AMCOS (Chief of Staff) <-> AMAA (Architect)
 ## Handoff Types
 
 ### 1. User Request -> Role Assignment
-- From: ecos (chief-of-staff)
+- From: amcos (chief-of-staff)
 - To: amaa | amoa | amia
 - Purpose: Route user request to appropriate specialist
 
 ### 2. Design Complete -> Orchestration
-- From: amaa (via ecos)
-- To: amoa (via ecos)
+- From: amaa (via amcos)
+- To: amoa (via amcos)
 - Purpose: Hand off approved design for implementation
 
 ### 3. Implementation Complete -> Integration
-- From: amoa (via ecos)
-- To: amia (via ecos)
+- From: amoa (via amcos)
+- To: amia (via amcos)
 - Purpose: Signal work ready for quality gates
 
 ### 4. Quality Gate Results -> User
-- From: amia (via ecos)
+- From: amia (via amcos)
 - To: user
 - Purpose: Report integration status and request approvals
 
 ### 5. Session Continuity (COS-specific)
-- From: ecos
-- To: ecos (new session)
+- From: amcos
+- To: amcos (new session)
 - Purpose: Transfer state when context limit reached or session ends
 
 ### 6. Emergency Handoff
 - From: any role
-- To: ecos
+- To: amcos
 - Purpose: Urgent state transfer when agent must terminate unexpectedly
 
 ## File Naming Convention
@@ -168,12 +168,12 @@ handoff-{uuid}-{from}-to-{to}.md
 
 Examples:
 - handoff-a1b2c3d4-amcos-to-amaa.md    # COS assigns to Architect
-- handoff-e5f6g7h8-amaa-to-ecos.md    # Architect reports to COS
+- handoff-e5f6g7h8-amaa-to-amcos.md    # Architect reports to COS
 - handoff-i9j0k1l2-amcos-to-amoa.md    # COS assigns to Orchestrator
-- handoff-m3n4o5p6-amoa-to-ecos.md    # Orchestrator reports to COS
+- handoff-m3n4o5p6-amoa-to-amcos.md    # Orchestrator reports to COS
 - handoff-q7r8s9t0-amcos-to-amia.md    # COS assigns to Integrator
-- handoff-u1v2w3x4-amia-to-ecos.md    # Integrator reports to COS
-- handoff-w5x6y7z8-amcos-to-ecos.md   # COS session continuity
+- handoff-u1v2w3x4-amia-to-amcos.md    # Integrator reports to COS
+- handoff-w5x6y7z8-amcos-to-amcos.md   # COS session continuity
 - handoff-a9b0c1d2-amoa-emergency.md  # Emergency handoff from Orchestrator
 ```
 
@@ -189,3 +189,4 @@ All handoff files are stored in: `docs_dev/handoffs/`
 4. **In Progress** - Recipient actively working on task
 5. **Completed** - Task finished, status: completed
 6. **Rejected** - Recipient cannot accept, status: rejected (with reason)
+

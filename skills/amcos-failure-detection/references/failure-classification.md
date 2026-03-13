@@ -124,7 +124,7 @@ Recoverable failures should be resolved within **2 hours** with appropriate inte
 ### 2.4.4 Recommended Response
 
 1. **Diagnose the specific cause** before attempting recovery
-2. **Notify the manager (AMA)** about the failure and planned recovery action
+2. **Notify the manager (AMAMA)** about the failure and planned recovery action
 3. **Attempt recovery** using the appropriate strategy from `references/recovery-strategies.md`
 4. **Verify agent functionality** after recovery
 5. **Update incident log** with resolution details
@@ -132,7 +132,7 @@ Recoverable failures should be resolved within **2 hours** with appropriate inte
 **Response action - notify and recover:**
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[AGENT FAILURE] Recoverable failure detected`
 - **Priority**: `high`
 - **Content**: type `failure-report`, message: "Agent libs-svg-svgbbox has experienced a recoverable failure (session hibernated). Attempting wake recovery. Will report result in 10 minutes." Include `agent`: "libs-svg-svgbbox", `failure_type`: "recoverable", `failure_cause`: "session_hibernated", `planned_action`: "wake_via_terminal", `expected_recovery_time`: "10 minutes".
@@ -172,12 +172,12 @@ A **terminal failure** is a catastrophic disruption from which the agent cannot 
 - Agent's authentication credentials are invalid
 - Three consecutive recovery attempts have failed
 - Agent is producing corrupted or unsafe output
-- Manager (AMA) explicitly orders replacement
+- Manager (AMAMA) explicitly orders replacement
 
 ### 2.5.4 Recommended Response
 
 1. **Confirm terminal status** - ensure recovery is truly impossible
-2. **Notify the manager (AMA)** immediately with failure details
+2. **Notify the manager (AMAMA)** immediately with failure details
 3. **Request replacement approval** from manager
 4. **Preserve any recoverable artifacts** (logs, partial work, git commits)
 5. **Initiate replacement protocol** per `references/agent-replacement-protocol.md`
@@ -186,7 +186,7 @@ A **terminal failure** is a catastrophic disruption from which the agent cannot 
 **Response action - request replacement:**
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[CRITICAL] Terminal failure - replacement required`
 - **Priority**: `urgent`
 - **Content**: type `replacement-request`, message: "Agent libs-svg-svgbbox has experienced a terminal failure and cannot be recovered. Host machine crashed and agent state is lost. Requesting approval to create replacement agent. Estimated replacement time: 30 minutes." Include `agent`: "libs-svg-svgbbox", `failure_type`: "terminal", `failure_cause`: "host_machine_crash", `recovery_attempts`: 0, `recoverable_artifacts`: ["git commits up to abc123", "logs at /var/log/agent-libs-svg.log"], `replacement_cost`: { `time_to_replace`: "30 minutes", `work_to_redo`: "2-3 hours of uncommitted work" }, `awaiting_approval`: true.
@@ -248,7 +248,7 @@ START: Failure detected
 
 ## 2.7 Escalation Thresholds
 
-AMCOS uses these thresholds to determine when to escalate to manager (AMA):
+AMCOS uses these thresholds to determine when to escalate to manager (AMAMA):
 
 | Failure Type | Escalation Trigger | Notification Priority |
 |--------------|-------------------|----------------------|
@@ -259,7 +259,7 @@ AMCOS uses these thresholds to determine when to escalate to manager (AMA):
 **Escalation message to manager:**
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[ESCALATION] Agent failure requires attention`
 - **Priority**: appropriate level (`normal`, `high`, or `urgent`)
 - **Content**: type `escalation`, message: description of the situation. Include `agent` (session name), `failure_type` ("transient", "recoverable", or "terminal"), `failure_details` with `first_detected` (ISO timestamp), `symptom` (what was observed), `diagnosis` (what AMCOS determined), `recommended_action` (what AMCOS proposes), `awaiting_approval` (true/false).
@@ -292,7 +292,7 @@ $CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl
   "recovery_action": "wake_via_terminal",
   "recovery_result": "success",
   "time_to_recovery": "5 minutes",
-  "escalated_to": "ama-assistant-manager",
+  "escalated_to": "amama-assistant-manager",
   "notes": "User had closed terminal, session went idle"
 }
 ```
@@ -346,7 +346,7 @@ echo '{
 
 ### Manager unresponsive during terminal failure
 
-**Symptom**: Terminal failure detected but manager (AMA) does not respond to replacement request.
+**Symptom**: Terminal failure detected but manager (AMAMA) does not respond to replacement request.
 
 **Solution**:
 1. Wait 15 minutes for manager response

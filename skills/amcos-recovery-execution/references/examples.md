@@ -30,7 +30,7 @@
 3. Send restart command via tmux
 4. Wait for agent to re-register in AI Maestro
 5. Verify agent received pending messages
-6. Report recovery to AMA
+6. Report recovery to AMAMA
 
 **Detailed procedure**:
 
@@ -38,8 +38,8 @@
 - **Step 3**: Send restart command via tmux session (exit and relaunch Claude Code)
 - **Step 4**: Wait 60 seconds, then use the `ai-maestro-agents-management` skill to verify agent status is "online"
 - **Step 5**: Use the `agent-messaging` skill to check for pending messages for agent `svgbbox-impl-01`. Expected: 0 pending
-- **Step 6**: Use the `agent-messaging` skill to report recovery to AMA:
-  - **Recipient**: `ama-assistant-manager`
+- **Step 6**: Use the `agent-messaging` skill to report recovery to AMAMA:
+  - **Recipient**: `amama-assistant-manager`
   - **Subject**: `[RESOLVED] Agent svgbbox-impl-01 recovered`
   - **Priority**: `normal`
   - **Content**: type `recovery-report`, message: "Agent svgbbox-impl-01 recovered via restart. No data loss.", including agent name, recovery method "restart", and downtime in minutes
@@ -55,7 +55,7 @@
 **Replacement protocol**:
 1. Agent crashes 3 times in 10 minutes
 2. Classify as terminal failure
-3. Request replacement from AMA with urgency
+3. Request replacement from AMAMA with urgency
 4. Receive approval
 5. Create new agent with same role and task
 6. Handoff work context from failed agent's state backup
@@ -66,7 +66,7 @@
 
 - **Step 2**: Log terminal classification to incident log
 - **Step 3**: Use the `agent-messaging` skill to request replacement approval:
-  - **Recipient**: `ama-assistant-manager`
+  - **Recipient**: `amama-assistant-manager`
   - **Subject**: `[APPROVAL REQUIRED] Agent replacement: feature-impl-03`
   - **Priority**: `urgent`
   - **Content**: type `replacement-approval-request`, message explaining the agent crashed 3 times in 10 minutes, including agent name, failure type "terminal", crash count, time window, and awaiting approval flag
@@ -124,7 +124,7 @@
   - **Priority**: `urgent`
   - **Content**: type `emergency-handoff-request`, message explaining the failure and deadline urgency, including the failed agent name, deadline timestamp, list of critical tasks with IDs and estimated minutes, and action requested "immediate_reassignment"
 - **Step 4**: Use the `agent-messaging` skill to notify the manager:
-  - **Recipient**: `ama-assistant-manager`
+  - **Recipient**: `amama-assistant-manager`
   - **Subject**: `[EMERGENCY] Agent failure - critical deadline at risk`
   - **Priority**: `urgent`
   - **Content**: type `emergency-notification`, message explaining the failure and initiated handoff, including failed agent name and deadline-at-risk flag
@@ -158,7 +158,7 @@ Use the `agent-messaging` skill to request a graceful restart:
 ### Replacement Approval Request
 
 Use the `agent-messaging` skill to request replacement approval:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUIRED] Agent replacement request`
 - **Priority**: `urgent`
 - **Content**: type `replacement-approval-request`, message explaining the terminal failure, including agent name, failure type, and awaiting approval flag
@@ -169,4 +169,5 @@ Use the `agent-messaging` skill to request emergency handoff:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY] Work handoff required`
 - **Priority**: `urgent`
-- **Content**: type `emergency-handoff-request`, message explaining the failure and deadline urgency, including failed agent name, critical tasks list, and action requested "reassign_critical_tasks"
+- **Content**: type `emergency-handoff-request`, message explaining the failure and deadline urgency, including failed agent name, critical tasks list, and action requested "reassign_critical_tasks`"
+

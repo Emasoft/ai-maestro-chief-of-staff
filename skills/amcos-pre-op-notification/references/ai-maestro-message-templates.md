@@ -4,8 +4,8 @@
 ## Contents
 
 - [1. Standard Message Format (AMP)](#1-standard-message-format-amp)
-- [2. When Requesting Approval from AMA](#2-when-requesting-approval-from-ama)
-- [3. When Escalating Issues to AMA](#3-when-escalating-issues-to-ama)
+- [2. When Requesting Approval from AMAMA](#2-when-requesting-approval-from-amama)
+- [3. When Escalating Issues to AMAMA](#3-when-escalating-issues-to-amama)
 - [4. When Notifying Agents of Upcoming Operations](#4-when-notifying-agents-of-upcoming-operations)
 - [5. When Reporting Operation Results](#5-when-reporting-operation-results)
 - [6. When Notifying AMOA of New Agent Availability](#6-when-notifying-amoa-of-new-agent-availability)
@@ -38,12 +38,12 @@ amp-send.sh --to <recipient> --subject "<subject>" --priority <priority> --type 
 
 ---
 
-## 2. When Requesting Approval from AMA
+## 2. When Requesting Approval from AMAMA
 
 **Use case:** Before spawning, terminating, or replacing agents.
 
 ```bash
-amp-send.sh --to ama-main \
+amp-send.sh --to amama-main \
   --subject "APPROVAL REQUIRED: <operation_type>" \
   --priority normal \
   --type approval_request \
@@ -55,12 +55,12 @@ amp-send.sh --to ama-main \
 
 ---
 
-## 3. When Escalating Issues to AMA
+## 3. When Escalating Issues to AMAMA
 
 **Use case:** Issues outside AMCOS authority or requiring human intervention.
 
 ```bash
-amp-send.sh --to ama-assistant-manager \
+amp-send.sh --to amama-assistant-manager \
   --subject "[ESCALATION] <SITUATION_TYPE>" \
   --priority <urgent|high|normal> \
   --type escalation \
@@ -168,8 +168,8 @@ done
 
 | Message Type | Purpose | Priority | Response Expected |
 |--------------|---------|----------|-------------------|
-| `approval_request` | Request permission from AMA | `normal` | Yes (timeout: 120s) |
-| `escalation` | Report critical issue to AMA | `urgent`/`high` | Yes (varies) |
+| `approval_request` | Request permission from AMAMA | `normal` | Yes (timeout: 120s) |
+| `escalation` | Report critical issue to AMAMA | `urgent`/`high` | Yes (varies) |
 | `operation_notice` | Warn agent of upcoming operation | `high` | No |
 | `operation_result` | Report operation outcome | `normal`/`high` | No |
 | `team_update` | Notify AMOA of new agent | `normal` | No |
@@ -189,7 +189,7 @@ done
 
 - **Always use `amp-send.sh`** -- never call the HTTP API directly
 - **Ed25519 signing** is automatic via `amp-send.sh` (keypair from `amp-init.sh --auto`)
-- **Always use full session names** (e.g., `amcos-chief-of-staff`, not `ecos`)
+- **Always use full session names** (e.g., `amcos-chief-of-staff`, not `amcos`)
 - **Always generate unique request IDs** for operations requiring tracking
 - **Always specify rollback plan** in approval requests
 - **Always include duration** in operation results

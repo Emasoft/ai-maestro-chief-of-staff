@@ -17,7 +17,7 @@
   - [3.1 Status definitions and transitions](#31-status-definitions-and-transitions)
   - [3.2 Pending approvals request structure](#32-pending-approvals-request-structure)
   - [3.3 Moving requests from pending to history](#33-moving-requests-from-pending-to-history)
-- [4. Forwarding requests to manager via AMA](#4-forwarding-requests-to-manager-via-ama)
+- [4. Forwarding requests to manager via AMAMA](#4-forwarding-requests-to-manager-via-amama)
   - [4.1 AI Maestro message format for approval requests](#41-ai-maestro-message-format-for-approval-requests)
   - [4.2 Setting priority levels](#42-setting-priority-levels)
   - [4.3 Formatting human-readable request summaries](#43-formatting-human-readable-request-summaries)
@@ -31,7 +31,7 @@
   - [6.3 Escalating critical operations with extended timeout](#63-escalating-critical-operations-with-extended-timeout)
   - [6.4 Final auto-reject after extended timeout expires](#64-final-auto-reject-after-extended-timeout-expires)
 - [7. Receiving and processing approval decisions](#7-receiving-and-processing-approval-decisions)
-  - [7.1 Decision message format from AMA](#71-decision-message-format-from-ama)
+  - [7.1 Decision message format from AMAMA](#71-decision-message-format-from-amama)
   - [7.2 Validating decision matches pending request](#72-validating-decision-matches-pending-request)
   - [7.3 Decision types: approved, rejected, revision_needed](#73-decision-types-approved-rejected-revision_needed)
   - [7.4 Updating status and logging decision](#74-updating-status-and-logging-decision)
@@ -59,7 +59,7 @@
 - [12. Handling error conditions](#12-handling-error-conditions)
   - [12.1 Invalid request format errors](#121-invalid-request-format-errors)
   - [12.2 Missing rollback plan errors](#122-missing-rollback-plan-errors)
-  - [12.3 AMA unreachable retry logic](#123-ama-unreachable-retry-logic)
+  - [12.3 AMAMA unreachable retry logic](#123-amama-unreachable-retry-logic)
   - [12.4 Duplicate request ID handling](#124-duplicate-request-id-handling)
 
 # Example: Move request to history (update decision status)
@@ -88,7 +88,7 @@ Complete reference for the AMCOS approval workflow system, covering request subm
   - [3.1 Status definitions and transitions](#31-status-definitions-and-transitions)
   - [3.2 Pending approvals file structure](#32-pending-approvals-file-structure)
   - [3.3 Moving requests from pending to history](#33-moving-requests-from-pending-to-history)
-- [4. Forwarding requests to manager via AMA](#4-forwarding-requests-to-manager-via-ama)
+- [4. Forwarding requests to manager via AMAMA](#4-forwarding-requests-to-manager-via-amama)
   - [4.1 AI Maestro message format for approval requests](#41-ai-maestro-message-format-for-approval-requests)
   - [4.2 Setting priority levels](#42-setting-priority-levels)
   - [4.3 Formatting human-readable request summaries](#43-formatting-human-readable-request-summaries)
@@ -102,7 +102,7 @@ Complete reference for the AMCOS approval workflow system, covering request subm
   - [6.3 Escalating critical operations with extended timeout](#63-escalating-critical-operations-with-extended-timeout)
   - [6.4 Final auto-reject after extended timeout expires](#64-final-auto-reject-after-extended-timeout-expires)
 - [7. Receiving and processing approval decisions](#7-receiving-and-processing-approval-decisions)
-  - [7.1 Decision message format from AMA](#71-decision-message-format-from-ama)
+  - [7.1 Decision message format from AMAMA](#71-decision-message-format-from-amama)
   - [7.2 Validating decision matches pending request](#72-validating-decision-matches-pending-request)
   - [7.3 Decision types: approved, rejected, revision_needed](#73-decision-types-approved-rejected-revision_needed)
   - [7.4 Updating status and logging decision](#74-updating-status-and-logging-decision)
@@ -130,7 +130,7 @@ Complete reference for the AMCOS approval workflow system, covering request subm
 - [12. Handling error conditions](#12-handling-error-conditions)
   - [12.1 Invalid request format errors](#121-invalid-request-format-errors)
   - [12.2 Missing rollback plan errors](#122-missing-rollback-plan-errors)
-  - [12.3 AMA unreachable retry logic](#123-ama-unreachable-retry-logic)
+  - [12.3 AMAMA unreachable retry logic](#123-amama-unreachable-retry-logic)
   - [12.4 Duplicate request ID handling](#124-duplicate-request-id-handling)
 
 ---
@@ -343,18 +343,18 @@ When a request receives a decision or times out:
 ```bash
 # Uses AI Maestro REST API (not file-based)
 
-## 4. Forwarding requests to manager via AMA
+## 4. Forwarding requests to manager via AMAMA
 
 ### 4.1 AI Maestro message format for approval requests
 
-Use the `agent-messaging` skill to send the approval request to AMA:
-- **Recipient**: `ama-main` (AMA's session name)
+Use the `agent-messaging` skill to send the approval request to AMAMA:
+- **Recipient**: `amama-main` (AMAMA's session name)
 - **Subject**: `APPROVAL REQUIRED: [operation_type]`
 - **Priority**: `normal`, `high`, or `urgent` (matches request priority)
 - **Content**: type `approval_request`, message: the formatted human-readable request summary. Include `request_id` (unique request ID for tracking), `timeout_seconds`: 120 (standard timeout).
 
 **Required message fields**:
-- Recipient must be "ama-main"
+- Recipient must be "amama-main"
 - Subject must start with "APPROVAL REQUIRED:"
 - Content type must be "approval_request"
 - Content must include human-readable summary, request_id, and timeout_seconds
@@ -399,7 +399,7 @@ All approval requests follow this escalation timeline:
 
 | Time Elapsed | Action |
 |--------------|--------|
-| 0s | Submit request to manager via AMA |
+| 0s | Submit request to manager via AMAMA |
 | 30s | Send first reminder if no response |
 | 60s | Send second reminder (elevated urgency) |
 | 90s | Send final warning |
@@ -408,7 +408,7 @@ All approval requests follow this escalation timeline:
 ### 5.2 Sending reminder messages at intervals
 
 Use the `agent-messaging` skill to send reminder messages:
-- **Recipient**: `ama-main`
+- **Recipient**: `amama-main`
 - **Subject**: `REMINDER: Approval pending - [request_id]`
 - **Priority**: `high`
 - **Content**: type `approval_reminder`, message: the reminder text. Include `request_id`, `elapsed_seconds`, `remaining_seconds`.
@@ -470,8 +470,8 @@ For type: `critical_operation`
 **Procedure**:
 1. Elevate priority to URGENT
 2. Extend timeout by 60 seconds
-3. Use the `agent-messaging` skill to send escalation message to AMA:
-   - **Recipient**: `ama-main`
+3. Use the `agent-messaging` skill to send escalation message to AMAMA:
+   - **Recipient**: `amama-main`
    - **Subject**: `URGENT ESCALATION: critical_operation timeout`
    - **Priority**: `urgent`
    - **Content**: type `approval_escalation`, message: "CRITICAL: Approval request AR-xxx has TIMED OUT. Original request: [operation]. Requester: [agent]. Risk: CRITICAL. This request requires immediate attention. Extended timeout: 60 seconds. Approve or Reject IMMEDIATELY." Include `request_id`, `timeout_seconds`: 60.
@@ -497,7 +497,7 @@ If critical operation receives no response after extended timeout:
 
 ## 7. Receiving and processing approval decisions
 
-### 7.1 Decision message format from AMA
+### 7.1 Decision message format from AMAMA
 
 Use the `agent-messaging` skill to check for unread messages. Filter for messages where the content type is `approval_decision`.
 
@@ -523,7 +523,7 @@ Before processing decision:
 2. **Verify decision is valid value** (approved/rejected/revision_needed)
 3. **Confirm decided_by is "manager"**
 
-If validation fails: Log error, notify AMA of invalid decision message.
+If validation fails: Log error, notify AMAMA of invalid decision message.
 
 ### 7.3 Decision types: approved, rejected, revision_needed
 
@@ -684,7 +684,7 @@ Log rollback completion:
    ```
    [2026-02-01T13:00:15Z] [AR-xxx] [ROLLBACK_DONE] result=failure error="Cannot remove tmux session: permission denied"
    ```
-3. **ESCALATE IMMEDIATELY** to manager via AMA with URGENT priority:
+3. **ESCALATE IMMEDIATELY** to manager via AMAMA with URGENT priority:
    ```
    CRITICAL: Rollback FAILED for request AR-xxx
 
@@ -789,7 +789,7 @@ fi
 
 **Granting autonomous mode**:
 
-Manager sends message via AMA:
+Manager sends message via AMAMA:
 ```json
 {
   "type": "autonomous_mode_grant",
@@ -802,7 +802,7 @@ Manager sends message via AMA:
 
 **Revoking autonomous mode**:
 
-Manager sends message via AMA:
+Manager sends message via AMAMA:
 ```json
 {
   "type": "autonomous_mode_revoke"
@@ -903,7 +903,7 @@ Set `enabled: false` and log revocation:
    ```
 3. Do NOT submit to manager
 
-### 12.3 AMA unreachable retry logic
+### 12.3 AMAMA unreachable retry logic
 
 **Detection**: AI Maestro API returns connection error or timeout when sending message
 
@@ -913,7 +913,7 @@ Set `enabled: false` and log revocation:
    - Queue message for later retry
    - Log error:
      ```
-     [2026-02-01T12:00:00Z] [AR-xxx] [ERROR] AMA unreachable after 3 retries, queued for retry
+     [2026-02-01T12:00:00Z] [AR-xxx] [ERROR] AMAMA unreachable after 3 retries, queued for retry
      ```
    - Notify requester of delay
 
@@ -950,5 +950,3 @@ This approval workflow engine provides:
 All AMCOS agents requesting approvals MUST follow these procedures exactly.
 
 ````
-
-, 

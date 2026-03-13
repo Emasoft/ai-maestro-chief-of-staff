@@ -29,19 +29,19 @@ Replace a failed agent when recovery has failed or failure is terminal. Covers f
 
 1. **Confirm failure** -- verify all recovery strategies attempted or failure is terminal
 2. **Preserve artifacts** -- save recoverable work to `thoughts/shared/handoffs/AGENT_NAME/`
-3. **Request approval** -- send `urgent` replacement request to AMA; wait for approval
+3. **Request approval** -- send `urgent` replacement request to AMAMA; wait for approval
 4. **Create replacement** -- use `ai-maestro-agents-management` skill
 5. **Notify AMOA** -- so it can generate handoff docs and update kanban
 6. **Send handoff docs** to new agent (validate with checklist below)
 7. **Verify acknowledgment** -- confirm new agent received handoff and began work
-8. **Close incident** -- log resolution, notify AMA
+8. **Close incident** -- log resolution, notify AMAMA
 
 See `references/agent-replacement-protocol.md` and `references/op-replace-agent.md`.
 
 ### Replacement Protocol Summary
 
 ```
-Terminal failure -> AMCOS notifies AMA -> AMA approves
+Terminal failure -> AMCOS notifies AMAMA -> AMAMA approves
   -> Create new agent -> Notify AMOA (handoff + kanban)
   -> Send handoff to new agent -> Agent acknowledges
 ```
@@ -73,7 +73,7 @@ Copy this checklist and track your progress:
 | Phase | Output |
 |-------|--------|
 | Artifact preservation | Files saved to handoff directory |
-| Manager approval | Approval message from AMA |
+| Manager approval | Approval message from AMAMA |
 | Agent creation | New agent online and registered |
 | Work handoff | Docs sent and acknowledged |
 
@@ -88,11 +88,10 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-- **Request replacement approval**: Send an `urgent` AMP message to `ama-assistant-manager` with type `replacement-request`, including the failed agent name and failure summary. Use the `agent-messaging` skill.
+- **Request replacement approval**: Send an `urgent` AMP message to `amama-assistant-manager` with type `replacement-request`, including the failed agent name and failure summary. Use the `agent-messaging` skill.
 - **Notify orchestrator of replacement**: Send a `high`-priority AMP message to `amoa-orchestrator` with type `replacement-notification`, including old and new agent names. Use the `agent-messaging` skill. The orchestrator will generate handoff docs and update the kanban.
 
 ## Resources
 
 - `references/agent-replacement-protocol.md` - Full replacement protocol
 - `references/op-replace-agent.md` - Replace agent runbook
-

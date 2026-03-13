@@ -74,7 +74,7 @@ Required: `repo`, `project`, `read:project`. If missing, request human to run `g
 | Issue | Resolution |
 |-------|-----------|
 | OAuth scopes missing | Block spawn, request human `gh auth refresh` |
-| Spawn failed | Retry once, report to AMA. See `references/spawn-procedures.md` 1.7 |
+| Spawn failed | Retry once, report to AMAMA. See `references/spawn-procedures.md` 1.7 |
 | Plugin validation failed | Verify cache exists at source path |
 | Session name collision | Choose different unique name |
 | Resource limit exceeded | Queue request, hibernate oldest idle |

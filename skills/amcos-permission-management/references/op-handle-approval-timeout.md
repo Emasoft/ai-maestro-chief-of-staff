@@ -57,7 +57,7 @@ curl -s "$AIMAESTRO_API/api/v1/governance/requests/$REQUEST_ID" | jq '{request_i
 If the request age is between 60 and 90 seconds, and no reminder has been sent yet:
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[REMINDER] Approval pending: [REQUEST_ID]`
 - **Priority**: `high`
 - **Content**: type `approval-reminder`, message: "Approval request pending for 60+ seconds. Please respond." Include `request_id`, `original_operation` (from the pending record), `target` (from the pending record).
@@ -69,7 +69,7 @@ Then update the tracking file to mark `reminder_sent` as true for this request.
 If the request age is between 90 and 120 seconds, and no urgent notification has been sent yet:
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[URGENT] Approval timeout imminent: [REQUEST_ID]`
 - **Priority**: `urgent`
 - **Content**: type `approval-urgent`, message: "URGENT: Approval will timeout in 30 seconds. Respond immediately or operation will be aborted." Include `request_id`, `timeout_at` (the calculated timeout timestamp).
@@ -94,8 +94,8 @@ If the request age reaches 120 seconds or more:
 
 1. Update the tracking file status to `timeout_proceed` or `timeout_abort`
 2. Write an audit log entry to `docs_dev/audit/amcos-approvals-[DATE].yaml` with: timestamp, operation, target, request_id, decision, decided_by: "timeout", escalation_count: 2
-3. Use the `agent-messaging` skill to notify AMA:
-   - **Recipient**: `ama-assistant-manager`
+3. Use the `agent-messaging` skill to notify AMAMA:
+   - **Recipient**: `amama-assistant-manager`
    - **Subject**: `[TIMEOUT] Approval auto-[proceed/abort]: [REQUEST_ID]`
    - **Priority**: `high`
    - **Content**: type `approval-timeout`, message: "Approval request timed out after 120 seconds. Action: [proceed/abort]." Include `request_id`, `operation`, `target`, `action_taken`.
@@ -110,18 +110,18 @@ If the request age reaches 120 seconds or more:
 - Target: `implementer-2`
 - Default action for spawn: `proceed`
 
-At 60 seconds: Use the `agent-messaging` skill to send a reminder to `ama-assistant-manager` with subject "[REMINDER] Approval pending: abc-123", priority `high`.
+At 60 seconds: Use the `agent-messaging` skill to send a reminder to `amama-assistant-manager` with subject "[REMINDER] Approval pending: abc-123", priority `high`.
 
-At 90 seconds: Use the `agent-messaging` skill to send an urgent notice to `ama-assistant-manager` with subject "[URGENT] Approval timeout imminent: abc-123", priority `urgent`.
+At 90 seconds: Use the `agent-messaging` skill to send an urgent notice to `amama-assistant-manager` with subject "[URGENT] Approval timeout imminent: abc-123", priority `urgent`.
 
-At 120 seconds: Log timeout to audit trail, then use the `agent-messaging` skill to send timeout notification to `ama-assistant-manager` with subject "[TIMEOUT] Approval auto-proceed: abc-123". Then proceed with spawning `implementer-2`.
+At 120 seconds: Log timeout to audit trail, then use the `agent-messaging` skill to send timeout notification to `amama-assistant-manager` with subject "[TIMEOUT] Approval auto-proceed: abc-123". Then proceed with spawning `implementer-2`.
 
 ## Escalation Timeline
 
 | Time | Event | Action |
 |------|-------|--------|
 | 0s | Request submitted | Wait for response |
-| 60s | Reminder threshold | Send reminder to AMA |
+| 60s | Reminder threshold | Send reminder to AMAMA |
 | 90s | Urgent threshold | Send urgent notification |
 | 120s | Timeout | Auto-proceed or auto-abort |
 
@@ -137,8 +137,8 @@ At 120 seconds: Log timeout to audit trail, then use the `agent-messaging` skill
 
 ## Autonomous Mode
 
-When operating under autonomous directive, skip the approval wait entirely. After executing the operation, use the `agent-messaging` skill to notify AMA:
-- **Recipient**: `ama-assistant-manager`
+When operating under autonomous directive, skip the approval wait entirely. After executing the operation, use the `agent-messaging` skill to notify AMAMA:
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[AUTONOMOUS] Executed: [operation] [target]`
 - **Priority**: `normal`
 - **Content**: type `autonomous-notification`, message: "Operating in autonomous mode. [Operation] [target] for [reason]." Include `operation`, `target`, `executed_at` (ISO timestamp).

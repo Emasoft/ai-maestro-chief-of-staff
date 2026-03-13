@@ -97,10 +97,10 @@ Use the `agent-messaging` skill to send the handoff request:
 
 ### 5.3.3 Notification to Manager
 
-Notify AMA about the emergency handoff.
+Notify AMAMA about the emergency handoff.
 
 Use the `agent-messaging` skill to send notification:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[ALERT] Emergency work handoff initiated`
 - **Priority**: `urgent`
 - **Content**: type `emergency-handoff-notification`, including:
@@ -359,7 +359,7 @@ Use the `agent-messaging` skill to request update:
 **3. Notify manager of resolution:**
 
 Use the `agent-messaging` skill to report resolution:
-- **Recipient**: `ama-assistant-manager`
+- **Recipient**: `amama-assistant-manager`
 - **Subject**: `[RESOLVED] Emergency handoff completed successfully`
 - **Priority**: `normal`
 - **Content**: type `emergency-handoff-resolution`, including summary with original agent, receiving agent, task ID, deadline, completion time, outcome, and replacement status
@@ -429,3 +429,4 @@ Use the `agent-messaging` skill to send the complete emergency handoff message:
 | `failure_reason` | string | Human-readable failure explanation |
 | `failure_type` | string | One of: `transient`, `recoverable`, `terminal` |
 | `failure_time` | string |
+

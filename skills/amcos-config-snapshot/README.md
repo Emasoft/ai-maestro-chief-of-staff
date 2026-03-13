@@ -4,7 +4,7 @@
 
 Critical persistence mechanism enabling the AMOA orchestrator to maintain continuity across multiple interactions, survive context window compaction, and recover gracefully from interruptions.
 
-## When to Use
+## When to use
 
 - When initializing a new orchestration session
 - When recovering from context compaction
@@ -46,6 +46,5 @@ See [SKILL.md](./SKILL.md) for complete instructions.
 
 ## Related Skills
 
-- `ama-role-routing` - Uses session memory for continuity
+- `amama-role-routing` - Uses session memory for continuity
 - `verification-patterns` - Task completion tracking
-

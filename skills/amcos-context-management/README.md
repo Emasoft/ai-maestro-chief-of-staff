@@ -46,6 +46,6 @@ See [SKILL.md](./SKILL.md) for complete instructions.
 
 ## Related Skills
 
-- `ama-role-routing` - Uses session memory for continuity
+- `amama-role-routing` - Uses session memory for continuity
 - `verification-patterns` - Task completion tracking
 

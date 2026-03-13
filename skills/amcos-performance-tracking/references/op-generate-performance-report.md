@@ -53,9 +53,9 @@ Create formatted performance reports for stakeholders, summarizing team and indi
 
 | Type | Frequency | Audience | Focus |
 |------|-----------|----------|-------|
-| Daily Summary | Daily | AMOA, AMA | Quick status |
-| Weekly Review | Weekly | AMA, User | Detailed analysis |
-| Individual Report | As needed | Agent, AMA | Single agent focus |
+| Daily Summary | Daily | AMOA, AMAMA | Quick status |
+| Weekly Review | Weekly | AMAMA, User | Detailed analysis |
+| Individual Report | As needed | Agent, AMAMA | Single agent focus |
 | Project Report | At milestones | User | Project progress |
 
 ## Steps
@@ -198,7 +198,7 @@ REPORT_FILE="$CLAUDE_PROJECT_DIR/.amcos/reports/weekly-$(date +%Y%m%d).md"
 
 # Notify stakeholders
 # Use the agent-messaging skill to notify the manager:
-# Recipient: ama-assistant-manager
+# Recipient: amama-assistant-manager
 # Subject: "Weekly Performance Report"
 # Content: type "performance-report", report_path: $REPORT_FILE
 ```
@@ -238,3 +238,4 @@ $CLAUDE_PROJECT_DIR/.amcos/reports/
 - [performance-reporting.md](performance-reporting.md) - Complete reporting guide
 - [report-formats.md](report-formats.md) - Format templates
 - [performance-metrics.md](performance-metrics.md) - Metric definitions
+

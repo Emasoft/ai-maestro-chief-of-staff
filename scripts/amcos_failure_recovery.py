@@ -391,7 +391,7 @@ def replace_agent(
     """Replace a failed agent with a new one.
 
     Steps:
-    1. Request approval from AMA (uses amcos_approval_manager.py)
+    1. Request approval from AMAMA (uses amcos_approval_manager.py)
     2. Create new agent via aimaestro-agent.sh create
     3. Notify AMOA to generate handoff
     4. Notify AMOA to update GitHub Project kanban
@@ -422,7 +422,7 @@ def replace_agent(
         "details": {},
     }
 
-    # 1. Request approval from AMA
+    # 1. Request approval from AMAMA
     # Check if approval manager exists
     script_dir = Path(__file__).parent
     approval_script = script_dir / "amcos_approval_manager.py"

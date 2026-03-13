@@ -109,7 +109,7 @@ Worker Agents (governance role: member) ← execute specific tasks
 **Governance Roles** (AI Maestro v0.26.0):
 | Governance Role | Plugin Roles | Count |
 |-----------------|-------------|-------|
-| `manager` | MANAGER (AMA) | 1 per organization |
+| `manager` | MANAGER (AMAMA) | 1 per organization |
 | `chief-of-staff` | AMCOS | 1 per team |
 | `member` | AMOA, AMAA, AMIA, AMPA, all workers | N per team |
 
@@ -145,8 +145,8 @@ For detailed procedures, see skills:
 - **AI Maestro message templates (approval, notification, status)** → [amcos-pre-op-notification](../skills/amcos-pre-op-notification/SKILL.md), `../skills/amcos-pre-op-notification/references/ai-maestro-message-templates.md`
   <!-- TOC: ai-maestro-message-templates.md -->
   - Standard Message Format (AMP)
-  - When Requesting Approval from AMA
-  - When Escalating Issues to AMA
+  - When Requesting Approval from AMAMA
+  - When Escalating Issues to AMAMA
   - When Notifying Agents of Upcoming Operations
   - When Reporting Operation Results
   - ...and 5 more sections
@@ -228,8 +228,8 @@ Send a message to another agent using the `agent-messaging` skill:
 > For full message templates (approval, notification, status), see `../skills/amcos-pre-op-notification/references/ai-maestro-message-templates.md`.
   <!-- TOC: ai-maestro-message-templates.md -->
   - Standard Message Format (AMP)
-  - When Requesting Approval from AMA
-  - When Escalating Issues to AMA
+  - When Requesting Approval from AMAMA
+  - When Escalating Issues to AMAMA
   - When Notifying Agents of Upcoming Operations
   - When Reporting Operation Results
   - ...and 5 more sections
@@ -242,7 +242,7 @@ Send a message to another agent using the `agent-messaging` skill:
 **Scenario:** AMOA requests additional developer for auth module
 
 **Steps:**
-1. Delegate to **amcos-approval-coordinator** to request approval from AMA
+1. Delegate to **amcos-approval-coordinator** to request approval from AMAMA
 2. If approved, delegate to **amcos-lifecycle-manager** to spawn agent using the `ai-maestro-agents-management` skill:
    - **Name**: `worker-dev-auth-001`
    - **Directory**: `/path/to/project`
@@ -292,7 +292,7 @@ Send a message to another agent using the `agent-messaging` skill:
 **Scenario:** Project deployment complete, agent no longer needed
 
 **Steps:**
-1. Delegate to **amcos-approval-coordinator** to request approval from AMA
+1. Delegate to **amcos-approval-coordinator** to request approval from AMAMA
 2. If approved, send notification to agent: "You will be terminated in 30s. Save state."
 3. Wait 30 seconds for agent to save state
 4. Use the `ai-maestro-agents-management` skill to terminate the agent
@@ -315,7 +315,7 @@ Details: <brief_description>
 Log: <log_file_path>
 ```
 
-**Status Reports (to AMA):**
+**Status Reports (to AMAMA):**
 ```
 [TEAM STATUS] <project_name>
 Active agents: <count>
@@ -325,7 +325,7 @@ Failed agents: <count>
 Recommendation: <action_recommended>
 ```
 
-**Escalations (to AMA):**
+**Escalations (to AMAMA):**
 ```
 [ESCALATION] <situation_type>
 Severity: low | medium | high | critical
@@ -339,8 +339,8 @@ Escalation ID: ESC-<timestamp>-<random>
 > Output format templates are defined inline above. For message formatting details, see `../skills/amcos-pre-op-notification/references/ai-maestro-message-templates.md`.
   <!-- TOC: ai-maestro-message-templates.md -->
   - Standard Message Format (AMP)
-  - When Requesting Approval from AMA
-  - When Escalating Issues to AMA
+  - When Requesting Approval from AMAMA
+  - When Escalating Issues to AMAMA
   - When Notifying Agents of Upcoming Operations
   - When Reporting Operation Results
   - ...and 5 more sections

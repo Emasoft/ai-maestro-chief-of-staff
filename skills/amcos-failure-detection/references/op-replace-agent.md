@@ -72,13 +72,13 @@ Therefore:
 
 ### Phase 2: Request Manager Approval
 
-1. **Notify AMA (Assistant Manager)**
+1. **Notify AMAMA (Assistant Manager)**
    > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
    ```json
    {
      "from": "amcos-chief-of-staff",
-     "to": "ama-assistant-manager",
+     "to": "amama-assistant-manager",
      "subject": "APPROVAL NEEDED: Replace agent [AGENT_NAME]",
      "priority": "urgent",
      "content": {
@@ -159,7 +159,7 @@ Therefore:
 
 1. **Deregister failed agent** (if still registered)
 2. **Update incident log with closure**
-3. **Notify AMA of completion**
+3. **Notify AMAMA of completion**
 
 ## Checklist
 
@@ -167,7 +167,7 @@ Copy this checklist and track your progress:
 
 - [ ] Terminal failure confirmed
 - [ ] Artifacts preserved
-- [ ] Manager (AMA) notified
+- [ ] Manager (AMAMA) notified
 - [ ] Replacement approval received
 - [ ] Replacement agent created
 - [ ] Orchestrator (AMOA) notified
@@ -176,7 +176,7 @@ Copy this checklist and track your progress:
 - [ ] New agent acknowledged handoff
 - [ ] Failed agent deregistered
 - [ ] Incident closed
-- [ ] AMA notified of completion
+- [ ] AMAMA notified of completion
 
 ## Output
 

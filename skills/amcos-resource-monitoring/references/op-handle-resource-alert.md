@@ -118,7 +118,7 @@ For WARNING and CRITICAL alerts:
 ```json
 {
   "from": "amcos-chief-of-staff",
-  "to": "ama-assistant-manager",
+  "to": "amama-assistant-manager",
   "subject": "RESOURCE ALERT: [type]",
   "priority": "high",
   "content": {
@@ -179,12 +179,12 @@ Copy this checklist and track your progress:
 
 | Alert Type | Immediate Action | Notify |
 |------------|------------------|--------|
-| CPU_HIGH | Compact contexts | AMA if critical |
-| MEMORY_LOW | Compact contexts, pause spawning | AMA if critical |
-| DISK_FULL | Clear logs | AMA, user |
-| SESSION_LIMIT | Stop spawning | AMA |
-| RATE_LIMIT | Backoff | AMA if persistent |
-| NETWORK_DOWN | Reconnect | AMA, user immediately |
+| CPU_HIGH | Compact contexts | AMAMA if critical |
+| MEMORY_LOW | Compact contexts, pause spawning | AMAMA if critical |
+| DISK_FULL | Clear logs | AMAMA, user |
+| SESSION_LIMIT | Stop spawning | AMAMA |
+| RATE_LIMIT | Backoff | AMAMA if persistent |
+| NETWORK_DOWN | Reconnect | AMAMA, user immediately |
 
 ## Output
 
@@ -199,3 +199,4 @@ After completing this operation:
 - [resource-alerts.md](resource-alerts.md) - Complete alert handling guide
 - [system-resources.md](system-resources.md) - Resource monitoring
 - [monitoring-commands.md](monitoring-commands.md) - Command reference
+

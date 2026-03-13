@@ -148,8 +148,8 @@ response: Processing cross-team GovernanceRequest.
 
 **Scope Assessment**
 - Scope: cross-team
-- sourceManager: ama-frontend-manager
-- targetManager: ama-backend-manager
+- sourceManager: amama-frontend-manager
+- targetManager: amama-backend-manager
 - DUAL-MANAGER approval required
 
 **Submitting GovernanceRequest**
@@ -172,7 +172,7 @@ request: Critical operation requiring governance password
 response: **Governance Password Required**
 
 Requesting governance password from sourceManager...
-Received password from ama-main.
+Received password from amama-main.
 
 **Submitting GovernanceRequest**
 POST /api/v1/governance/requests (with governancePassword field)
@@ -216,4 +216,5 @@ Local YAML files at `.claude/approvals/{pending,completed}/` serve as:
 - **Communication record**: Stores AMP notification metadata
 
 Local YAML is NOT authoritative. Run `amcos_approval_manager.py sync` to reconcile.
+
 

@@ -389,6 +389,7 @@ Errors with external systems:
 7. Notify user of potential state loss
 ```
 
+
 ### Corrupted State
 
 **Error:** State file is corrupted or invalid
@@ -425,6 +426,7 @@ Errors with external systems:
 4. Log the correction
 5. Investigate how inconsistency arose
 ```
+
 
 ---
 
@@ -479,7 +481,7 @@ Use the `agent-messaging` skill to send:
 For critical errors or unresolved issues.
 
 Use the `agent-messaging` skill to send to the user's agent or manager:
-- **Recipient**: `ama-assistant-manager` (or the user's agent session name)
+- **Recipient**: `amama-assistant-manager` (or the user's agent session name)
 - **Subject**: `[CRITICAL ERROR] [Error Title]`
 - **Priority**: `urgent`
 - **Content**: type `error`, severity: "critical", message: "[Description and required action]."

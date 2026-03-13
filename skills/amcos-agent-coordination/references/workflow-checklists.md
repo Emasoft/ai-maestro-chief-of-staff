@@ -32,7 +32,7 @@
 - [ ] Prepare rollback plan (terminate agent, clean up directory)
 
 **Submit approval request:**
-- [ ] Request approval from AMA via amcos-approval-coordinator sub-agent
+- [ ] Request approval from AMAMA via amcos-approval-coordinator sub-agent
 - [ ] Wait for approval decision (timeout: 120s)
 - [ ] If rejected, notify requester and STOP
 - [ ] If approved, continue
@@ -64,7 +64,7 @@
 - [ ] Prepare rollback plan (re-spawn agent with same configuration)
 
 **Submit approval request:**
-- [ ] Request approval from AMA via amcos-approval-coordinator
+- [ ] Request approval from AMAMA via amcos-approval-coordinator
 - [ ] Wait for approval decision (timeout: 120s)
 - [ ] If rejected, notify requester and STOP
 - [ ] If approved, continue
@@ -190,3 +190,4 @@
 **Finalize:**
 - [ ] Log update in lifecycle log
 - [ ] Remove backup if successful
+

@@ -1,6 +1,6 @@
 ---
 name: amcos-check-approval-status
-description: "Check status of pending approval requests from AMA"
+description: "Check status of pending approval requests from AMAMA"
 argument-hint: "[--request-id <ID>] [--all] [--status <STATUS>] [--since <HOURS>]"
 allowed-tools: ["Bash", "Task", "Read"]
 user-invocable: true
@@ -8,7 +8,7 @@ user-invocable: true
 
 # Check Approval Status Command
 
-Check the status of pending, approved, or rejected approval requests from the Assistant Manager (AMA).
+Check the status of pending, approved, or rejected approval requests from the Assistant Manager (AMAMA).
 
 ## Usage
 
@@ -72,7 +72,7 @@ Check approval status by:
   | Status           | APPROVED                                   |
   | Requested        | 2025-02-02 15:00:00 UTC                   |
   | Response Time    | 2025-02-02 15:02:30 UTC                   |
-  | Decision By      | AMA (ai-maestro-assistant-manager-agent)    |
+  | Decision By      | AMAMA (ai-maestro-assistant-manager-agent)    |
   +------------------+--------------------------------------------+
 
   Reason: Agent has critical bug and cannot recover
@@ -174,7 +174,7 @@ Manager needs more information. Check `notes` for what is needed and submit a fo
 ### Expired
 Request timed out without response. You can:
 - Resubmit with `/amcos-request-approval`
-- Check if AMA is online
+- Check if AMAMA is online
 - Contact user for manual approval
 
 ## Related Commands
