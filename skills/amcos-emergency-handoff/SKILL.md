@@ -98,7 +98,7 @@ amp-send.sh apps-svgplayer-development "EMERGENCY: SVG fix (2h)" urgent \
 ### Task blocker routing
 
 ```bash
-amp-send.sh eama-assistant-manager "BLOCKER: API key needed" high \
+amp-send.sh ama-assistant-manager "BLOCKER: API key needed" high \
   '{"type":"blocker-escalation","message":"API key needed, user must provide.","blocker_type":"user-decision","impact":"Deploy blocked","escalated_from":"amoa-deployment"}'
 ```
 
@@ -107,4 +107,3 @@ amp-send.sh eama-assistant-manager "BLOCKER: API key needed" high \
 - `references/work-handoff-during-failure.md` - Handoff procedures
 - `references/op-emergency-handoff.md` - Handoff runbook
 - `references/op-route-task-blocker.md` - Blocker routing runbook
-

@@ -136,7 +136,8 @@ Result: status=dual-approved after 75s
 | Role | Prefix |
 |------|--------|
 | Chief of Staff | `amcos-` |
-| Assistant Manager | `eama-` |
+| Assistant Manager | `ama-` |
 | Architect | `eaa-` |
 | Orchestrator | `eoa-` |
 | Integrator | `eia-` |
+

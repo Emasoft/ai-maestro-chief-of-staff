@@ -32,14 +32,14 @@
 ### Request Message
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Spawn Agent: code-impl-auth`
 - **Priority**: `high`
 - **Content**: type `approval_request`, message: "Requesting approval to spawn new agent". Include `request_id`: "spawn-req-2025-02-02-001", `operation`: "spawn", `details`: { `agent_name`: "code-impl-auth", `agent_role`: "code-implementer", `task`: "Implement user authentication module", `working_directory`: "{baseDir}/auth", `expected_duration`: "2 hours", `resource_requirements`: "standard" }, `justification`: "New authentication module required per design doc AMAA-AUTH-001".
 
 ### Expected Response (Approval)
 
-AMA replies with type `approval_response`, `request_id`: "spawn-req-2025-02-02-001`, `decision`: "approved`, `decided_at`: timestamp, `notes`: "Approved. Proceed with spawn."
+AMA replies with type `approval_response`, `request_id`: "spawn-req-2025-02-02-001", `decision`: "approved`, `decided_at`: timestamp, `notes`: "Approved. Proceed with spawn."
 
 ### Key Points
 
@@ -58,7 +58,7 @@ AMA replies with type `approval_response`, `request_id`: "spawn-req-2025-02-02-0
 ### Request Message
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Terminate Agent: data-processor-03`
 - **Priority**: `normal`
 - **Content**: type `approval_request`, message: "Requesting approval to terminate agent". Include `request_id`: "term-req-2025-02-02-002", `operation`: "terminate`, `details`: { `agent_name`: "data-processor-03", `current_status`: "idle", `reason`: "task_complete", `final_report`: "Processed 1500 records. All tasks complete.", `pending_work`: "none" }, `justification`: "Agent has completed all assigned data processing tasks".
@@ -92,7 +92,7 @@ AMA replies with type `approval_response`, `request_id`: "term-req-2025-02-02-00
 ### Reminder Notification (T+60 seconds)
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[REMINDER] Pending Approval: Spawn code-impl-auth`
 - **Priority**: `high`
 - **Content**: type `approval_reminder`, message: "Reminder: approval request pending for 60 seconds". Include `request_id`: "spawn-req-2025-02-02-001", `original_request_time`: "2025-02-02T10:00:00Z", `timeout_in_seconds`: 60.
@@ -100,7 +100,7 @@ Use the `agent-messaging` skill to send:
 ### Urgent Notification (T+90 seconds)
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[URGENT] Approval Required: Spawn code-impl-auth - Will proceed in 30s`
 - **Priority**: `urgent`
 - **Content**: type `approval_urgent`, message: "URGENT: Will proceed without approval in 30 seconds". Include `request_id`: "spawn-req-2025-02-02-001", `original_request_time`: "2025-02-02T10:00:00Z", `timeout_in_seconds`: 30, `action_on_timeout`: "proceed".
@@ -145,7 +145,7 @@ AMCOS must have received an autonomous directive from AMA:
 ### Post-Operation Notification
 
 After executing under autonomous directive, use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[AUTONOMOUS] Agent Spawned: test-runner-04`
 - **Priority**: `normal`
 - **Content**: type `autonomous_notification`, message: "Agent spawned under autonomous directive". Include `operation`: "spawn", `details`: { `agent_name`: "test-runner-04", `agent_role`: "test-engineer", `task": "Run integration tests for auth module" }, `directive_reference`: "autonomous-directive-2025-02-02-001", `completed_at`: "2025-02-02T14:30:00Z".

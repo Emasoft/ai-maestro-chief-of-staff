@@ -43,7 +43,7 @@ amp-send.sh --to <recipient> --subject "<subject>" --priority <priority> --type 
 **Use case:** Before spawning, terminating, or replacing agents.
 
 ```bash
-amp-send.sh --to eama-main \
+amp-send.sh --to ama-main \
   --subject "APPROVAL REQUIRED: <operation_type>" \
   --priority normal \
   --type approval_request \
@@ -60,7 +60,7 @@ amp-send.sh --to eama-main \
 **Use case:** Issues outside AMCOS authority or requiring human intervention.
 
 ```bash
-amp-send.sh --to eama-assistant-manager \
+amp-send.sh --to ama-assistant-manager \
   --subject "[ESCALATION] <SITUATION_TYPE>" \
   --priority <urgent|high|normal> \
   --type escalation \
@@ -102,7 +102,7 @@ amp-send.sh --to <target-agent> \
 **Use case:** After completing spawn, terminate, hibernate, wake operations.
 
 ```bash
-amp-send.sh --to <requesting-agent> \
+amp-send.sh --to <requesting_agent> \
   --subject "RESULT: <operation_type> - <SUCCESS|FAILED>" \
   --priority <normal|high> \
   --type operation_result \
@@ -138,7 +138,7 @@ amp-send.sh --to <orchestrator-session> \
   --subject "REQUEST: Team status report" \
   --priority normal \
   --type status_request \
-  --message "Requesting: active agents, hibernated agents, in-progress tasks, idle agents. Request-ID: <uuid>"
+  --message "Requesting: active agents, hibernated agents, pending tasks, idle agents. Request-ID: <uuid>"
 ```
 
 ---

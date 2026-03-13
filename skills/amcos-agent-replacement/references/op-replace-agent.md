@@ -78,7 +78,7 @@ Therefore:
    ```json
    {
      "from": "amcos-chief-of-staff",
-     "to": "eama-assistant-manager",
+     "to": "ama-assistant-manager",
      "subject": "APPROVAL NEEDED: Replace agent [AGENT_NAME]",
      "priority": "urgent",
      "content": {

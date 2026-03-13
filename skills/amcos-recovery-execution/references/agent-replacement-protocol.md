@@ -149,7 +149,7 @@ Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/artifac
 AMCOS must request approval from the manager (AMA) before creating a replacement agent.
 
 Use the `agent-messaging` skill to send the replacement approval request:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUIRED] Agent replacement request`
 - **Priority**: `urgent`
 - **Content**: type `replacement-approval-request`, including:
@@ -191,7 +191,7 @@ When manager approves, the response will include any additional instructions:
     "Use the same session name (libs-svg-svgbbox) to maintain continuity",
     "Prioritize task-001 for the replacement agent"
   ],
-  "approved_by": "eama-assistant-manager",
+  "approved_by": "ama-assistant-manager",
   "approved_at": "2025-01-15T11:00:00Z"
 }
 ```
@@ -211,7 +211,7 @@ The manager may reject the replacement request:
   "message": "Replacement not approved at this time.",
   "reason": "The host machine is being repaired. Wait 2 hours and retry recovery.",
   "alternative_action": "wait_and_retry_in_2_hours",
-  "rejected_by": "eama-assistant-manager",
+  "rejected_by": "ama-assistant-manager",
   "rejected_at": "2025-01-15T11:00:00Z"
 }
 ```
@@ -396,7 +396,7 @@ Record the complete incident with resolution in the incident log at `$CLAUDE_PRO
 ### 4.8.2 Notifying Manager of Completion
 
 Use the `agent-messaging` skill to inform the manager that replacement is complete:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[RESOLVED] Agent replacement complete`
 - **Priority**: `normal`
 - **Content**: type `replacement-complete`, including:
@@ -426,98 +426,3 @@ Use this checklist to track progress through the replacement protocol:
 
 ```markdown
 ## Agent Replacement Checklist
-
-Agent: _______________
-Replacement started: _______________
-
-### Phase 1: Failure Confirmation
-- [ ] All recovery strategies exhausted
-- [ ] Terminal failure confirmed
-- [ ] Artifact inventory created
-- [ ] Git commits documented
-- [ ] Logs preserved (if accessible)
-
-### Phase 2: Manager Approval
-- [ ] Replacement request sent to AMA via `agent-messaging` skill
-- [ ] Impact assessment included
-- [ ] Replacement plan included
-- [ ] Approval received
-- [ ] Approval logged
-
-### Phase 3: Create Agent
-- [ ] Host selected
-- [ ] Local folder created
-- [ ] Git repository cloned
-- [ ] Branch checked out
-- [ ] Claude Code session started
-- [ ] AI Maestro registration verified via `ai-maestro-agents-management` skill
-
-### Phase 4: Orchestrator Notification
-- [ ] Replacement notification sent to AMOA via `agent-messaging` skill
-- [ ] Handoff document request sent
-- [ ] GitHub Project update requested
-- [ ] Handoff document received
-- [ ] Kanban updated confirmed
-
-### Phase 5: Work Handoff
-- [ ] Handoff documentation sent to new agent via `agent-messaging` skill
-- [ ] Task assignments sent
-- [ ] Acknowledgment received
-- [ ] Understanding verified
-
-### Phase 6: Cleanup
-- [ ] Incident log updated with resolution
-- [ ] Manager notified of completion via `agent-messaging` skill
-- [ ] Old agent records archived
-
-Replacement completed: _______________
-Total time: _______________
-```
-
----
-
-## Troubleshooting
-
-### New agent does not register with AI Maestro
-
-**Symptom**: Agent status check returns "not_found" after starting Claude Code.
-
-**Cause**: AI Maestro hooks not configured in the new agent's environment.
-
-**Solution**:
-1. Check that `~/.claude/settings.json` includes AI Maestro hooks
-2. Verify AI Maestro server is running
-3. Restart Claude Code session
-
-### Orchestrator does not respond to handoff request
-
-**Symptom**: AMOA does not generate handoff document within expected time.
-
-**Cause**: AMOA may be busy or also experiencing issues.
-
-**Solution**:
-1. Send a reminder message to AMOA using the `agent-messaging` skill
-2. If no response, escalate to manager (AMA)
-3. As fallback, AMCOS can generate a basic handoff from known information
-
-### New agent does not understand handoff documentation
-
-**Symptom**: New agent's acknowledgment shows misunderstanding of tasks.
-
-**Cause**: Handoff documentation incomplete or unclear.
-
-**Solution**:
-1. Request AMOA to provide additional context
-2. Schedule a synchronous Q&A session between AMCOS and new agent
-3. Have AMOA or manager directly explain the tasks
-
-### Git clone fails due to authentication
-
-**Symptom**: User reports git clone fails with authentication error.
-
-**Cause**: New environment does not have git credentials configured.
-
-**Solution**:
-1. Request user to configure git credentials: `gh auth login`
-2. Or use SSH clone with existing keys: `git clone git@github.com:ORG/REPO.git`
-3. Or provide a personal access token for HTTPS clone

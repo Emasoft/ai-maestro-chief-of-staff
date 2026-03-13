@@ -149,7 +149,7 @@ Team names must be **globally unique** across all projects managed by AMCOS. The
 
 | Agent | Name |
 |-------|------|
-| Manager | `eama-assistant-manager` |
+| Manager | `ama-assistant-manager` |
 | Chief of Staff | `amcos-chief-of-staff` |
 | Shared Integrator | `ai-maestro-integrator` |
 
@@ -336,7 +336,7 @@ For full kanban workflow details, see **FULL_PROJECT_WORKFLOW.md**.
 | Report task progress | Orchestrator | `GET /api/teams/[id]/agents` filter by sub-role |
 | Ask design questions | Architect | `GET /api/teams/[id]/agents` filter by sub-role |
 | Submit PR for review | Integrator | `GET /api/teams/[id]/agents` filter by sub-role |
-| Request approval | Manager | `amp-send.sh --to eama-assistant-manager` |
+| Request approval | Manager | `amp-send.sh --to ama-assistant-manager` |
 | Report agent issues | Chief of Staff | `amp-send.sh --to amcos-chief-of-staff` |
 | Message teammate | By name | `amp-send.sh --to <agent-name>` |
 

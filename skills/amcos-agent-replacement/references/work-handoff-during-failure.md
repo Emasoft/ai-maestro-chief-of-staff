@@ -100,7 +100,7 @@ Use the `agent-messaging` skill to send the handoff request:
 Notify AMA about the emergency handoff.
 
 Use the `agent-messaging` skill to send notification:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[ALERT] Emergency work handoff initiated`
 - **Priority**: `urgent`
 - **Content**: type `emergency-handoff-notification`, including:
@@ -359,7 +359,7 @@ Use the `agent-messaging` skill to request update:
 **3. Notify manager of resolution:**
 
 Use the `agent-messaging` skill to report resolution:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[RESOLVED] Emergency handoff completed successfully`
 - **Priority**: `normal`
 - **Content**: type `emergency-handoff-resolution`, including summary with original agent, receiving agent, task ID, deadline, completion time, outcome, and replacement status
@@ -428,14 +428,4 @@ Use the `agent-messaging` skill to send the complete emergency handoff message:
 | `failed_agent` | string | Name of the failed agent |
 | `failure_reason` | string | Human-readable failure explanation |
 | `failure_type` | string | One of: `transient`, `recoverable`, `terminal` |
-| `failure_time` | string | ISO-8601 timestamp of failure detection |
-| `active_tasks` | array | List of all task IDs assigned to failed agent |
-| `critical_tasks` | array | Detailed objects for deadline-critical tasks (each with task_id, title, deadline, time_remaining, status_percent, branch, last_commit) |
-| `state_file` | string | Path to preserved agent state (if available) |
-| `handoff_document` | string | Path to emergency handoff markdown |
-| `priority_actions` | array | Ordered list of immediate actions |
-| `deadline_impact` | string | Business impact of missing deadline |
-| `acknowledgment_required` | boolean | Must be `true` for emergency handoffs |
-| `acknowledge_by` | string | ISO-8601 timestamp for ACK deadline |
-
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+| `failure_time` | string |

@@ -244,7 +244,7 @@ FAILURE_DETECTED
    - **Content**: type `failure-report`, message: "Agent [agent-name] has TERMINAL failure. Assigned tasks need reassignment."
 
 2. Use the `agent-messaging` skill to notify the manager for critical failure:
-   - **Recipient**: `eama-assistant-manager` (or the manager session name)
+   - **Recipient**: `ama-assistant-manager` (or the manager session name)
    - **Subject**: `CRITICAL: Agent Failure`
    - **Priority**: `urgent`
    - **Content**: type `critical-failure`, message: "Agent [agent-name] has experienced TERMINAL failure. Classification: [reason]. Recovery options: 1) Replace agent, 2) Reassign tasks only, 3) Manual investigation. Awaiting approval."
@@ -445,7 +445,7 @@ Use the `agent-messaging` skill to send:
 **Purpose**: Get human approval for terminal recovery actions.
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager` (or the manager session name)
+- **Recipient**: `ama-assistant-manager` (or the manager session name)
 - **Subject**: `CRITICAL: Agent Terminal Failure`
 - **Priority**: `urgent`
 - **Content**: type `critical-failure`, message: "Agent [agent-name] has experienced TERMINAL failure requiring approval." Include `failed_agent`, `failure_classification`: "TERMINAL`, `failure_reason`, `recovery_attempts` count, `orphaned_tasks` list, `recovery_options` array listing "replace", "reassign_only", and "investigate" options with descriptions, `awaiting`: "approval".

@@ -153,7 +153,7 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
   }'
 
 # Step 3: Notify source manager
-amp-send.sh "eama-main" "Transfer approval: epa-alpha-backend -> team-beta" \
+amp-send.sh "ama-main" "Transfer approval: epa-alpha-backend -> team-beta" \
   "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: epa-alpha-backend moving to team-beta. Please approve as source manager."}'
 
 # Step 4: Notify target COS
@@ -192,7 +192,7 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
   }'
 
 # Step 4: Notify your manager for their approval
-amp-send.sh "eama-main" "Transfer approval: epa-alpha-backend into team-beta" \
+amp-send.sh "ama-main" "Transfer approval: epa-alpha-backend into team-beta" \
   "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: I approved epa-alpha-backend into team-beta as target COS. Please approve as target manager."}'
 ```
 

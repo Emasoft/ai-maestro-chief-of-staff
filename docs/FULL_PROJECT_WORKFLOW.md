@@ -254,7 +254,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 #### Step 13: Kanban Population
 **Actor**: AMOA (Orchestrator)
 **Action**:
-- Add tasks to the GitHub Project kanban `todo` column
+- Add tasks to the GitHub Project kanban `pending` column
 - For each task:
   - Set the "Assigned Agent" custom field
   - Attach the task-requirements-document
@@ -319,7 +319,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 #### Step 18: Kanban Status Update
 **Actor**: AMOA (Orchestrator)
 **Action**:
-- Move tasks on project kanban from `todo` column to `in-progress` column
+- Move tasks on project kanban from `pending` column to `in-progress` column
 
 **Communication**:
 - GitHub: Update project item status
@@ -467,10 +467,4 @@ All messaging uses the **AMP (Agent Messaging Protocol)**.
 - **Requirements Document**: Created by AMA, sent to AMAA
 - **Design Document**: Created by AMAA, approved by AMA/User
 - **Task-Requirements-Document**: Created by AMOA for each task
-- **Design-Change-Request**: Created by AMOA when agents suggest improvements
-- **PR Review Report**: Created by AMIA for each PR
-- **GovernanceRequest**: Created by AMCOS for cross-team agent operations
-
----
-
-**This workflow must be followed by all agents. Deviations require Manager approval.**
+- **Design-Change-Request**: Created by AMOA when agents

@@ -35,7 +35,7 @@ Critical persistence mechanism enabling the AMOA orchestrator to maintain contin
 - Performance characteristics
 
 ### 3. progress.md
-- Master todo list with status
+- Master pending list with status
 - Task dependencies
 - Completion state
 - Blocked items
@@ -46,5 +46,6 @@ See [SKILL.md](./SKILL.md) for complete instructions.
 
 ## Related Skills
 
-- `eama-role-routing` - Uses session memory for continuity
+- `ama-role-routing` - Uses session memory for continuity
 - `verification-patterns` - Task completion tracking
+

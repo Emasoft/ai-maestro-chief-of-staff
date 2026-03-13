@@ -69,7 +69,7 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
 
 # Cross-team spawn (dual-manager approval)
 /amcos-request-approval --type spawn --agent backend-worker \
-  --scope cross-team --target-cos amcos-backend --target-manager eama-backend \
+  --scope cross-team --target-cos amcos-backend --target-manager ama-backend \
   --reason "Need worker on backend team for data migration"
 
 # Critical operation (governance password required)
@@ -89,7 +89,7 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
   "requestId": "GR-20260227150000-a1b2c3d4",
   "type": "terminate",
   "sourceCOS": "amcos-main",
-  "sourceManager": "eama-main",
+  "sourceManager": "ama-main",
   "targetCOS": null,
   "targetManager": null,
   "operation": {
@@ -112,9 +112,9 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
   "requestId": "GR-20260227150100-b2c3d4e5",
   "type": "spawn",
   "sourceCOS": "amcos-frontend",
-  "sourceManager": "eama-frontend",
+  "sourceManager": "ama-frontend",
   "targetCOS": "amcos-backend",
-  "targetManager": "eama-backend",
+  "targetManager": "ama-backend",
   "operation": {
     "action": "spawn",
     "target": "backend-worker",
@@ -143,7 +143,7 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
   Status:           pending
 
   Approvers:
-    sourceManager:  eama-main        [pending]
+    sourceManager:  ama-main        [pending]
     targetManager:  n/a (local)
 
   Reason: Agent has critical unrecoverable bug

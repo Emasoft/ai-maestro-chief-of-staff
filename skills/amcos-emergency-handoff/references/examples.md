@@ -39,7 +39,7 @@
 - **Step 4**: Wait 60 seconds, then use the `ai-maestro-agents-management` skill to verify agent status is "online"
 - **Step 5**: Use the `agent-messaging` skill to check for pending messages for agent `svgbbox-impl-01`. Expected: 0 pending
 - **Step 6**: Use the `agent-messaging` skill to report recovery to AMA:
-  - **Recipient**: `eama-assistant-manager`
+  - **Recipient**: `ama-assistant-manager`
   - **Subject**: `[RESOLVED] Agent svgbbox-impl-01 recovered`
   - **Priority**: `normal`
   - **Content**: type `recovery-report`, message: "Agent svgbbox-impl-01 recovered via restart. No data loss.", including agent name, recovery method "restart", and downtime in minutes
@@ -66,7 +66,7 @@
 
 - **Step 2**: Log terminal classification to incident log
 - **Step 3**: Use the `agent-messaging` skill to request replacement approval:
-  - **Recipient**: `eama-assistant-manager`
+  - **Recipient**: `ama-assistant-manager`
   - **Subject**: `[APPROVAL REQUIRED] Agent replacement: feature-impl-03`
   - **Priority**: `urgent`
   - **Content**: type `replacement-approval-request`, message explaining the agent crashed 3 times in 10 minutes, including agent name, failure type "terminal", crash count, time window, and awaiting approval flag
@@ -124,7 +124,7 @@
   - **Priority**: `urgent`
   - **Content**: type `emergency-handoff-request`, message explaining the failure and deadline urgency, including the failed agent name, deadline timestamp, list of critical tasks with IDs and estimated minutes, and action requested "immediate_reassignment"
 - **Step 4**: Use the `agent-messaging` skill to notify the manager:
-  - **Recipient**: `eama-assistant-manager`
+  - **Recipient**: `ama-assistant-manager`
   - **Subject**: `[EMERGENCY] Agent failure - critical deadline at risk`
   - **Priority**: `urgent`
   - **Content**: type `emergency-notification`, message explaining the failure and initiated handoff, including failed agent name and deadline-at-risk flag
@@ -158,7 +158,7 @@ Use the `agent-messaging` skill to request a graceful restart:
 ### Replacement Approval Request
 
 Use the `agent-messaging` skill to request replacement approval:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUIRED] Agent replacement request`
 - **Priority**: `urgent`
 - **Content**: type `replacement-approval-request`, message explaining the terminal failure, including agent name, failure type, and awaiting approval flag

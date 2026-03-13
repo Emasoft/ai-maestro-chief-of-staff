@@ -88,10 +88,11 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-- **Request replacement approval**: Send an `urgent` AMP message to `eama-assistant-manager` with type `replacement-request`, including the failed agent name and failure summary. Use the `agent-messaging` skill.
+- **Request replacement approval**: Send an `urgent` AMP message to `ama-assistant-manager` with type `replacement-request`, including the failed agent name and failure summary. Use the `agent-messaging` skill.
 - **Notify orchestrator of replacement**: Send a `high`-priority AMP message to `amoa-orchestrator` with type `replacement-notification`, including old and new agent names. Use the `agent-messaging` skill. The orchestrator will generate handoff docs and update the kanban.
 
 ## Resources
 
 - `references/agent-replacement-protocol.md` - Full replacement protocol
 - `references/op-replace-agent.md` - Replace agent runbook
+

@@ -479,7 +479,7 @@ Use the `agent-messaging` skill to send:
 For critical errors or unresolved issues.
 
 Use the `agent-messaging` skill to send to the user's agent or manager:
-- **Recipient**: `eama-assistant-manager` (or the user's agent session name)
+- **Recipient**: `ama-assistant-manager` (or the user's agent session name)
 - **Subject**: `[CRITICAL ERROR] [Error Title]`
 - **Priority**: `urgent`
 - **Content**: type `error`, severity: "critical", message: "[Description and required action]."
