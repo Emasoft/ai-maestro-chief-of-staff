@@ -9,7 +9,7 @@ Usage:
 
 Example:
     python amcos_spawn_agent.py orchestrator svgbbox-orchestrator --project svgbbox \
-        --plugins ai-maestro-orchestrator-agent --agent eoa-orchestrator-main-agent
+        --plugins ai-maestro-orchestrator-agent --agent ai-maestro-orchestrator-main-agent
 """
 
 import argparse
@@ -49,7 +49,7 @@ def install_marketplace_plugin(plugin_name: str, agent_dir: Path) -> bool:
 
     Args:
         plugin_name: Name of the plugin (e.g., 'ai-maestro-orchestrator-agent')
-        agent_dir: Path to the agent's directory (e.g., ~/agents/eoa-svgbbox/)
+        agent_dir: Path to the agent's directory (e.g., ~/agents/amoa-svgbbox/)
 
     Returns:
         True if successful, False if plugin not found in marketplace cache
@@ -93,7 +93,7 @@ Examples:
     parser.add_argument(
         "session_name",
         type=str,
-        help="Unique session name (becomes AI Maestro registry identity, e.g., eoa-svgbbox-orchestrator)",
+        help="Unique session name (becomes AI Maestro registry identity, e.g., amoa-svgbbox-orchestrator)",
     )
     parser.add_argument(
         "--project",
@@ -111,7 +111,7 @@ Examples:
         "--agent",
         type=str,
         default=None,
-        help="Main agent name to inject via --agent CLI flag (e.g., eoa-orchestrator-main-agent)",
+        help="Main agent name to inject via --agent CLI flag (e.g., ai-maestro-orchestrator-main-agent)",
     )
     return parser.parse_args()
 

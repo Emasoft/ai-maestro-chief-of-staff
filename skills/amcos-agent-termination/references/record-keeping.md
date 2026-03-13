@@ -54,7 +54,7 @@
 
 **Example entries:**
 ```
-[2026-02-04T10:30:00Z] [SPAWN] [worker-dev-auth-001] Created with role eoa-orchestrator-main-agent in /path/to/project
+[2026-02-04T10:30:00Z] [SPAWN] [worker-dev-auth-001] Created with role ai-maestro-orchestrator-main-agent in /path/to/project
 [2026-02-04T10:30:15Z] [TEAM_ADD] [worker-dev-auth-001] Added to svgbbox-library-team with role developer
 [2026-02-04T12:00:00Z] [HIBERNATE] [worker-dev-003] Hibernated due to 2h inactivity
 [2026-02-04T14:00:00Z] [WAKE] [worker-dev-003] Restored from hibernation for new task
@@ -206,7 +206,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
     "worker-dev-001": {
       "name": "worker-dev-001",
       "role": "developer",
-      "type": "eoa-orchestrator-main-agent",
+      "type": "ai-maestro-orchestrator-main-agent",
       "status": "active",
       "tmux_session": "worker-dev-001",
       "workspace": "/Users/user/Code/svgbbox-library",
@@ -225,7 +225,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
     "worker-dev-003": {
       "name": "worker-dev-003",
       "role": "developer",
-      "type": "eoa-orchestrator-main-agent",
+      "type": "ai-maestro-orchestrator-main-agent",
       "status": "hibernated",
       "tmux_session": "worker-dev-003",
       "workspace": "/Users/user/Code/svgbbox-library",

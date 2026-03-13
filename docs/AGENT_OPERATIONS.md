@@ -205,7 +205,7 @@ Use the `ai-maestro-agents-management` skill to create a new agent:
 
 | Role | Plugin | --agent Flag | Prefix |
 |------|--------|--------------|--------|
-| Chief of Staff | `ai-maestro-chief-of-staff` | `amcos-chief-of-staff-main-agent` | `amcos-` |
+| Chief of Staff | `ai-maestro-chief-of-staff` | `ai-maestro-chief-of-staff-main-agent` | `amcos-` |
 | Orchestrator | `ai-maestro-orchestrator-agent` | `amcos-orchestrator-main-agent` | `amcos-orch-` |
 | Architect | `ai-maestro-architect-agent` | `amcos-architect-main-agent` | `amcos-arch-` |
 | Integrator | `ai-maestro-integrator-agent` | `amcos-integrator-main-agent` | `amcos-intg-` |

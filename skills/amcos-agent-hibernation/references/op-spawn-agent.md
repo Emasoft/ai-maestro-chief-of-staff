@@ -52,15 +52,15 @@ Select the appropriate agent type based on the task requirements. AMCOS chooses 
 
 | Role | Prefix | Plugin | Main Agent |
 |------|--------|--------|------------|
-| Orchestrator | eoa | ai-maestro-orchestrator-agent | eoa-orchestrator-main-agent |
-| Architect | eaa | ai-maestro-architect-agent | eaa-architect-main-agent |
-| Integrator | eia | ai-maestro-integrator-agent | eia-integrator-main-agent |
-| Programmer | (none) | ai-maestro-programmer-agent | epa-programmer-main-agent |
+| Orchestrator | amoa | ai-maestro-orchestrator-agent | ai-maestro-orchestrator-main-agent |
+| Architect | amaa | ai-maestro-architect-agent | ai-maestro-architect-main-agent |
+| Integrator | amia | ai-maestro-integrator-agent | ai-maestro-integrator-main-agent |
+| Programmer | (none) | ai-maestro-programmer-agent | ai-maestro-programmer-main-agent |
 
 **Example session names:**
-- `eoa-svgbbox-orchestrator`
-- `eaa-webapp-architect`
-- `eia-api-integrator`
+- `amoa-svgbbox-orchestrator`
+- `amaa-webapp-architect`
+- `amia-api-integrator`
 - `svgbbox-programmer-001` (Programmer uses project-based naming)
 
 ### Step 2: Setup Plugin for Agent
@@ -127,18 +127,18 @@ Copy this checklist and track your progress:
 
 ### Example: Creating an Orchestrator for svgbbox Project
 
-1. Set variables: session name `eoa-svgbbox-orchestrator`, plugin `ai-maestro-orchestrator-agent`
-2. Copy plugin from marketplace cache (`$HOME/.claude/plugins/cache/ai-maestro/ai-maestro-orchestrator-agent/<latest-version>/`) to `$HOME/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent/`
+1. Set variables: session name `amoa-svgbbox-orchestrator`, plugin `ai-maestro-orchestrator-agent`
+2. Copy plugin from marketplace cache (`$HOME/.claude/plugins/cache/ai-maestro/ai-maestro-orchestrator-agent/<latest-version>/`) to `$HOME/agents/amoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent/`
 3. Use the `ai-maestro-agents-management` skill to create a new agent:
-   - **Name**: `eoa-svgbbox-orchestrator`
-   - **Directory**: `~/agents/eoa-svgbbox-orchestrator`
+   - **Name**: `amoa-svgbbox-orchestrator`
+   - **Directory**: `~/agents/amoa-svgbbox-orchestrator`
    - **Task**: `Orchestrate tasks for svgbbox-library-team`
-   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/eoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent`, `--agent eoa-orchestrator-main-agent`
+   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/amoa-svgbbox-orchestrator/.claude/plugins/ai-maestro-orchestrator-agent`, `--agent ai-maestro-orchestrator-main-agent`
 4. Use the `ai-maestro-agents-management` skill to verify status is "running"
 5. Register in team registry:
    ```bash
    uv run python scripts/amcos_team_registry.py add-agent \
-     --name "eoa-svgbbox-orchestrator" \
+     --name "amoa-svgbbox-orchestrator" \
      --role "orchestrator" \
      --project "svgbbox" \
      --status "running"
@@ -152,7 +152,7 @@ Copy this checklist and track your progress:
    - **Name**: `svgbbox-programmer-001`
    - **Directory**: `~/agents/svgbbox-programmer-001`
    - **Task**: `Implement authentication module for svgbbox`
-   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/svgbbox-programmer-001/.claude/plugins/ai-maestro-programmer-agent`, `--agent epa-programmer-main-agent`
+   - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir ~/agents/svgbbox-programmer-001/.claude/plugins/ai-maestro-programmer-agent`, `--agent ai-maestro-programmer-main-agent`
 4. Use the `ai-maestro-agents-management` skill to verify status is "running"
 5. Register in team registry:
    ```bash

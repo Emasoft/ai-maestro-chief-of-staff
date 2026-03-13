@@ -31,7 +31,7 @@
 
 3. Route to amcos-lifecycle-manager:
    - Create 4 new agents with --agent flag:
-     - svgbbox-impl-01 (--agent eoa-orchestrator-main-agent)
+     - svgbbox-impl-01 (--agent ai-maestro-orchestrator-main-agent)
      - svgbbox-impl-02
      - svgbbox-impl-03
      - svgbbox-reviewer-01

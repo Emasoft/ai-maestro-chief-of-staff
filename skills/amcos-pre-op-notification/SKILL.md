@@ -8,7 +8,7 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: amcos-chief-of-staff-main-agent
+agent: ai-maestro-chief-of-staff-main-agent
 ---
 
 # Pre-Operation Notification

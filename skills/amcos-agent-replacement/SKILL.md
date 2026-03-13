@@ -8,7 +8,7 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: amcos-chief-of-staff-main-agent
+agent: ai-maestro-chief-of-staff-main-agent
 ---
 
 # AMCOS Agent Replacement
@@ -97,7 +97,7 @@ curl -X POST "$AIMAESTRO_API/api/messages" \
 # Notify orchestrator of replacement
 curl -X POST "$AIMAESTRO_API/api/messages" \
   -H "Content-Type: application/json" \
-  -d '{"to":"eoa-orchestrator","subject":"Agent replaced: libs-svg-svgbbox","priority":"high","content":{"type":"replacement-notification","message":"Please generate handoff docs and update kanban.","old_agent":"libs-svg-svgbbox","new_agent":"libs-svg-svgbbox-v2"}}'
+  -d '{"to":"amoa-orchestrator","subject":"Agent replaced: libs-svg-svgbbox","priority":"high","content":{"type":"replacement-notification","message":"Please generate handoff docs and update kanban.","old_agent":"libs-svg-svgbbox","new_agent":"libs-svg-svgbbox-v2"}}'
 ```
 
 ## Resources

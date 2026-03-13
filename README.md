@@ -63,7 +63,7 @@ AMCOS (Chief of Staff) ---- one per team
 
 | Agent | Purpose |
 |-------|---------|
-| `amcos-chief-of-staff-main-agent` | Main COS coordinator |
+| `ai-maestro-chief-of-staff-main-agent` | Main COS coordinator |
 | `amcos-staff-planner` | Analyze task requirements, determine staffing needs |
 | `amcos-lifecycle-manager` | Agent create/terminate/hibernate/wake |
 | `amcos-plugin-configurator` | Configure plugins for agents |
@@ -176,7 +176,7 @@ This plugin is distributed with AI Maestro v0.26.0+. No separate installation is
 
 ```bash
 # Start a session with the team's COS agent
-claude --agent amcos-chief-of-staff-main-agent
+claude --agent ai-maestro-chief-of-staff-main-agent
 ```
 
 ### Development Only

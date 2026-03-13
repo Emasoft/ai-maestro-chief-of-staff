@@ -26,7 +26,7 @@
 
 **Before submitting approval request:**
 - [ ] Verify agent name not already in use: Use the `ai-maestro-agents-management` skill to list all agents and check the name is not taken
-- [ ] Select appropriate role from available main-agents (e.g., `eoa-orchestrator-main-agent`, `eia-integrator-main-agent`)
+- [ ] Select appropriate role from available main-agents (e.g., `ai-maestro-orchestrator-main-agent`, `ai-maestro-integrator-main-agent`)
 - [ ] Identify required plugins/skills for role
 - [ ] Determine working directory (project-specific or shared)
 - [ ] Prepare rollback plan (terminate agent, clean up directory)

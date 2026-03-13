@@ -125,7 +125,7 @@ After approval, use the `ai-maestro-agents-management` skill to create a new age
 ### Step 3: Request Handoff from EOA
 
 Send a handoff generation request to EOA using the `agent-messaging` skill:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[HANDOFF REQUEST] Generate handoff for <failed-agent> replacement`
 - **Content**: request to generate handoff documentation including failed and new agent names
 - **Priority**: `high`
@@ -135,7 +135,7 @@ Send a handoff generation request to EOA using the `agent-messaging` skill:
 ### Step 4: Update GitHub Project Kanban
 
 Send a kanban update request to EOA using the `agent-messaging` skill:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[KANBAN UPDATE] Reassign cards from <old-agent> to <new-agent>`
 - **Content**: request to reassign all kanban cards
 - **Priority**: `normal`
@@ -177,11 +177,11 @@ Use the `ai-maestro-agents-management` skill to check health of the new agent:
     ✓ tmux session: helper-backend-v2
 
   Step 3: Generate Handoff
-    ✓ Handoff request sent to eoa-orchestrator
+    ✓ Handoff request sent to amoa-orchestrator
     ✓ Handoff generated: /tmp/handoffs/helper-backend-20240115.md
 
   Step 4: Update Kanban
-    ✓ Kanban update request sent to eoa-orchestrator
+    ✓ Kanban update request sent to amoa-orchestrator
     ✓ 3 cards reassigned to helper-backend-v2
 
   Step 5: Transfer Handoff

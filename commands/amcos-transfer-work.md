@@ -155,7 +155,7 @@ Send the handoff to the target agent using the `agent-messaging` skill:
 ### Step 4: Notify Orchestrator (if requested)
 
 If `--notify-orchestrator` is set, send a notification to EOA using the `agent-messaging` skill:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[TRANSFER NOTIFICATION] Work transferred: <from> -> <to>`
 - **Content**: notification about the work transfer with both agent names
 - **Priority**: `normal`

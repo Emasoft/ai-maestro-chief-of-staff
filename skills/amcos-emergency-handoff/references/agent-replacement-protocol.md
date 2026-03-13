@@ -284,7 +284,7 @@ AMCOS must notify the orchestrator (EOA) that an agent has been replaced so that
 2. The GitHub Project kanban can be updated to reassign tasks
 
 Use the `agent-messaging` skill to notify the orchestrator:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[AGENT REPLACED] Handoff required for new agent`
 - **Priority**: `high`
 - **Content**: type `agent-replacement-notification`, including:

@@ -116,7 +116,7 @@ If blocker is agent reassignment or permission within AMCOS authority:
    ```json
    {
      "from": "amcos-chief-of-staff",
-     "to": "eoa-orchestrator",
+     "to": "amoa-orchestrator",
      "subject": "RESOLUTION: Blocker [issue_number] resolved",
      "priority": "high",
      "content": {

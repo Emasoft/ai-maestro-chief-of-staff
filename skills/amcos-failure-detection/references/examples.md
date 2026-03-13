@@ -71,7 +71,7 @@
   - **Priority**: `urgent`
   - **Content**: type `replacement-approval-request`, message explaining the agent crashed 3 times in 10 minutes, including agent name, failure type "terminal", crash count, time window, and awaiting approval flag
 - **Step 5**: After approval, use the `agent-messaging` skill to notify the orchestrator:
-  - **Recipient**: `eoa-orchestrator`
+  - **Recipient**: `amoa-orchestrator`
   - **Subject**: `[HANDOFF] Replacement agent created: feature-impl-04`
   - **Priority**: `high`
   - **Content**: type `replacement-notification`, message requesting handoff documentation and task reassignment, including old and new agent names
@@ -119,7 +119,7 @@
 **Detailed procedure**:
 
 - **Step 3**: Use the `agent-messaging` skill to initiate emergency handoff:
-  - **Recipient**: `eoa-orchestrator`
+  - **Recipient**: `amoa-orchestrator`
   - **Subject**: `[EMERGENCY] Critical handoff - 90 minutes to deadline`
   - **Priority**: `urgent`
   - **Content**: type `emergency-handoff-request`, message explaining the failure and deadline urgency, including the failed agent name, deadline timestamp, list of critical tasks with IDs and estimated minutes, and action requested "immediate_reassignment"
@@ -166,7 +166,7 @@ Use the `agent-messaging` skill to request replacement approval:
 ### Emergency Handoff Request
 
 Use the `agent-messaging` skill to request emergency handoff:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY] Work handoff required`
 - **Priority**: `urgent`
 - **Content**: type `emergency-handoff-request`, message explaining the failure and deadline urgency, including failed agent name, critical tasks list, and action requested "reassign_critical_tasks"

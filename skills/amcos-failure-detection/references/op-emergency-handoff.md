@@ -72,7 +72,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
    ```json
    {
      "from": "amcos-chief-of-staff",
-     "to": "eoa-orchestrator",
+     "to": "amoa-orchestrator",
      "subject": "URGENT: Emergency handoff required",
      "priority": "urgent",
      "content": {

@@ -8,7 +8,7 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
-agent: amcos-chief-of-staff-main-agent
+agent: ai-maestro-chief-of-staff-main-agent
 ---
 
 # Agent Spawning
@@ -56,10 +56,10 @@ Required: `repo`, `project`, `read:project`. If missing, request human to run `g
 
 | Role | --agent Flag Value |
 |------|--------------------|
-| Orchestrator | `eoa-orchestrator-main-agent` |
-| Architect | `eaa-architect-main-agent` |
-| Integrator | `eia-integrator-main-agent` |
-| Programmer | `epa-programmer-main-agent` |
+| Orchestrator | `ai-maestro-orchestrator-main-agent` |
+| Architect | `ai-maestro-architect-main-agent` |
+| Integrator | `ai-maestro-integrator-main-agent` |
+| Programmer | `ai-maestro-programmer-main-agent` |
 
 ## Output
 
@@ -93,7 +93,7 @@ cp -r ~/.claude/plugins/cache/ai-maestro/ai-maestro-programmer-agent/latest/* \
 
 # 3. Create via ai-maestro-agents-management skill:
 #    Name: epa-svgbbox-impl, Dir: ~/agents/epa-svgbbox-impl/
-#    Args: --agent epa-programmer-main-agent
+#    Args: --agent ai-maestro-programmer-main-agent
 
 # 4. Register + send welcome message
 ```

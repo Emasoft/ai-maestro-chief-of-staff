@@ -80,7 +80,7 @@ Initiate emergency handoff when ALL of the following are true:
 Immediately notify EOA when initiating emergency handoff.
 
 Use the `agent-messaging` skill to send the handoff request:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY] Agent failure - work handoff required`
 - **Priority**: `urgent`
 - **Content**: type `emergency-handoff-request`, including:
@@ -211,7 +211,7 @@ When reassigning to another agent:
 3. **Request reassignment from EOA**
 
 Use the `agent-messaging` skill to request reassignment:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[REQUEST] Temporary task reassignment`
 - **Priority**: `urgent`
 - **Content**: type `task-reassignment-request`, including:
@@ -228,7 +228,7 @@ Use the `agent-messaging` skill to request reassignment:
 Non-critical tasks should be held, not reassigned.
 
 Use the `agent-messaging` skill to notify the orchestrator:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[INFO] Tasks being held for replacement agent`
 - **Priority**: `normal`
 - **Content**: type `task-hold-notification`, including:
@@ -243,7 +243,7 @@ Use the `agent-messaging` skill to notify the orchestrator:
 If a task is large, it may be split.
 
 Use the `agent-messaging` skill to request a task split:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[REQUEST] Split task for parallel work`
 - **Priority**: `urgent`
 - **Content**: type `task-split-request`, including:
@@ -259,7 +259,7 @@ Use the `agent-messaging` skill to request a task split:
 ### 5.6.1 Handoff Request to Orchestrator
 
 Use the `agent-messaging` skill to request EOA to coordinate emergency handoff:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY HANDOFF] Immediate coordination required`
 - **Priority**: `urgent`
 - **Content**: type `emergency-handoff-coordination`, including:
@@ -323,7 +323,7 @@ git diff failed-agent-last-commit..receiving-agent-first-commit --name-only
 If both agents made progress, request EOA to coordinate the merge.
 
 Use the `agent-messaging` skill to request reconciliation:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[RECONCILIATION] Work merge required`
 - **Priority**: `normal`
 - **Content**: type `work-reconciliation-request`, including:
@@ -351,7 +351,7 @@ jq --arg task "task-001" --arg status "completed" '
 **2. Request GitHub Project update from EOA:**
 
 Use the `agent-messaging` skill to request update:
-- **Recipient**: `eoa-orchestrator`
+- **Recipient**: `amoa-orchestrator`
 - **Subject**: `[UPDATE] Task status after emergency handoff`
 - **Priority**: `normal`
 - **Content**: type `task-status-update`, including task ID, new status, completed by agent, notes about the emergency handoff, and PR URL
