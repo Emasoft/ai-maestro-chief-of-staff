@@ -1,5 +1,5 @@
 ---
-name: amcos-chief-of-staff-main-agent
+name: ai-maestro-chief-of-staff-main-agent
 description: Per-team Chief of Staff agent - manages agent lifecycle within ONE team. Requires AI Maestro v0.26.0+.
 model: opus
 team: ""

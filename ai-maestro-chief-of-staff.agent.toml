@@ -1,0 +1,17 @@
+[agent]
+name = "ai-maestro-chief-of-staff"
+description = "Per-team Chief of Staff agent managing agent lifecycle, governance workflows, and failure recovery"
+role = "chief-of-staff"
+
+[agent.capabilities]
+agent_lifecycle = true
+governance_requests = true
+failure_recovery = true
+team_coordination = true
+resource_monitoring = true
+performance_tracking = true
+
+[agent.dependencies]
+ai_maestro_version = ">=0.26.0"
+claude_code_version = ">=2.1.69"
+required_skills = ["ai-maestro-agents-management", "agent-messaging"]
