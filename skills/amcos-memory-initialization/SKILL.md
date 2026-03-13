@@ -74,7 +74,7 @@ Three phases: **Load** (read and validate at start), **Update** (write changes d
 ```bash
 # Initialize new session memory
 uv run python scripts/amcos_memory_manager.py init \
-  --session eoa-project-alpha --project project-alpha
+  --session amoa-project-alpha --project project-alpha
 
 # Verify initialization
 uv run python scripts/amcos_memory_manager.py validate
@@ -95,3 +95,4 @@ More examples: `references/00-session-memory-examples.md`.
 ---
 
 **Version:** 1.0.0 | **Last Updated:** 2025-02-01
+

@@ -89,10 +89,10 @@ gh auth status 2>&1 | grep -q "project" && echo "OK"
 
 # 2. Copy plugin
 cp -r ~/.claude/plugins/cache/ai-maestro/ai-maestro-programmer-agent/latest/* \
-      ~/agents/epa-svgbbox-impl/.claude/plugins/ai-maestro-programmer-agent/
+      ~/agents/ampa-svgbbox-impl/.claude/plugins/ai-maestro-programmer-agent/
 
 # 3. Create via ai-maestro-agents-management skill:
-#    Name: epa-svgbbox-impl, Dir: ~/agents/epa-svgbbox-impl/
+#    Name: ampa-svgbbox-impl, Dir: ~/agents/ampa-svgbbox-impl/
 #    Args: --agent ai-maestro-programmer-main-agent
 
 # 4. Register + send welcome message
@@ -105,4 +105,3 @@ cp -r ~/.claude/plugins/cache/ai-maestro/ai-maestro-programmer-agent/latest/* \
 - `references/workflow-examples.md`
 - `references/cli-examples.md`
 - `references/cli-reference.md`
-

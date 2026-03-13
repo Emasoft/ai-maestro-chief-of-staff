@@ -167,7 +167,7 @@ claude \
 When spawning an agent with a local plugin:
 
 ```bash
-SESSION_NAME="eoa-test-orchestrator"
+SESSION_NAME="amoa-test-orchestrator"
 PLUGIN_SOURCE="/Users/dev/projects/ai-maestro-orchestrator-agent"
 PLUGIN_DEST="$HOME/agents/$SESSION_NAME/.claude/plugins/ai-maestro-orchestrator-agent"
 

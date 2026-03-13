@@ -118,7 +118,7 @@ Use the `agent-messaging` skill to send a role assignment:
 ### Example: Status Request Message
 
 Use the `agent-messaging` skill to request status:
-- **Recipient**: `eoa-webapp-orchestrator`
+- **Recipient**: `amoa-webapp-orchestrator`
 - **Subject**: `Status Request - Sprint Progress`
 - **Priority**: `normal`
 - **Content**: type `status-request`, message: "Please provide current sprint progress including: completed tasks, in-progress work, blocked items, and estimated completion."

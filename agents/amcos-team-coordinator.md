@@ -48,14 +48,14 @@ When listing team agents, use table format:
 
 | Agent Name | Role | Governance Role | Status | Last Activity |
 |------------|------|-----------------|--------|---------------|
-| eoa-project-orchestrator | Orchestrator | member | active | 5m ago |
-| eaa-project-architect | Architect | member | active | 15m ago |
+| amoa-project-orchestrator | Orchestrator | member | active | 5m ago |
+| amaa-project-architect | Architect | member | active | 15m ago |
 
 ## Reporting Rules (MANDATORY)
 
 When returning results to the Chief of Staff or any parent agent:
 1. Write ALL detailed output to a timestamped .md file in `docs_dev/`
-2. Return to parent agent ONLY: `[DONE/FAILED] <task> - <one-line result>. Report: <filepath>`
+2. Return to parent agent ONLY: `[DONE/FAILED] <task> - <one-line result>. Report: `
 3. NEVER return code blocks, file contents, long lists, or verbose explanations
 4. Max 2 lines of text back to parent agent
 5. When calling scripts, reference the log file path from the script's summary output
@@ -71,9 +71,10 @@ assistant: Let me query the team registry via API.
 
 | Agent Name | Role | Status | Last Activity |
 |------------|------|--------|---------------|
-| eoa-svgbbox-orchestrator | Orchestrator | active | 5m ago |
-| eaa-svgbbox-architect | Architect | active | 15m ago |
+| amoa-svgbbox-orchestrator | Orchestrator | active | 5m ago |
+| amaa-svgbbox-architect | Architect | active | 15m ago |
 | worker-impl-001 | Programmer | active | 2m ago |
 
 All 3 team agents are currently active.
 </example>
+

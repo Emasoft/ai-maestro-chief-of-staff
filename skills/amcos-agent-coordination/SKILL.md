@@ -95,7 +95,7 @@ Registry update -> state reflected. Message -> delivery confirmed. Role assignme
 
 ```bash
 uv run python scripts/amcos_team_registry.py add-agent \
-  --team svgbbox-team --name epa-svgbbox-impl --role programmer --status running
+  --team svgbbox-team --name ampa-svgbbox-impl --role programmer --status running
 uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 ```
 

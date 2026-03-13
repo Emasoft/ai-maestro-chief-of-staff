@@ -127,14 +127,14 @@ All transfer-related AMP messages use these content types:
 
 ## Example 1: Outbound Transfer (Moving an agent OUT of your team)
 
-**Scenario:** You are COS of team `team-alpha`. Agent `epa-alpha-backend` has completed their project and is needed by `team-beta`.
+**Scenario:** You are COS of team `team-alpha`. Agent `ampa-alpha-backend` has completed their project and is needed by `team-beta`.
 
 ```bash
 # Step 1: Create the transfer request
 curl -X POST "$AIMAESTRO_API/api/governance/transfers/" \
   -H "Content-Type: application/json" \
   -d '{
-    "agent_id": "epa-alpha-backend",
+    "agent_id": "ampa-alpha-backend",
     "source_team_id": "team-alpha",
     "target_team_id": "team-beta",
     "reason": "Backend work complete on alpha project. Agent skillset matches beta team needs.",
@@ -153,25 +153,25 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
   }'
 
 # Step 3: Notify source manager
-amp-send.sh "ama-main" "Transfer approval: epa-alpha-backend -> team-beta" \
-  "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: epa-alpha-backend moving to team-beta. Please approve as source manager."}'
+amp-send.sh "ama-main" "Transfer approval: ampa-alpha-backend -> team-beta" \
+  "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: ampa-alpha-backend moving to team-beta. Please approve as source manager."}'
 
 # Step 4: Notify target COS
-amp-send.sh "amcos-beta" "Incoming transfer: epa-alpha-backend" \
-  "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: epa-alpha-backend from team-alpha wants to join team-beta. Please review and approve."}'
+amp-send.sh "amcos-beta" "Incoming transfer: ampa-alpha-backend" \
+  "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: ampa-alpha-backend from team-alpha wants to join team-beta. Please review and approve."}'
 
 # Step 5: After all 4 approvals received, execute
 curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/execute" \
   -H "Content-Type: application/json"
 
 # Step 6: Notify all parties
-amp-send.sh "epa-alpha-backend" "Transfer complete" \
+amp-send.sh "ampa-alpha-backend" "Transfer complete" \
   "high" '{"type": "transfer-executed", "message": "You have been transferred to team-beta. Your new COS is amcos-beta."}'
 ```
 
 ## Example 2: Inbound Transfer Approval (Accepting an agent INTO your team)
 
-**Scenario:** You are COS of team `team-beta`. You receive an AMP notification that `epa-alpha-backend` wants to join your team.
+**Scenario:** You are COS of team `team-beta`. You receive an AMP notification that `ampa-alpha-backend` wants to join your team.
 
 ```bash
 # Step 1: Check your inbox
@@ -192,8 +192,8 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
   }'
 
 # Step 4: Notify your manager for their approval
-amp-send.sh "ama-main" "Transfer approval: epa-alpha-backend into team-beta" \
-  "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: I approved epa-alpha-backend into team-beta as target COS. Please approve as target manager."}'
+amp-send.sh "ama-main" "Transfer approval: ampa-alpha-backend into team-beta" \
+  "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: I approved ampa-alpha-backend into team-beta as target COS. Please approve as target manager."}'
 ```
 
 ## Example 3: Rejecting a Transfer
@@ -215,3 +215,4 @@ curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-002/approve" \
 amp-send.sh "amcos-alpha" "Transfer rejected: tr-002" \
   "normal" '{"type": "transfer-rejected", "message": "TransferRequest tr-002 rejected by target COS. Reason: Team at full capacity."}'
 ```
+

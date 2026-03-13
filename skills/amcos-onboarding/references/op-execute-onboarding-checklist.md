@@ -8,7 +8,7 @@ parent-skill: amcos-onboarding
 
 ## Contents
 
-- [When to Use](#when-to-use)
+- [When to Apply](#when-to-apply)
 - [Prerequisites](#prerequisites)
 - [Procedure](#procedure)
   - [Step 1: Initiate Onboarding Session](#step-1-initiate-onboarding-session)
@@ -22,7 +22,7 @@ parent-skill: amcos-onboarding
 - [Error Handling](#error-handling)
 - [Related Operations](#related-operations)
 
-## When to Use
+## When to Apply
 
 - New agent joins the team
 - Agent reassigned to different project
@@ -143,7 +143,7 @@ For agent `dev-backend-alice` on project `backend-api` with role `developer`:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 1/6: Your Team`
    - **Priority**: `normal`
-   - **Content**: type `team-notification`, message: "Team members: dev-backend-bob (developer), eia-api-reviewer (integrator). Orchestrator: eoa-backend-orchestrator. Acknowledge."
+   - **Content**: type `team-notification`, message: "Team members: dev-backend-bob (developer), amia-api-reviewer (integrator). Orchestrator: amoa-backend-orchestrator. Acknowledge."
 4. **Communication**: Use the `agent-messaging` skill:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 2/6: Communication`
@@ -163,12 +163,12 @@ For agent `dev-backend-alice` on project `backend-api` with role `developer`:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 5/6: Reporting`
    - **Priority**: `normal`
-   - **Content**: type `request`, message: "Report task progress to eoa-backend-orchestrator. Escalate blockers to amcos-chief-of-staff. Acknowledge."
+   - **Content**: type `request`, message: "Report task progress to amoa-backend-orchestrator. Escalate blockers to amcos-chief-of-staff. Acknowledge."
 8. **Initial assignment**: Use the `agent-messaging` skill:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 6/6: Initial Assignment`
    - **Priority**: `normal`
-   - **Content**: type `request`, message: "Await task assignment from eoa-backend-orchestrator. They will contact you shortly. Acknowledge."
+   - **Content**: type `request`, message: "Await task assignment from amoa-backend-orchestrator. They will contact you shortly. Acknowledge."
 9. **Completion**: Use the `agent-messaging` skill:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding Complete`

@@ -66,10 +66,10 @@ From the results:
 ### Session Categorization
 
 Categorize sessions by role or domain by examining the session name prefixes:
-- `eoa-` prefix: Orchestrator agents
-- `eaa-` prefix: Architect agents
-- `eia-` prefix: Integrator agents
-- `epa-` or `<project>-programmer-` prefix: Programmer agents
+- `amoa-` prefix: Orchestrator agents
+- `amaa-` prefix: Architect agents
+- `amia-` prefix: Integrator agents
+- `ampa-` or `<project>-programmer-` prefix: Programmer agents
 
 ### Session Count History
 

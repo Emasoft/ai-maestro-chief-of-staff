@@ -137,7 +137,6 @@ Result: status=dual-approved after 75s
 |------|--------|
 | Chief of Staff | `amcos-` |
 | Assistant Manager | `ama-` |
-| Architect | `eaa-` |
-| Orchestrator | `eoa-` |
-| Integrator | `eia-` |
-
+| Architect | `amaa-` |
+| Orchestrator | `amoa-` |
+| Integrator | `amia-` |

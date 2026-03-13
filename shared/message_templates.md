@@ -12,6 +12,7 @@ Sent to newly spawned agents to establish their role and task.
 
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
+
 ```json
 {
   "to": "{agent-session-name}",
@@ -80,6 +81,7 @@ Detailed briefing sent after agent acknowledges onboarding.
 ### 3. Termination Warning Message
 
 Sent when agent will be terminated due to timeout or resource constraints.
+
 
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
@@ -169,6 +171,7 @@ Request for detailed performance metrics from an agent.
 
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
+
 ```json
 {
   "to": "{target-agent-session}",
@@ -205,6 +208,7 @@ Request for detailed performance metrics from an agent.
 
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
+
 ```json
 {
   "to": "amcos-session",
@@ -225,6 +229,7 @@ Request for detailed performance metrics from an agent.
 ### 9. Completion Signal
 
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+
 
 ```json
 {
@@ -266,6 +271,7 @@ Request for detailed performance metrics from an agent.
 
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
+
 ```json
 {
   "to": "{requesting-agent-session}",
@@ -302,6 +308,7 @@ Request for detailed performance metrics from an agent.
 
 ### 13. Error / Issue Report
 
+
 > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
 ```json
@@ -327,16 +334,16 @@ Request for detailed performance metrics from an agent.
 | Role | Prefix | Session Name Pattern |
 |------|--------|---------------------|
 | Chief of Staff | `amcos-` | `amcos-{project}-session` |
-| Architect | `eaa-` | `eaa-{project}-session` |
-| Orchestrator | `eoa-` | `eoa-{project}-session` |
-| Integrator | `eia-` | `eia-{project}-session` |
+| Architect | `amaa-` | `amaa-{project}-session` |
+| Orchestrator | `amoa-` | `amoa-{project}-session` |
+| Integrator | `amia-` | `amia-{project}-session` |
 
 **Prefix Legend:**
 - `am` = AI Maestro (author identifier)
 - `cos` = Chief of Staff
-- `aa` = Architect Agent
-- `oa` = Orchestrator Agent
-- `ia` = Integrator Agent
+- `amaa` = Architect Agent
+- `amoa` = Orchestrator Agent
+- `amia` = Integrator Agent
 
 ---
 

@@ -7,17 +7,17 @@ This template defines the standard format for handoff documents between roles in
 | Plugin | Prefix | Full Name |
 |--------|--------|-----------|
 | Chief of Staff | `amcos-` | AI Maestro Chief of Staff Agent |
-| Architect | `eaa-` | AI Maestro Architect Agent |
-| Orchestrator | `eoa-` | AI Maestro Orchestrator Agent |
-| Integrator | `eia-` | AI Maestro Integrator Agent |
+| Architect | `amaa-` | AI Maestro Architect Agent |
+| Orchestrator | `amoa-` | AI Maestro Orchestrator Agent |
+| Integrator | `amia-` | AI Maestro Integrator Agent |
 
 ## Handoff File Format
 
 ```yaml
 ---
 uuid: "handoff-{uuid}"
-from_role: "ecos" | "eaa" | "eoa" | "eia"
-to_role: "ecos" | "eaa" | "eoa" | "eia"
+from_role: "ecos" | "amaa" | "amoa" | "amia"
+to_role: "ecos" | "amaa" | "amoa" | "amia"
 created: "ISO-8601 timestamp"
 github_issue: "#issue_number"  # Optional
 subject: "Brief description"
@@ -70,21 +70,21 @@ reason: "context_limit" | "user_request" | "scheduled" | "error_recovery"
 
 | Session Name | Role | Status | Task | Progress |
 |--------------|------|--------|------|----------|
-| eaa-project-abc123 | architect | active | Design API | 75% |
-| eoa-project-def456 | orchestrator | blocked | Implement feature | 50% |
+| amaa-project-abc123 | architect | active | Design API | 75% |
+| amoa-project-def456 | orchestrator | blocked | Implement feature | 50% |
 
 ### Pending Approvals
 
 | Request ID | Type | From | Waiting Since | Priority |
 |------------|------|------|---------------|----------|
-| apr-001 | push | eoa-project-def456 | 2025-02-01T10:30:00Z | high |
+| apr-001 | push | amoa-project-def456 | 2025-02-01T10:30:00Z | high |
 
 ### Open Issues
 
 | Issue | Assigned To | Status | Blocker |
 |-------|-------------|--------|---------|
-| #123 | eaa-project-abc123 | in-progress | none |
-| #124 | eoa-project-def456 | blocked | needs_approval |
+| #123 | amaa-project-abc123 | in-progress | none |
+| #124 | amoa-project-def456 | blocked | needs_approval |
 
 ### User Preferences
 
@@ -108,8 +108,8 @@ Last validated phase per agent:
 
 | Agent | Phase | Validated At |
 |-------|-------|--------------|
-| eaa-project-abc123 | design_complete | 2025-02-01T10:00:00Z |
-| eoa-project-def456 | tests_written | 2025-02-01T09:45:00Z |
+| amaa-project-abc123 | design_complete | 2025-02-01T10:00:00Z |
+| amoa-project-def456 | tests_written | 2025-02-01T09:45:00Z |
 
 ## Resume Instructions
 
@@ -127,27 +127,27 @@ USER <-> AMCOS (Chief of Staff) <-> AMAA (Architect)
                                   <-> AMIA (Integrator)
 ```
 
-**CRITICAL**: Architect (eaa-), Orchestrator (eoa-), and Integrator (eia-) do NOT communicate directly with each other. All communication flows through Chief of Staff (amcos-).
+**CRITICAL**: Architect (amaa-), Orchestrator (amoa-), and Integrator (amia-) do NOT communicate directly with each other. All communication flows through Chief of Staff (amcos-).
 
 ## Handoff Types
 
 ### 1. User Request -> Role Assignment
 - From: ecos (chief-of-staff)
-- To: eaa | eoa | eia
+- To: amaa | amoa | amia
 - Purpose: Route user request to appropriate specialist
 
 ### 2. Design Complete -> Orchestration
-- From: eaa (via ecos)
-- To: eoa (via ecos)
+- From: amaa (via ecos)
+- To: amoa (via ecos)
 - Purpose: Hand off approved design for implementation
 
 ### 3. Implementation Complete -> Integration
-- From: eoa (via ecos)
-- To: eia (via ecos)
+- From: amoa (via ecos)
+- To: amia (via ecos)
 - Purpose: Signal work ready for quality gates
 
 ### 4. Quality Gate Results -> User
-- From: eia (via ecos)
+- From: amia (via ecos)
 - To: user
 - Purpose: Report integration status and request approvals
 
@@ -167,14 +167,14 @@ USER <-> AMCOS (Chief of Staff) <-> AMAA (Architect)
 handoff-{uuid}-{from}-to-{to}.md
 
 Examples:
-- handoff-a1b2c3d4-amcos-to-eaa.md    # COS assigns to Architect
-- handoff-e5f6g7h8-eaa-to-ecos.md    # Architect reports to COS
-- handoff-i9j0k1l2-amcos-to-eoa.md    # COS assigns to Orchestrator
-- handoff-m3n4o5p6-eoa-to-ecos.md    # Orchestrator reports to COS
-- handoff-q7r8s9t0-amcos-to-eia.md    # COS assigns to Integrator
-- handoff-u1v2w3x4-eia-to-ecos.md    # Integrator reports to COS
+- handoff-a1b2c3d4-amcos-to-amaa.md    # COS assigns to Architect
+- handoff-e5f6g7h8-amaa-to-ecos.md    # Architect reports to COS
+- handoff-i9j0k1l2-amcos-to-amoa.md    # COS assigns to Orchestrator
+- handoff-m3n4o5p6-amoa-to-ecos.md    # Orchestrator reports to COS
+- handoff-q7r8s9t0-amcos-to-amia.md    # COS assigns to Integrator
+- handoff-u1v2w3x4-amia-to-ecos.md    # Integrator reports to COS
 - handoff-w5x6y7z8-amcos-to-ecos.md   # COS session continuity
-- handoff-a9b0c1d2-eoa-emergency.md  # Emergency handoff from Orchestrator
+- handoff-a9b0c1d2-amoa-emergency.md  # Emergency handoff from Orchestrator
 ```
 
 ## Storage Location
@@ -189,4 +189,3 @@ All handoff files are stored in: `docs_dev/handoffs/`
 4. **In Progress** - Recipient actively working on task
 5. **Completed** - Task finished, status: completed
 6. **Rejected** - Recipient cannot accept, status: rejected (with reason)
-

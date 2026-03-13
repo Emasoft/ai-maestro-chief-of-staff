@@ -96,7 +96,7 @@ Remote host ops require GovernanceRequest; state replicated via GovernanceSyncMe
 ```bash
 # Warn -> wait 2min -> hibernate -> update registry
 uv run python scripts/amcos_team_registry.py update-status \
-  --name epa-svgbbox-impl --status hibernated
+  --name ampa-svgbbox-impl --status hibernated
 ```
 
 ### Wake a Hibernated Agent
@@ -104,7 +104,7 @@ uv run python scripts/amcos_team_registry.py update-status \
 ```bash
 # Wake (--continue) -> notify -> update registry
 uv run python scripts/amcos_team_registry.py update-status \
-  --name epa-svgbbox-impl --status running
+  --name ampa-svgbbox-impl --status running
 ```
 
 ## Resources
@@ -112,3 +112,4 @@ uv run python scripts/amcos_team_registry.py update-status \
 - `references/hibernation-procedures.md`
 - `references/op-hibernate-agent.md`
 - `references/op-wake-agent.md`
+

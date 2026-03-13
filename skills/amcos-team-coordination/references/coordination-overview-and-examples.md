@@ -72,8 +72,8 @@ I need an architect, an orchestrator, and two programmers."
 ```
 [TEAM-FORMED] auth-service
   Agents spawned:
-    - eaa-auth-service-architect (Architect) - ACTIVE
-    - eoa-auth-service-orchestrator (Orchestrator) - ACTIVE
+    - amaa-auth-service-architect (Architect) - ACTIVE
+    - amoa-auth-service-orchestrator (Orchestrator) - ACTIVE
     - auth-service-programmer-001 (Programmer) - ACTIVE
     - auth-service-programmer-002 (Programmer) - ACTIVE
   Team registry updated via REST API
@@ -86,7 +86,7 @@ I need an architect, an orchestrator, and two programmers."
 
 ```json
 {
-  "to": "eia-feature-reviewer",
+  "to": "amia-feature-reviewer",
   "subject": "Role Assignment: Code Reviewer for auth-service",
   "priority": "high",
   "content": {
@@ -100,7 +100,7 @@ I need an architect, an orchestrator, and two programmers."
 
 ```json
 {
-  "from": "eia-feature-reviewer",
+  "from": "amia-feature-reviewer",
   "subject": "Role Accepted: Code Reviewer for auth-service",
   "content": {
     "type": "role-acceptance",
@@ -121,8 +121,8 @@ curl -s "http://localhost:23000/api/sessions" | jq '.sessions[] | select(.projec
 
 ```json
 [
-  {"name": "eaa-auth-service-architect", "role": "Architect", "status": "active", "last_seen": "2026-02-14T10:30:00Z"},
-  {"name": "eoa-auth-service-orchestrator", "role": "Orchestrator", "status": "active", "last_seen": "2026-02-14T10:29:45Z"},
+  {"name": "amaa-auth-service-architect", "role": "Architect", "status": "active", "last_seen": "2026-02-14T10:30:00Z"},
+  {"name": "amoa-auth-service-orchestrator", "role": "Orchestrator", "status": "active", "last_seen": "2026-02-14T10:29:45Z"},
   {"name": "auth-service-programmer-001", "role": "Programmer", "status": "active", "last_seen": "2026-02-14T10:28:12Z"},
   {"name": "auth-service-programmer-002", "role": "Programmer", "status": "idle", "last_seen": "2026-02-14T10:15:00Z"}
 ]

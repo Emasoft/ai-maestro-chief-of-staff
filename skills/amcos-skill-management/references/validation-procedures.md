@@ -297,11 +297,11 @@ Warnings: 2
 Failed: 0
 
 Skills with Warnings:
-1. eaa-system-modeling
+1. amaa-system-modeling
    - [MINOR] Missing TOC in SKILL.md
    Remediation: Add table of contents at top of SKILL.md
 
-2. eaa-component-design
+2. amaa-component-design
    - [INFO] SKILL.md exceeds 500 lines, consider splitting
    Remediation: Move detailed procedures to references/
 ```
@@ -999,7 +999,7 @@ Step 5: Check permissions:
 ```bash
 # Ensure directory is readable
 ls -ld /path/to/skill
-# Should show: drwxr-xr-x or similar (r permission required)
+# Should show: drwxr-xr or similar (r permission required)
 ```
 
 Step 6: Verify skill structure:

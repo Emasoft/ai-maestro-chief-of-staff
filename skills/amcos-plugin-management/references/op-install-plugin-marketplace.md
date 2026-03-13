@@ -108,6 +108,7 @@ After restart:
 
 Copy this checklist and track your progress:
 
+
 - [ ] Verify marketplace is registered
 - [ ] Update marketplace cache
 - [ ] Confirm plugin exists in marketplace
@@ -162,7 +163,7 @@ exit
 
 # After restart - test
 /hooks
-# Should show eoa-related hooks
+# Should show amoa-related hooks
 ```
 
 ## Error Handling
