@@ -2,6 +2,22 @@
 name = "ai-maestro-chief-of-staff"
 description = "Per-team Chief of Staff agent managing agent lifecycle, governance workflows, and failure recovery"
 role = "chief-of-staff"
+main_agent = "ai-maestro-chief-of-staff-main-agent"
+model = "opus"
+prefix = "amcos-"
+
+[agent.persona]
+title = "Chief of Staff"
+governance_title = "chief-of-staff"
+scope = "per-team"
+responsibilities = [
+    "Agent lifecycle management (spawn, terminate, hibernate, wake)",
+    "GovernanceRequest approval workflows",
+    "Failure detection, recovery, and agent replacement",
+    "Pre/post operation notification protocols",
+    "Team resource monitoring and performance tracking",
+    "Cross-team agent transfers with dual-manager approval",
+]
 
 [agent.capabilities]
 agent_lifecycle = true
@@ -10,6 +26,46 @@ failure_recovery = true
 team_coordination = true
 resource_monitoring = true
 performance_tracking = true
+
+[agent.skills]
+bundled = [
+    "amcos-agent-spawning",
+    "amcos-agent-termination",
+    "amcos-agent-hibernation",
+    "amcos-agent-coordination",
+    "amcos-failure-detection",
+    "amcos-recovery-execution",
+    "amcos-agent-replacement",
+    "amcos-emergency-handoff",
+    "amcos-label-taxonomy",
+    "amcos-pre-op-notification",
+    "amcos-post-op-notification",
+    "amcos-acknowledgment-protocol",
+    "amcos-failure-notification",
+    "amcos-onboarding",
+    "amcos-performance-tracking",
+    "amcos-permission-management",
+    "amcos-plugin-management",
+    "amcos-resource-monitoring",
+    "amcos-memory-initialization",
+    "amcos-context-management",
+    "amcos-progress-tracking",
+    "amcos-config-snapshot",
+    "amcos-skill-management",
+    "amcos-staff-planning",
+    "amcos-team-coordination",
+    "amcos-transfer-management",
+]
+
+[agent.hooks]
+session_start = "amcos-session-start"
+session_end = "amcos-session-end"
+resource_check = "amcos-resource-check"
+heartbeat_check = "amcos-heartbeat-check"
+stop_check = "amcos-stop-check"
+
+[agent.rules]
+governance = "team-governance"
 
 [agent.dependencies]
 ai_maestro_version = ">=0.26.0"

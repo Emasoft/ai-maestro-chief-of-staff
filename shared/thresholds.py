@@ -86,12 +86,15 @@ MAX_HANDOFF_SIZE_KB = 100
 # =============================================================================
 
 # Valid roles that Chief of Staff can route requests to
-VALID_ROLES = frozenset(["architect", "orchestrator", "integrator"])
+# NOTE: Authoritative source is the team-governance skill. Keep in sync.
+VALID_ROLES = frozenset(["architect", "orchestrator", "integrator", "programmer"])
 
-# Role to session prefix mapping
+# Role to session prefix mapping (AI Maestro am* convention)
+# NOTE: Authoritative source is the team-governance skill. Keep in sync.
 ROLE_PREFIX_MAP = {
     "chief-of-staff": "amcos-",
-    "architect": "eaa-",
-    "orchestrator": "eoa-",
-    "integrator": "eia-",
+    "architect": "amaa-",
+    "orchestrator": "amoa-",
+    "integrator": "amia-",
+    "programmer": "ampa-",
 }

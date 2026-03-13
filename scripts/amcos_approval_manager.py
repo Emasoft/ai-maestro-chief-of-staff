@@ -582,7 +582,7 @@ def create_request(
         "request_id": request_id,
     }
     message_sent = send_amp_message(
-        to="ai-maestro-assistant-manager-agent",
+        to=os.environ.get("AMCOS_MANAGER_SESSION", "ai-maestro-assistant-manager-agent"),
         subject=f"[GOVERNANCE] {operation_type}: {agent_name}",
         content=message_content,
         priority="high" if risk_level in ("high", "critical") else "normal",
