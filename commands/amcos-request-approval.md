@@ -8,7 +8,7 @@ user-invocable: true
 
 # AMCOS Request Approval Command
 
-Submit a **GovernanceRequest** to `POST /api/v1/governance/requests` for sensitive agent operations. The request follows the GovernanceRequest state machine until approval or rejection.
+Submit a **GovernanceRequest** for sensitive agent operations via the `amcos-permission-management` skill. The request follows the GovernanceRequest state machine until approval or rejection.
 
 ## GovernanceRequest States
 
@@ -20,8 +20,8 @@ pending → local-approved / remote-approved → dual-approved → executed
 ## Usage
 
 1. Compose GovernanceRequest payload with operation details
-2. `POST /api/v1/governance/requests`
-3. Track state via `GET /api/v1/governance/requests/{requestId}`
+2. Submit via `amcos-permission-management` skill
+3. Track state via `/amcos-check-approval-status` command
 4. Execute only after `local-approved` (local) or `dual-approved` (cross-team)
 
 ## Operations Requiring GovernanceRequest
@@ -155,10 +155,8 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
 
 ## Rate Limiting
 
-- API may return `429 Too Many Requests`
-- Respect `Retry-After` header
 - Max 10 GovernanceRequests/minute per COS
-- Back off exponentially on repeated 429s
+- Back off exponentially on repeated failures
 
 ## Tracking Location
 
@@ -170,10 +168,10 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| `429 Too Many Requests` | Rate limited | Back off per Retry-After |
-| `400 Invalid Password` | Wrong governance password | Re-request from manager |
-| `404 Target Manager` | Unknown targetManager | Query team registry |
-| API unreachable | AI Maestro down | Check if AI Maestro is running |
+| Rate limited | Too many requests | Back off and retry |
+| Invalid password | Wrong governance password | Re-request from manager |
+| Unknown target manager | Invalid targetManager | Query team registry |
+| Service unreachable | AI Maestro down | Check if AI Maestro is running |
 | Missing `--target-cos` | Cross-team without target | Provide target COS and manager |
 
 ## Related Commands

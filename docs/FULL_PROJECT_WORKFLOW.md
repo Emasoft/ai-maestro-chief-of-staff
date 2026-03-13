@@ -1,7 +1,7 @@
 # Full Project Workflow: From Requirements to Delivery
 
-**Version**: 2.10.2
-**Last Updated**: 2026-03-08
+**Version**: 2.11.0
+**Last Updated**: 2026-03-13
 
 This document describes the complete workflow for how the AI Maestro agent system handles a project from initial requirements to delivery. AMCOS (AI Maestro Chief of Staff) is **team-scoped**: it manages agents within ONE team only. Cross-team operations require GovernanceRequests. All inter-agent messaging uses the AMP protocol.
 
@@ -65,6 +65,8 @@ EOA <---->                                                   |
 
 ## Team Scope and Cross-Team Operations
 
+> **Runtime governance**: These rules are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. Plugins MUST NOT hardcode governance rules, permission matrices, or role restrictions.
+
 AMCOS operates strictly within **one team boundary**:
 
 | Operation | Scope | Mechanism |
@@ -81,33 +83,32 @@ All cross-team GovernanceRequests must be approved by both teams' managers (EAMA
 
 ## Kanban Column System
 
-All projects use an **8-column kanban system** on GitHub Projects. Every agent must understand these columns and use the canonical code format consistently.
+> These columns align with AI Maestro's task status model (`types/task.ts`).
+
+All projects use a **5-status kanban system** on GitHub Projects. Every agent must understand these columns and use the canonical code format consistently.
 
 ### Canonical Columns
 
 | # | Column | Code Format | Label | Description |
 |---|--------|-------------|-------|-------------|
 | 1 | Backlog | `backlog` | `status:backlog` | Entry point for all new issues |
-| 2 | Todo | `todo` | `status:todo` | Ready to start, prioritized |
-| 3 | In Progress | `in-progress` | `status:in-progress` | Active work by assigned agent |
-| 4 | AI Review | `ai-review` | `status:ai-review` | Integrator (EIA) reviews the PR |
-| 5 | Human Review | `human-review` | `status:human-review` | User reviews (big tasks only) |
-| 6 | Merge/Release | `merge-release` | `status:merge-release` | Approved and ready to merge |
-| 7 | Done | `done` | `status:done` | Completed and merged |
-| 8 | Blocked | `blocked` | `status:blocked` | Blocked at any stage |
+| 2 | Pending | `pending` | `status:pending` | Ready to start, prioritized |
+| 3 | In Progress | `in_progress` | `status:in_progress` | Active work by assigned agent |
+| 4 | Review | `review` | `status:review` | Integrator (EIA) and/or user reviews the PR |
+| 5 | Completed | `completed` | `status:completed` | Completed and merged |
 
 ### Task Routing
 
-- **Small tasks**: In Progress -> AI Review -> Merge/Release -> Done
-- **Big tasks**: In Progress -> AI Review -> Human Review -> Merge/Release -> Done
-- **Human Review** is requested via EAMA (Manager asks the user to test/review)
-- **Blocked** can be set from any column; task returns to its previous column when unblocked
+- **Small tasks**: In Progress -> Review -> Completed
+- **Big tasks**: In Progress -> Review (includes human review if needed) -> Completed
+- **Human Review** within the Review column is requested via EAMA (Manager asks the user to test/review)
+- Use the `status:blocked` label to flag blocked tasks at any stage; task returns to its previous column when unblocked
 
 ### Code Format Rules
 
-- **Always use dashes**: `in-progress`, `ai-review`, `merge-release` (NOT underscores)
-- **Labels use `status:` prefix**: `status:in-progress`, `status:ai-review`
-- **Display names use title case**: "In Progress", "AI Review", "Merge/Release"
+- **Always use underscores**: `in_progress`, `status:in_progress` (matching AI Maestro's task status model)
+- **Labels use `status:` prefix**: `status:in_progress`, `status:review`
+- **Display names use title case**: "In Progress", "Review", "Completed"
 
 ---
 
@@ -385,9 +386,9 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 #### Step 23: Successful PR Handling
 **Actor**: EOA (Orchestrator)
 **Action**:
-- When Integrator reports successful PR merge, move task to `ai-review` column
-  - If AI review passes for small tasks: move to `merge-release`, then `done`
-  - If AI review passes for big tasks: move to `human-review` first, then `merge-release`, then `done`
+- When Integrator reports successful PR merge, move task to `review` column
+  - If review passes for small tasks: move to `completed`
+  - If review passes for big tasks: request human review within `review`, then move to `completed`
   - Report to Manager (EAMA) for approval
   - If Manager approves: assign new task to the agent that finished
   - Keep implementer agents always working, never idle
@@ -407,6 +408,8 @@ All projects use an **8-column kanban system** on GitHub Projects. Every agent m
 ---
 
 ## Communication Matrix
+
+> **Runtime governance**: These communication rules are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. Plugins MUST NOT hardcode governance rules, permission matrices, or role restrictions.
 
 All messaging uses the **AMP (Agent Messaging Protocol)**.
 
@@ -428,6 +431,8 @@ All messaging uses the **AMP (Agent Messaging Protocol)**.
 ---
 
 ## Role Boundaries Summary
+
+> **Runtime governance**: These role boundaries are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. Plugins MUST NOT hardcode governance rules, permission matrices, or role restrictions.
 
 | Role | Creates | Manages | Cannot Do |
 |------|---------|---------|-----------|

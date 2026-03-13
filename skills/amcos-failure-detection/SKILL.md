@@ -97,15 +97,8 @@ Agent: ___  Failure detected: ___
 
 ## Examples
 
-```bash
-# Check agent status
-curl -s "$AIMAESTRO_API/api/agents" | jq '.agents[] | select(.name=="libs-svg-svgbbox")'
-
-# Send health check ping
-curl -X POST "$AIMAESTRO_API/api/messages" \
-  -H "Content-Type: application/json" \
-  -d '{"to":"libs-svg-svgbbox","subject":"Health check","priority":"high","content":{"type":"ping","message":"AMCOS health check"}}'
-```
+- **Check agent status**: Query the agent's current state via the `ai-maestro-agents-management` skill.
+- **Send health check ping**: Send a `high`-priority AMP message with type `ping` to the target agent via the `agent-messaging` skill.
 
 ## Resources
 

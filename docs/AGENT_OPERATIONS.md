@@ -1,6 +1,6 @@
 # AGENT_OPERATIONS.md - AMCOS Chief of Staff
 
-**Version**: 2.10.2 | **Last Updated**: 2026-03-08
+**Version**: 2.11.0 | **Last Updated**: 2026-03-13
 **SINGLE SOURCE OF TRUTH** for AMCOS (AI Maestro Chief of Staff) agent operations.
 **SCOPE**: TEAM-SCOPED. Each AMCOS instance manages exactly ONE team.
 **Distribution**: Bundled with AI Maestro v0.26.0+.
@@ -38,6 +38,8 @@
 ---
 
 ## 2. AI Maestro Governance
+
+> **Runtime governance**: These rules are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. Plugins MUST NOT hardcode governance rules, permission matrices, or role restrictions.
 
 ### 2.1 Team Scope
 
@@ -202,6 +204,8 @@ Use the `ai-maestro-agents-management` skill to create a new agent:
 **Verify**: the new agent appears in the agent list with "online" status.
 
 ### 5.3 Role to Plugin/Agent Mapping
+
+> **Runtime governance**: These role-to-plugin mappings are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. For custom or specialized agent types, route to Haephestos v2 (the agent creation helper) instead of using predefined role mappings.
 
 | Role | Plugin | --agent Flag | Prefix |
 |------|--------|--------------|--------|
@@ -400,6 +404,8 @@ skills:
 
 ### 12.2 Agent Creation Authority
 
+> **Runtime governance**: These creation authority rules are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. For custom or specialized agent types, route to Haephestos v2 (the agent creation helper) instead of using predefined role mappings.
+
 **AMCOS creates** (within its team only):
 | Role | Prefix |
 |------|--------|
@@ -498,22 +504,23 @@ All operations use intent-based skill references:
 
 ## 15. Kanban Column System
 
-All projects use the canonical **8-column kanban system** on GitHub Projects:
+> These columns align with AI Maestro's task status model (`types/task.ts`).
+
+All projects use the canonical **5-status kanban system** on GitHub Projects:
 
 | Column | Code | Label |
 |--------|------|-------|
 | Backlog | `backlog` | `status:backlog` |
-| Todo | `todo` | `status:todo` |
-| In Progress | `in-progress` | `status:in-progress` |
-| AI Review | `ai-review` | `status:ai-review` |
-| Human Review | `human-review` | `status:human-review` |
-| Merge/Release | `merge-release` | `status:merge-release` |
-| Done | `done` | `status:done` |
-| Blocked | `blocked` | `status:blocked` |
+| Pending | `pending` | `status:pending` |
+| In Progress | `in_progress` | `status:in_progress` |
+| Review | `review` | `status:review` |
+| Completed | `completed` | `status:completed` |
+
+Use the `status:blocked` label to flag blocked tasks (not a separate kanban column).
 
 **Task routing**:
-- Small tasks: In Progress -> AI Review -> Merge/Release -> Done
-- Big tasks: In Progress -> AI Review -> Human Review -> Merge/Release -> Done
+- Small tasks: In Progress -> Review -> Completed
+- Big tasks: In Progress -> Review (includes human review if needed) -> Completed
 
 ---
 

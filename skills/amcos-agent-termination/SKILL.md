@@ -76,7 +76,7 @@ Always attempt graceful first.
 | Uncommitted work | Request commit/push first. Do NOT proceed until confirmed |
 | Unresponsive to warning | Wait 2 min, retry. After 5 min, force-terminate. See `references/termination-procedures.md` 2.7 |
 | tmux persists | `tmux kill-session -t <name>` |
-| Registry update fails | Retry 3x, then `DELETE /api/agents/{id}` |
+| Registry update fails | Retry 3x, then remove via `ai-maestro-agents-management` skill |
 
 ## Examples
 

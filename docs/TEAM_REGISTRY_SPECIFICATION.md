@@ -3,8 +3,8 @@
 > **SUPERSEDED**: The file-based `.ai-maestro/team-registry.json` approach is superseded.
 > Team registries are now managed exclusively via the **AI Maestro REST API**.
 
-**Version**: 2.10.2
-**Last Updated**: 2026-03-08
+**Version**: 2.11.0
+**Last Updated**: 2026-03-13
 
 This document specifies the team registry API, agent registration, and naming conventions for the AMCOS plugin.
 
@@ -157,6 +157,8 @@ Team names must be **globally unique** across all projects managed by AMCOS. The
 
 ## Role Types
 
+> **Runtime governance**: These role definitions are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. Plugins MUST NOT hardcode governance rules, permission matrices, or role restrictions. For custom or specialized agent types, route to Haephestos v2 (the agent creation helper) instead of using predefined role mappings.
+
 | Role | Plugin | Scope | Description |
 |------|--------|-------|-------------|
 | `manager` | ai-maestro-assistant-manager-agent | Organization-wide | User interface, approvals |
@@ -164,6 +166,8 @@ Team names must be **globally unique** across all projects managed by AMCOS. The
 | `member` | ai-maestro-*-agent | Per-team | Any team member (orchestrator, architect, programmer, tester, devops, integrator) |
 
 ### Governance Roles
+
+> **Runtime governance**: These governance roles are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime.
 
 These are the AI Maestro governance roles used in the API:
 
@@ -293,6 +297,8 @@ amp-send.sh --to svgbbox-orchestrator \
 
 ## Validation Rules
 
+> **Runtime governance**: These validation rules are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. Plugins MUST NOT hardcode governance rules, permission matrices, or role restrictions.
+
 1. **Team name must be unique** across all projects (enforced by API)
 2. **Agent name must be unique** within the team (enforced by API)
 3. **Exactly one orchestrator** per team
@@ -305,18 +311,19 @@ amp-send.sh --to svgbbox-orchestrator \
 
 ## Kanban System Reference
 
-All projects use the canonical **8-column kanban system** on GitHub Projects:
+> These columns align with AI Maestro's task status model (`types/task.ts`).
+
+All projects use the canonical **5-status kanban system** on GitHub Projects:
 
 | Column | Code | Label |
 |--------|------|-------|
 | Backlog | `backlog` | `status:backlog` |
-| Todo | `todo` | `status:todo` |
-| In Progress | `in-progress` | `status:in-progress` |
-| AI Review | `ai-review` | `status:ai-review` |
-| Human Review | `human-review` | `status:human-review` |
-| Merge/Release | `merge-release` | `status:merge-release` |
-| Done | `done` | `status:done` |
-| Blocked | `blocked` | `status:blocked` |
+| Pending | `pending` | `status:pending` |
+| In Progress | `in_progress` | `status:in_progress` |
+| Review | `review` | `status:review` |
+| Completed | `completed` | `status:completed` |
+
+Use the `status:blocked` label to flag blocked tasks (not a separate kanban column).
 
 For full kanban workflow details, see **FULL_PROJECT_WORKFLOW.md**.
 

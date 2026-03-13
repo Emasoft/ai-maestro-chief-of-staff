@@ -102,10 +102,9 @@ See `references/examples.md` for complete scenarios.
 ```bash
 # Soft restart: check tmux session
 tmux has-session -t libs-svg-svgbbox 2>/dev/null && echo "exists" || echo "gone"
-
-# Verify recovery
-curl -s "$AIMAESTRO_API/api/agents" | jq '.agents[] | select(.name=="libs-svg-svgbbox") | .status'
 ```
+
+- **Verify recovery**: Query the agent's status via the `ai-maestro-agents-management` skill to confirm it is back online.
 
 ## Resources
 

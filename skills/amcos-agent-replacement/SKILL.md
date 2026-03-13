@@ -88,17 +88,8 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-```bash
-# Request replacement approval
-curl -X POST "$AIMAESTRO_API/api/messages" \
-  -H "Content-Type: application/json" \
-  -d '{"to":"eama-assistant-manager","subject":"URGENT: Replace libs-svg-svgbbox","priority":"urgent","content":{"type":"replacement-request","message":"Terminal failure (3 crashes). Requesting replacement approval.","failed_agent":"libs-svg-svgbbox"}}'
-
-# Notify orchestrator of replacement
-curl -X POST "$AIMAESTRO_API/api/messages" \
-  -H "Content-Type: application/json" \
-  -d '{"to":"amoa-orchestrator","subject":"Agent replaced: libs-svg-svgbbox","priority":"high","content":{"type":"replacement-notification","message":"Please generate handoff docs and update kanban.","old_agent":"libs-svg-svgbbox","new_agent":"libs-svg-svgbbox-v2"}}'
-```
+- **Request replacement approval**: Send an `urgent` AMP message to `eama-assistant-manager` with type `replacement-request`, including the failed agent name and failure summary. Use the `agent-messaging` skill.
+- **Notify orchestrator of replacement**: Send a `high`-priority AMP message to `amoa-orchestrator` with type `replacement-notification`, including old and new agent names. Use the `agent-messaging` skill. The orchestrator will generate handoff docs and update the kanban.
 
 ## Resources
 
