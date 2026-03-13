@@ -66,7 +66,7 @@ request:
 
   # Resolution
   decision: "string | null - approved|rejected|modified|delayed|timeout_proceed|timeout_abort"
-  decided_by: "string | null - eama|autonomous|timeout"
+  decided_by: "string | null - ama|autonomous|timeout"
   modifications: "object | null - any modifications to original request"
   notes: "string | null - decision notes"
 
@@ -128,7 +128,7 @@ def register_request(request_id, operation, target, details, justification):
 
 **Monitoring loop:**
 
-1. Check for incoming messages from EAMA
+1. Check for incoming messages from AMA
 2. Match messages to pending requests by `request_id`
 3. Check if any pending requests have exceeded escalation thresholds
 4. Trigger escalation if needed
@@ -198,7 +198,7 @@ When multiple requests are pending, process responses in this order:
 
 ### 2.3.4 Resolution Recording
 
-**When:** Upon receiving a response from EAMA or upon timeout.
+**When:** Upon receiving a response from AMA or upon timeout.
 
 **Steps:**
 
@@ -222,7 +222,7 @@ def resolve_request(request_id, response):
     request["status"] = "resolved"
     request["resolved_at"] = now
     request["decision"] = response.get("decision")
-    request["decided_by"] = "eama"
+    request["decided_by"] = "ama"
     request["modifications"] = response.get("modifications")
     request["notes"] = response.get("notes")
 
@@ -334,7 +334,7 @@ resolved_requests:
     status: "resolved"
     escalation_count: 0
     decision: "approved"
-    decided_by: "eama"
+    decided_by: "ama"
     notes: "Approved for dashboard work"
 ```
 
@@ -413,12 +413,12 @@ entry = register_request(
 
 # T+60: First timeout reached
 check_all_timeouts()
-# Sends reminder to EAMA
+# Sends reminder to AMA
 # Updates: last_reminder_at, escalation_count: 1, status: escalated
 
 # T+90: Second timeout reached
 check_all_timeouts()
-# Sends urgent notification to EAMA
+# Sends urgent notification to AMA
 # Updates: last_reminder_at, escalation_count: 2
 
 # T+120: Final timeout reached
@@ -430,7 +430,7 @@ check_all_timeouts()
 ### Example 3: Receiving and Processing Response
 
 ```python
-# Response received from EAMA
+# Response received from AMA
 response = {
     "type": "approval_response",
     "request_id": "spawn-req-2025-02-02-006",
@@ -449,7 +449,7 @@ if request:
 
     # Entry now in resolved_requests
     # decision: approved
-    # decided_by: eama
+    # decided_by: ama
     # status: resolved
 
     # Can now proceed with spawn operation

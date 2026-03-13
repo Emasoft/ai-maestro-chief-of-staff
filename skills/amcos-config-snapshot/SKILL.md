@@ -20,7 +20,7 @@ Captures config state at session start, detects drift, and resolves conflicts.
 ## Prerequisites
 
 - Session memory initialized (`amcos-memory-initialization`)
-- Config files in `design/config/` (if EOA installed)
+- Config files in `design/config/` (if AMOA installed)
 
 ## Instructions
 
@@ -80,7 +80,7 @@ See `references/ai-maestro-integration.md`, `references/error-handling.md`, `ref
 
 | Issue | Resolution |
 |-------|------------|
-| Config dir missing | Skip if EOA not installed; log warning |
+| Config dir missing | Skip if AMOA not installed; log warning |
 | Snapshot corrupted | Re-capture from current configs |
 | Hash mismatch | Recalculate; check encoding |
 | Irreconcilable conflict | Stop work, escalate |
@@ -110,3 +110,4 @@ uv run python scripts/amcos_memory_manager.py set-focus \
 - `references/00-key-takeaways-and-next-steps.md`
 
 **Version:** 1.0.0
+

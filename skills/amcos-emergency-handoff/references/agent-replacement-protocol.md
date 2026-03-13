@@ -41,7 +41,7 @@
 Use this document when:
 - An agent has been classified as a **terminal failure** per `references/failure-classification.md`
 - All recovery strategies have been exhausted per `references/recovery-strategies.md`
-- Manager (EAMA) has approved agent replacement
+- Manager (AMA) has approved agent replacement
 - You need to create a new agent to take over the failed agent's work
 
 **CRITICAL**: The replacement agent has NO MEMORY of the old agent. All context, in-progress work, and task understanding must be explicitly transferred through documentation.
@@ -62,9 +62,9 @@ Phase 6: Cleanup <-- Phase 5: Work Handoff <-- Phase 4: Orchestrator Notificatio
 | Phase | Owner | Duration | Key Output |
 |-------|-------|----------|------------|
 | 1. Failure Confirmation | AMCOS | 5-10 min | Artifact inventory |
-| 2. Manager Approval | EAMA | 5-30 min | Approval decision |
+| 2. Manager Approval | AMA | 5-30 min | Approval decision |
 | 3. Create Agent | AMCOS + User | 10-30 min | New agent online |
-| 4. Orchestrator Notification | AMCOS -> EOA | 5-10 min | Handoff docs, kanban update |
+| 4. Orchestrator Notification | AMCOS -> AMOA | 5-10 min | Handoff docs, kanban update |
 | 5. Work Handoff | AMCOS -> New Agent | 10-20 min | Agent acknowledgment |
 | 6. Cleanup | AMCOS | 5 min | Incident closed |
 
@@ -144,7 +144,7 @@ Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/artifac
 
 ### 4.4.1 Composing the Replacement Request
 
-AMCOS must request approval from the manager (EAMA) before creating a replacement agent.
+AMCOS must request approval from the manager (AMA) before creating a replacement agent.
 
 Use the `agent-messaging` skill to send the replacement approval request:
 - **Recipient**: `eama-assistant-manager`
@@ -155,7 +155,7 @@ Use the `agent-messaging` skill to send the replacement approval request:
   - Agent name
   - Failure summary (failure type, cause, detected timestamp, recovery attempts count, last recovery attempt timestamp)
   - Impact assessment (tasks affected, estimated work lost, downstream dependencies)
-  - Replacement plan (new agent name, target host, estimated time to operational, handoff required from EOA)
+  - Replacement plan (new agent name, target host, estimated time to operational, handoff required from AMOA)
   - Artifacts preserved and lost
   - Awaiting approval flag
   - Response requested by timestamp
@@ -182,7 +182,7 @@ When manager approves, the response will include any additional instructions:
 
 ```json
 {
-  "type": "replacement-approval",
+  "type": "replacement_approval",
   "decision": "approved",
   "message": "Replacement approved. Proceed with the plan.",
   "additional_instructions": [
@@ -204,7 +204,7 @@ The manager may reject the replacement request:
 
 ```json
 {
-  "type": "replacement-approval",
+  "type": "replacement_approval",
   "decision": "rejected",
   "message": "Replacement not approved at this time.",
   "reason": "The host machine is being repaired. Wait 2 hours and retry recovery.",
@@ -279,7 +279,7 @@ If registration fails, troubleshoot:
 
 ### 4.6.1 Notifying Orchestrator About Replacement
 
-AMCOS must notify the orchestrator (EOA) that an agent has been replaced so that:
+AMCOS must notify the orchestrator (AMOA) that an agent has been replaced so that:
 1. The orchestrator can generate a handoff document for the new agent
 2. The GitHub Project kanban can be updated to reassign tasks
 
@@ -295,7 +295,7 @@ Use the `agent-messaging` skill to notify the orchestrator:
 
 ### 4.6.2 Requesting Handoff Document Generation
 
-The orchestrator (EOA) is responsible for generating a comprehensive handoff document that includes:
+The orchestrator (AMOA) is responsible for generating a comprehensive handoff document that includes:
 
 | Section | Content |
 |---------|---------|
@@ -327,7 +327,7 @@ The orchestrator must update the GitHub Project kanban to:
 
 ### 4.7.1 Sending Handoff Documentation
 
-Once EOA has generated the handoff document, use the `agent-messaging` skill to send it to the new agent:
+Once AMOA has generated the handoff document, use the `agent-messaging` skill to send it to the new agent:
 - **Recipient**: the new agent session name
 - **Subject**: `[ONBOARDING] Welcome - please read handoff documentation`
 - **Priority**: `urgent`
@@ -356,7 +356,7 @@ The new agent MUST acknowledge the handoff before AMCOS considers the replacemen
 
 ```json
 {
-  "type": "handoff-acknowledgment",
+  "type": "handoff_acknowledgment",
   "message": "I have read the handoff documentation and understand my assignments.",
   "handoff_document_read": true,
   "tasks_understood": ["task-001", "task-002"],
@@ -436,7 +436,7 @@ Replacement started: _______________
 - [ ] Logs preserved (if accessible)
 
 ### Phase 2: Manager Approval
-- [ ] Replacement request sent to EAMA via `agent-messaging` skill
+- [ ] Replacement request sent to AMA via `agent-messaging` skill
 - [ ] Impact assessment included
 - [ ] Replacement plan included
 - [ ] Approval received
@@ -451,7 +451,7 @@ Replacement started: _______________
 - [ ] AI Maestro registration verified via `ai-maestro-agents-management` skill
 
 ### Phase 4: Orchestrator Notification
-- [ ] Replacement notification sent to EOA via `agent-messaging` skill
+- [ ] Replacement notification sent to AMOA via `agent-messaging` skill
 - [ ] Handoff document request sent
 - [ ] GitHub Project update requested
 - [ ] Handoff document received
@@ -489,13 +489,13 @@ Total time: _______________
 
 ### Orchestrator does not respond to handoff request
 
-**Symptom**: EOA does not generate handoff document within expected time.
+**Symptom**: AMOA does not generate handoff document within expected time.
 
-**Cause**: EOA may be busy or also experiencing issues.
+**Cause**: AMOA may be busy or also experiencing issues.
 
 **Solution**:
-1. Send a reminder message to EOA using the `agent-messaging` skill
-2. If no response, escalate to manager (EAMA)
+1. Send a reminder message to AMOA using the `agent-messaging` skill
+2. If no response, escalate to manager (AMA)
 3. As fallback, AMCOS can generate a basic handoff from known information
 
 ### New agent does not understand handoff documentation
@@ -505,9 +505,9 @@ Total time: _______________
 **Cause**: Handoff documentation incomplete or unclear.
 
 **Solution**:
-1. Request EOA to provide additional context
+1. Request AMOA to provide additional context
 2. Schedule a synchronous Q&A session between AMCOS and new agent
-3. Have EOA or manager directly explain the tasks
+3. Have AMOA or manager directly explain the tasks
 
 ### Git clone fails due to authentication
 

@@ -13,7 +13,7 @@ This document describes the complete workflow for how the AI Maestro agent syste
 USER
   |
   v
-EAMA (Manager) <--------------------------------------------+
+AMA (Manager) <--------------------------------------------+
   |                                                          |
   | 1. Creates project                                       |
   | 2. Sends requirements to AMCOS                           |
@@ -22,22 +22,22 @@ AMCOS (Chief of Staff) [TEAM-SCOPED]                         |
   |                                                          |
   | 3. Evaluates project, suggests team                      |
   | 4. Creates/assigns agents (within own team)              |
-  | 5. Notifies EAMA: team ready                             |
+  | 5. Notifies AMA: team ready                              |
   v                                                          |
-EAMA ---->                                                   |
+AMA ---->                                                   |
   |                                                          |
-  | 6. Sends requirements to EAA                             |
+  | 6. Sends requirements to AMAA                            |
   v                                                          |
-EAA (Architect)                                              |
+AMAA (Architect)                                             |
   |                                                          |
   | 7. Creates design document                               |
-  | 8. Sends design to EAMA                                  |
+  | 8. Sends design to AMA                                   |
   v                                                          |
-EAMA <--- USER APPROVAL --->                                 |
+AMA <--- USER APPROVAL --->                                 |
   |                                                          |
-  | 9. Sends approved design to EOA                          |
+  | 9. Sends approved design to AMOA                         |
   v                                                          |
-EOA (Orchestrator)                                           |
+AMOA (Orchestrator)                                          |
   |                                                          |
   | 10. Splits design into tasks                             |
   | 11. Creates task-requirements-documents                  |
@@ -49,14 +49,14 @@ IMPLEMENTER AGENTS <------>                                  |
   | 14. Work on tasks                                        |
   | 15. Submit PRs                                           |
   v                                                          |
-EIA (Integrator)                                             |
+AMIA (Integrator)                                            |
   |                                                          |
   | 16. Reviews PRs                                          |
   | 17. Merges or rejects                                    |
   v                                                          |
-EOA <---->                                                   |
+AMOA <---->                                                   |
   |                                                          |
-  | 18. Reports to EAMA                                      |
+  | 18. Reports to AMA                                       |
   | 19. Assigns next tasks                                   |
   +----------------------------------------------------------+
 ```
@@ -75,9 +75,9 @@ AMCOS operates strictly within **one team boundary**:
 | Reassign agents within team | Own team only | Direct AMP messages |
 | Request agents from another team | Cross-team | GovernanceRequest to target AMCOS |
 | Offer agents to another team | Cross-team | GovernanceRequest to requesting AMCOS |
-| Query another team's status | Cross-team | GovernanceRequest via EAMA |
+| Query another team's status | Cross-team | GovernanceRequest via AMA |
 
-All cross-team GovernanceRequests must be approved by both teams' managers (EAMA).
+All cross-team GovernanceRequests must be approved by both teams' managers (AMA).
 
 ---
 
@@ -94,14 +94,14 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 | 1 | Backlog | `backlog` | `status:backlog` | Entry point for all new issues |
 | 2 | Pending | `pending` | `status:pending` | Ready to start, prioritized |
 | 3 | In Progress | `in_progress` | `status:in_progress` | Active work by assigned agent |
-| 4 | Review | `review` | `status:review` | Integrator (EIA) and/or user reviews the PR |
+| 4 | Review | `review` | `status:review` | Integrator (AMIA) and/or user reviews the PR |
 | 5 | Completed | `completed` | `status:completed` | Completed and merged |
 
 ### Task Routing
 
 - **Small tasks**: In Progress -> Review -> Completed
 - **Big tasks**: In Progress -> Review (includes human review if needed) -> Completed
-- **Human Review** within the Review column is requested via EAMA (Manager asks the user to test/review)
+- **Human Review** within the Review column is requested via AMA (Manager asks the user to test/review)
 - Use the `status:blocked` label to flag blocked tasks at any stage; task returns to its previous column when unblocked
 
 ### Code Format Rules
@@ -117,7 +117,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 ### Phase 1: Project Creation and Team Setup
 
 #### Step 1: Manager Creates Project
-**Actor**: EAMA (Manager)
+**Actor**: AMA (Manager)
 **Action**:
 - Create a new project in a new GitHub repository (or in an existing repository)
 - Send the requirements to the Chief of Staff (AMCOS) via AMP
@@ -135,15 +135,15 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - If specialized agents are needed from other teams: prepare GovernanceRequest
 
 **Communication**:
-- AMP: Send team proposal to EAMA with justification
+- AMP: Send team proposal to AMA with justification
 
 #### Step 3: Team Discussion and Approval
-**Actor**: EAMA (Manager) + AMCOS (Chief of Staff)
+**Actor**: AMA (Manager) + AMCOS (Chief of Staff)
 **Action**:
 - Manager discusses the team proposal with Chief of Staff
 - Negotiate team composition if needed
 - Manager ultimately approves a team proposal
-- If cross-team agents needed: EAMA initiates GovernanceRequests
+- If cross-team agents needed: AMA initiates GovernanceRequests
 
 **Communication**:
 - AMP: Back-and-forth messages until agreement
@@ -167,26 +167,26 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - Provide team roster with agent names and roles
 
 **Communication**:
-- AMP: Team ready notification to EAMA
+- AMP: Team ready notification to AMA
 
 ---
 
 ### Phase 2: Design and Planning
 
 #### Step 6: Requirements to Architect
-**Actor**: EAMA (Manager)
+**Actor**: AMA (Manager)
 **Action**:
-- Send the requirements to the Architect agent (EAA) via AMP
+- Send the requirements to the Architect agent (AMAA) via AMP
 - Expand the requirements with more details
 - Include the list of team member names in the requirements
 - Assign to the Architect the task of developing the design document
 
 **Communication**:
-- GitHub: Create issue with requirements, assign label for EAA
-- AMP: Message to EAA with full requirements and team roster
+- GitHub: Create issue with requirements, assign label for AMAA
+- AMP: Message to AMAA with full requirements and team roster
 
 #### Step 7: Design Document Creation
-**Actor**: EAA (Architect)
+**Actor**: AMAA (Architect)
 **Action**:
 - Receive the task (on the kanban) to convert requirements into a full design document
 - Create design document with:
@@ -198,19 +198,19 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 
 **Communication**:
 - GitHub: Update issue with progress
-- AMP: Progress updates to EAMA
+- AMP: Progress updates to AMA
 
 #### Step 8: Design Submission
-**Actor**: EAA (Architect)
+**Actor**: AMAA (Architect)
 **Action**:
 - Send the completed design document back to the Manager
 
 **Communication**:
 - GitHub: Attach design document to issue, mark ready for review
-- AMP: Notification to EAMA that design is ready
+- AMP: Notification to AMA that design is ready
 
 #### Step 9: Design Approval
-**Actor**: EAMA (Manager) + USER
+**Actor**: AMA (Manager) + USER
 **Action**:
 - Manager examines the design document
 - Manager asks for approval from the User
@@ -219,21 +219,21 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 
 **Communication**:
 - GitHub: Issue comments with design and approval status
-- AMP: Message to EOA with approved design
+- AMP: Message to AMOA with approved design
 
 ---
 
 ### Phase 3: Task Planning and Assignment
 
 #### Step 10: Design Decomposition
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
 - Split the design into actionable small steps
 - Split each step into actionable tasks
 - Tailor tasks for the current team members and their capabilities
 
 #### Step 11: Task Requirements Documents
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
 - Produce the task-requirements-document for each agent
 - Include in each document:
@@ -244,7 +244,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
   - Expected deliverables
 
 #### Step 12: Task Plan Creation
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
 - Create a plan where task-requirements-documents are ordered and parallelized
 - Ensure tasks can be assigned to the right agent at the right time
@@ -252,7 +252,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - Identify tasks that can run in parallel
 
 #### Step 13: Kanban Population
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
 - Add tasks to the GitHub Project kanban `todo` column
 - For each task:
@@ -266,7 +266,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - AMP: Notification to each agent about their first assigned task
 
 #### Step 14: Agent Clarification
-**Actor**: EOA (Orchestrator) + IMPLEMENTER AGENTS
+**Actor**: AMOA (Orchestrator) + IMPLEMENTER AGENTS
 **Action**:
 - Send to each agent a notification via AMP that their first task has been assigned
 - Ask each agent if they need clarifications
@@ -276,7 +276,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - AMP: Task assignment messages with clarification request
 
 #### Step 15: Feedback and Design Updates (if needed)
-**Actor**: IMPLEMENTER AGENTS -> EOA -> EAA
+**Actor**: IMPLEMENTER AGENTS -> AMOA -> AMAA
 **Action**:
 - If agents reply presenting problems or improvement suggestions:
   - Orchestrator evaluates the feedback
@@ -285,12 +285,12 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
   - Architect sends updated design to Orchestrator
 
 **Communication**:
-- AMP: Feedback from agents to EOA
-- AMP: Design change request from EOA to EAA
-- AMP: Updated design from EAA to EOA
+- AMP: Feedback from agents to AMOA
+- AMP: Design change request from AMOA to AMAA
+- AMP: Updated design from AMAA to AMOA
 
 #### Step 16: Task Updates from Design Changes
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
 - Evaluate the new version of the design document
 - If approved:
@@ -314,10 +314,10 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - Report status of being "in development" to Orchestrator
 
 **Communication**:
-- AMP: Status update to EOA
+- AMP: Status update to AMOA
 
 #### Step 18: Kanban Status Update
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
 - Move tasks on project kanban from `todo` column to `in-progress` column
 
@@ -325,7 +325,7 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - GitHub: Update project item status
 
 #### Step 19: Task Completion
-**Actor**: IMPLEMENTER AGENTS -> EOA
+**Actor**: IMPLEMENTER AGENTS -> AMOA
 **Action**:
 - When an implementer agent finishes a task, notify the Orchestrator via AMP
 - Orchestrator discusses and asks questions to ensure truly completed
@@ -333,8 +333,8 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 - Implementer creates PR
 
 **Communication**:
-- AMP: Completion notification from agent to EOA
-- AMP: Approval to PR from EOA to agent
+- AMP: Completion notification from agent to AMOA
+- AMP: Approval to PR from AMOA to agent
 - GitHub: PR created
 
 ---
@@ -342,17 +342,17 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 ### Phase 5: Integration and Review
 
 #### Step 20: PR Review Request
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
-- Send AMP message to Integrator agent (EIA) to evaluate all PRs of completed tasks
+- Send AMP message to Integrator agent (AMIA) to evaluate all PRs of completed tasks
 - Request merge if they pass all checks
 
 **Communication**:
-- AMP: PR review request to EIA
+- AMP: PR review request to AMIA
 - GitHub: PR ready for review
 
 #### Step 21: PR Evaluation
-**Actor**: EIA (Integrator)
+**Actor**: AMIA (Integrator)
 **Action**:
 - Examine the PR of each task
 - Verify compliance with design requirements
@@ -362,10 +362,10 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 
 **Communication**:
 - GitHub: PR review comments, approval/rejection
-- AMP: Report to EOA with pass/fail details
+- AMP: Report to AMOA with pass/fail details
 
 #### Step 22: Handling Failed PRs
-**Actor**: EOA (Orchestrator) -> IMPLEMENTER AGENTS
+**Actor**: AMOA (Orchestrator) -> IMPLEMENTER AGENTS
 **Action**:
 - Evaluate Integrator report about each task PR
 - Communicate to agents the issues and shortcomings
@@ -384,18 +384,18 @@ All projects use a **5-status kanban system** on GitHub Projects. Every agent mu
 ### Phase 6: Completion and Continuation
 
 #### Step 23: Successful PR Handling
-**Actor**: EOA (Orchestrator)
+**Actor**: AMOA (Orchestrator)
 **Action**:
 - When Integrator reports successful PR merge, move task to `review` column
   - If review passes for small tasks: move to `completed`
   - If review passes for big tasks: request human review within `review`, then move to `completed`
-  - Report to Manager (EAMA) for approval
+  - Report to Manager (AMA) for approval
   - If Manager approves: assign new task to the agent that finished
   - Keep implementer agents always working, never idle
 
 **Communication**:
 - GitHub: Update project item status through kanban columns
-- AMP: Completion report to EAMA
+- AMP: Completion report to AMA
 - AMP: New task assignment to agent
 
 #### Step 24: Iteration
@@ -415,18 +415,18 @@ All messaging uses the **AMP (Agent Messaging Protocol)**.
 
 | From | To | Channel | Purpose |
 |------|-----|---------|---------|
-| EAMA | AMCOS | AMP | Requirements, team requests |
-| AMCOS | EAMA | AMP | Team proposals, status updates |
+| AMA | AMCOS | AMP | Requirements, team requests |
+| AMCOS | AMA | AMP | Team proposals, status updates |
 | AMCOS | Other AMCOS | AMP + GovernanceRequest | Cross-team agent transfers |
-| EAMA | EAA | GitHub + AMP | Requirements, design requests |
-| EAA | EAMA | GitHub + AMP | Design documents |
-| EAMA | EOA | GitHub + AMP | Approved designs |
-| EOA | Agents | GitHub + AMP | Task assignments |
-| Agents | EOA | AMP | Status updates, questions |
-| EOA | EAA | AMP | Design change requests |
-| EOA | EIA | AMP | PR review requests |
-| EIA | EOA | AMP | PR review results |
-| EOA | EAMA | AMP | Completion reports |
+| AMA | AMAA | GitHub + AMP | Requirements, design requests |
+| AMAA | AMA | GitHub + AMP | Design documents |
+| AMA | AMOA | GitHub + AMP | Approved designs |
+| AMOA | Agents | GitHub + AMP | Task assignments |
+| Agents | AMOA | AMP | Status updates, questions |
+| AMOA | AMAA | AMP | Design change requests |
+| AMOA | AMIA | AMP | PR review requests |
+| AMIA | AMOA | AMP | PR review results |
+| AMOA | AMA | AMP | Completion reports |
 
 ---
 
@@ -436,11 +436,11 @@ All messaging uses the **AMP (Agent Messaging Protocol)**.
 
 | Role | Creates | Manages | Cannot Do |
 |------|---------|---------|-----------|
-| **EAMA** | Projects | Approvals, user communication | Task assignment |
+| **AMA** | Projects | Approvals, user communication | Task assignment |
 | **AMCOS** | Agents, teams (own team only) | Agent lifecycle within team | Task assignment, projects, cross-team ops without GovernanceRequest |
-| **EAA** | Designs | Architecture | Task assignment |
-| **EOA** | Tasks, plans | Kanban, agent coordination | Agent creation, projects |
-| **EIA** | Nothing | PR reviews, merges | Task assignment |
+| **AMAA** | Designs | Architecture | Task assignment |
+| **AMOA** | Tasks, plans | Kanban, agent coordination | Agent creation, projects |
+| **AMIA** | Nothing | PR reviews, merges | Task assignment |
 | **Agents** | Code, PRs | Their assigned tasks | Everything else |
 
 ---
@@ -449,26 +449,26 @@ All messaging uses the **AMP (Agent Messaging Protocol)**.
 
 | Step | GitHub Action | Actor |
 |------|---------------|-------|
-| 1 | Create repository | EAMA |
-| 6 | Create requirements issue | EAMA |
-| 7 | Update issue with progress | EAA |
-| 8 | Attach design document | EAA |
-| 13 | Create task issues, add to project | EOA |
-| 13 | Set "Assigned Agent" field | EOA |
-| 18 | Move to "In Progress" column | EOA |
+| 1 | Create repository | AMA |
+| 6 | Create requirements issue | AMA |
+| 7 | Update issue with progress | AMAA |
+| 8 | Attach design document | AMAA |
+| 13 | Create task issues, add to project | AMOA |
+| 13 | Set "Assigned Agent" field | AMOA |
+| 18 | Move to "In Progress" column | AMOA |
 | 19 | Create PR | Agent |
-| 21 | Review and merge/reject PR | EIA |
-| 23 | Move to "Done" column | EOA |
+| 21 | Review and merge/reject PR | AMIA |
+| 23 | Move to "Done" column | AMOA |
 
 ---
 
 ## Document References
 
-- **Requirements Document**: Created by EAMA, sent to EAA
-- **Design Document**: Created by EAA, approved by EAMA/User
-- **Task-Requirements-Document**: Created by EOA for each task
-- **Design-Change-Request**: Created by EOA when agents suggest improvements
-- **PR Review Report**: Created by EIA for each PR
+- **Requirements Document**: Created by AMA, sent to AMAA
+- **Design Document**: Created by AMAA, approved by AMA/User
+- **Task-Requirements-Document**: Created by AMOA for each task
+- **Design-Change-Request**: Created by AMOA when agents suggest improvements
+- **PR Review Report**: Created by AMIA for each PR
 - **GovernanceRequest**: Created by AMCOS for cross-team agent operations
 
 ---

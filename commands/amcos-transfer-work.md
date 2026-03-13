@@ -12,8 +12,8 @@ Transfer work context from one agent to another by sending handoff documentation
 
 **IMPORTANT: Role Boundaries**
 - AMCOS sends the handoff documentation to the target agent
-- EOA handles the actual task reassignment in the GitHub Project kanban
-- Always use `--notify-orchestrator` so EOA can update task assignments
+- AMOA handles the actual task reassignment in the GitHub Project kanban
+- Always use `--notify-orchestrator` so AMOA can update task assignments
 
 ## Usage
 
@@ -50,7 +50,7 @@ Transfer work context from one agent to another by sending handoff documentation
 | `--to <agent>` | Yes | Target agent receiving work |
 | `--handoff-file <path>` | Yes | Path to handoff documentation file |
 | `--priority <level>` | No | Message priority: `urgent`, `high`, `normal` (default: high) |
-| `--notify-orchestrator` | No | Also notify EOA about the transfer |
+| `--notify-orchestrator` | No | Also notify AMOA about the transfer |
 | `--summary <text>` | No | Brief summary to include in message |
 
 ## Examples
@@ -154,13 +154,13 @@ Send the handoff to the target agent using the `agent-messaging` skill:
 
 ### Step 4: Notify Orchestrator (if requested)
 
-If `--notify-orchestrator` is set, send a notification to EOA using the `agent-messaging` skill:
+If `--notify-orchestrator` is set, send a notification to AMOA using the `agent-messaging` skill:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[TRANSFER NOTIFICATION] Work transferred: <from> -> <to>`
 - **Content**: notification about the work transfer with both agent names
 - **Priority**: `normal`
 
-**Verify**: EOA receives the transfer notification.
+**Verify**: AMOA receives the transfer notification.
 
 ## Output Format
 
@@ -239,3 +239,4 @@ Use `--format json` for structured output:
 ## CLI Reference
 
 Full documentation: `ai-maestro-agents-management` skill
+

@@ -53,9 +53,9 @@ Create formatted performance reports for stakeholders, summarizing team and indi
 
 | Type | Frequency | Audience | Focus |
 |------|-----------|----------|-------|
-| Daily Summary | Daily | EOA, EAMA | Quick status |
-| Weekly Review | Weekly | EAMA, User | Detailed analysis |
-| Individual Report | As needed | Agent, EAMA | Single agent focus |
+| Daily Summary | Daily | AMOA, AMA | Quick status |
+| Weekly Review | Weekly | AMA, User | Detailed analysis |
+| Individual Report | As needed | Agent, AMA | Single agent focus |
 | Project Report | At milestones | User | Project progress |
 
 ## Steps
@@ -185,7 +185,7 @@ Every report should include actionable items:
 | Item | Owner | Priority | Due |
 |------|-------|----------|-----|
 | Review estimation process | AMCOS | High | Next week |
-| Add documentation checklist | EOA | Medium | This sprint |
+| Add documentation checklist | AMOA | Medium | This sprint |
 ```
 
 ### Step 5: Distribute Report
@@ -198,7 +198,7 @@ REPORT_FILE="$CLAUDE_PROJECT_DIR/.amcos/reports/weekly-$(date +%Y%m%d).md"
 
 # Notify stakeholders
 # Use the agent-messaging skill to notify the manager:
-# Recipient: eama-assistant-manager
+# Recipient: ama-assistant-manager
 # Subject: "Weekly Performance Report"
 # Content: type "performance-report", report_path: $REPORT_FILE
 ```

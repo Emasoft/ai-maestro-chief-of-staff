@@ -12,7 +12,7 @@
 
 - When agent appears online but ignores messages -> [Agent shows online but is unresponsive](#agent-shows-online-but-is-unresponsive)
 - When failure symptoms are ambiguous -> [Cannot determine failure type](#cannot-determine-failure-type)
-- When EAMA does not respond to urgent request -> [Manager does not respond to urgent request](#manager-does-not-respond-to-urgent-request)
+- When AMA does not respond to urgent request -> [Manager does not respond to urgent request](#manager-does-not-respond-to-urgent-request)
 - When new agent does not appear in AI Maestro -> [New replacement agent fails to register](#new-replacement-agent-fails-to-register)
 - When deadline was missed despite emergency handoff -> [Emergency handoff deadline still missed](#emergency-handoff-deadline-still-missed)
 
@@ -64,12 +64,12 @@ Attempt recovery strategies 1-4 in order
 
 ## Manager does not respond to urgent request
 
-**Symptom**: Sent urgent replacement request, no response from EAMA.
+**Symptom**: Sent urgent replacement request, no response from AMA.
 
 **Solution**:
 1. Wait 15 minutes
 2. Use the `agent-messaging` skill to send a reminder:
-   - **Recipient**: `eama-assistant-manager` (or the manager session name)
+   - **Recipient**: `ama-assistant-manager` (or the manager session name)
    - **Subject**: `[REMINDER] Agent replacement still awaiting approval`
    - **Priority**: `urgent`
    - **Content**: type `reminder`, message: "Original request sent 15 minutes ago. Agent [agent-name] replacement requires approval." Include `original_subject`: "[APPROVAL REQUIRED] Agent replacement request".
@@ -142,7 +142,7 @@ Attempt recovery strategies 1-4 in order
 ```
 
 **Notify stakeholders** using the `agent-messaging` skill:
-- **Recipient**: `eama-assistant-manager` (or the manager session name)
+- **Recipient**: `ama-assistant-manager` (or the manager session name)
 - **Subject**: `[INCIDENT] Deadline missed - post-mortem required`
 - **Priority**: `high`
 - **Content**: type `incident-report`, message: "Emergency handoff for [agent-name] did not prevent deadline miss. Post-mortem recommended." Include `deadline_missed` timestamp and `work_completed_at` timestamp.

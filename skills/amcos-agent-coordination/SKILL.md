@@ -34,7 +34,7 @@ Copy this checklist and track your progress:
 - [ ] Identify registry update type (add, remove, or status change)
 - [ ] Execute registry command and verify via list
 - [ ] Send inter-agent message using FULL session name
-- [ ] Enforce role boundaries (AMCOS creates agents; EOA assigns tasks)
+- [ ] Enforce role boundaries (AMCOS creates agents; AMOA assigns tasks)
 - [ ] Log operation and optionally publish update to team
 
 ### Team Registry
@@ -45,7 +45,7 @@ Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publi
 
 ### Inter-Agent Messaging
 
-Use `agent-messaging` skill. Always use FULL session names (e.g., `eoa-svgbbox-orchestrator`).
+Use `agent-messaging` skill. Always use FULL session names (e.g., `amoa-svgbbox-orchestrator`).
 
 **Message types:** `role-assignment`, `project-assignment`, `task-delegation`, `status-request`, `status-report`, `team-notification`, `hibernation-warning`, `wake-notification`, `registry-update`
 
@@ -55,9 +55,9 @@ Use `agent-messaging` skill. Always use FULL session names (e.g., `eoa-svgbbox-o
 
 - AMCOS is TEAM-SCOPED (one per team)
 - AMCOS CREATES agents and ASSIGNS to teams
-- AMCOS does NOT assign tasks (EOA's job)
-- AMCOS does NOT manage kanban (EOA's job)
-- AMCOS does NOT create projects (EAMA's job)
+- AMCOS does NOT assign tasks (AMOA's job)
+- AMCOS does NOT manage kanban (AMOA's job)
+- AMCOS does NOT create projects (AMA's job)
 - AMCOS NEVER spawns a copy of itself
 
 ### Agent vs Sub-Agent
@@ -84,9 +84,9 @@ Registry update -> state reflected. Message -> delivery confirmed. Role assignme
 | Issue | Resolution |
 |-------|-----------|
 | Maestro unavailable | File-based fallback, retry 30s |
-| Delivery fails | Retry 3x/10s, escalate to EAMA |
+| Delivery fails | Retry 3x/10s, escalate to AMA |
 | Registry fails | Retry 3x, fallback `POST /api/teams/{id}/agents` |
-| Boundary violation | Log, reject, notify EAMA |
+| Boundary violation | Log, reject, notify AMA |
 | Not in registry | Verify FULL name, check if terminated |
 
 ## Examples
@@ -102,7 +102,7 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 ### Send Team Notification
 
 ```bash
-# Via agent-messaging: To: eoa-svgbbox-orchestrator
+# Via agent-messaging: To: amoa-svgbbox-orchestrator
 # Content: { "type": "team-notification", "message": "Agent online" }
 ```
 
@@ -112,3 +112,4 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 - `references/op-send-maestro-message.md`
 - `references/sub-agent-role-boundaries-template.md`
 - `references/workflow-checklists.md`
+

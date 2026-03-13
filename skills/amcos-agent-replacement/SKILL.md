@@ -29,31 +29,31 @@ Replace a failed agent when recovery has failed or failure is terminal. Covers f
 
 1. **Confirm failure** -- verify all recovery strategies attempted or failure is terminal
 2. **Preserve artifacts** -- save recoverable work to `thoughts/shared/handoffs/AGENT_NAME/`
-3. **Request approval** -- send `urgent` replacement request to EAMA; wait for approval
+3. **Request approval** -- send `urgent` replacement request to AMA; wait for approval
 4. **Create replacement** -- use `ai-maestro-agents-management` skill
-5. **Notify EOA** -- so it can generate handoff docs and update kanban
+5. **Notify AMOA** -- so it can generate handoff docs and update kanban
 6. **Send handoff docs** to new agent (validate with checklist below)
 7. **Verify acknowledgment** -- confirm new agent received handoff and began work
-8. **Close incident** -- log resolution, notify EAMA
+8. **Close incident** -- log resolution, notify AMA
 
 See `references/agent-replacement-protocol.md` and `references/op-replace-agent.md`.
 
 ### Replacement Protocol Summary
 
 ```
-Terminal failure -> AMCOS notifies EAMA -> EAMA approves
-  -> Create new agent -> Notify EOA (handoff + kanban)
+Terminal failure -> AMCOS notifies AMA -> AMA approves
+  -> Create new agent -> Notify AMOA (handoff + kanban)
   -> Send handoff to new agent -> Agent acknowledges
 ```
 
 ### Key Consideration: Memory Loss
 
 **CRITICAL**: The replacement agent has NO MEMORY of the old agent. Therefore:
-- EOA must generate handoff documentation
-- EOA must reassign tasks in GitHub Project kanban
+- AMOA must generate handoff documentation
+- AMOA must reassign tasks in GitHub Project kanban
 - AMCOS must send handoff docs to new agent
 
-**ROLE BOUNDARY**: AMCOS creates agents and sends context. EOA owns task assignment.
+**ROLE BOUNDARY**: AMCOS creates agents and sends context. AMOA owns task assignment.
 
 ### Handoff Validation Checklist
 
@@ -73,7 +73,7 @@ Copy this checklist and track your progress:
 | Phase | Output |
 |-------|--------|
 | Artifact preservation | Files saved to handoff directory |
-| Manager approval | Approval message from EAMA |
+| Manager approval | Approval message from AMA |
 | Agent creation | New agent online and registered |
 | Work handoff | Docs sent and acknowledged |
 
@@ -84,7 +84,7 @@ Copy this checklist and track your progress:
 | Manager does not respond | Wait 15 min, reminder, escalate to user |
 | New agent fails to register | Verify AI Maestro health and hooks |
 | Handoff rejected | Queue and retry in 5 minutes |
-| No artifacts recoverable | Document loss, notify EOA to recreate |
+| No artifacts recoverable | Document loss, notify AMOA to recreate |
 
 ## Examples
 

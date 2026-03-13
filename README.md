@@ -6,7 +6,7 @@
 
 ## Overview
 
-AMCOS manages **per-team** agent lifecycle. One Chief of Staff instance exists per team -- it is NOT organization-wide. AMCOS handles staff planning, agent creation/termination, approval workflows, failure recovery, and coordinates with the team's Orchestrator (EOA), Architect (EAA), and Integrator (EIA).
+AMCOS manages **per-team** agent lifecycle. One Chief of Staff instance exists per team -- it is NOT organization-wide. AMCOS handles staff planning, agent creation/termination, approval workflows, failure recovery, and coordinates with the team's Orchestrator (AMOA), Architect (AMAA), and Integrator (AMIA).
 
 ## Key Differences from emasoft-chief-of-staff
 
@@ -28,14 +28,14 @@ MANAGER (team manager)
     v
 AMCOS (Chief of Staff) ---- one per team
     |
-    |--- AMP messages --->  EOA (Orchestrator)
-    |--- AMP messages --->  EAA (Architect)
-    |--- AMP messages --->  EIA (Integrator)
+    |--- AMP messages --->  AMOA (Orchestrator)
+    |--- AMP messages --->  AMAA (Architect)
+    |--- AMP messages --->  AMIA (Integrator)
     |--- AMP messages --->  team member agents
 ```
 
 - MANAGER approves/rejects AMCOS lifecycle requests
-- AMCOS notifies EOA/EAA/EIA after every agent lifecycle change
+- AMCOS notifies AMOA/AMAA/AMIA after every agent lifecycle change
 - All communication uses AMP (AI Maestro Protocol) messaging -- no direct HTTP
 
 ## Core Responsibilities
@@ -44,17 +44,17 @@ AMCOS (Chief of Staff) ---- one per team
 2. **Agent Lifecycle** -- Create, hibernate, wake, terminate agents within the team scope
 3. **Notification Protocols** -- Notify team agents before/after operations, wait for acknowledgment
 4. **Failure Recovery** -- Detect failures, classify severity, execute recovery strategies
-5. **Team Assignment** -- Assign agents to the team roster (NOT task assignment -- that is EOA)
+5. **Team Assignment** -- Assign agents to the team roster (NOT task assignment -- that is AMOA)
 6. **Skill/Plugin Configuration** -- Configure agents with appropriate skills for their roles
 7. **Performance Reporting** -- Report agent performance metrics to team manager
 
 ## What AMCOS Does NOT Do
 
 - Create projects (manager only)
-- Assign tasks to agents (EOA only)
-- Manage GitHub Project kanban (EOA only)
-- Make architectural decisions (EAA only)
-- Perform code review (EIA only)
+- Assign tasks to agents (AMOA only)
+- Manage GitHub Project kanban (AMOA only)
+- Make architectural decisions (AMAA only)
+- Perform code review (AMIA only)
 - Communicate directly with user (manager only)
 
 ## Components
@@ -192,9 +192,9 @@ All cross-plugin communication uses AMP (AI Maestro Protocol). AMCOS never calls
 | Target | AMP Subject Pattern | Purpose |
 |--------|-------------------|---------|
 | **Manager** | `governance-request.*` | Request approval for lifecycle operations; report agent status and performance |
-| **EOA** (Orchestrator) | `agent-lifecycle.*` | Notify when agent is ready for task assignment; request handoff doc generation; inform EOA to reassign kanban tasks |
-| **EAA** (Architect) | `staffing-requirements.*` | Request architecture input for staffing decisions |
-| **EIA** (Integrator) | `deployment-coordination.*` | Coordinate deployment readiness of team agents |
+| **AMOA** (Orchestrator) | `agent-lifecycle.*` | Notify when agent is ready for task assignment; request handoff doc generation; inform AMOA to reassign kanban tasks |
+| **AMAA** (Architect) | `staffing-requirements.*` | Request architecture input for staffing decisions |
+| **AMIA** (Integrator) | `deployment-coordination.*` | Coordinate deployment readiness of team agents |
 
 ## 3-Role Governance System
 
@@ -202,7 +202,7 @@ All cross-plugin communication uses AMP (AI Maestro Protocol). AMCOS never calls
 |------|------------|---------|
 | **Manager** | Approve/reject GovernanceRequests, create projects, direct user communication | Team manager agent |
 | **Chief of Staff** | Submit GovernanceRequests, manage agent lifecycle, configure skills/plugins | AMCOS (this plugin) |
-| **Member** | Execute assigned tasks, report status | EOA, EAA, EIA, task agents |
+| **Member** | Execute assigned tasks, report status | AMOA, AMAA, AMIA, task agents |
 
 Critical operations (spawn, terminate, replace) require a GovernanceRequest (sourceManager for local operations, dual-manager for cross-team). Dual-manager approval is required for cross-team agent transfers.
 

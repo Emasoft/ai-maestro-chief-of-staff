@@ -125,7 +125,7 @@ Execute a recovery workflow for a failed, unresponsive, or degraded agent. Suppo
 ```
 1. Gather information about failed agent
 2. Trigger /amcos-replace-agent workflow:
-   - Request approval from EAMA
+   - Request approval from AMA
    - Create new agent
    - Generate handoff
    - Update kanban
@@ -302,3 +302,4 @@ For automated recovery, use escalation pattern:
 ## CLI Reference
 
 Full documentation: `ai-maestro-agents-management` skill
+

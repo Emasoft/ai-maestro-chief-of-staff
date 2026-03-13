@@ -58,7 +58,7 @@ The config snapshot:
 ### Step 1: Identify Config Files
 
 Config files may be in:
-- `design/config/` (if EOA plugin installed)
+- `design/config/` (if AMOA plugin installed)
 - Project root configuration files
 - Environment-specific settings
 
@@ -196,3 +196,4 @@ After completing this operation:
 ## Next Operation
 
 During session: [op-detect-config-changes.md](op-detect-config-changes.md) (periodically)
+

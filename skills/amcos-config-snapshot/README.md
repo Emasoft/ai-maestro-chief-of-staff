@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Critical persistence mechanism enabling the EOA orchestrator to maintain continuity across multiple interactions, survive context window compaction, and recover gracefully from interruptions.
+Critical persistence mechanism enabling the AMOA orchestrator to maintain continuity across multiple interactions, survive context window compaction, and recover gracefully from interruptions.
 
 ## When to Use
 

@@ -187,14 +187,14 @@ FAILURE_DETECTED
     +-- TERMINAL?
             |
             YES --> Notify affected parties:
-                    - Orchestrator (EOA) for task reassignment
-                    - Manager (EAMA) for critical failure
+                    - Orchestrator (AMOA) for task reassignment
+                    - Manager (AMA) for critical failure
                     |
                     +-- Check recovery policy
                         |
                         +-- Auto-replace authorized? --> Route to lifecycle-manager
                         |
-                        +-- Approval required? --> Request approval from EAMA
+                        +-- Approval required? --> Request approval from AMA
 ```
 
 ### 3.2 Transient Recovery (Automatic)
@@ -415,7 +415,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: the failing agent session name
 - **Subject**: `Recovery Warning`
 - **Priority**: `urgent`
-- **Content**: type `recovery-warning`, message: "You have been unresponsive for 3 minutes. Recovery will be attempted in 60 seconds." Include `recovery_type`: "soft_restart", `countdown_seconds`: 60.
+- **Content**: type `recovery-warning`, message: "You have been unresponsive for 3 minutes. Recovery will be attempted in 60 seconds." Include `recovery_type`: "soft_restart`, `countdown_seconds`: 60.
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
@@ -448,7 +448,7 @@ Use the `agent-messaging` skill to send:
 - **Recipient**: `eama-assistant-manager` (or the manager session name)
 - **Subject**: `CRITICAL: Agent Terminal Failure`
 - **Priority**: `urgent`
-- **Content**: type `critical-failure`, message: "Agent [agent-name] has experienced TERMINAL failure requiring approval." Include `failed_agent`, `failure_classification`: "TERMINAL", `failure_reason`, `recovery_attempts` count, `orphaned_tasks` list, `recovery_options` array listing "replace", "reassign_only", and "investigate" options with descriptions, `awaiting`: "approval".
+- **Content**: type `critical-failure`, message: "Agent [agent-name] has experienced TERMINAL failure requiring approval." Include `failed_agent`, `failure_classification`: "TERMINAL`, `failure_reason`, `recovery_attempts` count, `orphaned_tasks` list, `recovery_options` array listing "replace", "reassign_only", and "investigate" options with descriptions, `awaiting`: "approval".
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
@@ -555,11 +555,11 @@ EVERY health_check_interval (default 5 minutes):
 | **amcos-lifecycle-manager** | Replacement execution | Terminate failed agents, spawn replacements |
 | **amcos-main** | Routing target | Receives recovery coordination requests |
 | **amcos-resource-monitor** | Resource data | Check if failure is resource-related |
-| **orchestrator-master (EOA)** | Task reassignment | Notify of orphaned tasks |
-| **assistant-manager (EAMA)** | Escalation | Approve terminal recovery actions |
+| **orchestrator-master (AMOA)** | Task reassignment | Notify of orphaned tasks |
+| **assistant-manager (AMA)** | Escalation | Approve terminal recovery actions |
 
 **Key integration rules:**
-- Always notify EOA when tasks are orphaned
-- Always notify EAMA for terminal failures (unless pre-authorized)
+- Always notify AMOA when tasks are orphaned
+- Always notify AMA for terminal failures (unless pre-authorized)
 - Always route restart/replacement to lifecycle-manager
 - Always check resource-monitor for context on resource-related failures

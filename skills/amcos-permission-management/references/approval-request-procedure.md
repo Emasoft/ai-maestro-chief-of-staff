@@ -13,7 +13,7 @@
   - 1.3.1 Operation identification - Determining request type
   - 1.3.2 Justification preparation - Explaining why
   - 1.3.3 Message composition - Formatting the request
-  - 1.3.4 Transmission via `agent-messaging` skill - Sending to EAMA
+  - 1.3.4 Transmission via `agent-messaging` skill - Sending to AMA
   - 1.3.5 Response awaiting - Waiting with timeout
 - 1.4 Request message format - Standard message structure
 - 1.5 Examples - Approval request scenarios
@@ -23,7 +23,7 @@
 
 ## 1.1 What Is an Approval Request
 
-An approval request is a formal message sent from AMCOS (Chief of Staff) to EAMA (Assistant Manager) asking for authorization to perform a privileged operation. The request contains all information EAMA needs to make an informed decision on behalf of the user.
+An approval request is a formal message sent from AMCOS (Chief of Staff) to AMA (Assistant Manager) asking for authorization to perform a privileged operation. The request contains all information AMA needs to make an informed decision on behalf of the user.
 
 **Approval requests are structured messages that include:**
 - A unique request identifier for tracking
@@ -33,10 +33,10 @@ An approval request is a formal message sent from AMCOS (Chief of Staff) to EAMA
 
 **The request-response cycle:**
 1. AMCOS identifies an operation requiring approval
-2. AMCOS composes and sends an approval request to EAMA
-3. EAMA receives the request and presents it to the user
+2. AMCOS composes and sends an approval request to AMA
+3. AMA receives the request and presents it to the user
 4. The user makes a decision (approve, reject, or modify)
-5. EAMA sends the decision back to AMCOS
+5. AMA sends the decision back to AMCOS
 6. AMCOS proceeds based on the decision
 
 ---
@@ -51,8 +51,8 @@ Request spawn approval when:
 - A new task requires a dedicated agent
 - Parallel execution requires additional agents
 - A specialized capability is needed that requires a new agent type
-- The orchestrator (EOA) requests agent creation
-- The architect (EAA) design calls for new agents
+- The orchestrator (AMOA) requests agent creation
+- The architect (AMAA) design calls for new agents
 
 **Do NOT request approval for:**
 - Querying agent registry (read-only)
@@ -65,7 +65,7 @@ Request terminate approval when:
 - An agent has completed its assigned task
 - An agent has failed unrecoverably
 - An agent is redundant (duplicate capability)
-- The user requests agent termination via EAMA
+- The user requests agent termination via AMA
 - Resource constraints require agent reduction
 
 **Do NOT request approval for:**
@@ -90,7 +90,7 @@ Request wake approval when:
 - New work arrives for a hibernated agent
 - Priority task requires the agent's capability
 - Scheduled wake time reached
-- User requests agent wake via EAMA
+- User requests agent wake via AMA
 
 **Do NOT request approval for:**
 - Checking if an agent is hibernated
@@ -101,8 +101,8 @@ Request wake approval when:
 Request plugin install approval when:
 - A new capability is needed that requires a plugin
 - A plugin update is available with security fixes
-- The architect (EAA) design requires a specific plugin
-- The user requests plugin installation via EAMA
+- The architect (AMAA) design requires a specific plugin
+- The user requests plugin installation via AMA
 
 **Do NOT request approval for:**
 - Listing installed plugins
@@ -113,7 +113,7 @@ Request plugin install approval when:
 
 ## 1.3 Approval Request Procedure
 
-Follow these steps to request approval from EAMA:
+Follow these steps to request approval from AMA:
 
 ### 1.3.1 Operation Identification
 
@@ -149,7 +149,7 @@ A good justification answers:
 **Example justifications:**
 
 ```
-spawn: "New authentication module required per design doc EAA-AUTH-001.
+spawn: "New authentication module required per design doc AMAA-AUTH-001.
         Code implementer agent needed to execute implementation tasks."
 
 terminate: "Agent has completed all assigned data processing tasks.
@@ -162,7 +162,7 @@ wake: "New batch of data arrived requiring processing.
        Agent data-processor-03 has the required context."
 
 plugin_install: "Code review capability needed for PR #42.
-                 Plugin eia-code-reviewer provides required functionality."
+                 Plugin AMIA-code-reviewer provides required functionality."
 ```
 
 ### 1.3.3 Message Composition
@@ -171,7 +171,7 @@ plugin_install: "Code review capability needed for PR #42.
 
 The message must follow this structure:
 - **From**: `amcos-chief-of-staff`
-- **To**: `eama-assistant-manager`
+- **To**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] {Operation}: {Target}`
 - **Priority**: `high` or `normal`
 - **Content**: type `approval_request`, message: "Requesting approval to {operation} {target}". Include `request_id` (unique identifier), `operation` (operation type), `details` (operation-specific details object), `justification` (justification text).
@@ -190,7 +190,7 @@ Examples:
 
 ### 1.3.4 Transmission via `agent-messaging` skill
 
-**Step 5:** Use the `agent-messaging` skill to send the composed approval request message to EAMA.
+**Step 5:** Use the `agent-messaging` skill to send the composed approval request message to AMA.
 
 **Verify transmission:**
 - Check the delivery confirmation from the skill
@@ -204,7 +204,7 @@ Examples:
 
 ### 1.3.5 Response Awaiting
 
-**Step 6:** Wait for EAMA response with timeout handling.
+**Step 6:** Wait for AMA response with timeout handling.
 
 Timeout schedule:
 - T+0: Request sent
@@ -231,7 +231,7 @@ Use the `agent-messaging` skill to check for unread messages addressed to `amcos
 The approval request message sent via the `agent-messaging` skill must contain:
 
 - **from**: string (required) - must be `amcos-chief-of-staff`
-- **to**: string (required) - must be `eama-assistant-manager`
+- **to**: string (required) - must be `ama-assistant-manager`
 - **subject**: string (required) - `[APPROVAL REQUEST] {Operation}: {Target}`
 - **priority**: string (required) - `high`, `normal`, or `urgent`
 - **content**:
@@ -286,26 +286,26 @@ The approval request message sent via the `agent-messaging` skill must contain:
 ### Example: Spawn Request
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Spawn: frontend-dev-02`
 - **Priority**: `high`
-- **Content**: type `approval_request`, message: "Requesting approval to spawn frontend development agent". Include `request_id`: "spawn-req-2025-02-02-004", `operation`: "spawn", `details`: { `agent_name`: "frontend-dev-02", `agent_role`: "frontend-developer", `task`: "Implement React components for dashboard", `working_directory`: "/Users/dev/project/frontend", `expected_duration`: "4 hours", `resource_requirements`: "standard", `tags`: ["react", "dashboard", "frontend"] }, `justification`: "Dashboard implementation requires dedicated frontend agent. Design doc EAA-DASH-003 specifies React component implementation."
+- **Content**: type `approval_request`, message: "Requesting approval to spawn frontend development agent". Include `request_id`: "spawn-req-2025-02-02-004", `operation`: "spawn", `details`: { `agent_name`: "frontend-dev-02", `agent_role`: "frontend-developer", `task`: "Implement React components for dashboard", `working_directory`: "/Users/dev/project/frontend", `expected_duration`: "4 hours", `resource_requirements`: "standard", `tags`: ["react", "dashboard", "frontend"] }, `justification`: "Dashboard implementation requires dedicated frontend agent. Design doc AMAA-DASH-003 specifies React component implementation."
 
 ### Example: Hibernate Request
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Hibernate: api-tester-01`
 - **Priority**: `normal`
-- **Content**: type `approval_request`, message: "Requesting approval to hibernate idle testing agent". Include `request_id`: "hibernate-req-2025-02-02-001", `operation`: "hibernate", `details`: { `agent_name`: "api-tester-01", `idle_duration`: "47 minutes", `last_activity`: "2025-02-02T09:13:00Z", `expected_wake_trigger`: "New API endpoints ready for testing" }, `justification`: "Agent has been idle for 47 minutes with no pending tests. API development still in progress. Hibernating to conserve resources."
+- **Content**: type `approval_request`, message: "Requesting approval to hibernate idle testing agent". Include `request_id`: "hibernate-req-2025-02-02-001", `operation`: "hibernate`, `details`: { `agent_name`: "api-tester-01", `idle_duration`: "47 minutes", `last_activity`: "2025-02-02T09:13:00Z", `expected_wake_trigger`: "New API endpoints ready for testing" }, `justification`: "Agent has been idle for 47 minutes with no pending tests. API development still in progress. Hibernating to conserve resources."
 
 ### Example: Plugin Install Request
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Plugin Install: perfect-skill-suggester`
 - **Priority**: `high`
-- **Content**: type `approval_request`, message: "Requesting approval to install skill suggestion plugin". Include `request_id`: "plugin_install-req-2025-02-02-001", `operation`: "plugin_install", `details`: { `plugin_name`: "perfect-skill-suggester", `version`: "1.2.2", `source`: "ai-maestro", `capability`: "AI-analyzed skill activation based on task context", `security_implications`: "Runs hooks on prompt submission. No network access required." }, `justification`: "Skill activation currently manual. PSS automates skill matching to improve agent efficiency."
+- **Content**: type `approval_request`, message: "Requesting approval to install skill suggestion plugin". Include `request_id`: "plugin_install-req-2025-02-02-001", `operation`: "plugin_install`, `details`: { `plugin_name`: "perfect-skill-suggester", `version`: "1.2.2", `source`: "ai-maestro", `capability`: "AI-analyzed skill activation based on task context", `security_implications`: "Runs hooks on prompt submission. No network access required." }, `justification`: "Skill activation currently manual. PSS automates skill matching to improve agent efficiency."
 
 ---
 
@@ -325,7 +325,7 @@ Use the `agent-messaging` skill to send:
 3. Retry the request
 4. If still failing, notify user directly about the infrastructure issue
 
-### Issue: EAMA returns "invalid request format" error
+### Issue: AMA returns "invalid request format" error
 
 **Symptoms:**
 - Error response about missing fields
@@ -344,12 +344,12 @@ Use the `agent-messaging` skill to send:
 - Request sent successfully
 - No response after 120 seconds
 
-**Cause:** EAMA may be offline, busy, or user is unavailable.
+**Cause:** AMA may be offline, busy, or user is unavailable.
 
 **Resolution:**
-1. Use the `ai-maestro-agents-management` skill to verify EAMA is online
-2. If EAMA offline, wait for it to come online or notify user
-3. If EAMA online but no response, follow escalation procedure
+1. Use the `ai-maestro-agents-management` skill to verify AMA is online
+2. If AMA offline, wait for it to come online or notify user
+3. If AMA online but no response, follow escalation procedure
 4. See [approval-escalation.md](approval-escalation.md) for timeout handling
 
 ### Issue: Received unexpected response format
@@ -358,12 +358,12 @@ Use the `agent-messaging` skill to send:
 - Response received but cannot parse
 - Missing decision field
 
-**Cause:** Response from EAMA does not match expected schema.
+**Cause:** Response from AMA does not match expected schema.
 
 **Resolution:**
 1. Log the raw response for debugging
 2. Extract decision if present in any form
-3. If completely unparseable, send clarification request to EAMA
+3. If completely unparseable, send clarification request to AMA
 4. Treat as "delayed" and re-request after 30 seconds
 
 ### Issue: Request ID collision

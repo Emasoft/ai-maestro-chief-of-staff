@@ -26,7 +26,7 @@ parent-skill: amcos-permission-management
 
 ## Purpose
 
-Request approval from the Assistant Manager (EAMA) before executing privileged operations such as agent spawn, terminate, hibernate, wake, or plugin install.
+Request approval from the Assistant Manager (AMA) before executing privileged operations such as agent spawn, terminate, hibernate, wake, or plugin install.
 
 ## When to Use
 
@@ -39,7 +39,7 @@ Request approval from the Assistant Manager (EAMA) before executing privileged o
 ## Prerequisites
 
 - AI Maestro messaging system running
-- EAMA online and responsive
+- AMA online and responsive
 - Clear justification for the operation
 
 ## Procedure
@@ -90,7 +90,7 @@ EOF
 
 ### Step 4: Send Request via AI Maestro
 
-Use the `agent-messaging` skill to send the approval request message to EAMA with the composed request body.
+Use the `agent-messaging` skill to send the approval request message to AMA with the composed request body.
 
 ### Step 5: Register Pending Approval
 
@@ -145,7 +145,7 @@ Generate a request ID, then use the `agent-messaging` skill to send:
 - **Priority**: `high`
 - **Content**: type `approval-request`, message: "AMCOS requests approval to spawn new agent". Include `request_id`, `operation`: "spawn", `target`: "implementer-2", `justification`: "High priority issue #42 requires dedicated agent for parallel work on API component.", `requested_at` (ISO-8601 timestamp), `task_assignment`: "Issue #42 - API endpoints for user authentication", `options`: ["approve", "reject", "modify"].
 
-Then wait for the EAMA approval response.
+Then wait for the AMA approval response.
 
 ## Request Message Format
 
@@ -171,7 +171,7 @@ Then wait for the EAMA approval response.
 | Error | Cause | Solution |
 |-------|-------|----------|
 | AI Maestro unreachable | Service down | Log and retry; if critical, request human fallback |
-| EAMA offline | No manager available | Escalate per timeout procedure |
+| AMA offline | No manager available | Escalate per timeout procedure |
 | Invalid request format | Missing required fields | Fix format and resend |
 | Duplicate request | Same request sent twice | Use existing request ID |
 

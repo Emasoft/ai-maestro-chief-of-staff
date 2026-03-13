@@ -1,6 +1,6 @@
 ---
 name: amcos-wait-for-approval
-description: "Wait for approval response from EAMA with configurable timeout and polling"
+description: "Wait for approval response from AMA with configurable timeout and polling"
 argument-hint: "--request-id <ID> [--timeout <SECONDS>] [--poll-interval <SECONDS>]"
 allowed-tools: ["Bash", "Task"]
 user-invocable: true
@@ -8,11 +8,11 @@ user-invocable: true
 
 # Wait For Approval Command
 
-Wait for an approval response from the Assistant Manager (EAMA) with configurable timeout and polling interval.
+Wait for an approval response from the Assistant Manager (AMA) with configurable timeout and polling interval.
 
 ## Usage
 
-Poll for an approval response from EAMA using the `agent-messaging` skill:
+Poll for an approval response from AMA using the `agent-messaging` skill:
 1. Check for unread messages matching the request ID and type `approval_response`
 2. Poll at the configured interval until response received or timeout
 3. Return the approval decision when found
@@ -74,7 +74,7 @@ Poll for an approval response from EAMA using the `agent-messaging` skill:
   Timeout:    120 seconds
   Polling:    Every 5 seconds
 
-  [........] Waiting for EAMA response...
+  [........] Waiting for AMA response...
   [####....] 30s elapsed...
   [######..] 45s elapsed...
   [########] Response received!

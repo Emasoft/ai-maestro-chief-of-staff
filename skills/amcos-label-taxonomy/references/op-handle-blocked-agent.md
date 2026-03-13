@@ -58,8 +58,8 @@ gh issue comment $ISSUE_NUMBER --body "Agent blocked: $BLOCKER_REASON. Assigned 
 |--------------|--------|
 | Missing credentials | Escalate to human immediately |
 | External API unavailable | Wait and retry |
-| Unclear requirements | Escalate to EAMA |
-| Technical dependency | Coordinate with EAA |
+| Unclear requirements | Escalate to AMA |
+| Technical dependency | Coordinate with AMAA |
 
 ### Step 4: Escalate to Human (if needed)
 
@@ -71,7 +71,7 @@ gh issue edit $ISSUE_NUMBER --add-label "assign:human"
 ### Step 5: Notify via AI Maestro
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-main`
+- **Recipient**: `ama-main`
 - **Subject**: `Agent blocked on issue #[ISSUE_NUMBER]`
 - **Priority**: `high`
 - **Content**: type `blocker-escalation`, message: "Agent is blocked: [BLOCKER_REASON]. Human intervention required." Include `issue_number`.

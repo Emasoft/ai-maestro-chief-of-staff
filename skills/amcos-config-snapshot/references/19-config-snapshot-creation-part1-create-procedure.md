@@ -28,7 +28,7 @@
    fi
    ```
 
-2. **Read all central config files** (OPTIONAL: If EOA (AI Maestro Orchestrator Agent) plugin is installed)
+2. **Read all central config files** (OPTIONAL: If AMOA (AI Maestro Orchestrator Agent) plugin is installed)
    ```bash
    configs=(
      "design/config/toolchain.md"
@@ -89,9 +89,9 @@
    snapshot_content.append(f"**Session ID:** {session_id}\n")
    snapshot_content.append(f"**Snapshot Created:** {datetime.now().isoformat()}\n\n")
 
-   # Each config (OPTIONAL: If EOA (AI Maestro Orchestrator Agent) plugin is installed)
+   # Each config (OPTIONAL: If AMOA (AI Maestro Orchestrator Agent) plugin is installed)
    for config_name in ['toolchain', 'standards', 'environment', 'decisions']:
-       config_file = f"design/config/{config_name}.md"  # EOA (AI Maestro Orchestrator Agent) config path
+       config_file = f"design/config/{config_name}.md"  # AMOA (AI Maestro Orchestrator Agent) config path
        metadata = extract_config_metadata(config_file)
 
        snapshot_content.append(f"### {config_name}.md\n")
@@ -190,3 +190,5 @@
 **Version:** 1.0
 **Last Updated:** 2026-01-01
 **Related:** [19-config-snapshot-creation.md](./19-config-snapshot-creation.md)
+
+```

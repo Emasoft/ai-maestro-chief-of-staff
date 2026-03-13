@@ -32,7 +32,7 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 3. Verify: send ping, check heartbeat, confirm task resumption
 4. Success -> log outcome, resume monitoring
 5. Failure -> escalate to `amcos-agent-replacement`
-6. Notify EAMA of outcome
+6. Notify AMA of outcome
 
 | Strategy | When to Use | Recovery Time |
 |----------|-------------|---------------|
@@ -76,7 +76,7 @@ Copy this checklist and track your progress:
 - [ ] Recovery executed per operational runbook
 - [ ] Agent verified: ping, heartbeat, task resumption
 - [ ] Outcome logged to recovery-log.jsonl
-- [ ] EAMA notified of recovery result
+- [ ] AMA notified of recovery result
 
 ## Output
 
@@ -113,3 +113,4 @@ tmux has-session -t libs-svg-svgbbox 2>/dev/null && echo "exists" || echo "gone"
 - `references/op-execute-recovery-strategy.md` - Execute recovery runbook
 - `references/examples.md` - Complete recovery examples
 - `references/troubleshooting.md` - Common issues and solutions
+

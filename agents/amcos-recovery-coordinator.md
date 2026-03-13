@@ -35,7 +35,7 @@ You detect agent failures and coordinate recovery workflows across the AI Maestr
 |------|-------------|
 | NEVER replace without manager approval | Unless pre-authorized in recovery policy |
 | ALWAYS notify affected agents before recovery | Send AI Maestro warning message first |
-| ALWAYS notify orchestrator (EOA) when tasks need reassignment | Tasks cannot be orphaned |
+| ALWAYS notify orchestrator (AMOA) when tasks need reassignment | Tasks cannot be orphaned |
 | ALWAYS log all recovery actions | Write to `$CLAUDE_PROJECT_DIR/thoughts/shared/recovery-log.json` |
 | **AMP Messaging** | Use `amp-send.sh` for all inter-agent communication |
 
@@ -126,7 +126,8 @@ Log: recovery-log.json updated
 
 When returning results to the Chief of Staff or any parent agent:
 1. Write ALL detailed output to a timestamped .md file in `docs_dev/`
-2. Return to parent agent ONLY: `[DONE/FAILED] <task> - <one-line result>. Report: <filepath>`
+2. Return to parent agent ONLY: `[DONE/FAILED] <task> - <one-line result>. Report: `
 3. NEVER return code blocks, file contents, long lists, or verbose explanations
 4. Max 2 lines of text back to parent agent
 5. When calling scripts, reference the log file path from the script's summary output
+

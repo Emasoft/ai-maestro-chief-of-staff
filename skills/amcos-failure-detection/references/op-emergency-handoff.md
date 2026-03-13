@@ -66,7 +66,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
 
 ### Step 2: Notify Orchestrator
 
-1. **Send urgent notification to EOA**
+1. **Send urgent notification to AMOA**
    > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
    ```json
@@ -118,7 +118,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
 
 ### Step 4: Assign Work to Receiving Agent
 
-1. **Wait for EOA to assign available agent**
+1. **Wait for AMOA to assign available agent**
 
 2. **Send emergency handoff to receiving agent**
    > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
@@ -145,7 +145,7 @@ Transfer critical work immediately when deadlines cannot wait for the full agent
 
 1. **Track receiving agent's progress**
 2. **Escalate if deadline at risk**
-3. **Notify EAMA of emergency handoff status**
+3. **Notify AMA of emergency handoff status**
 
 ### Step 6: Post-Emergency Reconciliation
 
@@ -160,9 +160,9 @@ After deadline passes:
 Copy this checklist and track your progress:
 
 - [ ] Critical tasks identified
-- [ ] Orchestrator (EOA) notified
+- [ ] Orchestrator (AMOA) notified
 - [ ] Emergency handoff documentation created
-- [ ] Receiving agent assigned by EOA
+- [ ] Receiving agent assigned by AMOA
 - [ ] Emergency handoff sent to receiving agent
 - [ ] Receiving agent acknowledged
 - [ ] Work transfer verified

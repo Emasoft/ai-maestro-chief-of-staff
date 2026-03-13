@@ -32,7 +32,7 @@
 - [ ] Prepare rollback plan (terminate agent, clean up directory)
 
 **Submit approval request:**
-- [ ] Request approval from EAMA via amcos-approval-coordinator sub-agent
+- [ ] Request approval from AMA via amcos-approval-coordinator sub-agent
 - [ ] Wait for approval decision (timeout: 120s)
 - [ ] If rejected, notify requester and STOP
 - [ ] If approved, continue
@@ -47,7 +47,7 @@
 
 **Post-spawn tasks:**
 - [ ] Update team registry (if assigning to team)
-- [ ] Notify EOA of new agent availability (if project has EOA)
+- [ ] Notify AMOA of new agent availability (if project has AMOA)
 - [ ] Log spawn in lifecycle log: `docs_dev/amcos-team/agent-lifecycle.log`
 - [ ] Update cross-project tracking (if applicable)
 - [ ] Notify requester of success
@@ -64,7 +64,7 @@
 - [ ] Prepare rollback plan (re-spawn agent with same configuration)
 
 **Submit approval request:**
-- [ ] Request approval from EAMA via amcos-approval-coordinator
+- [ ] Request approval from AMA via amcos-approval-coordinator
 - [ ] Wait for approval decision (timeout: 120s)
 - [ ] If rejected, notify requester and STOP
 - [ ] If approved, continue
@@ -83,7 +83,7 @@
 **Post-termination tasks:**
 - [ ] Remove agent from all team registries
 - [ ] Log termination in lifecycle log
-- [ ] Notify EOA of agent removal (if project has EOA)
+- [ ] Notify AMOA of agent removal (if project has AMOA)
 - [ ] Update cross-project tracking
 - [ ] Notify requester of success
 
@@ -109,7 +109,7 @@
 
 **Post-hibernation:**
 - [ ] Log hibernation in lifecycle log
-- [ ] Notify EOA of agent status change (if applicable)
+- [ ] Notify AMOA of agent status change (if applicable)
 - [ ] Set wake condition (time-based or event-based)
 
 ---
@@ -134,7 +134,7 @@
 
 **Post-wake:**
 - [ ] Log wake in lifecycle log
-- [ ] Notify EOA of agent availability (if applicable)
+- [ ] Notify AMOA of agent availability (if applicable)
 - [ ] Remove hibernation snapshot (cleanup)
 
 ---
@@ -144,7 +144,7 @@
 **Preparation:**
 - [ ] Verify project directory exists
 - [ ] Verify project has `.ai-maestro/` directory (create if missing)
-- [ ] Identify team lead (typically EOA - AI Maestro Orchestrator Agent)
+- [ ] Identify team lead (typically AMOA - AI Maestro Orchestrator Agent)
 - [ ] Identify team members and their roles
 
 **Create team registry:**
@@ -159,8 +159,8 @@
 - [ ] Send message to each agent: "You have been assigned to <team-name> with role <role>. Team registry: <path>"
 - [ ] Wait for acknowledgment from each agent
 
-**Notify team lead (EOA):**
-- [ ] Send message to EOA: "Team formed. Members: <list>. Registry: <path>"
+**Notify team lead (AMOA):**
+- [ ] Send message to AMOA: "Team formed. Members: <list>. Registry: <path>"
 
 **Finalize:**
 - [ ] Log team formation in lifecycle log
@@ -185,7 +185,7 @@
 
 **Notify affected agents:**
 - [ ] Notify agent of registry change
-- [ ] Notify EOA of registry change
+- [ ] Notify AMOA of registry change
 
 **Finalize:**
 - [ ] Log update in lifecycle log

@@ -142,14 +142,14 @@ Verify ALL criteria met:
 - [ ] Agent listed in team's `members` array
 - [ ] Agent's role correctly specified in registry
 - [ ] Agent notified of team assignment via messaging
-- [ ] EOA (if exists) notified of new team member
+- [ ] AMOA (if exists) notified of new team member
 - [ ] Team directory structure created (if new team)
 
 **Evidence Required:**
 - Team registry JSON file with valid structure
 - Agent entry in team's members array with correct role
 - Message sent to agent confirming assignment
-- EOA notification message (if EOA exists)
+- AMOA notification message (if AMOA exists)
 - Team directories created under `.ai-maestro/teams/<team-name>/`
 - Lifecycle log entry with team assignment timestamp
 
@@ -167,7 +167,7 @@ Verify ALL criteria met:
 ## Approval Obtained
 
 Verify ALL criteria met:
-- [ ] Approval request submitted to EAMA
+- [ ] Approval request submitted to AMA
 - [ ] Request ID generated and logged
 - [ ] Manager decision received within timeout
 - [ ] Decision is `approved` (not `rejected` or `revision_needed`)
@@ -175,7 +175,7 @@ Verify ALL criteria met:
 - [ ] Requester notified of approval
 
 **Evidence Required:**
-- Message to EAMA with request details
+- Message to AMA with request details
 - Request ID in approval log
 - Manager response message with decision
 - Decision is explicitly `approved`
@@ -186,7 +186,7 @@ Verify ALL criteria met:
 
 1. Check approval log: `grep "<request-id>" docs_dev/chief-of-staff/approval-requests.log`
 2. Verify audit trail entry: `tail -n 50 docs_dev/chief-of-staff/approval-audit.log | grep "<request-id>"`
-3. Use the `agent-messaging` skill to check inbox for messages from EAMA containing approval decisions related to the request ID.
+3. Use the `agent-messaging` skill to check inbox for messages from AMA containing approval decisions related to the request ID.
 4. Verify decision is approved: `grep "<request-id>" docs_dev/chief-of-staff/approval-audit.log | grep -o '"decision":"[^"]*"'`
 
 ---
@@ -252,7 +252,7 @@ Verify ALL criteria met:
 3. All evidence collected and logged
 4. No errors or warnings in lifecycle log
 5. Operation logged to audit trail (if applicable)
-6. Relevant parties notified (requester, EOA, team members)
+6. Relevant parties notified (requester, AMOA, team members)
 
 **Operation is considered FAILED when:**
 1. Any critical verification criteria fails

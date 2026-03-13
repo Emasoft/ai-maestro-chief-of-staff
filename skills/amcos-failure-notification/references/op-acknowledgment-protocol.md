@@ -127,13 +127,13 @@ On "ok" response: Proceed with skill installation.
 
 ### Example 2: Approval Request ACK
 
-**Scenario:** Requesting EAMA approval for expensive operation.
+**Scenario:** Requesting AMA approval for expensive operation.
 
 Use the `agent-messaging` skill to send (2 minute timeout):
 - **Recipient**: `ai-maestro-assistant-manager-agent`
 - **Subject**: `Approval Request: Full Project Rescan`
 - **Priority**: `high`
-- **Content**: type `approval-request`, message: "Requesting approval for full project skill rescan. Estimated time: 15 minutes. Estimated cost: significant token usage. Reply 'approved' to proceed or 'denied' with reason." Include `timeout_seconds`: 120, `operation`: "full-rescan", `requires_acknowledgment`: true.
+- **Content**: type `approval-request`, message: "Requesting approval for full project skill rescan. Estimated time: 15 minutes. Estimated cost: significant token usage. Reply 'approved' to proceed or 'denied' with reason." Include `timeout_seconds`: 120, `operation`: "full-rescan`, `requires_acknowledgment`: true.
 
 ### Example 3: Emergency Handoff ACK
 

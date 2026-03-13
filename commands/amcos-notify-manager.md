@@ -1,6 +1,6 @@
 ---
 name: amcos-notify-manager
-description: "Notify the Assistant Manager (EAMA) about issues, status updates, or alerts via AI Maestro"
+description: "Notify the Assistant Manager (AMA) about issues, status updates, or alerts via AI Maestro"
 argument-hint: "--subject <TEXT> --message <TEXT> [--priority <PRIORITY>] [--type <TYPE>]"
 allowed-tools: ["Bash", "Task"]
 user-invocable: true
@@ -8,17 +8,17 @@ user-invocable: true
 
 # Notify Manager Command
 
-Send notifications to the Assistant Manager (EAMA) about issues, status updates, alerts, or other important information via AI Maestro messaging.
+Send notifications to the Assistant Manager (AMA) about issues, status updates, alerts, or other important information via AI Maestro messaging.
 
 ## Usage
 
-Send a message to the Assistant Manager (EAMA) using the `agent-messaging` skill:
-- **Recipient**: `ai-maestro-assistant-manager-agent` (EAMA)
+Send a message to the Assistant Manager (AMA) using the `agent-messaging` skill:
+- **Recipient**: `ai-maestro-assistant-manager-agent` (AMA)
 - **Subject**: the provided subject
 - **Content**: structured message with type, message body, timestamp, and optional metadata
 - **Priority**: the provided priority level
 
-**Verify**: confirm message delivery to EAMA.
+**Verify**: confirm message delivery to AMA.
 
 ## Notification Types
 
@@ -43,7 +43,7 @@ Send a message to the Assistant Manager (EAMA) using the `agent-messaging` skill
 | `--type <TYPE>` | No | Notification type (default: status_update) |
 | `--agent <NAME>` | No | Related agent name (for context) |
 | `--metadata <JSON>` | No | Additional structured data as JSON |
-| `--require-ack` | No | Request acknowledgment from EAMA |
+| `--require-ack` | No | Request acknowledgment from AMA |
 
 ## Priority Levels
 
@@ -96,7 +96,8 @@ Send a message to the Assistant Manager (EAMA) using the `agent-messaging` skill
 
 ## Message Content Structure
 
-Notifications to EAMA include the following content fields:
+
+Notifications to AMA include the following content fields:
 - **type**: the notification type (e.g., `issue_report`, `status_update`, `alert`)
 - **message**: the full notification message
 - **timestamp**: UTC timestamp of the notification
@@ -108,13 +109,13 @@ Notifications to EAMA include the following content fields:
 
 ```
 =======================================================================
-  NOTIFICATION SENT TO EAMA
+  NOTIFICATION SENT TO AMA
 =======================================================================
 
   Timestamp: 2025-02-02 15:30:00 UTC
   Message ID: msg-20250202153000-b2c3d4e5
 
-  To:       ai-maestro-assistant-manager-agent (EAMA)
+  To:       ai-maestro-assistant-manager-agent (AMA)
   Subject:  Agent helper-python unresponsive
   Priority: HIGH
   Type:     issue_report
@@ -132,7 +133,7 @@ Notifications to EAMA include the following content fields:
 
 ## Acknowledgment Request
 
-When `--require-ack` is used, EAMA is expected to respond:
+When `--require-ack` is used, AMA is expected to respond:
 
 ```json
 {
@@ -166,7 +167,7 @@ Check for acknowledgment with:
 
 ## Rate Limiting
 
-To avoid flooding EAMA:
+To avoid flooding AMA:
 - Status updates: Max 1 per hour per topic
 - Issue reports: Max 3 per hour for same issue
 - Alerts: No limit (but must be genuine)
@@ -176,14 +177,14 @@ To avoid flooding EAMA:
 | Error | Cause | Solution |
 |-------|-------|----------|
 | "AI Maestro not responding" | API unreachable | Check if AI Maestro is running |
-| "EAMA not available" | Manager agent offline | Queue message or retry later |
+| "AMA not available" | Manager agent offline | Queue message or retry later |
 | "Subject too long" | Exceeds 100 chars | Shorten subject line |
 | "Invalid priority" | Unknown priority value | Use: normal, high, urgent |
 | "Invalid type" | Unknown notification type | Use valid type from list |
 
 ## Message Queue
 
-If EAMA is offline, messages are queued:
+If AMA is offline, messages are queued:
 - Location: `~/.aimaestro/outbox/`
 - Auto-retry: Every 5 minutes
 - Expiry: 24 hours (configurable)

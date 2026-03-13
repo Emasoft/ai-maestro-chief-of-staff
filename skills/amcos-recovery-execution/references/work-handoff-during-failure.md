@@ -77,7 +77,7 @@ Initiate emergency handoff when ALL of the following are true:
 
 ### 5.3.2 Notification to Orchestrator
 
-Immediately notify EOA when initiating emergency handoff.
+Immediately notify AMOA when initiating emergency handoff.
 
 Use the `agent-messaging` skill to send the handoff request:
 - **Recipient**: `amoa-orchestrator`
@@ -97,10 +97,10 @@ Use the `agent-messaging` skill to send the handoff request:
 
 ### 5.3.3 Notification to Manager
 
-Notify EAMA about the emergency handoff.
+Notify AMA about the emergency handoff.
 
 Use the `agent-messaging` skill to send notification:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[ALERT] Emergency work handoff initiated`
 - **Priority**: `urgent`
 - **Content**: type `emergency-handoff-notification`, including:
@@ -208,7 +208,7 @@ When reassigning to another agent:
 
 1. **Identify capable agents** - agents with relevant skills/context
 2. **Check agent availability** - are they overloaded?
-3. **Request reassignment from EOA**
+3. **Request reassignment from AMOA**
 
 Use the `agent-messaging` skill to request reassignment:
 - **Recipient**: `amoa-orchestrator`
@@ -226,6 +226,7 @@ Use the `agent-messaging` skill to request reassignment:
 ### 5.5.2 Holding Tasks for Replacement Agent
 
 Non-critical tasks should be held, not reassigned.
+
 
 Use the `agent-messaging` skill to notify the orchestrator:
 - **Recipient**: `amoa-orchestrator`
@@ -258,7 +259,7 @@ Use the `agent-messaging` skill to request a task split:
 
 ### 5.6.1 Handoff Request to Orchestrator
 
-Use the `agent-messaging` skill to request EOA to coordinate emergency handoff:
+Use the `agent-messaging` skill to request AMOA to coordinate emergency handoff:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY HANDOFF] Immediate coordination required`
 - **Priority**: `urgent`
@@ -270,6 +271,7 @@ Use the `agent-messaging` skill to request EOA to coordinate emergency handoff:
   - What AMCOS will handle (continue replacement, notify when ready, reconcile work)
 
 ### 5.6.2 Task Reassignment Notification
+
 
 Use the `agent-messaging` skill to notify the receiving agent:
 - **Recipient**: the receiving agent session name
@@ -293,7 +295,7 @@ Use the `agent-messaging` skill to send detailed instructions:
   - Setup steps (clone repo, fetch changes, checkout branch, pull, review last commit)
   - Work guidelines (build on existing work, match coding style, ask before changing approach, commit frequently, test before marking complete)
   - Completion criteria (acceptance criteria met, tests pass, code committed and pushed, PR created or merged)
-  - Reporting structure (progress to AMCOS, blockers to EOA, completion to both)
+  - Reporting structure (progress to AMCOS, blockers to AMOA, completion to both)
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
@@ -320,7 +322,7 @@ git diff failed-agent-last-commit..receiving-agent-first-commit --name-only
 
 ### 5.7.2 Merging Partial Progress
 
-If both agents made progress, request EOA to coordinate the merge.
+If both agents made progress, request AMOA to coordinate the merge.
 
 Use the `agent-messaging` skill to request reconciliation:
 - **Recipient**: `amoa-orchestrator`
@@ -348,7 +350,7 @@ jq --arg task "task-001" --arg status "completed" '
 ' $CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json > temp.json && mv temp.json $CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json
 ```
 
-**2. Request GitHub Project update from EOA:**
+**2. Request GitHub Project update from AMOA:**
 
 Use the `agent-messaging` skill to request update:
 - **Recipient**: `amoa-orchestrator`
@@ -359,7 +361,7 @@ Use the `agent-messaging` skill to request update:
 **3. Notify manager of resolution:**
 
 Use the `agent-messaging` skill to report resolution:
-- **Recipient**: `eama-assistant-manager`
+- **Recipient**: `ama-assistant-manager`
 - **Subject**: `[RESOLVED] Emergency handoff completed successfully`
 - **Priority**: `normal`
 - **Content**: type `emergency-handoff-resolution`, including summary with original agent, receiving agent, task ID, deadline, completion time, outcome, and replacement status
@@ -394,7 +396,7 @@ Use the `agent-messaging` skill to report resolution:
 
 **Solution**:
 1. Decide which work is "canonical" (usually the completed work)
-2. Have EOA coordinate merge or rebase
+2. Have AMOA coordinate merge or rebase
 3. Update both agents about the resolution
 4. Ensure only one agent continues on the task going forward
 

@@ -391,10 +391,10 @@ def replace_agent(
     """Replace a failed agent with a new one.
 
     Steps:
-    1. Request approval from EAMA (uses amcos_approval_manager.py)
+    1. Request approval from AMA (uses amcos_approval_manager.py)
     2. Create new agent via aimaestro-agent.sh create
-    3. Notify EOA to generate handoff
-    4. Notify EOA to update GitHub Project kanban
+    3. Notify AMOA to generate handoff
+    4. Notify AMOA to update GitHub Project kanban
     5. Send message to new agent with handoff instructions
 
     Args:
@@ -422,7 +422,7 @@ def replace_agent(
         "details": {},
     }
 
-    # 1. Request approval from EAMA
+    # 1. Request approval from AMA
     # Check if approval manager exists
     script_dir = Path(__file__).parent
     approval_script = script_dir / "amcos_approval_manager.py"
@@ -492,7 +492,7 @@ def replace_agent(
 
     result["details"]["agent_created"] = True
 
-    # 3. Notify EOA to generate handoff via AMP CLI
+    # 3. Notify AMOA to generate handoff via AMP CLI
     handoff_msg = (
         f"Please generate handoff document for agent replacement. "
         f"Failed agent: {failed_agent}, New agent: {new_name}, "
@@ -505,11 +505,11 @@ def replace_agent(
         priority="high",
         msg_type="handoff_request",
     ):
-        result["details"]["eoa_handoff_notified"] = True
+        result["details"]["amoa_handoff_notified"] = True
     else:
-        result["details"]["eoa_handoff_error"] = "amp-send failed"
+        result["details"]["amoa_handoff_error"] = "amp-send failed"
 
-    # 4. Notify EOA to update GitHub Project kanban via AMP CLI
+    # 4. Notify AMOA to update GitHub Project kanban via AMP CLI
     kanban_msg = (
         f"Update GitHub Project kanban for agent replacement. "
         f"Mark {failed_agent} as failed, assign tasks to {new_name}"
@@ -521,9 +521,9 @@ def replace_agent(
         priority="normal",
         msg_type="kanban_update",
     ):
-        result["details"]["eoa_kanban_notified"] = True
+        result["details"]["amoa_kanban_notified"] = True
     else:
-        result["details"]["eoa_kanban_error"] = "amp-send failed"
+        result["details"]["amoa_kanban_error"] = "amp-send failed"
 
     # 5. Send message to new agent with handoff instructions via AMP CLI
     handoff_path = Path(work_dir) / "thoughts" / "shared" / "handoffs" / failed_agent

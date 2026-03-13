@@ -44,7 +44,7 @@ Copy this checklist and track your progress:
 
 | Output Type | Example |
 |-------------|---------|
-| Label Applied | `assign:eoa-svgbbox-orchestrator` |
+| Label Applied | `assign:amoa-svgbbox-orchestrator` |
 | Status Updated | `status:in-progress` applied |
 | Registry Synced | `current_issues: [42, 43]` updated |
 
@@ -55,7 +55,7 @@ Copy this checklist and track your progress:
 | Label | Description |
 |-------|-------------|
 | `assign:<agent-name>` | Specific agent assigned |
-| `assign:orchestrator` | EOA handling |
+| `assign:orchestrator` | AMOA handling |
 | `assign:human` | Human intervention required |
 
 AMCOS tracks assignments, reassigns when agents become unavailable, and clears assignments on termination.
@@ -98,3 +98,4 @@ See `references/label-commands-and-examples.md` for label commands, registry syn
 - `references/label-commands-and-examples.md`
 - **AGENT_OPERATIONS.md** - Canonical operations reference (in docs/ folder)
 - [GitHub Labels Documentation](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
+

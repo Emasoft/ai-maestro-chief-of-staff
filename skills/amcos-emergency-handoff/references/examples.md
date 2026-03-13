@@ -30,7 +30,7 @@
 3. Send restart command via tmux
 4. Wait for agent to re-register in AI Maestro
 5. Verify agent received pending messages
-6. Report recovery to EAMA
+6. Report recovery to AMA
 
 **Detailed procedure**:
 
@@ -38,7 +38,7 @@
 - **Step 3**: Send restart command via tmux session (exit and relaunch Claude Code)
 - **Step 4**: Wait 60 seconds, then use the `ai-maestro-agents-management` skill to verify agent status is "online"
 - **Step 5**: Use the `agent-messaging` skill to check for pending messages for agent `svgbbox-impl-01`. Expected: 0 pending
-- **Step 6**: Use the `agent-messaging` skill to report recovery to EAMA:
+- **Step 6**: Use the `agent-messaging` skill to report recovery to AMA:
   - **Recipient**: `eama-assistant-manager`
   - **Subject**: `[RESOLVED] Agent svgbbox-impl-01 recovered`
   - **Priority**: `normal`
@@ -55,7 +55,7 @@
 **Replacement protocol**:
 1. Agent crashes 3 times in 10 minutes
 2. Classify as terminal failure
-3. Request replacement from EAMA with urgency
+3. Request replacement from AMA with urgency
 4. Receive approval
 5. Create new agent with same role and task
 6. Handoff work context from failed agent's state backup

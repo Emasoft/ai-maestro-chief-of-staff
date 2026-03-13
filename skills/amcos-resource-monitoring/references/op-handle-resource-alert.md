@@ -118,7 +118,7 @@ For WARNING and CRITICAL alerts:
 ```json
 {
   "from": "amcos-chief-of-staff",
-  "to": "eama-assistant-manager",
+  "to": "ama-assistant-manager",
   "subject": "RESOURCE ALERT: [type]",
   "priority": "high",
   "content": {
@@ -179,12 +179,12 @@ Copy this checklist and track your progress:
 
 | Alert Type | Immediate Action | Notify |
 |------------|------------------|--------|
-| CPU_HIGH | Compact contexts | EAMA if critical |
-| MEMORY_LOW | Compact contexts, pause spawning | EAMA if critical |
-| DISK_FULL | Clear logs | EAMA, user |
-| SESSION_LIMIT | Stop spawning | EAMA |
-| RATE_LIMIT | Backoff | EAMA if persistent |
-| NETWORK_DOWN | Reconnect | EAMA, user immediately |
+| CPU_HIGH | Compact contexts | AMA if critical |
+| MEMORY_LOW | Compact contexts, pause spawning | AMA if critical |
+| DISK_FULL | Clear logs | AMA, user |
+| SESSION_LIMIT | Stop spawning | AMA |
+| RATE_LIMIT | Backoff | AMA if persistent |
+| NETWORK_DOWN | Reconnect | AMA, user immediately |
 
 ## Output
 

@@ -8,7 +8,7 @@ parent-skill: amcos-acknowledgment-protocol
 
 ## Contents
 
-- [When to Use](#when-to-use)
+- [When to Apply](#when-to-apply)
 - [Prerequisites](#prerequisites)
 - [Standardized ACK Timeout Policy](#standardized-ack-timeout-policy)
 - [Procedure](#procedure)
@@ -25,7 +25,7 @@ parent-skill: amcos-acknowledgment-protocol
 - [Error Handling](#error-handling)
 - [Related Operations](#related-operations)
 
-## When to Use
+## When to Apply
 
 Trigger this operation when:
 - Agent confirmation is required before proceeding
@@ -127,7 +127,7 @@ On "ok" response: Proceed with skill installation.
 
 ### Example 2: Approval Request ACK
 
-**Scenario:** Requesting EAMA approval for expensive operation.
+**Scenario:** Requesting AMA approval for expensive operation.
 
 Use the `agent-messaging` skill to send (2 minute timeout):
 - **Recipient**: `ai-maestro-assistant-manager-agent`

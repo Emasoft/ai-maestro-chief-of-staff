@@ -124,7 +124,7 @@ Recoverable failures should be resolved within **2 hours** with appropriate inte
 ### 2.4.4 Recommended Response
 
 1. **Diagnose the specific cause** before attempting recovery
-2. **Notify the manager (EAMA)** about the failure and planned recovery action
+2. **Notify the manager (AMA)** about the failure and planned recovery action
 3. **Attempt recovery** using the appropriate strategy from `references/recovery-strategies.md`
 4. **Verify agent functionality** after recovery
 5. **Update incident log** with resolution details
@@ -172,12 +172,12 @@ A **terminal failure** is a catastrophic disruption from which the agent cannot 
 - Agent's authentication credentials are invalid
 - Three consecutive recovery attempts have failed
 - Agent is producing corrupted or unsafe output
-- Manager (EAMA) explicitly orders replacement
+- Manager (AMA) explicitly orders replacement
 
 ### 2.5.4 Recommended Response
 
 1. **Confirm terminal status** - ensure recovery is truly impossible
-2. **Notify the manager (EAMA)** immediately with failure details
+2. **Notify the manager (AMA)** immediately with failure details
 3. **Request replacement approval** from manager
 4. **Preserve any recoverable artifacts** (logs, partial work, git commits)
 5. **Initiate replacement protocol** per `references/agent-replacement-protocol.md`
@@ -248,7 +248,7 @@ START: Failure detected
 
 ## 2.7 Escalation Thresholds
 
-AMCOS uses these thresholds to determine when to escalate to manager (EAMA):
+AMCOS uses these thresholds to determine when to escalate to manager (AMA):
 
 | Failure Type | Escalation Trigger | Notification Priority |
 |--------------|-------------------|----------------------|
@@ -346,7 +346,7 @@ echo '{
 
 ### Manager unresponsive during terminal failure
 
-**Symptom**: Terminal failure detected but manager (EAMA) does not respond to replacement request.
+**Symptom**: Terminal failure detected but manager (AMA) does not respond to replacement request.
 
 **Solution**:
 1. Wait 15 minutes for manager response

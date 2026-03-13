@@ -5,23 +5,23 @@
 - [1. Agent Spawn Approval](#1-agent-spawn-approval)
   - [1.1 When to Request Spawn Approval](#11-when-to-request-spawn-approval)
   - [1.2 Justification Requirements for Spawn](#12-justification-requirements-for-spawn)
-  - [1.3 EAMA Decision Options for Spawn](#13-eama-decision-options-for-spawn)
+  - [1.3 AMA Decision Options for Spawn](#13-ama-decision-options-for-spawn)
 - [2. Agent Terminate Approval](#2-agent-terminate-approval)
   - [2.1 When to Request Terminate Approval](#21-when-to-request-terminate-approval)
   - [2.2 Justification Requirements for Terminate](#22-justification-requirements-for-terminate)
-  - [2.3 EAMA Decision Options for Terminate](#23-eama-decision-options-for-terminate)
+  - [2.3 AMA Decision Options for Terminate](#23-ama-decision-options-for-terminate)
 - [3. Agent Hibernate Approval](#3-agent-hibernate-approval)
   - [3.1 When to Request Hibernate Approval](#31-when-to-request-hibernate-approval)
   - [3.2 Justification Requirements for Hibernate](#32-justification-requirements-for-hibernate)
-  - [3.3 EAMA Decision Options for Hibernate](#33-eama-decision-options-for-hibernate)
+  - [3.3 AMA Decision Options for Hibernate](#33-ama-decision-options-for-hibernate)
 - [4. Agent Wake Approval](#4-agent-wake-approval)
   - [4.1 When to Request Wake Approval](#41-when-to-request-wake-approval)
   - [4.2 Justification Requirements for Wake](#42-justification-requirements-for-wake)
-  - [4.3 EAMA Decision Options for Wake](#43-eama-decision-options-for-wake)
+  - [4.3 AMA Decision Options for Wake](#43-ama-decision-options-for-wake)
 - [5. Plugin Install Approval](#5-plugin-install-approval)
   - [5.1 When to Request Plugin Install Approval](#51-when-to-request-plugin-install-approval)
   - [5.2 Justification Requirements for Plugin Install](#52-justification-requirements-for-plugin-install)
-  - [5.3 EAMA Decision Options for Plugin Install](#53-eama-decision-options-for-plugin-install)
+  - [5.3 AMA Decision Options for Plugin Install](#53-ama-decision-options-for-plugin-install)
 
 ---
 
@@ -49,9 +49,9 @@ Your approval request MUST include:
 | `expected_duration` | How long the agent will run | `2 hours`, `30 minutes` |
 | `resource_requirements` | Resource level needed | `standard`, `high-memory` |
 
-### 1.3 EAMA Decision Options for Spawn
+### 1.3 AMA Decision Options for Spawn
 
-EAMA can respond with:
+AMA can respond with:
 
 | Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
@@ -89,9 +89,9 @@ Your approval request MUST include:
 | `final_report` | Summary of agent work | `Processed 1500 records successfully` |
 | `pending_work` | Any incomplete work | `none` or description |
 
-### 2.3 EAMA Decision Options for Terminate
+### 2.3 AMA Decision Options for Terminate
 
-EAMA can respond with:
+AMA can respond with:
 
 | Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
@@ -129,9 +129,9 @@ Your approval request MUST include:
 | `last_activity` | When agent last did work | `2025-02-02T09:45:00Z` |
 | `expected_wake_trigger` | What will wake the agent | `PR submitted`, `user request` |
 
-### 3.3 EAMA Decision Options for Hibernate
+### 3.3 AMA Decision Options for Hibernate
 
-EAMA can respond with:
+AMA can respond with:
 
 | Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
@@ -169,9 +169,9 @@ Your approval request MUST include:
 | `task_to_resume` | What agent will do | `Review PR #123` |
 | `priority` | Urgency level | `high`, `normal`, `low` |
 
-### 4.3 EAMA Decision Options for Wake
+### 4.3 AMA Decision Options for Wake
 
-EAMA can respond with:
+AMA can respond with:
 
 | Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|
@@ -210,9 +210,9 @@ Your approval request MUST include:
 | `capability` | What plugin adds | `Static code analysis` |
 | `security_implications` | Security considerations | `Reads source files only` |
 
-### 5.3 EAMA Decision Options for Plugin Install
+### 5.3 AMA Decision Options for Plugin Install
 
-EAMA can respond with:
+AMA can respond with:
 
 | Decision | Meaning | AMCOS Action |
 |----------|---------|-------------|

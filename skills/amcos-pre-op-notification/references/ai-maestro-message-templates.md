@@ -4,12 +4,12 @@
 ## Contents
 
 - [1. Standard Message Format (AMP)](#1-standard-message-format-amp)
-- [2. When Requesting Approval from EAMA](#2-when-requesting-approval-from-eama)
-- [3. When Escalating Issues to EAMA](#3-when-escalating-issues-to-eama)
+- [2. When Requesting Approval from AMA](#2-when-requesting-approval-from-ama)
+- [3. When Escalating Issues to AMA](#3-when-escalating-issues-to-ama)
 - [4. When Notifying Agents of Upcoming Operations](#4-when-notifying-agents-of-upcoming-operations)
 - [5. When Reporting Operation Results](#5-when-reporting-operation-results)
-- [6. When Notifying EOA of New Agent Availability](#6-when-notifying-eoa-of-new-agent-availability)
-- [7. When Requesting Team Status from EOA](#7-when-requesting-team-status-from-eoa)
+- [6. When Notifying AMOA of New Agent Availability](#6-when-notifying-amoa-of-new-agent-availability)
+- [7. When Requesting Team Status from AMOA](#7-when-requesting-team-status-from-amoa)
 - [8. When Broadcasting Team Updates](#8-when-broadcasting-team-updates)
 - [9. Message Type Reference](#9-message-type-reference)
 
@@ -22,6 +22,7 @@ All messages use the AMP protocol via `amp-send.sh`. Never call the HTTP API dir
 ## 1. Standard Message Format (AMP)
 
 All messages are sent using `amp-send.sh`. Messages are automatically Ed25519-signed by the AMP transport layer.
+
 
 **Setup (once per agent):**
 ```bash
@@ -37,7 +38,7 @@ amp-send.sh --to <recipient> --subject "<subject>" --priority <priority> --type 
 
 ---
 
-## 2. When Requesting Approval from EAMA
+## 2. When Requesting Approval from AMA
 
 **Use case:** Before spawning, terminating, or replacing agents.
 
@@ -51,9 +52,10 @@ amp-send.sh --to eama-main \
 
 **Expected response fields:** `decision` (approved|rejected|revision_needed), `reason`, `conditions` (optional).
 
+
 ---
 
-## 3. When Escalating Issues to EAMA
+## 3. When Escalating Issues to AMA
 
 **Use case:** Issues outside AMCOS authority or requiring human intervention.
 
@@ -90,6 +92,7 @@ amp-send.sh --to <target-agent> \
   --message "Operation: <description>. Type: <hibernate|terminate|move>. Countdown: <seconds>s. Save your work and reply with 'ok' when ready."
 ```
 
+
 **Standard countdown times:** Hibernation: 30s, Termination: 30s, Project move: 60s.
 
 ---
@@ -108,9 +111,10 @@ amp-send.sh --to <requesting-agent> \
 
 **Priority:** `normal` for success, `high` for failure.
 
+
 ---
 
-## 6. When Notifying EOA of New Agent Availability
+## 6. When Notifying AMOA of New Agent Availability
 
 **Use case:** After spawning agent and adding to team.
 
@@ -124,9 +128,10 @@ amp-send.sh --to <orchestrator-session> \
 
 ---
 
-## 7. When Requesting Team Status from EOA
+## 7. When Requesting Team Status from AMOA
 
 **Use case:** Checking current status of all team members.
+
 
 ```bash
 amp-send.sh --to <orchestrator-session> \
@@ -154,6 +159,7 @@ for agent in <agent1> <agent2> <agent3>; do
 done
 ```
 
+
 **Broadcast actions:** `refresh_registry`, `update_roles`, `member_removed`, `member_added`.
 
 ---
@@ -162,12 +168,12 @@ done
 
 | Message Type | Purpose | Priority | Response Expected |
 |--------------|---------|----------|-------------------|
-| `approval_request` | Request permission from EAMA | `normal` | Yes (timeout: 120s) |
-| `escalation` | Report critical issue to EAMA | `urgent`/`high` | Yes (varies) |
+| `approval_request` | Request permission from AMA | `normal` | Yes (timeout: 120s) |
+| `escalation` | Report critical issue to AMA | `urgent`/`high` | Yes (varies) |
 | `operation_notice` | Warn agent of upcoming operation | `high` | No |
 | `operation_result` | Report operation outcome | `normal`/`high` | No |
-| `team_update` | Notify EOA of new agent | `normal` | No |
-| `status_request` | Request team status from EOA | `normal` | Yes (timeout: 60s) |
+| `team_update` | Notify AMOA of new agent | `normal` | No |
+| `status_request` | Request team status from AMOA | `normal` | Yes (timeout: 60s) |
 | `team_broadcast` | Notify all team members | `normal` | No |
 | `health_check` | Verify agent is responsive | `normal` | Yes (timeout: 30s) |
 

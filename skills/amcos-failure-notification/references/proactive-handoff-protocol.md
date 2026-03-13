@@ -169,7 +169,7 @@ GitHub operation requested
     │               │
     ▼               ▼
 ┌──────────┐  ┌──────────────┐
-│ Include  │  │ Route to EIA │
+│ Include  │  │ Route to AMIA │
 │ UUIDs in │  │ directly     │
 │ handoff  │  └──────────────┘
 └────┬─────┘
@@ -198,7 +198,7 @@ Design operations require handoff when:
 ---
 uuid: <generated-uuid>
 from: <agent-name>
-to: EAA
+to: AMAA
 timestamp: <ISO-8601>
 priority: normal|high|urgent
 operation_type: design
@@ -230,6 +230,7 @@ design_action: create|update|review|link|implement
 - **Link Context**: <why this link exists>
 
 ## Pre-Handoff Search Results
+
 
 Before creating this handoff, AMCOS searched for existing designs:
 ```
@@ -315,7 +316,7 @@ All UUIDs are registered in: `$CLAUDE_PROJECT_DIR/docs_dev/.uuid-registry.json`
   "handoffs": {
     "hoff-20250129-a1b2c3": {
       "from": "ecos",
-      "to": "eaa",
+      "to": "amaa",
       "timestamp": "2025-01-29T10:00:00Z",
       "type": "design",
       "related_uuids": ["dsgn-skillf-x4y5z6"]
@@ -340,6 +341,7 @@ All UUIDs are registered in: `$CLAUDE_PROJECT_DIR/docs_dev/.uuid-registry.json`
 ```
 
 ### UUID Propagation Rules
+
 
 1. **Handoff creates new UUID**: Every handoff gets a unique UUID
 2. **Include parent UUIDs**: Reference triggering handoff UUID

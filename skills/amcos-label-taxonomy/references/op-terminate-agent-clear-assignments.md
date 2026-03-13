@@ -116,4 +116,4 @@ gh issue list --label "assign:implementer-1"
 
 - If agent was mid-work, consider adding `status:blocked` instead of `status:backlog`
 - Document any partial work in issue comments
-- Notify EOA about freed issues for reassignment
+- Notify AMOA about freed issues for reassignment

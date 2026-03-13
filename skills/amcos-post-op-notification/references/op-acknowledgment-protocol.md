@@ -8,7 +8,7 @@ parent-skill: amcos-post-op-notification
 
 ## Contents
 
-- [When to Use](#when-to-use)
+- [When to use](#when-to-use)
 - [Prerequisites](#prerequisites)
 - [Standardized ACK Timeout Policy](#standardized-ack-timeout-policy)
 - [Procedure](#procedure)
@@ -69,6 +69,7 @@ Track elapsed time from request sent. Default timeout: 60 seconds. Reminder inte
 
 ### Step 3: Send Reminders
 
+
 At each reminder interval, if no response, use the `agent-messaging` skill to send a reminder:
 - **Recipient**: the target agent session name
 - **Subject**: `Reminder: [Original Subject]`
@@ -127,7 +128,7 @@ On "ok" response: Proceed with skill installation.
 
 ### Example 2: Approval Request ACK
 
-**Scenario:** Requesting EAMA approval for expensive operation.
+**Scenario:** Requesting AMA approval for expensive operation.
 
 Use the `agent-messaging` skill to send (2 minute timeout):
 - **Recipient**: `ai-maestro-assistant-manager-agent`

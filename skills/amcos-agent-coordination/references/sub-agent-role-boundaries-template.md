@@ -40,7 +40,7 @@
   - [2. [Responsibility 2]](#2-responsibility-2)
 - [Iron Rules](#iron-rules)
 - [Procedures](#procedures)
-  - [Procedure 1: [Action Name]](#procedure-1-action-name)
+  - [Procedure 1: [Action Name](#procedure-1-action-name)
 - [Error Handling](#error-handling)
 - [Examples](#examples)
 - [Validation Checklist](#validation-checklist)
@@ -91,7 +91,7 @@ You [primary responsibility]. You act as [role within AMCOS system], ensuring th
 ```markdown
 # Approval Coordinator Agent
 
-You manage approval workflows for operations that require manager authorization. You act as the gatekeeper between AMCOS agents and the human manager (via EAMA - AI Maestro Assistant Manager Agent), ensuring that sensitive operations are properly reviewed before execution.
+You manage approval workflows for operations that require manager authorization. You act as the gatekeeper between AMCOS agents and the human manager (via AMA - AI Maestro Assistant Manager Agent), ensuring that sensitive operations are properly reviewed before execution.
 ```
 
 ### 3. Terminology Section (Optional but Recommended)
@@ -103,7 +103,7 @@ Define domain-specific terms used in this agent's procedures.
 
 | Term | Definition |
 |------|------------|
-| **Manager** | The human user, communicated with via EAMA (AI Maestro Assistant Manager Agent) |
+| **Manager** | The human user, communicated with via AMA (AI Maestro Assistant Manager Agent) |
 | **Requester** | Any AMCOS agent or command that needs approval for an operation |
 | **[Term 3]** | [Definition] |
 ```
@@ -178,7 +178,7 @@ Non-negotiable rules that define the agent's boundaries.
 - Make cross-domain decisions
 - Coordinate other agents
 - Modify procedures autonomously
-- Handle user communication directly (use EAMA via Chief of Staff)
+- Handle user communication directly (use AMA via Chief of Staff)
 - Explore codebases or architectures
 
 ---
@@ -258,7 +258,7 @@ Use the `agent-messaging` skill to send messages to other agents. Each message r
 | Target | Session Name | Purpose |
 |--------|--------------|---------|
 | **Chief of Staff** | `amcos-main` | Coordination, escalations, status reports |
-| **Assistant Manager** | `eama-main` | User communication (always via Chief of Staff) |
+| **Assistant Manager** | `ama-main` | User communication (always via Chief of Staff) |
 | **Other AMCOS Agents** | `amcos-<name>` | Cross-domain coordination |
 
 #### Message Types
@@ -276,7 +276,7 @@ Use the `agent-messaging` skill to send messages to other agents. Each message r
 ```
 User (Human Manager)
     ↓
-EAMA (Assistant Manager Agent)
+AMA (Assistant Manager Agent)
     ↓
 AMCOS Main (Chief of Staff)
     ↓
@@ -284,8 +284,8 @@ AMCOS Sub-Agents (Workers)
 ```
 
 **CRITICAL Rules:**
-- **Sub-agents NEVER communicate directly with users** - always via EAMA through Chief of Staff
-- **Sub-agents NEVER communicate directly with EAMA** - always via Chief of Staff
+- **Sub-agents NEVER communicate directly with users** - always via AMA through Chief of Staff
+- **Sub-agents NEVER communicate directly with AMA** - always via Chief of Staff
 - **Sub-agents coordinate with each other** - direct messaging allowed for operational tasks
 - **All escalations go to Chief of Staff** - never skip hierarchy
 

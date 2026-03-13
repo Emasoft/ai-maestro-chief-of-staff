@@ -122,9 +122,9 @@ Last validated phase per agent:
 ## Communication Hierarchy
 
 ```
-USER <-> AMCOS (Chief of Staff) <-> EAA (Architect)
-                                  <-> EOA (Orchestrator)
-                                  <-> EIA (Integrator)
+USER <-> AMCOS (Chief of Staff) <-> AMAA (Architect)
+                                  <-> AMOA (Orchestrator)
+                                  <-> AMIA (Integrator)
 ```
 
 **CRITICAL**: Architect (eaa-), Orchestrator (eoa-), and Integrator (eia-) do NOT communicate directly with each other. All communication flows through Chief of Staff (amcos-).
@@ -189,3 +189,4 @@ All handoff files are stored in: `docs_dev/handoffs/`
 4. **In Progress** - Recipient actively working on task
 5. **Completed** - Task finished, status: completed
 6. **Rejected** - Recipient cannot accept, status: rejected (with reason)
+

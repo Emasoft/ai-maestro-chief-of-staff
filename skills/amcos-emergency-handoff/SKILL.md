@@ -15,11 +15,11 @@ agent: ai-maestro-chief-of-staff-main-agent
 
 ## Overview
 
-Transfer critical work when deadlines cannot wait. Routes task blocker escalations to EAMA.
+Transfer critical work when deadlines cannot wait. Routes task blocker escalations to AMA.
 
 ## Prerequisites
 
-- Deadline-critical failure OR task blocker escalation from EOA
+- Deadline-critical failure OR task blocker escalation from AMOA
 - AI Maestro running locally
 - Handoff dir: `$CLAUDE_PROJECT_DIR/thoughts/shared/handoffs/emergency/`
 
@@ -28,12 +28,12 @@ Transfer critical work when deadlines cannot wait. Routes task blocker escalatio
 ### Phase 5: Emergency Work Handoff
 
 1. Identify critical tasks at risk
-2. Notify EOA of emergency handoff initiation
+2. Notify AMOA of emergency handoff initiation
 3. Find an available receiving agent
 4. Create minimum-viable handoff doc (task, state, files, deadline)
 5. Send handoff via AI Maestro
 6. Verify receiving agent acknowledges
-7. Notify EAMA (notification only, no approval needed)
+7. Notify AMA (notification only, no approval needed)
 8. Monitor deadline compliance
 
 | Aspect | Regular | Emergency |
@@ -48,17 +48,17 @@ Transfer critical work when deadlines cannot wait. Routes task blocker escalatio
 **Agent Failures** -- resolve via failure recovery workflow.
 
 **Task Blockers** -- blocked by missing info/access/user decision:
-1. Receive escalation from EOA
+1. Receive escalation from AMOA
 2. AMCOS can resolve? (reassignment, permission) -> handle directly
-3. Needs user input? -> route to EAMA via `blocker-escalation`
-4. Track; route EAMA response back to EOA
+3. Needs user input? -> route to AMA via `blocker-escalation`
+4. Track; route AMA response back to AMOA
 
 ### Decision Tree
 
 ```
 Escalation -> Agent failure? -> recovery workflow
            -> Blocker AMCOS resolves? -> handle
-           -> Needs user input? -> route to EAMA
+           -> Needs user input? -> route to AMA
 ```
 
 ### Handoff Validation Checklist
@@ -74,17 +74,17 @@ Copy this checklist and track your progress:
 | Result | Output |
 |---|---|
 | Handoff sent | Work transferred to available agent |
-| Blocker routed | Awaiting EAMA user decision |
+| Blocker routed | Awaiting AMA user decision |
 | Blocker resolved | Agent reassigned directly |
 
 ## Error Handling
 
 | Issue | Resolution |
 |---|---|
-| No available agent | Notify EAMA for manual intervention |
+| No available agent | Notify AMA for manual intervention |
 | Handoff rejected | Try next available agent |
 | Deadline missed | Document, notify, post-mortem |
-| EAMA unresponsive | 15 min wait, reminder, escalate |
+| AMA unresponsive | 15 min wait, reminder, escalate |
 
 ## Examples
 
@@ -99,7 +99,7 @@ amp-send.sh apps-svgplayer-development "EMERGENCY: SVG fix (2h)" urgent \
 
 ```bash
 amp-send.sh eama-assistant-manager "BLOCKER: API key needed" high \
-  '{"type":"blocker-escalation","message":"API key needed, user must provide.","blocker_type":"user-decision","impact":"Deploy blocked","escalated_from":"eoa-deployment"}'
+  '{"type":"blocker-escalation","message":"API key needed, user must provide.","blocker_type":"user-decision","impact":"Deploy blocked","escalated_from":"amoa-deployment"}'
 ```
 
 ## Resources
@@ -107,3 +107,4 @@ amp-send.sh eama-assistant-manager "BLOCKER: API key needed" high \
 - `references/work-handoff-during-failure.md` - Handoff procedures
 - `references/op-emergency-handoff.md` - Handoff runbook
 - `references/op-route-task-blocker.md` - Blocker routing runbook
+

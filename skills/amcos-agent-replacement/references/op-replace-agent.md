@@ -43,8 +43,8 @@ The new agent does not know:
 - The project context
 
 Therefore:
-- Orchestrator (EOA) must generate handoff documentation
-- EOA must reassign tasks in GitHub Project kanban
+- Orchestrator (AMOA) must generate handoff documentation
+- AMOA must reassign tasks in GitHub Project kanban
 - AMCOS must send handoff docs to new agent
 
 ## Steps
@@ -72,7 +72,7 @@ Therefore:
 
 ### Phase 2: Request Manager Approval
 
-1. **Notify EAMA (Assistant Manager)**
+1. **Notify AMA (Assistant Manager)**
    > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
    ```json
@@ -111,7 +111,7 @@ Therefore:
 
 ### Phase 4: Notify Orchestrator
 
-1. **Send notification to EOA**
+1. **Send notification to AMOA**
    > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
 
    ```json
@@ -130,11 +130,11 @@ Therefore:
    }
    ```
 
-2. **Wait for EOA to generate handoff documentation**
+2. **Wait for AMOA to generate handoff documentation**
 
 ### Phase 5: Send Handoff to New Agent
 
-1. **Receive handoff docs from EOA**
+1. **Receive handoff docs from AMOA**
 
 2. **Send handoff to new agent**
    > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
@@ -159,7 +159,7 @@ Therefore:
 
 1. **Deregister failed agent** (if still registered)
 2. **Update incident log with closure**
-3. **Notify EAMA of completion**
+3. **Notify AMA of completion**
 
 ## Checklist
 
@@ -167,16 +167,16 @@ Copy this checklist and track your progress:
 
 - [ ] Terminal failure confirmed
 - [ ] Artifacts preserved
-- [ ] Manager (EAMA) notified
+- [ ] Manager (AMA) notified
 - [ ] Replacement approval received
 - [ ] Replacement agent created
-- [ ] Orchestrator (EOA) notified
-- [ ] Handoff documentation received from EOA
+- [ ] Orchestrator (AMOA) notified
+- [ ] Handoff documentation received from AMOA
 - [ ] Handoff sent to new agent
 - [ ] New agent acknowledged handoff
 - [ ] Failed agent deregistered
 - [ ] Incident closed
-- [ ] EAMA notified of completion
+- [ ] AMA notified of completion
 
 ## Output
 

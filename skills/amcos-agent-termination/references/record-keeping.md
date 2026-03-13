@@ -105,7 +105,7 @@ echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [$operation] [$agent_name] $details" >>
 
 ## Project: svgbbox-library
 
-**Team Lead:** svgbbox-orchestrator (EOA)
+**Team Lead:** svgbbox-orchestrator (AMOA)
 
 | Agent Name | Role | Status | Added | Last Active |
 |------------|------|--------|-------|-------------|
@@ -120,7 +120,7 @@ echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [$operation] [$agent_name] $details" >>
 
 ## Project: auth-service
 
-**Team Lead:** auth-orchestrator (EOA)
+**Team Lead:** auth-orchestrator (AMOA)
 
 | Agent Name | Role | Status | Added | Last Active |
 |------------|------|--------|-------|-------------|
@@ -185,7 +185,7 @@ uv run python scripts/amcos_archive_logs.py --older-than 30d --destination "$CLA
 All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 - **Git-ignored** (local only)
 - **Read/write by AMCOS** (and sub-agents)
-- **Read-only by EOA** (for status queries)
+- **Read-only by AMOA** (for status queries)
 
 ---
 
@@ -382,7 +382,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 
 ### Team Status Report Format
 
-**Purpose:** Summary of team status sent by EOA to AMCOS
+**Purpose:** Summary of team status sent by AMOA to AMCOS
 
 **Structure:**
 ```json

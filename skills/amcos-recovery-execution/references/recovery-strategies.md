@@ -138,6 +138,7 @@ Use the `agent-messaging` skill to send:
 
 ### 3.4.3 Hard Restart Procedure
 
+
 A hard restart forcefully terminates the agent process and starts a new one. Use only when soft restart fails.
 
 **IMPORTANT**: Hard restart requires coordination with the user who controls that host.
@@ -145,7 +146,7 @@ A hard restart forcefully terminates the agent process and starts a new one. Use
 **Step 1: Notify manager about hard restart**
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager` (or the manager session name)
+- **Recipient**: `ama-assistant-manager` (or the manager session name)
 - **Subject**: `[ACTION] Hard restart required for agent`
 - **Priority**: `high`
 - **Content**: type `action-notification`, message: "Soft restart failed for agent [agent-name]. Initiating hard restart. The agent may lose unsaved work." Include `agent`, `action`: "hard_restart", `risk`: "Unsaved work may be lost", `proceeding_in`: "30 seconds".
@@ -160,15 +161,18 @@ Use the `agent-messaging` skill to send:
 - **Priority**: `urgent`
 - **Content**: type `user-action-required`, message: "Please restart the Claude Code session for agent [agent-name]. The session is unresponsive and cannot be recovered remotely." Include `instructions` listing the steps: find the terminal, press Ctrl+C, run claude --resume, verify responsiveness. Include `agent` and `urgency`: "Please complete within 10 minutes".
 
+
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 
 **Step 3: Wait for restart confirmation**
 
 ### 3.4.4 Post-Restart Verification
 
+
 After restart (soft or hard), verify the agent is functional:
 
 **Step 1: Wait 60 seconds for agent to initialize**
+
 
 **Step 2: Send verification heartbeat**
 
@@ -185,6 +189,7 @@ Use the `agent-messaging` skill to send:
 ---
 
 ## 3.5 Strategy: Hibernate-Wake Cycle
+
 
 ### 3.5.1 When to Use Hibernate-Wake
 
@@ -272,7 +277,7 @@ Use this strategy when:
 AMCOS cannot directly modify system resources. Request changes via manager.
 
 Use the `agent-messaging` skill to send:
-- **Recipient**: `eama-assistant-manager` (or the manager session name)
+- **Recipient**: `ama-assistant-manager` (or the manager session name)
 - **Subject**: `[RESOURCE REQUEST] Agent needs more resources`
 - **Priority**: `high`
 - **Content**: type `resource-request`, message: "Agent [agent-name] crashed due to insufficient memory. Requesting memory increase to allow recovery." Include fields: `agent`, `resource_issue` (e.g., "out_of_memory"), `current_allocation`, `requested_allocation`, `justification`, `alternative` (a workaround if resource increase is denied).
@@ -296,7 +301,7 @@ Proceed to replacement when:
 Before initiating replacement, verify:
 
 - [ ] Recovery attempts exhausted (document all attempts)
-- [ ] Manager (EAMA) notified and approved
+- [ ] Manager (AMA) notified and approved
 - [ ] Recoverable artifacts identified (git commits, logs, partial work)
 - [ ] Replacement host available
 - [ ] Task handoff documentation prepared (or will be generated)
@@ -309,7 +314,7 @@ See `references/agent-replacement-protocol.md` for the complete replacement work
 **Short version:**
 
 Use the `agent-messaging` skill to send a replacement request:
-- **Recipient**: `eama-assistant-manager` (or the manager session name)
+- **Recipient**: `ama-assistant-manager` (or the manager session name)
 - **Subject**: `[REPLACEMENT] Recovery failed, replacement required`
 - **Priority**: `urgent`
 - **Content**: type `replacement-request`, message: "All recovery strategies have failed for agent [agent-name]. Requesting approval to proceed with replacement." Include fields: `agent`, `recovery_attempts` (array of strategies tried with results), `recommendation`: "replace", `awaiting_approval`: true.
