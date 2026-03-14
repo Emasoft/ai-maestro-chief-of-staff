@@ -193,7 +193,7 @@ uv run python scripts/amcos_team_registry.py list --filter-name "$SESSION_NAME"
 | Registry file not found | First run or file deleted | Run `create` command to initialize registry |
 | Agent already exists | Duplicate add-agent call | Use update-status instead or remove first |
 | Agent not found | Wrong name or already removed | Check agent name with `list` command |
-| Permission denied | File permissions issue | Check write permissions on .emasoft directory |
+| Permission denied | File permissions issue | Check write permissions on .ai-maestro directory |
 | JSON parse error | Corrupt registry file | Restore from backup or recreate |
 | Broadcast failed | AI Maestro not running | Start AI Maestro or skip broadcast |
 
