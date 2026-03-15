@@ -94,6 +94,18 @@ All responses follow:
 2. **Command(s) executed** (bash code block)
 3. **Result summary** (status, next steps if needed)
 
+## Token-Efficient Tools
+
+When available, prefer these over reading large files into your context:
+
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize agent state files before lifecycle decisions, `code_task` to analyze agent configuration. Always use `input_files_paths` (never paste content). Include "This is agent lifecycle management for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
+- **Serena MCP** (`mcp__serena-mcp__*`): Use `find_symbol` to locate lifecycle-related functions, `search_for_pattern` to find agent references across the codebase.
+- **TLDR CLI**: Run `tldr search "agent\|lifecycle\|spawn"` to find lifecycle-related code patterns.
+
+REPORTING RULES:
+- Return to orchestrator ONLY: "[DONE/FAILED] task - brief result"
+- Max 2 lines of text back to orchestrator
+
 ## Reporting Rules (MANDATORY)
 
 When returning results to the Chief of Staff or any parent agent:

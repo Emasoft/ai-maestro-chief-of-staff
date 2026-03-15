@@ -47,6 +47,18 @@ Include:
 - Execution plan (phases, duration, dependencies)
 - Resource requirements (total agents, max concurrent, critical path)
 
+## Token-Efficient Tools
+
+When available, prefer these over reading large files into your context:
+
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `code_task` to analyze project files for complexity assessment, `scan_folder` to survey codebase structure, `chat` to summarize large requirements docs. Always use `input_files_paths` (never paste content). Include "This is a staffing analysis for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
+- **Serena MCP** (`mcp__serena-mcp__*`): Use `get_symbols_overview` to count functions/classes per file, `find_symbol` to locate specific code elements when assessing task scope.
+- **TLDR CLI**: Run `tldr structure .` for project overview, `tldr arch src/` for layer analysis, `tldr calls src/` for call graph — all useful for complexity and dependency assessment.
+
+REPORTING RULES:
+- Return to orchestrator ONLY: "[DONE/FAILED] task - brief result"
+- Max 2 lines of text back to orchestrator
+
 ## Reporting Rules (MANDATORY)
 
 When returning results to the Chief of Staff or any parent agent:

@@ -252,5 +252,5 @@ AMOA: Sends handoff to agent-456
 ---
 
 **Plugin**: `ai-maestro-chief-of-staff`
-**Document Version**: 2.11.0
+**Document Version**: 2.12.0
 **Last Updated**: 2026-03-13

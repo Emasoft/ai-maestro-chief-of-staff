@@ -97,6 +97,18 @@ Before configuring plugins, read the **amcos-plugin-management** skill SKILL.md 
 
 ---
 
+## Token-Efficient Tools
+
+When available, prefer these over reading large files into your context:
+
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `code_task` to analyze plugin configuration files, `batch_check` to validate multiple plugin manifests, `compare_files` to diff config versions. Always use `input_files_paths` (never paste content). Include "This is Claude Code plugin configuration analysis" in instructions. Set `ensemble: false` for simple checks.
+- **Serena MCP** (`mcp__serena-mcp__*`): Use `find_symbol` to locate plugin configuration functions, `get_symbols_overview` to list exports from config modules, `search_for_pattern` to find configuration patterns.
+- **TLDR CLI**: Run `tldr structure .` to see plugin layout, `tldr imports file.py` to check dependencies, `tldr search "config\|plugin\|setting"` to find configuration code.
+
+REPORTING RULES:
+- Return to orchestrator ONLY: "[DONE/FAILED] task - brief result"
+- Max 2 lines of text back to orchestrator
+
 ## Reporting Rules (MANDATORY)
 
 When returning results to the Chief of Staff or any parent agent:

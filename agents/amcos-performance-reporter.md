@@ -91,6 +91,20 @@ Missing Data: {unavailable sources}
 Partial Report: {YES/NO - if partial, provide path}
 ```
 
+## Token-Efficient Tools
+
+When available, prefer these over reading large files into your context:
+
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize large performance logs, `batch_check` to analyze multiple agent log files, `scan_folder` to survey log directories for patterns. Always use `input_files_paths` (never paste content). Include "This is performance analysis for an AI Maestro team" in instructions. Set `ensemble: false` for simple summaries.
+- **Serena MCP** (`mcp__serena-mcp__*`): Use `search_for_pattern` to find performance-related metrics in code, `find_symbol` to locate tracking functions.
+- **TLDR CLI**: Run `tldr search "metric\|performance\|latency"` to find performance-related code, `tldr impact func_name` to trace how metrics flow through the system.
+
+REPORTING RULES:
+- Return to orchestrator ONLY: "[DONE/FAILED] task - brief result"
+- Max 2 lines of text back to orchestrator
+
+---
+
 ## Reporting Rules (MANDATORY)
 
 When returning results to the Chief of Staff or any parent agent:
