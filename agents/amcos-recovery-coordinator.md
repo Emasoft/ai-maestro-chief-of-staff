@@ -127,7 +127,7 @@ Log: recovery-log.json updated
 When available, prefer these over reading large files into your context:
 
 - **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize failure logs and error reports, `code_task` to analyze recovery scripts for correctness, `batch_check` to review multiple incident reports. Always use `input_files_paths` (never paste content). Include "This is failure recovery analysis for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
-- **Serena MCP** (`mcp__serena-mcp__*`): Use `find_symbol` to locate recovery functions, `search_for_pattern` to find error handling patterns across the codebase.
+- **Serena MCP** (`mcp__plugin_serena_serena__*`): Use `find_symbol` to locate recovery functions, `search_for_pattern` to find error handling patterns across the codebase.
 - **TLDR CLI**: Run `tldr search "recover\|failure\|error"` to find recovery-related code, `tldr cfg file.py func` to understand control flow in recovery procedures.
 
 REPORTING RULES:

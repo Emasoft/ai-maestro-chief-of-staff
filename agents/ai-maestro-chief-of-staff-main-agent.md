@@ -368,7 +368,7 @@ Use `mcp__plugin_llm-externalizer_llm-externalizer__*` tools to offload bounded 
 
 ### Serena MCP
 
-Use `mcp__serena-mcp__*` tools for precise code navigation:
+Use `mcp__plugin_serena_serena__*` tools for precise code navigation:
 - `find_symbol` — locate functions, classes, variables by name
 - `find_referencing_symbols` — find all callers of a symbol
 - `get_symbols_overview` — list all symbols in a file
