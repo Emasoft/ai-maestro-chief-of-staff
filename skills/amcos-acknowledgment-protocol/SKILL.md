@@ -15,7 +15,7 @@ agent: ai-maestro-chief-of-staff-main-agent
 
 ## Overview
 
-The acknowledgment protocol ensures agents confirm readiness before disruptive operations proceed. Covers sending ACK requests, managing timeouts with standardized intervals, sending reminders, and handling timeout scenarios.
+Ensures agents confirm readiness before disruptive operations via ACK requests, timeout management, reminders, and timeout handling.
 
 ## Prerequisites
 
@@ -93,3 +93,21 @@ Copy this checklist and track your progress:
 
 ## Resources
 
+- [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) — Full ACK procedure, timeout policy, examples
+  - Contents
+  - When to Apply
+  - Prerequisites
+  - Standardized ACK Timeout Policy
+  - Procedure
+  - Step 1: Send Acknowledgment Request
+  - Step 2: Start Timeout Timer
+  - Step 3: Send Reminders
+  - Step 4: Process Response
+  - Step 5: Proceed or Handle Timeout
+  - Checklist
+  - Examples
+  - Example 1: Pre-Operation ACK Flow
+  - Example 2: Approval Request ACK
+  - Example 3: Emergency Handoff ACK
+  - Error Handling
+  - Related Operations

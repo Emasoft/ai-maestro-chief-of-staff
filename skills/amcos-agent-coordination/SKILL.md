@@ -110,3 +110,11 @@ Copy this checklist and track your progress:
 ## Resources
 
 - [op-update-team-registry](references/op-update-team-registry.md) — Team registry update procedures and examples
+- [workflow-checklists](references/workflow-checklists.md) — Agent lifecycle checklists
+  - Contents
+  - Checklist: Spawning New Agent
+  - Checklist: Terminating Agent
+  - Checklist: Hibernating Agent
+  - Checklist: Waking Agent
+  - Checklist: Forming Team
+  - Checklist: Updating Team Registry

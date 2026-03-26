@@ -15,7 +15,7 @@ agent: ai-maestro-chief-of-staff-main-agent
 
 ## Overview
 
-Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, and prepares memory for compaction.
+Updates `activeContext.md`, records patterns, prepares memory for compaction.
 
 ## Prerequisites
 
@@ -94,3 +94,29 @@ Copy this checklist and track your progress:
 
 ## Resources
 
+- [06-context-update-patterns](references/06-context-update-patterns.md) — Update pattern types and procedures
+  - Purpose
+  - Update Patterns Overview
+  - Part Files
+  - Quick Reference
+  - Troubleshooting Quick Links
+- [05-record-patterns](references/05-record-patterns.md) — Pattern recording fundamentals
+  - Parts
+  - Quick Navigation
+  - Reading Order
+- [07-pattern-categories](references/07-pattern-categories.md) — Pattern category definitions
+  - Purpose
+  - Category Definitions
+  - Pattern Category Details
+  - Choosing the Right Category
+  - Part Files Reference
+- [11-compaction-safety](references/11-compaction-safety.md) — Compaction safety checks
+  - Parts
+  - Quick Reference
+- [14-context-sync](references/14-context-sync.md) — Context synchronization
+  - Overview
+  - Document Parts
+  - Quick Reference
+- [04-memory-validation](references/04-memory-validation.md) — Memory validation procedures
+  - Document Parts
+  - Quick Reference
