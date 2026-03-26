@@ -57,6 +57,8 @@ Uses the **GovernanceRequest** state machine to authorize privileged operations.
 | 90s | Urgent notification |
 | 120s | Auto-proceed (spawn/wake) or abort (terminate/hibernate/critical) |
 
+### Checklist
+
 Copy this checklist and track your progress:
 
 - [ ] Determine operation scope (local vs cross-team)
@@ -71,7 +73,7 @@ Approved: JSON with `status: "dual-approved"` and both manager approvals. Reject
 
 ## Governance Details
 
-See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents, GovernanceRequest Payload, Governance Password, Simplified Local Approval, Rate Limiting, Audit Trail, Quick Checklist, API Response (Primary), Offline Degradation, Example 1: Spawn Agent (Local, Same Team), Example 2: Cross-Team Plugin Install, Plugin Prefix Reference
+See [governance-details-and-examples](references/governance-details-and-examples.md) for payload format, governance password, and approval examples.
 
 ## Error Handling
 
@@ -85,12 +87,16 @@ See [governance-details-and-examples](references/governance-details-and-examples
 
 ## Examples
 
-**Input:** `POST /api/v1/governance/requests` with `{"operation": "agent-spawn", "scope": "local", "sourceTeam": "libs-svg", "sourceManager": "libs-svg-lead"}`
+**Input:** Submit a local agent-spawn request
 
-**Output:** `{"requestId": "gr-0042", "status": "pending"}` then after approval: `{"requestId": "gr-0042", "status": "dual-approved"}`
+```bash
+curl -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
+  -H "Content-Type: application/json" \
+  -d '{"operation":"agent-spawn","scope":"local","sourceTeam":"libs-svg","sourceManager":"libs-svg-lead"}'
+```
 
-See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents, GovernanceRequest Payload, Governance Password, Simplified Local Approval, Rate Limiting, Audit Trail, Quick Checklist, API Response (Primary), Offline Degradation, Example 1: Spawn Agent (Local, Same Team), Example 2: Cross-Team Plugin Install, Plugin Prefix Reference
+**Expected result:** `{"requestId": "gr-0042", "status": "pending"}` then after approval: `{"status": "dual-approved"}`
 
 ## Resources
 
-- [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents, GovernanceRequest Payload, Governance Password, Simplified Local Approval, Rate Limiting, Audit Trail, Quick Checklist, API Response (Primary), Offline Degradation, Example 1: Spawn Agent (Local, Same Team), Example 2: Cross-Team Plugin Install, Plugin Prefix Reference
+- [governance-details-and-examples](references/governance-details-and-examples.md) — Payload format, governance password, approval flow, rate limiting, audit, examples

@@ -30,6 +30,8 @@ Skill management enables the Chief of Staff to validate, index, and maintain age
 3. Verify skill integrity
 4. Notify agents of skill changes
 
+### Checklist
+
 Copy this checklist and track your progress:
 
 - [ ] Confirm skill directory exists and contains SKILL.md
@@ -63,15 +65,17 @@ Copy this checklist and track your progress:
 
 Use skills-ref to-prompt to generate available_skills XML blocks for agent prompt definitions.
 
-See [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md) — Topics: Generate Agent Prompt XML, Contents, When to Use, Prerequisites, Procedure, Step 1: Identify Skills to Include, List available skills, Or list skills in a plugin, Step 2: Generate XML with skills-ref, Step 3: Save to File (Optional), Step 4: Integrate into Agent Prompt, Agent System Prompt, Step 5: Verify Integration, Checklist, Examples, Example: Generate XML for AMCOS Skills, Generate for all AMCOS skills, Output:, <available_skills>, <skill>, <name>amcos-agent-spawning</name>, <description>Use when spawning, terminating, hibernating, or waking agents...</description>, <location>/path/to/skills/amcos-agent-spawning/SKILL.md</location>, </skill>, ..., </available_skills>, Example: Save and Use in Agent Definition, Generate and save, View result, Use in agent definition file, AMCOS Main Agent, Example: Programmatic Generation, Generate prompt for skills, Save to file, Example: Dynamic Skill List, Generate for all skills in a plugin dynamically, Build command, Execute, Error Handling, Related Operations
+See [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md)
 
 ## Examples
 
-**Input:** `skills-ref validate skills/amcos-onboarding/`
+**Input:** Validate an onboarding skill directory
 
-**Output:** `PASS: SKILL.md frontmatter valid, 3 references found, TOC consistent`
+```bash
+skills-ref validate skills/amcos-onboarding/
+```
 
-See [skill-overview-and-examples](references/skill-overview-and-examples.md) — Topics: Skill Management - Overview, Examples, and Reference, Table of Contents, What Is Skill Management, Skill Architecture Diagram, Skill Components, Examples: Validating a Skill, Install skills-ref if not present, Validate a skill directory, Expected output for valid skill, Skill: my-skill, Status: VALID, Warnings: 0, Errors: 0, Read skill properties, Examples: SKILL.md Frontmatter, Examples: Triggering PSS Reindex, Using PSS slash command, Or via script, Verify index updated, Examples: Generating Agent Prompt XML, Generate available_skills XML for agent prompts, Output, <available_skills>, <skill>, <name>skill-a</name>, <description>What skill-a does</description>, <location>/path/to/skill-a/SKILL.md</location>, </skill>, ..., </available_skills>, Key Takeaways, Task Checklist
+**Expected result:** `PASS: SKILL.md frontmatter valid, 3 references found, TOC consistent`
 
 ## Error Handling
 

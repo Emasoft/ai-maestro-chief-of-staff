@@ -25,15 +25,6 @@ Handles clean shutdown of agent instances including work verification, state pre
 
 ## Instructions
 
-Copy this checklist and track your progress:
-- [ ] Request GovernanceRequest approval from sourceManager (REQUIRED before any termination)
-- [ ] Verify work complete and no pending uncommitted tasks
-- [ ] Save final state and request agent context handoff
-- [ ] Send termination warning via agent-messaging skill
-- [ ] Execute termination via ai-maestro-agents-management skill
-- [ ] Remove agent from team registry
-- [ ] Cleanup resources and log termination event
-
 ### Termination Procedure (PROCEDURE 2)
 
 1. **Request GovernanceRequest approval** - Submit termination request to sourceManager via `amcos-permission-management` skill. BLOCK until approved. Do NOT proceed without approval.
@@ -59,7 +50,7 @@ Always attempt graceful first.
 - Terminated agents MUST be cleaned from registry
 - ALWAYS hibernate instead of terminate when agent may be needed again
 - ALWAYS save state before termination
-- Log every termination per [record-keeping](references/record-keeping.md) — Topics: Record-Keeping and Logging, Contents, Lifecycle Log, Approval Requests Log, Team Assignments Log, Team Assignments, Project: svgbbox-library, Project: auth-service, Regenerate team-assignments.md from all team registries, Operation Audit Trail, Log Maintenance, Archive old logs (run monthly), Log Access, Agent Registry Structures, Central Agent Registry, Team Registry (Project-Level), Session State Formats, Hibernation State Snapshot, Health Check Response Format, Team Status Report Format, Log Query Examples, Get recent spawns, Find all operations for specific agent, Check hibernation/wake cycles, Get approval decisions from current month, Trace specific operation by request ID, Best Practices
+- Log every termination per [record-keeping](references/record-keeping.md)
 
 ## Output
 
@@ -97,6 +88,14 @@ tmux has-session -t ampa-svgbbox-impl 2>/dev/null && echo "RUNNING" || echo "TER
 tmux kill-session -t ampa-stuck-agent
 uv run python scripts/amcos_team_registry.py remove-agent --name ampa-stuck-agent
 ```
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Request GovernanceRequest approval before termination
+- [ ] Verify work complete and state saved
+- [ ] Execute termination and remove from registry
+- [ ] Cleanup resources and log event
 
 ## Resources
 

@@ -15,7 +15,7 @@ agent: ai-maestro-chief-of-staff-main-agent
 
 ## Overview
 
-Creates new agent instances with pre-flight OAuth validation, plugin setup, and registry registration. Use when spawning agents for task execution, scaling, or specialization.
+Creates new agent instances with OAuth validation, plugin setup, and registry registration.
 
 ## Prerequisites
 
@@ -96,6 +96,14 @@ cp -r ~/.claude/plugins/cache/ai-maestro/ai-maestro-programmer-agent/latest/* \
 
 # 4. Register + send welcome message
 ```
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Validate OAuth scopes (repo, project, read:project)
+- [ ] Request GovernanceRequest approval
+- [ ] Create agent via ai-maestro-agents-management skill
+- [ ] Register in team registry and send welcome message
 
 ## Resources
 

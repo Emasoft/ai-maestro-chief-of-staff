@@ -37,7 +37,19 @@ See `amcos-agent-termination` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up graceful vs forced termination procedures
+cat references/termination-procedures.md | grep -A3 "Graceful\|Forced"
+```
+
+Expected: step-by-step procedures for both termination types.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the termination topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 

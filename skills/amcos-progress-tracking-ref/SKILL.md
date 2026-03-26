@@ -35,13 +35,27 @@ Reference material — no direct output.
 
 See `amcos-progress-tracking` for error handling.
 
+## Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify topic needed from Resources below
+- [ ] Open and read the referenced file
+- [ ] Follow the procedures in the reference file
+
 ## Examples
 
-See referenced files for step-by-step examples.
+**Input:** "Recover a session after unexpected interruption"
+
+```bash
+cat references/op-recover-session.md | head -50
+```
+
+**Expected result:** 6-step recovery procedure: load memory files, read work/task state, validate consistency, confirm resumption.
 
 ## Resources
 
-- [op-recover-session](references/op-recover-session.md) — Topics: Operation: Recover Session After Interruption, Contents, Purpose, When To Use This Operation, Steps, Step 1: Load All Memory Files, Check files exist, Read each file, Step 2: Read activeContext.md for Work State, Recovery: Current State, Step 3: Read progress.md for Task State, Recovery: Task State, Step 4: Validate Memory Consistency, Recovery: Validation, Step 5: Ask User to Confirm Resumption, Session Recovery Summary, State to Resume, Shall I resume from this state?, Step 6: Update Session Start, Session Notes, Recovery Scenarios, Scenario 1: Clean Resume (< 24 hours), Scenario 2: Long Gap (> 24 hours), Scenario 3: Corrupted Files, Checklist, Output, Related References, Next Operation
-- [16-memory-archival](references/16-memory-archival.md) — Topics: Memory Archival Procedures, Table of Contents, Part Files, 16-memory-archival-part1-procedures.md, 16-memory-archival-part2-examples.md, Overview, What Is Memory Archival?, Why Archive?, When to Archive, Trigger 1: File Size Threshold, Trigger 2: Completed Task Accumulation, Trigger 3: Pattern Obsolescence, Trigger 4: Session Milestone, Trigger 5: Performance Degradation, What to Archive, Archive Candidates from progress.md, Archive Candidates from patterns.md, Archive Candidates from activeContext.md, Archival Procedures, Archive Organization, Directory Structure, Naming Conventions, Examples, Troubleshooting
-- [op-update-task-progress](references/op-update-task-progress.md) — Topics: Operation: Update Task Progress, Contents, Purpose, When To Use This Operation, Task States, Steps, Step 1: Identify Changed Task, Step 2: Open progress.md, Step 3: Update Task Status, Completed Tasks, Blocked Tasks, Active Tasks, Step 4: Document Blockers (if any), Step 5: Update Dependencies, Active Tasks, Step 6: Update Timestamp, Task Progress, Checklist, Progress File Structure, Task Progress, Active Tasks, Completed Tasks, Blocked Tasks, Paused Tasks, Output, Related References, Next Operation
-- [18-using-scripts](references/18-using-scripts.md) — Topics: Using Memory Scripts, Table of Contents, Part 1: Initialize and Validate, Part 2: Health Check, Update, Compact, and Repair, Part 3: Workflows, Examples, and Troubleshooting, Before compaction, Weekly maintenance, Emergency recovery, Overview, Quick Reference: Command Inventory, Quick Reference: Common Commands, Daily startup
+- [op-recover-session](references/op-recover-session.md) — Session recovery procedure, scenarios, checklist
+- [16-memory-archival](references/16-memory-archival.md) — Archival triggers, procedures, organization, examples
+- [op-update-task-progress](references/op-update-task-progress.md) — Task state updates, blockers, dependencies, timestamps
+- [18-using-scripts](references/18-using-scripts.md) — Memory script commands, workflows, troubleshooting

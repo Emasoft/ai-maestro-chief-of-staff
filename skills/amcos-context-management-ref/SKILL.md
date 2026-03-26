@@ -37,7 +37,19 @@ See `amcos-context-management` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up context update triggers
+cat references/03-manage-active-context.md | grep -A3 "Trigger"
+```
+
+Expected: list of triggers that require context updates.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the context management topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 

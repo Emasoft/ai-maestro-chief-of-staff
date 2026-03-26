@@ -52,7 +52,7 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 | **Recoverable** | Intervention | Session hibernated, OOM |
 | **Terminal** | Replacement | Host crash, disk corruption |
 
-See [failure-classification](references/failure-classification.md) — Topics: Failure Classification for Remote Agents, Table of Contents, 2.1 When to Use This Document, 2.2 Overview of Failure Categories, 2.3 Transient Failures, 2.3.1 Definition and Characteristics, 2.3.2 Examples of Transient Failures, 2.3.3 Expected Recovery Time, 2.3.4 Recommended Response, Log the transient failure, Increase monitoring frequency for next 10 minutes, (Handled by AMCOS scheduler - no manual action needed), 2.4 Recoverable Failures, 2.4.1 Definition and Characteristics, 2.4.2 Examples of Recoverable Failures, 2.4.3 Expected Recovery Time, 2.4.4 Recommended Response, 2.5 Terminal Failures, 2.5.1 Definition and Characteristics, 2.5.2 Examples of Terminal Failures, 2.5.3 When Replacement is Required, 2.5.4 Recommended Response, 2.6 Classification Decision Matrix, 2.7 Escalation Thresholds, 2.8 Recording Failure Events, Append incident to log, Troubleshooting, Cannot determine if failure is recoverable or terminal, Repeated transient failures suggesting underlying issue, Manager unresponsive during terminal failure
+See [failure-classification](references/failure-classification.md) for detailed classification criteria and escalation thresholds.
 
 ### Quick Reference Workflow
 
@@ -61,20 +61,6 @@ DETECT --> CLASSIFY --> RESPOND
   Heartbeat?   Transient? --> Wait & Retry
   Message?     Recoverable? --> amcos-recovery-execution
   Offline?     Terminal? --> amcos-agent-replacement
-```
-
-### Failure Response Checklist
-
-Copy this checklist and track your progress:
-
-```markdown
-Agent: ___  Failure detected: ___
-- [ ] Heartbeat status checked
-- [ ] AI Maestro agent status queried
-- [ ] Message delivery verified
-- [ ] Task progress reviewed
-- [ ] Failure type: [ ] Transient [ ] Recoverable [ ] Terminal
-- [ ] Evidence documented, incident logged
 ```
 
 ## Output
@@ -95,8 +81,19 @@ Agent: ___  Failure detected: ___
 
 ## Examples
 
-- **Check agent status**: Query the agent's current state via the `ai-maestro-agents-management` skill.
-- **Send health check ping**: Send a `high`-priority AMP message with type `ping` to the target agent via the `agent-messaging` skill.
+```bash
+# Send health check ping to suspect agent
+amp-send.sh ampa-svgbbox-impl "Health check" high '{"type":"ping"}'
+```
+
+Expected: agent responds within 30s; if no response, classify as failure.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Check heartbeat status and message delivery
+- [ ] Classify failure (Transient/Recoverable/Terminal)
+- [ ] Document evidence and route to correct handler
 
 ## Resources
 

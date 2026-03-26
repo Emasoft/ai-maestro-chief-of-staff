@@ -37,7 +37,19 @@ See `amcos-agent-spawning` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up spawn configuration format
+cat references/spawn-procedures.md | grep -A5 "Required fields"
+```
+
+Expected: required and optional fields for agent spawn configuration.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the spawning topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 

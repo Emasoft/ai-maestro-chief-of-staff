@@ -30,6 +30,8 @@ Staff planning analyzes project requirements, assesses agent capabilities, plans
 3. Check resource availability
 4. Recommend team composition
 
+### Checklist
+
 Copy this checklist and track your progress:
 
 - [ ] List all tasks and required skill types
@@ -63,9 +65,14 @@ Copy this checklist and track your progress:
 
 **Input:** "Plan staffing for a 3-service microservices migration project"
 
-**Output:** "Recommended: 2 backend agents (Rust), 1 DevOps agent, 1 QA agent. Total: 4 agents. Bottleneck: DevOps (single point). Consider adding 1 backup DevOps agent."
+```
+Role Assessment: Microservices Migration
+Required: 2x backend (Rust), 1x DevOps, 1x QA
+Total: 4 agents | Bottleneck: DevOps (single point)
+Recommendation: Add 1 backup DevOps agent
+```
 
-See [staffing-overview-and-examples](references/staffing-overview-and-examples.md) — Topics: Staff Planning - Overview, Examples, and Reference, Table of Contents, What Is Staff Planning, Staff Planning Components, 1. Role Assessment, 2. Capacity Planning, 3. Staffing Templates, Role Assessment Details, Capacity Planning Details, Staffing Templates Details, Examples: Role Assessment for Feature Development, Role Assessment: User Authentication Feature, Required Capabilities, Agent Type Mapping, Gap Analysis, Examples: Capacity Planning, Capacity Plan: Sprint 42, Available Agents, Task Allocation, Bottleneck, Key Takeaways, Task Checklist
+**Expected result:** Staffing plan with role mapping, capacity check, and bottleneck analysis.
 
 ## Error Handling
 

@@ -35,10 +35,24 @@ Reference material — no direct output.
 
 See `amcos-post-op-notification` for error handling.
 
+## Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify topic needed from Resources below
+- [ ] Open and read the referenced file
+- [ ] Follow the procedures in the reference file
+
 ## Examples
 
-See referenced files for step-by-step examples.
+**Input:** "Send a post-operation notification after skill installation"
+
+```bash
+cat references/post-operation-notifications.md | head -50
+```
+
+**Expected result:** Notification procedure with success confirmation, message composition, AMP send, verification request, and logging.
 
 ## Resources
 
-- [post-operation-notifications](references/post-operation-notifications.md) — Topics: Post-Operation Notifications Reference, Table of Contents, 2.1 What are post-operation notifications, 2.2 When to send post-operation notifications, 2.2.1 Skill installation complete, 2.2.2 Agent restart complete, 2.2.3 Configuration applied, 2.2.4 Maintenance complete, 2.3 Post-operation notification procedure, 2.3.1 Confirm operation success, 2.3.2 Compose confirmation, 2.3.3 Send notification, 2.3.4 Request verification, 2.3.5 Log outcome, 2.4 Verification request format, 2.5 Examples, Example 1: Skill Installation Complete, Example 2: Plugin Installation Complete (Context Lost), Example 3: Configuration Change Applied, Example 4: Broadcast Maintenance Complete, 2.6 Troubleshooting, Issue: Agent does not receive post-operation notification, Issue: Agent cannot verify operation, Issue: Verification response not received, Issue: Broadcast notification incomplete
+- [post-operation-notifications](references/post-operation-notifications.md) — When to send, notification procedure, verification format, examples, troubleshooting

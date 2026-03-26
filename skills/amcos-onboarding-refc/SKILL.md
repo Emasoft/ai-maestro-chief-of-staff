@@ -35,10 +35,24 @@ Reference material — no direct output.
 
 See `amcos-onboarding` for error handling.
 
+## Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify topic needed from Resources below
+- [ ] Open and read the referenced file
+- [ ] Follow the procedures in the reference file
+
 ## Examples
 
-See referenced files for step-by-step examples.
+**Input:** "Validate a handoff document before sending to the target agent"
+
+```bash
+cat references/op-validate-handoff.md | head -50
+```
+
+**Expected result:** 8-step validation procedure checking required fields, UUID uniqueness, target agent, file refs, placeholders, markdown format, and accuracy.
 
 ## Resources
 
-- [op-validate-handoff](references/op-validate-handoff.md) — Topics: Validate Handoff Document, Contents, When to Use, Prerequisites, Procedure, Step 1: Check Required Fields, Check if document has required fields, Step 2: Verify UUID Is Unique, Check existing handoffs, Ensure UUID doesn't already exist, Should return nothing for new handoffs, Step 3: Verify Target Agent Exists, Step 4: Verify Referenced Files Exist, Extract file references from handoff, Step 5: Check for Placeholder Markers, Find [TBD], TODO, FIXME, or placeholder text, Should return nothing for complete handoffs, Step 6: Validate Markdown Format, Check for broken links, Check for unclosed formatting, Step 7: Verify Current State Is Accurate, Step 8: Run Validation Script (If Available), Use the CPV plugin validator to validate the plugin (including handoff documents), Checklist, Examples, Example: Complete Handoff Validation, Step 1: Required fields, Step 2: UUID uniqueness, Step 3: Target agent exists, Step 4: Referenced files, Step 5: Placeholders, Example: Fixing Common Validation Issues, Before (invalid), After (valid), Before (invalid), After (valid), Before (invalid), After (valid), Example: Validation Script Usage, Use the CPV plugin validator for full plugin validation (includes handoff checks), Expected output:, Validating plugin: ai-maestro-chief-of-staff, [OK] Manifest valid, [OK] Skills validated, [OK] Commands validated, [OK] Hooks validated, [OK] Scripts validated, Validation PASSED, Error Handling, Related Operations
+- [op-validate-handoff](references/op-validate-handoff.md) — Handoff validation procedure, field checks, UUID uniqueness, file refs, placeholder detection, examples

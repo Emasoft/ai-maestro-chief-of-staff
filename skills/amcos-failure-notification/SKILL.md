@@ -71,21 +71,20 @@ See [op-failure-notification](references/op-failure-notification.md) — Topics:
 
 ## Examples
 
-### Concrete Input/Output
+```bash
+# Send failure notification after skill install error
+amp-send.sh code-impl-auth "FAILURE: skill install" high \
+  '{"type":"failure","error":"Skill validation failed - missing SKILL.md","recovery":"Fix SKILL.md and retry"}'
+```
 
-**Input:** Skill install on `code-impl-auth` fails — "Skill validation failed - missing SKILL.md"
-**Output:** AMP `failure` msg (priority `high`) sent; recovery steps provided; failure logged
+Expected: agent receives failure details with recovery steps; failure logged with timestamp.
 
-### Example 1: Skill Installation Failure
+## Checklist
 
-Send via `agent-messaging` skill:
-- **To**: `code-impl-auth` | **Priority**: `high`
-- **Content**: type `failure`, error "Skill validation failed - missing SKILL.md", recovery: fix and retry
-
-### Example 2: Restart Failure with Handoff
-
-1. Send failure: **To** `code-impl-auth`, **Priority** `critical`, error "Health check failed after 3 attempts"
-2. Trigger proactive handoff protocol for pending tasks
+Copy this checklist and track your progress:
+- [ ] Capture error details and determine severity
+- [ ] Send failure notification via amp-send.sh with recovery guidance
+- [ ] Log failure and escalate if needed
 
 ## Resources
 

@@ -54,12 +54,15 @@ Before sending, validate recipient against `GET /api/teams`. Block and log viola
 5. **Track acknowledgments** - Monitor for agent readiness responses
 6. **Handle timeouts** - Follow ACK timeout policy (see acknowledgment protocol skill)
 
+### Checklist
+
 Copy this checklist and track your progress:
+
 - [ ] Identified affected agents and validated team membership
 - [ ] Composed and sent AMP notification via `amp-send.sh`
 - [ ] Tracked acknowledgments and handled any timeouts
 
-See [op-pre-operation-notification](references/op-pre-operation-notification.md) — Topics: Pre-Operation Notification, Contents, When to Use, Prerequisites, Procedure, Step 1: Identify Affected Agents, Step 2: Compose Notification Message, Step 3: Send Notification, Step 4: Track Acknowledgments, Step 5: Handle Timeout, Checklist, Examples, Example 1: Skill Installation Notification, Example 2: Timeout Final Notice, Example 3: System Maintenance Broadcast, Error Handling, Related Operations
+See [op-pre-operation-notification](references/op-pre-operation-notification.md)
 
 ## Output
 
@@ -79,22 +82,14 @@ See [op-pre-operation-notification](references/op-pre-operation-notification.md)
 
 ## Examples
 
-### Concrete Input/Output
-
 **Input:** Skill install scheduled for agent `code-impl-auth` in 30s
-**Output:** AMP message delivered; agent replies `"ok"` within 60s; operation proceeds
 
-### Example 1: Skill Installation Pre-Notification
+```bash
+amp-send.sh code-impl-auth "Pre-Op: Skill Install in 30s" \
+  "Upcoming skill installation. Expected downtime: 30s. Please save work and reply ok."
+```
 
-Send via `agent-messaging` skill:
-- **To**: `code-impl-auth` | **Priority**: `high`
-- **Content**: type `pre-operation`, upcoming skill installation, 30s downtime, ACK required
-
-### Example 2: Broadcast Warning
-
-For each agent (`code-impl-auth`, `test-engineer-01`, `docs-writer`), send:
-- **Subject**: `System Maintenance in 5 Minutes` | **Priority**: `high`
-- **Content**: type `broadcast`, save work and reply "ok"
+**Expected result:** Agent receives notification and replies `"ok"` within 60s; operation proceeds.
 
 ## Resources
 

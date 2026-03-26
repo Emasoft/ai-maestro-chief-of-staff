@@ -30,6 +30,8 @@ Team coordination manages distributed agent teams, assigns roles, coordinates me
 3. Execute coordination action
 4. Update team registry and notify agents
 
+### Checklist
+
 Copy this checklist and track your progress:
 
 - [ ] Verify team registry is accessible and current
@@ -55,7 +57,7 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Identify recipients, compose with priority, send via AI Maestro API, confirm delivery, log.
 
-See [team-messaging](references/team-messaging.md) — Topics: Team Messaging Reference, Table of Contents, 2.1 Team Message Types, Announcement, Request, Alert, Status Update, Role Assignment, 2.2 Message Priority Levels, URGENT Priority, HIGH Priority, NORMAL Priority, 2.3 Sending Broadcast Messages, Broadcast Procedure, Broadcast Best Practices, 2.4 Sending Targeted Messages, Single Recipient, Multiple Specific Recipients, Role-Based Targeting, 2.5 Message Routing Rules, Task-Related Messages, Status-Related Messages, Escalation Messages, 2.6 Confirming Message Delivery, Checking Delivery Status, Read Receipts, Handling Undelivered Messages, 2.7 Team Messaging Examples, Example: Broadcasting Sprint Start, Example: Requesting Status Update, Example: Sending Alert, Example: Sending Task Completion Update, 2.8 Troubleshooting, Issue: Messages not being delivered, Issue: Messages delivered but not read, Issue: Duplicate messages received, Issue: Message priority not respected
+See [team-messaging](references/team-messaging.md)
 
 ### PROCEDURE 3: Maintain Teammate Awareness
 
@@ -63,11 +65,14 @@ See [team-messaging](references/team-messaging.md) — Topics: Team Messaging Re
 
 ## Examples
 
-**Input:** "Assign agent libs-svg-renderer the role of QA lead for the SVG pipeline team"
+**Input:** "Assign agent libs-svg-renderer the role of QA lead"
 
-**Output:** "Role assigned: libs-svg-renderer -> QA lead. AMP notification sent (priority: high). Roster updated. Awaiting acknowledgment."
+```bash
+amp-send.sh libs-svg-renderer "Role Assignment: QA Lead" \
+  "You are assigned QA lead for the SVG pipeline team. Please acknowledge."
+```
 
-See [coordination-overview-and-examples](references/coordination-overview-and-examples.md) — Topics: Team Coordination - Overview, Examples, and Reference, Table of Contents, What Is Team Coordination, Team Coordination Components, 1. Role Assignment, 2. Team Messaging, 3. Teammate Awareness, Examples: Assigning a Role to a New Agent, Examples: Broadcasting a Team Update, Examples: Checking Team Status, Examples: Full Coordination Workflow with Input/Output, Examples: Role Assignment with Input/Output, Examples: Team Status Query with Input/Output, Key Takeaways, Task Checklist
+**Expected result:** Agent receives role assignment, replies with acknowledgment, roster updated.
 
 ## Error Handling
 

@@ -37,7 +37,19 @@ See `amcos-agent-replacement` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up the 6-phase replacement workflow
+cat references/agent-replacement-protocol.md | grep -A2 "Phase"
+```
+
+Expected: phases from failure confirmation through cleanup and closure.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the replacement topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 

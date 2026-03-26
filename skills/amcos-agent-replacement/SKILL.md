@@ -86,8 +86,21 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-- **Request replacement approval**: Send an `urgent` AMP message to `amama-assistant-manager` with type `replacement-request`, including the failed agent name and failure summary. Use the `agent-messaging` skill.
-- **Notify orchestrator of replacement**: Send a `high`-priority AMP message to `amoa-orchestrator` with type `replacement-notification`, including old and new agent names. Use the `agent-messaging` skill. The orchestrator will generate handoff docs and update the kanban.
+```bash
+# Request replacement approval from manager
+amp-send.sh amama-assistant-manager "Replace failed agent" urgent \
+  '{"type":"replacement-request","failed_agent":"ampa-svgbbox-impl","reason":"terminal crash"}'
+```
+
+Expected: AMAMA approves; proceed to create replacement agent and send handoff.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Confirm failure is terminal or all recovery exhausted
+- [ ] Preserve recoverable artifacts to handoff directory
+- [ ] Request and receive manager approval
+- [ ] Create replacement agent and send handoff docs
 
 ## Resources
 

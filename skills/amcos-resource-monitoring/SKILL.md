@@ -51,11 +51,11 @@ Memory: usage/limit/%. Agents: active/max. API: rate/quota.
 
 ### PROCEDURE 3: Handle Resource Alerts
 
-Identify alert, assess severity, act, notify. See [resource-alerts](references/resource-alerts.md) — Topics: Resource Alerts Reference, Table of Contents, 3.1 Types Of Resource Alerts, Memory Alert, CPU Alert, Disk Alert, Network Alert, Rate Limit Alert, Instance Limit Alert, 3.2 Alert Severity Levels, INFO, WARNING, CRITICAL, EMERGENCY, 3.3 Alert Response Procedures, Memory Alert Response, CPU Alert Response, Disk Alert Response, Network Alert Response, 3.4 Alert Escalation, Escalation Path, Escalation Message Format, Resource Alert Escalation, Current State, Actions Taken, Why Escalating, Recommended Action, User Notification Format, 3.5 Alert Prevention, Proactive Monitoring, Monitoring Schedule, Capacity Planning, Best Practices, 3.6 Resource Alert Examples, Example: Memory Warning Alert, Resource Alert: Memory Warning, Analysis, Actions Taken, Expected Outcome, Escalation, Example: CPU Critical Alert, Resource Alert: CPU Critical, Analysis, Actions Taken, Current State, Escalation, Example: Emergency Disk Alert, Resource Alert: Disk Emergency, Analysis, Immediate Actions, Current State, Post-Incident Actions Required, User Notification, 3.7 Troubleshooting, Issue: Alerts not triggering, Issue: Too many false positive alerts, Issue: Alert response not effective, Issue: Escalation not reaching recipients
+Identify alert, assess severity, act, notify. See [resource-alerts](references/resource-alerts.md)
 
 ## Operational Procedures
 
-- [op-check-system-resources](references/op-check-system-resources.md) — Topics: Operation: Check System Resources, Contents, Purpose, When To Use This Operation, Steps, Step 1: Check CPU Usage, macOS, Linux, Step 2: Check Memory Availability, macOS, Linux, Step 3: Check Disk Space, Check root filesystem, Step 4: Check Network Connectivity, Check AI Maestro connectivity, Step 5: Report Findings, System Resource Check, Checklist, Output, Automated Script, !/bin/bash, System resource check script, CPU, Memory, Disk, AI Maestro, Related References, Next Operation
+- [op-check-system-resources](references/op-check-system-resources.md) — CPU, memory, disk, network check procedure
 
 ## Examples
 
@@ -68,7 +68,7 @@ Active agents: 7/15 (headroom: 8). Spawning 3 is safe.
 [DONE] Resources OK - 3 agents can be spawned.
 ```
 
-See [examples-and-checklists](references/examples-and-checklists.md) — Topics: Resource Monitoring Examples and Checklists, Table of Contents, Task Checklist, Example 1: Basic System Resource Check, Check CPU usage, Check available memory, Check disk space, Example 2: Counting Active Agent Sessions, Example 3: Resource Alert Response, Resource Alert: High Memory Usage, Immediate Actions Taken, Resolution
+See [examples-and-checklists](references/examples-and-checklists.md) for more examples.
 
 ## Error Handling
 

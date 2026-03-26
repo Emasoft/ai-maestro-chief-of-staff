@@ -35,10 +35,24 @@ Reference material — no direct output.
 
 See `amcos-plugin-management` for error handling.
 
+## Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify topic needed from Resources below
+- [ ] Open and read the referenced file
+- [ ] Follow the procedures in the reference file
+
 ## Examples
 
-See referenced files for step-by-step examples.
+**Input:** "Set up a local plugin directory for development"
+
+```bash
+cat references/local-configuration.md | head -50
+```
+
+**Expected result:** Directory structure, manifest creation, component setup, and launch configuration steps.
 
 ## Resources
 
-- [local-configuration](references/local-configuration.md) — Topics: Local Configuration Reference, Table of Contents, 2.1 What is local plugin configuration, 2.2 Directory structure, 2.2.1 Root directory, 2.2.2 .claude-plugin folder, 2.2.3 Component directories, 2.3 Configuration procedure, 2.3.1 Directory creation, Create plugin directory structure, 2.3.2 Manifest creation, 2.3.3 Component setup, My Command, My Agent, 2.3.4 Launch configuration, Launch with local plugin, Or with relative path from current directory, 2.4 Development workflow, Edit-Restart-Test Cycle, Quick restart tips, In Claude Code, Relaunch with plugin, Test your changes, 2.5 Multiple plugins, 2.6 Examples, Example 1: Minimal Plugin, Create minimal plugin, Launch, Example 2: Plugin with Command, Create plugin with command, Hello Command, Launch, Test, Example 3: Plugin with Hook, Create plugin with hook, !/bin/bash, Launch, 2.7 Troubleshooting, Issue: Plugin not loading, Issue: Command not found, Issue: Hook not executing, Issue: Script not found, Issue: Components in wrong location
+- [local-configuration](references/local-configuration.md) — Local plugin directory structure, manifest, component setup, dev workflow, examples, troubleshooting

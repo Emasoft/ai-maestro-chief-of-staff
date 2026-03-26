@@ -62,9 +62,9 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 
 ### Troubleshooting
 
-See [troubleshooting](references/troubleshooting.md) — Topics: Troubleshooting: Failure Recovery, Table of Contents, Use-Case TOC, Agent shows "online" but is unresponsive, Cannot determine failure type, Manager does not respond to urgent request, New replacement agent fails to register, Emergency handoff deadline still missed, Post-Incident Report, Timeline, Bottlenecks Identified, Recommendations
+See [troubleshooting](references/troubleshooting.md)
 
-### Recovery Execution Checklist
+## Checklist
 
 Copy this checklist and track your progress:
 
@@ -93,14 +93,14 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-See [examples](references/examples.md) — Topics: Examples: Failure Recovery Scenarios, Table of Contents, Use-Case TOC, Example 1: Agent Crash Recovery, Example 2: Terminal Failure with Replacement, Example 3: Transient Network Failure, Example 4: Emergency Handoff with Deadline, Quick Reference, Heartbeat Ping, Check Agent Status, Soft Restart Request, Replacement Approval Request, Emergency Handoff Request
-
 ```bash
 # Soft restart: check tmux session
 tmux has-session -t libs-svg-svgbbox 2>/dev/null && echo "exists" || echo "gone"
 ```
 
-- **Verify recovery**: Query the agent's status via the `ai-maestro-agents-management` skill to confirm it is back online.
+**Expected result:** Agent session restored, status returns "exists", heartbeat confirmed.
+
+See [examples](references/examples.md) for full recovery scenarios.
 
 ## Resources
 

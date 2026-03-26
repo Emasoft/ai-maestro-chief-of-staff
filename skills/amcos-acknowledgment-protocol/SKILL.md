@@ -43,7 +43,7 @@ Copy this checklist and track your progress:
 - [ ] Sent reminders at defined intervals if no response received
 - [ ] Processed response (or timeout) and proceeded accordingly
 
-See [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) — Topics: Acknowledgment Protocol, Contents, When to Apply, Prerequisites, Standardized ACK Timeout Policy, Procedure, Step 1: Send Acknowledgment Request, Step 2: Start Timeout Timer, Step 3: Send Reminders, Step 4: Process Response, Step 5: Proceed or Handle Timeout, Checklist, Examples, Example 1: Pre-Operation ACK Flow, Example 2: Approval Request ACK, Example 3: Emergency Handoff ACK, Error Handling, Related Operations
+See [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) for full procedure details and examples.
 
 ### Standardized ACK Timeout Policy
 
@@ -76,23 +76,20 @@ See [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) — T
 
 ## Examples
 
-### Concrete Input/Output
+```bash
+# Send ACK request before disruptive operation
+amp-send.sh code-impl-auth "ACK: hibernate in 60s" high \
+  '{"type":"acknowledgment-request","timeout":60}'
+```
 
-**Input:** Pre-op notification sent to `code-impl-auth`; ACK required before proceeding
-**Output:** ACK request delivered; agent replies `"ok"` at 12s; operation proceeds immediately
+Expected: agent replies "ok" within 60s; if no reply after reminders at 15s/30s/45s, proceed with final notice.
 
-### Example 1: Standard Pre-Operation ACK
+## Checklist
 
-1. Send via `agent-messaging`: **To** `code-impl-auth`, **Priority** `high`, type `acknowledgment-request`, reply "ok" within 60s
-2. Send reminders at 15s, 30s, 45s if no reply
-3. On `"ok"`: proceed with operation
-
-### Example 2: ACK Timeout Handling
-
-After 60s with no response:
-1. Log: `WARNING: No ACK from code-impl-auth after 60s`
-2. Send final notice: type `timeout-notice`, operation will proceed
-3. Proceed with hibernate and install
+Copy this checklist and track your progress:
+- [ ] Send ACK request via agent-messaging with correct timeout
+- [ ] Send reminders at defined intervals if no response
+- [ ] Process response or handle timeout per policy
 
 ## Resources
 

@@ -35,10 +35,24 @@ Reference material — no direct output.
 
 See `amcos-transfer-management` for error handling.
 
+## Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify topic needed from Resources below
+- [ ] Open and read the referenced file
+- [ ] Follow the procedures in the reference file
+
 ## Examples
 
-See referenced files for step-by-step examples.
+**Input:** "Initiate an outbound transfer of an agent to another team"
+
+```bash
+cat references/transfer-procedures-and-examples.md | head -50
+```
+
+**Expected result:** Transfer procedure with request creation, dual-manager approval, execution, and AMP notifications.
 
 ## Resources
 
-- [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Topics: Transfer Management Procedures and Examples, Table of Contents, Initiating a Transfer (Outbound - from YOUR team), Approving a Transfer (Inbound - into YOUR team), Rejecting a Transfer, Transfer Checklist, AMP Notification Format, Example 1: Outbound Transfer (Moving an agent OUT of your team), Step 1: Create the transfer request, Response: {"id": "tr-001", "state": "pending", "created_at": "2026-02-27T10:00:00Z"}, Step 2: Approve as source COS, Step 3: Notify source manager, Step 4: Notify target COS, Step 5: After all 4 approvals received, execute, Step 6: Notify all parties, Example 2: Inbound Transfer Approval (Accepting an agent INTO your team), Step 1: Check your inbox, Step 2: Review the transfer request details, Verify: agent capabilities match your team needs, you have capacity, Step 3: Approve as target COS, Step 4: Notify your manager for their approval, Example 3: Rejecting a Transfer, Reject with explanation, Notify the source COS
+- [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Outbound/inbound transfers, approval, rejection, checklist, AMP format, examples

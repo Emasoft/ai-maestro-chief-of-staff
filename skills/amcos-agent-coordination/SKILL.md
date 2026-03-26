@@ -30,13 +30,6 @@ Manages team registry, messaging, role boundaries, and delegation.
 3. Verify the result and update team registry
 4. Log the operation and notify affected agents
 
-Copy this checklist and track your progress:
-- [ ] Identify registry update type (add, remove, or status change)
-- [ ] Execute registry command and verify via list
-- [ ] Send inter-agent message using FULL session name
-- [ ] Enforce role boundaries (AMCOS creates agents; AMOA assigns tasks)
-- [ ] Log operation and optionally publish update to team
-
 ### Team Registry
 
 Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
@@ -73,7 +66,7 @@ Remote ops require GovernanceRequest + ConfigOperationType. Messages route via A
 
 ### Workflow Checklists
 
-See [workflow-checklists](references/workflow-checklists.md) — Topics: Agent Lifecycle Workflow Checklists, Contents, When You Need to Create a New Agent, When You Need to Stop an Agent, When You Need to Put an Inactive Agent to Sleep, When You Need to Resume a Hibernated Agent, When You Need to Create a New Project Team, When You Need to Modify Team Membership or Agent Status, Checklist: Spawning New Agent, Checklist: Terminating Agent, Checklist: Hibernating Agent, Checklist: Waking Agent, Checklist: Forming Team, Checklist: Updating Team Registry
+See [workflow-checklists](references/workflow-checklists.md) for agent lifecycle checklists.
 
 ## Output
 
@@ -106,6 +99,14 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 # Content: { "type": "team-notification", "message": "Agent online" }
 ```
 
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify registry update type (add, remove, or status change)
+- [ ] Execute registry command and verify via list
+- [ ] Send inter-agent message using FULL session name
+- [ ] Log operation and notify affected agents
+
 ## Resources
 
-- [op-update-team-registry](references/op-update-team-registry.md) — Topics: Update Team Registry, Contents, When to Use, Prerequisites, Procedure, Step 1: Identify Update Type, Step 2: Execute Registry Update, Step 3: Verify Update, View updated registry, Check specific agent, Step 4: Publish Update to Team (Optional), Step 5: Verify Registry State (Recommended), Uses AI Maestro REST API (not file-based), Verify current team registry state, Checklist, Examples, Example: Complete Agent Addition Flow, Add to registry, Verify, Output: dev-api-charlie | running | developer | backend-api, Log the addition, Notify team, Example: Status Change After Hibernation, Update status, Log hibernation, Verify, Output: dev-frontend-bob | hibernated | developer | webapp, Error Handling, Related Operations
+- [op-update-team-registry](references/op-update-team-registry.md) — Team registry update procedures and examples

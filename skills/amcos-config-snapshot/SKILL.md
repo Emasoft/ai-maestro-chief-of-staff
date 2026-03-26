@@ -87,9 +87,14 @@ uv run python scripts/amcos_memory_manager.py set-focus \
   --focus "Adopting config v2.1 (Type B)"
 ```
 
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Capture config snapshot at session start
+- [ ] Detect changes periodically or before major tasks
+- [ ] Classify and resolve any conflicts found
+
 ## Resources
 
-- [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Topics: Config Snapshot Creation, Table of Contents, Part Files, Overview, What Is a Config Snapshot?, When to Create Snapshots, What Is a Config Snapshot?, Location, Purpose, Why Snapshots Matter, Without Snapshots, With Snapshots, Creation Procedures, PROCEDURE 1: Create Initial Snapshot, PROCEDURE 2: Update Snapshot, PROCEDURE 3: Validate Snapshot, Snapshot Structure, Examples, Troubleshooting
-
-**Version:** 1.0.0
+- [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Config snapshot creation procedures
 

@@ -37,7 +37,19 @@ See `amcos-label-taxonomy` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up label commands for agent assignment
+cat references/label-commands-and-examples.md | grep -A3 "assign"
+```
+
+Expected: gh CLI commands for applying assignment labels to issues.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the label taxonomy topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 

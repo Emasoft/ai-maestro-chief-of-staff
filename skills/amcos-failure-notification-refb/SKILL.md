@@ -37,7 +37,19 @@ See `amcos-failure-notification` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up design document validation procedures
+cat references/design-document-protocol.md | grep -A5 "Pre-Save Validation"
+```
+
+Expected: required validation steps before saving design documents.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the failure notification topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 

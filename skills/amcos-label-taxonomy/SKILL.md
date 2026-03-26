@@ -83,11 +83,15 @@ gh issue edit 42 --add-label "assign:libs-svg-svgbbox"
 [DONE] Label assign:libs-svg-svgbbox applied to #42. Registry updated.
 ```
 
-## Operational Procedures
+## Checklist
 
-- [op-assign-agent-to-issue](references/op-assign-agent-to-issue.md) — Topics: Operation: Assign Agent to Issue, Contents, Purpose, When to Use, Prerequisites, Procedure, Step 1: Verify Issue Exists, Step 2: Remove Existing Assignment (if any), Check for existing assign:* labels, Step 3: Add Assignment Label, Step 4: Update Status from Backlog to Ready, Step 5: Update Team Registry, Step 6: Verify Assignment, Expected output should include: assign:$AGENT_NAME, status:ready, Example, Step 1: Add assignment label, Step 2: Update status, Step 3: Update registry via REST API, Step 4: Verify, Error Handling, Rollback, Remove the partial assignment
+Copy this checklist and track your progress:
+- [ ] Identify correct label category (assign/status/priority)
+- [ ] Apply label to issue/PR via gh CLI
+- [ ] Update team registry if assignment changed
 
 ## Resources
 
-- [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents, Kanban Columns (Canonical 5-Status System), Task Routing Rules, Status Labels AMCOS Updates, Labels AMCOS Monitors, Priority Labels (`priority:*`), Status Labels (`status:*`), Quick Reference: AMCOS Label Responsibilities, Labels AMCOS Never Sets, Checklist
+- [op-assign-agent-to-issue](references/op-assign-agent-to-issue.md) — Assign agent to issue procedure
+- [kanban-and-label-details](references/kanban-and-label-details.md) — Kanban columns and label details
 

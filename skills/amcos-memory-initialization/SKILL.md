@@ -24,17 +24,13 @@ Initializes and validates the three session memory documents (`activeContext.md`
 
 ## Instructions
 
-Copy this checklist and track your progress:
-- [ ] Validate memory dir and files
-- [ ] Init missing files from templates
-
 ### Fundamentals
 
-Session memory uses three files: `activeContext.md` (current work), `patterns.md` (learned patterns), `progress.md` (task tracking). Details: [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md) — Topics: Session Memory Fundamentals, Table of Contents, What Is Session Memory?, Key Characteristics, Session Memory Components, 1. **activeContext.md** - Current Working State, 2. **patterns.md** - Learned Patterns and Heuristics, 3. **progress.md** - Task Tracking and Completion State
+Session memory uses three files: `activeContext.md` (current work), `patterns.md` (learned patterns), `progress.md` (task tracking). Details: [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md)
 
 ### Lifecycle
 
-Three phases: **Load** (read and validate at start), **Update** (write changes during work), **Save** (persist before exit). Details: [00-session-memory-lifecycle](references/00-session-memory-lifecycle.md) — Topics: Session Memory Lifecycle, Table of Contents, Overview, Phase 1: Session Initialization (Load), Phase 2: Session Execution (Update), Phase 3: Session Termination (Save)
+Three phases: **Load** (read and validate at start), **Update** (write changes during work), **Save** (persist before exit). Details: [00-session-memory-lifecycle](references/00-session-memory-lifecycle.md)
 
 ### PROCEDURE 1: Initialize Session Memory
 
@@ -46,9 +42,17 @@ Three phases: **Load** (read and validate at start), **Update** (write changes d
 4. Create missing files from templates
 5. Report loaded state (sizes, counts, issues)
 
-**Directory structure:** [02-memory-directory-structure](references/02-memory-directory-structure.md) — Topics: Memory Directory Structure, Table of Contents, Purpose, Canonical Structure, Directory Descriptions, File Naming Conventions, Structure Validation, Examples, Troubleshooting
+**Directory structure:** [02-memory-directory-structure](references/02-memory-directory-structure.md)
 
-**Runbook:** [op-initialize-session-memory](references/op-initialize-session-memory.md) — Topics: Operation: Initialize Session Memory, Contents, Purpose, When To Use This Operation, Session Memory Components, Steps, Step 1: Check Directory Exists, Step 2: Read or Create Memory Files, Active Context, Current Focus, Open Questions, Recent Decisions, Session Notes, Discovered Patterns, Index, Patterns, Task Progress, Active Tasks, Completed Tasks, Blocked Tasks, Step 3: Validate Markdown Syntax, Simple validation - check required sections exist, Step 4: Report Loaded State, Session Memory Initialized, Checklist, Output, Directory Structure, Related References, Next Operation
+**Runbook:** [op-initialize-session-memory](references/op-initialize-session-memory.md)
+
+### Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Validate `design/memory/` directory and three memory files exist
+- [ ] Initialize missing files from templates
+- [ ] Run Markdown validation on all memory files
 
 ## Output
 
@@ -63,7 +67,7 @@ Three phases: **Load** (read and validate at start), **Update** (write changes d
 | Issue | Resolution |
 |-------|------------|
 | Directory missing | Create it and initialize empty files from templates |
-| Invalid Markdown | Run validation, fix errors per [02-memory-directory-structure](references/02-memory-directory-structure.md) — Topics: Memory Directory Structure, Table of Contents, Purpose, Canonical Structure, Directory Descriptions, File Naming Conventions, Structure Validation, Examples, Troubleshooting
+| Invalid Markdown | Run validation, fix errors per [02-memory-directory-structure](references/02-memory-directory-structure.md)
 | Empty files | Re-initialize with templates |
 | Permission denied | Check file system permissions |
 
@@ -78,9 +82,11 @@ uv run python scripts/amcos_memory_manager.py init \
 uv run python scripts/amcos_memory_manager.py validate
 ```
 
+**Expected result:** `design/memory/` created with `activeContext.md`, `patterns.md`, `progress.md` populated from templates.
+
 ## Resources
 
-- [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md) — Topics: Session Memory Fundamentals, Table of Contents, What Is Session Memory?, Key Characteristics, Session Memory Components, 1. **activeContext.md** - Current Working State, 2. **patterns.md** - Learned Patterns and Heuristics, 3. **progress.md** - Task Tracking and Completion State
+- [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md) — Memory components and characteristics
 
 ---
 

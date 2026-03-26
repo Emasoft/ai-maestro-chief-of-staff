@@ -35,10 +35,24 @@ Reference material — no direct output.
 
 See `amcos-pre-op-notification` for error handling.
 
+## Checklist
+
+Copy this checklist and track your progress:
+
+- [ ] Identify topic needed from Resources below
+- [ ] Open and read the referenced file
+- [ ] Follow the procedures in the reference file
+
 ## Examples
 
-See referenced files for step-by-step examples.
+**Input:** "Send a pre-operation warning before plugin installation"
+
+```bash
+cat references/pre-operation-notifications.md | head -50
+```
+
+**Expected result:** Notification procedure with agent identification, message composition, AMP send, acknowledgment tracking, and timeout handling.
 
 ## Resources
 
-- [pre-operation-notifications](references/pre-operation-notifications.md) — Topics: Pre-Operation Notifications Reference, Table of Contents, 1.1 What are pre-operation notifications, 1.2 When to send pre-operation notifications, 1.2.1 Skill installation, 1.2.2 Plugin installation, 1.2.3 Configuration changes, 1.2.4 System maintenance, 1.3 Pre-operation notification procedure, 1.3.1 Identify affected agents, 1.3.2 Compose notification, 1.3.3 Send notification, 1.3.4 Track acknowledgments, 1.3.5 Handle timeouts, 1.4 Notification message format, 1.5 Priority levels, 1.6 Examples, Example 1: Skill Installation Pre-Operation, Example 2: Plugin Installation Pre-Operation, Example 3: Broadcast Maintenance Pre-Operation, 1.7 Troubleshooting, Issue: Notification not delivered, Issue: Wrong agent receives notification, Issue: Notification sent but acknowledgment not tracked, Issue: Priority not respected
+- [pre-operation-notifications](references/pre-operation-notifications.md) — When to send, notification procedure, message format, priority levels, examples, troubleshooting

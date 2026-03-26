@@ -65,7 +65,7 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Use `ai-maestro-agents-management` skill or GovernanceRequest pipeline for cross-host operations.
 
-See [remote-plugin-management](references/remote-plugin-management.md) — Topics: Remote Plugin Management, Table of Contents, 1. Overview, 2. Remote Installation, 2.1 Installation Procedure, 2.2 Installation Message Format, 3. Remote Updates, 3.1 Update Procedure, 3.2 Update Message Format, 4. Troubleshooting, 4.1 Installation Fails, 4.2 Update Fails
+See [remote-plugin-management](references/remote-plugin-management.md)
 
 ## Examples
 
@@ -79,7 +79,7 @@ See [remote-plugin-management](references/remote-plugin-management.md) — Topic
 [DONE] Plugin grepika installed and validated on libs-svg-svgbbox.
 ```
 
-See [plugin-overview-and-examples](references/plugin-overview-and-examples.md) — Topics: Plugin Management - Overview, Examples, and Reference, Table of Contents, Plugin Lifecycle, What Is Plugin Management, Plugin Components, Examples: Installing from Marketplace, Step 1: Add marketplace (first time only), Step 2: Install plugin, Step 3: Verify installation, Step 4: RESTART Claude Code (required!), Exit and relaunch claude, Examples: Local Plugin Development, Launch Claude Code with local plugin, Launch with multiple local plugins, Examples: Plugin Directory Structure, Examples: Plugin Validation, Validate plugin structure, Check hooks registration, Debug plugin loading, Examples: Install Plugin on Remote Agent, Examples: Restart Agent After Plugin Changes, Remote Plugin Operations Table, Key Takeaways, Task Checklist
+See [plugin-overview-and-examples](references/plugin-overview-and-examples.md) for more examples.
 
 ## Error Handling
 

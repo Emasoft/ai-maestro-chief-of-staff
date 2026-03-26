@@ -107,7 +107,15 @@ uv run python scripts/amcos_team_registry.py update-status \
   --name ampa-svgbbox-impl --status running
 ```
 
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Request GovernanceRequest approval before hibernate/wake
+- [ ] Confirm agent idle (hibernate) or hibernated (wake)
+- [ ] Execute via ai-maestro-agents-management skill
+- [ ] Update registry status and log event
+
 ## Resources
 
-- [hibernation-procedures](references/hibernation-procedures.md) — Topics: Hibernation Procedures Reference, Table of Contents, 3.1 What is agent hibernation, 3.2 When to hibernate agents, 3.2.1 Idle timeout, 3.2.2 Resource pressure, 3.2.3 Scheduled pause, 3.3 Hibernation procedure, 3.3.1 Idle confirmation, 3.3.2 State capture, 3.3.3 State persistence, 3.3.4 Resource release, 3.3.5 Registry update, 3.4 State snapshot format, Metadata, Context, Progress, Patterns learned, Environment, Wake instructions, 3.5 Wake procedure, 3.5.1 State retrieval, 3.5.2 State restoration, 3.5.3 Resource reacquisition, 3.5.4 Registry update, 3.5.5 Work resumption, 3.6 Examples, Example 1: Hibernating an Idle Agent, Step 1: Confirm idle, Step 2: Request hibernation, Step 3: Wait for state save confirmation, Step 4: Update registry, Example 2: Waking a Hibernated Agent, Step 1: Verify agent is hibernated, Step 2: Load state, Step 3: Spawn agent with state, Step 4: Wait for ready signal, Step 5: Update registry, Step 6: Agent resumes automatically from wake_instructions, 3.7 Troubleshooting, Issue: State file corrupted, Issue: Agent fails to wake, Issue: Agent wakes but loses context, Issue: Resource conflict during wake
+- [hibernation-procedures](references/hibernation-procedures.md) — Hibernation and wake procedures, state snapshot format, troubleshooting
 

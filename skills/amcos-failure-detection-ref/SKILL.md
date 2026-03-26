@@ -37,7 +37,19 @@ See `amcos-failure-detection` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up heartbeat monitoring configuration
+cat references/failure-detection.md | grep -A5 "Heartbeat"
+```
+
+Expected: heartbeat interval settings and response interpretation.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the failure detection topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 

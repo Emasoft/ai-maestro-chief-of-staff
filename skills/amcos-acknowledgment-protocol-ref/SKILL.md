@@ -37,7 +37,19 @@ See `amcos-acknowledgment-protocol` for error handling.
 
 ## Examples
 
-See referenced files for step-by-step examples.
+```bash
+# Look up acknowledgment timeout policy
+cat references/acknowledgment-protocol.md | grep -A5 "Timeout"
+```
+
+Expected: timeout values and reminder intervals for each ACK type.
+
+## Checklist
+
+Copy this checklist and track your progress:
+- [ ] Identify the acknowledgment topic needed
+- [ ] Open the correct reference file
+- [ ] Follow the documented procedure
 
 ## Resources
 
