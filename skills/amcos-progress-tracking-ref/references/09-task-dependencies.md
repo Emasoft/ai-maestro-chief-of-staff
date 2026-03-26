@@ -6,7 +6,6 @@
 This document is split into 4 parts for efficient context loading.
 
 ### Part 1: Dependency Types and Notation
-**File**: [09-task-dependencies-part1-types-notation.md](./09-task-dependencies-part1-types-notation.md)
 
 **Contents**:
 - 1.1 Type 1: Sequential Dependency - When Task B cannot start until Task A completes
@@ -20,7 +19,6 @@ This document is split into 4 parts for efficient context loading.
 ---
 
 ### Part 2: Dependency Management
-**File**: [09-task-dependencies-part2-management.md](./09-task-dependencies-part2-management.md)
 
 **Contents**:
 - Procedure 1: Record Dependency - How to record task dependencies with scripts
@@ -31,7 +29,6 @@ This document is split into 4 parts for efficient context loading.
 ---
 
 ### Part 3: Critical Path Analysis and Validation
-**File**: [09-task-dependencies-part3-critical-path.md](./09-task-dependencies-part3-critical-path.md)
 
 **Contents**:
 - 1.1 Definition - What is critical path and why it matters
@@ -43,7 +40,6 @@ This document is split into 4 parts for efficient context loading.
 ---
 
 ### Part 4: Examples and Troubleshooting
-**File**: [09-task-dependencies-part4-examples.md](./09-task-dependencies-part4-examples.md)
 
 **Contents**:
 - Example 1: Simple Sequential Dependencies - Linear task chain example
@@ -99,5 +95,5 @@ Task dependency management tracks relationships between tasks to:
 ## Related References
 
 - [08-manage-progress-tracking.md](./08-manage-progress-tracking.md) - How to track task progress
-- [08-manage-progress-tracking-part2-task-management.md](./08-manage-progress-tracking-part2-task-management.md) - How to complete tasks properly
-- [03-manage-active-context-part2-snapshots-pruning.md](./03-manage-active-context-part2-snapshots-pruning.md) - How to save/restore session state
+- See 08-manage-progress-tracking (Part 2) for task management procedures
+- See context-management skill for session state snapshots and pruning

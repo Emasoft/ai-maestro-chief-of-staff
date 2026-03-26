@@ -12,8 +12,8 @@ This document was split into multiple parts for better navigation and context ef
 
 | Part | File | Contents | Lines |
 |------|------|----------|-------|
-| 1 | [05-record-patterns-part1-fundamentals.md](./05-record-patterns-part1-fundamentals.md) | Categories, triggers, procedures, templates, index management | ~480 |
-| 2 | [05-record-patterns-part2-examples.md](./05-record-patterns-part2-examples.md) | Complete examples and troubleshooting | ~280 |
+| 1 | Part 1: Fundamentals | Categories, triggers, procedures, templates, index management | ~480 |
+| 2 | Part 2: Examples | Complete examples and troubleshooting | ~280 |
 
 ## Quick Navigation
 

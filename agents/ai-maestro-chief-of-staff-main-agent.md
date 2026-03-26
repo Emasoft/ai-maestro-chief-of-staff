@@ -175,20 +175,12 @@ For detailed procedures, see skills:
   <!-- /TOC -->
 - **Workflow checklists (step-by-step for each operation)** → [amcos-agent-coordination](../skills/amcos-agent-coordination/SKILL.md), [workflow-checklists](../skills/amcos-agent-coordination/references/workflow-checklists.md)
   <!-- TOC: workflow-checklists.md -->
-  - Agent Lifecycle Workflow Checklists
-    - Contents
-      - When You Need to Create a New Agent
-      - When You Need to Stop an Agent
-      - When You Need to Put an Inactive Agent to Sleep
-      - When You Need to Resume a Hibernated Agent
-      - When You Need to Create a New Project Team
-      - When You Need to Modify Team Membership or Agent Status
-    - Checklist: Spawning New Agent
-    - Checklist: Terminating Agent
-    - Checklist: Hibernating Agent
-    - Checklist: Waking Agent
-    - Checklist: Forming Team
-    - Checklist: Updating Team Registry
+  - 1.1 Spawning New Agent Checklist
+  - 2.1 Terminating Agent Checklist
+  - 3.1 Hibernating Agent Checklist
+  - 4.1 Waking Agent Checklist
+  - 5.1 Forming Team Checklist
+  - 6.1 Updating Team Registry Checklist
   <!-- /TOC -->
 - **Staffing decisions (when to spawn/reuse/hibernate/terminate)** → [amcos-staff-planning](../skills/amcos-staff-planning/SKILL.md)
 - **Performance metrics and tracking** → [amcos-performance-tracking](../skills/amcos-performance-tracking/SKILL.md)
@@ -276,20 +268,12 @@ Send a message to another agent using the `agent-messaging` skill:
 
 > For detailed checklist, see [workflow-checklists](../skills/amcos-agent-coordination/references/workflow-checklists.md)
   <!-- TOC: workflow-checklists.md -->
-  - Agent Lifecycle Workflow Checklists
-    - Contents
-      - When You Need to Create a New Agent
-      - When You Need to Stop an Agent
-      - When You Need to Put an Inactive Agent to Sleep
-      - When You Need to Resume a Hibernated Agent
-      - When You Need to Create a New Project Team
-      - When You Need to Modify Team Membership or Agent Status
-    - Checklist: Spawning New Agent
-    - Checklist: Terminating Agent
-    - Checklist: Hibernating Agent
-    - Checklist: Waking Agent
-    - Checklist: Forming Team
-    - Checklist: Updating Team Registry
+  - 1.1 Spawning New Agent Checklist
+  - 2.1 Terminating Agent Checklist
+  - 3.1 Hibernating Agent Checklist
+  - 4.1 Waking Agent Checklist
+  - 5.1 Forming Team Checklist
+  - 6.1 Updating Team Registry Checklist
   <!-- /TOC -->
 
 ### Example 2: Hibernate Idle Agent

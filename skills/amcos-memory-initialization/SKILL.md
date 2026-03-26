@@ -1,6 +1,6 @@
 ---
 name: amcos-memory-initialization
-description: Use when initializing session memory at session start, understanding memory fundamentals, or setting up directory structure. Trigger with session initialization or memory setup.
+description: Use when initializing session memory. Trigger with new sessions or recovery.
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires file system access to design/memory/ directory. Requires AI Maestro installed.
@@ -26,11 +26,11 @@ Initializes and validates the three session memory documents (`activeContext.md`
 
 ### Fundamentals
 
-Session memory uses three files: `activeContext.md` (current work), `patterns.md` (learned patterns), `progress.md` (task tracking). Details: [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md)
+Session memory uses three files: `activeContext.md` (current work), `patterns.md` (learned patterns), `progress.md` (task tracking). Details: see 00-session-memory-fundamentals in Resources
 
 ### Lifecycle
 
-Three phases: **Load** (read and validate at start), **Update** (write changes during work), **Save** (persist before exit). Details: [00-session-memory-lifecycle](references/00-session-memory-lifecycle.md)
+Three phases: **Load** (read and validate at start), **Update** (write changes during work), **Save** (persist before exit). Details: see 00-session-memory-lifecycle in Resources
 
 ### PROCEDURE 1: Initialize Session Memory
 
@@ -42,9 +42,9 @@ Three phases: **Load** (read and validate at start), **Update** (write changes d
 4. Create missing files from templates
 5. Report loaded state (sizes, counts, issues)
 
-**Directory structure:** [02-memory-directory-structure](references/02-memory-directory-structure.md)
+**Directory structure:** see 02-memory-directory-structure in Resources
 
-**Runbook:** [op-initialize-session-memory](references/op-initialize-session-memory.md)
+**Runbook:** see op-initialize-session-memory in Resources
 
 ### Checklist
 
@@ -67,7 +67,7 @@ Copy this checklist and track your progress:
 | Issue | Resolution |
 |-------|------------|
 | Directory missing | Create it and initialize empty files from templates |
-| Invalid Markdown | Run validation, fix errors per [02-memory-directory-structure](references/02-memory-directory-structure.md)
+| Invalid Markdown | Run validation, fix errors per 02-memory-directory-structure
 | Empty files | Re-initialize with templates |
 | Permission denied | Check file system permissions |
 
@@ -86,9 +86,31 @@ uv run python scripts/amcos_memory_manager.py validate
 
 ## Resources
 
-- [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md) — Memory components and characteristics
-
----
-
-**Version:** 1.0.0 | **Last Updated:** 2025-02-01
+- [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md) — Memory components
+  - What Is Session Memory
+  - Key Characteristics
+  - Session Memory Components
+- [00-session-memory-lifecycle](references/00-session-memory-lifecycle.md) — Lifecycle phases
+  - Overview
+  - Phase 1: Session Initialization (Load)
+  - Phase 2: Session Execution (Update)
+  - Phase 3: Session Termination (Save)
+- [02-memory-directory-structure](references/02-memory-directory-structure.md) — Directory layout
+  - Purpose
+  - Canonical Structure
+  - Directory Descriptions
+  - File Naming Conventions
+  - Structure Validation
+  - Examples
+  - Troubleshooting
+- [op-initialize-session-memory](references/op-initialize-session-memory.md) — Initialization runbook
+  - Purpose
+  - When To Use This Operation
+  - Session Memory Components
+  - Steps
+  - Checklist
+  - Output
+  - Directory Structure
+  - Related References
+  - Next Operation
 

@@ -1,6 +1,6 @@
 ---
 name: amcos-context-management
-description: Use when managing active context, recording discovered patterns, or preparing for context compaction. Trigger with context update or pattern recording needs.
+description: Use when managing context or patterns. Trigger with context update or compaction needs.
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires file system access to design/memory/ directory. Requires AI Maestro installed.
@@ -33,7 +33,7 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 3. Update the relevant section with ISO timestamp
 4. Write immediately (no deferred saves)
 
-**Update patterns:** [06-context-update-patterns](references/06-context-update-patterns.md)
+**Update patterns:** See 06-context-update-patterns in Resources
 
 ### PROCEDURE 3: Record Discovered Patterns
 
@@ -43,7 +43,7 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 2. Open `patterns.md`, add entry with name, category, description, examples, date
 3. Update pattern index; write immediately
 
-**Guide:** [05-record-patterns](references/05-record-patterns.md) | **Categories:** [07-pattern-categories](references/07-pattern-categories.md)
+**Guide:** See 05-record-patterns and 07-pattern-categories in Resources
 
 ### PROCEDURE 6: Prepare for Context Compaction
 
@@ -55,7 +55,7 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 4. Create backup
 5. Confirm ready
 
-**Safety:** [11-compaction-safety](references/11-compaction-safety.md)
+**Safety:** See 11-compaction-safety in Resources
 
 ## Output
 
@@ -69,9 +69,9 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 
 | Issue | Resolution |
 |-------|------------|
-| Context out of sync | See [14-context-sync](references/14-context-sync.md) |
+| Context out of sync | See 14-context-sync in Resources |
 | Validation fails pre-compaction | Fix errors first; never compact invalid memory |
-| Files corrupted | See [04-memory-validation](references/04-memory-validation.md) |
+| Files corrupted | See 04-memory-validation in Resources |
 
 ## Examples
 
@@ -94,29 +94,30 @@ Copy this checklist and track your progress:
 
 ## Resources
 
-- [06-context-update-patterns](references/06-context-update-patterns.md) — Update pattern types and procedures
-  - Purpose
-  - Update Patterns Overview
-  - Part Files
-  - Quick Reference
-  - Troubleshooting Quick Links
-- [05-record-patterns](references/05-record-patterns.md) — Pattern recording fundamentals
+- [06-context-update-patterns](references/06-context-update-patterns.md) — Update patterns
+  - When you need to understand the purpose
+  - Understanding update patterns overview
+  - When switching tasks
+  - When recording decisions
+  - When adding questions
+  - When reaching milestones
+  - When preparing before compaction
+  - For implementation examples
+  - If issues occur
+- [05-record-patterns](references/05-record-patterns.md) — Pattern recording
   - Parts
   - Quick Navigation
   - Reading Order
-- [07-pattern-categories](references/07-pattern-categories.md) — Pattern category definitions
+- [07-pattern-categories](references/07-pattern-categories.md) — Pattern categories
   - Purpose
   - Category Definitions
   - Pattern Category Details
-  - Choosing the Right Category
-  - Part Files Reference
-- [11-compaction-safety](references/11-compaction-safety.md) — Compaction safety checks
+  - How to Choose Categories
+- [11-compaction-safety](references/11-compaction-safety.md) — Compaction safety
   - Parts
+  - Part 1: Preparation and Execution
   - Quick Reference
-- [14-context-sync](references/14-context-sync.md) — Context synchronization
+- [14-context-sync](references/14-context-sync.md) — Context sync
   - Overview
-  - Document Parts
-  - Quick Reference
-- [04-memory-validation](references/04-memory-validation.md) — Memory validation procedures
-  - Document Parts
-  - Quick Reference
+  - Part 2: Advanced Procedures and Troubleshooting
+- [04-memory-validation](references/04-memory-validation.md) — Validation

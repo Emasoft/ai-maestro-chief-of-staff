@@ -52,15 +52,13 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 | **Recoverable** | Intervention | Session hibernated, OOM |
 | **Terminal** | Replacement | Host crash, disk corruption |
 
-See [failure-classification](references/failure-classification.md) for detailed classification criteria and escalation thresholds.
-
-### Quick Reference Workflow
+### Quick Reference
 
 ```
 DETECT --> CLASSIFY --> RESPOND
-  Heartbeat?   Transient? --> Wait & Retry
-  Message?     Recoverable? --> amcos-recovery-execution
-  Offline?     Terminal? --> amcos-agent-replacement
+  Transient --> Wait & Retry
+  Recoverable --> amcos-recovery-execution
+  Terminal --> amcos-agent-replacement
 ```
 
 ## Output
@@ -97,3 +95,24 @@ Copy this checklist and track your progress:
 
 ## Resources
 
+- [failure-classification](references/failure-classification.md) — Failure classification criteria, escalation thresholds, recording
+  - 2.1 When to use this document
+  - 2.2 Overview of failure categories
+  - 2.3 Transient failures
+    - 2.3.1 Definition and characteristics
+    - 2.3.2 Examples of transient failures
+    - 2.3.3 Expected recovery time
+    - 2.3.4 Recommended response
+  - 2.4 Recoverable failures
+    - 2.4.1 Definition and characteristics
+    - 2.4.2 Examples of recoverable failures
+    - 2.4.3 Expected recovery time
+    - 2.4.4 Recommended response
+  - 2.5 Terminal failures
+    - 2.5.1 Definition and characteristics
+    - 2.5.2 Examples of terminal failures
+    - 2.5.3 When replacement is required
+    - 2.5.4 Recommended response
+  - 2.6 Classification decision matrix
+  - 2.7 Escalation thresholds
+  - 2.8 Recording failure events

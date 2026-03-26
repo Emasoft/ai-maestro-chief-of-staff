@@ -72,7 +72,7 @@ libs-svg-svgbbox weekly report (Mar 1-7):
 [DONE] Report saved to .amcos-logs/perf-libs-svg-svgbbox-2026-03-07.md
 ```
 
-See [examples-and-checklists](references/examples-and-checklists.md) for more examples.
+See examples-and-checklists in Resources for more examples.
 
 ## Error Handling
 
@@ -84,3 +84,8 @@ See [examples-and-checklists](references/examples-and-checklists.md) for more ex
 
 ## Resources
 
+- [examples-and-checklists](references/examples-and-checklists.md) — Performance tracking examples and task checklists
+  - Task Checklist
+  - Example 1: Recording Task Completion Metric
+  - Example 2: Agent Strength-Weakness Summary
+  - Example 3: Weekly Performance Summary

@@ -78,7 +78,7 @@ Onboarding libs-svg-renderer:
 [DONE] libs-svg-renderer onboarded successfully.
 ```
 
-See [onboarding-overview-and-examples](references/onboarding-overview-and-examples.md) for full examples and handoff validation.
+See onboarding-overview-and-examples in Resources for examples and handoff validation.
 
 ## Error Handling
 
@@ -90,3 +90,13 @@ See [onboarding-overview-and-examples](references/onboarding-overview-and-exampl
 
 ## Resources
 
+- [onboarding-overview-and-examples](references/onboarding-overview-and-examples.md) — Full onboarding guide with examples and checklists
+  - What Is Agent Onboarding
+  - Onboarding Components
+  - Examples: Initiating Onboarding for New Developer
+  - Examples: Role Briefing Message
+  - Examples: Project Handoff Summary
+  - Handoff Validation Checklist
+  - Handoff Required Fields
+  - Key Takeaways
+  - Task Checklist

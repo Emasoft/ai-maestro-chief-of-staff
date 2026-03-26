@@ -4,28 +4,13 @@
 
 1. [When you need to understand the purpose](#purpose)
 2. [Understanding recovery scenarios](#recovery-scenarios)
-3. [Recovering from failed compaction](#recovery-from-failed-compaction) - See [Part 1](10-recovery-procedures-part1-failed-compaction.md)
-4. [Recovering from corrupted memory](#recovery-from-corrupted-memory) - See [Part 2](10-recovery-procedures-part2-corruption-context.md)
-5. [Recovering from lost context](#recovery-from-lost-context) - See [Part 2](10-recovery-procedures-part2-corruption-context.md)
-6. [Recovering from snapshot failure](#recovery-from-snapshot-failure) - See [Part 3](10-recovery-procedures-part3-snapshot-emergency.md)
-7. [Emergency recovery procedures](#emergency-recovery) - See [Part 3](10-recovery-procedures-part3-snapshot-emergency.md)
-8. [For implementation examples](#examples) - See [Part 4a](10-recovery-procedures-part4a-examples.md)
-9. [If issues occur](#troubleshooting) - See [Part 4b](10-recovery-procedures-part4b-troubleshooting.md)
-
-## Part Files
-
-This document is split into multiple parts for easier navigation:
-
-| Part | File | Contents |
-|------|------|----------|
-| Index | This file | Purpose, Scenario Matrix, Overview |
-| Part 1 | [10-recovery-procedures-part1-failed-compaction.md](10-recovery-procedures-part1-failed-compaction.md) | Recovery from failed compaction (Step-by-step procedure) |
-| Part 2 | [10-recovery-procedures-part2-corruption-context.md](10-recovery-procedures-part2-corruption-context.md) | Recovery from corrupted memory and lost context |
-| Part 3 | [10-recovery-procedures-part3-snapshot-emergency.md](10-recovery-procedures-part3-snapshot-emergency.md) | Snapshot failure recovery and emergency procedures |
-| Part 4a | [10-recovery-procedures-part4a-examples.md](10-recovery-procedures-part4a-examples.md) | Recovery workflow examples |
-| Part 4b | [10-recovery-procedures-part4b-troubleshooting.md](10-recovery-procedures-part4b-troubleshooting.md) | Troubleshooting common problems |
-
----
+3. [Recovering from failed compaction](#recovery-from-failed-compaction)
+4. [Recovering from corrupted memory](#recovery-from-corrupted-memory)
+5. [Recovering from lost context](#recovery-from-lost-context)
+6. [Recovering from snapshot failure](#recovery-from-snapshot-failure)
+7. [Emergency recovery procedures](#emergency-recovery)
+8. [For implementation examples](#examples)
+9. [If issues occur](#troubleshooting)
 
 ## Purpose
 
@@ -52,24 +37,16 @@ Recovery procedures restore session memory to a working state after failures. Ef
 ### Quick Reference: Which Part to Read
 
 **If you need to recover from failed compaction:**
-- Read [Part 1: Failed Compaction Recovery](10-recovery-procedures-part1-failed-compaction.md)
+- See Recovery from Failed Compaction section below
 - Contains: Stop operations, identify last good state, restore from archive, validate, document
 
 **If you have corrupted files or lost context:**
-- Read [Part 2: Corruption and Context Recovery](10-recovery-procedures-part2-corruption-context.md)
+- See Recovery from Corrupted Memory section below
 - Contains: File corruption recovery, context reconstruction, source mining
 
 **If snapshots fail or you need emergency recovery:**
-- Read [Part 3: Snapshot and Emergency Recovery](10-recovery-procedures-part3-snapshot-emergency.md)
+- See Recovery from Snapshot Failure section below
 - Contains: Disk space checks, permission fixes, complete memory rebuild
-
-**If you need examples:**
-- Read [Part 4a: Examples](10-recovery-procedures-part4a-examples.md)
-- Contains: Complete workflow examples, partial recovery examples
-
-**If you need troubleshooting:**
-- Read [Part 4b: Troubleshooting](10-recovery-procedures-part4b-troubleshooting.md)
-- Contains: Common problems and solutions, diagnostic commands
 
 ---
 
@@ -126,31 +103,21 @@ Recovery procedures restore session memory to a working state after failures. Ef
 
 ---
 
-## Next Steps
+## Recovery Procedure Summaries
 
-Choose the appropriate part file based on your recovery scenario:
+**Failed Compaction Recovery:**
+1. Stop All Operations
+2. Identify Last Good State
+3. Restore from Archive
+4. Validate Restored State
+5. Document Recovery
 
-1. **[Part 1: Failed Compaction Recovery](10-recovery-procedures-part1-failed-compaction.md)**
-   - Step 1: Stop All Operations
-   - Step 2: Identify Last Good State
-   - Step 3: Restore from Archive
-   - Step 4: Validate Restored State
-   - Step 5: Document Recovery
+**Corruption and Context Recovery:**
+- Restore from snapshot or backup
+- Reconstruct from conversation history
+- Source mining from git/docs
 
-2. **[Part 2: Corruption and Context Recovery](10-recovery-procedures-part2-corruption-context.md)**
-   - Recovery from Corrupted Memory
-   - Recovery from Lost Context
-   - Source Mining Techniques
-
-3. **[Part 3: Snapshot and Emergency Recovery](10-recovery-procedures-part3-snapshot-emergency.md)**
-   - Recovery from Snapshot Failure
-   - Emergency Recovery Procedures
-   - Complete Memory Rebuild
-
-4. **[Part 4a: Examples](10-recovery-procedures-part4a-examples.md)**
-   - Complete Recovery Workflow Example
-   - Partial Recovery Example
-
-5. **[Part 4b: Troubleshooting](10-recovery-procedures-part4b-troubleshooting.md)**
-   - Common Problems and Solutions
-   - Quick Diagnostic Commands
+**Snapshot and Emergency Recovery:**
+- Check disk space and permissions
+- Rebuild snapshot from current state
+- Complete memory rebuild from sources

@@ -24,7 +24,6 @@ Progress tracking maintains accurate record of task status, dependencies, and co
 This reference is split into 4 parts for easier navigation:
 
 ### Part 1: Structure and States
-**File**: [08-manage-progress-tracking-part1-structure-states.md](./08-manage-progress-tracking-part1-structure-states.md)
 
 **Contents**:
 - 1.1 Progress Tracker Structure
@@ -38,7 +37,6 @@ This reference is split into 4 parts for easier navigation:
 ---
 
 ### Part 2: Task Management Procedures
-**File**: [08-manage-progress-tracking-part2-task-management.md](./08-manage-progress-tracking-part2-task-management.md)
 
 **Contents**:
 - 2.1 Procedure 1: Add New Task
@@ -53,7 +51,6 @@ This reference is split into 4 parts for easier navigation:
 ---
 
 ### Part 3: Dependencies and Snapshots
-**File**: [08-manage-progress-tracking-part3-dependencies-snapshots.md](./08-manage-progress-tracking-part3-dependencies-snapshots.md)
 
 **Contents**:
 - 3.1 Dependency Management
@@ -69,7 +66,6 @@ This reference is split into 4 parts for easier navigation:
 ---
 
 ### Part 4: Examples and Troubleshooting
-**File**: [08-manage-progress-tracking-part4-examples-troubleshooting.md](./08-manage-progress-tracking-part4-examples-troubleshooting.md)
 
 **Contents**:
 - 4.1 Example 1: Complete Task Lifecycle (Planned → Active → Blocked → Active → Completed)

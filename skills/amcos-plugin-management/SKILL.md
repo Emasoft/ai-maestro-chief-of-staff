@@ -65,7 +65,7 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Use `ai-maestro-agents-management` skill or GovernanceRequest pipeline for cross-host operations.
 
-See [remote-plugin-management](references/remote-plugin-management.md)
+See remote-plugin-management in Resources
 
 ## Examples
 
@@ -79,7 +79,7 @@ See [remote-plugin-management](references/remote-plugin-management.md)
 [DONE] Plugin grepika installed and validated on libs-svg-svgbbox.
 ```
 
-See [plugin-overview-and-examples](references/plugin-overview-and-examples.md) for more examples.
+See plugin-overview-and-examples in Resources for more examples.
 
 ## Error Handling
 
@@ -88,3 +88,21 @@ See [plugin-overview-and-examples](references/plugin-overview-and-examples.md) f
 
 ## Resources
 
+- [remote-plugin-management](references/remote-plugin-management.md) — Remote install and update procedures
+  - 1. Overview
+  - 2. Remote Installation
+  - 3. Remote Updates
+  - 4. Troubleshooting
+- [plugin-overview-and-examples](references/plugin-overview-and-examples.md) — Plugin lifecycle, examples, checklists
+  - Plugin Lifecycle
+  - What Is Plugin Management
+  - Plugin Components
+  - Examples: Installing from Marketplace
+  - Examples: Local Plugin Development
+  - Examples: Plugin Directory Structure
+  - Examples: Plugin Validation
+  - Examples: Install Plugin on Remote Agent
+  - Examples: Restart Agent After Plugin Changes
+  - Remote Plugin Operations Table
+  - Key Takeaways
+  - Task Checklist

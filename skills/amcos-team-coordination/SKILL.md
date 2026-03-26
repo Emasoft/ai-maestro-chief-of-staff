@@ -57,7 +57,7 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Identify recipients, compose with priority, send via AI Maestro API, confirm delivery, log.
 
-See [team-messaging](references/team-messaging.md)
+See team-messaging in Resources below
 
 ### PROCEDURE 3: Maintain Teammate Awareness
 
@@ -84,7 +84,12 @@ amp-send.sh libs-svg-renderer "Role Assignment: QA Lead" \
 
 ## Resources
 
----
-
-**Version:** 1.0
-**Last Updated:** 2025-02-01
+- [team-messaging](references/team-messaging.md) — Team message types, priority, routing, delivery
+  - Team Message Types
+  - Message Priority Levels
+  - Sending Broadcast Messages
+  - Sending Targeted Messages
+  - Message Routing Rules
+  - Confirming Message Delivery
+  - Team Messaging Examples
+  - Troubleshooting

@@ -51,7 +51,7 @@ Memory: usage/limit/%. Agents: active/max. API: rate/quota.
 
 ### PROCEDURE 3: Handle Resource Alerts
 
-Identify alert, assess severity, act, notify. See [resource-alerts](references/resource-alerts.md)
+Identify alert, assess severity, act, notify. See resource-alerts in Resources
 
 ## Operational Procedures
 
@@ -78,3 +78,16 @@ See [examples-and-checklists](references/examples-and-checklists.md) for more ex
 
 ## Resources
 
+- [resource-alerts](references/resource-alerts.md) — Alert types, severity, response, escalation
+  - Types Of Resource Alerts
+  - Alert Severity Levels
+  - Alert Response Procedures
+  - Alert Escalation
+  - Alert Prevention
+  - Resource Alert Examples
+  - Troubleshooting
+- [examples-and-checklists](references/examples-and-checklists.md) — Resource monitoring examples
+  - Task Checklist
+  - Example 1: Basic System Resource Check
+  - Example 2: Counting Active Agent Sessions
+  - Example 3: Resource Alert Response

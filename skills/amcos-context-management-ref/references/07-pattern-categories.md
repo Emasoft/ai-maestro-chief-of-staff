@@ -39,7 +39,7 @@ Each pattern category has its own detailed reference document with structure tem
 
 ### Problem-Solution Patterns (ps_)
 
-See [07-pattern-categories-part1-problem-solution.md](07-pattern-categories-part1-problem-solution.md)
+**Problem-Solution pattern details:**
 
 **Contents**:
 - Definition of Problem-Solution patterns
@@ -50,7 +50,7 @@ See [07-pattern-categories-part1-problem-solution.md](07-pattern-categories-part
 
 ### Workflow Patterns (wf_)
 
-See [07-pattern-categories-part2-workflow.md](07-pattern-categories-part2-workflow.md)
+**Workflow pattern details:**
 
 **Contents**:
 - Definition of Workflow patterns
@@ -61,7 +61,7 @@ See [07-pattern-categories-part2-workflow.md](07-pattern-categories-part2-workfl
 
 ### Decision-Logic Patterns (dl_)
 
-See [07-pattern-categories-part3-decision-logic.md](07-pattern-categories-part3-decision-logic.md)
+**Decision-Logic pattern details:**
 
 **Contents**:
 - Definition of Decision-Logic patterns
@@ -72,7 +72,7 @@ See [07-pattern-categories-part3-decision-logic.md](07-pattern-categories-part3-
 
 ### Error-Recovery Patterns (er_)
 
-See [07-pattern-categories-part4-error-recovery.md](07-pattern-categories-part4-error-recovery.md)
+**Error-Recovery pattern details:**
 
 **Contents**:
 - Definition of Error-Recovery patterns
@@ -83,7 +83,7 @@ See [07-pattern-categories-part4-error-recovery.md](07-pattern-categories-part4-
 
 ### Configuration Patterns (cfg_)
 
-See [07-pattern-categories-part5-configuration.md](07-pattern-categories-part5-configuration.md)
+**Configuration pattern details:**
 
 **Contents**:
 - Definition of Configuration patterns
@@ -96,7 +96,7 @@ See [07-pattern-categories-part5-configuration.md](07-pattern-categories-part5-c
 
 ## Choosing the Right Category
 
-See [07-pattern-categories-part6-choosing-examples.md](07-pattern-categories-part6-choosing-examples.md) for detailed decision flow, selection matrix, and practical examples.
+Detailed decision flow, selection matrix, and practical examples:
 
 ### Quick Decision Flow
 
@@ -135,13 +135,12 @@ Is it about solving a specific problem?
 
 ---
 
-## Part Files Reference
+## Category Details Summary
 
-| Part File | Lines | Content |
-|-----------|-------|---------|
-| [part1-problem-solution.md](07-pattern-categories-part1-problem-solution.md) | ~75 | Problem-Solution pattern details |
-| [part2-workflow.md](07-pattern-categories-part2-workflow.md) | ~85 | Workflow pattern details |
-| [part3-decision-logic.md](07-pattern-categories-part3-decision-logic.md) | ~100 | Decision-Logic pattern details |
-| [part4-error-recovery.md](07-pattern-categories-part4-error-recovery.md) | ~100 | Error-Recovery pattern details |
-| [part5-configuration.md](07-pattern-categories-part5-configuration.md) | ~105 | Configuration pattern details |
-| [part6-choosing-examples.md](07-pattern-categories-part6-choosing-examples.md) | ~140 | Category selection and examples |
+| Category | Prefix | Approx Content |
+|----------|--------|----------------|
+| Problem-Solution | ps_ | Definition, template, when to create, examples |
+| Workflow | wf_ | Definition, phases, variations, examples |
+| Decision-Logic | dl_ | Definition, decision trees, options, examples |
+| Error-Recovery | er_ | Definition, detection, recovery steps, examples |
+| Configuration | cfg_ | Definition, verification, common issues, examples |

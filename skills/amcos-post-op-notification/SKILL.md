@@ -48,7 +48,7 @@ Copy this checklist and track your progress:
 - [ ] Sent AMP confirmation via `amp-send.sh` and requested agent verification
 - [ ] Logged outcome with timestamp and verification response
 
-See [op-post-operation-notification](references/op-post-operation-notification.md)
+See op-post-operation-notification in Resources
 
 ## Message Type Quick Reference
 
@@ -88,3 +88,19 @@ amp-send.sh code-impl-auth "Post-Op: security-audit installed" \
 
 ## Resources
 
+- [op-post-operation-notification](references/op-post-operation-notification.md) — Post-op notification procedure
+  - When to Use
+  - Prerequisites
+  - Procedure
+    - Step 1: Confirm Operation Completed
+    - Step 2: Compose Success Message
+    - Step 3: Send Confirmation
+    - Step 4: Request Verification
+    - Step 5: Log Outcome
+  - Checklist
+  - Examples
+    - Example 1: Skill Installation Complete
+    - Example 2: Agent Restart Complete
+    - Example 3: System Maintenance Complete Broadcast
+  - Error Handling
+  - Related Operations

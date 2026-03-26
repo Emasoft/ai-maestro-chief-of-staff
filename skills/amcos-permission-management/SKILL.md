@@ -73,7 +73,7 @@ Approved: JSON with `status: "dual-approved"` and both manager approvals. Reject
 
 ## Governance Details
 
-See [governance-details-and-examples](references/governance-details-and-examples.md) for payload format, governance password, and approval examples.
+See governance-details-and-examples in Resources for payload format and approval examples.
 
 ## Error Handling
 
@@ -100,3 +100,14 @@ curl -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
 ## Resources
 
 - [governance-details-and-examples](references/governance-details-and-examples.md) — Payload format, governance password, approval flow, rate limiting, audit, examples
+  - GovernanceRequest Payload
+  - Governance Password
+  - Simplified Local Approval
+  - Rate Limiting
+  - Audit Trail
+  - Quick Checklist
+  - API Response (Primary)
+  - Offline Degradation
+  - Example 1: Spawn Agent (Local, Same Team)
+  - Example 2: Cross-Team Plugin Install
+  - Plugin Prefix Reference

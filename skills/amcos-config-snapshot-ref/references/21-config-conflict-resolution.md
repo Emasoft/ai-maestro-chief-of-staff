@@ -3,10 +3,10 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Conflict Types and Resolution Strategies](#conflict-types-and-resolution-strategies) → [Part 1](./21-config-conflict-resolution-part1-types-strategies.md)
-3. [Resolution Procedures 1-2](#resolution-procedures-1-2) → [Part 2](./21-config-conflict-resolution-part2-procedures-1-2.md)
-4. [Resolution Procedures 3-4](#resolution-procedures-3-4) → [Part 3](./21-config-conflict-resolution-part3-procedures-3-4.md)
-5. [Decision Trees, Examples, Troubleshooting](#decision-trees-examples-troubleshooting) → [Part 4](./21-config-conflict-resolution-part4-trees-examples-troubleshooting.md)
+2. [Conflict Types and Resolution Strategies](#conflict-types-and-resolution-strategies)
+3. [Resolution Procedures 1-2](#resolution-procedures-1-2)
+4. [Resolution Procedures 3-4](#resolution-procedures-3-4)
+5. [Decision Trees, Examples, Troubleshooting](#decision-trees-examples-troubleshooting)
 
 ---
 
@@ -32,8 +32,6 @@ Config conflict resolution is the process of deciding how to handle differences 
 
 ## Conflict Types and Resolution Strategies
 
-**Full content:** [21-config-conflict-resolution-part1-types-strategies.md](./21-config-conflict-resolution-part1-types-strategies.md)
-
 ### Conflict Types Quick Reference
 
 | Type | Name | Characteristics | Default Action |
@@ -55,8 +53,6 @@ Config conflict resolution is the process of deciding how to handle differences 
 ---
 
 ## Resolution Procedures 1-2
-
-**Full content:** [21-config-conflict-resolution-part2-procedures-1-2.md](./21-config-conflict-resolution-part2-procedures-1-2.md)
 
 ### PROCEDURE 1: Resolve Non-Breaking Changes (Type A)
 
@@ -89,8 +85,6 @@ Config conflict resolution is the process of deciding how to handle differences 
 ---
 
 ## Resolution Procedures 3-4
-
-**Full content:** [21-config-conflict-resolution-part3-procedures-3-4.md](./21-config-conflict-resolution-part3-procedures-3-4.md)
 
 ### PROCEDURE 3: Resolve Breaking Changes - Immediate (Type C)
 
@@ -129,8 +123,6 @@ Config conflict resolution is the process of deciding how to handle differences 
 ---
 
 ## Decision Trees, Examples, Troubleshooting
-
-**Full content:** [21-config-conflict-resolution-part4-trees-examples-troubleshooting.md](./21-config-conflict-resolution-part4-trees-examples-troubleshooting.md)
 
 ### Decision Tree 1: Initial Conflict Classification
 

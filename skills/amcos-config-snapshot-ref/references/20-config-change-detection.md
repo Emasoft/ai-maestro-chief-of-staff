@@ -5,25 +5,13 @@
 1. [When you need to understand the overview](#overview)
 2. [Understanding detection methods](#detection-methods)
 3. [How to detect changes](#detection-procedures)
-   - [Timestamp-based detection](#procedure-1-timestamp-based-detection) - See [Part 1](./20-config-change-detection-part1-timestamp-content-detection.md)
-   - [Content-based detection](#procedure-2-content-based-detection) - See [Part 1](./20-config-change-detection-part1-timestamp-content-detection.md)
-   - [Handling change notifications](#procedure-3-change-notification-handling) - See [Part 2](./20-config-change-detection-part2-notifications-drift.md)
-   - [Periodic drift checking](#procedure-4-periodic-drift-check) - See [Part 2](./20-config-change-detection-part2-notifications-drift.md)
-4. [Classifying changes](#change-classification) - See [Part 3](./20-config-change-detection-part3-classification-examples.md)
-5. [For implementation examples](#examples) - See [Part 3](./20-config-change-detection-part3-classification-examples.md)
-6. [If issues occur](#troubleshooting) - See [Part 3](./20-config-change-detection-part3-classification-examples.md)
-
----
-
-## Part Files
-
-This document has been split for readability. Detailed procedures are in:
-
-| Part | File | Contents |
-|------|------|----------|
-| 1 | [20-config-change-detection-part1-timestamp-content-detection.md](./20-config-change-detection-part1-timestamp-content-detection.md) | Timestamp-based detection, Content-based detection |
-| 2 | [20-config-change-detection-part2-notifications-drift.md](./20-config-change-detection-part2-notifications-drift.md) | Change notification handling, Periodic drift checks |
-| 3 | [20-config-change-detection-part3-classification-examples.md](./20-config-change-detection-part3-classification-examples.md) | Change classification, Examples, Troubleshooting |
+   - [Timestamp-based detection](#procedure-1-timestamp-based-detection)
+   - [Content-based detection](#procedure-2-content-based-detection)
+   - [Handling change notifications](#procedure-3-change-notification-handling)
+   - [Periodic drift checking](#procedure-4-periodic-drift-check)
+4. [Classifying changes](#change-classification)
+5. [For implementation examples](#examples)
+6. [If issues occur](#troubleshooting)
 
 ---
 
@@ -125,8 +113,6 @@ For detailed step-by-step procedures, see the part files:
 
 **When to use:** Periodic checks, lightweight detection, first-pass detection
 
-**Full procedure:** [Part 1 - Timestamp-Based Detection](./20-config-change-detection-part1-timestamp-content-detection.md#procedure-1-timestamp-based-detection)
-
 **Summary:**
 1. Read snapshot timestamp for each config
 2. Read current timestamp for each config
@@ -139,8 +125,6 @@ For detailed step-by-step procedures, see the part files:
 ### PROCEDURE 2: Content-Based Detection
 
 **When to use:** After timestamp detection indicates change, to determine what specifically changed
-
-**Full procedure:** [Part 1 - Content-Based Detection](./20-config-change-detection-part1-timestamp-content-detection.md#procedure-2-content-based-detection)
 
 **Summary:**
 1. Extract snapshot content for changed config
@@ -156,8 +140,6 @@ For detailed step-by-step procedures, see the part files:
 
 **When to use:** When orchestrator sends config change notification, immediate response needed
 
-**Full procedure:** [Part 2 - Change Notification Handling](./20-config-change-detection-part2-notifications-drift.md#procedure-3-change-notification-handling)
-
 **Summary:**
 1. Receive notification message
 2. Parse notification
@@ -171,8 +153,6 @@ For detailed step-by-step procedures, see the part files:
 
 **When to use:** During long-running sessions, proactive drift detection
 
-**Full procedure:** [Part 2 - Periodic Drift Check](./20-config-change-detection-part2-notifications-drift.md#procedure-4-periodic-drift-check)
-
 **Summary:**
 1. Define check schedule
 2. Perform scheduled check
@@ -183,7 +163,7 @@ For detailed step-by-step procedures, see the part files:
 
 ## Change Classification
 
-For full classification details, see [Part 3 - Change Classification](./20-config-change-detection-part3-classification-examples.md#change-classification).
+**Classification quick reference:**
 
 | Severity | Examples | Action |
 |----------|----------|--------|
@@ -196,8 +176,6 @@ For full classification details, see [Part 3 - Change Classification](./20-confi
 
 ## Examples
 
-For full examples with code, see [Part 3 - Examples](./20-config-change-detection-part3-classification-examples.md#examples).
-
 - **Example 1:** Detecting Toolchain Update via periodic check
 - **Example 2:** Handling urgent change notification
 
@@ -205,7 +183,7 @@ For full examples with code, see [Part 3 - Examples](./20-config-change-detectio
 
 ## Troubleshooting
 
-For troubleshooting details, see [Part 3 - Troubleshooting](./20-config-change-detection-part3-classification-examples.md#troubleshooting).
+**Troubleshooting quick reference:**
 
 | Issue | Solution |
 |-------|----------|

@@ -65,7 +65,7 @@ Copy this checklist and track your progress:
 
 Use skills-ref to-prompt to generate available_skills XML blocks for agent prompt definitions.
 
-See [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md)
+See op-generate-agent-prompt-xml in Resources
 
 ## Examples
 
@@ -84,7 +84,20 @@ skills-ref validate skills/amcos-onboarding/
 
 ## Resources
 
----
-
-**Version:** 1.0
-**Last Updated:** 2025-02-01
+- [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md) — Generate XML prompt
+  - When to Use
+  - Prerequisites
+  - Procedure
+    - Step 1: Identify Skills to Include
+    - Step 2: Generate XML with skills-ref
+    - Step 3: Save to File (Optional)
+    - Step 4: Integrate into Agent Prompt
+    - Step 5: Verify Integration
+  - Checklist
+  - Examples
+    - Example: Generate XML for AMCOS Skills
+    - Example: Save and Use in Agent Definition
+    - Example: Programmatic Generation
+    - Example: Dynamic Skill List
+  - Error Handling
+  - Related Operations

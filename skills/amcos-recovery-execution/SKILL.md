@@ -62,7 +62,7 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 
 ### Troubleshooting
 
-See [troubleshooting](references/troubleshooting.md)
+See troubleshooting in Resources
 
 ## Checklist
 
@@ -98,9 +98,19 @@ Copy this checklist and track your progress:
 tmux has-session -t libs-svg-svgbbox 2>/dev/null && echo "exists" || echo "gone"
 ```
 
-**Expected result:** Agent session restored, status returns "exists", heartbeat confirmed.
-
-See [examples](references/examples.md) for full recovery scenarios.
+**Expected result:** Agent session restored, heartbeat confirmed.
 
 ## Resources
 
+- [troubleshooting](references/troubleshooting.md) — Recovery troubleshooting
+  - Agent shows online but unresponsive
+  - Cannot determine failure type
+  - Manager does not respond
+  - New replacement agent fails to register
+  - Emergency handoff deadline missed
+- [examples](references/examples.md) — Recovery scenario examples
+  - Example 1: Agent Crash Recovery
+  - Example 2: Terminal Failure with Replacement
+  - Example 3: Transient Network Failure
+  - Example 4: Emergency Handoff with Deadline
+  - Quick Reference

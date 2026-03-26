@@ -12,8 +12,6 @@ This document was split into multiple parts for easier navigation. Each part cov
 
 ## Part 1: Detection and Basic Recovery
 
-**File:** [13-file-recovery-part1-detection-and-basic-recovery.md](13-file-recovery-part1-detection-and-basic-recovery.md)
-
 **Contents:**
 1. Overview
    - 1.1 What Is Memory File Recovery?
@@ -33,8 +31,6 @@ This document was split into multiple parts for easier navigation. Each part cov
 ---
 
 ## Part 2: Advanced Recovery and Prevention
-
-**File:** [13-file-recovery-part2-advanced-recovery-and-prevention.md](13-file-recovery-part2-advanced-recovery-and-prevention.md)
 
 **Contents:**
 1. Advanced Recovery Procedures

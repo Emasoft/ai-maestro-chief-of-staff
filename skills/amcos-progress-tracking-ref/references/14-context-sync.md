@@ -15,7 +15,6 @@ Context synchronization ensures session memory files accurately reflect the agen
 ## Document Parts
 
 ### Part 1: Foundations and Core Procedures
-**File:** [14-context-sync-part1-foundations.md](14-context-sync-part1-foundations.md)
 **Lines:** ~390
 
 **Contents:**
@@ -41,7 +40,6 @@ Context synchronization ensures session memory files accurately reflect the agen
 ---
 
 ### Part 2: Advanced Procedures and Troubleshooting
-**File:** [14-context-sync-part2-advanced.md](14-context-sync-part2-advanced.md)
 **Lines:** ~290
 
 **Contents:**

@@ -183,8 +183,8 @@ After context compaction completes:
 
 ## Related References
 
-- [11-compaction-safety.md](11-compaction-safety.md) - Compaction safety guide
-- [12-pre-compaction-checklist.md](12-pre-compaction-checklist.md) - Detailed checklist
+- See context-management skill for compaction safety guide
+- See the Pre-Compaction Checklist section above for detailed checklist
 - [10-recovery-procedures.md](10-recovery-procedures.md) - Post-compaction recovery
 
 ## Next Operation

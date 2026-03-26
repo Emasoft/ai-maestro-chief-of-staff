@@ -36,7 +36,7 @@ Copy this checklist and track your progress:
 2. Create snapshot with timestamp and file hashes
 3. Save to `design/memory/config-snapshot.md`; record in `activeContext.md`
 
-**Guide:** [19-config-snapshot-creation](references/19-config-snapshot-creation.md)
+**Guide:** See 19-config-snapshot-creation in Resources below
 
 ### PROCEDURE 8: Detect Config Changes
 
@@ -46,7 +46,7 @@ Copy this checklist and track your progress:
 2. Compare timestamps; if different, compare hashes
 3. Classify changes; log in `activeContext.md`; trigger Procedure 9 if critical
 
-**Guide:** [20-config-change-detection](references/20-config-change-detection.md)
+**Guide:** See 20-config-change-detection in Resources below
 
 ### PROCEDURE 9: Handle Config Conflicts
 
@@ -97,26 +97,24 @@ Copy this checklist and track your progress:
 ## Resources
 
 - [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Snapshot creation procedures
-  - Part Files
-  - Overview
-  - What Is a Config Snapshot?
-  - Why Snapshots Matter
-  - Creation Procedures
-  - PROCEDURE 1: Create Initial Snapshot
-  - PROCEDURE 2: Update Snapshot
-  - PROCEDURE 3: Validate Snapshot
-  - Snapshot Structure
-  - Examples
-  - Troubleshooting
+  - When you need to understand the overview
+  - Understanding config snapshots
+  - Why snapshots matter
+  - How to create snapshots
+  - Creating initial snapshot
+  - Updating snapshot
+  - Validating snapshot
+  - Understanding snapshot structure
+  - For implementation examples
+  - If issues occur
 - [20-config-change-detection](references/20-config-change-detection.md) — Change detection methods
-  - Part Files
-  - Overview
-  - Detection Methods
-  - Detection Procedures
-  - PROCEDURE 1: Timestamp-Based Detection
-  - PROCEDURE 2: Content-Based Detection
-  - PROCEDURE 3: Change Notification Handling
-  - PROCEDURE 4: Periodic Drift Check
-  - Change Classification
-  - Examples
-  - Troubleshooting
+  - When you need to understand the overview
+  - Understanding detection methods
+  - How to detect changes
+  - Timestamp-based detection
+  - Content-based detection
+  - Handling change notifications
+  - Periodic drift checking
+  - Classifying changes
+  - For implementation examples
+  - If issues occur

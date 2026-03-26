@@ -170,11 +170,11 @@ After completing this operation:
 
 ## Related References
 
-- [03-manage-active-context.md](03-manage-active-context.md) - Complete context management guide
-- [06-context-update-patterns.md](06-context-update-patterns.md) - Update pattern details
+- See context-management skill for complete context management guide
+- See context-management skill for update pattern details
 
 ## Next Operation
 
 Related operations:
-- [op-record-discovered-pattern.md](op-record-discovered-pattern.md) - When patterns found
-- [op-update-task-progress.md](op-update-task-progress.md) - When task status changes
+- See context-management skill for op-record-discovered-pattern — when patterns found
+- See op-update-task-progress in this skill — when task status changes
