@@ -104,6 +104,4 @@ amp-send.sh amama-assistant-manager "BLOCKER: API key needed" high \
 
 ## Resources
 
-- `references/work-handoff-during-failure.md` - Handoff procedures
-- `references/op-emergency-handoff.md` - Handoff runbook
-- `references/op-route-task-blocker.md` - Blocker routing runbook
+- [work-handoff-during-failure](references/work-handoff-during-failure.md) — Topics: Work Handoff During Agent Failure, Table of Contents, 5.2 Overview of Emergency Handoff

@@ -71,7 +71,7 @@ Approved: JSON with `status: "dual-approved"` and both manager approvals. Reject
 
 ## Governance Details
 
-See `references/governance-details-and-examples.md` for payload format, governance password, local approval, rate limiting, audit trail, API responses, and examples.
+See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents
 
 ## Error Handling
 
@@ -89,13 +89,8 @@ See `references/governance-details-and-examples.md` for payload format, governan
 
 **Output:** `{"requestId": "gr-0042", "status": "pending"}` then after approval: `{"requestId": "gr-0042", "status": "dual-approved"}`
 
-See `references/governance-details-and-examples.md` for full examples.
+See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents
 
 ## Resources
 
-- `references/governance-details-and-examples.md`
-- `references/approval-request-procedure.md`
-- `references/approval-tracking.md`
-- `references/approval-escalation.md`
-- `references/approval-types-detailed.md`
-- `references/approval-workflow-engine.md`
+- [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents

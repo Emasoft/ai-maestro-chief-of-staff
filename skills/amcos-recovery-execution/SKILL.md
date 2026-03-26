@@ -41,9 +41,9 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 | Hibernate-Wake | Suspended session | 2-5 min |
 | Resource Adjustment | Memory/disk exhaustion | 15-60 min |
 
-See `references/recovery-strategies.md` and `references/op-execute-recovery-strategy.md`.
+See [recovery-strategies](references/recovery-strategies.md) — Topics: Recovery Strategies for Agent Failures, Table of Contents, 3.2 Overview of Recovery Strategies
 
-Detailed operations: `references/recovery-operations.md`.
+Detailed operations: [recovery-operations](references/recovery-operations.md) — Topics: Recovery Operations Reference, Contents, 2. Classifying Failure Severity (Transient/Recoverable/Terminal)
 
 ### File Locations
 
@@ -66,7 +66,7 @@ Detailed operations: `references/recovery-operations.md`.
 
 ### Troubleshooting
 
-See `references/troubleshooting.md` for full details.
+See [troubleshooting](references/troubleshooting.md) — Topics: Troubleshooting: Failure Recovery, Table of Contents, Use-Case TOC
 
 ### Recovery Execution Checklist
 
@@ -97,7 +97,7 @@ Copy this checklist and track your progress:
 
 ## Examples
 
-See `references/examples.md` for complete scenarios.
+See [examples](references/examples.md) — Topics: Examples: Failure Recovery Scenarios, Table of Contents, Use-Case TOC
 
 ```bash
 # Soft restart: check tmux session
@@ -108,9 +108,5 @@ tmux has-session -t libs-svg-svgbbox 2>/dev/null && echo "exists" || echo "gone"
 
 ## Resources
 
-- `references/recovery-strategies.md` - Recovery strategy procedures
-- `references/recovery-operations.md` - Detailed recovery operations
-- `references/op-execute-recovery-strategy.md` - Execute recovery runbook
-- `references/examples.md` - Complete recovery examples
-- `references/troubleshooting.md` - Common issues and solutions
+- [recovery-strategies](references/recovery-strategies.md) — Topics: Recovery Strategies for Agent Failures, Table of Contents, 3.2 Overview of Recovery Strategies
 

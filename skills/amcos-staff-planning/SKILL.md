@@ -51,19 +51,19 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Analyze requirements, list capabilities, map to agent types, identify gaps.
 
-See `references/role-assessment.md` and `references/op-assess-role-requirements.md`.
+See [role-assessment](references/role-assessment.md) — Topics: Role Assessment Reference, Table of Contents, 1.2 When to perform assessment
 
 ### PROCEDURE 2: Plan Agent Capacity
 
 **When/Steps:** Inventory agents, estimate task requirements, calculate allocation, identify bottlenecks.
 
-See `references/capacity-planning.md` and `references/op-plan-agent-capacity.md`.
+See [capacity-planning](references/capacity-planning.md) — Topics: Capacity Planning Reference, Table of Contents, 2.2 Capacity metrics
 
 ### PROCEDURE 3: Create Staffing Templates
 
 **When/Steps:** Identify scenario, list roles, define assignments, document template.
 
-See `references/staffing-templates.md` and `references/op-create-staffing-templates.md`.
+See [staffing-templates](references/staffing-templates.md) — Topics: Staffing Templates Reference, Table of Contents, 3.2 Template structure
 
 ## Examples
 
@@ -71,26 +71,19 @@ See `references/staffing-templates.md` and `references/op-create-staffing-templa
 
 **Output:** "Recommended: 2 backend agents (Rust), 1 DevOps agent, 1 QA agent. Total: 4 agents. Bottleneck: DevOps (single point). Consider adding 1 backup DevOps agent."
 
-See `references/staffing-overview-and-examples.md` for full examples including role assessment, capacity planning, and template usage.
+See [staffing-overview-and-examples](references/staffing-overview-and-examples.md) — Topics: Staff Planning - Overview, Examples, and Reference, Table of Contents, What Is Staff Planning
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|------------|
-| Not enough agents for roles | See `references/role-assessment.md` Section 1.7 |
-| Agent capacity exceeded | See `references/capacity-planning.md` Section 2.7 |
-| Template does not fit | See `references/staffing-templates.md` Section 3.7 |
+| Not enough agents for roles | See [role-assessment](references/role-assessment.md) — Topics: Role Assessment Reference, Table of Contents, 1.2 When to perform assessment
+| Agent capacity exceeded | See [capacity-planning](references/capacity-planning.md) — Topics: Capacity Planning Reference, Table of Contents, 2.2 Capacity metrics
+| Template does not fit | See [staffing-templates](references/staffing-templates.md) — Topics: Staffing Templates Reference, Table of Contents, 3.2 Template structure
 
 ## Resources
 
-- `references/role-assessment.md`
-- `references/capacity-planning.md`
-- `references/staffing-templates.md`
-- `references/framework-details.md`
-- `references/staffing-overview-and-examples.md`
-- `references/op-assess-role-requirements.md`
-- `references/op-plan-agent-capacity.md`
-- `references/op-create-staffing-templates.md`
+- [role-assessment](references/role-assessment.md) — Topics: Role Assessment Reference, Table of Contents, 1.2 When to perform assessment
 
 ---
 

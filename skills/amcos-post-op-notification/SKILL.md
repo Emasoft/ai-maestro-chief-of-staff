@@ -45,9 +45,9 @@ Copy this checklist and track your progress:
 - [ ] Sent AMP confirmation via `amp-send.sh` and requested agent verification
 - [ ] Logged outcome with timestamp and verification response
 
-See `references/post-operation-notifications.md` for detailed procedures.
+See [post-operation-notifications](references/post-operation-notifications.md) — Topics: Post-Operation Notifications Reference, Table of Contents, 2.2 When to send post-operation notifications
 
-See `references/op-post-operation-notification.md` for the step-by-step runbook.
+See [op-post-operation-notification](references/op-post-operation-notification.md) — Topics: Post-Operation Notification, Contents, When to Use
 
 ## Message Type Quick Reference
 
@@ -95,6 +95,4 @@ Send via `agent-messaging` skill:
 
 ## Resources
 
-- `references/post-operation-notifications.md`
-- `references/op-post-operation-notification.md`
-- `references/task-completion-checklist.md`
+- [post-operation-notifications](references/post-operation-notifications.md) — Topics: Post-Operation Notifications Reference, Table of Contents, 2.2 When to send post-operation notifications

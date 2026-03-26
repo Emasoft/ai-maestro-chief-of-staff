@@ -39,7 +39,6 @@ Copy this checklist and track your progress:
 
 ### Team Registry
 
-
 Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
 
 **Steps:** Identify type -> Execute -> Verify via `list` -> Optionally publish -> Backup
@@ -74,14 +73,13 @@ Remote ops require GovernanceRequest + ConfigOperationType. Messages route via A
 
 ### Workflow Checklists
 
-See `references/workflow-checklists.md` for spawn, terminate, hibernate, wake, team, and registry checklists.
+See [workflow-checklists](references/workflow-checklists.md) — Topics: Agent Lifecycle Workflow Checklists, Contents, Checklist: Terminating Agent
 
 ## Output
 
 Registry update -> state reflected. Message -> delivery confirmed. Role assignment -> acknowledged.
 
 ## Error Handling
-
 
 | Issue | Resolution |
 |-------|-----------|
@@ -110,7 +108,4 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 
 ## Resources
 
-- `references/op-update-team-registry.md`
-- `references/op-send-maestro-message.md`
-- `references/sub-agent-role-boundaries-template.md`
-- `references/workflow-checklists.md`
+- [op-update-team-registry](references/op-update-team-registry.md) — Topics: Update Team Registry, Contents, When to Use

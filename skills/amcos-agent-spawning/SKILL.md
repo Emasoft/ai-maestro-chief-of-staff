@@ -74,7 +74,7 @@ Required: `repo`, `project`, `read:project`. If missing, request human to run `g
 | Issue | Resolution |
 |-------|-----------|
 | OAuth scopes missing | Block spawn, request human `gh auth refresh` |
-| Spawn failed | Retry once, report to AMAMA. See `references/spawn-procedures.md` 1.7 |
+| Spawn failed | Retry once, report to AMAMA. See [spawn-procedures](references/spawn-procedures.md) — Topics: Spawn Procedures Reference, Table of Contents, 1.2 When to spawn agents
 | Plugin validation failed | Verify cache exists at source path |
 | Session name collision | Choose different unique name |
 | Resource limit exceeded | Queue request, hibernate oldest idle |
@@ -100,8 +100,4 @@ cp -r ~/.claude/plugins/cache/ai-maestro/ai-maestro-programmer-agent/latest/* \
 
 ## Resources
 
-- `references/spawn-procedures.md`
-- `references/op-spawn-agent.md`
-- `references/workflow-examples.md`
-- `references/cli-examples.md`
-- `references/cli-reference.md`
+- [spawn-procedures](references/spawn-procedures.md) — Topics: Spawn Procedures Reference, Table of Contents, 1.2 When to spawn agents

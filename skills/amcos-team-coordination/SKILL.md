@@ -51,19 +51,19 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Identify role, match capabilities, send assignment message, confirm acceptance, update roster.
 
-See `references/role-assignment.md` and `references/op-assign-agent-roles.md`.
+See [role-assignment](references/role-assignment.md) — Topics: Role Assignment Reference, Table of Contents, 1.2 Standard Role Definitions
 
 ### PROCEDURE 2: Send Team Messages
 
 **When/Steps:** Identify recipients, compose with priority, send via AI Maestro API, confirm delivery, log.
 
-See `references/team-messaging.md` and `references/op-send-team-messages.md`.
+See [team-messaging](references/team-messaging.md) — Topics: Team Messaging Reference, Table of Contents, 2.2 Message Priority Levels
 
 ### PROCEDURE 3: Maintain Teammate Awareness
 
 **When/Steps:** Poll for active sessions, query status, update roster, identify inactive agents, flag issues.
 
-See `references/teammate-awareness.md` and `references/op-maintain-teammate-awareness.md`.
+See [teammate-awareness](references/teammate-awareness.md) — Topics: Teammate Awareness Reference, Table of Contents, 3.2 Polling Agent Status
 
 ## Examples
 
@@ -71,7 +71,7 @@ See `references/teammate-awareness.md` and `references/op-maintain-teammate-awar
 
 **Output:** "Role assigned: libs-svg-renderer -> QA lead. AMP notification sent (priority: high). Roster updated. Awaiting acknowledgment."
 
-See `references/coordination-overview-and-examples.md` for full examples including role assignment, team broadcasts, status checks, and coordination workflows.
+See [coordination-overview-and-examples](references/coordination-overview-and-examples.md) — Topics: Team Coordination - Overview, Examples, and Reference, Table of Contents, What Is Team Coordination
 
 ## Error Handling
 
@@ -83,13 +83,7 @@ See `references/coordination-overview-and-examples.md` for full examples includi
 
 ## Resources
 
-- `references/role-assignment.md`
-- `references/team-messaging.md`
-- `references/teammate-awareness.md`
-- `references/coordination-overview-and-examples.md`
-- `references/op-assign-agent-roles.md`
-- `references/op-send-team-messages.md`
-- `references/op-maintain-teammate-awareness.md`
+- [role-assignment](references/role-assignment.md) — Topics: Role Assignment Reference, Table of Contents, 1.2 Standard Role Definitions
 
 ---
 

@@ -53,25 +53,25 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Initiate session, verify identity, work through checklist items, confirm completion, document.
 
-See `references/onboarding-checklist.md` and `references/op-execute-onboarding-checklist.md`.
+See [onboarding-checklist](references/onboarding-checklist.md) — Topics: Onboarding Checklist Reference, Table of Contents, 1.2 Pre Onboarding Preparation
 
 ### PROCEDURE 2: Deliver Role Briefing
 
 **When/Steps:** Retrieve role definition, explain responsibilities, clarify reporting, set expectations, confirm understanding.
 
-See `references/role-briefing.md` and `references/op-deliver-role-briefing.md`.
+See [role-briefing](references/role-briefing.md) — Topics: Role Briefing Reference, Table of Contents, 2.2 Explaining Role Responsibilities
 
 ### PROCEDURE 3: Conduct Project Handoff
 
 **When/Steps:** Provide project overview, share current state, explain conventions, transfer knowledge, verify comprehension.
 
-See `references/project-handoff.md` and `references/op-conduct-project-handoff.md`.
+See [project-handoff](references/project-handoff.md) — Topics: Project Handoff Reference, Table of Contents, 3.2 Providing Project Overview
 
 ### Validate Handoff Document
 
 Validate handoff documents before sending using the validation checklist and scripts.
 
-See `references/op-validate-handoff.md`.
+See [op-validate-handoff](references/op-validate-handoff.md) — Topics: Validate Handoff Document, Contents, When to Use
 
 ## Examples
 
@@ -86,7 +86,7 @@ Onboarding libs-svg-renderer:
 [DONE] libs-svg-renderer onboarded successfully.
 ```
 
-See `references/onboarding-overview-and-examples.md` for full examples.
+See [onboarding-overview-and-examples](references/onboarding-overview-and-examples.md) — Topics: Onboarding - Overview, Examples, and Reference, Table of Contents, What Is Agent Onboarding
 
 ## Error Handling
 
@@ -98,12 +98,5 @@ See `references/onboarding-overview-and-examples.md` for full examples.
 
 ## Resources
 
-- `references/onboarding-checklist.md`
-- `references/role-briefing.md`
-- `references/project-handoff.md`
-- `references/onboarding-overview-and-examples.md`
-- `references/op-execute-onboarding-checklist.md`
-- `references/op-deliver-role-briefing.md`
-- `references/op-conduct-project-handoff.md`
-- `references/op-validate-handoff.md`
+- [onboarding-checklist](references/onboarding-checklist.md) — Topics: Onboarding Checklist Reference, Table of Contents, 1.2 Pre Onboarding Preparation
 

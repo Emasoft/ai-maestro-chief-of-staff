@@ -229,4 +229,3 @@ Local YAML files at `.claude/approvals/{pending,completed}/` serve as:
 
 Local YAML is NOT authoritative. Run `amcos_approval_manager.py sync` to reconcile.
 
-

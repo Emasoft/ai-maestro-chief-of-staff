@@ -53,25 +53,25 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Check marketplace, verify plugin, run install, restart Claude Code, verify.
 
-See `references/plugin-installation.md` and `references/op-install-plugin-marketplace.md`.
+See [plugin-installation](references/plugin-installation.md) — Topics: Plugin Installation Reference, Table of Contents, 1.2 Installation prerequisites
 
 ### PROCEDURE 2: Configure Local Plugin Directory
 
 **When/Steps:** Create directory structure, add plugin.json, configure components, launch with --plugin-dir.
 
-See `references/local-configuration.md` and `references/op-configure-local-plugin.md`.
+See [local-configuration](references/local-configuration.md) — Topics: Local Configuration Reference, Table of Contents, 2.2 Directory structure
 
 ### PROCEDURE 3: Validate Plugin Installation
 
 **When/Steps:** Run validate command, check errors, verify components, test hooks.
 
-See `references/plugin-validation.md` and `references/op-validate-plugin.md`.
+See [plugin-validation](references/plugin-validation.md) — Topics: Plugin Validation Reference, Table of Contents, 3.2 Validation levels
 
 ### PROCEDURE 4: Manage Plugins on Remote Agents
 
 **When/Steps:** Use `ai-maestro-agents-management` skill or GovernanceRequest pipeline for cross-host operations.
 
-See `references/remote-plugin-management.md` and `references/op-install-plugin-remote.md`.
+See [remote-plugin-management](references/remote-plugin-management.md) — Topics: Remote Plugin Management, Table of Contents, 1. Overview
 
 ## Examples
 
@@ -85,27 +85,17 @@ See `references/remote-plugin-management.md` and `references/op-install-plugin-r
 [DONE] Plugin grepika installed and validated on libs-svg-svgbbox.
 ```
 
-See `references/plugin-overview-and-examples.md` for full examples.
+See [plugin-overview-and-examples](references/plugin-overview-and-examples.md) — Topics: Plugin Management - Overview, Examples, and Reference, Table of Contents, Plugin Lifecycle
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|------------|
-| Install fails | `references/plugin-installation.md` Sec 1.8 |
-| Plugin not loading | `references/local-configuration.md` Sec 2.7 |
-| Validation errors | `references/plugin-validation.md` Sec 3.7 |
+| Install fails | [plugin-installation](references/plugin-installation.md) — Topics: Plugin Installation Reference, Table of Contents, 1.2 Installation prerequisites
+| Plugin not loading | [local-configuration](references/local-configuration.md) — Topics: Local Configuration Reference, Table of Contents, 2.2 Directory structure
+| Validation errors | [plugin-validation](references/plugin-validation.md) — Topics: Plugin Validation Reference, Table of Contents, 3.2 Validation levels
 
 ## Resources
 
-- `references/plugin-installation.md`
-- `references/local-configuration.md`
-- `references/plugin-validation.md`
-- `references/remote-plugin-management.md`
-- `references/installation-procedures.md`
-- `references/plugin-overview-and-examples.md`
-- `references/op-install-plugin-marketplace.md`
-- `references/op-configure-local-plugin.md`
-- `references/op-install-plugin-remote.md`
-- `references/op-restart-agent-plugin.md`
-- `references/op-validate-plugin.md`
+- [plugin-installation](references/plugin-installation.md) — Topics: Plugin Installation Reference, Table of Contents, 1.2 Installation prerequisites
 

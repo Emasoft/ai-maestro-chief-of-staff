@@ -59,7 +59,7 @@ Always attempt graceful first.
 - Terminated agents MUST be cleaned from registry
 - ALWAYS hibernate instead of terminate when agent may be needed again
 - ALWAYS save state before termination
-- Log every termination per `references/record-keeping.md`
+- Log every termination per [record-keeping](references/record-keeping.md) — Topics: Record-Keeping and Logging, Contents, Approval Requests Log
 
 ## Output
 
@@ -74,7 +74,7 @@ Always attempt graceful first.
 | Issue | Resolution |
 |-------|-----------|
 | Uncommitted work | Request commit/push first. Do NOT proceed until confirmed |
-| Unresponsive to warning | Wait 2 min, retry. After 5 min, force-terminate. See `references/termination-procedures.md` 2.7 |
+| Unresponsive to warning | Wait 2 min, retry. After 5 min, force-terminate. See [termination-procedures](references/termination-procedures.md) — Topics: Termination Procedures Reference, Table of Contents, 2.2 When to terminate agents
 | tmux persists | `tmux kill-session -t <name>` |
 | Registry update fails | Retry 3x, then remove via `ai-maestro-agents-management` skill |
 
@@ -101,8 +101,5 @@ uv run python scripts/amcos_team_registry.py remove-agent --name ampa-stuck-agen
 
 ## Resources
 
-- `references/termination-procedures.md`
-- `references/op-terminate-agent.md`
-- `references/success-criteria.md`
-- `references/record-keeping.md`
+- [termination-procedures](references/termination-procedures.md) — Topics: Termination Procedures Reference, Table of Contents, 2.2 When to terminate agents
 

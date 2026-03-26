@@ -46,7 +46,7 @@ Copy this checklist and track your progress:
 - [ ] Get source and target manager approvals
 - [ ] Verify transfer executed and rosters updated
 
-See `references/transfer-procedures-and-examples.md` for detailed API calls.
+See [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Topics: Transfer Management Procedures and Examples, Table of Contents
 
 ## Output
 
@@ -75,13 +75,11 @@ See `references/transfer-procedures-and-examples.md` for detailed API calls.
 
 **Output:** `{"requestId": "tr-0017", "state": "pending"}` -> source approves -> target approves -> `{"state": "executed", "agent": "libs-svg-renderer", "newTeam": "apps-editor"}`
 
-See `references/transfer-procedures-and-examples.md` for full examples.
+See [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Topics: Transfer Management Procedures and Examples, Table of Contents
 
 ## Resources
 
-- `references/transfer-procedures-and-examples.md`
-- `references/op-create-transfer-request.md` - Creating a TransferRequest
-- `references/op-approve-transfer-request.md` - Approving/rejecting transfers
+- [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Topics: Transfer Management Procedures and Examples, Table of Contents
 
 ---
 

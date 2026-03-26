@@ -51,21 +51,19 @@ Copy this checklist and track your progress:
 
 ### PROCEDURE 1: Collect Performance Metrics
 
-Capture data at events and aggregate over time. See `references/performance-metrics.md` for categories: task completion, quality, efficiency, communication.
+Capture data at events and aggregate over time. See [performance-metrics](references/performance-metrics.md) — Topics: Performance Metrics Reference, Table of Contents, 1.2 Task Completion Metrics
 
 ### PROCEDURE 2: Analyze Strengths and Weaknesses
 
-Review metrics, identify patterns, compare against benchmarks. See `references/strength-weakness-analysis.md`.
+Review metrics, identify patterns, compare against benchmarks. See [strength-weakness-analysis](references/strength-weakness-analysis.md) — Topics: Strength-Weakness Analysis Reference, Table of Contents, 2.2 Identifying Agent Strengths
 
 ### PROCEDURE 3: Generate Performance Reports
 
-Aggregate metrics, format for audience, include analysis. See `references/performance-reporting.md`.
+Aggregate metrics, format for audience, include analysis. See [performance-reporting](references/performance-reporting.md) — Topics: Performance Reporting Reference, Table of Contents, 3.2 Structuring Performance Reports
 
 ## Operational Procedures
 
-- `references/op-collect-performance-metrics.md` - Runbook for collecting metrics
-- `references/op-analyze-strengths-weaknesses.md` - Runbook for analyzing performance
-- `references/op-generate-performance-report.md` - Runbook for creating reports
+- [op-collect-performance-metrics](references/op-collect-performance-metrics.md) — Topics: Operation: Collect Performance Metrics, Contents, Purpose
 
 ## Examples
 
@@ -80,7 +78,7 @@ libs-svg-svgbbox weekly report (Mar 1-7):
 [DONE] Report saved to .amcos-logs/perf-libs-svg-svgbbox-2026-03-07.md
 ```
 
-See `references/examples-and-checklists.md` for more examples and task checklist.
+See [examples-and-checklists](references/examples-and-checklists.md) — Topics: Performance Tracking Examples and Checklists, Table of Contents
 
 ## Error Handling
 
@@ -92,8 +90,4 @@ See `references/examples-and-checklists.md` for more examples and task checklist
 
 ## Resources
 
-- `references/performance-metrics.md`
-- `references/strength-weakness-analysis.md`
-- `references/performance-reporting.md`
-- `references/report-formats.md`
-- `references/examples-and-checklists.md`
+- [performance-metrics](references/performance-metrics.md) — Topics: Performance Metrics Reference, Table of Contents, 1.2 Task Completion Metrics

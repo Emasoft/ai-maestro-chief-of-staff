@@ -109,7 +109,5 @@ uv run python scripts/amcos_team_registry.py update-status \
 
 ## Resources
 
-- `references/hibernation-procedures.md`
-- `references/op-hibernate-agent.md`
-- `references/op-wake-agent.md`
+- [hibernation-procedures](references/hibernation-procedures.md) — Topics: Hibernation Procedures Reference, Table of Contents, 3.2 When to hibernate agents
 

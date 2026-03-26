@@ -143,4 +143,3 @@ When returning results to the Chief of Staff or any parent agent:
 4. Max 2 lines of text back to parent agent
 5. When calling scripts, reference the log file path from the script's summary output
 
-

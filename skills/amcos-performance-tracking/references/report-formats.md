@@ -806,7 +806,7 @@ This report is based on only {n} tasks, which is below the recommended minimum o
 - [ ] All table cells aligned (consistent `|` placement)
 - [ ] Code blocks use triple backticks with language identifier
 - [ ] Headers use consistent hierarchy (single `#` for title, `##` for sections)
-- [ ] No broken internal links (all `[text](path)` links point to valid files)
+- [ ] No broken internal links (all markdown links point to valid files)
 - [ ] Lists use consistent markers (`-` for unordered, `1.` for ordered)
 - [ ] No trailing whitespace at end of lines
 - [ ] File ends with single newline

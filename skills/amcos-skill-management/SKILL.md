@@ -51,25 +51,25 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Run skills-ref validate, check YAML frontmatter, verify references, confirm TOC accuracy.
 
-See `references/skill-validation.md` and `references/op-validate-skill.md`.
+See [skill-validation](references/skill-validation.md) — Topics: Skill Validation Reference, Table of Contents, 1.2 Validation requirements
 
 ### PROCEDURE 2: Reindex Skills for PSS
 
 **When/Steps:** Run pss-reindex-skills, verify index updated, test skill discovery.
 
-See `references/skill-reindexing.md` and `references/op-reindex-skills-pss.md`.
+See [skill-reindexing](references/skill-reindexing.md) — Topics: Skill Reindexing Reference, Table of Contents, 2.2 When to reindex
 
 ### PROCEDURE 3: Configure PSS Integration
 
 **When/Steps:** Review descriptions, add keywords, configure weights, test discovery.
 
-See `references/pss-integration.md` and `references/op-configure-pss-integration.md`.
+See [pss-integration](references/pss-integration.md) — Topics: PSS Integration Reference, Table of Contents, 3.2 How PSS works
 
 ### Generate Agent Prompt XML
 
 Use skills-ref to-prompt to generate available_skills XML blocks for agent prompt definitions.
 
-See `references/op-generate-agent-prompt-xml.md`.
+See [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md) — Topics: Generate Agent Prompt XML, Contents, When to Use
 
 ## Examples
 
@@ -77,27 +77,19 @@ See `references/op-generate-agent-prompt-xml.md`.
 
 **Output:** `PASS: SKILL.md frontmatter valid, 3 references found, TOC consistent`
 
-See `references/skill-overview-and-examples.md` for full examples including validation, frontmatter format, PSS reindex, and XML generation.
+See [skill-overview-and-examples](references/skill-overview-and-examples.md) — Topics: Skill Management - Overview, Examples, and Reference, Table of Contents, What Is Skill Management
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|------------|
-| Skill validation fails | See `references/skill-validation.md` Section 1.7 |
-| Skill not in PSS suggestions | See `references/skill-reindexing.md` Section 2.7 |
-| Poor keyword matching | See `references/pss-integration.md` Section 3.7 |
+| Skill validation fails | See [skill-validation](references/skill-validation.md) — Topics: Skill Validation Reference, Table of Contents, 1.2 Validation requirements
+| Skill not in PSS suggestions | See [skill-reindexing](references/skill-reindexing.md) — Topics: Skill Reindexing Reference, Table of Contents, 2.2 When to reindex
+| Poor keyword matching | See [pss-integration](references/pss-integration.md) — Topics: PSS Integration Reference, Table of Contents, 3.2 How PSS works
 
 ## Resources
 
-- `references/skill-validation.md`
-- `references/skill-reindexing.md`
-- `references/pss-integration.md`
-- `references/validation-procedures.md`
-- `references/skill-overview-and-examples.md`
-- `references/op-validate-skill.md`
-- `references/op-reindex-skills-pss.md`
-- `references/op-generate-agent-prompt-xml.md`
-- `references/op-configure-pss-integration.md`
+- [skill-validation](references/skill-validation.md) — Topics: Skill Validation Reference, Table of Contents, 1.2 Validation requirements
 
 ---
 

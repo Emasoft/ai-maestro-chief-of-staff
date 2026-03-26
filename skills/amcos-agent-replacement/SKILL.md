@@ -36,7 +36,7 @@ Replace a failed agent when recovery has failed or failure is terminal. Covers f
 7. **Verify acknowledgment** -- confirm new agent received handoff and began work
 8. **Close incident** -- log resolution, notify AMAMA
 
-See `references/agent-replacement-protocol.md` and `references/op-replace-agent.md`.
+See [agent-replacement-protocol](references/agent-replacement-protocol.md) — Topics: Agent Replacement Protocol, Table of Contents, 4.2 Overview of the Replacement Protocol
 
 ### Replacement Protocol Summary
 
@@ -93,5 +93,4 @@ Copy this checklist and track your progress:
 
 ## Resources
 
-- `references/agent-replacement-protocol.md` - Full replacement protocol
-- `references/op-replace-agent.md` - Replace agent runbook
+- [agent-replacement-protocol](references/agent-replacement-protocol.md) — Topics: Agent Replacement Protocol, Table of Contents, 4.2 Overview of the Replacement Protocol

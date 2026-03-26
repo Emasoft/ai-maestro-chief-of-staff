@@ -59,9 +59,9 @@ Copy this checklist and track your progress:
 - [ ] Composed and sent AMP notification via `amp-send.sh`
 - [ ] Tracked acknowledgments and handled any timeouts
 
-See `references/pre-operation-notifications.md` for detailed procedures.
+See [pre-operation-notifications](references/pre-operation-notifications.md) — Topics: Pre-Operation Notifications Reference, Table of Contents, 1.2 When to send pre-operation notifications
 
-See `references/op-pre-operation-notification.md` for the step-by-step runbook.
+See [op-pre-operation-notification](references/op-pre-operation-notification.md) — Topics: Pre-Operation Notification, Contents, When to Use
 
 ## Output
 
@@ -100,6 +100,4 @@ For each agent (`code-impl-auth`, `test-engineer-01`, `docs-writer`), send:
 
 ## Resources
 
-- `references/pre-operation-notifications.md`
-- `references/op-pre-operation-notification.md`
-- `references/ai-maestro-message-templates.md`
+- [pre-operation-notifications](references/pre-operation-notifications.md) — Topics: Pre-Operation Notifications Reference, Table of Contents, 1.2 When to send pre-operation notifications

@@ -62,7 +62,7 @@ AMCOS tracks assignments, reassigns when agents become unavailable, and clears a
 
 ## Kanban and Label Details
 
-Full kanban column system, status labels, priority labels, and quick reference. See `references/kanban-and-label-details.md`.
+Full kanban column system, status labels, priority labels, and quick reference. See [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents
 
 ## Error Handling
 
@@ -83,19 +83,13 @@ gh issue edit 42 --add-label "assign:libs-svg-svgbbox"
 [DONE] Label assign:libs-svg-svgbbox applied to #42. Registry updated.
 ```
 
-See `references/label-commands-and-examples.md` for label commands, registry sync, and full examples.
+See [label-commands-and-examples](references/label-commands-and-examples.md) — Topics: Label Commands and Examples, Table of Contents
 
 ## Operational Procedures
 
-- `references/op-assign-agent-to-issue.md` - Assign agent to issue
-- `references/op-terminate-agent-clear-assignments.md` - Clear assignments on termination
-- `references/op-handle-blocked-agent.md` - Handle blocked agent
-- `references/op-sync-registry-with-labels.md` - Sync registry with labels
+- [op-assign-agent-to-issue](references/op-assign-agent-to-issue.md) — Topics: Operation: Assign Agent to Issue, Contents, Purpose
 
 ## Resources
 
-- `references/kanban-and-label-details.md`
-- `references/label-commands-and-examples.md`
-- **AGENT_OPERATIONS.md** - Canonical operations reference (in docs/ folder)
-- [GitHub Labels Documentation](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
+- [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents
 

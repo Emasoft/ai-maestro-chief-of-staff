@@ -37,11 +37,11 @@ Copy this checklist and track your progress:
 3. Update the relevant section with ISO timestamp
 4. Write immediately (no deferred saves)
 
-**Guide:** `references/03-manage-active-context.md`
+**Guide:** [03-manage-active-context](references/03-manage-active-context.md) — Topics: Manage Active Context, Table of Contents, What is Active Context
 
-**Update patterns:** `references/06-context-update-patterns.md`
+**Update patterns:** [06-context-update-patterns](references/06-context-update-patterns.md) — Topics: Context Update Patterns, Table of Contents, Update Patterns Overview
 
-**Runbook:** `references/op-update-active-context.md`
+**Runbook:** [op-update-active-context](references/op-update-active-context.md) — Topics: Operation: Update Active Context, Contents, Purpose
 
 ### PROCEDURE 3: Record Discovered Patterns
 
@@ -51,11 +51,11 @@ Copy this checklist and track your progress:
 2. Open `patterns.md`, add entry with name, category, description, examples, date
 3. Update pattern index; write immediately
 
-**Guide:** `references/05-record-patterns.md`
+**Guide:** [05-record-patterns](references/05-record-patterns.md) — Topics: Record Patterns - Index, Table of Contents, Parts
 
-**Categories:** `references/07-pattern-categories.md`
+**Categories:** [07-pattern-categories](references/07-pattern-categories.md) — Topics: Pattern Categories, Table of Contents, Category Definitions
 
-**Runbook:** `references/op-record-discovered-pattern.md`
+**Runbook:** [op-record-discovered-pattern](references/op-record-discovered-pattern.md) — Topics: Operation: Record Discovered Pattern, Contents, Purpose
 
 ### PROCEDURE 6: Prepare for Context Compaction
 
@@ -67,7 +67,7 @@ Copy this checklist and track your progress:
 4. Create backup
 5. Confirm ready
 
-**Safety:** `references/11-compaction-safety.md` | **Runbook:** `references/op-prepare-context-compaction.md`
+**Safety:** [11-compaction-safety](references/11-compaction-safety.md) — Topics: Compaction Safety - Index, Table of Contents, Quick Reference
 
 ## Output
 
@@ -81,10 +81,10 @@ Copy this checklist and track your progress:
 
 | Issue | Resolution |
 |-------|------------|
-| Context out of sync | See `references/14-context-sync.md` |
-| Pattern file too large | See `references/16-memory-archival.md` |
+| Context out of sync | See [14-context-sync](references/14-context-sync.md) — Topics: Context Synchronization - Index, Table of Contents, Overview
+| Pattern file too large | See [16-memory-archival](references/16-memory-archival.md) — Topics: Memory Archival Procedures, Table of Contents, Overview
 | Validation fails pre-compaction | Fix errors first; never compact invalid memory |
-| Files corrupted | See `references/04-memory-validation.md` |
+| Files corrupted | See [04-memory-validation](references/04-memory-validation.md) — Topics: Memory Validation - Index, Table of Contents, Document Parts
 
 ## Examples
 
@@ -100,13 +100,6 @@ uv run python scripts/amcos_memory_manager.py add-pattern \
 
 ## Resources
 
-- `references/03-manage-active-context.md`
-- `references/04-memory-validation.md`
-- `references/05-record-patterns.md`
-- `references/06-context-update-patterns.md`
-- `references/07-pattern-categories.md`
-- `references/op-update-active-context.md`
-- `references/op-record-discovered-pattern.md`
-- `references/op-prepare-context-compaction.md`
+- [03-manage-active-context](references/03-manage-active-context.md) — Topics: Manage Active Context, Table of Contents, What is Active Context
 
 **Version:** 1.0.0

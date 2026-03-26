@@ -36,9 +36,9 @@ Copy this checklist and track your progress:
 2. Create snapshot with timestamp and file hashes
 3. Save to `design/memory/config-snapshot.md`; record in `activeContext.md`
 
-**Guide:** `references/19-config-snapshot-creation.md`
+**Guide:** [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Topics: Config Snapshot Creation, Table of Contents, Overview
 
-**Runbook:** `references/op-capture-config-snapshot.md`
+**Runbook:** [op-capture-config-snapshot](references/op-capture-config-snapshot.md) — Topics: Operation: Capture Config Snapshot at Session Start, Contents, Purpose
 
 ### PROCEDURE 8: Detect Config Changes
 
@@ -48,9 +48,9 @@ Copy this checklist and track your progress:
 2. Compare timestamps; if different, compare hashes
 3. Classify changes; log in `activeContext.md`; trigger Procedure 9 if critical
 
-**Guide:** `references/20-config-change-detection.md`
+**Guide:** [20-config-change-detection](references/20-config-change-detection.md) — Topics: Detecting Config Changes, Table of Contents, Overview
 
-**Runbook:** `references/op-detect-config-changes.md`
+**Runbook:** [op-detect-config-changes](references/op-detect-config-changes.md) — Topics: Operation: Detect Config Changes During Session, Contents, Purpose
 
 ### PROCEDURE 9: Handle Config Conflicts
 
@@ -60,13 +60,13 @@ Types: **A** Non-Breaking, **B** Breaking-Future, **C** Breaking-Immediate, **D*
 
 Steps: Classify (A-D), apply strategy, update snapshot.
 
-**Guide:** `references/21-config-conflict-resolution.md`
+**Guide:** [21-config-conflict-resolution](references/21-config-conflict-resolution.md) — Topics: Resolving Config Conflicts, Table of Contents, Conflict Types and Resolution Strategies
 
-**Runbook:** `references/op-handle-config-conflicts.md`
+**Runbook:** [op-handle-config-conflicts](references/op-handle-config-conflicts.md) — Topics: Operation: Handle Config Version Conflicts, Contents, Purpose
 
 ### Chief of Staff Integrations
 
-See `references/ai-maestro-integration.md`, `references/error-handling.md`, `references/00-key-takeaways-and-next-steps.md`.
+See [ai-maestro-integration](references/ai-maestro-integration.md) — Topics: AI Maestro Integration Reference, Table of Contents, 1.2 Core Capabilities
 
 ## Output
 
@@ -99,15 +99,7 @@ uv run python scripts/amcos_memory_manager.py set-focus \
 
 ## Resources
 
-- `references/19-config-snapshot-creation.md`
-- `references/20-config-change-detection.md`
-- `references/21-config-conflict-resolution.md`
-- `references/op-capture-config-snapshot.md`
-- `references/op-detect-config-changes.md`
-- `references/op-handle-config-conflicts.md`
-- `references/ai-maestro-integration.md`
-- `references/error-handling.md`
-- `references/00-key-takeaways-and-next-steps.md`
+- [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Topics: Config Snapshot Creation, Table of Contents, Overview
 
 **Version:** 1.0.0
 

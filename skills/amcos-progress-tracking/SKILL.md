@@ -41,11 +41,11 @@ Copy this checklist and track your progress:
 5. Cascade state changes to dependent tasks
 6. Write immediately
 
-**Guide:** `references/08-manage-progress-tracking.md`
+**Guide:** [08-manage-progress-tracking](references/08-manage-progress-tracking.md) — Topics: Manage Progress Tracking, Table of Contents, Part Files
 
-**Dependencies:** `references/09-task-dependencies.md`
+**Dependencies:** [09-task-dependencies](references/09-task-dependencies.md) — Topics: Task Dependencies, Table of Contents, Overview
 
-**Runbook:** `references/op-update-task-progress.md`
+**Runbook:** [op-update-task-progress](references/op-update-task-progress.md) — Topics: Operation: Update Task Progress, Contents, Purpose
 
 ### PROCEDURE 5: Recover Session After Interruption
 
@@ -56,13 +56,13 @@ Copy this checklist and track your progress:
 3. Validate consistency; present summary
 4. Ask user to confirm resumption
 
-**Guide:** `references/10-recovery-procedures.md`
+**Guide:** [10-recovery-procedures](references/10-recovery-procedures.md) — Topics: Recovery Procedures, Table of Contents, Part Files
 
-**Runbook:** `references/op-recover-session.md`
+**Runbook:** [op-recover-session](references/op-recover-session.md) — Topics: Operation: Recover Session After Interruption, Contents, Purpose
 
 ### Implementation Scripts
 
-Script `amcos_memory_manager.py`. See `references/18-using-scripts.md`.
+Script `amcos_memory_manager.py`. See [18-using-scripts](references/18-using-scripts.md) — Topics: Using Memory Scripts, Table of Contents, Before compaction
 
 ## Output
 
@@ -75,11 +75,11 @@ Script `amcos_memory_manager.py`. See `references/18-using-scripts.md`.
 
 | Issue | Resolution |
 |-------|------------|
-| Inconsistent progress | See `references/15-progress-validation.md` |
-| Corrupted files | See `references/13-file-recovery.md` |
-| Context drift | See `references/14-context-sync.md` |
-| Files too large | See `references/16-memory-archival.md` |
-| Not surviving compaction | See `references/17-compaction-integration.md` |
+| Inconsistent progress | See [15-progress-validation](references/15-progress-validation.md) — Topics: Progress Validation - Index, Table of Contents, Parts
+| Corrupted files | See [13-file-recovery](references/13-file-recovery.md) — Topics: Session Memory File Recovery - Index, Table of Contents, Part 2: Advanced Recovery and Prevention
+| Context drift | See [14-context-sync](references/14-context-sync.md) — Topics: Context Synchronization - Index, Table of Contents, Overview
+| Files too large | See [16-memory-archival](references/16-memory-archival.md) — Topics: Memory Archival Procedures, Table of Contents, Overview
+| Not surviving compaction | See [17-compaction-integration](references/17-compaction-integration.md) — Topics: Compaction Integration - Index, Table of Contents, Document Parts
 
 ## Examples
 
@@ -92,8 +92,4 @@ Script `amcos_memory_manager.py`. See `references/18-using-scripts.md`.
 
 ## Resources
 
-- `references/08-manage-progress-tracking.md`
-- `references/09-task-dependencies.md`
-- `references/10-recovery-procedures.md`
-- `references/op-update-task-progress.md`
-- `references/op-recover-session.md`
+- [08-manage-progress-tracking](references/08-manage-progress-tracking.md) — Topics: Manage Progress Tracking, Table of Contents, Part Files

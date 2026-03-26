@@ -39,7 +39,7 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 | Acknowledgment timeout | No ACK | 5-15 minutes |
 | Task completion timeout | Stalled progress | Variable |
 
-See `references/failure-detection.md` and `references/op-detect-agent-failure.md`.
+See [failure-detection](references/failure-detection.md) — Topics: Failure Detection for Remote Agents, Table of Contents, 1.2 Overview of Failure Detection Mechanisms
 
 ### Phase 2: Failure Classification
 
@@ -54,7 +54,7 @@ See `references/failure-detection.md` and `references/op-detect-agent-failure.md
 | **Recoverable** | Intervention | Session hibernated, OOM |
 | **Terminal** | Replacement | Host crash, disk corruption |
 
-See `references/failure-classification.md` and `references/op-classify-failure-severity.md`.
+See [failure-classification](references/failure-classification.md) — Topics: Failure Classification for Remote Agents, Table of Contents, 2.2 Overview of Failure Categories
 
 ### Quick Reference Workflow
 
@@ -102,7 +102,4 @@ Agent: ___  Failure detected: ___
 
 ## Resources
 
-- `references/failure-detection.md` - Detection procedures
-- `references/failure-classification.md` - Classification criteria
-- `references/op-detect-agent-failure.md` - Detect failure runbook
-- `references/op-classify-failure-severity.md` - Classify severity runbook
+- [failure-detection](references/failure-detection.md) — Topics: Failure Detection for Remote Agents, Table of Contents, 1.2 Overview of Failure Detection Mechanisms
