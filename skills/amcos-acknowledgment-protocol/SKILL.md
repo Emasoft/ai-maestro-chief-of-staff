@@ -43,9 +43,7 @@ Copy this checklist and track your progress:
 - [ ] Sent reminders at defined intervals if no response received
 - [ ] Processed response (or timeout) and proceeded accordingly
 
-See [acknowledgment-protocol](references/acknowledgment-protocol.md) — Topics: Acknowledgment Protocol Reference, Table of Contents, 3.2 When to require acknowledgments
-
-See [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) — Topics: Acknowledgment Protocol, Contents, When to Apply
+See [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) — Topics: Acknowledgment Protocol, Contents, When to Apply, Prerequisites, Standardized ACK Timeout Policy, Procedure, Step 1: Send Acknowledgment Request, Step 2: Start Timeout Timer, Step 3: Send Reminders, Step 4: Process Response, Step 5: Proceed or Handle Timeout, Checklist, Examples, Example 1: Pre-Operation ACK Flow, Example 2: Approval Request ACK, Example 3: Emergency Handoff ACK, Error Handling, Related Operations
 
 ### Standardized ACK Timeout Policy
 
@@ -73,7 +71,6 @@ See [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) — T
 | Issue | Resolution |
 |-------|------------|
 | ACK timeout | Send final notice, log, proceed per policy |
-| Unexpected response | See [acknowledgment-protocol](references/acknowledgment-protocol.md) — Topics: Acknowledgment Protocol Reference, Table of Contents, 3.2 When to require acknowledgments
 | Reminder not delivered | Health check agent. If offline, proceed per timeout |
 | Partial ACK (multi-agent) | Track per-agent. Proceed when all respond or all timeout |
 
@@ -99,4 +96,3 @@ After 60s with no response:
 
 ## Resources
 
-- [acknowledgment-protocol](references/acknowledgment-protocol.md) — Topics: Acknowledgment Protocol Reference, Table of Contents, 3.2 When to require acknowledgments

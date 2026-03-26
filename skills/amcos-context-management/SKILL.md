@@ -37,11 +37,7 @@ Copy this checklist and track your progress:
 3. Update the relevant section with ISO timestamp
 4. Write immediately (no deferred saves)
 
-**Guide:** [03-manage-active-context](references/03-manage-active-context.md) — Topics: Manage Active Context, Table of Contents, What is Active Context
-
-**Update patterns:** [06-context-update-patterns](references/06-context-update-patterns.md) — Topics: Context Update Patterns, Table of Contents, Update Patterns Overview
-
-**Runbook:** [op-update-active-context](references/op-update-active-context.md) — Topics: Operation: Update Active Context, Contents, Purpose
+**Update patterns:** [06-context-update-patterns](references/06-context-update-patterns.md) — Topics: Context Update Patterns, Table of Contents, Purpose, Update Patterns Overview, Part Files, Part 1: Task Switch and Decision Recording, Part 2: Question Addition and Progress Milestone, Part 3: Pre-Compaction Update, Part 4: Examples and Troubleshooting, Quick Reference, Pattern 1: Task Switch Update, Pattern 2: Decision Recording Update, Pattern 3: Question Addition Update, Pattern 4: Progress Milestone Update, Pattern 5: Pre-Compaction Update, Troubleshooting Quick Links
 
 ### PROCEDURE 3: Record Discovered Patterns
 
@@ -51,11 +47,9 @@ Copy this checklist and track your progress:
 2. Open `patterns.md`, add entry with name, category, description, examples, date
 3. Update pattern index; write immediately
 
-**Guide:** [05-record-patterns](references/05-record-patterns.md) — Topics: Record Patterns - Index, Table of Contents, Parts
+**Guide:** [05-record-patterns](references/05-record-patterns.md) — Topics: Record Patterns - Index, Table of Contents, Parts, Quick Navigation, Part 1: Fundamentals, Part 2: Examples & Troubleshooting, Reading Order
 
-**Categories:** [07-pattern-categories](references/07-pattern-categories.md) — Topics: Pattern Categories, Table of Contents, Category Definitions
-
-**Runbook:** [op-record-discovered-pattern](references/op-record-discovered-pattern.md) — Topics: Operation: Record Discovered Pattern, Contents, Purpose
+**Categories:** [07-pattern-categories](references/07-pattern-categories.md) — Topics: Pattern Categories, Table of Contents, Purpose, Category Definitions, Category Table, Pattern Category Details, Problem-Solution Patterns (ps_), Workflow Patterns (wf_), Decision-Logic Patterns (dl_), Error-Recovery Patterns (er_), Configuration Patterns (cfg_), Choosing the Right Category, Quick Decision Flow, Quick Reference Matrix, Part Files Reference
 
 ### PROCEDURE 6: Prepare for Context Compaction
 
@@ -67,7 +61,7 @@ Copy this checklist and track your progress:
 4. Create backup
 5. Confirm ready
 
-**Safety:** [11-compaction-safety](references/11-compaction-safety.md) — Topics: Compaction Safety - Index, Table of Contents, Quick Reference
+**Safety:** [11-compaction-safety](references/11-compaction-safety.md) — Topics: Compaction Safety - Index, Table of Contents, Parts, Part 1: Preparation and Execution, Part 2: Verification and Recovery, Quick Reference
 
 ## Output
 
@@ -81,10 +75,9 @@ Copy this checklist and track your progress:
 
 | Issue | Resolution |
 |-------|------------|
-| Context out of sync | See [14-context-sync](references/14-context-sync.md) — Topics: Context Synchronization - Index, Table of Contents, Overview
-| Pattern file too large | See [16-memory-archival](references/16-memory-archival.md) — Topics: Memory Archival Procedures, Table of Contents, Overview
+| Context out of sync | See [14-context-sync](references/14-context-sync.md) — Topics: Context Synchronization - Index, Table of Contents, Part 2: Advanced Procedures and Troubleshooting, Overview, Document Parts, Part 1: Foundations and Core Procedures, Quick Reference
 | Validation fails pre-compaction | Fix errors first; never compact invalid memory |
-| Files corrupted | See [04-memory-validation](references/04-memory-validation.md) — Topics: Memory Validation - Index, Table of Contents, Document Parts
+| Files corrupted | See [04-memory-validation](references/04-memory-validation.md) — Topics: Memory Validation - Index, Table of Contents, Document Parts, Part 1: Fundamentals and Procedures, Part 2: Scripts, Checklists, and Troubleshooting, Quick Reference
 
 ## Examples
 
@@ -99,7 +92,5 @@ uv run python scripts/amcos_memory_manager.py add-pattern \
 ```
 
 ## Resources
-
-- [03-manage-active-context](references/03-manage-active-context.md) — Topics: Manage Active Context, Table of Contents, What is Active Context
 
 **Version:** 1.0.0

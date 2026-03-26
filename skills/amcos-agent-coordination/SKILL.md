@@ -73,7 +73,7 @@ Remote ops require GovernanceRequest + ConfigOperationType. Messages route via A
 
 ### Workflow Checklists
 
-See [workflow-checklists](references/workflow-checklists.md) — Topics: Agent Lifecycle Workflow Checklists, Contents, Checklist: Terminating Agent
+See [workflow-checklists](references/workflow-checklists.md) — Topics: Agent Lifecycle Workflow Checklists, Contents, When You Need to Create a New Agent, When You Need to Stop an Agent, When You Need to Put an Inactive Agent to Sleep, When You Need to Resume a Hibernated Agent, When You Need to Create a New Project Team, When You Need to Modify Team Membership or Agent Status, Checklist: Spawning New Agent, Checklist: Terminating Agent, Checklist: Hibernating Agent, Checklist: Waking Agent, Checklist: Forming Team, Checklist: Updating Team Registry
 
 ## Output
 
@@ -108,4 +108,4 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 
 ## Resources
 
-- [op-update-team-registry](references/op-update-team-registry.md) — Topics: Update Team Registry, Contents, When to Use
+- [op-update-team-registry](references/op-update-team-registry.md) — Topics: Update Team Registry, Contents, When to Use, Prerequisites, Procedure, Step 1: Identify Update Type, Step 2: Execute Registry Update, Step 3: Verify Update, View updated registry, Check specific agent, Step 4: Publish Update to Team (Optional), Step 5: Verify Registry State (Recommended), Uses AI Maestro REST API (not file-based), Verify current team registry state, Checklist, Examples, Example: Complete Agent Addition Flow, Add to registry, Verify, Output: dev-api-charlie | running | developer | backend-api, Log the addition, Notify team, Example: Status Change After Hibernation, Update status, Log hibernation, Verify, Output: dev-frontend-bob | hibernated | developer | webapp, Error Handling, Related Operations

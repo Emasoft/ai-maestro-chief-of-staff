@@ -36,9 +36,7 @@ Copy this checklist and track your progress:
 2. Create snapshot with timestamp and file hashes
 3. Save to `design/memory/config-snapshot.md`; record in `activeContext.md`
 
-**Guide:** [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Topics: Config Snapshot Creation, Table of Contents, Overview
-
-**Runbook:** [op-capture-config-snapshot](references/op-capture-config-snapshot.md) — Topics: Operation: Capture Config Snapshot at Session Start, Contents, Purpose
+**Guide:** [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Topics: Config Snapshot Creation, Table of Contents, Part Files, Overview, What Is a Config Snapshot?, When to Create Snapshots, What Is a Config Snapshot?, Location, Purpose, Why Snapshots Matter, Without Snapshots, With Snapshots, Creation Procedures, PROCEDURE 1: Create Initial Snapshot, PROCEDURE 2: Update Snapshot, PROCEDURE 3: Validate Snapshot, Snapshot Structure, Examples, Troubleshooting
 
 ### PROCEDURE 8: Detect Config Changes
 
@@ -48,9 +46,7 @@ Copy this checklist and track your progress:
 2. Compare timestamps; if different, compare hashes
 3. Classify changes; log in `activeContext.md`; trigger Procedure 9 if critical
 
-**Guide:** [20-config-change-detection](references/20-config-change-detection.md) — Topics: Detecting Config Changes, Table of Contents, Overview
-
-**Runbook:** [op-detect-config-changes](references/op-detect-config-changes.md) — Topics: Operation: Detect Config Changes During Session, Contents, Purpose
+**Guide:** [20-config-change-detection](references/20-config-change-detection.md) — Topics: Detecting Config Changes, Table of Contents, Part Files, Overview, What Is Config Change Detection?, Why Detection Matters, Detection Methods, Method 1: Timestamp Comparison, Method 2: Content Hash Comparison, Method 3: Line-by-Line Diff, Method 4: Notification-Based, Detection Procedures, PROCEDURE 1: Timestamp-Based Detection, PROCEDURE 2: Content-Based Detection, PROCEDURE 3: Change Notification Handling, PROCEDURE 4: Periodic Drift Check, Change Classification, Examples, Troubleshooting
 
 ### PROCEDURE 9: Handle Config Conflicts
 
@@ -60,13 +56,7 @@ Types: **A** Non-Breaking, **B** Breaking-Future, **C** Breaking-Immediate, **D*
 
 Steps: Classify (A-D), apply strategy, update snapshot.
 
-**Guide:** [21-config-conflict-resolution](references/21-config-conflict-resolution.md) — Topics: Resolving Config Conflicts, Table of Contents, Conflict Types and Resolution Strategies
-
-**Runbook:** [op-handle-config-conflicts](references/op-handle-config-conflicts.md) — Topics: Operation: Handle Config Version Conflicts, Contents, Purpose
-
 ### Chief of Staff Integrations
-
-See [ai-maestro-integration](references/ai-maestro-integration.md) — Topics: AI Maestro Integration Reference, Table of Contents, 1.2 Core Capabilities
 
 ## Output
 
@@ -99,7 +89,7 @@ uv run python scripts/amcos_memory_manager.py set-focus \
 
 ## Resources
 
-- [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Topics: Config Snapshot Creation, Table of Contents, Overview
+- [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Topics: Config Snapshot Creation, Table of Contents, Part Files, Overview, What Is a Config Snapshot?, When to Create Snapshots, What Is a Config Snapshot?, Location, Purpose, Why Snapshots Matter, Without Snapshots, With Snapshots, Creation Procedures, PROCEDURE 1: Create Initial Snapshot, PROCEDURE 2: Update Snapshot, PROCEDURE 3: Validate Snapshot, Snapshot Structure, Examples, Troubleshooting
 
 **Version:** 1.0.0
 

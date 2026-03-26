@@ -46,8 +46,6 @@ Copy this checklist and track your progress:
 - [ ] Get source and target manager approvals
 - [ ] Verify transfer executed and rosters updated
 
-See [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Topics: Transfer Management Procedures and Examples, Table of Contents
-
 ## Output
 
 | Operation | Expected Output |
@@ -75,11 +73,7 @@ See [transfer-procedures-and-examples](references/transfer-procedures-and-exampl
 
 **Output:** `{"requestId": "tr-0017", "state": "pending"}` -> source approves -> target approves -> `{"state": "executed", "agent": "libs-svg-renderer", "newTeam": "apps-editor"}`
 
-See [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Topics: Transfer Management Procedures and Examples, Table of Contents
-
 ## Resources
-
-- [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Topics: Transfer Management Procedures and Examples, Table of Contents
 
 ---
 

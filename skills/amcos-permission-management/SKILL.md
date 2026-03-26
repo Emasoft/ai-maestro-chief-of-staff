@@ -71,7 +71,7 @@ Approved: JSON with `status: "dual-approved"` and both manager approvals. Reject
 
 ## Governance Details
 
-See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents
+See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents, GovernanceRequest Payload, Governance Password, Simplified Local Approval, Rate Limiting, Audit Trail, Quick Checklist, API Response (Primary), Offline Degradation, Example 1: Spawn Agent (Local, Same Team), Example 2: Cross-Team Plugin Install, Plugin Prefix Reference
 
 ## Error Handling
 
@@ -89,8 +89,8 @@ See [governance-details-and-examples](references/governance-details-and-examples
 
 **Output:** `{"requestId": "gr-0042", "status": "pending"}` then after approval: `{"requestId": "gr-0042", "status": "dual-approved"}`
 
-See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents
+See [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents, GovernanceRequest Payload, Governance Password, Simplified Local Approval, Rate Limiting, Audit Trail, Quick Checklist, API Response (Primary), Offline Degradation, Example 1: Spawn Agent (Local, Same Team), Example 2: Cross-Team Plugin Install, Plugin Prefix Reference
 
 ## Resources
 
-- [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents
+- [governance-details-and-examples](references/governance-details-and-examples.md) — Topics: Governance Request Details and Examples, Table of Contents, GovernanceRequest Payload, Governance Password, Simplified Local Approval, Rate Limiting, Audit Trail, Quick Checklist, API Response (Primary), Offline Degradation, Example 1: Spawn Agent (Local, Same Team), Example 2: Cross-Team Plugin Install, Plugin Prefix Reference

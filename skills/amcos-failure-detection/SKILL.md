@@ -39,8 +39,6 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 | Acknowledgment timeout | No ACK | 5-15 minutes |
 | Task completion timeout | Stalled progress | Variable |
 
-See [failure-detection](references/failure-detection.md) — Topics: Failure Detection for Remote Agents, Table of Contents, 1.2 Overview of Failure Detection Mechanisms
-
 ### Phase 2: Failure Classification
 
 1. Gather evidence: error messages, heartbeat history, agent status
@@ -54,7 +52,7 @@ See [failure-detection](references/failure-detection.md) — Topics: Failure Det
 | **Recoverable** | Intervention | Session hibernated, OOM |
 | **Terminal** | Replacement | Host crash, disk corruption |
 
-See [failure-classification](references/failure-classification.md) — Topics: Failure Classification for Remote Agents, Table of Contents, 2.2 Overview of Failure Categories
+See [failure-classification](references/failure-classification.md) — Topics: Failure Classification for Remote Agents, Table of Contents, 2.1 When to Use This Document, 2.2 Overview of Failure Categories, 2.3 Transient Failures, 2.3.1 Definition and Characteristics, 2.3.2 Examples of Transient Failures, 2.3.3 Expected Recovery Time, 2.3.4 Recommended Response, Log the transient failure, Increase monitoring frequency for next 10 minutes, (Handled by AMCOS scheduler - no manual action needed), 2.4 Recoverable Failures, 2.4.1 Definition and Characteristics, 2.4.2 Examples of Recoverable Failures, 2.4.3 Expected Recovery Time, 2.4.4 Recommended Response, 2.5 Terminal Failures, 2.5.1 Definition and Characteristics, 2.5.2 Examples of Terminal Failures, 2.5.3 When Replacement is Required, 2.5.4 Recommended Response, 2.6 Classification Decision Matrix, 2.7 Escalation Thresholds, 2.8 Recording Failure Events, Append incident to log, Troubleshooting, Cannot determine if failure is recoverable or terminal, Repeated transient failures suggesting underlying issue, Manager unresponsive during terminal failure
 
 ### Quick Reference Workflow
 
@@ -102,4 +100,3 @@ Agent: ___  Failure detected: ___
 
 ## Resources
 
-- [failure-detection](references/failure-detection.md) — Topics: Failure Detection for Remote Agents, Table of Contents, 1.2 Overview of Failure Detection Mechanisms

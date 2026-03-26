@@ -51,19 +51,15 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Identify role, match capabilities, send assignment message, confirm acceptance, update roster.
 
-See [role-assignment](references/role-assignment.md) — Topics: Role Assignment Reference, Table of Contents, 1.2 Standard Role Definitions
-
 ### PROCEDURE 2: Send Team Messages
 
 **When/Steps:** Identify recipients, compose with priority, send via AI Maestro API, confirm delivery, log.
 
-See [team-messaging](references/team-messaging.md) — Topics: Team Messaging Reference, Table of Contents, 2.2 Message Priority Levels
+See [team-messaging](references/team-messaging.md) — Topics: Team Messaging Reference, Table of Contents, 2.1 Team Message Types, Announcement, Request, Alert, Status Update, Role Assignment, 2.2 Message Priority Levels, URGENT Priority, HIGH Priority, NORMAL Priority, 2.3 Sending Broadcast Messages, Broadcast Procedure, Broadcast Best Practices, 2.4 Sending Targeted Messages, Single Recipient, Multiple Specific Recipients, Role-Based Targeting, 2.5 Message Routing Rules, Task-Related Messages, Status-Related Messages, Escalation Messages, 2.6 Confirming Message Delivery, Checking Delivery Status, Read Receipts, Handling Undelivered Messages, 2.7 Team Messaging Examples, Example: Broadcasting Sprint Start, Example: Requesting Status Update, Example: Sending Alert, Example: Sending Task Completion Update, 2.8 Troubleshooting, Issue: Messages not being delivered, Issue: Messages delivered but not read, Issue: Duplicate messages received, Issue: Message priority not respected
 
 ### PROCEDURE 3: Maintain Teammate Awareness
 
 **When/Steps:** Poll for active sessions, query status, update roster, identify inactive agents, flag issues.
-
-See [teammate-awareness](references/teammate-awareness.md) — Topics: Teammate Awareness Reference, Table of Contents, 3.2 Polling Agent Status
 
 ## Examples
 
@@ -71,7 +67,7 @@ See [teammate-awareness](references/teammate-awareness.md) — Topics: Teammate 
 
 **Output:** "Role assigned: libs-svg-renderer -> QA lead. AMP notification sent (priority: high). Roster updated. Awaiting acknowledgment."
 
-See [coordination-overview-and-examples](references/coordination-overview-and-examples.md) — Topics: Team Coordination - Overview, Examples, and Reference, Table of Contents, What Is Team Coordination
+See [coordination-overview-and-examples](references/coordination-overview-and-examples.md) — Topics: Team Coordination - Overview, Examples, and Reference, Table of Contents, What Is Team Coordination, Team Coordination Components, 1. Role Assignment, 2. Team Messaging, 3. Teammate Awareness, Examples: Assigning a Role to a New Agent, Examples: Broadcasting a Team Update, Examples: Checking Team Status, Examples: Full Coordination Workflow with Input/Output, Examples: Role Assignment with Input/Output, Examples: Team Status Query with Input/Output, Key Takeaways, Task Checklist
 
 ## Error Handling
 
@@ -82,8 +78,6 @@ See [coordination-overview-and-examples](references/coordination-overview-and-ex
 | Team roster stale | Force refresh via polling, clear and rebuild, verify registry |
 
 ## Resources
-
-- [role-assignment](references/role-assignment.md) — Topics: Role Assignment Reference, Table of Contents, 1.2 Standard Role Definitions
 
 ---
 

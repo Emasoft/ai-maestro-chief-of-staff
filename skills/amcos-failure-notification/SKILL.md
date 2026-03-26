@@ -44,21 +44,13 @@ Copy this checklist and track your progress:
 - [ ] Sent failure notification via `amp-send.sh` with recovery guidance
 - [ ] Logged failure with full context and triggered escalation if needed
 
-See [failure-notifications](references/failure-notifications.md) — Topics: Failure Notifications Reference, Table of Contents, 4.2 When to send failure notifications
-
-See [op-failure-notification](references/op-failure-notification.md) — Topics: Failure Notification, Contents, When to Use
+See [op-failure-notification](references/op-failure-notification.md) — Topics: Failure Notification, Contents, When to Use, Prerequisites, Procedure, Step 1: Capture Error Details, Step 2: Compose Failure Message, Step 3: Send Failure Notification, Step 4: Provide Recovery Guidance, Step 5: Log Failure, Checklist, Examples, Example 1: Skill Installation Failure, Example 2: Agent Restart Failure, Example 3: Configuration Change Failure, Example 4: Timeout Failure Notification, Error Severity Levels, Error Handling, Related Operations
 
 ### Edge Cases
 
-Consult edge case protocols when standard notification is insufficient. See [edge-case-protocols](references/edge-case-protocols.md) — Topics: Edge Case Protocols for Chief of Staff Agent, Table of Contents, Project Status (Cached Data)
-
 ### Proactive Handoff
 
-When failure requires transferring work, use the proactive handoff protocol. See [proactive-handoff-protocol](references/proactive-handoff-protocol.md) — Topics: Proactive Handoff Protocol, Automatic Handoff Triggers, Table of Contents
-
 ### Design Document Protocol
-
-When failures reveal systemic issues, create a design document. See [design-document-protocol](references/design-document-protocol.md) — Topics: Design Document Protocol, Table of Contents, Validate a single document
 
 ## Output
 
@@ -97,4 +89,3 @@ Send via `agent-messaging` skill:
 
 ## Resources
 
-- [failure-notifications](references/failure-notifications.md) — Topics: Failure Notifications Reference, Table of Contents, 4.2 When to send failure notifications

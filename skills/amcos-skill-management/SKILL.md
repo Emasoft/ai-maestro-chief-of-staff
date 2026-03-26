@@ -51,25 +51,19 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Run skills-ref validate, check YAML frontmatter, verify references, confirm TOC accuracy.
 
-See [skill-validation](references/skill-validation.md) — Topics: Skill Validation Reference, Table of Contents, 1.2 Validation requirements
-
 ### PROCEDURE 2: Reindex Skills for PSS
 
 **When/Steps:** Run pss-reindex-skills, verify index updated, test skill discovery.
-
-See [skill-reindexing](references/skill-reindexing.md) — Topics: Skill Reindexing Reference, Table of Contents, 2.2 When to reindex
 
 ### PROCEDURE 3: Configure PSS Integration
 
 **When/Steps:** Review descriptions, add keywords, configure weights, test discovery.
 
-See [pss-integration](references/pss-integration.md) — Topics: PSS Integration Reference, Table of Contents, 3.2 How PSS works
-
 ### Generate Agent Prompt XML
 
 Use skills-ref to-prompt to generate available_skills XML blocks for agent prompt definitions.
 
-See [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md) — Topics: Generate Agent Prompt XML, Contents, When to Use
+See [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md) — Topics: Generate Agent Prompt XML, Contents, When to Use, Prerequisites, Procedure, Step 1: Identify Skills to Include, List available skills, Or list skills in a plugin, Step 2: Generate XML with skills-ref, Step 3: Save to File (Optional), Step 4: Integrate into Agent Prompt, Agent System Prompt, Step 5: Verify Integration, Checklist, Examples, Example: Generate XML for AMCOS Skills, Generate for all AMCOS skills, Output:, <available_skills>, <skill>, <name>amcos-agent-spawning</name>, <description>Use when spawning, terminating, hibernating, or waking agents...</description>, <location>/path/to/skills/amcos-agent-spawning/SKILL.md</location>, </skill>, ..., </available_skills>, Example: Save and Use in Agent Definition, Generate and save, View result, Use in agent definition file, AMCOS Main Agent, Example: Programmatic Generation, Generate prompt for skills, Save to file, Example: Dynamic Skill List, Generate for all skills in a plugin dynamically, Build command, Execute, Error Handling, Related Operations
 
 ## Examples
 
@@ -77,19 +71,14 @@ See [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md) �
 
 **Output:** `PASS: SKILL.md frontmatter valid, 3 references found, TOC consistent`
 
-See [skill-overview-and-examples](references/skill-overview-and-examples.md) — Topics: Skill Management - Overview, Examples, and Reference, Table of Contents, What Is Skill Management
+See [skill-overview-and-examples](references/skill-overview-and-examples.md) — Topics: Skill Management - Overview, Examples, and Reference, Table of Contents, What Is Skill Management, Skill Architecture Diagram, Skill Components, Examples: Validating a Skill, Install skills-ref if not present, Validate a skill directory, Expected output for valid skill, Skill: my-skill, Status: VALID, Warnings: 0, Errors: 0, Read skill properties, Examples: SKILL.md Frontmatter, Examples: Triggering PSS Reindex, Using PSS slash command, Or via script, Verify index updated, Examples: Generating Agent Prompt XML, Generate available_skills XML for agent prompts, Output, <available_skills>, <skill>, <name>skill-a</name>, <description>What skill-a does</description>, <location>/path/to/skill-a/SKILL.md</location>, </skill>, ..., </available_skills>, Key Takeaways, Task Checklist
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|------------|
-| Skill validation fails | See [skill-validation](references/skill-validation.md) — Topics: Skill Validation Reference, Table of Contents, 1.2 Validation requirements
-| Skill not in PSS suggestions | See [skill-reindexing](references/skill-reindexing.md) — Topics: Skill Reindexing Reference, Table of Contents, 2.2 When to reindex
-| Poor keyword matching | See [pss-integration](references/pss-integration.md) — Topics: PSS Integration Reference, Table of Contents, 3.2 How PSS works
 
 ## Resources
-
-- [skill-validation](references/skill-validation.md) — Topics: Skill Validation Reference, Table of Contents, 1.2 Validation requirements
 
 ---
 

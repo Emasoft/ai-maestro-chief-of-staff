@@ -51,19 +51,13 @@ Copy this checklist and track your progress:
 
 ### PROCEDURE 1: Collect Performance Metrics
 
-Capture data at events and aggregate over time. See [performance-metrics](references/performance-metrics.md) — Topics: Performance Metrics Reference, Table of Contents, 1.2 Task Completion Metrics
-
 ### PROCEDURE 2: Analyze Strengths and Weaknesses
-
-Review metrics, identify patterns, compare against benchmarks. See [strength-weakness-analysis](references/strength-weakness-analysis.md) — Topics: Strength-Weakness Analysis Reference, Table of Contents, 2.2 Identifying Agent Strengths
 
 ### PROCEDURE 3: Generate Performance Reports
 
-Aggregate metrics, format for audience, include analysis. See [performance-reporting](references/performance-reporting.md) — Topics: Performance Reporting Reference, Table of Contents, 3.2 Structuring Performance Reports
-
 ## Operational Procedures
 
-- [op-collect-performance-metrics](references/op-collect-performance-metrics.md) — Topics: Operation: Collect Performance Metrics, Contents, Purpose
+- [op-collect-performance-metrics](references/op-collect-performance-metrics.md) — Topics: Operation: Collect Performance Metrics, Contents, Purpose, When To Use This Operation, Metric Categories, Steps, Step 1: Define Metrics to Track, Agent Metrics Template, Task Metrics, Quality Metrics, Efficiency Metrics, Communication Metrics, Step 2: Capture Data at Task Completion, Step 3: Aggregate Over Time Periods, Example: Calculate completion rate for an agent, Step 4: Validate Data Quality, Data Quality Check, Step 5: Store Metrics, Checklist, Metric Collection Automation, !/bin/bash, Record task completion metric, Output, Related References, Next Operation
 
 ## Examples
 
@@ -78,7 +72,7 @@ libs-svg-svgbbox weekly report (Mar 1-7):
 [DONE] Report saved to .amcos-logs/perf-libs-svg-svgbbox-2026-03-07.md
 ```
 
-See [examples-and-checklists](references/examples-and-checklists.md) — Topics: Performance Tracking Examples and Checklists, Table of Contents
+See [examples-and-checklists](references/examples-and-checklists.md) — Topics: Performance Tracking Examples and Checklists, Table of Contents, Task Checklist, Example 1: Recording Task Completion Metric, Task Completion Record, Example 2: Agent Strength-Weakness Summary, Agent Analysis: helper-agent-generic, Strengths, Weaknesses, Recommendations, Example 3: Weekly Performance Summary, Weekly Performance Summary, Team Overview, Top Performers, Areas for Improvement, Recommendations
 
 ## Error Handling
 
@@ -90,4 +84,3 @@ See [examples-and-checklists](references/examples-and-checklists.md) — Topics:
 
 ## Resources
 
-- [performance-metrics](references/performance-metrics.md) — Topics: Performance Metrics Reference, Table of Contents, 1.2 Task Completion Metrics

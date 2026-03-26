@@ -144,30 +144,51 @@ For detailed procedures, see skills:
   <!-- /TOC -->
 - **AI Maestro message templates (approval, notification, status)** → [amcos-pre-op-notification](../skills/amcos-pre-op-notification/SKILL.md), [ai-maestro-message-templates](../skills/amcos-pre-op-notification/references/ai-maestro-message-templates.md)
   <!-- TOC: ai-maestro-message-templates.md -->
-  - Standard Message Format (AMP)
-  - When Requesting Approval from AMAMA
-  - When Escalating Issues to AMAMA
-  - When Notifying Agents of Upcoming Operations
-  - When Reporting Operation Results
-  - ...and 5 more sections
+  - AI Maestro Message Templates for AMCOS
+    - Contents
+    - 1. Standard Message Format (AMP)
+    - 2. When Requesting Approval from AMAMA
+    - 3. When Escalating Issues to AMAMA
+    - 4. When Notifying Agents of Upcoming Operations
+    - 5. When Reporting Operation Results
+    - 6. When Notifying AMOA of New Agent Availability
+    - 7. When Requesting Team Status from AMOA
+    - 8. When Broadcasting Team Updates
+    - 9. Message Type Reference
+    - Notes
   <!-- /TOC -->
 - **Post-operation notifications** → [amcos-post-op-notification](../skills/amcos-post-op-notification/SKILL.md), [post-operation-notifications](../skills/amcos-post-op-notification/references/post-operation-notifications.md)
   <!-- TOC: success-criteria.md -->
-  - Agent Spawned Successfully
-  - Agent Terminated Cleanly
-  - Agent Hibernated Successfully
-  - Agent Woken Successfully
-  - Team Assignment Complete
-  - ...and 7 more sections
+  - Success Criteria for Agent Lifecycle Operations
+    - Contents
+    - Agent Spawned Successfully
+    - Agent Terminated Cleanly
+    - Agent Hibernated Successfully
+    - Agent Woken Successfully
+    - Team Assignment Complete
+    - Approval Obtained
+    - Common Self-Check Failures and Solutions
+      - Agent Does Not Respond to Health Check
+      - Team Registry Not Updated
+      - Context Not Saved During Hibernation
+    - Completion Criteria Summary
   <!-- /TOC -->
 - **Workflow checklists (step-by-step for each operation)** → [amcos-agent-coordination](../skills/amcos-agent-coordination/SKILL.md), [workflow-checklists](../skills/amcos-agent-coordination/references/workflow-checklists.md)
   <!-- TOC: workflow-checklists.md -->
-  - ### When You Need to Create a New Agent
-  - 1 Spawning New Agent Checklist
-  - ### When You Need to Stop an Agent
-  - 1 Terminating Agent Checklist
-  - ### When You Need to Put an Inactive Agent to Sleep
-  - ...and 8 more sections
+  - Agent Lifecycle Workflow Checklists
+    - Contents
+      - When You Need to Create a New Agent
+      - When You Need to Stop an Agent
+      - When You Need to Put an Inactive Agent to Sleep
+      - When You Need to Resume a Hibernated Agent
+      - When You Need to Create a New Project Team
+      - When You Need to Modify Team Membership or Agent Status
+    - Checklist: Spawning New Agent
+    - Checklist: Terminating Agent
+    - Checklist: Hibernating Agent
+    - Checklist: Waking Agent
+    - Checklist: Forming Team
+    - Checklist: Updating Team Registry
   <!-- /TOC -->
 - **Staffing decisions (when to spawn/reuse/hibernate/terminate)** → [amcos-staff-planning](../skills/amcos-staff-planning/SKILL.md)
 - **Performance metrics and tracking** → [amcos-performance-tracking](../skills/amcos-performance-tracking/SKILL.md)
@@ -220,12 +241,18 @@ Send a message to another agent using the `agent-messaging` skill:
 
 > For full message templates (approval, notification, status), see [ai-maestro-message-templates](../skills/amcos-pre-op-notification/references/ai-maestro-message-templates.md)
   <!-- TOC: ai-maestro-message-templates.md -->
-  - Standard Message Format (AMP)
-  - When Requesting Approval from AMAMA
-  - When Escalating Issues to AMAMA
-  - When Notifying Agents of Upcoming Operations
-  - When Reporting Operation Results
-  - ...and 5 more sections
+  - AI Maestro Message Templates for AMCOS
+    - Contents
+    - 1. Standard Message Format (AMP)
+    - 2. When Requesting Approval from AMAMA
+    - 3. When Escalating Issues to AMAMA
+    - 4. When Notifying Agents of Upcoming Operations
+    - 5. When Reporting Operation Results
+    - 6. When Notifying AMOA of New Agent Availability
+    - 7. When Requesting Team Status from AMOA
+    - 8. When Broadcasting Team Updates
+    - 9. Message Type Reference
+    - Notes
   <!-- /TOC -->
 
 ## Example Workflows
@@ -249,12 +276,20 @@ Send a message to another agent using the `agent-messaging` skill:
 
 > For detailed checklist, see [workflow-checklists](../skills/amcos-agent-coordination/references/workflow-checklists.md)
   <!-- TOC: workflow-checklists.md -->
-  - ### When You Need to Create a New Agent
-  - 1 Spawning New Agent Checklist
-  - ### When You Need to Stop an Agent
-  - 1 Terminating Agent Checklist
-  - ### When You Need to Put an Inactive Agent to Sleep
-  - ...and 8 more sections
+  - Agent Lifecycle Workflow Checklists
+    - Contents
+      - When You Need to Create a New Agent
+      - When You Need to Stop an Agent
+      - When You Need to Put an Inactive Agent to Sleep
+      - When You Need to Resume a Hibernated Agent
+      - When You Need to Create a New Project Team
+      - When You Need to Modify Team Membership or Agent Status
+    - Checklist: Spawning New Agent
+    - Checklist: Terminating Agent
+    - Checklist: Hibernating Agent
+    - Checklist: Waking Agent
+    - Checklist: Forming Team
+    - Checklist: Updating Team Registry
   <!-- /TOC -->
 
 ### Example 2: Hibernate Idle Agent
@@ -272,12 +307,19 @@ Send a message to another agent using the `agent-messaging` skill:
 
 > For success criteria, see [success-criteria](../skills/amcos-agent-termination/references/success-criteria.md)
   <!-- TOC: success-criteria.md -->
-  - Agent Spawned Successfully
-  - Agent Terminated Cleanly
-  - Agent Hibernated Successfully
-  - Agent Woken Successfully
-  - Team Assignment Complete
-  - ...and 7 more sections
+  - Success Criteria for Agent Lifecycle Operations
+    - Contents
+    - Agent Spawned Successfully
+    - Agent Terminated Cleanly
+    - Agent Hibernated Successfully
+    - Agent Woken Successfully
+    - Team Assignment Complete
+    - Approval Obtained
+    - Common Self-Check Failures and Solutions
+      - Agent Does Not Respond to Health Check
+      - Team Registry Not Updated
+      - Context Not Saved During Hibernation
+    - Completion Criteria Summary
   <!-- /TOC -->
 
 ### Example 3: Terminate Agent After Project Completion
@@ -331,12 +373,18 @@ Escalation ID: ESC-<timestamp>-<random>
 
 > Output format templates are defined inline above. For message formatting details, see [ai-maestro-message-templates](../skills/amcos-pre-op-notification/references/ai-maestro-message-templates.md)
   <!-- TOC: ai-maestro-message-templates.md -->
-  - Standard Message Format (AMP)
-  - When Requesting Approval from AMAMA
-  - When Escalating Issues to AMAMA
-  - When Notifying Agents of Upcoming Operations
-  - When Reporting Operation Results
-  - ...and 5 more sections
+  - AI Maestro Message Templates for AMCOS
+    - Contents
+    - 1. Standard Message Format (AMP)
+    - 2. When Requesting Approval from AMAMA
+    - 3. When Escalating Issues to AMAMA
+    - 4. When Notifying Agents of Upcoming Operations
+    - 5. When Reporting Operation Results
+    - 6. When Notifying AMOA of New Agent Availability
+    - 7. When Requesting Team Status from AMOA
+    - 8. When Broadcasting Team Updates
+    - 9. Message Type Reference
+    - Notes
   <!-- /TOC -->
 
 ## Token-Efficient Tools

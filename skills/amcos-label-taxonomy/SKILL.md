@@ -62,7 +62,7 @@ AMCOS tracks assignments, reassigns when agents become unavailable, and clears a
 
 ## Kanban and Label Details
 
-Full kanban column system, status labels, priority labels, and quick reference. See [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents
+Full kanban column system, status labels, priority labels, and quick reference. See [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents, Kanban Columns (Canonical 5-Status System), Task Routing Rules, Status Labels AMCOS Updates, Labels AMCOS Monitors, Priority Labels (`priority:*`), Status Labels (`status:*`), Quick Reference: AMCOS Label Responsibilities, Labels AMCOS Never Sets, Checklist
 
 ## Error Handling
 
@@ -83,13 +83,11 @@ gh issue edit 42 --add-label "assign:libs-svg-svgbbox"
 [DONE] Label assign:libs-svg-svgbbox applied to #42. Registry updated.
 ```
 
-See [label-commands-and-examples](references/label-commands-and-examples.md) — Topics: Label Commands and Examples, Table of Contents
-
 ## Operational Procedures
 
-- [op-assign-agent-to-issue](references/op-assign-agent-to-issue.md) — Topics: Operation: Assign Agent to Issue, Contents, Purpose
+- [op-assign-agent-to-issue](references/op-assign-agent-to-issue.md) — Topics: Operation: Assign Agent to Issue, Contents, Purpose, When to Use, Prerequisites, Procedure, Step 1: Verify Issue Exists, Step 2: Remove Existing Assignment (if any), Check for existing assign:* labels, Step 3: Add Assignment Label, Step 4: Update Status from Backlog to Ready, Step 5: Update Team Registry, Step 6: Verify Assignment, Expected output should include: assign:$AGENT_NAME, status:ready, Example, Step 1: Add assignment label, Step 2: Update status, Step 3: Update registry via REST API, Step 4: Verify, Error Handling, Rollback, Remove the partial assignment
 
 ## Resources
 
-- [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents
+- [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents, Kanban Columns (Canonical 5-Status System), Task Routing Rules, Status Labels AMCOS Updates, Labels AMCOS Monitors, Priority Labels (`priority:*`), Status Labels (`status:*`), Quick Reference: AMCOS Label Responsibilities, Labels AMCOS Never Sets, Checklist
 

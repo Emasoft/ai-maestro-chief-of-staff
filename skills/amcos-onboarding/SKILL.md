@@ -53,25 +53,17 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Initiate session, verify identity, work through checklist items, confirm completion, document.
 
-See [onboarding-checklist](references/onboarding-checklist.md) — Topics: Onboarding Checklist Reference, Table of Contents, 1.2 Pre Onboarding Preparation
-
 ### PROCEDURE 2: Deliver Role Briefing
 
 **When/Steps:** Retrieve role definition, explain responsibilities, clarify reporting, set expectations, confirm understanding.
-
-See [role-briefing](references/role-briefing.md) — Topics: Role Briefing Reference, Table of Contents, 2.2 Explaining Role Responsibilities
 
 ### PROCEDURE 3: Conduct Project Handoff
 
 **When/Steps:** Provide project overview, share current state, explain conventions, transfer knowledge, verify comprehension.
 
-See [project-handoff](references/project-handoff.md) — Topics: Project Handoff Reference, Table of Contents, 3.2 Providing Project Overview
-
 ### Validate Handoff Document
 
 Validate handoff documents before sending using the validation checklist and scripts.
-
-See [op-validate-handoff](references/op-validate-handoff.md) — Topics: Validate Handoff Document, Contents, When to Use
 
 ## Examples
 
@@ -86,7 +78,7 @@ Onboarding libs-svg-renderer:
 [DONE] libs-svg-renderer onboarded successfully.
 ```
 
-See [onboarding-overview-and-examples](references/onboarding-overview-and-examples.md) — Topics: Onboarding - Overview, Examples, and Reference, Table of Contents, What Is Agent Onboarding
+See [onboarding-overview-and-examples](references/onboarding-overview-and-examples.md) — Topics: Onboarding - Overview, Examples, and Reference, Table of Contents, What Is Agent Onboarding, Onboarding Components, 1. Onboarding Checklist, 2. Role Briefing, 3. Project Handoff, Examples: Initiating Onboarding for New Developer, Examples: Role Briefing Message, Role Briefing: Developer, Your Assigned Role, Responsibilities, Reporting Structure, Expectations, Examples: Project Handoff Summary, Project Handoff: Authentication Module, Project Overview, Current State, Key Files, Conventions, Active Context, Handoff Validation Checklist, Handoff Validation Checklist, Validate the plugin (including handoff documents) using the CPV plugin validator, Handoff Required Fields, Key Takeaways, Task Checklist
 
 ## Error Handling
 
@@ -97,6 +89,4 @@ See [onboarding-overview-and-examples](references/onboarding-overview-and-exampl
 | Handoff incomplete | Review checklist, identify gaps, send supplementary information |
 
 ## Resources
-
-- [onboarding-checklist](references/onboarding-checklist.md) — Topics: Onboarding Checklist Reference, Table of Contents, 1.2 Pre Onboarding Preparation
 
