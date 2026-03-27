@@ -66,7 +66,7 @@ Remote ops require GovernanceRequest + ConfigOperationType. Messages route via A
 
 ### Workflow Checklists
 
-See [workflow-checklists](references/workflow-checklists.md) for agent lifecycle checklists.
+See the workflow checklists in Resources for agent lifecycle procedures.
 
 ## Output
 
