@@ -36,7 +36,9 @@ Copy this checklist and track your progress:
 2. Create snapshot with timestamp and file hashes
 3. Save to `design/memory/config-snapshot.md`; record in `activeContext.md`
 
-**Guide:** See 19-config-snapshot-creation in Resources below
+**Guide:** `references/19-config-snapshot-creation.md`
+
+**Runbook:** `references/op-capture-config-snapshot.md`
 
 ### PROCEDURE 8: Detect Config Changes
 
@@ -46,7 +48,9 @@ Copy this checklist and track your progress:
 2. Compare timestamps; if different, compare hashes
 3. Classify changes; log in `activeContext.md`; trigger Procedure 9 if critical
 
-**Guide:** See 20-config-change-detection in Resources below
+**Guide:** `references/20-config-change-detection.md`
+
+**Runbook:** `references/op-detect-config-changes.md`
 
 ### PROCEDURE 9: Handle Config Conflicts
 
@@ -56,7 +60,13 @@ Types: **A** Non-Breaking, **B** Breaking-Future, **C** Breaking-Immediate, **D*
 
 Steps: Classify (A-D), apply strategy, update snapshot.
 
+**Guide:** `references/21-config-conflict-resolution.md`
+
+**Runbook:** `references/op-handle-config-conflicts.md`
+
 ### Chief of Staff Integrations
+
+See `references/ai-maestro-integration.md`, `references/error-handling.md`, `references/00-key-takeaways-and-next-steps.md`.
 
 ## Output
 
@@ -87,34 +97,17 @@ uv run python scripts/amcos_memory_manager.py set-focus \
   --focus "Adopting config v2.1 (Type B)"
 ```
 
-## Checklist
-
-Copy this checklist and track your progress:
-- [ ] Capture config snapshot at session start
-- [ ] Detect changes periodically or before major tasks
-- [ ] Classify and resolve any conflicts found
-
 ## Resources
 
-- [19-config-snapshot-creation](references/19-config-snapshot-creation.md) — Snapshot creation procedures
-  - When you need to understand the overview
-  - Understanding config snapshots
-  - Why snapshots matter
-  - How to create snapshots
-  - Creating initial snapshot
-  - Updating snapshot
-  - Validating snapshot
-  - Understanding snapshot structure
-  - For implementation examples
-  - If issues occur
-- [20-config-change-detection](references/20-config-change-detection.md) — Change detection methods
-  - When you need to understand the overview
-  - Understanding detection methods
-  - How to detect changes
-  - Timestamp-based detection
-  - Content-based detection
-  - Handling change notifications
-  - Periodic drift checking
-  - Classifying changes
-  - For implementation examples
-  - If issues occur
+- `references/19-config-snapshot-creation.md`
+- `references/20-config-change-detection.md`
+- `references/21-config-conflict-resolution.md`
+- `references/op-capture-config-snapshot.md`
+- `references/op-detect-config-changes.md`
+- `references/op-handle-config-conflicts.md`
+- `references/ai-maestro-integration.md`
+- `references/error-handling.md`
+- `references/00-key-takeaways-and-next-steps.md`
+
+**Version:** 1.0.0
+

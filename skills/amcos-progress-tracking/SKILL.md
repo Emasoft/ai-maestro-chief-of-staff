@@ -24,13 +24,9 @@ Tracks task progress in `progress.md`, manages dependencies, handles session rec
 
 ## Instructions
 
-### Checklist
-
 Copy this checklist and track your progress:
-
-- [ ] Update task status in `progress.md` with ISO timestamp
-- [ ] Document any blockers and cascade dependency changes
-- [ ] Recover session state if interrupted
+- [ ] Update task status in progress.md
+- [ ] Recover session if interrupted
 
 ### PROCEDURE 4: Update Task Progress
 
@@ -45,9 +41,11 @@ Copy this checklist and track your progress:
 5. Cascade state changes to dependent tasks
 6. Write immediately
 
-**Guide:** See 08-manage-progress-tracking in Resources
+**Guide:** `references/08-manage-progress-tracking.md`
 
-**Dependencies:** See 09-task-dependencies in Resources
+**Dependencies:** `references/09-task-dependencies.md`
+
+**Runbook:** `references/op-update-task-progress.md`
 
 ### PROCEDURE 5: Recover Session After Interruption
 
@@ -58,9 +56,13 @@ Copy this checklist and track your progress:
 3. Validate consistency; present summary
 4. Ask user to confirm resumption
 
-**Guide:** See 10-recovery-procedures in Resources
+**Guide:** `references/10-recovery-procedures.md`
+
+**Runbook:** `references/op-recover-session.md`
 
 ### Implementation Scripts
+
+Script `amcos_memory_manager.py`. See `references/18-using-scripts.md`.
 
 ## Output
 
@@ -73,10 +75,11 @@ Copy this checklist and track your progress:
 
 | Issue | Resolution |
 |-------|------------|
-| Inconsistent progress | See 15-progress-validation in Resources |
-| Corrupted files | See 13-file-recovery in Resources |
-| Context drift | See 14-context-sync in Resources |
-| Not surviving compaction | See 17-compaction-integration in Resources |
+| Inconsistent progress | See `references/15-progress-validation.md` |
+| Corrupted files | See `references/13-file-recovery.md` |
+| Context drift | See `references/14-context-sync.md` |
+| Files too large | See `references/16-memory-archival.md` |
+| Not surviving compaction | See `references/17-compaction-integration.md` |
 
 ## Examples
 
@@ -89,31 +92,8 @@ Copy this checklist and track your progress:
 
 ## Resources
 
-- [08-manage-progress-tracking](references/08-manage-progress-tracking.md) — Task states, procedures, dependencies, snapshots
-  - Purpose
-  - Part Files
-  - Quick Reference
-- [09-task-dependencies](references/09-task-dependencies.md) — Dependency types, management, critical path
-- [10-recovery-procedures](references/10-recovery-procedures.md) — Recovery from failures
-  - When you need to understand the purpose
-  - Understanding recovery scenarios
-  - Recovering from failed compaction
-  - Recovering from corrupted memory
-  - Recovering from lost context
-  - Recovering from snapshot failure
-  - Emergency recovery procedures
-  - For implementation examples
-  - If issues occur
-- [15-progress-validation](references/15-progress-validation.md) — Validation rules
-  - Parts
-- [13-file-recovery](references/13-file-recovery.md) — File corruption recovery
-  - Part 1: Detection and Basic Recovery
-  - Part 2: Advanced Recovery and Prevention
-  - Quick Reference: Which Procedure to Use
-- [14-context-sync](references/14-context-sync.md) — Context synchronization
-  - Overview
-  - Document Parts
-  - Quick Reference
-- [17-compaction-integration](references/17-compaction-integration.md) — Compaction integration
-  - Document Parts
-  - Quick Reference
+- `references/08-manage-progress-tracking.md`
+- `references/09-task-dependencies.md`
+- `references/10-recovery-procedures.md`
+- `references/op-update-task-progress.md`
+- `references/op-recover-session.md`

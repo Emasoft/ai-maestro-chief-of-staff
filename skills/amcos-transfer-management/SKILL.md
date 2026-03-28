@@ -38,8 +38,6 @@ This skill is **TEAM-SCOPED**: you can only initiate transfers OUT of your team 
 6. Once dual-approved, the system executes the transfer automatically
 7. Verify agent appears in target team roster and is removed from source roster
 
-### Checklist
-
 Copy this checklist and track your progress:
 
 - [ ] Confirm agent is active in source team
@@ -47,6 +45,8 @@ Copy this checklist and track your progress:
 - [ ] Submit TransferRequest and obtain requestId
 - [ ] Get source and target manager approvals
 - [ ] Verify transfer executed and rosters updated
+
+See `references/transfer-procedures-and-examples.md` for detailed API calls.
 
 ## Output
 
@@ -73,15 +73,15 @@ Copy this checklist and track your progress:
 
 **Input:** Transfer agent `libs-svg-renderer` from team `libs-svg` to team `apps-editor`
 
-```bash
-curl -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
-  -H "Content-Type: application/json" \
-  -d '{"operation":"agent-transfer","agent":"libs-svg-renderer","sourceTeam":"libs-svg","targetTeam":"apps-editor"}'
-```
+**Output:** `{"requestId": "tr-0017", "state": "pending"}` -> source approves -> target approves -> `{"state": "executed", "agent": "libs-svg-renderer", "newTeam": "apps-editor"}`
 
-**Expected result:** `{"requestId": "tr-0017", "state": "pending"}` then after dual approval: `{"state": "executed"}`
+See `references/transfer-procedures-and-examples.md` for full examples.
 
 ## Resources
+
+- `references/transfer-procedures-and-examples.md`
+- `references/op-create-transfer-request.md` - Creating a TransferRequest
+- `references/op-approve-transfer-request.md` - Approving/rejecting transfers
 
 ---
 

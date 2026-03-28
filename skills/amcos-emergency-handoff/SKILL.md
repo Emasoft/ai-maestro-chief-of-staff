@@ -102,14 +102,8 @@ amp-send.sh amama-assistant-manager "BLOCKER: API key needed" high \
   '{"type":"blocker-escalation","message":"API key needed, user must provide.","blocker_type":"user-decision","impact":"Deploy blocked","escalated_from":"amoa-deployment"}'
 ```
 
-## Checklist
-
-Copy this checklist and track your progress:
-- [ ] Identify critical tasks at risk from failure
-- [ ] Find available receiving agent and create handoff doc
-- [ ] Send handoff and verify acknowledgment
-- [ ] Notify AMAMA and monitor deadline compliance
-
 ## Resources
 
-- [work-handoff-during-failure](references/work-handoff-during-failure.md) — Emergency handoff procedures, message formats, reconciliation
+- `references/work-handoff-during-failure.md` - Handoff procedures
+- `references/op-emergency-handoff.md` - Handoff runbook
+- `references/op-route-task-blocker.md` - Blocker routing runbook

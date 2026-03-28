@@ -23,9 +23,6 @@ dmypy.json
 *.swp
 *.swo
 
-# Claude Code cache
-.claude/
-
 # OS
 .DS_Store
 Thumbs.db

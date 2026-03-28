@@ -38,13 +38,14 @@ Assign a newly spawned or existing agent to a GitHub issue by applying the appro
 - Issue number to assign
 - Agent name (session name) to assign
 - Access to AI Maestro REST API (`$AIMAESTRO_API`, default `http://localhost:23000`)
+- `$OWNER/$REPO` set to the target GitHub repository (e.g., `Emasoft/svgbbox`)
 
 ## Procedure
 
 ### Step 1: Verify Issue Exists
 
 ```bash
-gh issue view $ISSUE_NUMBER --json number,title,labels
+gh issue view $ISSUE_NUMBER --json number,title,labels --repo "$OWNER/$REPO"
 ```
 
 Confirm the issue exists and note any existing labels.
@@ -53,22 +54,22 @@ Confirm the issue exists and note any existing labels.
 
 ```bash
 # Check for existing assign:* labels
-EXISTING=$(gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name | select(startswith("assign:"))')
+EXISTING=$(gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name | select(startswith("assign:"))' --repo "$OWNER/$REPO")
 if [ -n "$EXISTING" ]; then
-  gh issue edit $ISSUE_NUMBER --remove-label "$EXISTING"
+  gh issue edit $ISSUE_NUMBER --remove-label "$EXISTING" --repo "$OWNER/$REPO"
 fi
 ```
 
 ### Step 3: Add Assignment Label
 
 ```bash
-gh issue edit $ISSUE_NUMBER --add-label "assign:$AGENT_NAME"
+gh issue edit $ISSUE_NUMBER --add-label "assign:$AGENT_NAME" --repo "$OWNER/$REPO"
 ```
 
 ### Step 4: Update Status from Backlog to Ready
 
 ```bash
-gh issue edit $ISSUE_NUMBER --remove-label "status:backlog" --add-label "status:ready"
+gh issue edit $ISSUE_NUMBER --remove-label "status:backlog" --add-label "status:ready" --repo "$OWNER/$REPO"
 ```
 
 ### Step 5: Update Team Registry
@@ -82,7 +83,7 @@ curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT_NAME" \
 ### Step 6: Verify Assignment
 
 ```bash
-gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name'
+gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name' --repo "$OWNER/$REPO"
 # Expected output should include: assign:$AGENT_NAME, status:ready
 ```
 
@@ -92,10 +93,10 @@ gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name'
 
 ```bash
 # Step 1: Add assignment label
-gh issue edit 42 --add-label "assign:implementer-1"
+gh issue edit 42 --add-label "assign:implementer-1" --repo "$OWNER/$REPO"
 
 # Step 2: Update status
-gh issue edit 42 --remove-label "status:backlog" --add-label "status:ready"
+gh issue edit 42 --remove-label "status:backlog" --add-label "status:ready" --repo "$OWNER/$REPO"
 
 # Step 3: Update registry via REST API
 curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
@@ -103,16 +104,16 @@ curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
   -d '{"current_issues_add": [42]}'
 
 # Step 4: Verify
-gh issue view 42 --json labels --jq '.labels[].name'
+gh issue view 42 --json labels --jq '.labels[].name' --repo "$OWNER/$REPO"
 ```
 
 ## Error Handling
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| Label not found | `assign:*` label doesn't exist | Create with `gh label create "assign:$AGENT_NAME"` |
+| Label not found | `assign:*` label doesn't exist | Create with `gh label create "assign:$AGENT_NAME" --repo "$OWNER/$REPO"` |
 | Permission denied | Insufficient repo access | Verify GitHub token has repo scope |
-| Issue not found | Invalid issue number | Verify with `gh issue list` |
+| Issue not found | Invalid issue number | Verify with `gh issue list --repo "$OWNER/$REPO"` |
 | Registry update fails | API error | Check AI Maestro API is running at `$AIMAESTRO_API` |
 
 ## Rollback
@@ -121,6 +122,6 @@ If assignment fails midway:
 
 ```bash
 # Remove the partial assignment
-gh issue edit $ISSUE_NUMBER --remove-label "assign:$AGENT_NAME"
-gh issue edit $ISSUE_NUMBER --add-label "status:backlog"
+gh issue edit $ISSUE_NUMBER --remove-label "assign:$AGENT_NAME" --repo "$OWNER/$REPO"
+gh issue edit $ISSUE_NUMBER --add-label "status:backlog" --repo "$OWNER/$REPO"
 ```

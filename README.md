@@ -15,7 +15,7 @@ AMCOS manages **per-team** agent lifecycle. One Chief of Staff instance exists p
 | Scope | Organization-wide (one COS for all) | **Per-team** (one COS per team) |
 | Governance | Single-manager approval | **AI Maestro governance** (GovernanceRequests, dual-manager approval) |
 | Communication | Direct HTTP | **AMP messaging protocol** |
-| Role system | Flat roles | **3-role governance** (manager / chief-of-staff / member) |
+| Role system | Flat roles | **4-title governance** (MANAGER / CHIEF-OF-STAFF / ORCHESTRATOR / MEMBER) |
 | Agent registry | File-based JSON | **REST API** for team registry |
 | Distribution | emasoft-plugins marketplace | **Bundled with AI Maestro v0.26.0+** |
 
@@ -51,8 +51,8 @@ AMCOS (Chief of Staff) ---- one per team
 ## What AMCOS Does NOT Do
 
 - Create projects (manager only)
-- Assign tasks to agents (AMOA only)
-- Manage GitHub Project kanban (AMOA only)
+- Assign tasks to agents (ORCHESTRATOR/AMOA only)
+- Manage GitHub Project kanban (ORCHESTRATOR/AMOA is primary; COS is secondary only when Orchestrator absent)
 - Make architectural decisions (AMAA only)
 - Perform code review (AMIA only)
 - Communicate directly with user (manager only)
@@ -196,13 +196,16 @@ All cross-plugin communication uses AMP (AI Maestro Protocol). AMCOS never calls
 | **AMAA** (Architect) | `staffing-requirements.*` | Request architecture input for staffing decisions |
 | **AMIA** (Integrator) | `deployment-coordination.*` | Coordinate deployment readiness of team agents |
 
-## 3-Role Governance System
+## 4-Title Governance System
 
-| Role | Permissions | Example |
-|------|------------|---------|
-| **Manager** | Approve/reject GovernanceRequests, create projects, direct user communication | Team manager agent |
-| **Chief of Staff** | Submit GovernanceRequests, manage agent lifecycle, configure skills/plugins | AMCOS (this plugin) |
-| **Member** | Execute assigned tasks, report status | AMOA, AMAA, AMIA, task agents |
+All teams are closed. Each agent belongs to at most ONE team.
+
+| Title | Permissions | Kanban Access | Example |
+|------|------------|---------------|---------|
+| **MANAGER** | Approve/reject GovernanceRequests, create projects, direct user communication | Secondary | AMAMA (team manager) |
+| **CHIEF-OF-STAFF** | Submit GovernanceRequests, manage agent lifecycle, configure skills/plugins | Secondary (when Orchestrator absent) | AMCOS (this plugin) |
+| **ORCHESTRATOR** | Primary kanban manager, task distribution, direct MANAGER communication | **Primary manager** | AMOA |
+| **MEMBER** | Execute assigned tasks, report status | View only | AMAA, AMIA, AMPA, task agents |
 
 Critical operations (spawn, terminate, replace) require a GovernanceRequest (sourceManager for local operations, dual-manager for cross-team). Dual-manager approval is required for cross-team agent transfers.
 

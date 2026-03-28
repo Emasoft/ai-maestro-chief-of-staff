@@ -53,11 +53,11 @@ cat ~/projects/<project>/README.md
 # Current sprint/backlog
 cat ~/projects/<project>/docs/BACKLOG.md
 
-# Active work
-cat ~/projects/<project>/docs/CURRENT_TASK.md
+# Active work (inside agent's repos folder)
+cat "$AGENT_DIR/repos/<repo-name>/docs/CURRENT_TASK.md"
 
-# Recent changes
-cd ~/projects/<project> && git log --oneline -10
+# Recent changes (use git -C to target specific repo)
+git -C "$AGENT_DIR/repos/<repo-name>" log --oneline -10
 ```
 
 ### Step 2: Compose Project Handoff Document

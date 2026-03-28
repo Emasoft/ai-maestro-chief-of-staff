@@ -57,8 +57,6 @@ Uses the **GovernanceRequest** state machine to authorize privileged operations.
 | 90s | Urgent notification |
 | 120s | Auto-proceed (spawn/wake) or abort (terminate/hibernate/critical) |
 
-### Checklist
-
 Copy this checklist and track your progress:
 
 - [ ] Determine operation scope (local vs cross-team)
@@ -73,7 +71,7 @@ Approved: JSON with `status: "dual-approved"` and both manager approvals. Reject
 
 ## Governance Details
 
-See governance-details-and-examples in Resources for payload format and approval examples.
+See `references/governance-details-and-examples.md` for payload format, governance password, local approval, rate limiting, audit trail, API responses, and examples.
 
 ## Error Handling
 
@@ -87,27 +85,17 @@ See governance-details-and-examples in Resources for payload format and approval
 
 ## Examples
 
-**Input:** Submit a local agent-spawn request
+**Input:** `POST /api/v1/governance/requests` with `{"operation": "agent-spawn", "scope": "local", "sourceTeam": "libs-svg", "sourceManager": "libs-svg-lead"}`
 
-```bash
-curl -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
-  -H "Content-Type: application/json" \
-  -d '{"operation":"agent-spawn","scope":"local","sourceTeam":"libs-svg","sourceManager":"libs-svg-lead"}'
-```
+**Output:** `{"requestId": "gr-0042", "status": "pending"}` then after approval: `{"requestId": "gr-0042", "status": "dual-approved"}`
 
-**Expected result:** `{"requestId": "gr-0042", "status": "pending"}` then after approval: `{"status": "dual-approved"}`
+See `references/governance-details-and-examples.md` for full examples.
 
 ## Resources
 
-- [governance-details-and-examples](references/governance-details-and-examples.md) — Payload format, governance password, approval flow, rate limiting, audit, examples
-  - GovernanceRequest Payload
-  - Governance Password
-  - Simplified Local Approval
-  - Rate Limiting
-  - Audit Trail
-  - Quick Checklist
-  - API Response (Primary)
-  - Offline Degradation
-  - Example 1: Spawn Agent (Local, Same Team)
-  - Example 2: Cross-Team Plugin Install
-  - Plugin Prefix Reference
+- `references/governance-details-and-examples.md`
+- `references/approval-request-procedure.md`
+- `references/approval-tracking.md`
+- `references/approval-escalation.md`
+- `references/approval-types-detailed.md`
+- `references/approval-workflow-engine.md`

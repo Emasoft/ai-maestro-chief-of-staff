@@ -20,8 +20,8 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 ## Prerequisites
 
 - AI Maestro running locally with agent registry accessible
-- Heartbeat config at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/heartbeat-config.json`
-- Task tracking at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json`
+- Heartbeat config at `$AGENT_DIR/db/agent-health/heartbeat-config.json` (where `$AGENT_DIR=~/agents/<persona-name>`)
+- Task tracking at `$AGENT_DIR/db/agent-health/task-tracking.json`
 
 ## Instructions
 
@@ -39,6 +39,8 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 | Acknowledgment timeout | No ACK | 5-15 minutes |
 | Task completion timeout | Stalled progress | Variable |
 
+See `references/failure-detection.md` and `references/op-detect-agent-failure.md`.
+
 ### Phase 2: Failure Classification
 
 1. Gather evidence: error messages, heartbeat history, agent status
@@ -52,13 +54,29 @@ Detect and classify agent failures in a multi-agent system coordinated via AI Ma
 | **Recoverable** | Intervention | Session hibernated, OOM |
 | **Terminal** | Replacement | Host crash, disk corruption |
 
-### Quick Reference
+See `references/failure-classification.md` and `references/op-classify-failure-severity.md`.
+
+### Quick Reference Workflow
 
 ```
 DETECT --> CLASSIFY --> RESPOND
-  Transient --> Wait & Retry
-  Recoverable --> amcos-recovery-execution
-  Terminal --> amcos-agent-replacement
+  Heartbeat?   Transient? --> Wait & Retry
+  Message?     Recoverable? --> amcos-recovery-execution
+  Offline?     Terminal? --> amcos-agent-replacement
+```
+
+### Failure Response Checklist
+
+Copy this checklist and track your progress:
+
+```markdown
+Agent: ___  Failure detected: ___
+- [ ] Heartbeat status checked
+- [ ] AI Maestro agent status queried
+- [ ] Message delivery verified
+- [ ] Task progress reviewed
+- [ ] Failure type: [ ] Transient [ ] Recoverable [ ] Terminal
+- [ ] Evidence documented, incident logged
 ```
 
 ## Output
@@ -79,40 +97,12 @@ DETECT --> CLASSIFY --> RESPOND
 
 ## Examples
 
-```bash
-# Send health check ping to suspect agent
-amp-send.sh ampa-svgbbox-impl "Health check" high '{"type":"ping"}'
-```
-
-Expected: agent responds within 30s; if no response, classify as failure.
-
-## Checklist
-
-Copy this checklist and track your progress:
-- [ ] Check heartbeat status and message delivery
-- [ ] Classify failure (Transient/Recoverable/Terminal)
-- [ ] Document evidence and route to correct handler
+- **Check agent status**: Query the agent's current state via the `ai-maestro-agents-management` skill.
+- **Send health check ping**: Send a `high`-priority AMP message with type `ping` to the target agent via the `agent-messaging` skill.
 
 ## Resources
 
-- [failure-classification](references/failure-classification.md) — Failure classification criteria, escalation thresholds, recording
-  - 2.1 When to use this document
-  - 2.2 Overview of failure categories
-  - 2.3 Transient failures
-    - 2.3.1 Definition and characteristics
-    - 2.3.2 Examples of transient failures
-    - 2.3.3 Expected recovery time
-    - 2.3.4 Recommended response
-  - 2.4 Recoverable failures
-    - 2.4.1 Definition and characteristics
-    - 2.4.2 Examples of recoverable failures
-    - 2.4.3 Expected recovery time
-    - 2.4.4 Recommended response
-  - 2.5 Terminal failures
-    - 2.5.1 Definition and characteristics
-    - 2.5.2 Examples of terminal failures
-    - 2.5.3 When replacement is required
-    - 2.5.4 Recommended response
-  - 2.6 Classification decision matrix
-  - 2.7 Escalation thresholds
-  - 2.8 Recording failure events
+- `references/failure-detection.md` - Detection procedures
+- `references/failure-classification.md` - Classification criteria
+- `references/op-detect-agent-failure.md` - Detect failure runbook
+- `references/op-classify-failure-severity.md` - Classify severity runbook

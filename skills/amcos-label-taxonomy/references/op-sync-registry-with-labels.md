@@ -56,7 +56,7 @@ for AGENT in $AGENTS; do
   REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/$AGENT" | jq -r '.current_issues | sort | .[]' 2>/dev/null)
 
   # Get issues from GitHub labels
-  LABELED=$(gh issue list --label "assign:$AGENT" --json number --jq '.[].number' | sort)
+  LABELED=$(gh issue list --label "assign:$AGENT" --json number --jq '.[].number' --repo "$OWNER/$REPO" | sort)
 
   echo "Agent: $AGENT"
   echo "  Registry: $REGISTERED"
@@ -81,7 +81,7 @@ Labels are source of truth. Update registry:
 ```bash
 for AGENT in $AGENTS; do
   # Get actual labeled issues
-  LABELED_ISSUES=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
+  LABELED_ISSUES=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]' --repo "$OWNER/$REPO")
 
   # Update registry via REST API
   curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT" \
@@ -96,7 +96,7 @@ Find labels for agents not in registry:
 
 ```bash
 # Get all assign:* labels in repo
-ALL_ASSIGN_LABELS=$(gh label list --json name --jq '.[] | select(.name | startswith("assign:")) | .name')
+ALL_ASSIGN_LABELS=$(gh label list --json name --jq '.[] | select(.name | startswith("assign:")) | .name' --repo "$OWNER/$REPO")
 
 for LABEL in $ALL_ASSIGN_LABELS; do
   AGENT_NAME=$(echo $LABEL | sed 's/assign://')
@@ -114,7 +114,7 @@ done
 ### Step 6: Log Sync Results
 
 ```bash
-echo "Sync completed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> docs_dev/sync-log.txt
+echo "Sync completed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$AGENT_DIR/reports/sync-log.txt"
 ```
 
 ## Example
@@ -123,7 +123,7 @@ echo "Sync completed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> docs_dev/sync-log.txt
 
 ```bash
 # Get labeled issues
-LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
+LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' --repo "$OWNER/$REPO" | sort)
 echo "Labeled: $LABELED"
 
 # Get registered issues via REST API
@@ -136,7 +136,7 @@ if [ "$LABELED" = "$REGISTERED" ]; then
 else
   echo "SYNC NEEDED: Discrepancy detected"
   # Update registry via REST API
-  LABELED_JSON=$(gh issue list --label "assign:implementer-1" --state open --json number --jq '[.[].number]')
+  LABELED_JSON=$(gh issue list --label "assign:implementer-1" --state open --json number --jq '[.[].number]' --repo "$OWNER/$REPO")
   curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
     -H "Content-Type: application/json" \
     -d '{"current_issues": '"$LABELED_JSON"'}'
@@ -158,7 +158,7 @@ AGENTS=$(curl -s "$AIMAESTRO_API/api/teams/default/agents" | jq -r '.[].name')
 
 for AGENT in $AGENTS; do
   # Get labeled issues (open only)
-  LABELED=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
+  LABELED=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]' --repo "$OWNER/$REPO")
 
   # Update registry via REST API
   curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT" \

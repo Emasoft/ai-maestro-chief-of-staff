@@ -69,7 +69,7 @@ Gather data for the report period:
 START_DATE="2025-02-01"
 END_DATE="2025-02-07"
 
-cat $CLAUDE_PROJECT_DIR/.amcos/metrics/task-completions.jsonl | \
+cat $AGENT_DIR/db/metrics/task-completions.jsonl | \
   jq -s --arg start "$START_DATE" --arg end "$END_DATE" \
   '[.[] | select(.completed_at >= $start and .completed_at <= $end)]'
 ```
@@ -194,7 +194,7 @@ Save and distribute:
 
 ```bash
 # Save report
-REPORT_FILE="$CLAUDE_PROJECT_DIR/.amcos/reports/weekly-$(date +%Y%m%d).md"
+REPORT_FILE="$AGENT_DIR/db/reports/weekly-$(date +%Y%m%d).md"
 
 # Notify stakeholders
 # Use the agent-messaging skill to notify the manager:
@@ -226,7 +226,7 @@ After completing this operation:
 ## Report File Locations
 
 ```
-$CLAUDE_PROJECT_DIR/.amcos/reports/
+$AGENT_DIR/db/reports/
   daily-YYYYMMDD.md
   weekly-YYYYMMDD.md
   individual-AGENT-YYYYMMDD.md

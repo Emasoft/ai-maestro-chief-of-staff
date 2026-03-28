@@ -51,7 +51,7 @@ All validation reports must include:
 When available, prefer these over reading large files into your context:
 
 - **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `batch_check` to validate multiple skill files against the same criteria, `scan_folder` to check all skills in a directory, `code_task` to analyze individual skill files for quality issues. Always use `input_files_paths` (never paste content). Include "This is a Claude Code plugin skill validation" in instructions. Set `ensemble: false` for simple checks.
-- **Serena MCP** (`mcp__plugin_serena_serena__*`): Use `find_symbol` to locate skill-related functions, `search_for_pattern` to find naming convention violations across files.
+- **Serena MCP** (`mcp__serena-mcp__*`): Use `find_symbol` to locate skill-related functions, `search_for_pattern` to find naming convention violations across files.
 - **TLDR CLI**: Run `tldr structure skills/` to see skill directory layout, `tldr search "pattern"` to find specific skill references.
 
 REPORTING RULES:

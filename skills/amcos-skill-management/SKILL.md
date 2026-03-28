@@ -30,8 +30,6 @@ Skill management enables the Chief of Staff to validate, index, and maintain age
 3. Verify skill integrity
 4. Notify agents of skill changes
 
-### Checklist
-
 Copy this checklist and track your progress:
 
 - [ ] Confirm skill directory exists and contains SKILL.md
@@ -53,51 +51,55 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Run skills-ref validate, check YAML frontmatter, verify references, confirm TOC accuracy.
 
+See `references/skill-validation.md` and `references/op-validate-skill.md`.
+
 ### PROCEDURE 2: Reindex Skills for PSS
 
 **When/Steps:** Run pss-reindex-skills, verify index updated, test skill discovery.
+
+See `references/skill-reindexing.md` and `references/op-reindex-skills-pss.md`.
 
 ### PROCEDURE 3: Configure PSS Integration
 
 **When/Steps:** Review descriptions, add keywords, configure weights, test discovery.
 
+See `references/pss-integration.md` and `references/op-configure-pss-integration.md`.
+
 ### Generate Agent Prompt XML
 
 Use skills-ref to-prompt to generate available_skills XML blocks for agent prompt definitions.
 
-See op-generate-agent-prompt-xml in Resources
+See `references/op-generate-agent-prompt-xml.md`.
 
 ## Examples
 
-**Input:** Validate an onboarding skill directory
+**Input:** `skills-ref validate skills/amcos-onboarding/`
 
-```bash
-skills-ref validate skills/amcos-onboarding/
-```
+**Output:** `PASS: SKILL.md frontmatter valid, 3 references found, TOC consistent`
 
-**Expected result:** `PASS: SKILL.md frontmatter valid, 3 references found, TOC consistent`
+See `references/skill-overview-and-examples.md` for full examples including validation, frontmatter format, PSS reindex, and XML generation.
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|------------|
+| Skill validation fails | See `references/skill-validation.md` Section 1.7 |
+| Skill not in PSS suggestions | See `references/skill-reindexing.md` Section 2.7 |
+| Poor keyword matching | See `references/pss-integration.md` Section 3.7 |
 
 ## Resources
 
-- [op-generate-agent-prompt-xml](references/op-generate-agent-prompt-xml.md) — Generate XML prompt
-  - When to Use
-  - Prerequisites
-  - Procedure
-    - Step 1: Identify Skills to Include
-    - Step 2: Generate XML with skills-ref
-    - Step 3: Save to File (Optional)
-    - Step 4: Integrate into Agent Prompt
-    - Step 5: Verify Integration
-  - Checklist
-  - Examples
-    - Example: Generate XML for AMCOS Skills
-    - Example: Save and Use in Agent Definition
-    - Example: Programmatic Generation
-    - Example: Dynamic Skill List
-  - Error Handling
-  - Related Operations
+- `references/skill-validation.md`
+- `references/skill-reindexing.md`
+- `references/pss-integration.md`
+- `references/validation-procedures.md`
+- `references/skill-overview-and-examples.md`
+- `references/op-validate-skill.md`
+- `references/op-reindex-skills-pss.md`
+- `references/op-generate-agent-prompt-xml.md`
+- `references/op-configure-pss-integration.md`
+
+---
+
+**Version:** 1.0
+**Last Updated:** 2025-02-01

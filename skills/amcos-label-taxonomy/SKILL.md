@@ -23,6 +23,8 @@ This skill provides the label taxonomy for the Chief of Staff Agent (AMCOS) role
 2. GitHub CLI (`gh`) installed and authenticated
 3. Access to AI Maestro REST API (`$AIMAESTRO_API`)
 
+> **Multi-repo rule**: All `gh` commands MUST include `--repo "$OWNER/$REPO"` to target the correct repository. Agents may work with multiple repos. Never assume a single repo context.
+
 ## Instructions
 
 1. Identify the label category needed (assign, status, priority)
@@ -62,7 +64,7 @@ AMCOS tracks assignments, reassigns when agents become unavailable, and clears a
 
 ## Kanban and Label Details
 
-Full kanban column system, status labels, priority labels, and quick reference. See [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents, Kanban Columns (Canonical 5-Status System), Task Routing Rules, Status Labels AMCOS Updates, Labels AMCOS Monitors, Priority Labels (`priority:*`), Status Labels (`status:*`), Quick Reference: AMCOS Label Responsibilities, Labels AMCOS Never Sets, Checklist
+Full kanban column system, status labels, priority labels, and quick reference. See `references/kanban-and-label-details.md`.
 
 ## Error Handling
 
@@ -79,19 +81,23 @@ Full kanban column system, status labels, priority labels, and quick reference. 
 
 **Output:**
 ```
-gh issue edit 42 --add-label "assign:libs-svg-svgbbox"
+gh issue edit 42 --add-label "assign:libs-svg-svgbbox" --repo "$OWNER/$REPO"
 [DONE] Label assign:libs-svg-svgbbox applied to #42. Registry updated.
 ```
 
-## Checklist
+See `references/label-commands-and-examples.md` for label commands, registry sync, and full examples.
 
-Copy this checklist and track your progress:
-- [ ] Identify correct label category (assign/status/priority)
-- [ ] Apply label to issue/PR via gh CLI
-- [ ] Update team registry if assignment changed
+## Operational Procedures
+
+- `references/op-assign-agent-to-issue.md` - Assign agent to issue
+- `references/op-terminate-agent-clear-assignments.md` - Clear assignments on termination
+- `references/op-handle-blocked-agent.md` - Handle blocked agent
+- `references/op-sync-registry-with-labels.md` - Sync registry with labels
 
 ## Resources
 
-- [op-assign-agent-to-issue](references/op-assign-agent-to-issue.md) — Assign agent to issue procedure
-- [kanban-and-label-details](references/kanban-and-label-details.md) — Kanban columns and label details
+- `references/kanban-and-label-details.md`
+- `references/label-commands-and-examples.md`
+- **AGENT_OPERATIONS.md** - Canonical operations reference (in docs/ folder)
+- [GitHub Labels Documentation](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
 

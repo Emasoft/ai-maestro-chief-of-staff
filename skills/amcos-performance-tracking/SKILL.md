@@ -51,13 +51,21 @@ Copy this checklist and track your progress:
 
 ### PROCEDURE 1: Collect Performance Metrics
 
+Capture data at events and aggregate over time. See `references/performance-metrics.md` for categories: task completion, quality, efficiency, communication.
+
 ### PROCEDURE 2: Analyze Strengths and Weaknesses
+
+Review metrics, identify patterns, compare against benchmarks. See `references/strength-weakness-analysis.md`.
 
 ### PROCEDURE 3: Generate Performance Reports
 
+Aggregate metrics, format for audience, include analysis. See `references/performance-reporting.md`.
+
 ## Operational Procedures
 
-- [op-collect-performance-metrics](references/op-collect-performance-metrics.md) — Metric collection steps, templates, aggregation, validation
+- `references/op-collect-performance-metrics.md` - Runbook for collecting metrics
+- `references/op-analyze-strengths-weaknesses.md` - Runbook for analyzing performance
+- `references/op-generate-performance-report.md` - Runbook for creating reports
 
 ## Examples
 
@@ -72,7 +80,7 @@ libs-svg-svgbbox weekly report (Mar 1-7):
 [DONE] Report saved to .amcos-logs/perf-libs-svg-svgbbox-2026-03-07.md
 ```
 
-See examples-and-checklists in Resources for more examples.
+See `references/examples-and-checklists.md` for more examples and task checklist.
 
 ## Error Handling
 
@@ -84,8 +92,8 @@ See examples-and-checklists in Resources for more examples.
 
 ## Resources
 
-- [examples-and-checklists](references/examples-and-checklists.md) — Performance tracking examples and task checklists
-  - Task Checklist
-  - Example 1: Recording Task Completion Metric
-  - Example 2: Agent Strength-Weakness Summary
-  - Example 3: Weekly Performance Summary
+- `references/performance-metrics.md`
+- `references/strength-weakness-analysis.md`
+- `references/performance-reporting.md`
+- `references/report-formats.md`
+- `references/examples-and-checklists.md`

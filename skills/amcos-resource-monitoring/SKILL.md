@@ -47,15 +47,36 @@ Memory: usage/limit/%. Agents: active/max. API: rate/quota.
 
 ### PROCEDURE 1: Check System Resources
 
+Check CPU/memory/disk/network every 15 min, before spawning agents, or on issues. See `references/system-resources.md`.
+  - [Types Of System Resources](#11-types-of-system-resources)
+  - [Monitoring CPU Usage](#12-monitoring-cpu-usage)
+  - [Monitoring Memory](#13-monitoring-memory)
+  - [Monitoring Disk Space](#14-monitoring-disk-space)
+  - [Monitoring Network](#15-monitoring-network)
+
 ### PROCEDURE 2: Monitor Instance Limits
+
+Count sessions, check API rate limits, verify concurrency. See `references/instance-limits.md`.
+  - [Types Of Instance Limits](#21-types-of-instance-limits)
+  - [Counting Active Sessions](#22-counting-active-sessions)
+  - [Tracking API Rate Limits](#23-tracking-api-rate-limits)
+  - [Managing Concurrency](#24-managing-concurrency)
+  - [Making Scaling Decisions](#25-making-scaling-decisions)
 
 ### PROCEDURE 3: Handle Resource Alerts
 
-Identify alert, assess severity, act, notify. See resource-alerts in Resources
+Identify alert, assess severity, act, notify. See `references/resource-alerts.md`.
+  - [Types Of Resource Alerts](#31-types-of-resource-alerts)
+  - [Alert Severity Levels](#32-alert-severity-levels)
+  - [Alert Response Procedures](#33-alert-response-procedures)
+  - [Alert Escalation](#34-alert-escalation)
+  - [Alert Prevention](#35-alert-prevention)
 
 ## Operational Procedures
 
-- [op-check-system-resources](references/op-check-system-resources.md) — CPU, memory, disk, network check procedure
+- `references/op-check-system-resources.md` - System checks runbook
+- `references/op-monitor-instance-limits.md` - Instance limits runbook
+- `references/op-handle-resource-alert.md` - Alert response runbook
 
 ## Examples
 
@@ -68,7 +89,11 @@ Active agents: 7/15 (headroom: 8). Spawning 3 is safe.
 [DONE] Resources OK - 3 agents can be spawned.
 ```
 
-See [examples-and-checklists](references/examples-and-checklists.md) for more examples.
+See `references/examples-and-checklists.md` for full examples and task checklist.
+  - [Task Checklist](#task-checklist)
+  - [Example 1: Basic System Resource Check](#example-1-basic-system-resource-check)
+  - [Example 2: Counting Active Agent Sessions](#example-2-counting-active-agent-sessions)
+  - [Example 3: Resource Alert Response](#example-3-resource-alert-response)
 
 ## Error Handling
 
@@ -78,16 +103,8 @@ See [examples-and-checklists](references/examples-and-checklists.md) for more ex
 
 ## Resources
 
-- [resource-alerts](references/resource-alerts.md) — Alert types, severity, response, escalation
-  - Types Of Resource Alerts
-  - Alert Severity Levels
-  - Alert Response Procedures
-  - Alert Escalation
-  - Alert Prevention
-  - Resource Alert Examples
-  - Troubleshooting
-- [examples-and-checklists](references/examples-and-checklists.md) — Resource monitoring examples
-  - Task Checklist
-  - Example 1: Basic System Resource Check
-  - Example 2: Counting Active Agent Sessions
-  - Example 3: Resource Alert Response
+- `references/system-resources.md`
+- `references/instance-limits.md`
+- `references/resource-alerts.md`
+- `references/monitoring-commands.md`
+- `references/examples-and-checklists.md`

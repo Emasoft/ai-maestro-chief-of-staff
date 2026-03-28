@@ -25,6 +25,15 @@ Handles clean shutdown of agent instances including work verification, state pre
 
 ## Instructions
 
+Copy this checklist and track your progress:
+- [ ] Request GovernanceRequest approval from sourceManager (REQUIRED before any termination)
+- [ ] Verify work complete and no pending uncommitted tasks
+- [ ] Save final state and request agent context handoff
+- [ ] Send termination warning via agent-messaging skill
+- [ ] Execute termination via ai-maestro-agents-management skill
+- [ ] Remove agent from team registry
+- [ ] Cleanup resources and log termination event
+
 ### Termination Procedure (PROCEDURE 2)
 
 1. **Request GovernanceRequest approval** - Submit termination request to sourceManager via `amcos-permission-management` skill. BLOCK until approved. Do NOT proceed without approval.
@@ -50,7 +59,7 @@ Always attempt graceful first.
 - Terminated agents MUST be cleaned from registry
 - ALWAYS hibernate instead of terminate when agent may be needed again
 - ALWAYS save state before termination
-- Log every termination per [record-keeping](references/record-keeping.md)
+- Log every termination per `references/record-keeping.md`
 
 ## Output
 
@@ -65,6 +74,7 @@ Always attempt graceful first.
 | Issue | Resolution |
 |-------|-----------|
 | Uncommitted work | Request commit/push first. Do NOT proceed until confirmed |
+| Unresponsive to warning | Wait 2 min, retry. After 5 min, force-terminate. See `references/termination-procedures.md` 2.7 |
 | tmux persists | `tmux kill-session -t <name>` |
 | Registry update fails | Retry 3x, then remove via `ai-maestro-agents-management` skill |
 
@@ -89,13 +99,10 @@ tmux kill-session -t ampa-stuck-agent
 uv run python scripts/amcos_team_registry.py remove-agent --name ampa-stuck-agent
 ```
 
-## Checklist
-
-Copy this checklist and track your progress:
-- [ ] Request GovernanceRequest approval before termination
-- [ ] Verify work complete and state saved
-- [ ] Execute termination and remove from registry
-- [ ] Cleanup resources and log event
-
 ## Resources
+
+- `references/termination-procedures.md`
+- `references/op-terminate-agent.md`
+- `references/success-criteria.md`
+- `references/record-keeping.md`
 

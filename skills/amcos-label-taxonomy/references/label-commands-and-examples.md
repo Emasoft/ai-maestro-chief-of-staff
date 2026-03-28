@@ -1,5 +1,7 @@
 # Label Commands and Examples
 
+> **Multi-repo rule**: All `gh` commands MUST include `--repo "$OWNER/$REPO"` to target the correct repository. `$OWNER/$REPO` is the GitHub owner/repo for the target repo. Determine the repo BEFORE any operation using `amp-project-repos.sh` or `amp-list-local-repos.sh`.
+
 ## Table of Contents
 
 - [AMCOS Label Commands](#amcos-label-commands)
@@ -17,17 +19,17 @@
 
 ```bash
 # Assign new agent to issue
-gh issue edit $ISSUE_NUMBER --add-label "assign:$NEW_AGENT_NAME"
-gh issue edit $ISSUE_NUMBER --remove-label "status:backlog" --add-label "status:todo"
+gh issue edit $ISSUE_NUMBER --add-label "assign:$NEW_AGENT_NAME" --repo "$OWNER/$REPO"
+gh issue edit $ISSUE_NUMBER --remove-label "status:backlog" --add-label "status:todo" --repo "$OWNER/$REPO"
 ```
 
 ### When Agent Terminated
 
 ```bash
 # Clear assignment from all agent's issues
-AGENT_ISSUES=$(gh issue list --label "assign:$AGENT_NAME" --json number --jq '.[].number')
+AGENT_ISSUES=$(gh issue list --label "assign:$AGENT_NAME" --json number --jq '.[].number' --repo "$OWNER/$REPO")
 for ISSUE in $AGENT_ISSUES; do
-  gh issue edit $ISSUE --remove-label "assign:$AGENT_NAME" --add-label "status:backlog"
+  gh issue edit $ISSUE --remove-label "assign:$AGENT_NAME" --add-label "status:backlog" --repo "$OWNER/$REPO"
 done
 ```
 
@@ -35,14 +37,14 @@ done
 
 ```bash
 # Mark issue blocked
-gh issue edit $ISSUE_NUMBER --remove-label "status:in-progress" --add-label "status:blocked"
+gh issue edit $ISSUE_NUMBER --remove-label "status:in-progress" --add-label "status:blocked" --repo "$OWNER/$REPO"
 ```
 
 ### When Escalating to Human
 
 ```bash
 # Reassign to human
-gh issue edit $ISSUE_NUMBER --remove-label "assign:$AGENT_NAME" --add-label "assign:human"
+gh issue edit $ISSUE_NUMBER --remove-label "assign:$AGENT_NAME" --add-label "assign:human" --repo "$OWNER/$REPO"
 ```
 
 ## Agent Registry and Labels
@@ -59,7 +61,7 @@ curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq .
 
 ```bash
 # Find issues assigned to agent from GitHub labels
-LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
+LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' --repo "$OWNER/$REPO" | sort)
 
 # Compare with registry (via REST API)
 REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq -r '.current_issues | sort | .[]')
@@ -73,10 +75,10 @@ REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq -r '.current
 
 ```bash
 # Step 1: Add assignment label
-gh issue edit 42 --add-label "assign:implementer-1"
+gh issue edit 42 --add-label "assign:implementer-1" --repo "$OWNER/$REPO"
 
 # Step 2: Update status from backlog to ready
-gh issue edit 42 --remove-label "status:backlog" --add-label "status:todo"
+gh issue edit 42 --remove-label "status:backlog" --add-label "status:todo" --repo "$OWNER/$REPO"
 
 # Step 3: Update team registry via REST API
 curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
@@ -84,7 +86,7 @@ curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
   -d '{"current_issues": [42]}'
 
 # Step 4: Verify
-gh issue view 42 --json labels --jq '.labels[].name'
+gh issue view 42 --json labels --jq '.labels[].name' --repo "$OWNER/$REPO"
 # Output: assign:implementer-1, status:todo
 ```
 
@@ -94,11 +96,11 @@ gh issue view 42 --json labels --jq '.labels[].name'
 
 ```bash
 # Step 1: Find all issues assigned to agent
-AGENT_ISSUES=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number')
+AGENT_ISSUES=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' --repo "$OWNER/$REPO")
 
 # Step 2: Remove assignment and update status
 for ISSUE in $AGENT_ISSUES; do
-  gh issue edit $ISSUE --remove-label "assign:implementer-1" --add-label "status:backlog"
+  gh issue edit $ISSUE --remove-label "assign:implementer-1" --add-label "status:backlog" --repo "$OWNER/$REPO"
   echo "Cleared assignment from issue #$ISSUE"
 done
 
@@ -108,7 +110,7 @@ curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
   -d '{"status": "terminated"}'
 
 # Step 4: Verify no issues remain assigned
-gh issue list --label "assign:implementer-1"
+gh issue list --label "assign:implementer-1" --repo "$OWNER/$REPO"
 # Output: (empty)
 ```
 
@@ -118,15 +120,15 @@ gh issue list --label "assign:implementer-1"
 
 ```bash
 # Step 1: Update status to blocked
-gh issue edit 43 --remove-label "status:in-progress" --add-label "status:blocked"
+gh issue edit 43 --remove-label "status:in-progress" --add-label "status:blocked" --repo "$OWNER/$REPO"
 
 # Step 2: Add comment explaining blocker
-gh issue comment 43 --body "Agent blocked: waiting for external API credentials. Assigned to human for resolution."
+gh issue comment 43 --body "Agent blocked: waiting for external API credentials. Assigned to human for resolution." --repo "$OWNER/$REPO"
 
 # Step 3: Escalate to human if needed
-gh issue edit 43 --add-label "assign:human"
+gh issue edit 43 --add-label "assign:human" --repo "$OWNER/$REPO"
 
 # Step 4: Verify
-gh issue view 43 --json labels --jq '.labels[].name'
+gh issue view 43 --json labels --jq '.labels[].name' --repo "$OWNER/$REPO"
 # Output: assign:human, status:blocked, priority:high
 ```

@@ -30,8 +30,6 @@ Team coordination manages distributed agent teams, assigns roles, coordinates me
 3. Execute coordination action
 4. Update team registry and notify agents
 
-### Checklist
-
 Copy this checklist and track your progress:
 
 - [ ] Verify team registry is accessible and current
@@ -53,26 +51,27 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Identify role, match capabilities, send assignment message, confirm acceptance, update roster.
 
+See `references/role-assignment.md` and `references/op-assign-agent-roles.md`.
+
 ### PROCEDURE 2: Send Team Messages
 
 **When/Steps:** Identify recipients, compose with priority, send via AI Maestro API, confirm delivery, log.
 
-See team-messaging in Resources below
+See `references/team-messaging.md` and `references/op-send-team-messages.md`.
 
 ### PROCEDURE 3: Maintain Teammate Awareness
 
 **When/Steps:** Poll for active sessions, query status, update roster, identify inactive agents, flag issues.
 
+See `references/teammate-awareness.md` and `references/op-maintain-teammate-awareness.md`.
+
 ## Examples
 
-**Input:** "Assign agent libs-svg-renderer the role of QA lead"
+**Input:** "Assign agent libs-svg-renderer the role of QA lead for the SVG pipeline team"
 
-```bash
-amp-send.sh libs-svg-renderer "Role Assignment: QA Lead" \
-  "You are assigned QA lead for the SVG pipeline team. Please acknowledge."
-```
+**Output:** "Role assigned: libs-svg-renderer -> QA lead. AMP notification sent (priority: high). Roster updated. Awaiting acknowledgment."
 
-**Expected result:** Agent receives role assignment, replies with acknowledgment, roster updated.
+See `references/coordination-overview-and-examples.md` for full examples including role assignment, team broadcasts, status checks, and coordination workflows.
 
 ## Error Handling
 
@@ -84,12 +83,15 @@ amp-send.sh libs-svg-renderer "Role Assignment: QA Lead" \
 
 ## Resources
 
-- [team-messaging](references/team-messaging.md) — Team message types, priority, routing, delivery
-  - Team Message Types
-  - Message Priority Levels
-  - Sending Broadcast Messages
-  - Sending Targeted Messages
-  - Message Routing Rules
-  - Confirming Message Delivery
-  - Team Messaging Examples
-  - Troubleshooting
+- `references/role-assignment.md`
+- `references/team-messaging.md`
+- `references/teammate-awareness.md`
+- `references/coordination-overview-and-examples.md`
+- `references/op-assign-agent-roles.md`
+- `references/op-send-team-messages.md`
+- `references/op-maintain-teammate-awareness.md`
+
+---
+
+**Version:** 1.0
+**Last Updated:** 2025-02-01

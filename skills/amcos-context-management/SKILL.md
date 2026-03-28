@@ -1,6 +1,6 @@
 ---
 name: amcos-context-management
-description: Use when managing context or patterns. Trigger with context update or compaction needs.
+description: Use when managing active context, recording discovered patterns, or preparing for context compaction. Trigger with context update or pattern recording needs.
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires file system access to design/memory/ directory. Requires AI Maestro installed.
@@ -15,7 +15,7 @@ agent: ai-maestro-chief-of-staff-main-agent
 
 ## Overview
 
-Updates `activeContext.md`, records patterns, prepares memory for compaction.
+Updates `activeContext.md` on focus changes, records patterns in `patterns.md`, and prepares memory for compaction.
 
 ## Prerequisites
 
@@ -23,6 +23,10 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 - `activeContext.md` and `patterns.md` valid
 
 ## Instructions
+
+Copy this checklist and track your progress:
+- [ ] Update active context on change
+- [ ] Record patterns
 
 ### PROCEDURE 2: Update Active Context
 
@@ -33,7 +37,11 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 3. Update the relevant section with ISO timestamp
 4. Write immediately (no deferred saves)
 
-**Update patterns:** See 06-context-update-patterns in Resources
+**Guide:** `references/03-manage-active-context.md`
+
+**Update patterns:** `references/06-context-update-patterns.md`
+
+**Runbook:** `references/op-update-active-context.md`
 
 ### PROCEDURE 3: Record Discovered Patterns
 
@@ -43,7 +51,11 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 2. Open `patterns.md`, add entry with name, category, description, examples, date
 3. Update pattern index; write immediately
 
-**Guide:** See 05-record-patterns and 07-pattern-categories in Resources
+**Guide:** `references/05-record-patterns.md`
+
+**Categories:** `references/07-pattern-categories.md`
+
+**Runbook:** `references/op-record-discovered-pattern.md`
 
 ### PROCEDURE 6: Prepare for Context Compaction
 
@@ -55,7 +67,7 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 4. Create backup
 5. Confirm ready
 
-**Safety:** See 11-compaction-safety in Resources
+**Safety:** `references/11-compaction-safety.md` | **Runbook:** `references/op-prepare-context-compaction.md`
 
 ## Output
 
@@ -69,9 +81,10 @@ Updates `activeContext.md`, records patterns, prepares memory for compaction.
 
 | Issue | Resolution |
 |-------|------------|
-| Context out of sync | See 14-context-sync in Resources |
+| Context out of sync | See `references/14-context-sync.md` |
+| Pattern file too large | See `references/16-memory-archival.md` |
 | Validation fails pre-compaction | Fix errors first; never compact invalid memory |
-| Files corrupted | See 04-memory-validation in Resources |
+| Files corrupted | See `references/04-memory-validation.md` |
 
 ## Examples
 
@@ -85,39 +98,15 @@ uv run python scripts/amcos_memory_manager.py add-pattern \
   --name "Retry with backoff" --category "Error-Recovery"
 ```
 
-## Checklist
-
-Copy this checklist and track your progress:
-- [ ] Update activeContext.md on focus changes
-- [ ] Record discovered patterns in patterns.md
-- [ ] Validate memory files before compaction
-
 ## Resources
 
-- [06-context-update-patterns](references/06-context-update-patterns.md) — Update patterns
-  - When you need to understand the purpose
-  - Understanding update patterns overview
-  - When switching tasks
-  - When recording decisions
-  - When adding questions
-  - When reaching milestones
-  - When preparing before compaction
-  - For implementation examples
-  - If issues occur
-- [05-record-patterns](references/05-record-patterns.md) — Pattern recording
-  - Parts
-  - Quick Navigation
-  - Reading Order
-- [07-pattern-categories](references/07-pattern-categories.md) — Pattern categories
-  - Purpose
-  - Category Definitions
-  - Pattern Category Details
-  - How to Choose Categories
-- [11-compaction-safety](references/11-compaction-safety.md) — Compaction safety
-  - Parts
-  - Part 1: Preparation and Execution
-  - Quick Reference
-- [14-context-sync](references/14-context-sync.md) — Context sync
-  - Overview
-  - Part 2: Advanced Procedures and Troubleshooting
-- [04-memory-validation](references/04-memory-validation.md) — Validation
+- `references/03-manage-active-context.md`
+- `references/04-memory-validation.md`
+- `references/05-record-patterns.md`
+- `references/06-context-update-patterns.md`
+- `references/07-pattern-categories.md`
+- `references/op-update-active-context.md`
+- `references/op-record-discovered-pattern.md`
+- `references/op-prepare-context-compaction.md`
+
+**Version:** 1.0.0

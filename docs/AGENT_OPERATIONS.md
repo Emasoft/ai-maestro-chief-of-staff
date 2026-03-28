@@ -86,7 +86,8 @@ Cross-team operations require a GovernanceRequest sent to the MANAGER:
 
 **Environment Variables**:
 - `${CLAUDE_PLUGIN_ROOT}` - Set by Claude Code when plugin loaded via `--plugin-dir`
-- `${CLAUDE_PROJECT_DIR}` - Working directory of the Claude Code session
+- `${CLAUDE_PROJECT_DIR}` - Working directory of the Claude Code session (typically `~/agents/<persona-name>/`)
+- `$AGENT_DIR` - Alias for `~/agents/<persona-name>/` (the agent's persona folder)
 - AI Maestro API endpoint is configured automatically by AI Maestro and accessed via the `agent-messaging` skill
 
 **Path Resolution**:
@@ -113,13 +114,20 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 
 ---
 
-## 4. Agent Directory Structure (FLAT)
+## 4. Agent Directory Structure (Multi-Repo)
 
-**Architecture**: FLAT (no nesting, all agents at same level)
+**Architecture**: FLAT agents, each with multi-repo internal structure.
 
 ```
 ~/agents/
 ├── amcos-chief-of-staff-one/
+│   ├── repos/                    # Git repos cloned here
+│   │   ├── project-alpha/        # Clone of first repo
+│   │   └── shared-libs/          # Clone of second repo
+│   ├── reports/                  # All subagent reports
+│   ├── tmp/                      # Temp files (NOT /tmp/)
+│   ├── teams/                    # Local cache of team data
+│   ├── db/                       # CozoDB and other databases
 │   └── .claude/
 │       └── plugins/
 │           └── ai-maestro-chief-of-staff/
@@ -130,42 +138,33 @@ ${CLAUDE_PLUGIN_ROOT}/../<plugin-name>
 │               ├── commands/
 │               └── hooks/
 ├── amcos-orch-svgbbox/
+│   ├── repos/
+│   │   └── svgbbox/
+│   ├── reports/
+│   ├── tmp/
+│   ├── teams/
+│   ├── db/
 │   └── .claude/
 │       └── plugins/
 │           └── ai-maestro-orchestrator-agent/
-│               ├── .claude-plugin/
-│               │   └── plugin.json
-│               ├── agents/
-│               ├── skills/
-│               ├── commands/
-│               └── hooks/
-├── amcos-arch-project-alpha/
-│   └── .claude/
-│       └── plugins/
-│           └── ai-maestro-architect-agent/
-│               └── ...
-├── amcos-intg-feature-reviewer/
-│   └── .claude/
-│       └── plugins/
-│           └── ai-maestro-integrator-agent/
 │               └── ...
 ├── amcos-prog-svgbbox-001/
+│   ├── repos/
+│   │   └── svgbbox/
+│   ├── reports/
 │   └── .claude/
 │       └── plugins/
 │           └── ai-maestro-programmer-agent/
 │               └── ...
-└── amcos-mgr-user-interface/
-    └── .claude/
-        └── plugins/
-            └── ai-maestro-assistant-manager-agent/
-                └── ...
 ```
 
-**Why FLAT?**:
-- Each agent is an independent Claude Code session
-- No parent-child relationship in file system
-- Communication happens via AI Maestro messaging, not file system
-- Easier to manage, monitor, and terminate individual agents
+**Multi-repo rules**:
+- All repos are cloned inside `~/agents/<persona-name>/repos/`
+- All git commands use `git -C "$REPO_PATH"` to target the correct repo
+- All gh commands use `--repo "$OWNER/$REPO"` to target the correct GitHub repo
+- All writes stay inside the agent folder (NEVER to /tmp, ~/.aimaestro, or other external paths)
+- Reports go to `~/agents/<persona-name>/reports/`
+- Use `amp-clone-repo.sh <url>` to clone repos into the agent folder
 
 ---
 

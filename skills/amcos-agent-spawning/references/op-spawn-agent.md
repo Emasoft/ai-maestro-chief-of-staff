@@ -63,24 +63,42 @@ Select the appropriate agent type based on the task requirements. AMCOS chooses 
 - `amia-api-integrator`
 - `svgbbox-programmer-001` (Programmer uses project-based naming)
 
-### Step 2: Setup Plugin for Agent
+### Step 2: Create Agent Folder Structure
+
+Create the standard multi-repo agent folder structure:
+
+```bash
+AGENT_DIR="$HOME/agents/<session-name>"
+mkdir -p "$AGENT_DIR"/{repos,reports,tmp,teams,db}
+mkdir -p "$AGENT_DIR/.claude/plugins"
+```
+
+### Step 2b: Setup Plugin for Agent
 
 Copy the plugin from the **AI Maestro distribution cache** to the agent's local folder:
 - **Source**: `$HOME/.claude/plugins/cache/ai-maestro/<plugin-name>/<latest-version>/`
-- **Destination**: `$HOME/agents/<session-name>/.claude/plugins/<plugin-name>/`
+- **Destination**: `$AGENT_DIR/.claude/plugins/<plugin-name>/`
 
-Create the destination directory and copy the plugin files.
+### Step 2c: Clone Project Repos
+
+Clone the project repo(s) into the agent's repos/ folder:
+
+```bash
+amp-clone-repo.sh <repo-url> "$AGENT_DIR/repos/<repo-name>"
+```
+
+Multiple repos can be cloned if the project spans multiple repositories.
 
 ### Step 3: Create Agent Instance
 
 Use the `ai-maestro-agents-management` skill to create a new agent:
 - **Name**: the chosen session name
-- **Directory**: `~/agents/<session-name>/` (FLAT structure)
+- **Directory**: `~/agents/<session-name>/` (agent persona folder with multi-repo structure)
 - **Task**: description of the agent's purpose
 - **Program args**: include `--dangerously-skip-permissions`, `--chrome`, `--add-dir /tmp`, `--plugin-dir` pointing to the copied plugin, and `--agent <prefix>-<role>-main-agent`
 
 **Important flags:**
-- `--dir`: Working directory for the agent (FLAT structure: `~/agents/<session-name>/`)
+- `--dir`: Working directory for the agent (`~/agents/<session-name>/` with repos/ subfolder)
 - `--task`: Description of the agent's purpose
 - `--plugin-dir`: Path to the COPIED plugin in agent's local folder
 - `--agent`: The main agent prompt to inject
@@ -115,13 +133,16 @@ Copy this checklist and track your progress:
 
 - [ ] Determine agent type based on task requirements
 - [ ] Choose unique session name following naming convention
+- [ ] Create agent folder structure (`repos/`, `reports/`, `tmp/`, `teams/`, `db/`)
 - [ ] Verify plugin exists in marketplace cache
 - [ ] Copy plugin to agent's local folder
+- [ ] Clone project repo(s) via `amp-clone-repo.sh` into `~/agents/<session>/repos/`
 - [ ] Create agent via `ai-maestro-agents-management` skill
 - [ ] Verify agent status is "running"
 - [ ] Register agent in team registry
 - [ ] Send welcome message via `agent-messaging` skill
 - [ ] Confirm agent acknowledgment received
+- [ ] Target repo path specified in all delegations
 
 ## Examples
 

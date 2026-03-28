@@ -73,7 +73,7 @@ Reasons:
 When available, prefer these over reading large files into your context:
 
 - **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize resource usage reports, `scan_folder` to check log directories for resource alerts, `batch_check` to analyze multiple monitoring outputs. Always use `input_files_paths` (never paste content). Include "This is resource monitoring for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
-- **Serena MCP** (`mcp__plugin_serena_serena__*`): Use `find_symbol` to locate threshold constants and monitoring functions, `search_for_pattern` to find resource-related configuration.
+- **Serena MCP** (`mcp__serena-mcp__*`): Use `find_symbol` to locate threshold constants and monitoring functions, `search_for_pattern` to find resource-related configuration.
 - **TLDR CLI**: Run `tldr search "threshold\|resource\|monitor"` to find monitoring-related code, `tldr diagnostics src/` to catch type errors in monitoring scripts.
 
 REPORTING RULES:

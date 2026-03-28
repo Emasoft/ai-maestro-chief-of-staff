@@ -40,15 +40,14 @@ Post-operation notifications confirm that operations completed successfully and 
 
 **Triggers:** Skill install complete, agent restart complete, config applied, maintenance complete.
 
-### Checklist
-
 Copy this checklist and track your progress:
-
 - [ ] Confirmed operation completed successfully before composing notification
 - [ ] Sent AMP confirmation via `amp-send.sh` and requested agent verification
 - [ ] Logged outcome with timestamp and verification response
 
-See op-post-operation-notification in Resources
+See `references/post-operation-notifications.md` for detailed procedures.
+
+See `references/op-post-operation-notification.md` for the step-by-step runbook.
 
 ## Message Type Quick Reference
 
@@ -77,30 +76,25 @@ See op-post-operation-notification in Resources
 
 ## Examples
 
-**Input:** Skill `security-audit` installed on `code-impl-auth`
+### Concrete Input/Output
 
-```bash
-amp-send.sh code-impl-auth "Post-Op: security-audit installed" \
-  "Skill security-audit installed successfully. Please verify it is active."
-```
+**Input:** Skill `security-audit` installed on `code-impl-auth` (operation complete)
+**Output:** AMP `post-operation` message sent; agent replies confirming skill is active; result logged
 
-**Expected result:** Agent receives notification, replies confirming skill is active, result logged.
+### Example 1: Skill Installation Confirmation
+
+Send via `agent-messaging` skill:
+- **To**: `code-impl-auth` | **Priority**: `normal`
+- **Content**: type `post-operation`, `security-audit` skill installed, verify skill is active
+
+### Example 2: Configuration Change Confirmation
+
+Send via `agent-messaging` skill:
+- **To**: `test-engineer-01` | **Priority**: `normal`
+- **Content**: type `post-operation`, logging level changed to `debug`, verify new entries
 
 ## Resources
 
-- [op-post-operation-notification](references/op-post-operation-notification.md) — Post-op notification procedure
-  - When to Use
-  - Prerequisites
-  - Procedure
-    - Step 1: Confirm Operation Completed
-    - Step 2: Compose Success Message
-    - Step 3: Send Confirmation
-    - Step 4: Request Verification
-    - Step 5: Log Outcome
-  - Checklist
-  - Examples
-    - Example 1: Skill Installation Complete
-    - Example 2: Agent Restart Complete
-    - Example 3: System Maintenance Complete Broadcast
-  - Error Handling
-  - Related Operations
+- `references/post-operation-notifications.md`
+- `references/op-post-operation-notification.md`
+- `references/task-completion-checklist.md`

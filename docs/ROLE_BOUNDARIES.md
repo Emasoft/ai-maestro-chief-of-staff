@@ -8,24 +8,25 @@
 
 ## Governance Roles vs Plugin Roles
 
-AI Maestro governance defines three roles at the team level:
+AI Maestro governance defines **four titles** at the team level (Governance v3):
 
-| Governance Role | Description |
-|-----------------|-------------|
-| `manager` | Team owner. Approves requests, creates projects, talks to user. |
-| `chief-of-staff` | Team-scoped staff agent. Manages agent lifecycle for ONE team. |
-| `member` | Any agent performing work within a team. |
+| Governance Title | Description | Kanban Access |
+|-----------------|-------------|---------------|
+| `MANAGER` | Singleton. Full authority over all teams and agents. | Secondary |
+| `CHIEF-OF-STAFF` | Team-scoped staff agent. Manages agent lifecycle for ONE team. | Secondary (when Orchestrator absent) |
+| `ORCHESTRATOR` | Primary kanban manager. Direct MANAGER communication. Task distribution. | **Primary manager** |
+| `MEMBER` | Any agent performing work within a team. | View only |
 
-The AMCOS plugin defines four specializations that all map to governance role `member`:
+All teams are closed. Each agent belongs to at most ONE team. ORCHESTRATOR is a governance TITLE, not just a specialization.
 
-| Plugin Role | Abbreviation | Governance Role |
+| Plugin Role | Abbreviation | Governance Title |
 |-------------|-------------|-----------------|
-| Orchestrator | AMOA | `member` |
-| Architect | AMAA | `member` |
-| Integrator | AMIA | `member` |
-| Programmer | AMPA | `member` |
+| Orchestrator | AMOA | `ORCHESTRATOR` |
+| Architect | AMAA | `MEMBER` |
+| Integrator | AMIA | `MEMBER` |
+| Programmer | AMPA | `MEMBER` |
 
-AMCOS itself maps to governance role `chief-of-staff`. AMAMA maps to `manager`.
+AMCOS maps to `CHIEF-OF-STAFF`. AMAMA maps to `MANAGER`.
 
 ---
 
@@ -40,6 +41,7 @@ AMCOS itself maps to governance role `chief-of-staff`. AMAMA maps to `manager`.
 ┌──────────────────────────────────────────────────────────────┐
 │                AMAMA (Manager)                              │
 │                governance role: manager                       │
+│                governance title: MANAGER                      │
 │                - User's sole interlocutor                     │
 │                - Creates projects / teams                     │
 │                - Approves AMCOS requests                      │
@@ -54,14 +56,14 @@ AMCOS itself maps to governance role `chief-of-staff`. AMAMA maps to `manager`.
 │                         │       │                         │
 │  ┌───────────────────┐  │       │  ┌───────────────────┐  │
 │  │ AMCOS-alpha       │  │       │  │ AMCOS-beta        │  │
-│  │ chief-of-staff    │  │       │  │ chief-of-staff    │  │
+│  │ CHIEF-OF-STAFF   │  │       │  │ CHIEF-OF-STAFF   │  │
 │  │ (one per team)    │  │       │  │ (one per team)    │  │
 │  └────────┬──────────┘  │       │  └────────┬──────────┘  │
 │           │              │       │           │              │
 │    ┌──────┼──────┐       │       │    ┌──────┼──────┐       │
 │    ▼      ▼      ▼       │       │    ▼      ▼      ▼       │
 │  AMOA    AMAA    AMIA       │       │  AMOA    AMAA    AMPA       │
-│  member member member    │       │  member member member    │
+│  ORCH   MEMBER  MEMBER   │       │  ORCH   MEMBER  MEMBER   │
 └─────────────────────────┘       └─────────────────────────┘
 ```
 
@@ -112,7 +114,7 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 
 ## AMOA (Orchestrator) - Responsibilities
 
-**Governance role: `member`. Plugin role: Orchestrator.**
+**Governance title: `ORCHESTRATOR`. Primary kanban manager.**
 
 ### AMOA CAN:
 - Assign tasks to agents within its project
@@ -138,7 +140,7 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 
 ## AMAMA (Manager) - Responsibilities
 
-**Governance role: `manager`.**
+**Governance title: `MANAGER`.**
 
 ### AMAMA CAN:
 - Create projects and teams
@@ -234,7 +236,7 @@ AMOA: Sends handoff to agent-456
 
 ## Summary Table
 
-| Responsibility | AMAMA (manager) | AMCOS (chief-of-staff) | AMOA (member) | AMIA (member) | AMAA (member) | AMPA (member) |
+| Responsibility | AMAMA (MANAGER) | AMCOS (CHIEF-OF-STAFF) | AMOA (ORCHESTRATOR) | AMIA (MEMBER) | AMAA (MEMBER) | AMPA (MEMBER) |
 |----------------|:-:|:-:|:-:|:-:|:-:|:-:|
 | Create projects/teams | Yes | -- | -- | -- | -- | -- |
 | Create agents | Approves | Yes | Requests | -- | -- | -- |

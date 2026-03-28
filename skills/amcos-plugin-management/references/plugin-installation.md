@@ -241,9 +241,9 @@ claude plugin list
 claude plugin install perfect-skill-suggester@ai-maestro --scope project
 
 # Commit settings
-git add .claude/settings.json
-git commit -m "Add perfect-skill-suggester plugin"
-git push
+git -C "$REPO_PATH" add .claude/settings.json
+git -C "$REPO_PATH" commit -m "Add perfect-skill-suggester plugin"
+git -C "$REPO_PATH" push
 
 # Team members: pull and restart Claude Code
 ```

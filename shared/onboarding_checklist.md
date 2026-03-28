@@ -40,11 +40,20 @@ SESSION_UUID=$(uuidgen | tr '[:upper:]' '[:lower:]' | cut -d'-' -f1)
 SESSION_NAME="${ROLE_PREFIX}${PROJECT_NAME}-${SESSION_UUID}"
 ```
 
-### Step 2: Create Handoff Document
+### Step 2: Create Agent Folder Structure
 
 ```bash
-# Create handoff in standard location
-HANDOFF_PATH="docs_dev/handoffs/handoff-${SESSION_UUID}-amcos-to-${ROLE}.md"
+# Create multi-repo agent folder structure
+AGENT_DIR="$HOME/agents/${SESSION_NAME}"
+mkdir -p "$AGENT_DIR"/{repos,reports,tmp,teams,db}
+mkdir -p "$AGENT_DIR/.claude/plugins"
+```
+
+### Step 2b: Create Handoff Document
+
+```bash
+# Create handoff in agent's reports folder (NOT in docs_dev/)
+HANDOFF_PATH="$AGENT_DIR/reports/handoff-${SESSION_UUID}-amcos-to-${ROLE}.md"
 ```
 
 ### Step 3: Register Agent in Tracking
@@ -56,12 +65,19 @@ Use the `ai-maestro-agents-management` skill to register the agent with the foll
 - **Status**: "starting"
 - **Handoff**: path to the handoff document (if applicable)
 
-### Step 4: Spawn Agent Process
+### Step 4: Clone Project Repos
+
+```bash
+# Clone project repo(s) into the agent's repos/ folder
+amp-clone-repo.sh <repo-url> "$AGENT_DIR/repos/<repo-name>"
+```
+
+### Step 5: Spawn Agent Process
 
 ```bash
 # Spawn the agent with appropriate configuration
 claude --session "${SESSION_NAME}" \
-       --project "${PROJECT_DIR}" \
+       --project "$AGENT_DIR" \
        --plugin-dir "${PLUGIN_PATH}"
 ```
 
@@ -87,7 +103,12 @@ Every spawned agent receives the following briefing message:
    - How to report blockers
    - How to signal completion
 
-4. **Constraints**
+4. **Repo Context**
+   - Target repo path: `$AGENT_DIR/repos/<repo-name>`
+   - Repo remote URL: `https://github.com/<owner>/<repo>`
+   - All git commands use `git -C "$REPO_PATH"`, all gh commands use `--repo "$OWNER/$REPO"`
+
+5. **Constraints**
    - Maximum execution time
    - Resource limits
    - Scope boundaries

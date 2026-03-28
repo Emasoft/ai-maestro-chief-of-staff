@@ -116,19 +116,22 @@ See `references/onboarding-overview-and-examples.md` for full examples.
    aimaestro-agent.sh create <architect-name> -d <project-dir> -t "Architecture design for <project>"
    ```
    Assign the `ai-maestro-architect-agent` role-plugin and the MEMBER title.
+   Ensure the agent folder has proper multi-repo structure: `~/agents/<architect-name>/repos/`, `~/agents/<architect-name>/reports/`, etc.
+   Clone project repos via `amp-clone-repo.sh <url>` into `~/agents/<architect-name>/repos/<repo-name>/`.
 
 3. **Send project requirements to the Architect:**
    ```bash
-   amp-send.sh <architect-agent> "Project Requirements" "Here are the requirements from MANAGER: <requirements summary>. Please produce a design document."
+   amp-send.sh <architect-agent> "Project Requirements" "Here are the requirements from MANAGER: <requirements summary>. Please produce a design document. Target repo: ~/agents/<architect-name>/repos/<repo-name>"
    ```
 
 4. **Wait for the Architect's design document.** Monitor inbox for the Architect's reply containing the design doc or a path to it.
 
 5. **Create the Orchestrator agent** (if not already auto-created by the team setup):
    ```bash
-   aimaestro-agent.sh create <orchestrator-name> -d <project-dir> -t "Task orchestration for <project>"
+   aimaestro-agent.sh create <orchestrator-name> -d ~/agents/<orchestrator-name> -t "Task orchestration for <project>"
    ```
-   Assign the `ai-maestro-orchestrator-agent` role-plugin and the MEMBER title.
+   Assign the `ai-maestro-orchestrator-agent` role-plugin and the **ORCHESTRATOR** title (governance v3).
+   Create multi-repo folder structure and clone project repos into `~/agents/<orchestrator-name>/repos/`.
 
 6. **Hand the Orchestrator the design document:**
    ```bash
@@ -137,8 +140,9 @@ See `references/onboarding-overview-and-examples.md` for full examples.
 
 7. **Create remaining agents as the Orchestrator requests them.** The Orchestrator will send messages via `amp-send.sh` requesting specific agent roles. For each request:
    ```bash
-   aimaestro-agent.sh create <agent-name> -d <project-dir> -t "<task description>"
+   aimaestro-agent.sh create <agent-name> -d ~/agents/<agent-name> -t "<task description>"
    ```
+   Create multi-repo folder structure (`repos/`, `reports/`, `tmp/`, `teams/`, `db/`) and clone project repos via `amp-clone-repo.sh`.
    Then onboard each new agent using PROCEDURE 1 (Execute Onboarding Checklist).
 
 8. **Report to MANAGER when the team is ready:**

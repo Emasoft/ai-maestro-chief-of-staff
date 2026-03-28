@@ -30,8 +30,6 @@ Staff planning analyzes project requirements, assesses agent capabilities, plans
 3. Check resource availability
 4. Recommend team composition
 
-### Checklist
-
 Copy this checklist and track your progress:
 
 - [ ] List all tasks and required skill types
@@ -53,33 +51,46 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Analyze requirements, list capabilities, map to agent types, identify gaps.
 
+See `references/role-assessment.md` and `references/op-assess-role-requirements.md`.
+
 ### PROCEDURE 2: Plan Agent Capacity
 
 **When/Steps:** Inventory agents, estimate task requirements, calculate allocation, identify bottlenecks.
+
+See `references/capacity-planning.md` and `references/op-plan-agent-capacity.md`.
 
 ### PROCEDURE 3: Create Staffing Templates
 
 **When/Steps:** Identify scenario, list roles, define assignments, document template.
 
+See `references/staffing-templates.md` and `references/op-create-staffing-templates.md`.
+
 ## Examples
 
 **Input:** "Plan staffing for a 3-service microservices migration project"
 
-```
-Role Assessment: Microservices Migration
-Required: 2x backend (Rust), 1x DevOps, 1x QA
-Total: 4 agents | Bottleneck: DevOps (single point)
-Recommendation: Add 1 backup DevOps agent
-```
+**Output:** "Recommended: 2 backend agents (Rust), 1 DevOps agent, 1 QA agent. Total: 4 agents. Bottleneck: DevOps (single point). Consider adding 1 backup DevOps agent."
 
-**Expected result:** Staffing plan with role mapping, capacity check, and bottleneck analysis.
+See `references/staffing-overview-and-examples.md` for full examples including role assessment, capacity planning, and template usage.
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|------------|
+| Not enough agents for roles | See `references/role-assessment.md` Section 1.7 |
+| Agent capacity exceeded | See `references/capacity-planning.md` Section 2.7 |
+| Template does not fit | See `references/staffing-templates.md` Section 3.7 |
 
 ## Resources
+
+- `references/role-assessment.md`
+- `references/capacity-planning.md`
+- `references/staffing-templates.md`
+- `references/framework-details.md`
+- `references/staffing-overview-and-examples.md`
+- `references/op-assess-role-requirements.md`
+- `references/op-plan-agent-capacity.md`
+- `references/op-create-staffing-templates.md`
 
 ---
 

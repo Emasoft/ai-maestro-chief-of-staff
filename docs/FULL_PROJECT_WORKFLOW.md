@@ -434,14 +434,16 @@ All messaging uses the **AMP (Agent Messaging Protocol)**.
 
 > **Runtime governance**: These role boundaries are a local reference. The authoritative source is the `team-governance` skill, consulted at runtime. Plugins MUST NOT hardcode governance rules, permission matrices, or role restrictions.
 
-| Role | Creates | Manages | Cannot Do |
-|------|---------|---------|-----------|
-| **AMAMA** | Projects | Approvals, user communication | Task assignment |
-| **AMCOS** | Agents, teams (own team only) | Agent lifecycle within team | Task assignment, projects, cross-team ops without GovernanceRequest |
-| **AMAA** | Designs | Architecture | Task assignment |
-| **AMOA** | Tasks, plans | Kanban, agent coordination | Agent creation, projects |
-| **AMIA** | Nothing | PR reviews, merges | Task assignment |
-| **Agents** | Code, PRs | Their assigned tasks | Everything else |
+| Role | Governance Title | Creates | Manages | Cannot Do |
+|------|-----------------|---------|---------|-----------|
+| **AMAMA** | MANAGER | Projects | Approvals, user communication | Task assignment |
+| **AMCOS** | CHIEF-OF-STAFF | Agents, teams (own team only) | Agent lifecycle within team | Task assignment, projects, cross-team ops without GovernanceRequest |
+| **AMOA** | ORCHESTRATOR | Tasks, plans | Kanban (primary), agent coordination | Agent creation, projects |
+| **AMAA** | MEMBER | Designs | Architecture | Task assignment |
+| **AMIA** | MEMBER | Nothing | PR reviews, merges | Task assignment |
+| **Agents** | MEMBER | Code, PRs | Their assigned tasks | Everything else |
+
+> **Multi-repo rule**: All git/gh commands must specify the target repo. Use `--repo "$OWNER/$REPO"` for gh, `git -C "$REPO_PATH"` for git. Agent repos live at `~/agents/<persona-name>/repos/<repo-name>/`.
 
 ---
 

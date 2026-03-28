@@ -107,15 +107,9 @@ uv run python scripts/amcos_team_registry.py update-status \
   --name ampa-svgbbox-impl --status running
 ```
 
-## Checklist
-
-Copy this checklist and track your progress:
-- [ ] Request GovernanceRequest approval before hibernate/wake
-- [ ] Confirm agent idle (hibernate) or hibernated (wake)
-- [ ] Execute via ai-maestro-agents-management skill
-- [ ] Update registry status and log event
-
 ## Resources
 
-- [hibernation-procedures](references/hibernation-procedures.md) — Hibernation and wake procedures, state snapshot format, troubleshooting
+- `references/hibernation-procedures.md`
+- `references/op-hibernate-agent.md`
+- `references/op-wake-agent.md`
 

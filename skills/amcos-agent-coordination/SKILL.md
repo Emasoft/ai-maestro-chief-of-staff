@@ -30,7 +30,15 @@ Manages team registry, messaging, role boundaries, and delegation.
 3. Verify the result and update team registry
 4. Log the operation and notify affected agents
 
+Copy this checklist and track your progress:
+- [ ] Identify registry update type (add, remove, or status change)
+- [ ] Execute registry command and verify via list
+- [ ] Send inter-agent message using FULL session name
+- [ ] Enforce role boundaries (AMCOS creates agents; AMOA assigns tasks)
+- [ ] Log operation and optionally publish update to team
+
 ### Team Registry
+
 
 Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
 
@@ -66,13 +74,14 @@ Remote ops require GovernanceRequest + ConfigOperationType. Messages route via A
 
 ### Workflow Checklists
 
-See the workflow checklists in Resources for agent lifecycle procedures.
+See `references/workflow-checklists.md` for spawn, terminate, hibernate, wake, team, and registry checklists.
 
 ## Output
 
 Registry update -> state reflected. Message -> delivery confirmed. Role assignment -> acknowledged.
 
 ## Error Handling
+
 
 | Issue | Resolution |
 |-------|-----------|
@@ -99,21 +108,9 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 # Content: { "type": "team-notification", "message": "Agent online" }
 ```
 
-## Checklist
-
-Copy this checklist and track your progress:
-- [ ] Identify registry update type (add, remove, or status change)
-- [ ] Execute registry command and verify via list
-- [ ] Send inter-agent message using FULL session name
-- [ ] Log operation and notify affected agents
-
 ## Resources
 
-- [op-update-team-registry](references/op-update-team-registry.md) — Team registry update procedures and examples
-- [workflow-checklists](references/workflow-checklists.md) — Agent lifecycle checklists
-  - 1.1 Spawning New Agent Checklist
-  - 2.1 Terminating Agent Checklist
-  - 3.1 Hibernating Agent Checklist
-  - 4.1 Waking Agent Checklist
-  - 5.1 Forming Team Checklist
-  - 6.1 Updating Team Registry Checklist
+- `references/op-update-team-registry.md`
+- `references/op-send-maestro-message.md`
+- `references/sub-agent-role-boundaries-template.md`
+- `references/workflow-checklists.md`

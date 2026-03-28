@@ -15,7 +15,7 @@ agent: ai-maestro-chief-of-staff-main-agent
 
 ## Overview
 
-Ensures agents confirm readiness before disruptive operations via ACK requests, timeout management, reminders, and timeout handling.
+The acknowledgment protocol ensures agents confirm readiness before disruptive operations proceed. Covers sending ACK requests, managing timeouts with standardized intervals, sending reminders, and handling timeout scenarios.
 
 ## Prerequisites
 
@@ -43,7 +43,9 @@ Copy this checklist and track your progress:
 - [ ] Sent reminders at defined intervals if no response received
 - [ ] Processed response (or timeout) and proceeded accordingly
 
-See op-acknowledgment-protocol in Resources for full procedure details and examples.
+See `references/acknowledgment-protocol.md` for detailed procedures.
+
+See `references/op-acknowledgment-protocol.md` for the step-by-step runbook.
 
 ### Standardized ACK Timeout Policy
 
@@ -71,34 +73,32 @@ See op-acknowledgment-protocol in Resources for full procedure details and examp
 | Issue | Resolution |
 |-------|------------|
 | ACK timeout | Send final notice, log, proceed per policy |
+| Unexpected response | See `references/acknowledgment-protocol.md` Section 3.6 |
 | Reminder not delivered | Health check agent. If offline, proceed per timeout |
 | Partial ACK (multi-agent) | Track per-agent. Proceed when all respond or all timeout |
 
 ## Examples
 
-```bash
-# Send ACK request before disruptive operation
-amp-send.sh code-impl-auth "ACK: hibernate in 60s" high \
-  '{"type":"acknowledgment-request","timeout":60}'
-```
+### Concrete Input/Output
 
-Expected: agent replies "ok" within 60s; if no reply after reminders at 15s/30s/45s, proceed with final notice.
+**Input:** Pre-op notification sent to `code-impl-auth`; ACK required before proceeding
+**Output:** ACK request delivered; agent replies `"ok"` at 12s; operation proceeds immediately
 
-## Checklist
+### Example 1: Standard Pre-Operation ACK
 
-Copy this checklist and track your progress:
-- [ ] Send ACK request via agent-messaging with correct timeout
-- [ ] Send reminders at defined intervals if no response
-- [ ] Process response or handle timeout per policy
+1. Send via `agent-messaging`: **To** `code-impl-auth`, **Priority** `high`, type `acknowledgment-request`, reply "ok" within 60s
+2. Send reminders at 15s, 30s, 45s if no reply
+3. On `"ok"`: proceed with operation
+
+### Example 2: ACK Timeout Handling
+
+After 60s with no response:
+1. Log: `WARNING: No ACK from code-impl-auth after 60s`
+2. Send final notice: type `timeout-notice`, operation will proceed
+3. Proceed with hibernate and install
 
 ## Resources
 
-- [op-acknowledgment-protocol](references/op-acknowledgment-protocol.md) — Full ACK procedure, timeout policy, examples
-  - When to Apply
-  - Prerequisites
-  - Standardized ACK Timeout Policy
-  - Procedure
-  - Checklist
-  - Examples
-  - Error Handling
-  - Related Operations
+- `references/acknowledgment-protocol.md`
+- `references/op-acknowledgment-protocol.md`
+- `references/message-response-decision-tree.md`

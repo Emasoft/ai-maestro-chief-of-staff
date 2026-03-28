@@ -42,7 +42,7 @@ When an agent is being terminated, clear all its issue assignments and return is
 ### Step 1: Find All Issues Assigned to Agent
 
 ```bash
-AGENT_ISSUES=$(gh issue list --label "assign:$AGENT_NAME" --json number --jq '.[].number')
+AGENT_ISSUES=$(gh issue list --label "assign:$AGENT_NAME" --repo "$OWNER/$REPO" --json number --jq '.[].number' --repo "$OWNER/$REPO")
 echo "Issues to clear: $AGENT_ISSUES"
 ```
 
@@ -50,7 +50,7 @@ echo "Issues to clear: $AGENT_ISSUES"
 
 ```bash
 for ISSUE in $AGENT_ISSUES; do
-  gh issue edit $ISSUE --remove-label "assign:$AGENT_NAME" --add-label "status:backlog"
+  gh issue edit $ISSUE --remove-label "assign:$AGENT_NAME" --add-label "status:backlog" --repo "$OWNER/$REPO"
   echo "Cleared assignment from issue #$ISSUE"
 done
 ```
@@ -66,7 +66,7 @@ curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT_NAME" \
 ### Step 4: Verify No Issues Remain Assigned
 
 ```bash
-gh issue list --label "assign:$AGENT_NAME"
+gh issue list --label "assign:$AGENT_NAME" --repo "$OWNER/$REPO"
 # Output should be empty
 ```
 
@@ -76,7 +76,7 @@ Add a comment to each cleared issue explaining the reassignment:
 
 ```bash
 for ISSUE in $AGENT_ISSUES; do
-  gh issue comment $ISSUE --body "Agent '$AGENT_NAME' terminated. Issue returned to backlog for reassignment."
+  gh issue comment $ISSUE --body "Agent '$AGENT_NAME' terminated. Issue returned to backlog for reassignment." --repo "$OWNER/$REPO"
 done
 ```
 
@@ -86,11 +86,11 @@ done
 
 ```bash
 # Step 1: Find all issues
-AGENT_ISSUES=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number')
+AGENT_ISSUES=$(gh issue list --label "assign:implementer-1" --repo "$OWNER/$REPO" --json number --jq '.[].number')
 
 # Step 2: Clear each issue
 for ISSUE in $AGENT_ISSUES; do
-  gh issue edit $ISSUE --remove-label "assign:implementer-1" --add-label "status:backlog"
+  gh issue edit $ISSUE --remove-label "assign:implementer-1" --add-label "status:backlog" --repo "$OWNER/$REPO"
   echo "Cleared assignment from issue #$ISSUE"
 done
 
@@ -100,7 +100,7 @@ curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
   -d '{"status": "terminated"}'
 
 # Step 4: Verify
-gh issue list --label "assign:implementer-1"
+gh issue list --label "assign:implementer-1" --repo "$OWNER/$REPO"
 # Output: (empty)
 ```
 

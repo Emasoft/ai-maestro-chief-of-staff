@@ -21,7 +21,7 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 
 - Failure classified as Transient or Recoverable via `amcos-failure-detection`
 - AI Maestro running locally
-- Recovery log at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/recovery-log.jsonl`
+- Recovery log at `$AGENT_DIR/db/agent-health/recovery-log.jsonl`
 
 ## Instructions
 
@@ -41,14 +41,18 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 | Hibernate-Wake | Suspended session | 2-5 min |
 | Resource Adjustment | Memory/disk exhaustion | 15-60 min |
 
+See `references/recovery-strategies.md` and `references/op-execute-recovery-strategy.md`.
+
+Detailed operations: `references/recovery-operations.md`.
+
 ### File Locations
 
 | Data | Location |
 |------|----------|
-| Heartbeat config | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/heartbeat-config.json` |
-| Task tracking | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/task-tracking.json` |
-| Incident log | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl` |
-| Recovery log | `$CLAUDE_PROJECT_DIR/.amcos/agent-health/recovery-log.jsonl` |
+| Heartbeat config | `$AGENT_DIR/db/agent-health/heartbeat-config.json` |
+| Task tracking | `$AGENT_DIR/db/agent-health/task-tracking.json` |
+| Incident log | `$AGENT_DIR/db/agent-health/incident-log.jsonl` |
+| Recovery log | `$AGENT_DIR/db/agent-health/recovery-log.jsonl` |
 
 ### Manager Notification Priorities
 
@@ -62,9 +66,9 @@ Execute recovery strategies for transient and recoverable agent failures. Covers
 
 ### Troubleshooting
 
-See troubleshooting in Resources
+See `references/troubleshooting.md` for full details.
 
-## Checklist
+### Recovery Execution Checklist
 
 Copy this checklist and track your progress:
 
@@ -93,24 +97,20 @@ Copy this checklist and track your progress:
 
 ## Examples
 
+See `references/examples.md` for complete scenarios.
+
 ```bash
 # Soft restart: check tmux session
 tmux has-session -t libs-svg-svgbbox 2>/dev/null && echo "exists" || echo "gone"
 ```
 
-**Expected result:** Agent session restored, heartbeat confirmed.
+- **Verify recovery**: Query the agent's status via the `ai-maestro-agents-management` skill to confirm it is back online.
 
 ## Resources
 
-- [troubleshooting](references/troubleshooting.md) — Recovery troubleshooting
-  - Agent shows online but unresponsive
-  - Cannot determine failure type
-  - Manager does not respond
-  - New replacement agent fails to register
-  - Emergency handoff deadline missed
-- [examples](references/examples.md) — Recovery scenario examples
-  - Example 1: Agent Crash Recovery
-  - Example 2: Terminal Failure with Replacement
-  - Example 3: Transient Network Failure
-  - Example 4: Emergency Handoff with Deadline
-  - Quick Reference
+- `references/recovery-strategies.md` - Recovery strategy procedures
+- `references/recovery-operations.md` - Detailed recovery operations
+- `references/op-execute-recovery-strategy.md` - Execute recovery runbook
+- `references/examples.md` - Complete recovery examples
+- `references/troubleshooting.md` - Common issues and solutions
+

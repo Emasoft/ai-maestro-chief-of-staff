@@ -53,19 +53,25 @@ Copy this checklist and track your progress:
 
 **When/Steps:** Check marketplace, verify plugin, run install, restart Claude Code, verify.
 
+See `references/plugin-installation.md` and `references/op-install-plugin-marketplace.md`.
+
 ### PROCEDURE 2: Configure Local Plugin Directory
 
 **When/Steps:** Create directory structure, add plugin.json, configure components, launch with --plugin-dir.
+
+See `references/local-configuration.md` and `references/op-configure-local-plugin.md`.
 
 ### PROCEDURE 3: Validate Plugin Installation
 
 **When/Steps:** Run validate command, check errors, verify components, test hooks.
 
+See `references/plugin-validation.md` and `references/op-validate-plugin.md`.
+
 ### PROCEDURE 4: Manage Plugins on Remote Agents
 
 **When/Steps:** Use `ai-maestro-agents-management` skill or GovernanceRequest pipeline for cross-host operations.
 
-See remote-plugin-management in Resources
+See `references/remote-plugin-management.md` and `references/op-install-plugin-remote.md`.
 
 ## Examples
 
@@ -79,30 +85,27 @@ See remote-plugin-management in Resources
 [DONE] Plugin grepika installed and validated on libs-svg-svgbbox.
 ```
 
-See plugin-overview-and-examples in Resources for more examples.
+See `references/plugin-overview-and-examples.md` for full examples.
 
 ## Error Handling
 
 | Issue | Resolution |
 |-------|------------|
+| Install fails | `references/plugin-installation.md` Sec 1.8 |
+| Plugin not loading | `references/local-configuration.md` Sec 2.7 |
+| Validation errors | `references/plugin-validation.md` Sec 3.7 |
 
 ## Resources
 
-- [remote-plugin-management](references/remote-plugin-management.md) — Remote install and update procedures
-  - 1. Overview
-  - 2. Remote Installation
-  - 3. Remote Updates
-  - 4. Troubleshooting
-- [plugin-overview-and-examples](references/plugin-overview-and-examples.md) — Plugin lifecycle, examples, checklists
-  - Plugin Lifecycle
-  - What Is Plugin Management
-  - Plugin Components
-  - Examples: Installing from Marketplace
-  - Examples: Local Plugin Development
-  - Examples: Plugin Directory Structure
-  - Examples: Plugin Validation
-  - Examples: Install Plugin on Remote Agent
-  - Examples: Restart Agent After Plugin Changes
-  - Remote Plugin Operations Table
-  - Key Takeaways
-  - Task Checklist
+- `references/plugin-installation.md`
+- `references/local-configuration.md`
+- `references/plugin-validation.md`
+- `references/remote-plugin-management.md`
+- `references/installation-procedures.md`
+- `references/plugin-overview-and-examples.md`
+- `references/op-install-plugin-marketplace.md`
+- `references/op-configure-local-plugin.md`
+- `references/op-install-plugin-remote.md`
+- `references/op-restart-agent-plugin.md`
+- `references/op-validate-plugin.md`
+

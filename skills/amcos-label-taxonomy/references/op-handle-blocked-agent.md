@@ -43,13 +43,13 @@ When an agent reports it's blocked on an issue, update the issue status and dete
 ### Step 1: Update Status to Blocked
 
 ```bash
-gh issue edit $ISSUE_NUMBER --remove-label "status:in-progress" --add-label "status:blocked"
+gh issue edit $ISSUE_NUMBER --remove-label "status:in-progress" --add-label "status:blocked" --repo "$OWNER/$REPO"
 ```
 
 ### Step 2: Add Comment Explaining Blocker
 
 ```bash
-gh issue comment $ISSUE_NUMBER --body "Agent blocked: $BLOCKER_REASON. Assigned to human for resolution."
+gh issue comment $ISSUE_NUMBER --body "Agent blocked: $BLOCKER_REASON. Assigned to human for resolution." --repo "$OWNER/$REPO"
 ```
 
 ### Step 3: Determine Escalation Level
@@ -65,7 +65,7 @@ gh issue comment $ISSUE_NUMBER --body "Agent blocked: $BLOCKER_REASON. Assigned 
 
 ```bash
 # Add human assignment while keeping original agent assigned
-gh issue edit $ISSUE_NUMBER --add-label "assign:human"
+gh issue edit $ISSUE_NUMBER --add-label "assign:human" --repo "$OWNER/$REPO"
 ```
 
 ### Step 5: Notify via AI Maestro
@@ -79,7 +79,7 @@ Use the `agent-messaging` skill to send:
 ### Step 6: Verify Labels
 
 ```bash
-gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name'
+gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name' --repo "$OWNER/$REPO"
 # Should show: assign:$AGENT_NAME, assign:human, status:blocked
 ```
 
@@ -89,16 +89,16 @@ gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name'
 
 ```bash
 # Step 1: Update status
-gh issue edit 43 --remove-label "status:in-progress" --add-label "status:blocked"
+gh issue edit 43 --remove-label "status:in-progress" --add-label "status:blocked" --repo "$OWNER/$REPO"
 
 # Step 2: Add comment
-gh issue comment 43 --body "Agent blocked: waiting for external API credentials. Assigned to human for resolution."
+gh issue comment 43 --body "Agent blocked: waiting for external API credentials. Assigned to human for resolution." --repo "$OWNER/$REPO"
 
 # Step 3: Escalate to human
-gh issue edit 43 --add-label "assign:human"
+gh issue edit 43 --add-label "assign:human" --repo "$OWNER/$REPO"
 
 # Step 4: Verify
-gh issue view 43 --json labels --jq '.labels[].name'
+gh issue view 43 --json labels --jq '.labels[].name' --repo "$OWNER/$REPO"
 # Output: assign:implementer-1, assign:human, status:blocked, priority:high
 ```
 
@@ -108,13 +108,13 @@ When the blocker is resolved:
 
 ```bash
 # Remove human assignment if added
-gh issue edit $ISSUE_NUMBER --remove-label "assign:human"
+gh issue edit $ISSUE_NUMBER --remove-label "assign:human" --repo "$OWNER/$REPO"
 
 # Update status back to in-progress or ready
-gh issue edit $ISSUE_NUMBER --remove-label "status:blocked" --add-label "status:in-progress"
+gh issue edit $ISSUE_NUMBER --remove-label "status:blocked" --add-label "status:in-progress" --repo "$OWNER/$REPO"
 
 # Comment about resolution
-gh issue comment $ISSUE_NUMBER --body "Blocker resolved. Agent can proceed."
+gh issue comment $ISSUE_NUMBER --body "Blocker resolved. Agent can proceed." --repo "$OWNER/$REPO"
 
 # Notify agent via AI Maestro
 ```

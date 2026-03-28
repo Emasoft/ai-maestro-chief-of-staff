@@ -122,7 +122,7 @@ Even when the agent cannot be recovered, some work products may be salvageable:
 | Local uncommitted changes | Agent's working directory | May be lost if disk corrupted |
 | Log files | Project `logs/` directory | Copy if host accessible |
 | Conversation history | Claude session | Lost if session terminated |
-| Task tracking files | `$CLAUDE_PROJECT_DIR/.amcos/` | Copy if accessible |
+| Task tracking files | `$AGENT_DIR/db/` | Copy if accessible |
 | Handoff documents | `thoughts/shared/handoffs/` | Likely preserved in git |
 
 ### 4.3.3 Preserving Git Commits and Logs
@@ -132,13 +132,14 @@ Even when the agent cannot be recovered, some work products may be salvageable:
 If AMCOS has SSH access to the host:
 
 ```bash
-# Attempt to get git status from failed agent's directory
-ssh USER@HOST "cd /path/to/agent/project && git log -1 --oneline" 2>/dev/null
+# Attempt to get git status from failed agent's repos
+# Use git -C to target specific repo inside the agent folder
+git -C "$AGENT_DIR/repos/<repo-name>" log -1 --oneline 2>/dev/null
 ```
 
 **Step 2: Document the last known state**
 
-Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/artifacts-AGENT_NAME.md` documenting the git state, preserved logs, and lost artifacts.
+Create an artifact inventory at `$AGENT_DIR/db/agent-health/artifacts-AGENT_NAME.md` (where `$AGENT_DIR=~/agents/<persona-name>`) documenting the git state, preserved logs, and lost artifacts.
 
 ---
 
@@ -391,7 +392,7 @@ After acknowledgment, use the `agent-messaging` skill to verify understanding:
 
 ### 4.8.1 Updating Incident Log
 
-Record the complete incident with resolution in the incident log at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/incident-log.jsonl`.
+Record the complete incident with resolution in the incident log at `$AGENT_DIR/db/agent-health/incident-log.jsonl`.
 
 ### 4.8.2 Notifying Manager of Completion
 
@@ -412,8 +413,8 @@ Move old agent's records to archive:
 
 ```bash
 # Archive old agent configuration
-mv $CLAUDE_PROJECT_DIR/.amcos/agent-health/heartbeat-config.json.backup-AGENT_NAME \
-   $CLAUDE_PROJECT_DIR/.amcos/archive/agents/
+mv $AGENT_DIR/db/agent-health/heartbeat-config.json.backup-AGENT_NAME \
+   $AGENT_DIR/db/archive/agents/
 
 # Keep incident log intact (do not archive)
 ```

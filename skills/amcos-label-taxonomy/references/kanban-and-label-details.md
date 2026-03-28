@@ -85,9 +85,9 @@ AMCOS monitors all status changes:
 Copy this checklist and track your progress:
 
 - [ ] Identify label category (assign/status/priority)
-- [ ] Check existing labels on issue with `gh issue view <number>`
+- [ ] Check existing labels on issue with `gh issue view <number> --repo "$OWNER/$REPO"`
 - [ ] Remove conflicting labels if needed
-- [ ] Apply new label via `gh issue edit --add-label`
+- [ ] Apply new label via `gh issue edit --add-label --repo "$OWNER/$REPO"`
 - [ ] Verify label appears correctly
 - [ ] Update team registry via AI Maestro REST API if agent assignment changed
 

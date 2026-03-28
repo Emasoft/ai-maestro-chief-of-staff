@@ -156,8 +156,8 @@ EOF
 1. **Cache current state**:
    ```bash
    mkdir -p .claude/cache/github
-   gh issue list --json number,title,state,labels > .claude/cache/github/issues.json
-   gh pr list --json number,title,state > .claude/cache/github/prs.json
+   gh issue list --json number,title,state,labels --repo "$OWNER/$REPO" > .claude/cache/github/issues.json
+   gh pr list --json number,title,state --repo "$OWNER/$REPO" > .claude/cache/github/prs.json
    echo "$(date -Iseconds)" > .claude/cache/github/cached_at
    ```
 
