@@ -5,6 +5,8 @@ role = "chief-of-staff"
 main_agent = "ai-maestro-chief-of-staff-main-agent"
 model = "opus"
 prefix = "amcos-"
+compatible-titles = ["CHIEF-OF-STAFF"]
+compatible-clients = ["claude-code"]
 
 [agent.persona]
 title = "Chief of Staff"
