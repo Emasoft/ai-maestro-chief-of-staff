@@ -9,6 +9,8 @@ skills:
   - amcos-skill-management
 ---
 
+> **AMP Communication Restriction:** This is a sub-agent. You MUST NOT send AMP messages (`amp-send`, `amp-reply`, `amp-inbox`). Only the main agent can communicate with other agents. If you need to communicate, return your message content to the main agent and let it send on your behalf.
+
 # Skill Validator Agent
 **TEAM-SCOPED**: Operates only within the team managed by the Chief of Staff. No visibility into other teams.
 
