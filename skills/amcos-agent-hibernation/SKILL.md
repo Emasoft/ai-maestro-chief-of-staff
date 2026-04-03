@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-hibernation
-description: Use when hibernating idle agents or waking hibernated agents. Trigger with hibernate, wake, or resource pressure events.
+description: Use when hibernating idle agents or waking hibernated agents. Trigger with hibernate, wake, or resource pressure events. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

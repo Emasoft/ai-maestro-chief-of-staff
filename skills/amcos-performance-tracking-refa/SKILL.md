@@ -1,6 +1,6 @@
 ---
 name: amcos-performance-tracking-refa
-description: Use when consulting detailed performance tracking references. Trigger with performance tracking lookups.
+description: Use when consulting detailed performance tracking references. Trigger with performance tracking lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

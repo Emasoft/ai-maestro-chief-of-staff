@@ -1,6 +1,6 @@
 ---
 name: amcos-failure-notification-refa
-description: Use when consulting detailed failure notification references. Trigger with failure notification lookups.
+description: Use when consulting detailed failure notification references. Trigger with failure notification lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-termination
-description: Use when terminating agents or performing clean shutdown. Trigger with agent termination or stop requests.
+description: Use when terminating agents or performing clean shutdown. Trigger with agent termination or stop requests. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

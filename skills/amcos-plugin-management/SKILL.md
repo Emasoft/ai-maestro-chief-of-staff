@@ -1,6 +1,6 @@
 ---
 name: amcos-plugin-management
-description: Use when installing, configuring, or validating Claude Code plugins. Trigger with plugin management requests.
+description: Use when installing, configuring, or validating Claude Code plugins. Trigger with plugin management requests. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires Claude Code CLI, plugin directories, and AI Maestro.

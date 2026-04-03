@@ -1,6 +1,6 @@
 ---
 name: amcos-onboarding-refb
-description: Use when consulting detailed onboarding references. Trigger with onboarding lookups.
+description: Use when consulting detailed onboarding references. Trigger with onboarding lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

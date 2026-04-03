@@ -1,6 +1,6 @@
 ---
 name: amcos-context-management
-description: Use when managing context or patterns. Trigger with context update or compaction needs.
+description: Use when managing context or patterns. Trigger with context update or compaction needs. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires file system access to design/memory/ directory. Requires AI Maestro installed.

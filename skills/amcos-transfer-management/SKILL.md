@@ -1,6 +1,6 @@
 ---
 name: amcos-transfer-management
-description: Use when an agent needs to be transferred between teams. Trigger with transfer requests, transfer approvals, or transfer status checks.
+description: Use when an agent needs to be transferred between teams. Trigger with transfer requests, transfer approvals, or transfer status checks. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: "AI Maestro v0.26.0+"

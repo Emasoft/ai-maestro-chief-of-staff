@@ -1,6 +1,6 @@
 ---
 name: amcos-failure-detection-ref
-description: Use when consulting detailed failure detection references. Trigger with failure detection lookups.
+description: Use when consulting detailed failure detection references. Trigger with failure detection lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

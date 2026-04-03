@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-spawning-ref
-description: Use when consulting detailed agent spawning references. Trigger with agent spawning lookups.
+description: Use when consulting detailed agent spawning references. Trigger with agent spawning lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

@@ -1,6 +1,6 @@
 ---
 name: amcos-performance-tracking
-description: Use when tracking team performance or generating reports. Trigger with metrics collection or performance analysis requests.
+description: Use when tracking team performance or generating reports. Trigger with metrics collection or performance analysis requests. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro (agent metrics, session memory, reporting).

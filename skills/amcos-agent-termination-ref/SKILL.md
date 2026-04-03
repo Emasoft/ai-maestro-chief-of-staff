@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-termination-ref
-description: Use when consulting detailed agent termination references. Trigger with agent termination lookups.
+description: Use when consulting detailed agent termination references. Trigger with agent termination lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

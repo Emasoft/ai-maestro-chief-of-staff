@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-replacement
-description: Use when replacing a failed agent with a new instance. Trigger with agent replacement or failover events.
+description: Use when replacing a failed agent with a new instance. Trigger with agent replacement or failover events. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

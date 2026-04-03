@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-replacement-ref
-description: Use when consulting detailed agent replacement references. Trigger with agent replacement lookups.
+description: Use when consulting detailed agent replacement references. Trigger with agent replacement lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

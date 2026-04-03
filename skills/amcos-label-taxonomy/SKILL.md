@@ -1,6 +1,6 @@
 ---
 name: amcos-label-taxonomy
-description: Use when applying or checking GitHub labels for agent assignment and status tracking. Trigger with label management or taxonomy lookup requests.
+description: Use when applying or checking GitHub labels for agent assignment and status tracking. Trigger with label management or taxonomy lookup requests. Loaded by ai-maestro-chief-of-staff-main-agent
 context: fork
 agent: ai-maestro-chief-of-staff-main-agent
 user-invocable: false

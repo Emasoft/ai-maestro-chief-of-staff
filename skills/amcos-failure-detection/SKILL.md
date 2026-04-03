@@ -1,6 +1,6 @@
 ---
 name: amcos-failure-detection
-description: Use when detecting or classifying agent failures. Trigger with health check failures, heartbeat timeouts, or error events.
+description: Use when detecting or classifying agent failures. Trigger with health check failures, heartbeat timeouts, or error events. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

@@ -1,6 +1,6 @@
 ---
 name: amcos-config-snapshot-ref
-description: Use when consulting detailed config snapshot references. Trigger with config snapshot lookups.
+description: Use when consulting detailed config snapshot references. Trigger with config snapshot lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

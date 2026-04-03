@@ -1,6 +1,6 @@
 ---
 name: amcos-pre-op-notification
-description: Use when notifying agents about upcoming operations before execution. Trigger with pre-operation notification or pre-flight alert needs.
+description: Use when notifying agents about upcoming operations before execution. Trigger with pre-operation notification or pre-flight alert needs. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires access to AI Maestro messaging system. Requires AI Maestro installed.

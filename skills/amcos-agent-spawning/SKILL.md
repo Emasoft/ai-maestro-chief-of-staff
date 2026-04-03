@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-spawning
-description: Use when creating new agents. Trigger with agent spawn requests, pre-flight validation, or new agent creation.
+description: Use when creating new agents. Trigger with agent spawn requests, pre-flight validation, or new agent creation. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

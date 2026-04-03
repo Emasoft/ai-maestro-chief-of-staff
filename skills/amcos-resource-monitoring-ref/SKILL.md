@@ -1,6 +1,6 @@
 ---
 name: amcos-resource-monitoring-ref
-description: Use when consulting detailed resource monitoring references. Trigger with resource monitoring lookups.
+description: Use when consulting detailed resource monitoring references. Trigger with resource monitoring lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

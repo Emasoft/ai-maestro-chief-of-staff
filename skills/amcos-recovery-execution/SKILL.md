@@ -1,6 +1,6 @@
 ---
 name: amcos-recovery-execution
-description: Use when executing recovery strategies after failure classification. Trigger with recovery plan execution or strategy selection.
+description: Use when executing recovery strategies after failure classification. Trigger with recovery plan execution or strategy selection. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

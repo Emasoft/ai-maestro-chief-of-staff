@@ -1,6 +1,6 @@
 ---
 name: amcos-acknowledgment-protocol
-description: Use when requesting or processing agent acknowledgments before proceeding with operations. Trigger with acknowledgment requests or ACK timeout handling.
+description: Use when requesting or processing agent acknowledgments before proceeding with operations. Trigger with acknowledgment requests or ACK timeout handling. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires access to AI Maestro messaging system. Requires AI Maestro installed.

@@ -1,6 +1,6 @@
 ---
 name: amcos-staff-planning
-description: Use when analyzing staffing needs, assessing role requirements, planning agent capacity, or creating staffing templates for multi-agent orchestration. Trigger with team sizing or staffing requests.
+description: Use when analyzing staffing needs, assessing role requirements, planning agent capacity, or creating staffing templates for multi-agent orchestration. Trigger with team sizing or staffing requests. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires access to agent registry, project configuration files, and understanding of agent capabilities and workload patterns. Requires AI Maestro installed.

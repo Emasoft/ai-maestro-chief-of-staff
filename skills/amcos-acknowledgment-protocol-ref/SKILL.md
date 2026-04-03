@@ -1,6 +1,6 @@
 ---
 name: amcos-acknowledgment-protocol-ref
-description: Use when consulting detailed acknowledgment protocol references. Trigger with acknowledgment protocol lookups.
+description: Use when consulting detailed acknowledgment protocol references. Trigger with acknowledgment protocol lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

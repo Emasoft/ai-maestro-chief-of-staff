@@ -1,6 +1,6 @@
 ---
 name: amcos-resource-monitoring
-description: Use when monitoring system resources or managing capacity. Trigger with resource checks, alerts, or instance limit queries.
+description: Use when monitoring system resources or managing capacity. Trigger with resource checks, alerts, or instance limit queries. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires system access, AI Maestro installed, alerting capabilities.

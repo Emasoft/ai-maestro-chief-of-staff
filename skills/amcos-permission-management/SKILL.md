@@ -1,6 +1,6 @@
 ---
 name: amcos-permission-management
-description: Use when requesting GovernanceRequest approval for agent lifecycle ops. Trigger with permission requests for spawn, terminate, hibernate, wake, or plugin install.
+description: Use when requesting GovernanceRequest approval for agent lifecycle ops. Trigger with permission requests for spawn, terminate, hibernate, wake, or plugin install. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro messaging system and GovernanceRequest API (v1).

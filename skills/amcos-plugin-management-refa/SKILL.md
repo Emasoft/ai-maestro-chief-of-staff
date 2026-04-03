@@ -1,6 +1,6 @@
 ---
 name: amcos-plugin-management-refa
-description: Use when consulting detailed plugin management references. Trigger with plugin management lookups.
+description: Use when consulting detailed plugin management references. Trigger with plugin management lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

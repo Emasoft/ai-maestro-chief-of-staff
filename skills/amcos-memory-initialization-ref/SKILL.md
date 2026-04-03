@@ -1,6 +1,6 @@
 ---
 name: amcos-memory-initialization-ref
-description: Use when consulting detailed memory initialization references. Trigger with memory initialization lookups.
+description: Use when consulting detailed memory initialization references. Trigger with memory initialization lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

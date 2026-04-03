@@ -1,6 +1,6 @@
 ---
 name: amcos-failure-notification
-description: Use when sending failure notifications after operation errors. Trigger with failure events, error reporting, or incident notification.
+description: Use when sending failure notifications after operation errors. Trigger with failure events, error reporting, or incident notification. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires access to AI Maestro messaging system. Requires AI Maestro installed.

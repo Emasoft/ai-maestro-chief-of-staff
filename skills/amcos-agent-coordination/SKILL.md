@@ -1,6 +1,6 @@
 ---
 name: amcos-agent-coordination
-description: Use when managing team registry, inter-agent messaging, role boundaries, or sub-agent delegation. Trigger with team coordination tasks.
+description: Use when managing team registry, inter-agent messaging, role boundaries, or sub-agent delegation. Trigger with team coordination tasks. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

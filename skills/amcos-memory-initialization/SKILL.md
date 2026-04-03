@@ -1,6 +1,6 @@
 ---
 name: amcos-memory-initialization
-description: Use when initializing session memory. Trigger with new sessions or recovery.
+description: Use when initializing session memory. Trigger with new sessions or recovery. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires file system access to design/memory/ directory. Requires AI Maestro installed.

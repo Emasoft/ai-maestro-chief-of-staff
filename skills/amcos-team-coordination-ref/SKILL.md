@@ -1,6 +1,6 @@
 ---
 name: amcos-team-coordination-ref
-description: Use when consulting detailed team coordination references. Trigger with team coordination lookups.
+description: Use when consulting detailed team coordination references. Trigger with team coordination lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

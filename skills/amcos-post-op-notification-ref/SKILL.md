@@ -1,6 +1,6 @@
 ---
 name: amcos-post-op-notification-ref
-description: Use when consulting detailed post op notification references. Trigger with post op notification lookups.
+description: Use when consulting detailed post op notification references. Trigger with post op notification lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

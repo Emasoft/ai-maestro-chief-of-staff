@@ -1,6 +1,6 @@
 ---
 name: amcos-transfer-management-ref
-description: Use when consulting detailed transfer management references. Trigger with transfer management lookups.
+description: Use when consulting detailed transfer management references. Trigger with transfer management lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

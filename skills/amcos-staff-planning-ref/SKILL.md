@@ -1,6 +1,6 @@
 ---
 name: amcos-staff-planning-ref
-description: Use when consulting detailed staff planning references. Trigger with staff planning lookups.
+description: Use when consulting detailed staff planning references. Trigger with staff planning lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

@@ -1,6 +1,6 @@
 ---
 name: amcos-recovery-execution-ref
-description: Use when consulting detailed recovery execution references. Trigger with recovery execution lookups.
+description: Use when consulting detailed recovery execution references. Trigger with recovery execution lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

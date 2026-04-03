@@ -1,6 +1,6 @@
 ---
 name: amcos-skill-management-ref
-description: Use when consulting detailed skill management references. Trigger with skill management lookups.
+description: Use when consulting detailed skill management references. Trigger with skill management lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

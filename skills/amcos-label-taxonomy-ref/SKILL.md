@@ -1,6 +1,6 @@
 ---
 name: amcos-label-taxonomy-ref
-description: Use when consulting detailed label taxonomy references. Trigger with label taxonomy lookups.
+description: Use when consulting detailed label taxonomy references. Trigger with label taxonomy lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

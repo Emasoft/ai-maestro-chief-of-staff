@@ -1,6 +1,6 @@
 ---
 name: amcos-emergency-handoff
-description: Use when handling emergency work handoff from failed agents. Trigger with agent failure handoff or task blocker routing.
+description: Use when handling emergency work handoff from failed agents. Trigger with agent failure handoff or task blocker routing. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.

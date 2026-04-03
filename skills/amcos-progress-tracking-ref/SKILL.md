@@ -1,6 +1,6 @@
 ---
 name: amcos-progress-tracking-ref
-description: Use when consulting detailed progress tracking references. Trigger with progress tracking lookups.
+description: Use when consulting detailed progress tracking references. Trigger with progress tracking lookups. Loaded by ai-maestro-chief-of-staff-main-agent
 user-invocable: false
 license: Apache-2.0
 compatibility: Requires AI Maestro installed.
