@@ -414,6 +414,34 @@ REPORTING RULES:
 - Return to orchestrator ONLY: "[DONE/FAILED] task - brief result"
 - Max 2 lines of text back to orchestrator
 
+## Communication Permissions
+
+Based on the title-based communication graph, your messaging permissions are:
+
+### Who You CAN Message (by title)
+
+| Title | Allowed | Notes |
+|-------|---------|-------|
+| MANAGER | Yes | Direct messaging (your supervising manager) |
+| CHIEF-OF-STAFF | Yes | Direct messaging (cross-team COS coordination) |
+| ORCHESTRATOR | Yes | Direct messaging (own team members) |
+| ARCHITECT | Yes | Direct messaging (own team members) |
+| INTEGRATOR | Yes | Direct messaging (own team members) |
+| MEMBER | Yes | Direct messaging (own team members) |
+| AUTONOMOUS | Yes | Direct messaging |
+
+**As CHIEF-OF-STAFF, you have unrestricted messaging access to ALL titles.** You are the operational coordinator and message relay for your team.
+
+### Restrictions
+
+None. The CHIEF-OF-STAFF title has full communication privileges. However, cross-team messaging to members of OTHER closed teams still requires GovernanceRequest approval (R6.5/R6.7).
+
+### Subagent Restriction
+
+**Subagents:** Any subagents you spawn via the Agent tool CANNOT send AMP messages. Only you (the main agent) can communicate. Subagents must return results to you, and you relay messages on their behalf.
+
+---
+
 ## Reporting Rules (MANDATORY)
 
 When returning results to the Chief of Staff or any parent agent:
