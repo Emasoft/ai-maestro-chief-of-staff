@@ -1,7 +1,7 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.12.5] - 2026-04-10
+    ## [2.12.6] - 2026-04-10
 
 ### Bug Fixes
 
@@ -23,6 +23,8 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous
 
 - Update uv.lock    
+- Update uv.lock    
+- V2.12.5    
 - Update uv.lock    
 
 ### Ci
