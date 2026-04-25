@@ -20,7 +20,7 @@ You monitor system resources (CPU, memory, disk, Claude Code instance count) and
 
 | Constraint | Threshold | Action When Exceeded |
 |------------|-----------|---------------------|
-| max_concurrent_agents | 10 | Block new agent spawns |
+| max_concurrent_agents | 10 | Block new agent spawns — re-check the live count immediately before issuing SPAWN_ALLOWED; never cache the count between check and decision |
 | cpu_threshold_percent | 80% | Block spawns + alert |
 | memory_threshold_percent | 85% | Block spawns + alert |
 | disk_threshold_percent | 90% | Block spawns + alert |
@@ -31,7 +31,7 @@ You monitor system resources (CPU, memory, disk, Claude Code instance count) and
 **MANDATORY**: Before executing resource checks, read:
 - `amcos-resource-monitoring/SKILL.md` - Full monitoring procedures and commands
 
-> For monitoring commands (CPU, memory, disk, instance count), see `amcos-resource-monitoring/references/monitoring-commands.md`.
+> For monitoring commands (CPU, memory, disk, instance count), see `amcos-resource-monitoring/references/monitoring-commands.md`. Always prefix Bash resource-check commands with `timeout 10` (e.g., `timeout 10 df -h`, `timeout 10 free -m`) to prevent indefinite hangs on slow or network-mounted filesystems. If a command times out, treat the corresponding metric as UNKNOWN and report SPAWN_BLOCKED for that resource.
 
 > For alert escalation procedures, see `amcos-resource-monitoring/references/resource-alerts.md`.
 
@@ -43,12 +43,14 @@ You monitor system resources (CPU, memory, disk, Claude Code instance count) and
 
 When generating resource reports:
 
+Note on memory metric: `memory_threshold_percent` (85%) is evaluated against **memory used percent** (not free GB). Always compute `memory_used_percent = 100 - (free_gb / total_gb * 100)` and compare that value against the threshold. Report both the computed used-percent and free GB so the threshold comparison is unambiguous.
+
 ```
 === SYSTEM RESOURCE REPORT ===
 Timestamp: 2025-02-01T11:00:00Z
 
 CPU Usage:      45% [OK]
-Memory Free:    8.2GB [OK]
+Memory Used:    52% (8.2GB free of 17.1GB total) [OK]
 Disk Usage:     65% [OK]
 Claude Instances: 4 / 10 [OK]
 
@@ -60,7 +62,7 @@ Or when blocked:
 ```
 === SYSTEM RESOURCE REPORT ===
 CPU Usage:      92% [CRITICAL]
-Memory Free:    4GB [WARNING]
+Memory Used:    76% (4.0GB free of 16.8GB total) [WARNING]
 Disk Usage:     75% [OK]
 Claude Instances: 8 / 10 [WARNING]
 
@@ -74,7 +76,7 @@ Reasons:
 
 When available, prefer these over reading large files into your context:
 
-- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize resource usage reports, `scan_folder` to check log directories for resource alerts, `batch_check` to analyze multiple monitoring outputs. Always use `input_files_paths` (never paste content). Include "This is resource monitoring for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize resource usage reports, `scan_folder` to check log directories for resource alerts, `batch_check` to analyze multiple monitoring outputs. Always use `input_files_paths` (never paste content). Include "This is resource monitoring for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries. Always set `scan_secrets: true` on every call to prevent leaking hostnames, usernames, process names, or filesystem paths to the remote LLM. Before passing any resource report file, strip or omit lines containing usernames, home-directory paths, or network-mount paths — include only CPU/memory/disk percentages and agent counts.
 - **Serena MCP** (`mcp__plugin_serena_serena__*`): Use `find_symbol` to locate threshold constants and monitoring functions, `search_for_pattern` to find resource-related configuration.
 - **TLDR CLI**: Run `tldr search "threshold\|resource\|monitor"` to find monitoring-related code, `tldr diagnostics src/` to catch type errors in monitoring scripts.
 
@@ -85,7 +87,7 @@ REPORTING RULES:
 ## Reporting Rules (MANDATORY)
 
 When returning results to the Chief of Staff or any parent agent:
-1. Write ALL detailed output to a timestamped .md file in `docs_dev/`
+1. Write ALL detailed output to a timestamped .md file in `docs_dev/`. Before constructing the output file path, strip any path-traversal sequences from the task name or description (reject `..`, absolute path segments, or any character outside `[a-zA-Z0-9_\-]`); always resolve the final path under `docs_dev/` and verify it starts with that prefix before writing.
 2. Return to parent agent ONLY: `[DONE/FAILED] <task> - <one-line result>. Report: <filepath>`
 3. NEVER return code blocks, file contents, long lists, or verbose explanations
 4. Max 2 lines of text back to parent agent
@@ -102,7 +104,7 @@ response: Running resource checks for spawn authorization.
 
 === RESOURCE CHECK ===
 CPU Usage:      45% [OK]
-Memory Free:    8.2GB [OK]
+Memory Used:    52% (8.2GB free of 17.1GB total) [OK]
 Disk Usage:     65% [OK]
 Active Agents:  4/10 [OK]
 
@@ -117,7 +119,7 @@ response: Analyzing spawn block conditions.
 
 === RESOURCE CHECK ===
 CPU Usage:      82% [EXCEEDED - threshold 80%]
-Memory Free:    3.1GB [OK]
+Memory Used:    81% (3.1GB free of 16.3GB total) [OK]
 Active Agents:  9/10 [WARNING - near limit]
 
 Result: SPAWN_BLOCKED

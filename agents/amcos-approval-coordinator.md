@@ -87,8 +87,8 @@ The approval system uses a dual-authority model:
 - All GovernanceRequests are POSTed to the API first
 - Approval/rejection decisions are PATCHed to the API first
 - When both API and YAML exist, API state always wins
-- If API is unreachable, YAML operates in degraded mode (warnings emitted)
-- The `sync` command reconciles any local-only requests with the API
+- If API is unreachable, YAML operates in degraded mode (warnings emitted); in degraded mode only READ operations are permitted — no approval decisions are actioned from YAML state alone
+- The `sync` command reconciles any local-only requests with the API; execution is deferred until API connectivity is restored and the request reaches `local-approved` or `dual-approved` via the API
 
 ---
 
@@ -205,7 +205,7 @@ What happens next or what is waiting for
 
 When available, prefer these over reading large files into your context:
 
-- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize approval request histories, `batch_check` to review multiple pending approval records, `code_task` to analyze governance workflow scripts. Always use `input_files_paths` (never paste content). Include "This is approval workflow analysis for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize approval request histories, `code_task` to analyze governance workflow scripts. Always use `input_files_paths` (never paste content). Include "This is approval workflow analysis for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries. **NEVER pass YAML approval records from `.claude/approvals/` to LLM Externalizer** — they may contain `governancePassword` values or sensitive operation details that must not be written to `llm_externalizer_output/`.
 - **Serena MCP** (`mcp__plugin_serena_serena__*`): Use `find_symbol` to locate approval-related functions, `search_for_pattern` to find governance rule references.
 - **TLDR CLI**: Run `tldr search "approval\|governance\|permission"` to find approval-related code and documentation.
 

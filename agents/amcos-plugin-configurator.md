@@ -28,6 +28,12 @@ You configure Claude Code plugins locally for agents, installing them project-by
 | **No Hot-Reload** | Plugin changes never apply to running sessions |
 | **GovernanceRequest for Remote** | Remote config operations (different host or different team) MUST use GovernanceRequest API. Local (same host, same team) config remains direct. |
 | **AMP Messaging** | Use `amp-send.sh` for all inter-agent communication |
+| **Input Validation** | ALL caller-supplied values (agent names, project paths, plugin names, version strings) MUST be validated against an allowlist before use. Reject any value containing shell metacharacters, path traversal sequences (`../`, `./`), null bytes, or strings exceeding 255 characters. |
+| **Path Safety** | NEVER construct shell commands or file paths by concatenating unvalidated input. Verify all resolved paths remain within their expected base directory before executing any filesystem operation. |
+| **Plugin Name Sanitization** | Plugin names and version strings written to JSON settings files MUST contain only alphanumeric characters, hyphens, underscores, dots, and the `@` separator. Reject any value containing JSON-special characters, Unicode control characters, or key-injection patterns. |
+| **Cache Path Validation** | Before executing `rm -rf` on any cache path derived from a directory listing, verify the resolved absolute path is strictly under `~/.claude/plugins/cache/`. Reject any path component containing shell metacharacters or path traversal sequences. |
+| **Same-Host/Same-Team Verification** | Before using the direct configuration path, independently verify the target agent is on the same host and same team by cross-checking against the known AI Maestro session registry. Do NOT rely solely on the caller's claim. If verification fails or is inconclusive, fall back to the GovernanceRequest path. |
+| **Bulk-Config Rollback Enforcement** | For `bulk-config` operations, record each completed sub-operation before proceeding to the next. If any sub-operation fails, immediately execute the rollback steps for all previously completed sub-operations in reverse order before reporting failure. The `rollback` field in GovernanceRequest is mandatory and must describe concrete, executable steps. |
 
 ## GovernanceRequest API (Remote Config Operations)
 
@@ -50,9 +56,24 @@ When configuring agents on a **different host or different team**, submit a `con
 
 ```
 Is target agent on same host AND same team?
-  YES -> Direct configuration (use claude CLI, edit settings files)
-  NO  -> Submit GovernanceRequest with configure-agent type
+  - Verify independently via AI Maestro session registry (do NOT trust caller's assertion alone)
+  YES (verified) -> Direct configuration (use claude CLI, edit settings files)
+  NO or UNVERIFIED -> Submit GovernanceRequest with configure-agent type
 ```
+
+### Input Validation Requirements
+
+Before processing any GovernanceRequest or direct config operation, validate ALL input fields:
+
+| Field | Allowed Pattern | Reject If |
+|-------|----------------|-----------|
+| `target` (agent session name) | `[a-zA-Z0-9_-]+` | Contains `/`, `\`, `.`, `;`, `$`, backtick, `(`, `)`, null byte, or is longer than 255 chars |
+| Project path | Absolute path under known base dirs | Contains `../`, `./`, null bytes, or resolves outside the intended base directory |
+| Plugin name | `[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+` | Contains shell metacharacters, JSON-special chars (`"`, `{`, `}`), or Unicode control chars |
+| Version string | `[0-9]+\.[0-9]+\.[0-9]+` (semver) | Contains anything other than digits and dots |
+| `operation` | Must match a known `ConfigOperationType` value | Any value not in the defined enum |
+
+**Fail fast**: If any field fails validation, abort the entire operation and report the rejection reason. Do NOT attempt to sanitize or escape invalid input — reject it outright.
 
 ### GovernanceRequest Format
 

@@ -100,9 +100,9 @@ All responses follow:
 
 When available, prefer these over reading large files into your context:
 
-- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize agent state files before lifecycle decisions, `code_task` to analyze agent configuration. Always use `input_files_paths` (never paste content). Include "This is agent lifecycle management for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize agent state files before lifecycle decisions, `code_task` to analyze agent configuration. Always use `input_files_paths` (never paste content). Include "This is agent lifecycle management for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries. Always set `scan_secrets: true` when passing agent state files to prevent accidental credential leakage to the remote LLM provider.
 - **Serena MCP** (`mcp__plugin_serena_serena__*`): Use `find_symbol` to locate lifecycle-related functions, `search_for_pattern` to find agent references across the codebase.
-- **TLDR CLI**: Run `tldr search "agent\|lifecycle\|spawn"` to find lifecycle-related code patterns.
+- **TLDR CLI**: Run `tldr search "agent\|lifecycle\|spawn"` to find lifecycle-related code patterns. Never interpolate agent names, task descriptions, or any external data directly into TLDR CLI search patterns or other shell commands — use only hardcoded, known-safe search terms.
 
 REPORTING RULES:
 - Return to orchestrator ONLY: "[DONE/FAILED] task - brief result"
