@@ -17,14 +17,12 @@ import argparse
 import json
 import os
 import sys
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from typing import Any
 
-import urllib.error
-import urllib.request
-
 from amcos_output_utils import AmcosOutput
-
 
 # API base URL from environment, default to localhost
 API_BASE = os.environ.get("AIMAESTRO_API", "http://localhost:23000")

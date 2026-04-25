@@ -22,12 +22,11 @@ import argparse
 import json
 import shutil
 import sys
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
 from amcos_output_utils import AmcosOutput
-
 
 # ---------------------------------------------------------------------------
 # Constants

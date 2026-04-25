@@ -29,7 +29,6 @@ from typing import Any
 
 from amcos_output_utils import AmcosOutput
 
-
 # Resource thresholds (percentage)
 CPU_THRESHOLD = 80
 MEMORY_THRESHOLD = 85

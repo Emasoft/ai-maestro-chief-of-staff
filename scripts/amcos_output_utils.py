@@ -29,7 +29,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-
 # ANSI escape code pattern for stripping terminal colors from log output
 _ANSI_RE = re.compile(r"\x1b\[[0-9;]*[a-zA-Z]")
 

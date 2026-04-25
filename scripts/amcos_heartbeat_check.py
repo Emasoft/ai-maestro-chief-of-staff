@@ -31,7 +31,6 @@ from typing import Any
 
 from amcos_output_utils import AmcosOutput
 
-
 # Heartbeat timeout in seconds (5 minutes)
 HEARTBEAT_TIMEOUT = 300
 

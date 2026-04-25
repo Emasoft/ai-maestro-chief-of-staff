@@ -16,8 +16,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from amcos_output_utils import AmcosOutput
-
 from amcos_memory_operations import (
     add_decision,
     add_pattern,
@@ -34,6 +32,7 @@ from amcos_memory_operations import (
     set_focus,
     write_file_safely,
 )
+from amcos_output_utils import AmcosOutput
 
 
 @dataclass

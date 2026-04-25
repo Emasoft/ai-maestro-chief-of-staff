@@ -30,7 +30,6 @@ import sys
 
 from amcos_output_utils import AmcosOutput
 
-
 # Resource thresholds for spawning new agents
 THRESHOLDS = {
     "max_cpu_percent": 80.0,
