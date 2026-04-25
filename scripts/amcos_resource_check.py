@@ -271,5 +271,10 @@ def main() -> int:
     return 0
 
 
+def _cli() -> None:
+    """Entrypoint wrapper so the exit call lives inside a function, not at module scope."""
+    raise SystemExit(main())
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    _cli()
