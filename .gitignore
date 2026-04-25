@@ -59,3 +59,13 @@ Cargo.lock
 
 # git-cliff scratch — ephemeral release notes between bump and push
 .git-cliff-release-notes.md
+
+# rechecker plugin scratch (per-session worktree state, not published)
+.rechecker/
+
+# LLM Externalizer scan output (default per-project response cache)
+llm_externalizer_output/
+
+# tldr CLI cache and session state (.tldrignore is a tracked config file — do NOT ignore)
+.tldr/
+.tldr_session_*
