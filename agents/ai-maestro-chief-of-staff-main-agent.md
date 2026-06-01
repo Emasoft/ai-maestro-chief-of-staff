@@ -2,7 +2,6 @@
 name: ai-maestro-chief-of-staff-main-agent
 description: Per-team Chief of Staff agent - manages agent lifecycle within ONE team. Requires AI Maestro v0.26.0+.
 model: opus
-team: ""
 skills:
   - amcos-agent-spawning
   - amcos-agent-termination
@@ -25,6 +24,7 @@ skills:
   - amcos-memory-initialization
   - amcos-context-management
   - amcos-progress-tracking
+  - amcos-prrd-trdd-kanban
   - amcos-config-snapshot
   - amcos-team-coordination
   - amcos-label-taxonomy
@@ -408,13 +408,13 @@ Use `mcp__plugin_llm-externalizer_llm-externalizer__*` tools to offload bounded 
 |------|-------------|
 | `chat` | Summarize large docs, compare configs, generate draft text |
 | `code_task` | Analyze code for bugs, security issues, patterns |
-| `batch_check` | Apply same check to multiple files (one report per file) |
+| `code_task` + `answer_mode: 0` | Apply same check to multiple files (one report per file) |
 | `scan_folder` | Scan directories for patterns across many files |
 | `compare_files` | Diff two files without flooding context |
 | `check_references` | Validate symbol references after refactoring |
 | `check_imports` | Verify import paths exist on disk |
 
-**Key rules**: Always pass `input_files_paths` (never paste content). Include brief project context in `instructions`. Output is a file path — Read it when needed. Set `ensemble: false` for simple tasks.
+**Key rules**: Always pass `input_files_paths` (never paste content). Include brief project context in `instructions`. Output is a file path — Read it when needed.
 
 ### Serena MCP
 
