@@ -9,138 +9,89 @@ metadata:
 
 ## Overview
 
-This is the CHIEF-OF-STAFF's role-specific layer of the PRRD / TRDD /
-Kanban model. For universal mechanics, see `prrd-trdd-kanban` in
-`ai-maestro-plugin`.
+The CHIEF-OF-STAFF is the team GATEKEEPER — a two-tier filter, NOT an
+unfiltered relay. Governance R6 forces every team-internal agent (ORCH,
+ARCH, INT, MEMBER) to write ONLY to its COS; the COS then classifies each
+request as COS-AUTONOMOUS (decide within the team, nothing upstream) or
+COS-ESCALATE (forward ONE consolidated approval-request to MANAGER).
+Forwarding everything would overload the MANAGER and nullify the COS.
+COS owns NO kanban columns. For universal mechanics and the FULL tier
+tables / unifying principle / consolidation rule / escalation format, see
+the `prrd-trdd-kanban` skill in `ai-maestro-plugin` and its bundled
+`cos-delegation-authority.md`.
 
-## COS is a GATEKEEPER, not an unfiltered relay (two-tier filter)
+## Prerequisites
 
-**This is the COS's reason to exist.** Governance R6 forces every
-team-internal agent (ORCH, ARCH, INT, MEMBER) to write ONLY to its
-COS. The COS then FILTERS each inbound request into one of two tiers —
-it does NOT forward everything upstream. Forwarding everything would
-overload the MANAGER and nullify the COS's purpose.
+- The universal `prrd-trdd-kanban` skill (ai-maestro-plugin) for the
+  shared PRRD/TRDD/kanban mechanics and tier tables.
+- A PRRD and per-task TRDDs under `design/tasks/` (and proposals under
+  `design/requirements/proposals/`).
+- AMP (`amp-send`, `amp-inbox`) for inter-agent messaging.
+- A closed team per R6 v3: MANAGER ↔ COS ↔ members is the only path; the
+  COS is the sole entry/exit point.
 
-Full tier tables, the unifying principle, the consolidation rule, and
-the escalation message format are in the **prrd-trdd-kanban** universal
-skill's `cos-delegation-authority.md` reference (bundled in
-ai-maestro-plugin). Summary:
+## Instructions
 
-| Tier | COS action |
-|------|-----------|
-| **COS-AUTONOMOUS** | COS decides/acts **within the team**, nothing goes upstream. Covers: intra-team task assignment/sequencing/relay, answering scope questions already determined by the TRDD/PRRD, approving anything already EXEMPT (`exempt-operations.md`), team health/lifecycle within the approved R12 composition, in-team problem triage. |
-| **COS-ESCALATE** | COS forwards a **single consolidated** approval-request to MANAGER. Covers: hard-floor ops, NON-EXEMPT ops, resource/composition changes (new member, budget, tool, credential), PRRD/governance/baseline changes, cross-team anything, unresolvable in-team disputes, and **anything the COS is unsure about** (conservative default). |
+1. Receive a team-agent request via AMP (`amp-inbox`). A member, ORCH,
+   ARCH, or INT writes ONLY to you.
+2. Classify it into one tier:
+   - **COS-AUTONOMOUS** — decide within the team, nothing goes upstream.
+     Covers intra-team assignment/sequencing/relay, answering scope
+     questions already settled by the TRDD/PRRD, approving anything
+     already EXEMPT (`exempt-operations.md`), team health/lifecycle
+     within the approved R12 composition, in-team triage.
+   - **COS-ESCALATE** — anything hard-floor, NON-EXEMPT, resource or
+     composition change (new member, budget, tool, credential),
+     PRRD/governance/baseline change, cross-team, an unresolvable in-team
+     dispute, OR anything you are unsure about (conservative default).
+3. If COS-AUTONOMOUS: make the decision in-team, AMP-reply to the
+   requester, and optionally log it. Do NOT escalate.
+4. If COS-ESCALATE: CONSOLIDATE related items into ONE MANAGER
+   approval-request and AMP-send it — never N separate pings. Batching
+   IS the load-absorption the COS exists for.
+5. Relay the MANAGER's verdict back to the requester via AMP and record
+   it in the relevant TRDD's `## Approval log`.
+6. Stay presence-independent: classify the same way whether or not the
+   user is present. Presence is a MANAGER-tier concern applied AFTER you
+   escalate; the COS never reads presence itself.
 
-**Presence-independent.** The COS classifies the same way whether or
-not the user is present. User presence is a MANAGER-tier concern,
-applied AFTER the COS escalates (the MANAGER's `amama-presence-tracker`
-+ `amama-autonomous-fallback` decide escalate-to-USER vs
-decide-autonomously). The COS never reads presence itself.
+## Output
 
-**Consolidate, don't flood.** When several members raise related
-COS-ESCALATE requests, batch them into ONE MANAGER approval-request,
-not N pings. That batching IS the load-absorption the COS exists for.
+- In-team decisions communicated to the requester (COS-AUTONOMOUS).
+- ONE consolidated MANAGER approval-request per related batch
+  (COS-ESCALATE).
+- MANAGER verdicts relayed back to the originating team agent.
+- `## Approval log` entries appended to the affected TRDD recording each
+  escalation and its verdict.
 
-COS is the SOLE entry/exit point of the team (R6 v3): MANAGER ↔ COS ↔
-members. COS owns NO kanban columns; it filters, routes, consolidates,
-and transcribes MANAGER verdicts into the TRDD `## Approval log`.
+## Error Handling
 
-## What COS does NOT do
+- Unsure which tier a request belongs to → escalate (conservative
+  default; never silently decide a borderline case in-team).
+- Can't resolve a dispute or question inside the team → escalate it as a
+  consolidated MANAGER approval-request.
+- Never mutate a TRDD `column:`, `assignee:`, or body yourself — route
+  the change to the column owner (ORCHESTRATOR delegates; the owner
+  mutates). The COS only writes the `## Approval log`.
 
-- COS does NOT mutate any TRDD's `column:`, `assignee:`, or body fields.
-  All mutations are performed by the column owner.
-- COS does NOT mutate the PRRD. (It does forward proposals.)
-- COS does NOT decide PRRD proposal outcomes. (MANAGER decides.)
-- COS does NOT delegate TRDDs to specific agents. (ORCHESTRATOR does.)
+## Examples
 
-## What COS does in the workflow
+**COS-AUTONOMOUS** — A MEMBER asks "which sub-task do I pick up next?"
+The answer is fully determined by the in-flight TRDD sequencing within
+the approved R12 composition. The COS replies with the assignment via
+AMP and logs nothing upstream.
 
-### Routing PRRD proposals (team → MANAGER)
-
-When a team-internal agent (ORCH/ARCH/INT/MEM) files a PRRD proposal:
-
-- [ ] The proposing agent runs `prrd-edit.py propose ... --routed-via
-      cos-<team>`. A proposal file appears in
-      `design/requirements/proposals/`.
-- [ ] COS watches `design/requirements/proposals/` for new files
-      (or is notified via AMP).
-- [ ] COS reads the proposal, sanity-checks (well-formed frontmatter,
-      meaningful rationale).
-- [ ] COS AMP-sends to AMAMA: "Proposal <pid> from
-      <proposing-agent> — please decide".
-- [ ] On AMAMA's reply, COS updates the proposal file's `status:` and
-      AMP-replies to the proposing agent.
-
-### Routing TRDD status (team → AMAMA)
-
-When an ORCHESTRATOR-triggered column change needs to surface upward:
-
-- [ ] ORCH AMP-sends to COS: "TRDD-<id> transitioned X → Y"
-- [ ] COS aggregates status changes into a periodic batch (e.g. every
-      hour, or on AMAMA query)
-- [ ] COS AMP-sends batched status to AMAMA
-
-### Routing MANAGER directives (AMAMA → team)
-
-When AMAMA needs to send work / decisions into the team:
-
-- [ ] AMAMA AMP-sends to COS (only legal target per R6 v3)
-- [ ] COS reads the message, determines the right in-team recipient:
-      ORCH for assignment, ARCH for design, INT for ship, MEM for work
-- [ ] COS AMP-relays to the in-team recipient with appropriate framing
-- [ ] On the recipient's reply, COS AMP-relays back to AMAMA
-
-### Aggregating kanban for AMAMA
-
-When AMAMA asks "what's the team's status?":
-
-```bash
-# COS runs in its own checkout (or the team's shared workspace)
-kanban.py --json | jq '{
-  by_column: (.columns | to_entries | map({key: .key, count: (.value | length)})),
-  red_priority: .red_priority[:3],
-  drift: .drift
-}'
-```
-
-Then COS composes a status summary and AMP-sends to AMAMA.
-
-## R6 v3 routing reminders for COS
-
-| From | To | Allowed? | Notes |
-|---|---|---|---|
-| Team-internal | MANAGER | NO (via COS) | COS is the sole bridge |
-| Team-internal | Team-internal | YES (same-team peer) | But still flow status through COS for visibility |
-| Team-internal | AUTONOMOUS / MAINTAINER | NO | COS is also blocked; MANAGER is the only governance-layer bridge per R6.2 |
-| Team-internal | HUMAN | reply-only (1 edge) | COS does NOT relay these — the agent replies directly within its 1-edge quota; if it needs to initiate to USER, AMAMA must relay on its behalf |
-| COS | MANAGER | YES | Standard pipe |
-| COS | MAINTAINER / AUTONOMOUS | NO | R6.2 narrowed v1 — COS is no longer a cross-layer bridge |
-| COS | HUMAN | reply-only (1 edge) | COS, like team-internal, has a `1`-edge to HUMAN — single reply per inbound H→COS message |
-
-## PRRD proposal-handling checklist
-
-### When a proposal file appears in design/requirements/proposals/
-
-- [ ] `findtrdd.py --grep PROPOSAL-` lists current proposals (it
-      doesn't distinguish but the filename does)
-- [ ] Read the proposal: frontmatter + body
-- [ ] Check `proposes:` (add/revise/delete/promote/demote) and
-      `target-kind:` (silver/golden)
-- [ ] If golden: this is going to require USER decision. Mark in
-      `## COS notes` section and AMP-send to AMAMA with a "golden,
-      USER decision needed" tag
-- [ ] If silver: AMP-send to AMAMA with the proposal contents
-- [ ] On AMAMA's decision:
-      - Accepted: edit proposal `status: accepted`, AMP-reply to
-        proposing agent with the accepted text and confirmation that
-        the PRRD has been updated
-      - Rejected: edit proposal `status: rejected`, AMP-reply with the
-        rationale
+**COS-ESCALATE (consolidated)** — Within one window, ARCH requests a new
+build tool, INT requests a credential, and a MEMBER requests a budget
+bump. All three are NON-EXEMPT resource changes. The COS batches them
+into ONE MANAGER approval-request, awaits the verdict, relays each
+decision back, and records them in the relevant TRDDs' `## Approval log`.
 
 ## Resources
 
-- Universal skill: `prrd-trdd-kanban`
-- Existing COS skills: `amcos-agent-coordination`,
-  `amcos-acknowledgment-protocol`, `amcos-staff-planner`
-- COS persona: `agents/ai-maestro-chief-of-staff-main-agent.md`
-- R6 v3 communication-graph reference: `ai-maestro-plugin/skills/team-governance/references/GOVERNANCE-RULES.md` §R6
+For the full two-tier authority tables, the unifying principle, the
+consolidation rule, and the escalation message format, read the universal
+`prrd-trdd-kanban` skill in `ai-maestro-plugin` together with its bundled
+`cos-delegation-authority.md` and `exempt-operations.md` references. The
+universal skill is the single source of truth for the shared mechanics;
+this skill only adds the COS gatekeeper role on top of it.
