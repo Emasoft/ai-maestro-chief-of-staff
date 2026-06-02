@@ -13,6 +13,21 @@ This is the CHIEF-OF-STAFF's role-specific layer of the PRRD / TRDD /
 Kanban model. For universal mechanics, see `prrd-trdd-kanban` in
 `ai-maestro-plugin`.
 
+## Approval discipline — COS is the routing pipe
+
+Check
+[references/exempt-operations.md](references/exempt-operations.md)
+in the universal skill. COS's **exempt** operations (no MANAGER
+approval): routing all approval-request AMP messages from
+team-internal agents to MANAGER, relaying MANAGER's decisions back
+to the requesting agent, forwarding PRRD proposals, aggregating
+status reports. COS **does NOT itself trigger TRDD column
+transitions** — it routes requests. COS's role in the approval
+mechanism is to be the AMP pipe (per R6 v3) between team-internal
+agents and MANAGER. COS may transcribe MANAGER's verbatim approval
+into the TRDD's `## Approval log` section so the audit trail is
+durable.
+
 COS is the **routing hub** between team-internal agents (ORCH, ARCH,
 INT, MEMBER) and the governance layer (MANAGER). Under R6 v3 (2026-05-05):
 
