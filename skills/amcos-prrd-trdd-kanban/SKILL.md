@@ -22,9 +22,9 @@ it does NOT forward everything upstream. Forwarding everything would
 overload the MANAGER and nullify the COS's purpose.
 
 Full tier tables, the unifying principle, the consolidation rule, and
-the escalation message format are in
-[references/cos-delegation-authority.md](references/cos-delegation-authority.md).
-Summary:
+the escalation message format are in the **prrd-trdd-kanban** universal
+skill's `cos-delegation-authority.md` reference (bundled in
+ai-maestro-plugin). Summary:
 
 | Tier | COS action |
 |------|-----------|
