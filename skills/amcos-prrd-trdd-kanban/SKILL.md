@@ -13,30 +13,37 @@ This is the CHIEF-OF-STAFF's role-specific layer of the PRRD / TRDD /
 Kanban model. For universal mechanics, see `prrd-trdd-kanban` in
 `ai-maestro-plugin`.
 
-## Approval discipline — COS is the routing pipe
+## COS is a GATEKEEPER, not an unfiltered relay (two-tier filter)
 
-Check
-[references/exempt-operations.md](references/exempt-operations.md)
-in the universal skill. COS's **exempt** operations (no MANAGER
-approval): routing all approval-request AMP messages from
-team-internal agents to MANAGER, relaying MANAGER's decisions back
-to the requesting agent, forwarding PRRD proposals, aggregating
-status reports. COS **does NOT itself trigger TRDD column
-transitions** — it routes requests. COS's role in the approval
-mechanism is to be the AMP pipe (per R6 v3) between team-internal
-agents and MANAGER. COS may transcribe MANAGER's verbatim approval
-into the TRDD's `## Approval log` section so the audit trail is
-durable.
+**This is the COS's reason to exist.** Governance R6 forces every
+team-internal agent (ORCH, ARCH, INT, MEMBER) to write ONLY to its
+COS. The COS then FILTERS each inbound request into one of two tiers —
+it does NOT forward everything upstream. Forwarding everything would
+overload the MANAGER and nullify the COS's purpose.
 
-COS is the **routing hub** between team-internal agents (ORCH, ARCH,
-INT, MEMBER) and the governance layer (MANAGER). Under R6 v3 (2026-05-05):
+Full tier tables, the unifying principle, the consolidation rule, and
+the escalation message format are in
+[references/cos-delegation-authority.md](references/cos-delegation-authority.md).
+Summary:
 
-- MANAGER messages COS, not team-internal agents directly
-- Team-internal agents message COS, not MANAGER directly
-- COS is the SOLE entry/exit point of the team
+| Tier | COS action |
+|------|-----------|
+| **COS-AUTONOMOUS** | COS decides/acts **within the team**, nothing goes upstream. Covers: intra-team task assignment/sequencing/relay, answering scope questions already determined by the TRDD/PRRD, approving anything already EXEMPT (`exempt-operations.md`), team health/lifecycle within the approved R12 composition, in-team problem triage. |
+| **COS-ESCALATE** | COS forwards a **single consolidated** approval-request to MANAGER. Covers: hard-floor ops, NON-EXEMPT ops, resource/composition changes (new member, budget, tool, credential), PRRD/governance/baseline changes, cross-team anything, unresolvable in-team disputes, and **anything the COS is unsure about** (conservative default). |
 
-COS itself owns NO kanban columns. Its role in the PRRD/TRDD/kanban
-workflow is **message routing and aggregation**.
+**Presence-independent.** The COS classifies the same way whether or
+not the user is present. User presence is a MANAGER-tier concern,
+applied AFTER the COS escalates (the MANAGER's `amama-presence-tracker`
++ `amama-autonomous-fallback` decide escalate-to-USER vs
+decide-autonomously). The COS never reads presence itself.
+
+**Consolidate, don't flood.** When several members raise related
+COS-ESCALATE requests, batch them into ONE MANAGER approval-request,
+not N pings. That batching IS the load-absorption the COS exists for.
+
+COS is the SOLE entry/exit point of the team (R6 v3): MANAGER ↔ COS ↔
+members. COS owns NO kanban columns; it filters, routes, consolidates,
+and transcribes MANAGER verdicts into the TRDD `## Approval log`.
 
 ## What COS does NOT do
 
