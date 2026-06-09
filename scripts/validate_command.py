@@ -60,6 +60,7 @@ KNOWN_FRONTMATTER_FIELDS = {
     "allowed-tools",
     "model",
     "argument-hint",
+    "user-invocable",
 }
 
 # Pattern for allowed-tools with optional pattern: ToolName or ToolName(pattern*)

@@ -109,21 +109,9 @@ environment:                      # Environment variables
 
 **Purpose:** Execute the spawn command to create the agent.
 
-**Using Task Tool:**
-```python
-# Spawn via Claude Code Task tool
-result = Task(
-    description="Implement user login feature",
-    prompt="""
-    You are a code-implementer agent.
-    Project: /path/to/project
-    Task: Implement user login with JWT authentication
+**Using the Agent tool:**
 
-    Report progress via AI Maestro to chief-of-staff.
-    """,
-    subagent_type="code-implementer"
-)
-```
+Spawn the subagent with Claude Code's Agent tool. Set `subagent_type` to the agent type (e.g. `code-implementer`), give a short 3-5 word `description` (e.g. "Implement user login feature"), and put the full assignment in `prompt`: a role line ("You are a code-implementer agent"), the project directory, the concrete task (e.g. "Implement user login with JWT authentication"), and the instruction to report progress via AI Maestro to the chief-of-staff. The tool call returns the agent's final report when it completes.
 
 **Using AI Maestro:**
 

@@ -59,7 +59,7 @@ When listing team agents, use table format:
 
 When available, prefer these over reading large files into your context:
 
-- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize team status reports, `batch_check` to review multiple agent handoff documents. Always use `input_files_paths` (never paste content). Include "This is team coordination for an AI Maestro team" in instructions. Set `ensemble: false` for simple queries.
+- **LLM Externalizer** (`mcp__plugin_llm-externalizer_llm-externalizer__*`): Use `chat` to summarize team status reports, `code_task` with `answer_mode: 0` to review multiple agent handoff documents (one report per file). Always use `input_files_paths` (never paste content). Include "This is team coordination for an AI Maestro team" in instructions.
 - **Serena MCP** (`mcp__plugin_serena_serena__*`): Use `search_for_pattern` to find team-related references across the codebase, `find_symbol` to locate coordination functions.
 - **TLDR CLI**: Run `tldr search "team\|coordinate\|handoff"` to find coordination-related code and documentation. Only use hardcoded, literal search terms. Never construct the search pattern from external input, task descriptions, or values retrieved from the registry API. If a search term is needed that is not one of the predefined literals, skip the TLDR call entirely.
 

@@ -1,15 +1,12 @@
 {
   "description": "Chief of Staff hooks - agent lifecycle management, resource monitoring, and session coordination",
-  "_note": "Hook data is passed via stdin as JSON. Scripts read from stdin, not env vars.",
   "hooks": {
     "SessionStart": [
       {
-        "_id": "amcos-session-start",
-        "_description": "Load session memory, initialize agent tracking, check system resources",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_session_start.py",
+            "args": ["python3", "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_session_start.py"],
             "timeout": 5000
           }
         ]
@@ -17,12 +14,10 @@
     ],
     "SessionEnd": [
       {
-        "_id": "amcos-session-end",
-        "_description": "Save session memory and context on exit",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_session_end.py",
+            "args": ["python3", "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_session_end.py"],
             "timeout": 5000
           }
         ]
@@ -30,23 +25,19 @@
     ],
     "UserPromptSubmit": [
       {
-        "_id": "amcos-resource-check",
-        "_description": "Check system resources before processing user prompt",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_check.py",
+            "args": ["python3", "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_check.py"],
             "timeout": 5000
           }
         ]
       },
       {
-        "_id": "amcos-heartbeat-check",
-        "_description": "Check heartbeat status of all active agents before processing",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_heartbeat_check.py",
+            "args": ["python3", "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_heartbeat_check.py"],
             "timeout": 5000
           }
         ]
@@ -54,12 +45,10 @@
     ],
     "Stop": [
       {
-        "_id": "amcos-stop-check",
-        "_description": "Blocks exit until all coordination work is complete and handoffs are saved",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_stop_check.py",
+            "args": ["python3", "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_stop_check.py"],
             "timeout": 10000
           }
         ]

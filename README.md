@@ -1,6 +1,6 @@
 # AI Maestro Chief of Staff (amcos-)
 
-**Version**: 2.12.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.69
+**Version**: 2.13.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.139
 
 > Derived from emasoft-chief-of-staff v1.3.9, adapted for AI Maestro governance v0.26.0
 
@@ -211,8 +211,13 @@ Critical operations (spawn, terminate, replace) require a GovernanceRequest (sou
 ### Requirements/Dependencies
 
 - AI Maestro v0.26.0+
-- Claude Code v2.1.69+
+- Claude Code v2.1.139+ (pinned for hook stability and `args` exec form — see notes below)
 - External skills: `ai-maestro-agents-management` and `agent-messaging` (provided by AI Maestro core)
+
+#### Claude Code version notes
+
+- **v2.1.139** is the floor because v2.1.136/v2.1.139 fixed `Stop` and `UserPromptSubmit` hooks failing after plugin cache cleanup (both events are wired by this plugin) and unlocked the `args: string[]` hook exec form that this plugin now uses for path-safe script invocation.
+- **v2.1.143 Stop-hook block cap**: Claude Code force-ends a turn after 8 consecutive `{"decision":"block"}` returns from a Stop hook. `amcos-stop-check` returns one block per invocation, so the cap engages only when a user attempts to exit 9+ times in a row with unresolved coordination work. Override with the `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` environment variable (positive integer, or `0` to disable). `SessionEnd` still fires on force-exit, so `amcos-session-end` preserves state regardless.
 
 ```bash
 cd ai-maestro-chief-of-staff

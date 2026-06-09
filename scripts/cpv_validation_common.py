@@ -304,6 +304,9 @@ SKILL_FRONTMATTER_FIELDS = {
     "context",
     "agent",
     "hooks",
+    "license",
+    "compatibility",
+    "metadata",
 }
 
 

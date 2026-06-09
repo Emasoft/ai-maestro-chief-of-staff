@@ -17,6 +17,21 @@ Usage (as Claude Code hook):
 Exit codes:
     0 - Allow exit (no blocking issues found)
     2 - Block exit (JSON output with block decision and reason)
+
+Claude Code 2.1.143+ block-cap behavior:
+    Claude Code caps consecutive {"decision": "block"} returns from Stop hooks at
+    8 by default. On the 9th block, the turn force-ends and the user can exit.
+    This hook returns exactly one block per invocation, so the cap engages only
+    when the user attempts to exit 9 times in a row with unresolved coordination
+    work — at which point force-exit is the intended escape hatch.
+
+    Users running heavy coordination loops who legitimately need a higher cap
+    can raise it via the CLAUDE_CODE_STOP_HOOK_BLOCK_CAP environment variable
+    (set to a positive integer or 0 to disable the cap entirely).
+
+    SessionEnd still fires on force-exit, so the parallel state-flush in
+    amcos_session_end.py preserves agent registry and pending-handoff state
+    regardless of which branch wins.
 """
 
 from __future__ import annotations

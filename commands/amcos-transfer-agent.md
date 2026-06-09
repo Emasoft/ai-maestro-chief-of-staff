@@ -1,9 +1,9 @@
 ---
 name: amcos-transfer-agent
-description: Transfer an agent from the current team to a target team via GovernanceRequest
-allowed-tools:
-  - amcos-chief-of-staff
-  - amcos-team-manager
+description: "Transfer an agent to a target team via GovernanceRequest"
+argument-hint: "<agent-name> --to-team <team-id> [--reason <text>]"
+allowed-tools: ["Bash", "Task", "Read"]
+user-invocable: true
 ---
 
 # /amcos-transfer-agent

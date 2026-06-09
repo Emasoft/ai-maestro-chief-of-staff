@@ -521,21 +521,60 @@ def validate_command_hook(
     plugin_root: Path | None,
     report: ValidationReport,
 ) -> bool:
-    """Validate a command-type hook."""
-    if "command" not in hook:
-        report.critical("Command hook missing required 'command' field")
+    """Validate a command-type hook.
+
+    Supports two forms:
+    - Legacy shell form: {"command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/x.py"}
+    - Exec form (Claude Code 2.1.139+): {"args": ["python3", "${CLAUDE_PLUGIN_ROOT}/scripts/x.py"]}
+
+    The exec form is safer for paths with spaces or shell metacharacters. Both
+    keys MUST NOT be set together. Downstream portability checks operate on a
+    shared `command` string synthesised from either form.
+    """
+    has_command = "command" in hook
+    has_args = "args" in hook
+
+    if has_command and has_args:
+        report.critical(
+            "Hook cannot set both 'command' and 'args' — pick one form "
+            "('args' is preferred since Claude Code 2.1.139)"
+        )
         return False
 
-    command = hook["command"]
-    if not isinstance(command, str):
-        report.critical(f"'command' must be a string, got {type(command).__name__}")
+    if not has_command and not has_args:
+        report.critical("Command hook missing required 'command' or 'args' field")
         return False
 
-    if not command.strip():
-        report.critical("'command' cannot be empty")
-        return False
+    if has_args:
+        args = hook["args"]
+        if not isinstance(args, list):
+            report.critical(f"'args' must be a list, got {type(args).__name__}")
+            return False
+        if not args:
+            report.critical("'args' must be a non-empty list")
+            return False
+        for i, a in enumerate(args):
+            if not isinstance(a, str):
+                report.critical(f"'args[{i}]' must be a string, got {type(a).__name__}")
+                return False
+            if not a:
+                report.critical(f"'args[{i}]' cannot be empty")
+                return False
+        # Synthesise a command-like string for the existing portability + script
+        # checks. They only inspect tokens and paths, so a plain join is fine.
+        command = " ".join(args)
+        report.passed(f"Exec form (args): {command[:60]}...")
+    else:
+        command = hook["command"]
+        if not isinstance(command, str):
+            report.critical(f"'command' must be a string, got {type(command).__name__}")
+            return False
 
-    report.passed(f"Command: {command[:60]}...")
+        if not command.strip():
+            report.critical("'command' cannot be empty")
+            return False
+
+        report.passed(f"Command: {command[:60]}...")
 
     # Check for hardcoded absolute paths — plugins must use env vars for portability
     cmd_first_token = command.strip().split()[0] if command.strip() else ""
@@ -639,13 +678,19 @@ def validate_command_hook(
         if event_name not in {"SessionStart", "Setup"}:
             report.major("CLAUDE_ENV_FILE is only available in SessionStart and Setup hooks")
 
-    # Extract and validate script path
-    script_path = extract_script_path(command, plugin_root)
+    # Extract and validate script path. For the exec (args) form we look at the
+    # second token (after the interpreter); for the legacy shell form we use
+    # the synthesised string as before.
+    if has_args and len(hook["args"]) >= 2:
+        script_token = hook["args"][1]
+        script_path = extract_script_path(script_token, plugin_root)
+    else:
+        script_path = extract_script_path(command, plugin_root)
     if script_path and script_path.exists():
         validate_script(script_path, report)
     elif script_path:
         # Script path detected but doesn't exist
-        if plugin_root and "${CLAUDE_PLUGIN_ROOT}" not in hook["command"]:
+        if plugin_root and "${CLAUDE_PLUGIN_ROOT}" not in command:
             # Absolute path that should exist
             report.major(f"Script not found: {script_path}")
 
@@ -798,6 +843,7 @@ def validate_single_hook(
     known_hook_fields = {
         "type",
         "command",
+        "args",
         "prompt",
         "model",
         "timeout",

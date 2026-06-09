@@ -69,3 +69,7 @@ llm_externalizer_output/
 # tldr CLI cache and session state (.tldrignore is a tracked config file — do NOT ignore)
 .tldr/
 .tldr_session_*
+
+# Agent reports (private data — never commit; see agent-reports-location rule)
+/reports/
+/reports_dev/
