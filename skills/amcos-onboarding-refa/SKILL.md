@@ -56,3 +56,11 @@ cat references/project-handoff.md | head -60
 ## Resources
 
 - [project-handoff](references/project-handoff.md) — Handoff preparation, overview, state sharing, conventions, knowledge transfer, verification, examples, troubleshooting
+  - 3.1 [Preparing For Project Handoff](#31-preparing-for-project-handoff)
+  - 3.2 [Providing Project Overview](#32-providing-project-overview)
+  - 3.3 [Sharing Current State](#33-sharing-current-state)
+  - 3.4 [Explaining Project Conventions](#34-explaining-project-conventions)
+  - 3.5 [Transferring Working Knowledge](#35-transferring-working-knowledge)
+  - 3.6 [Verifying Handoff Completion](#36-verifying-handoff-completion)
+  - 3.7 [Project Handoff Examples](#37-project-handoff-examples)
+  - 3.8 [Troubleshooting](#38-troubleshooting)

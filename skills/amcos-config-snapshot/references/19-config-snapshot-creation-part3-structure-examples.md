@@ -178,8 +178,8 @@ ls -la design/memory/
 # Check disk space
 df -h .
 
-# Fix permissions if needed
-chmod 755 design/memory/
+# Fix permissions if needed (symbolic mode: rwxr-xr-x)
+chmod u=rwx,go=rx design/memory/
 ```
 
 ---

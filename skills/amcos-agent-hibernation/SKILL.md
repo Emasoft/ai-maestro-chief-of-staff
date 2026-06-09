@@ -118,4 +118,24 @@ Copy this checklist and track your progress:
 ## Resources
 
 - [hibernation-procedures](references/hibernation-procedures.md) — Hibernation and wake procedures, state snapshot format, troubleshooting
+  - 3.1 What is agent hibernation - Understanding state suspension
+  - 3.2 When to hibernate agents - Hibernation triggers
+    - 3.2.1 Idle timeout - No activity for threshold period
+    - 3.2.2 Resource pressure - System capacity constrained
+    - 3.2.3 Scheduled pause - Planned inactivity window
+  - 3.3 Hibernation procedure - Step-by-step suspension
+    - 3.3.1 Idle confirmation - Verifying no active work
+    - 3.3.2 State capture - Serializing agent state
+    - 3.3.3 State persistence - Writing to storage
+    - 3.3.4 Resource release - Freeing memory and connections
+    - 3.3.5 Registry update - Marking as hibernated
+  - 3.4 State snapshot format - Hibernation state structure
+  - 3.5 Wake procedure - Resuming hibernated agents
+    - 3.5.1 State retrieval - Loading from storage
+    - 3.5.2 State restoration - Deserializing agent state
+    - 3.5.3 Resource reacquisition - Reconnecting services
+    - 3.5.4 Registry update - Marking as running
+    - 3.5.5 Work resumption - Continuing interrupted tasks
+  - 3.6 Examples - Hibernation and wake scenarios
+  - 3.7 Troubleshooting - Hibernation issues
 

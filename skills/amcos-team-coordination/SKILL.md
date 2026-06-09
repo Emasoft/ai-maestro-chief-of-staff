@@ -85,11 +85,11 @@ amp-send.sh libs-svg-renderer "Role Assignment: QA Lead" \
 ## Resources
 
 - [team-messaging](references/team-messaging.md) — Team message types, priority, routing, delivery
-  - Team Message Types
-  - Message Priority Levels
-  - Sending Broadcast Messages
-  - Sending Targeted Messages
-  - Message Routing Rules
-  - Confirming Message Delivery
-  - Team Messaging Examples
-  - Troubleshooting
+  - 2.1 [Team Message Types](#21-team-message-types)
+  - 2.2 [Message Priority Levels](#22-message-priority-levels)
+  - 2.3 [Sending Broadcast Messages](#23-sending-broadcast-messages)
+  - 2.4 [Sending Targeted Messages](#24-sending-targeted-messages)
+  - 2.5 [Message Routing Rules](#25-message-routing-rules)
+  - 2.6 [Confirming Message Delivery](#26-confirming-message-delivery)
+  - 2.7 [Team Messaging Examples](#27-team-messaging-examples)
+  - 2.8 [Troubleshooting](#28-troubleshooting)

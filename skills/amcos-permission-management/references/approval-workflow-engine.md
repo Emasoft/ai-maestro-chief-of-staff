@@ -309,7 +309,7 @@ pending --> approved --> executing --> completed
 
 ### 3.2 Pending approvals request structure
 
-**Source**: `curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending"` (AI Maestro REST API, not file-based)
+**Source**: `GET $AIMAESTRO_API/api/v1/governance/requests?status=pending` (AI Maestro REST API, not file-based)
 
 ```json
 {

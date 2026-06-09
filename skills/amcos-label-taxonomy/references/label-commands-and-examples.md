@@ -61,8 +61,9 @@ curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq .
 # Find issues assigned to agent from GitHub labels
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 
-# Compare with registry (via REST API)
-REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq -r '.current_issues | sort | .[]')
+# Compare with registry (via REST API; fetch to file, then parse)
+curl -s "$AIMAESTRO_API/api/agents/implementer-1" -o /tmp/amcos-agent.json
+REGISTERED=$(jq -r '.current_issues | sort | .[]' /tmp/amcos-agent.json)
 
 # Should match
 ```

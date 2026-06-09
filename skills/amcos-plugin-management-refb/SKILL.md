@@ -56,3 +56,17 @@ cat references/local-configuration.md | head -50
 ## Resources
 
 - [local-configuration](references/local-configuration.md) — Local plugin directory structure, manifest, component setup, dev workflow, examples, troubleshooting
+  - 2.1 What is local plugin configuration - Development plugin setup
+  - 2.2 Directory structure - Required plugin layout
+    - 2.2.1 Root directory - Plugin container
+    - 2.2.2 .claude-plugin folder - Manifest location
+    - 2.2.3 Component directories - commands, agents, skills, hooks
+  - 2.3 Configuration procedure - Setting up local plugin
+    - 2.3.1 Directory creation - Making plugin folder
+    - 2.3.2 Manifest creation - Writing plugin.json
+    - 2.3.3 Component setup - Adding commands, agents, etc.
+    - 2.3.4 Launch configuration - Using --plugin-dir flag
+  - 2.4 Development workflow - Edit, restart, test cycle
+  - 2.5 Multiple plugins - Loading several local plugins
+  - 2.6 Examples - Local configuration scenarios
+  - 2.7 Troubleshooting - Local plugin issues

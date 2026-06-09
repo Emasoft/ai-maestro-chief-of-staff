@@ -45,9 +45,9 @@ Before performing lifecycle operations, read:
 ## Examples
 
 <example>
-request: Spawn a new code-reviewer agent for the authentication module
+user: Spawn a new code-reviewer agent for the authentication module
 
-response: Spawning code-reviewer-auth agent.
+assistant: Spawning code-reviewer-auth agent.
 
 Use the `ai-maestro-agents-management` skill to create a new agent:
 - **Name**: `code-reviewer-auth`
@@ -62,9 +62,9 @@ Post-spawn: use the `ai-maestro-agents-management` skill to install plugins on t
 </example>
 
 <example>
-request: Hibernate the documentation-writer agent
+user: Hibernate the documentation-writer agent
 
-response: Hibernating docs-writer.
+assistant: Hibernating docs-writer.
 
 Use the `ai-maestro-agents-management` skill to hibernate the agent:
 - **Name**: `docs-writer`
@@ -75,9 +75,9 @@ To wake later, use the `ai-maestro-agents-management` skill to wake the agent.
 </example>
 
 <example>
-request: Agent 'test-runner-003' is not responding
+user: Agent 'test-runner-003' is not responding
 
-response: Checking status of test-runner-003.
+assistant: Checking status of test-runner-003.
 
 Use the `ai-maestro-agents-management` skill to show agent details:
 - **Name**: `test-runner-003`

@@ -53,4 +53,21 @@ Copy this checklist and track your progress:
 
 ## Resources
 
-- [acknowledgment-protocol](references/acknowledgment-protocol.md) — Topics: Acknowledgment Protocol Reference, Table of Contents, 3.1 What is the acknowledgment protocol, 3.2 When to require acknowledgments, 3.2.1 Disruptive operations, 3.2.2 State-changing operations, 3.2.3 Multi-agent coordination, 3.3 Acknowledgment procedure, 3.3.1 Send acknowledgment request, 3.3.2 Start timeout timer, 3.3.3 Send reminders, 3.3.4 Process response, 3.3.5 Proceed or timeout, 3.4 Acknowledgment message format, 3.5 Reminder message format, 3.6 Response handling, 3.7 Timeout behavior, 3.8 Examples, Example 1: Successful Acknowledgment Flow, Example 2: Acknowledgment with Reminders, Example 3: Timeout and Proceed, Example 4: Agent Requests Extension, 3.9 Troubleshooting, Issue: Agent never responds to acknowledgment requests, Issue: Acknowledgment received but not recognized, Issue: Reminders not being sent, Issue: Timeout too short for agent task, Issue: Multi-agent acknowledgment tracking fails
+- [acknowledgment-protocol](references/acknowledgment-protocol.md) — Acknowledgment protocol reference: triggers, procedure, formats, troubleshooting
+  - 3.1 What is the acknowledgment protocol - Understanding coordination
+  - 3.2 When to require acknowledgments - Acknowledgment triggers
+    - 3.2.1 Disruptive operations - Agent will be interrupted
+    - 3.2.2 State-changing operations - Agent context affected
+    - 3.2.3 Multi-agent coordination - Synchronized actions needed
+  - 3.3 Acknowledgment procedure - Step-by-step process
+    - 3.3.1 Send acknowledgment request - Ask for "ok"
+    - 3.3.2 Start timeout timer - 2 minute maximum wait
+    - 3.3.3 Send reminders - At 30s, 60s, 90s intervals
+    - 3.3.4 Process response - Handle "ok" or other responses
+    - 3.3.5 Proceed or timeout - Continue or handle no response
+  - 3.4 Acknowledgment message format - Standard request structure
+  - 3.5 Reminder message format - Standard reminder structure
+  - 3.6 Response handling - What agents can send back
+  - 3.7 Timeout behavior - What happens without response
+  - 3.8 Examples - Acknowledgment scenarios
+  - 3.9 Troubleshooting - Acknowledgment issues

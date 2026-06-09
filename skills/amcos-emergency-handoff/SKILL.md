@@ -113,3 +113,25 @@ Copy this checklist and track your progress:
 ## Resources
 
 - [work-handoff-during-failure](references/work-handoff-during-failure.md) — Emergency handoff procedures, message formats, reconciliation
+  - 5.1 When to use this document
+  - 5.2 Overview of emergency handoff
+  - 5.3 Triggering emergency handoff
+    - 5.3.1 When to initiate emergency handoff
+    - 5.3.2 Notification to orchestrator
+    - 5.3.3 Notification to manager
+  - 5.4 Creating emergency handoff documentation
+    - 5.4.1 Required handoff content
+    - 5.4.2 Handoff document template
+    - 5.4.3 Extracting information from failed agent
+  - 5.5 Reassigning work during failure
+    - 5.5.1 Temporary reassignment to other agents
+    - 5.5.2 Holding tasks for replacement agent
+    - 5.5.3 Splitting tasks across multiple agents
+  - 5.6 Emergency handoff message formats
+    - 5.6.1 Handoff request to orchestrator
+    - 5.6.2 Task reassignment notification
+    - 5.6.3 Receiving agent instructions
+  - 5.7 Post-failure work reconciliation
+    - 5.7.1 Identifying duplicate work
+    - 5.7.2 Merging partial progress
+    - 5.7.3 Updating task status

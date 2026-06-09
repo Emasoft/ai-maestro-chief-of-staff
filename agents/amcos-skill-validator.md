@@ -74,9 +74,9 @@ When returning results to the Chief of Staff or any parent agent:
 ## Examples
 
 <example>
-request: Validate the amcos-onboarding skill
+user: Validate the amcos-onboarding skill
 
-response: Validating skill at ./skills/amcos-onboarding/
+assistant: Validating skill at ./skills/amcos-onboarding/
 
 Running skills-ref validate...
 
@@ -91,9 +91,9 @@ Validation PASSED for ./skills/amcos-onboarding/
 </example>
 
 <example>
-request: The amcos-staff-planning skill is failing validation
+user: The amcos-staff-planning skill is failing validation
 
-response: Investigating validation failure for ./skills/amcos-staff-planning/
+assistant: Investigating validation failure for ./skills/amcos-staff-planning/
 
 Running skills-ref validate with verbose output...
 
@@ -121,9 +121,9 @@ After fixes, run: /amcos-validate-skills ./skills/amcos-staff-planning/
 </example>
 
 <example>
-request: I updated several skills, need to reindex PSS
+user: I updated several skills, need to reindex PSS
 
-response: Checking for modified skills...
+assistant: Checking for modified skills...
 
 Modified skills detected:
 - ./skills/amcos-onboarding/ (last modified: 2 minutes ago)

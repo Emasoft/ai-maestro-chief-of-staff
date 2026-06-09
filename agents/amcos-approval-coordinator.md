@@ -123,9 +123,9 @@ The approval system uses a dual-authority model:
 ## Examples
 
 <example>
-request: Process GovernanceRequest for spawning agent worker-dev-auth-001 (local scope)
+user: Process GovernanceRequest for spawning agent worker-dev-auth-001 (local scope)
 
-response: Processing GovernanceRequest.
+assistant: Processing GovernanceRequest.
 
 **Scope Assessment**
 - Scope: local (same host, same team)
@@ -144,9 +144,9 @@ Escalation timeline: 60s/90s reminders → 120s auto-action
 </example>
 
 <example>
-request: Cross-team agent spawn on remote-team-backend
+user: Cross-team agent spawn on remote-team-backend
 
-response: Processing cross-team GovernanceRequest.
+assistant: Processing cross-team GovernanceRequest.
 
 **Scope Assessment**
 - Scope: cross-team
@@ -169,9 +169,9 @@ Status: pending
 </example>
 
 <example>
-request: Critical operation requiring governance password
+user: Critical operation requiring governance password
 
-response: **Governance Password Required**
+assistant: **Governance Password Required**
 
 Requesting governance password from sourceManager...
 Received password from amama-main.

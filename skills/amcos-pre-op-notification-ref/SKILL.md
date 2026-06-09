@@ -56,3 +56,19 @@ cat references/pre-operation-notifications.md | head -50
 ## Resources
 
 - [pre-operation-notifications](references/pre-operation-notifications.md) — When to send, notification procedure, message format, priority levels, examples, troubleshooting
+  - 1.1 What are pre-operation notifications - Understanding warning messages
+  - 1.2 When to send pre-operation notifications - Notification triggers
+    - 1.2.1 Skill installation - Agent will be hibernated and woken
+    - 1.2.2 Plugin installation - Agent restart required
+    - 1.2.3 Configuration changes - Settings will change
+    - 1.2.4 System maintenance - Temporary disruption expected
+  - 1.3 Pre-operation notification procedure - Step-by-step process
+    - 1.3.1 Identify affected agents - Who needs to know
+    - 1.3.2 Compose notification - What to tell them
+    - 1.3.3 Send notification - Using the `agent-messaging` skill
+    - 1.3.4 Track acknowledgments - Monitor responses
+    - 1.3.5 Handle timeouts - When agents don't respond
+  - 1.4 Notification message format - Standard message structure
+  - 1.5 Priority levels - When to use each priority
+  - 1.6 Examples - Pre-operation scenarios
+  - 1.7 Troubleshooting - Notification delivery issues

@@ -91,8 +91,9 @@ curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending" | jq '.[] | {
 
 ```bash
 # Uses AI Maestro REST API (not file-based)
-# Get all pending request IDs
-PENDING_IDS=$(curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending" | jq -r '.[].request_id')
+# Get all pending request IDs (fetch to file, then parse)
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending" -o /tmp/amcos-pending.json
+PENDING_IDS=$(jq -r '.[].request_id' /tmp/amcos-pending.json)
 
 for REQUEST_ID in $PENDING_IDS; do
   # Check AI Maestro inbox for response
@@ -115,13 +116,15 @@ done
 
 ```bash
 # Uses AI Maestro REST API (not file-based)
-# Find requests older than 60 seconds without reminder
-NEEDS_REMINDER=$(curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending&reminder_sent=false&min_age_seconds=60" \
-  | jq -r '.[].request_id')
+# Find requests older than 60 seconds without reminder (fetch to file, then parse)
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending&reminder_sent=false&min_age_seconds=60" \
+  -o /tmp/amcos-needs-reminder.json
+NEEDS_REMINDER=$(jq -r '.[].request_id' /tmp/amcos-needs-reminder.json)
 
-# Find requests older than 90 seconds without urgent
-NEEDS_URGENT=$(curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending&urgent_sent=false&min_age_seconds=90" \
-  | jq -r '.[].request_id')
+# Find requests older than 90 seconds without urgent (fetch to file, then parse)
+curl -s "$AIMAESTRO_API/api/v1/governance/requests?status=pending&urgent_sent=false&min_age_seconds=90" \
+  -o /tmp/amcos-needs-urgent.json
+NEEDS_URGENT=$(jq -r '.[].request_id' /tmp/amcos-needs-urgent.json)
 
 echo "Needs reminder: $NEEDS_REMINDER"
 echo "Needs urgent: $NEEDS_URGENT"

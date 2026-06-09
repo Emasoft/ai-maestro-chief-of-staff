@@ -61,9 +61,9 @@ DETECT → CLASSIFY → NOTIFY → EXECUTE → LOG
 ## Examples
 
 <example>
-request: Agent worker-test-billing-003 is not responding to messages for 5 minutes
+user: Agent worker-test-billing-003 is not responding to messages for 5 minutes
 
-response: Investigating unresponsive agent worker-test-billing-003.
+assistant: Investigating unresponsive agent worker-test-billing-003.
 
 Detection:
 - AI Maestro: online but last_seen=6 min ago (STALE)
@@ -83,9 +83,9 @@ Agent worker-test-billing-003 now HEALTHY. Logged to recovery-log.json.
 </example>
 
 <example>
-request: Agent worker-reviewer-001 tmux session crashed and won't restart
+user: Agent worker-reviewer-001 tmux session crashed and won't restart
 
-response: Investigating terminal failure for worker-reviewer-001.
+assistant: Investigating terminal failure for worker-reviewer-001.
 
 Detection:
 - AI Maestro: offline, last_seen=15 min ago

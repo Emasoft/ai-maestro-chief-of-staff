@@ -287,12 +287,12 @@ echo "=== Fixing Permissions ==="
 
 # Fix directory permissions
 echo "1. Fixing directory permissions..."
-find .session_memory -type d -exec chmod 755 {} \;
+find .session_memory -type d -exec chmod u=rwx,go=rx {} \;
 
 # Fix file permissions
 echo "2. Fixing file permissions..."
 find .session_memory -type f -name "*.md" -exec chmod 644 {} \;
-find .session_memory -type f -name "*.sh" -exec chmod 755 {} \;
+find .session_memory -type f -name "*.sh" -exec chmod u=rwx,go=rx {} \;
 
 # Fix ownership (if needed)
 echo "3. Current ownership..."

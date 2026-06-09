@@ -56,4 +56,20 @@ cat references/onboarding-checklist.md | head -60
 ## Resources
 
 - [onboarding-checklist](references/onboarding-checklist.md) — Checklist phases, role-specific additions, verification, documentation, examples, troubleshooting
+  - 1.1 [Purpose Of The Onboarding Checklist](#11-purpose-of-the-onboarding-checklist)
+  - 1.2 [Pre Onboarding Preparation](#12-pre-onboarding-preparation)
+  - 1.3 [Core Onboarding Checklist](#13-core-onboarding-checklist)
+  - 1.4 [Role Specific Additions](#14-role-specific-additions)
+  - 1.5 [Onboarding Verification](#15-onboarding-verification)
+  - 1.6 [Documenting Onboarding Completion](#16-documenting-onboarding-completion)
+  - 1.7 [Onboarding Checklist Examples](#17-onboarding-checklist-examples)
+  - 1.8 [Troubleshooting](#18-troubleshooting)
 - [role-briefing](references/role-briefing.md) — Briefing components, responsibilities, reporting structure, expectations, confirmation, examples
+  - 2.1 [Role Briefing Components](#21-role-briefing-components)
+  - 2.2 [Explaining Role Responsibilities](#22-explaining-role-responsibilities)
+  - 2.3 [Clarifying Reporting Structure](#23-clarifying-reporting-structure)
+  - 2.4 [Setting Performance Expectations](#24-setting-performance-expectations)
+  - 2.5 [Handling Agent Questions](#25-handling-agent-questions)
+  - 2.6 [Confirming Role Understanding](#26-confirming-role-understanding)
+  - 2.7 [Role Briefing Examples](#27-role-briefing-examples)
+  - 2.8 [Troubleshooting](#28-troubleshooting)

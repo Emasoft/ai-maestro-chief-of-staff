@@ -44,16 +44,18 @@ Ensure the team registry (via AI Maestro REST API) stays synchronized with GitHu
 ### Step 1: Load Current Registry
 
 ```bash
-REGISTRY=$(curl -s "$AIMAESTRO_API/api/teams/default/agents")
-AGENTS=$(echo $REGISTRY | jq -r '.[].name')
+# Fetch to a file first, then parse — keeps the raw response inspectable
+curl -s "$AIMAESTRO_API/api/teams/default/agents" -o /tmp/amcos-registry.json
+AGENTS=$(jq -r '.[].name' /tmp/amcos-registry.json)
 ```
 
 ### Step 2: For Each Agent, Compare Registry vs Labels
 
 ```bash
 for AGENT in $AGENTS; do
-  # Get issues from registry via REST API
-  REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/$AGENT" | jq -r '.current_issues | sort | .[]' 2>/dev/null)
+  # Get issues from registry via REST API (fetch to file, then parse)
+  curl -s "$AIMAESTRO_API/api/agents/$AGENT" -o /tmp/amcos-agent.json 2>/dev/null
+  REGISTERED=$(jq -r '.current_issues | sort | .[]' /tmp/amcos-agent.json 2>/dev/null)
 
   # Get issues from GitHub labels
   LABELED=$(gh issue list --label "assign:$AGENT" --json number --jq '.[].number' | sort)
@@ -101,8 +103,9 @@ ALL_ASSIGN_LABELS=$(gh label list --json name --jq '.[] | select(.name | startsw
 for LABEL in $ALL_ASSIGN_LABELS; do
   AGENT_NAME=$(echo $LABEL | sed 's/assign://')
 
-  # Check if agent exists in registry via REST API
-  EXISTS=$(curl -s "$AIMAESTRO_API/api/agents/$AGENT_NAME" | jq -r '.name // empty')
+  # Check if agent exists in registry via REST API (fetch to file, then parse)
+  curl -s "$AIMAESTRO_API/api/agents/$AGENT_NAME" -o /tmp/amcos-agent.json
+  EXISTS=$(jq -r '.name // empty' /tmp/amcos-agent.json)
 
   if [ -z "$EXISTS" ]; then
     echo "WARNING: Label '$LABEL' exists but agent not in registry"
@@ -126,8 +129,9 @@ echo "Sync completed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> docs_dev/sync-log.txt
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 echo "Labeled: $LABELED"
 
-# Get registered issues via REST API
-REGISTERED=$(curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq -r '.current_issues | sort | .[]')
+# Get registered issues via REST API (fetch to file, then parse)
+curl -s "$AIMAESTRO_API/api/agents/implementer-1" -o /tmp/amcos-agent.json
+REGISTERED=$(jq -r '.current_issues | sort | .[]' /tmp/amcos-agent.json)
 echo "Registered: $REGISTERED"
 
 # Compare
@@ -153,8 +157,9 @@ For scheduled sync, create a script:
 
 AIMAESTRO_API="${AIMAESTRO_API:-http://localhost:23000}"
 
-# Get all agents from registry via REST API
-AGENTS=$(curl -s "$AIMAESTRO_API/api/teams/default/agents" | jq -r '.[].name')
+# Get all agents from registry via REST API (fetch to file, then parse)
+curl -s "$AIMAESTRO_API/api/teams/default/agents" -o /tmp/amcos-registry.json
+AGENTS=$(jq -r '.[].name' /tmp/amcos-registry.json)
 
 for AGENT in $AGENTS; do
   # Get labeled issues (open only)

@@ -56,4 +56,20 @@ cat references/performance-reporting.md | head -60
 ## Resources
 
 - [performance-reporting](references/performance-reporting.md) — Report types, templates, daily/weekly summaries, individual reports, distribution, examples
+  - 3.1 [Types Of Performance Reports](#31-types-of-performance-reports)
+  - 3.2 [Structuring Performance Reports](#32-structuring-performance-reports)
+  - 3.3 [Daily Performance Summaries](#33-daily-performance-summaries)
+  - 3.4 [Weekly Performance Reviews](#34-weekly-performance-reviews)
+  - 3.5 [Individual Agent Reports](#35-individual-agent-reports)
+  - 3.6 [Distributing Reports](#36-distributing-reports)
+  - 3.7 [Performance Report Examples](#37-performance-report-examples)
+  - 3.8 [Troubleshooting](#38-troubleshooting)
 - [strength-weakness-analysis](references/strength-weakness-analysis.md) — Analysis framework, benchmarks, pattern detection, recommendations, examples
+  - 2.1 [Performance Analysis Framework](#21-performance-analysis-framework)
+  - 2.2 [Identifying Agent Strengths](#22-identifying-agent-strengths)
+  - 2.3 [Identifying Agent Weaknesses](#23-identifying-agent-weaknesses)
+  - 2.4 [Comparing Against Benchmarks](#24-comparing-against-benchmarks)
+  - 2.5 [Recognizing Performance Patterns](#25-recognizing-performance-patterns)
+  - 2.6 [Making Performance Recommendations](#26-making-performance-recommendations)
+  - 2.7 [Analysis Examples](#27-analysis-examples)
+  - 2.8 [Troubleshooting](#28-troubleshooting)

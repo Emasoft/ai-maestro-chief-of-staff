@@ -86,7 +86,7 @@ metadata:
 Link related notes with [[their-name]].>
 ```
 
-Then append one index line to `"$MEMDIR/MEMORY.md"`:
+Then add one index line in `"$MEMDIR/MEMORY.md"`:
 `- [<Title>](<type>_<slug>.md) — <one-line hook>.`
 
 Before saving, recall first — update an existing note rather than duplicate.

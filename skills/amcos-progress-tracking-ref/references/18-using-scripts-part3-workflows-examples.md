@@ -77,35 +77,31 @@ python scripts/amcos_memory_manager.py init
 ### Example: Integrating into Agent Workflow
 
 ```python
-# In agent main loop
+# In agent main loop — call the memory manager's Python API in-process
+# (scripts/amcos_memory_manager.py exposes these functions directly,
+# so agent-side integration needs no child process at all).
+from amcos_memory_manager import MemoryConfig, get_memory_health, initialize_memory
+from amcos_memory_operations import add_decision
+
+CONFIG = MemoryConfig()
 
 def initialize_session():
     """Check memory health at startup using amcos_memory_manager.py."""
-    result = subprocess.run(
-        ['python', 'scripts/amcos_memory_manager.py', 'health', '--json'],
-        capture_output=True,
-        text=True
-    )
+    health = get_memory_health(CONFIG)
 
-    if result.returncode != 0:
-        print("Error checking memory health:", result.stderr)
+    if health.issues:
+        print("Memory health issues:", health.issues)
         # Attempt reinitialization
-        subprocess.run(['python', 'scripts/amcos_memory_manager.py', 'init'])
+        initialize_memory(CONFIG)
         return initialize_session()  # Retry
 
-    state = json.loads(result.stdout)
-    return state
+    return health
 
 def persist_decision(decision_text):
     """Persist a decision immediately using amcos_memory_manager.py.
     Note: writes are immediate, no deferred save needed."""
-    result = subprocess.run(
-        ['python', 'scripts/amcos_memory_manager.py', 'add-decision', decision_text],
-        capture_output=True
-    )
-
-    if result.returncode != 0:
-        print("Error persisting decision:", result.stderr)
+    if not add_decision(CONFIG, decision_text, "Architecture"):
+        print("Error persisting decision")
         return False
 
     return True

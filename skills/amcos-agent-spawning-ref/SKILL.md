@@ -53,4 +53,19 @@ Copy this checklist and track your progress:
 
 ## Resources
 
-- [spawn-procedures](references/spawn-procedures.md) — Topics: Spawn Procedures Reference, Table of Contents, 1.1 What is agent spawning, 1.2 When to spawn agents, 1.2.1 Task assignment triggers, 1.2.2 Scaling triggers, 1.2.3 Specialization triggers, 1.3 Spawn procedure, 1.3.1 Agent type selection, 1.3.2 Configuration preparation, 1.3.3 Instance creation, Spawn via Claude Code Task tool, 1.3.4 Initialization verification, 1.3.5 Registry registration, 1.4 Spawn configuration format, Required fields, Optional fields, 1.5 AI Maestro integration, 1.6 Examples, Example 1: Spawn for Feature Implementation, Spawn code-implementer for auth feature, Returns: {"agent_id": "code-impl-auth-01", "status": "RUNNING"}, Example 2: Spawn Multiple Parallel Agents, Spawn 3 test engineers for parallel test writing, Result: 3 test-engineer agents spawned, all waiting for auth, 1.7 Troubleshooting, Issue: Spawn command times out, Issue: Agent spawns but does not respond, Issue: Agent spawns with wrong configuration, Issue: Too many agents spawned
+- [spawn-procedures](references/spawn-procedures.md) — Spawn procedures reference: triggers, configuration, AI Maestro integration, troubleshooting
+  - 1.1 What is agent spawning - Understanding agent creation
+  - 1.2 When to spawn agents - Triggers for new agents
+    - 1.2.1 Task assignment triggers - New work arrives
+    - 1.2.2 Scaling triggers - Parallel execution needed
+    - 1.2.3 Specialization triggers - Specific capability required
+  - 1.3 Spawn procedure - Step-by-step agent creation
+    - 1.3.1 Agent type selection - Choosing the right agent
+    - 1.3.2 Configuration preparation - Setting parameters
+    - 1.3.3 Instance creation - Executing spawn command
+    - 1.3.4 Initialization verification - Confirming agent ready
+    - 1.3.5 Registry registration - Recording agent existence
+  - 1.4 Spawn configuration format - Standard configuration structure
+  - 1.5 AI Maestro integration - Messaging new agents
+  - 1.6 Examples - Spawn scenarios
+  - 1.7 Troubleshooting - Spawn failures and recovery

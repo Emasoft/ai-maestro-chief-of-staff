@@ -346,7 +346,7 @@ Is the task long-running (>30 min)?
 
 1. **Too many concurrent agents**: Recommend phased execution. Complete Phase 1 agents before starting Phase 2.
 2. **Context memory limit**: Split large tasks into smaller chunks. Each agent handles one chunk.
-3. **Low disk space**: Recommend cleanup (delete logs, build artifacts) before proceeding.
+3. **Low disk space**: Recommend cleanup (prune old logs and build artifacts) before proceeding.
 4. **High message backlog**: Recommend delaying new agent spawns until existing agents complete current work.
 
 ---

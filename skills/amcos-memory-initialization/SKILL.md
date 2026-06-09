@@ -87,9 +87,12 @@ uv run python scripts/amcos_memory_manager.py validate
 ## Resources
 
 - [00-session-memory-fundamentals](references/00-session-memory-fundamentals.md) — Memory components
-  - What Is Session Memory
-  - Key Characteristics
-  - Session Memory Components
+  - [What Is Session Memory](#what-is-session-memory)
+  - [Key Characteristics](#key-characteristics)
+  - [Session Memory Components](#session-memory-components)
+    - [activeContext.md](#1-activecontextmd---current-working-state)
+    - [patterns.md](#2-patternsmd---learned-patterns-and-heuristics)
+    - [progress.md](#3-progressmd---task-tracking-and-completion-state)
 - [00-session-memory-lifecycle](references/00-session-memory-lifecycle.md) — Lifecycle phases
   - Overview
   - Phase 1: Session Initialization (Load)
@@ -104,13 +107,17 @@ uv run python scripts/amcos_memory_manager.py validate
   - Examples
   - Troubleshooting
 - [op-initialize-session-memory](references/op-initialize-session-memory.md) — Initialization runbook
-  - Purpose
-  - When To Use This Operation
-  - Session Memory Components
-  - Steps
-  - Checklist
-  - Output
-  - Directory Structure
-  - Related References
-  - Next Operation
+  - [Purpose](#purpose)
+  - [When To Use This Operation](#when-to-use-this-operation)
+  - [Session Memory Components](#session-memory-components)
+  - [Steps](#steps)
+    - [Step 1: Check Directory Exists](#step-1-check-directory-exists)
+    - [Step 2: Read or Create Memory Files](#step-2-read-or-create-memory-files)
+    - [Step 3: Validate Markdown Syntax](#step-3-validate-markdown-syntax)
+    - [Step 4: Report Loaded State](#step-4-report-loaded-state)
+  - [Checklist](#checklist)
+  - [Output](#output)
+  - [Directory Structure](#directory-structure)
+  - [Related References](#related-references)
+  - [Next Operation](#next-operation)
 

@@ -120,4 +120,26 @@ Copy this checklist and track your progress:
 - [14-context-sync](references/14-context-sync.md) — Context sync
   - Overview
   - Part 2: Advanced Procedures and Troubleshooting
+  - 1. Emergency Full Resync (Procedure 5)
+    - 1.1 When to Use Emergency Resync
+    - 1.2 Step-by-Step Procedure
+  - 2. Consistency Checks
+    - 2.1 Check 1: Task Status Consistency
+    - 2.2 Check 2: File Path Validity
+    - 2.3 Check 3: Decision Recency
+    - 2.4 Check 4: Pattern Relevance
+  - 3. Synchronization Examples
+    - 3.1 Example 1: Syncing After Unexpected Task Completion
+    - 3.2 Example 2: Syncing After File Moved
+    - 3.3 Example 3: Syncing After Decision Changes Direction
+  - 4. Troubleshooting
+    - 4.1 Cannot Determine Actual State
+    - 4.2 Frequent Drift Detected
+    - 4.3 Sync Creates New Inconsistencies
+  - Severe context drift requiring emergency resync
+  - Running consistency validation checks
+  - Seeing practical examples of sync procedures
+  - Debugging sync problems
 - [04-memory-validation](references/04-memory-validation.md) — Validation
+  - [Document Parts](#document-parts)
+  - [Quick Reference](#quick-reference)

@@ -93,5 +93,25 @@ Copy this checklist and track your progress:
 ## Resources
 
 - [op-assign-agent-to-issue](references/op-assign-agent-to-issue.md) — Assign agent to issue procedure
+  - [Purpose](#purpose)
+  - [When to Use](#when-to-use)
+  - [Prerequisites](#prerequisites)
+  - [Procedure](#procedure)
+    - [Step 1: Verify Issue Exists](#step-1-verify-issue-exists)
+    - [Step 2: Remove Existing Assignment (if any)](#step-2-remove-existing-assignment-if-any)
+    - [Step 3: Add Assignment Label](#step-3-add-assignment-label)
+    - [Step 4: Update Status from Backlog to Ready](#step-4-update-status-from-backlog-to-ready)
+    - [Step 5: Update Team Registry](#step-5-update-team-registry)
+    - [Step 6: Verify Assignment](#step-6-verify-assignment)
+  - [Example](#example)
+  - [Error Handling](#error-handling)
+  - [Rollback](#rollback)
 - [kanban-and-label-details](references/kanban-and-label-details.md) — Kanban columns and label details
+  - [Kanban Columns (Canonical 5-Status System)](#kanban-columns-canonical-5-status-system)
+  - [Task Routing Rules](#task-routing-rules)
+  - [Status Labels AMCOS Updates](#status-labels-amcos-updates)
+  - [Labels AMCOS Monitors](#labels-amcos-monitors)
+  - [Quick Reference: AMCOS Label Responsibilities](#quick-reference-amcos-label-responsibilities)
+  - [Labels AMCOS Never Sets](#labels-amcos-never-sets)
+  - [Checklist](#checklist)
 

@@ -110,6 +110,20 @@ Copy this checklist and track your progress:
 ## Resources
 
 - [op-update-team-registry](references/op-update-team-registry.md) — Team registry update procedures and examples
+  - [When to Use](#when-to-use)
+  - [Prerequisites](#prerequisites)
+  - [Procedure](#procedure)
+    - [Step 1: Identify Update Type](#step-1-identify-update-type)
+    - [Step 2: Execute Registry Update](#step-2-execute-registry-update)
+    - [Step 3: Verify Update](#step-3-verify-update)
+    - [Step 4: Publish Update to Team (Optional)](#step-4-publish-update-to-team-optional)
+    - [Step 5: Backup Registry (Recommended)](#step-5-backup-registry-recommended)
+  - [Checklist](#checklist)
+  - [Examples](#examples)
+    - [Example: Complete Agent Addition Flow](#example-complete-agent-addition-flow)
+    - [Example: Status Change After Hibernation](#example-status-change-after-hibernation)
+  - [Error Handling](#error-handling)
+  - [Related Operations](#related-operations)
 - [workflow-checklists](references/workflow-checklists.md) — Agent lifecycle checklists
   - 1.1 Spawning New Agent Checklist
   - 2.1 Terminating Agent Checklist

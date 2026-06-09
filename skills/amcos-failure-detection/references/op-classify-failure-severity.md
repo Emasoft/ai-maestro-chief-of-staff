@@ -121,6 +121,6 @@ After completing this operation:
 
 ## Next Operation
 
-- If TRANSIENT: Wait 5 minutes, then retry detection
+- TRANSIENT: wait 5 minutes and retry detection
 - If RECOVERABLE: Proceed to [op-execute-recovery-strategy.md](op-execute-recovery-strategy.md)
 - If TERMINAL: Proceed to [op-replace-agent.md](op-replace-agent.md)

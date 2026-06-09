@@ -94,6 +94,31 @@ Copy this checklist and track your progress:
   - Part Files
   - Quick Reference
 - [09-task-dependencies](references/09-task-dependencies.md) — Dependency types, management, critical path
+  - 1.1 Type 1: Sequential Dependency - When Task B cannot start until Task A completes
+  - 1.2 Type 2: Parallel with Merge - When independent tasks converge to common successor
+  - 1.3 Type 3: Split Dependency - When one task enables multiple parallel workstreams
+  - 1.4 Type 4: Partial Dependency - When Task B can start after Task A reaches milestone
+  - 1.5 Type 5: Optional Dependency - When Task B is enhanced but not blocked by Task A
+  - 2.1 Text-Based Notation - Linear chains, parallel paths, complex graphs, tables
+  - 2.2 In-Task Dependency Recording - How to record dependencies in task definitions
+  - Procedure 1: Record Dependency - How to record task dependencies with scripts
+  - Procedure 2: Check Dependencies Met - How to verify all dependencies are satisfied
+  - Procedure 3: Update Dependencies After Task Completion - How to unblock waiting tasks
+  - Procedure 4: Detect Circular Dependencies - How to find circular dependency chains
+  - 1.1 Definition - What is critical path and why it matters
+  - 1.2 Calculation Procedure - Step-by-step critical path calculation
+  - 1.3 Critical Path Script - Automated critical path analysis
+  - 2.1 Validation Checklist - Dependency validation requirements
+  - 2.2 Validation Script - Automated dependency validation
+  - Example 1: Simple Sequential Dependencies - Linear task chain example
+  - Example 2: Parallel Development with Merge - Frontend/backend parallel work example
+  - Example 3: Complex Dependency Graph - Multi-path dependency example
+  - Example 4: Partial Dependencies - Milestone-based dependency example
+  - Troubleshooting: Task Stuck Waiting on Dependency
+  - Troubleshooting: Circular Dependency Detected
+  - Troubleshooting: Too Many Dependencies
+  - Troubleshooting: Unknown Task Scope
+  - Troubleshooting: Dependency Information Lost
 - [10-recovery-procedures](references/10-recovery-procedures.md) — Recovery from failures
   - When you need to understand the purpose
   - Understanding recovery scenarios

@@ -98,9 +98,9 @@ When returning results to the Chief of Staff or any parent agent:
 ## Examples
 
 <example>
-request: Check if we can spawn a new agent
+user: Check if we can spawn a new agent
 
-response: Running resource checks for spawn authorization.
+assistant: Running resource checks for spawn authorization.
 
 === RESOURCE CHECK ===
 CPU Usage:      45% [OK]
@@ -113,9 +113,9 @@ All resources within acceptable limits. New agent can be spawned.
 </example>
 
 <example>
-request: Why is the system blocking new agent spawns?
+user: Why is the system blocking new agent spawns?
 
-response: Analyzing spawn block conditions.
+assistant: Analyzing spawn block conditions.
 
 === RESOURCE CHECK ===
 CPU Usage:      82% [EXCEEDED - threshold 80%]

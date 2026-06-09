@@ -56,3 +56,11 @@ cat references/transfer-procedures-and-examples.md | head -50
 ## Resources
 
 - [transfer-procedures-and-examples](references/transfer-procedures-and-examples.md) — Outbound/inbound transfers, approval, rejection, checklist, AMP format, examples
+  - [Initiating a Transfer (Outbound)](#initiating-a-transfer-outbound---from-your-team)
+  - [Approving a Transfer (Inbound)](#approving-a-transfer-inbound---into-your-team)
+  - [Rejecting a Transfer](#rejecting-a-transfer)
+  - [Transfer Checklist](#transfer-checklist)
+  - [AMP Notification Format](#amp-notification-format)
+  - [Example 1: Outbound Transfer](#example-1-outbound-transfer-moving-an-agent-out-of-your-team)
+  - [Example 2: Inbound Transfer Approval](#example-2-inbound-transfer-approval-accepting-an-agent-into-your-team)
+  - [Example 3: Rejecting a Transfer](#example-3-rejecting-a-transfer)

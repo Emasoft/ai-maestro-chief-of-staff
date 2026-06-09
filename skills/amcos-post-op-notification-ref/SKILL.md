@@ -56,3 +56,18 @@ cat references/post-operation-notifications.md | head -50
 ## Resources
 
 - [post-operation-notifications](references/post-operation-notifications.md) — When to send, notification procedure, verification format, examples, troubleshooting
+  - 2.1 What are post-operation notifications - Understanding confirmation messages
+  - 2.2 When to send post-operation notifications - Confirmation triggers
+    - 2.2.1 Skill installation complete - Skill is now active
+    - 2.2.2 Agent restart complete - Agent is back online
+    - 2.2.3 Configuration applied - Settings now active
+    - 2.2.4 Maintenance complete - Normal operations resume
+  - 2.3 Post-operation notification procedure - Step-by-step process
+    - 2.3.1 Confirm operation success - Verify completion
+    - 2.3.2 Compose confirmation - What to tell agents
+    - 2.3.3 Send notification - Using the `agent-messaging` skill
+    - 2.3.4 Request verification - Ask agent to confirm
+    - 2.3.5 Log outcome - Record the result
+  - 2.4 Verification request format - Asking agents to confirm
+  - 2.5 Examples - Post-operation scenarios
+  - 2.6 Troubleshooting - Verification issues

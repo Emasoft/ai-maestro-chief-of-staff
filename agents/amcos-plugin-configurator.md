@@ -144,9 +144,9 @@ When returning results to the Chief of Staff or any parent agent:
 ## Examples
 
 <example>
-request: Configure the perfect-skill-suggester plugin for agent 'helper-agent-generic' in project ~/myproject
+user: Configure the perfect-skill-suggester plugin for agent 'helper-agent-generic' in project ~/myproject
 
-response: Configuring plugins for helper-agent-generic at ~/myproject.
+assistant: Configuring plugins for helper-agent-generic at ~/myproject.
 
 1. Checking if marketplace exists...
    - AI Maestro distribution: FOUND
@@ -176,9 +176,9 @@ Configuration complete. Sending restart notification to helper-agent-generic.
 </example>
 
 <example>
-request: The test-runner agent reports duplicate hook errors after plugin update
+user: The test-runner agent reports duplicate hook errors after plugin update
 
-response: Diagnosing duplicate hook issue for test-runner agent.
+assistant: Diagnosing duplicate hook issue for test-runner agent.
 
 1. Checking plugin cache:
    ```

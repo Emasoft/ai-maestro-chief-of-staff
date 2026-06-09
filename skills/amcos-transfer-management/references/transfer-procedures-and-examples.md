@@ -30,7 +30,7 @@
        "requested_by": "<your-cos-id>"
      }'
    ```
-5. **Record the TransferRequest ID** - Save the returned `id` for tracking
+5. **Record the TransferRequest ID** - Save the returned **id** value for tracking
 6. **Approve as source COS** - Submit your own approval for the source side:
    ```bash
    curl -X POST "$AIMAESTRO_API/api/governance/transfers/{id}/approve" \

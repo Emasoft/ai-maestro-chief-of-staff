@@ -56,4 +56,19 @@ cat references/system-resources.md | head -60
 ## Resources
 
 - [system-resources](references/system-resources.md) — CPU, memory, disk, network monitoring, thresholds, health assessment, examples
+  - 1.1 [Types Of System Resources](#11-types-of-system-resources)
+  - 1.2 [Monitoring CPU Usage](#12-monitoring-cpu-usage)
+  - 1.3 [Monitoring Memory](#13-monitoring-memory)
+  - 1.4 [Monitoring Disk Space](#14-monitoring-disk-space)
+  - 1.5 [Monitoring Network](#15-monitoring-network)
+  - 1.6 [Resource Thresholds](#16-resource-thresholds)
+  - 1.7 [System Resource Examples](#17-system-resource-examples)
+  - 1.8 [Troubleshooting](#18-troubleshooting)
 - [instance-limits](references/instance-limits.md) — Session limits, API rate limits, concurrency, scaling decisions, examples
+  - 2.1 [Types Of Instance Limits](#21-types-of-instance-limits)
+  - 2.2 [Counting Active Sessions](#22-counting-active-sessions)
+  - 2.3 [Tracking API Rate Limits](#23-tracking-api-rate-limits)
+  - 2.4 [Managing Concurrency](#24-managing-concurrency)
+  - 2.5 [Making Scaling Decisions](#25-making-scaling-decisions)
+  - 2.6 [Instance Limit Examples](#26-instance-limit-examples)
+  - 2.7 [Troubleshooting](#27-troubleshooting)

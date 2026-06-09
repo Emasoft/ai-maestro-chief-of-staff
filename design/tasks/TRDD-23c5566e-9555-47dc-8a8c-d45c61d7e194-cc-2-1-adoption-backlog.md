@@ -115,7 +115,7 @@ stalled" / "approval pending" is currently absent.
 
 **Design sketch:**
 - In `scripts/amcos_resource_check.py`: when an alert triggers, include
-  `"terminalSequence": ""` (bell) and a `"title": "⚠️ Resources"` cue
+  `"terminalSequence": "\u0007"` (bell) and a `"title": "⚠️ Resources"` cue
   in the hook output JSON.
 - In `scripts/amcos_notification_protocol.py`: when broadcasting urgent
   governance notifications, attach a `terminalSequence` with the bell.

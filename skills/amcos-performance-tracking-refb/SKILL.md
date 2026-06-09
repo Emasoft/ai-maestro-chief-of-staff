@@ -56,3 +56,11 @@ cat references/performance-metrics.md | head -50
 ## Resources
 
 - [performance-metrics](references/performance-metrics.md) — Metric categories, collection procedures, data storage, trend analysis, examples, troubleshooting
+  - 1.1 [Categories Of Performance Metrics](#11-categories-of-performance-metrics)
+  - 1.2 [Task Completion Metrics](#12-task-completion-metrics)
+  - 1.3 [Quality Metrics](#13-quality-metrics)
+  - 1.4 [Efficiency Metrics](#14-efficiency-metrics)
+  - 1.5 [Communication Metrics](#15-communication-metrics)
+  - 1.6 [Collecting Metric Data](#16-collecting-metric-data)
+  - 1.7 [Performance Metrics Examples](#17-performance-metrics-examples)
+  - 1.8 [Troubleshooting](#18-troubleshooting)

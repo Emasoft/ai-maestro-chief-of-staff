@@ -57,4 +57,17 @@ cat references/01-initialize-session-memory.md | head -50
 ## Resources
 
 - [01-initialize-session-memory](references/01-initialize-session-memory.md) — Initialization procedure, directory structure, file templates, validation, troubleshooting
+  1. [When you need to understand the purpose](#purpose)
+  2. [When to initialize session memory](#when-to-initialize)
+  3. [How to perform initialization](#initialization-procedure)
+  4. [Understanding directory structure](#directory-structure)
+  5. [What files to create initially](#initial-files)
+  6. [How to verify initialization](#verification-steps)
+  7. [For implementation examples](#examples)
+  8. [If issues occur](#troubleshooting)
 - [00-session-memory-examples](references/00-session-memory-examples.md) — Examples: init, recovery, progress update, context update, pattern recording
+  - [Example 1: Initializing Session Memory](#example-1-initializing-session-memory)
+  - [Example 2: Recovering After Interruption](#example-2-recovering-after-interruption)
+  - [Example 3: Updating Progress After Task Completion](#example-3-updating-progress-after-task-completion)
+  - [Example 4: Updating Active Context](#example-4-updating-active-context)
+  - [Example 5: Recording a Discovered Pattern](#example-5-recording-a-discovered-pattern)
