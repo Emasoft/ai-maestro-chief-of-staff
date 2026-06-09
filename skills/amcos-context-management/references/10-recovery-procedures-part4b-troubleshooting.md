@@ -279,7 +279,7 @@ fi
 
 **Solution:**
 
-```bash
+```text
 #!/bin/bash
 # fix_permissions.sh
 

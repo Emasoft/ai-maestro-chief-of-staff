@@ -126,9 +126,9 @@ A soft restart sends a graceful termination signal and allows the agent to clean
 
 Use the `agent-messaging` skill to send:
 - **Recipient**: the unresponsive agent session name
-- **Subject**: `[SYSTEM] Graceful restart requested`
+- **Subject**: `Graceful restart requested`
 - **Priority**: `urgent`
-- **Content**: type `system-command`, message: "AMCOS has detected you are unresponsive. Please save your state and restart. If you receive this message, acknowledge and restart within 2 minutes." Include `command`: "graceful_restart`, `timeout_seconds`: 120.
+- **Content**: type `system-command`, with a message that notifies the agent it appears unresponsive and asks it to save state and restart within a two-minute window. Include `command`: "graceful_restart`, `timeout_seconds`: 120.
 
 **Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
 

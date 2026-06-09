@@ -171,7 +171,7 @@ cat design/config/toolchain.md | wc -c
 **Cause:** Directory permissions or disk full
 
 **Solution:**
-```bash
+```text
 # Check directory permissions
 ls -la design/memory/
 

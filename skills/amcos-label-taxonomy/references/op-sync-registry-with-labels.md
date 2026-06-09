@@ -94,7 +94,7 @@ done
 
 Find labels for agents not in registry:
 
-```bash
+```text
 # Get all assign:* labels in repo
 ALL_ASSIGN_LABELS=$(gh label list --json name --jq '.[] | select(.name | startswith("assign:")) | .name')
 
@@ -121,7 +121,7 @@ echo "Sync completed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> docs_dev/sync-log.txt
 
 **Scenario:** Check sync for agent `implementer-1`.
 
-```bash
+```text
 # Get labeled issues
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 echo "Labeled: $LABELED"
@@ -147,7 +147,7 @@ fi
 
 For scheduled sync, create a script:
 
-```bash
+```text
 #!/bin/bash
 # scripts/amcos_sync_labels.sh
 
