@@ -43,7 +43,7 @@ Before sending, validate recipient against `GET /api/teams`. Block and log viola
 
 ### PROCEDURE 1: Pre-Operation Notification
 
-**When to use:** Before skill/plugin installation, agent restart, configuration changes, or any disruptive operation.
+**When to use:** Before skill or plugin installation, agent restart, configuration changes, or any disruptive operation.
 
 **Workflow:**
 

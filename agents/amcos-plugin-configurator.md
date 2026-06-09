@@ -144,9 +144,9 @@ When returning results to the Chief of Staff or any parent agent:
 ## Examples
 
 <example>
-request: Configure the perfect-skill-suggester plugin for agent 'helper-agent-generic' in project /Users/dev/myproject
+request: Configure the perfect-skill-suggester plugin for agent 'helper-agent-generic' in project ~/myproject
 
-response: Configuring plugins for helper-agent-generic at /Users/dev/myproject.
+response: Configuring plugins for helper-agent-generic at ~/myproject.
 
 1. Checking if marketplace exists...
    - AI Maestro distribution: FOUND

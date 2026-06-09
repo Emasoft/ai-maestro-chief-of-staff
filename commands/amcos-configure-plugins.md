@@ -88,7 +88,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 ║               PLUGIN CONFIGURATION REPORT                      ║
 ╠════════════════════════════════════════════════════════════════╣
 ║ Agent: libs-svg-svgbbox                                        ║
-║ Project: /Users/user/Code/svg-bbox                             ║
+║ Project: ~/Code/svg-bbox                                       ║
 ╠════════════════════════════════════════════════════════════════╣
 ║ ACTIONS PERFORMED                                              ║
 ╠════════════════════════════════════════════════════════════════╣

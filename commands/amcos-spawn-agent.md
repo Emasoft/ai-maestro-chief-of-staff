@@ -48,7 +48,7 @@ This command creates a new agent session. The operation:
 
 **Platform-specific temp directories:**
 - **macOS/Linux**: `/tmp`
-- **Windows**: `%TEMP%` or `C:\Users\<user>\AppData\Local\Temp`
+- **Windows**: `%TEMP%` or `%LOCALAPPDATA%\Temp`
 
 ## Examples
 
@@ -77,7 +77,7 @@ This command creates a new agent session. The operation:
   Creating Agent: helper-python
 ═══════════════════════════════════════════════════════════════
 
-  ✓ Directory created: /Users/dev/projects/myapp
+  ✓ Directory created: ~/projects/myapp
   ✓ Git repository initialized
   ✓ CLAUDE.md template created
   ✓ Agent registered in AI Maestro

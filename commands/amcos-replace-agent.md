@@ -175,7 +175,7 @@ Use the `ai-maestro-agents-management` skill to check health of the new agent:
 
   Step 2: Create New Agent
     ✓ Agent helper-backend-v2 created
-    ✓ Working directory: /Users/dev/projects/myapp
+    ✓ Working directory: ~/projects/myapp
     ✓ tmux session: helper-backend-v2
 
   Step 3: Generate Handoff

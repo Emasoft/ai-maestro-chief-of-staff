@@ -171,7 +171,7 @@ If `--notify-orchestrator` is set, send a notification to AMOA using the `agent-
 
   From Agent:     helper-backend
   To Agent:       helper-backend-v2
-  Handoff File:   /Users/dev/handoffs/backend-transfer.md
+  Handoff File:   ~/handoffs/backend-transfer.md
   Priority:       high
 
   Steps:
@@ -197,7 +197,7 @@ Use `--format json` for structured output:
   "transfer": {
     "from": "helper-backend",
     "to": "helper-backend-v2",
-    "handoff_file": "/Users/dev/handoffs/backend-transfer.md",
+    "handoff_file": "~/handoffs/backend-transfer.md",
     "priority": "high",
     "message_id": "abc123",
     "timestamp": "2024-01-15T10:30:00Z"

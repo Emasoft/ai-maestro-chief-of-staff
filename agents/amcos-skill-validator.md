@@ -74,30 +74,30 @@ When returning results to the Chief of Staff or any parent agent:
 ## Examples
 
 <example>
-request: Validate the code-review skill
+request: Validate the amcos-onboarding skill
 
-response: Validating skill at ./skills/code-review/
+response: Validating skill at ./skills/amcos-onboarding/
 
 Running skills-ref validate...
 
 Validation Results:
 - SKILL.md: Found
 - Frontmatter: Valid
-  - name: code-review
-  - description: Code review best practices and procedures
+  - name: amcos-onboarding
+  - description: Agent onboarding procedures for the Chief of Staff team
 - references/: 3 files found, all valid
 
-Validation PASSED for ./skills/code-review/
+Validation PASSED for ./skills/amcos-onboarding/
 </example>
 
 <example>
-request: The tdd-workflow skill is failing validation
+request: The amcos-staff-planning skill is failing validation
 
-response: Investigating validation failure for ./skills/tdd-workflow/
+response: Investigating validation failure for ./skills/amcos-staff-planning/
 
 Running skills-ref validate with verbose output...
 
-Validation FAILED for ./skills/tdd-workflow/:
+Validation FAILED for ./skills/amcos-staff-planning/:
 
 Errors:
 1. [CRITICAL] INVALID_FRONTMATTER at line 3
@@ -110,14 +110,14 @@ Errors:
 
 Remediation Steps:
 1. Fix frontmatter at line 3:
-   Change: `description TDD workflow for Claude Code`
-   To: `description: TDD workflow for Claude Code`
+   Change: `description Staff planning frameworks for the team`
+   To: `description: Staff planning frameworks for the team`
 
 2. Create missing reference file or update link:
-   - Create: ./skills/tdd-workflow/references/test-patterns.md
+   - Create: references/test-patterns.md inside the skill's references/ directory
    - Or update link to existing file
 
-After fixes, run: /amcos-validate-skills ./skills/tdd-workflow/
+After fixes, run: /amcos-validate-skills ./skills/amcos-staff-planning/
 </example>
 
 <example>
@@ -126,12 +126,12 @@ request: I updated several skills, need to reindex PSS
 response: Checking for modified skills...
 
 Modified skills detected:
-- ./skills/code-review/ (last modified: 2 minutes ago)
-- ./skills/debugging/ (last modified: 5 minutes ago)
+- ./skills/amcos-onboarding/ (last modified: 2 minutes ago)
+- ./skills/amcos-skill-management/ (last modified: 5 minutes ago)
 
 Pre-reindex validation:
-- code-review: PASSED
-- debugging: PASSED
+- amcos-onboarding: PASSED
+- amcos-skill-management: PASSED
 
 Triggering PSS reindex via AI Maestro...
 

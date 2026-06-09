@@ -98,7 +98,7 @@ With `--verbose` flag, additional metrics are shown:
     CPU:            12%
     Memory:         256 MB
     Session PID:    12345
-    Working Dir:    /Users/dev/projects/backend
+    Working Dir:    ~/projects/backend
 
 ═══════════════════════════════════════════════════════════════
 ```
@@ -141,7 +141,7 @@ With `--verbose` flag, additional metrics are shown:
         "memory": 256,
         "pid": 12345
       },
-      "workingDir": "/Users/dev/projects/backend"
+      "workingDir": "~/projects/backend"
     }
   ],
   "summary": {

@@ -42,7 +42,7 @@ This command wakes a hibernated agent session. The operation:
 
 **Platform-specific temp directories:**
 - **macOS/Linux**: `/tmp`
-- **Windows**: `%TEMP%` or `C:\Users\<user>\AppData\Local\Temp`
+- **Windows**: `%TEMP%` or `%LOCALAPPDATA%\Temp`
 
 ## Examples
 

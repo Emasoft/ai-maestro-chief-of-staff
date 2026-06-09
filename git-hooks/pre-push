@@ -3,7 +3,7 @@
 #
 # Blocks on CRITICAL and MAJOR issues; allows MINOR (advisory).
 #
-# Exit codes from validate_plugin.py:
+# Exit codes from the CPV remote validator (cpv-remote-validate plugin):
 #   0 - All checks passed
 #   1 - CRITICAL issues found (blocks push)
 #   2 - MAJOR issues found (blocks push)
@@ -75,21 +75,19 @@ echo ""
 
 cd "$REPO_ROOT"
 
-# Check that the validator script exists
-if [ ! -f "scripts/validate_plugin.py" ]; then
-    echo -e "${RED}ERROR: scripts/validate_plugin.py not found${NC}"
+# Validation runs via the remote CPV validator (cpv-remote-validate), the
+# same entry point scripts/publish.py uses for its strict publish gate.
+# There is no local validator script, so a missing uvx blocks the push
+# (fail closed - never push unvalidated).
+if ! command -v uvx &> /dev/null; then
+    echo -e "${RED}ERROR: uvx not found (install uv: https://docs.astral.sh/uv/)${NC}"
     echo -e "${RED}Cannot validate plugin. Push blocked.${NC}"
     exit 1
 fi
 
-# Use uv with --with pyyaml (needed since most plugins lack pyproject.toml)
-# Falls back to python3 if uv is not available
 set +e
-if command -v uv &> /dev/null; then
-    uv run --with pyyaml --with types-PyYAML python scripts/validate_plugin.py . --verbose 2>&1
-else
-    python3 scripts/validate_plugin.py . --verbose 2>&1
-fi
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation --with pyyaml \
+    cpv-remote-validate plugin . 2>&1
 VALIDATION_EXIT_CODE=$?
 set -e
 

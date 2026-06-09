@@ -224,7 +224,7 @@ with parameters derived from the failed agent's metadata.
     Agent:           helper-backend
     Project:         myapp-api
     Role:            implementer
-    Working Dir:     /Users/dev/projects/myapp
+    Working Dir:     ~/projects/myapp
 
   Step 2: Trigger Replacement Workflow
     ✓ Spawning /amcos-replace-agent task
@@ -234,7 +234,7 @@ with parameters derived from the failed agent's metadata.
       --new-name:      helper-backend-v2
       --role:          implementer
       --project:       myapp-api
-      --dir:           /Users/dev/projects/myapp
+      --dir:           ~/projects/myapp
       --reason:        Persistent context corruption
 
   Step 3: Replacement Status

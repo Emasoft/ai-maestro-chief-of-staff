@@ -235,6 +235,17 @@ For detailed procedures, see skills:
     - Notes
   <!-- /TOC -->
 - **Post-operation notifications** → [amcos-post-op-notification](../skills/amcos-post-op-notification/SKILL.md), [post-operation-notifications](../skills/amcos-post-op-notification/references/post-operation-notifications.md)
+  <!-- TOC: post-operation-notifications.md -->
+  > What are post-operation notifications - Understanding confirmation messages
+  > When to send post-operation notifications - Confirmation triggers
+  > Skill installation complete - Skill is now active · Agent restart complete - Agent is back online
+  > Configuration applied - Settings now active · Maintenance complete - Normal operations resume
+  > Post-operation notification procedure - Step-by-step process
+  > Confirm operation success - Verify completion · Compose confirmation - What to tell agents
+  > Send notification - Using the `agent-messaging` skill · Request verification - Ask agent to confirm
+  > Log outcome - Record the result · Verification request format - Asking agents to confirm
+  > Examples - Post-operation scenarios · Troubleshooting - Verification issues
+  <!-- /TOC -->
   <!-- TOC: success-criteria.md -->
   - Success Criteria for Agent Lifecycle Operations
     - Contents
@@ -271,14 +282,29 @@ For detailed procedures, see skills:
 - **Skill validation** → [amcos-skill-management](../skills/amcos-skill-management/SKILL.md)
 - **Record-keeping and audit logs** → [amcos-agent-termination](../skills/amcos-agent-termination/SKILL.md), [record-keeping](../skills/amcos-agent-termination/references/record-keeping.md)
   <!-- TOC: record-keeping.md -->
-  - Lifecycle Log
-  - Approval Requests Log
-  - Team Assignments Log
-  - Project: svgbbox-library
-  - Project: auth-service
-  - ...and 19 more sections
+  > Lifecycle Log · Approval Requests Log · Team Assignments Log · Project: svgbbox-library
+  > Project: auth-service · Operation Audit Trail · Log Maintenance · Log Access
+  > Agent Registry Structures · Central Agent Registry · Team Registry (Project-Level)
+  > Session State Formats · Hibernation State Snapshot · Health Check Response Format
+  > Team Status Report Format · Log Query Examples · Get recent spawns
+  > Find all operations for specific agent · Check hibernation/wake cycles
+  > Get approval decisions from current month · Trace specific operation by request ID · Best Practices
   <!-- /TOC -->
 - **Sub-agent role boundaries** → [sub-agent-role-boundaries-template](../skills/amcos-agent-coordination/references/sub-agent-role-boundaries-template.md)
+  <!-- TOC: sub-agent-role-boundaries-template.md -->
+  > Agent File Structure · YAML Frontmatter (Required) · Agent Title and Role Description
+  > Terminology Section (Optional but Recommended) · Terminology · Core Responsibilities
+  > Core Responsibilities · [1. [Primary Responsibility]](#1-primary-responsibility)
+  > [2. [Secondary Responsibility]](#2-secondary-responsibility) · [Tertiary Responsibility)
+  > Iron Rules (Required) · Iron Rules · Worker Designation · Sub-Agent vs Coordinator · Role Boundaries
+  > Output Format · Completion Reports · Status Values · Log File Format · Communication Rules
+  > Inter-Agent Messaging (AI Maestro) · Tool Restrictions · Allowed Tools by Agent Type
+  > Tool Usage Guidelines · Command-Line Tools · Error Handling Pattern · Error Handling
+  > Procedure Template · Procedures · [Procedure [N]: [Action Name)](#procedure-n-action-name)
+  > Example Usage · Minimal Sub-Agent Template · Core Responsibilities · [Responsibility 1)
+  > [Responsibility 2) · Iron Rules · Procedures · Procedure 1: [Action Name · Error Handling · Examples
+  > Validation Checklist · References
+  <!-- /TOC -->
 
 ## Quick Command Reference
 

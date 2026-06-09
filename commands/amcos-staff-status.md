@@ -64,10 +64,10 @@ This command lists all registered agents. The operation queries:
 ┌────────────────────┬──────────┬─────────────────────────────────┬──────────────────┐
 │ Agent              │ Status   │ Working Directory               │ Tags             │
 ├────────────────────┼──────────┼─────────────────────────────────┼──────────────────┤
-│ backend-api        │ online   │ /Users/dev/projects/backend     │ api, implementer │
-│ frontend-dev       │ online   │ /Users/dev/projects/frontend    │ ui, react        │
-│ test-runner        │ offline  │ /Users/dev/projects/tests       │ tester           │
-│ data-processor     │ hibernated│ /Users/dev/projects/data       │ worker           │
+│ backend-api        │ online   │ ~/projects/backend              │ api, implementer │
+│ frontend-dev       │ online   │ ~/projects/frontend             │ ui, react        │
+│ test-runner        │ offline  │ ~/projects/tests                │ tester           │
+│ data-processor     │ hibernated│ ~/projects/data                │ worker           │
 └────────────────────┴──────────┴─────────────────────────────────┴──────────────────┘
 ```
 
@@ -98,7 +98,7 @@ For detailed information about a specific agent, use the `ai-maestro-agents-mana
   Program:      claude-code
   Model:        claude-sonnet-4-20250514
 
-  Working Dir:  /Users/dev/projects/backend
+  Working Dir:  ~/projects/backend
 
   Task:         Implement user authentication module
 

@@ -51,7 +51,7 @@ response: Spawning code-reviewer-auth agent.
 
 Use the `ai-maestro-agents-management` skill to create a new agent:
 - **Name**: `code-reviewer-auth`
-- **Directory**: `/Users/dev/projects/auth-review`
+- **Directory**: `~/projects/auth-review`
 - **Task**: "Review authentication module code"
 - **Tags**: `reviewer,auth,security`
 - **Program args**: include standard Claude Code flags
