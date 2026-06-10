@@ -17,21 +17,28 @@ on:
 # purpose is to catch regressions where someone bypasses publish.py and
 # pushes a tag directly — CI will flag the broken release.
 
+permissions:
+  contents: read
+
 jobs:
   validate-tag:
     runs-on: ubuntu-latest
+    # The v2.13.0 gate hung for 3h+ inside the validator's repo-lint phase
+    # (no output after the banner). Without a timeout the default is 6h of
+    # burned runner minutes — cap it well above the ~1-3 min healthy runtime.
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
 
       - name: CPV strict validation gate (post-hoc safety net)
         run: |
