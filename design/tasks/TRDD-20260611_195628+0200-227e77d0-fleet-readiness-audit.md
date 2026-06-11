@@ -1,10 +1,12 @@
 ---
 trdd-id: 227e77d0-a2d1-47cb-96c5-f263a52819cd
 title: Fleet-readiness deep audit — close governance gaps before fleet start (issue #17)
-column: complete
+column: published
 created: 2026-06-11T19:56:28+0200
-updated: 2026-06-11T21:05:00+0200
-implementation-commits: [0d720bc, 67d4f25, 5847a9d, b57f3d3]
+updated: 2026-06-11T21:20:00+0200
+implementation-commits: [0d720bc, 67d4f25, 5847a9d, b57f3d3, 0af78ab, 51b7b51]
+published-version: 2.14.0
+published-at: 2026-06-11T20:40:18+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -38,16 +40,19 @@ pending tasks" + standing "implement/fix all issues valid").
 **Every verdict was re-verified against the live repo (v2.13.1) before any
 edit** — all confirmed true (see Verified findings below).
 
-**STATUS 2026-06-11 21:05:** Phases 1–4 COMPLETE and committed
-(0d720bc governance structure, 67d4f25 cleanup of 27 orphan dirs,
-5847a9d corrected-model docs, b57f3d3 149-test suite + runner). Full
-pytest gate green (149 passed); CPV strict independently re-run → exit 0
-(0 CRITICAL/MAJOR/MINOR/NIT, 56 advisory WARNINGs). README bumped
-(29 skills, v2.14.0 header).
+**STATUS 2026-06-11 21:20 — DONE, PUBLISHED, TERMINAL.** All 5 phases
+complete; **v2.14.0 published** (release commit 51b7b51, tag pushed,
+GitHub release live). Issue #17 answered with the full per-verdict table
+(comment 4683823190) and left open for the MANAGER's verification.
+Coordination comments posted: janitor#18 (memory path convention — AMCOS
+data + ready to retire the old bank if option 3 wins, comment 4683827359)
+and janitor#16 (memgrep downstream-consumer contract registration,
+comment 4683830655).
 
-**NEXT ACTION:** run `uv run python scripts/publish.py --minor`
-(→ v2.14.0), then reply to issue #17 with the self-id line + per-verdict
-resolution, and post the janitor#18 memory-coordination comment.
+**NEXT ACTION:** none for this TRDD (terminal). Standing duty continues
+outside it: monitor the repo, coordinate with MANAGER (3 pillars) and
+janitor (memory system) via issue comments. This post-publish TRDD edit
+is committed locally and rides to origin with the next release.
 
 **Load-bearing facts / gotchas:**
 - The plugin git repo is `ai-maestro-chief-of-staff/` (a SUBDIR of the Claude
