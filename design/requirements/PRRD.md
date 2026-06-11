@@ -1,7 +1,8 @@
 ---
-prrd-version: 1.0
-updated: 2026-06-02T14:17:45+0200
+prrd-version: 1.1
+updated: 2026-06-11T19:56:28+0200
 project: ai-maestro-chief-of-staff
+project-id: ai-maestro-chief-of-staff
 canonical-source: design/requirements/PRRD.md
 mirrors: []
 ---
@@ -30,3 +31,9 @@ spec: `~/.claude/rules/prrd-design-rules.md`.
 
 ## 🥈 SILVER — MANAGER-mutable (agents propose via COS)
 
+- **S2.1** — Spawn-approval timeout. COS waits 60 min (normal-priority) / 10 min (urgent-priority) for MANAGER approval on a non-exempt spawn or governance request before escalating per the autonomous-fallback chain. It never spin-waits.
+- **S3.1** — Max coordinated team size is 12 active members; beyond that COS proposes a sub-team split to MANAGER rather than coordinating a larger team directly.
+- **S4.1** — Escalation batch window. COS batches NORMAL-priority escalations to MANAGER on a 15-minute window to protect MANAGER tokens; URGENT and HIGH escalations bypass the batch and are forwarded immediately.
+- **S5.1** — Proposal-queue drain cadence. COS surfaces the team's open `design/proposals/` queue to MANAGER at least once per idle sweep (janitor-heartbeat cadence) and reports approvals back to the proposing agent the same chain.
+- **S6.1** — Single-writer-per-domain. Every mutable surface under `design/` (a TRDD file, the PRRD, a proposal) has exactly one owning session; a task needing a domain it does not own delegates to the owner or takes an explicit claim before writing — derived NPT/EHT tasks follow the same rule to avoid collisions.
+- **S7.1** — The three in-team dialog loops — task-comprehension handshake, in-dev issue dialog, pre-PR gate — are ORCHESTRATOR-owned and run on DIRECT ORCH↔ARCH/MEMBER/INT edges; COS guards the TEAM BOUNDARY only (R6 v3) and never relays or absorbs these in-team exchanges.

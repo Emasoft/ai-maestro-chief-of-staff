@@ -71,5 +71,5 @@ governance = "team-governance"
 
 [agent.dependencies]
 ai_maestro_version = ">=0.26.0"
-claude_code_version = ">=2.1.69"
+claude_code_version = ">=2.1.139"
 required_skills = ["ai-maestro-agents-management", "agent-messaging"]
