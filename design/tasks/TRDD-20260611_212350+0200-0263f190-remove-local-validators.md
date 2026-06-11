@@ -1,9 +1,12 @@
 ---
 trdd-id: 0263f190-6a45-4a0e-9da5-f188403af0f5
 title: Remove the vendored local validator suite — remote CPV is the only validator
-column: dev
+column: published
 created: 2026-06-11T21:23:50+0200
-updated: 2026-06-11T21:23:50+0200
+updated: 2026-06-11T21:35:00+0200
+implementation-commits: [4144452, 0b7a001]
+published-version: 2.15.0
+published-at: 2026-06-11T21:27:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 2

@@ -1,9 +1,12 @@
 ---
 trdd-id: 5f717ded-e4ec-4a60-a7f7-b5d3f2627906
 title: Retire the old session memory bank per the ratified fleet three-scope convention
-column: dev
+column: published
 created: 2026-06-11T21:00:27+0200
-updated: 2026-06-11T21:30:00+0200
+updated: 2026-06-11T21:35:00+0200
+implementation-commits: [0395d89, 42b78fa, 0b7a001]
+published-version: 2.15.0
+published-at: 2026-06-11T21:27:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 2
