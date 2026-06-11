@@ -829,7 +829,9 @@ If multiple edge cases compound:
 
 ## Related Documents
 
-- Memory initialization: see `amcos-memory-initialization` skill, reference `01-initialize-session-memory.md`
-- Detailed recovery: see `amcos-progress-tracking` skill, reference `10-recovery-procedures.md`
-- Context synchronization: see `amcos-context-management` skill, reference `14-context-sync.md`
+- Durable memory (recall before acting / write after learning): see the
+  `cos-memory-recall` and `cos-memory-write` skills (`rules/memory-protocol.md`).
+  The old session memory bank (`amcos-memory-initialization` /
+  `amcos-progress-tracking` / `amcos-context-management`) was retired per the
+  fleet three-scope memory convention (TRDD-5f717ded).
 - [SKILL.md](../SKILL.md) - Core notification protocols skill

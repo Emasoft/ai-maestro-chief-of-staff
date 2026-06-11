@@ -129,7 +129,7 @@ AMCOS (Chief of Staff) ---- one per team
 | `/amcos-resource-report` | Show team resource usage |
 | `/amcos-performance-report` | Show team performance metrics |
 
-### Skills (29)
+### Skills (25)
 
 | Skill | Purpose |
 |-------|---------|
@@ -152,10 +152,6 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-plugin-management` | Plugin configuration and installation |
 | `amcos-prrd-trdd-kanban` | The 3 governance pillars (PRRD rules, TRDD tasks, kanban) — defers to the universal `prrd-trdd-kanban` skill in `ai-maestro-plugin` |
 | `amcos-resource-monitoring` | Resource limits and monitoring |
-| `amcos-memory-initialization` | Session memory initialization and loading |
-| `amcos-context-management` | Session context persistence and management |
-| `amcos-progress-tracking` | Session progress tracking and checkpoints |
-| `amcos-config-snapshot` | Configuration snapshot capture and restore |
 | `amcos-skill-management` | Skill validation and reindexing |
 | `amcos-staff-planning` | Staff planning and role assignment |
 | `amcos-team-coordination` | Team AMP messaging and coordination |

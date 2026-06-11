@@ -158,7 +158,7 @@ Analyzes skills for relationships:
 {
   "name": "amcos-staff-planning",
   "co_usage": {
-    "prerequisites": ["amcos-memory-initialization", "amcos-context-management", "amcos-progress-tracking", "amcos-config-snapshot"],
+    "prerequisites": ["cos-memory-recall", "cos-memory-write", "amcos-team-coordination"],
     "related": ["amcos-agent-spawning"],
     "alternatives": []
   }
@@ -187,7 +187,7 @@ Analyzes skills for relationships:
         "secondary": ["agents", "templates", "allocation"]
       },
       "co_usage": {
-        "prerequisites": ["amcos-memory-initialization", "amcos-context-management", "amcos-progress-tracking", "amcos-config-snapshot"],
+        "prerequisites": ["cos-memory-recall", "cos-memory-write", "amcos-team-coordination"],
         "related": ["amcos-agent-spawning"],
         "alternatives": []
       },
