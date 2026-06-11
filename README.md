@@ -220,7 +220,11 @@ Critical operations (spawn, terminate, replace) require a GovernanceRequest (sou
 
 ```bash
 cd ai-maestro-chief-of-staff
-uv run python scripts/validate_plugin.py . --verbose
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin . --strict
 ```
 
-**Current status (v2.10.2)**: 0 CRITICAL, 0 MAJOR, 0 MINOR, 0 WARNING — all checks pass.
+This plugin ships **no local validator scripts** — validation always runs the
+remote CPV validator (the same `--strict` gate `scripts/publish.py` enforces),
+so the rules can never drift from upstream. Findings are fixed by devitalizing
+or removing the offending content, never by suppressing or exempting a rule.

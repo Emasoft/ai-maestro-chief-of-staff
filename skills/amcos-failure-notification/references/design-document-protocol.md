@@ -160,16 +160,13 @@ After saving ANY design document:
 
 ### 4.3 Validation Script Usage
 
-```bash
-# Validate a single document
-uv run python scripts/amcos_design_validate.py design/requirements/REQ-20260129-0001.md
-
-# Validate all documents in a folder
-uv run python scripts/amcos_design_validate.py design/requirements/
-
-# Validate entire design folder
-uv run python scripts/amcos_design_validate.py design/
-```
+The legacy `amcos_design_validate.py` script was removed: it validated the
+old PREFIX-dated doc family (`REQ-`/`SPEC-`/`ARCH-`/…), which is superseded
+by the **3-pillars system** — TRDDs in `design/tasks/` (v2 `column:`
+frontmatter) and the PRRD in `design/requirements/PRRD.md`. Validate design
+docs by the 3-pillars conventions (see the `amcos-prrd-trdd-kanban` skill and
+the universal `prrd-trdd-kanban` skill in `ai-maestro-plugin`); the repo test
+suite (`tests/test_governance_structure.py`) guards the v2 TRDD schema.
 
 ## 5. Search Procedures
 
@@ -354,11 +351,7 @@ for doc in results:
 
 ### Validate Document
 
-```python
-from amcos_design_validate import validate_document
-
-errors = validate_document("design/requirements/REQ-20260129-0001.md")
-if errors:
-    for error in errors:
-        print(f"Line {error['line']}: {error['message']}")
-```
+The `amcos_design_validate` module was removed with the legacy PREFIX-dated
+doc family. Design docs now follow the 3-pillars conventions (v2 TRDD
+`column:` frontmatter + the PRRD) — see §4.3 above for where validation
+lives today.

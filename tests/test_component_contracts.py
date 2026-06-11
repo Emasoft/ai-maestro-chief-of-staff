@@ -13,8 +13,9 @@ skill/agent/command is covered automatically and a deleted one drops out — no
 hardcoded inventory to forget to update.
 
 Stdlib + pytest only (the plugin declares zero runtime dependencies); the
-frontmatter parser below is intentionally tiny and dependency-free, mirroring
-scripts/amcos_design_validate.py.
+frontmatter parser below is intentionally tiny and dependency-free. Full
+plugin validation is the remote CPV validator's job (cpv-remote-validate) —
+this suite only guards the structural contracts the plugin itself owns.
 """
 
 from __future__ import annotations

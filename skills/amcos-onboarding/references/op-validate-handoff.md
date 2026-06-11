@@ -123,8 +123,9 @@ Manual verification:
 ### Step 8: Run Validation Script (If Available)
 
 ```bash
-# Use the CPV plugin validator to validate the plugin (including handoff documents)
-uv run --with pyyaml python scripts/validate_plugin.py . --verbose
+# Use the remote CPV plugin validator (no local validator scripts)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin .
 ```
 
 ## Checklist
@@ -259,8 +260,9 @@ Key file: src/api/users.py
 ### Example: Validation Script Usage
 
 ```bash
-# Use the CPV plugin validator for full plugin validation (includes handoff checks)
-uv run --with pyyaml python scripts/validate_plugin.py . --verbose
+# Use the remote CPV plugin validator for full plugin validation (no local validator scripts)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin .
 
 # Expected output:
 # Validating plugin: ai-maestro-chief-of-staff

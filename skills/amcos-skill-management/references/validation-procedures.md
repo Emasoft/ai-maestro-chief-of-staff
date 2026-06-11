@@ -24,8 +24,7 @@
   - 4.4 Minor issues and style warnings
   - 4.5 Error handling strategies
 - 5.0 When using validation scripts
-  - 5.1 validate_skill_comprehensive.py for single validation
-  - 5.2 validate_plugin.py for batch validation
+  - 5.1 Remote CPV validation (single source of truth)
   - 5.3 amcos_reindex_skills.py for reindexing (sends remote PSS reindex request via AI Maestro)
 - 6.0 When using validation commands
   - 6.1 /amcos-validate-skills command options
@@ -624,106 +623,40 @@ def send_reindex_request_with_retry(max_retries=3):
 
 ## 5.0 When using validation scripts
 
-The amcos-skill-management skill includes Python scripts for validation automation.
+This plugin ships **no local validator scripts** — all skill and plugin
+validation runs through the **remote CPV validator**, fetched from GitHub at
+invocation time so the rules can never drift from upstream. (The former
+vendored copies — `validate_skill_comprehensive.py`, `validate_plugin.py`,
+and the rest of the local validator suite — were removed; only CPV is
+invoked.)
 
-### 5.1 validate_skill_comprehensive.py for single validation
-
-Validates a single skill directory.
+### 5.1 Remote CPV validation (single source of truth)
 
 **Usage:**
 ```bash
-# Basic validation
-uv run --with pyyaml python scripts/validate_skill_comprehensive.py /path/to/skill
+# Validate the whole plugin (skills, agents, commands, hooks, manifests)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin /path/to/plugin
 
-# With verbose output
-uv run --with pyyaml python scripts/validate_skill_comprehensive.py /path/to/skill --verbose
+# Strict mode (the publish gate scripts/publish.py uses)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin /path/to/plugin --strict
 
-# With auto-fix for minor issues
-uv run --with pyyaml python scripts/validate_skill_comprehensive.py /path/to/skill --fix
+# Lint-only pass (markdownlint / ruff / mypy / yamllint / toml)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate lint /path/to/plugin
 ```
-
-**What it does:**
-1. Checks SKILL.md exists
-2. Parses and validates frontmatter
-3. Runs skills-ref validate
-4. Checks referenced files exist
-5. Reports results in structured format
 
 **Exit codes:**
-- `0`: Validation passed
-- `1`: Critical errors found
-- `2`: Major errors found
-- `3`: Minor issues only
+- `0`: All checks passed (WARNINGs are advisory)
+- `1`: CRITICAL issues found
+- `2`: MAJOR issues found
+- `3`: MINOR issues found (blocks only under `--strict`)
+- `4`: NIT issues found (blocks only under `--strict`)
 
-### 5.2 validate_plugin.py for batch validation
-
-Validates all skills in a plugin or directory. This is the universal plugin validator that discovers and validates all skills within a plugin directory.
-
-**Usage:**
-```bash
-# Validate all skills in current directory
-uv run --with pyyaml python scripts/validate_plugin.py .
-
-# Validate all skills in a plugin
-uv run --with pyyaml python scripts/validate_plugin.py /path/to/plugin/skills
-
-# With verbose output
-uv run --with pyyaml python scripts/validate_plugin.py /path/to/plugin/skills --verbose
-
-# Generate JSON report
-uv run --with pyyaml python scripts/validate_plugin.py /path/to/plugin/skills --json
-```
-
-**What it does:**
-1. Discovers all skills in directory
-2. Validates each skill individually
-3. Checks for naming conflicts
-4. Verifies cross-references
-5. Generates summary report
-
-**Output format (text):**
-```
-Scanning /path/to/plugin/skills/ for skills...
-Found 39 skills. Validating each...
-
-| Skill | Status | Issues |
-|-------|--------|--------|
-| skill-one | PASSED | - |
-| skill-two | WARNING | Missing TOC |
-| skill-three | PASSED | - |
-
-Summary:
-- Total: 39 skills
-- Passed: 37
-- Warnings: 2
-- Failed: 0
-```
-
-**Output format (JSON):**
-```json
-{
-  "total_skills": 39,
-  "passed": 37,
-  "warnings": 2,
-  "failed": 0,
-  "results": [
-    {
-      "name": "skill-one",
-      "path": "/path/to/skill-one",
-      "status": "PASSED",
-      "errors": [],
-      "warnings": []
-    },
-    {
-      "name": "skill-two",
-      "path": "/path/to/skill-two",
-      "status": "WARNING",
-      "errors": [],
-      "warnings": ["MISSING_TOC"]
-    }
-  ]
-}
-```
+**Policy:** validator findings are fixed in the plugin — devitalize or remove
+the offending content, never suppress or exempt a finding. Validator bugs and
+false positives are reported upstream on `Emasoft/claude-plugins-validation`.
 
 ### 5.3 amcos_reindex_skills.py for reindexing
 
@@ -764,44 +697,33 @@ The amcos-skill-validator agent provides two commands for skill validation.
 
 ### 6.1 /amcos-validate-skills command options
 
-Validates skills in a directory or plugin.
+Validates a plugin (all its skills, agents, commands, hooks, and manifests)
+via the **remote CPV validator** — there are no local validator scripts.
 
 **Basic usage:**
 ```
-/amcos-validate-skills [path]
+/amcos-validate-skills <PLUGIN_DIR> [--strict]
 ```
 
 **Arguments:**
-- `path`: Path to skill directory or plugin (default: current directory)
+- `PLUGIN_DIR`: Path to the plugin directory (use `.` for current directory)
 
 **Flags:**
-- `--all`: Validate all skills in directory recursively
-- `--fix`: Attempt to auto-fix minor issues
-- `--verbose`: Show detailed validation output
+- `--strict`: Publish-gate mode — any CRITICAL/MAJOR/MINOR/NIT finding fails
 
 **Examples:**
 ```
-# Validate single skill in current directory
-/amcos-validate-skills
+# Validate the current plugin (advisory severities allowed)
+/amcos-validate-skills .
 
-# Validate specific skill
-/amcos-validate-skills ./skills/code-review
-
-# Validate all skills in plugin
-/amcos-validate-skills ./OUTPUT_SKILLS/ai-maestro-architect-agent --all
-
-# Validate with auto-fix
-/amcos-validate-skills ./skills/debugging --fix
-
-# Verbose output
-/amcos-validate-skills ./skills/testing --verbose
+# Publish-gate strict validation (what scripts/publish.py enforces)
+/amcos-validate-skills . --strict
 ```
 
-**What auto-fix handles:**
-- Adding missing TOC section
-- Fixing minor YAML indentation issues
-- Creating empty referenced directories
-- Standardizing heading levels
+**Fix policy:** there is no auto-fix. Findings are fixed in the plugin —
+devitalize or remove the offending content, never suppress or exempt a
+finding. Validator bugs / false positives are filed upstream on
+`Emasoft/claude-plugins-validation`.
 
 **What auto-fix does NOT handle:**
 - Missing required frontmatter fields (manual fix required)

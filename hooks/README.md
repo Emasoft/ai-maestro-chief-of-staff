@@ -25,5 +25,9 @@ This file documents what each registered hook does. Keep it in sync with
 - The `Stop` hook honors the Claude Code v2.1.143 consecutive-block cap
   (8 blocks by default, override via `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`);
   see the docstring in `scripts/amcos_stop_check.py`.
-- Validation: `python3 scripts/validate_hook.py hooks/hooks.json` checks the
-  registration shape, exec form, and script presence.
+- Validation: hooks are validated by the remote CPV validator (the same gate
+  `scripts/publish.py` runs) — `uvx --from
+  git+https://github.com/Emasoft/claude-plugins-validation --with pyyaml
+  cpv-remote-validate plugin . --strict`. This plugin ships no local validator
+  scripts; `tests/test_component_contracts.py` additionally asserts hooks.json
+  shape and script presence.

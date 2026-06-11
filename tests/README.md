@@ -29,8 +29,11 @@ same verdict.
 | `test_component_contracts.py` | Every skill, agent, command, and hook + the manifests. Parametrized + dynamically discovered, so a new component is covered automatically. Asserts: parseable frontmatter, present name/description, skill name == dir, every relative SKILL.md link resolves, hooks.json valid + its scripts exist, plugin.json `dependencies` array, agent.toml CC floor. |
 | `test_governance_structure.py` | The issue-#17 governance fixes stay in place: the four design zones, PRRD `project-id:` + SILVER rules, all TRDDs on the v2 `column:` schema (no v1 `status:`), the ORCH-owned dialog-loops doc, and refreshed docs free of the stale 5-status-as-workflow framing. |
 | `test_memory_skills.py` | The `cos-memory-recall` / `cos-memory-write` skill recipes: note schema, MEMORY.md index line, memgrep recall ranking, and the plain-grep fallback when memgrep is absent. Executed against a real fixture memory dir. |
-| `test_amcos_design_validate.py` | The design-document validator's real functions (UUID / status / type / date / frontmatter / whole-document validation) against real temp files. |
-| `test_validate_command.py` | The command validator's real behavior: valid commands pass, unknown frontmatter fields are flagged, `allowed-tools` validation, `user-invocable` accepted. |
+
+Validator behavior is NOT tested here: this plugin ships no local validator
+scripts. All plugin validation runs through the remote CPV validator
+(`cpv-remote-validate plugin . --strict`), which carries its own test suite
+upstream in `Emasoft/claude-plugins-validation`.
 
 ## Conventions
 

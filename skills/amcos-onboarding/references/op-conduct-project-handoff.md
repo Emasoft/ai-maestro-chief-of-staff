@@ -74,8 +74,9 @@ Create a structured handoff document with:
 Before sending, validate the handoff:
 
 ```bash
-# Use the CPV plugin validator to validate the plugin (including handoff documents)
-uv run --with pyyaml python scripts/validate_plugin.py . --verbose
+# Use the remote CPV plugin validator (no local validator scripts)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin .
 
 # Manual checks:
 # - All referenced files exist

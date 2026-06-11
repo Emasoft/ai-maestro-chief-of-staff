@@ -95,18 +95,17 @@ claude plugin validate /path/to/my-plugin
 
 ### 3.3.2 Script validation
 
-Many plugins include validation scripts:
+Plugins are validated with the remote CPV validator (no local validator
+scripts — local copies drift from upstream rules):
 
 ```bash
-# Using plugin's internal validator
 cd /path/to/my-plugin
-uv run python scripts/validate_plugin.py . --verbose
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin .
 
-# With verbose output
-uv run python scripts/validate_plugin.py . --verbose
-
-# Output as JSON
-uv run python scripts/validate_plugin.py . --json
+# Strict mode (the publish gate)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin . --strict
 ```
 
 ### 3.3.3 Manual inspection

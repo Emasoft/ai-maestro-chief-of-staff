@@ -320,8 +320,9 @@ design/templates/staffing/
 
 **Validation command:**
 ```bash
-# Use the CPV plugin validator for template validation
-uv run --with pyyaml python scripts/validate_plugin.py . --verbose
+# Use the remote CPV plugin validator (no local validator scripts)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin .
 ```
 
 ---

@@ -122,8 +122,9 @@ Before sending handoff:
 
 **Validation command:**
 ```bash
-# Validate the plugin (including handoff documents) using the CPV plugin validator
-uv run --with pyyaml python scripts/validate_plugin.py . --verbose
+# Validate the plugin via the remote CPV validator (no local validator scripts)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin .
 ```
 
 ## Handoff Required Fields

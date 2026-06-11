@@ -1,102 +1,79 @@
 ---
 name: amcos-validate-skills
-description: "Validate skills for an agent's plugin using the CPV plugin validator"
-argument-hint: "<PLUGIN_DIR> [--verbose]"
+description: "Validate skills for an agent's plugin using the remote CPV plugin validator"
+argument-hint: "<PLUGIN_DIR> [--strict]"
 user-invocable: true
-allowed-tools: ["Bash(uv run --with pyyaml python:*)"]
+allowed-tools: ["Bash(uvx:*)"]
 ---
 
 # Validate Skills Command
 
-Validate agent skills using the CPV (Claude Plugins Validation) plugin validator. This validates the full plugin structure including all skills, commands, hooks, and manifest.
+Validate agent skills using the **remote CPV (Claude Plugins Validation)
+validator**, fetched from GitHub at invocation time. There are NO local
+validator scripts in this plugin — local copies drift from upstream rules, so
+validation always runs the canonical remote validator (the same one
+`scripts/publish.py` gates releases with).
 
 ## Usage
 
 ```bash
-# Validate the current plugin directory
-uv run --with pyyaml python scripts/validate_plugin.py . --verbose
+# Validate the whole plugin (advisory mode: exit 0/1/2/3 by worst severity)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin <PLUGIN_DIR>
 
-# Validate a specific skill directory using CPV skill validator
-uv run --with pyyaml python scripts/validate_skill.py <skill-dir>
+# Strict mode (the publish gate): ANY CRITICAL/MAJOR/MINOR/NIT fails
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate plugin <PLUGIN_DIR> --strict
+
+# Lint-only pass (markdownlint / ruff / mypy / yamllint / toml)
+uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
+    --with pyyaml cpv-remote-validate lint <PLUGIN_DIR>
 ```
 
 ## What This Command Does
 
-1. **Validates Plugin Structure**
-   - Checks manifest.yaml existence and format
-   - Validates YAML frontmatter fields across all components
-   - Verifies directory structure matches manifest declarations
-
-2. **Validates Skills Structure**
-   - Checks SKILL.md existence and format
-   - Validates YAML frontmatter fields (name, description, etc.)
-   - Verifies reference documents are accessible
-   - Checks for progressive disclosure structure
-
-3. **Validates Commands and Hooks**
-   - Command markdown files format and frontmatter
-   - Hook configuration validity
-   - Script references resolve to existing files
-
-4. **Reports Validation Results**
-   - Lists all components with pass/fail status
-   - Details specific validation errors by severity (CRITICAL, MAJOR, MINOR)
-   - Zero tolerance for CRITICAL and MAJOR issues
+1. **Validates Plugin Structure** — manifest (`.claude-plugin/plugin.json`),
+   directory layout, version consistency.
+2. **Validates Skills** — SKILL.md frontmatter (name, description), reference
+   documents resolve, progressive-disclosure structure, description budgets.
+3. **Validates Agents, Commands and Hooks** — frontmatter fields,
+   `allowed-tools` values, hook configuration and script references.
+4. **Reports Results** — findings by severity (CRITICAL / MAJOR / MINOR /
+   NIT / WARNING) with file:line locations.
 
 ## Arguments
 
 | Argument | Required | Description |
 |----------|----------|-------------|
 | `PLUGIN_DIR` | Yes | Path to the plugin directory (use `.` for current directory) |
-| `--verbose` | No | Show detailed validation output |
+| `--strict` | No | Publish-gate mode: any CRITICAL/MAJOR/MINOR/NIT finding fails (exit non-zero) |
 
-## Examples
+## Exit Codes
 
-### Validate the current plugin
-
-```bash
-uv run --with pyyaml python scripts/validate_plugin.py . --verbose
-```
-
-### Validate a specific skill directory
-
-```bash
-uv run --with pyyaml python scripts/validate_skill.py skills/amcos-onboarding
-```
-
-## Validation Checks
-
-The CPV validator performs these checks:
-
-| Check | Description | Severity |
-|-------|-------------|----------|
-| manifest.yaml exists | Plugin manifest must exist | CRITICAL |
-| Valid frontmatter | YAML frontmatter must parse correctly | CRITICAL |
-| Required fields | `name`, `description` must be present | MAJOR |
-| SKILL.md exists | Main skill file must exist per skill | MAJOR |
-| References valid | All referenced files must exist | MAJOR |
-| Scripts exist | Referenced scripts must be present | MAJOR |
-| No broken links | Internal references must resolve | MINOR |
+| Exit | Meaning |
+|------|---------|
+| 0 | All checks passed (WARNINGs are advisory) |
+| 1 | CRITICAL issues found |
+| 2 | MAJOR issues found |
+| 3 | MINOR issues found (advisory unless `--strict`) |
+| 4 | NIT issues found (advisory unless `--strict`) |
 
 ## Error Conditions
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| "manifest.yaml not found" | Not a valid plugin directory | Check path |
-| "SKILL.md missing" | Skill directory incomplete | Create SKILL.md |
-| "Invalid frontmatter" | YAML parse error | Fix YAML syntax |
-| "validate_plugin.py not found" | CPV scripts not synced | Re-sync from CPV plugin |
-
-## Prerequisites
-
-- CPV validation scripts must be present in `scripts/` (synced by push-plugins.sh)
-- `pyyaml` is provided at runtime via `uv run --with pyyaml`
+| `uvx: command not found` | uv not installed | Install uv: https://docs.astral.sh/uv/ |
+| Network failure fetching CPV | GitHub unreachable | Retry; validation fails closed (never validate with a stale local copy) |
+| Findings reported | Plugin issues | Fix the plugin per the report. Never suppress or exempt a finding — devitalize or remove the offending content |
 
 ## Notes
 
-- This command uses the CPV (Claude Plugins Validation) plugin validator, which is the standard validator for all AI Maestro plugins
-- The validator scripts are automatically synced from the CPV plugin into each plugin's `scripts/` directory by `push-plugins.sh`
-- Zero tolerance policy: CRITICAL and MAJOR issues must be fixed before pushing
+- The remote validator is the single source of truth — this plugin deliberately
+  ships **zero** local validator scripts so rules can never drift.
+- False positives and validator bugs are reported upstream as issues on
+  `Emasoft/claude-plugins-validation`, not worked around locally.
+- Zero tolerance at publish time: `scripts/publish.py` runs this same validator
+  with `--strict` and refuses to push on any non-zero exit.
 
 ## Related Commands
 
