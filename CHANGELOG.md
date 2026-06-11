@@ -1,23 +1,20 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.14.0] - 2026-06-11
+    ## [2.15.0] - 2026-06-11
+
+### Bug Fixes
+
+- Hook timeouts are SECONDS — 5000/10000 were ~83/166 min (CPV catch)    
 
 ### Documentation
 
-- Encode corrected fleet model — dialog loops, role refresh, self-id (M4/M6/M7/M9/M10) — issue #17    
-- README 29-skill inventory (+prrd-trdd-kanban) + TRDD-227e77d0 to complete — issue #17    
+- TRDD-227e77d0 published — v2.14.0 live, #17 answered, janitor#16/#18 coordination posted    
+- Add TRDD-5f717ded — retire old memory bank per ratified fleet three-scope convention (janitor#18)    
 
-### Tests
+### Refactor
 
-- Real (no-mock) coverage for every component + runner (M12) — issue #17    
-
-### Cleanup
-
-- Remove 27 orphaned duplicate skill dirs + committed audit artifacts (M11) — issue #17    
-
-### Governance
-
-- Close fleet-readiness structure gaps (M1/M2/M3/M11) — issue #17    
+- [**breaking**] Retire the old session memory bank (TRDD-5f717ded, fleet convention)    
+- [**breaking**] Remove the vendored local validator suite — remote CPV only (TRDD-0263f190)    
 
 
