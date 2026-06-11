@@ -1,6 +1,6 @@
 # AI Maestro Chief of Staff (amcos-)
 
-**Version**: 2.13.1 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.139
+**Version**: 2.14.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.139
 
 > Derived from emasoft-chief-of-staff v1.3.9, adapted for AI Maestro governance v0.26.0
 
@@ -129,7 +129,7 @@ AMCOS (Chief of Staff) ---- one per team
 | `/amcos-resource-report` | Show team resource usage |
 | `/amcos-performance-report` | Show team performance metrics |
 
-### Skills (28)
+### Skills (29)
 
 | Skill | Purpose |
 |-------|---------|
@@ -150,6 +150,7 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-performance-tracking` | Performance metrics and reporting |
 | `amcos-permission-management` | GovernanceRequest approval/response workflows |
 | `amcos-plugin-management` | Plugin configuration and installation |
+| `amcos-prrd-trdd-kanban` | The 3 governance pillars (PRRD rules, TRDD tasks, kanban) — defers to the universal `prrd-trdd-kanban` skill in `ai-maestro-plugin` |
 | `amcos-resource-monitoring` | Resource limits and monitoring |
 | `amcos-memory-initialization` | Session memory initialization and loading |
 | `amcos-context-management` | Session context persistence and management |

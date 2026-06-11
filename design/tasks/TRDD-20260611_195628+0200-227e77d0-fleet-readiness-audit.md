@@ -1,9 +1,10 @@
 ---
 trdd-id: 227e77d0-a2d1-47cb-96c5-f263a52819cd
 title: Fleet-readiness deep audit — close governance gaps before fleet start (issue #17)
-column: dev
+column: complete
 created: 2026-06-11T19:56:28+0200
-updated: 2026-06-11T19:56:28+0200
+updated: 2026-06-11T21:05:00+0200
+implementation-commits: [0d720bc, 67d4f25, 5847a9d, b57f3d3]
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -37,7 +38,16 @@ pending tasks" + standing "implement/fix all issues valid").
 **Every verdict was re-verified against the live repo (v2.13.1) before any
 edit** — all confirmed true (see Verified findings below).
 
-**NEXT ACTION:** execute Phase 1 (governance structure). Then Phases 2–5.
+**STATUS 2026-06-11 21:05:** Phases 1–4 COMPLETE and committed
+(0d720bc governance structure, 67d4f25 cleanup of 27 orphan dirs,
+5847a9d corrected-model docs, b57f3d3 149-test suite + runner). Full
+pytest gate green (149 passed); CPV strict independently re-run → exit 0
+(0 CRITICAL/MAJOR/MINOR/NIT, 56 advisory WARNINGs). README bumped
+(29 skills, v2.14.0 header).
+
+**NEXT ACTION:** run `uv run python scripts/publish.py --minor`
+(→ v2.14.0), then reply to issue #17 with the self-id line + per-verdict
+resolution, and post the janitor#18 memory-coordination comment.
 
 **Load-bearing facts / gotchas:**
 - The plugin git repo is `ai-maestro-chief-of-staff/` (a SUBDIR of the Claude
