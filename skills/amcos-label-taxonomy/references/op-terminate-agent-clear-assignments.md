@@ -72,11 +72,13 @@ gh issue list --label "assign:$AGENT_NAME"
 
 ### Step 5: Log Termination
 
-Add a comment to each cleared issue explaining the reassignment:
+Add a comment to each cleared issue explaining the reassignment. Per PRRD G1.1, the comment body MUST begin with the self-identification line `This is the Claude responsible for the ai-maestro-chief-of-staff project.` followed by a blank line, then the message:
 
 ```bash
 for ISSUE in $AGENT_ISSUES; do
-  gh issue comment $ISSUE --body "Agent '$AGENT_NAME' terminated. Issue returned to backlog for reassignment."
+  gh issue comment $ISSUE --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+
+Agent '$AGENT_NAME' terminated. Issue returned to backlog for reassignment."
 done
 ```
 

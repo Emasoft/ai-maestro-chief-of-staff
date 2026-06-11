@@ -121,8 +121,10 @@ gh issue list --label "assign:implementer-1"
 # Step 1: Update status to blocked
 gh issue edit 43 --remove-label "status:in-progress" --add-label "status:blocked"
 
-# Step 2: Add comment explaining blocker
-gh issue comment 43 --body "Agent blocked: waiting for external API credentials. Assigned to human for resolution."
+# Step 2: Add comment explaining blocker (body begins with the PRRD G1.1 self-id line)
+gh issue comment 43 --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+
+Agent blocked: waiting for external API credentials. Assigned to human for resolution."
 
 # Step 3: Escalate to human if needed
 gh issue edit 43 --add-label "assign:human"

@@ -4,6 +4,8 @@
 
 > **Authoritative source**: The `team-governance` skill is the runtime authority for governance rules. This document is a local reference copy.
 
+> **Corrected fleet model (R6 v3).** The COS guards the **team boundary** only: it is the sole entry/exit point between the team layer and the governance layer, and the MANAGER reaches any team-internal agent **only via the COS**. Inside the team, the ORCHESTRATOR (AMOA) talks **directly** to the ARCHITECT (AMAA), the MEMBER agents, and the INTEGRATOR (AMIA) — these are direct team-layer edges, NOT routed through the COS. The three in-team dialog loops (comprehension handshake, in-dev blocker dialog, pre-PR gate) are ORCHESTRATOR-owned and direct; the COS never relays them. The **INTEGRATOR** owns the column → `complete` flip — nobody self-marks completed, and the ORCHESTRATOR does NOT own that flip.
+
 ---
 
 ## Governance Roles vs Plugin Roles
@@ -43,27 +45,33 @@ AMCOS itself maps to governance role `chief-of-staff`. AMAMA maps to `manager`.
 │                - User's sole interlocutor                     │
 │                - Creates projects / teams                     │
 │                - Approves AMCOS requests                      │
-│                - Supervises all teams                         │
+│                - Reaches team-internal agents ONLY via COS     │
 └────────────────────────────┬─────────────────────────────────┘
-                             │
+                             │   (boundary edge: MANAGER ↔ COS only)
            ┌─────────────────┼─────────────────┐
            │                                   │
            ▼                                   ▼
-┌─────────────────────────┐       ┌─────────────────────────┐
-│      Team Alpha         │       │      Team Beta          │
-│                         │       │                         │
-│  ┌───────────────────┐  │       │  ┌───────────────────┐  │
-│  │ AMCOS-alpha       │  │       │  │ AMCOS-beta        │  │
-│  │ chief-of-staff    │  │       │  │ chief-of-staff    │  │
-│  │ (one per team)    │  │       │  │ (one per team)    │  │
-│  └────────┬──────────┘  │       │  └────────┬──────────┘  │
-│           │              │       │           │              │
-│    ┌──────┼──────┐       │       │    ┌──────┼──────┐       │
-│    ▼      ▼      ▼       │       │    ▼      ▼      ▼       │
-│  AMOA    AMAA    AMIA       │       │  AMOA    AMAA    AMPA       │
-│  member member member    │       │  member member member    │
-└─────────────────────────┘       └─────────────────────────┘
+┌─────────────────────────────────┐ ┌─────────────────────────────────┐
+│           Team Alpha            │ │           Team Beta             │
+│                                 │ │                                 │
+│  ┌───────────────────────────┐  │ │  ┌───────────────────────────┐  │
+│  │ AMCOS-alpha               │  │ │  │ AMCOS-beta                │  │
+│  │ chief-of-staff            │  │ │  │ chief-of-staff            │  │
+│  │ guards the team boundary  │  │ │  │ guards the team boundary  │  │
+│  └───────────────────────────┘  │ │  └───────────────────────────┘  │
+│   (COS is the sole boundary     │ │   (COS is the sole boundary     │
+│    bridge; it does NOT relay    │ │    bridge; it does NOT relay    │
+│    the in-team loops below)     │ │    the in-team loops below)     │
+│                                 │ │                                 │
+│   direct team-layer edges:      │ │   direct team-layer edges:      │
+│   AMAA ⇄ AMOA ⇄ AMIA            │ │   AMAA ⇄ AMOA ⇄ AMIA            │
+│           ⇅                     │ │           ⇅                     │
+│        MEMBER(s)                │ │        MEMBER(s)                │
+│   member  member  member        │ │   member  member  member        │
+└─────────────────────────────────┘ └─────────────────────────────────┘
 ```
+
+The COS sits ON the team boundary, not in the middle of the team's work graph. MANAGER↔team is a boundary edge through the COS; ARCH⇄ORCH⇄INT⇄MEMBER are direct edges the COS does not touch.
 
 ---
 
@@ -85,7 +93,7 @@ AMCOS itself maps to governance role `chief-of-staff`. AMAMA maps to `manager`.
 ### AMCOS CANNOT:
 - Create projects (AMAMA only)
 - Assign tasks to agents (AMOA only)
-- Manage GitHub Project kanban (AMOA only)
+- Manage GitHub Project kanban (AMOA drives the working transitions; AMIA owns the `complete` flip)
 - Make architectural decisions (AMAA only)
 - Perform code review (AMIA only)
 - Communicate directly with user (AMAMA only)
@@ -102,9 +110,12 @@ AMCOS can send messages to:
 |--------|---------|
 | AMAMA (Manager) | Yes |
 | Other AMCOS agents (other teams' COS) | Yes |
-| Own team members | Yes |
+| Own team members (AMOA / AMAA / AMIA / MEMBER) | Yes |
 | Agents not in any closed team (unassigned) | Yes |
 | Members of OTHER closed teams | **NO** |
+| MAINTAINER / AUTONOMOUS (governance layer) | **NO** — route via MANAGER |
+
+**The COS is the team-layer gateway, not the in-team router (R6 v3).** It is the sole entry/exit point between its team and the governance layer (MANAGER is the sole cross-layer bridge). It does NOT sit on the team's internal work edges: the ORCHESTRATOR's three dialog loops (comprehension handshake, in-dev blocker dialog, pre-PR gate) and the ORCH⇄ARCH⇄INT⇄MEMBER coordination are DIRECT and the COS never relays them. The COS forwards proposals/escalations UP to MANAGER and relays MANAGER verdicts DOWN.
 
 Cross-team operations (e.g., borrowing an agent, sharing resources) require a `GovernanceRequest` with **dual-manager approval** (both teams' managers, or AMAMA if AMAMA manages both).
 
@@ -115,12 +126,15 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 **Governance role: `member`. Plugin role: Orchestrator.**
 
 ### AMOA CAN:
-- Assign tasks to agents within its project
-- Manage GitHub Project kanban for its project
-- Track task progress
-- Reassign tasks between agents in its project
+- Assign tasks (TRDDs) to MEMBER agents within its project (direct edge)
+- Own the three in-team dialog loops, all DIRECT (never via COS):
+  - **(A) Task-comprehension handshake** — confirm a MEMBER understands the TRDD before any code is written
+  - **(B) In-dev issue dialog** — receive and resolve blockers/ideas mid-implementation; open the design-change dialog with AMAA when a design change is needed
+  - **(C) Pre-PR gate** — clear a MEMBER's "done?" against the TRDD BEFORE they open a PR / notify AMIA
+- Drive the TRDD `column:` through the working stages (`dispatch`→`dev`→`testing`→`ai_review`) and bounce a failed task back to `dev`
+- Track task progress; reassign tasks between MEMBERs in its project
 - Generate handoff documents
-- Coordinate agent work within its project
+- Coordinate agent work within its project (directly with AMAA / AMIA / MEMBER)
 - Request AMCOS to create/replace agents for its project
 
 ### AMOA CANNOT:
@@ -128,11 +142,38 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 - Configure agent skills/plugins (AMCOS only)
 - Create projects (AMAMA only)
 - Manage agents outside its project
+- **Flip a task to `complete` — the INTEGRATOR (AMIA) owns that flip. ORCH coordinates; it does not certify completion.**
 
 ### AMOA Scope:
 - **Project-linked**: One AMOA per project
 - **Task-focused**: Manages what agents DO, not what agents EXIST
-- **Kanban owner**: Owns the GitHub Project board for its project
+- **Coordination owner**: Owns the in-team dialog loops and the kanban transitions UP TO (but not including) the completion flip
+
+---
+
+## AMIA (Integrator) - Responsibilities
+
+**Governance role: `member`. Plugin role: Integrator.**
+
+### AMIA CAN:
+- Review PRs against the TRDD and design; run tests, linting, required checks; merge or reject
+- **Own the column → `complete` flip** — validate the merged PR actually satisfies the TRDD, then advance the column. **Nobody else marks a task complete.**
+- Design and run the **project-type-specific release pipeline** (designed per project, not a single universal step):
+  - Library / package → publish to the language registry (`publish`→`published`)
+  - Application → code-sign / notarize / package / release (`publish`→`published`)
+  - Service → containerize / deploy / soak (`deploy`→`live`→`live_auditing`)
+  - Claude Code plugin → CPV `publish.py` to the marketplace — a **recommendation for plugins only**, not a default for other project types
+- Report PR/merge/release results to AMOA (direct edge)
+
+### AMIA CANNOT:
+- Assign tasks (AMOA only)
+- Self-authorize entering the release pipeline — publish/deploy to production is NON-EXEMPT; route the request UP via the COS to the MANAGER first
+- Create agents or projects
+
+### AMIA Scope:
+- **Project-linked**: One AMIA per project
+- **Completion authority**: The sole owner of the `complete` flip
+- **Release designer**: Chooses and runs the correct pipeline for the project type
 
 ---
 
@@ -152,6 +193,7 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 ### AMAMA CANNOT:
 - Create agents directly (delegates to AMCOS)
 - Assign tasks directly (delegates to AMOA)
+- Message a team-internal agent (AMOA / AMAA / AMIA / MEMBER) directly — all MANAGER↔team-internal contact transits the COS (R6 v3)
 
 ### AMAMA Scope:
 - **Organization-wide**: Oversees all teams and projects
@@ -234,23 +276,27 @@ AMOA: Sends handoff to agent-456
 
 ## Summary Table
 
-| Responsibility | AMAMA (manager) | AMCOS (chief-of-staff) | AMOA (member) | AMIA (member) | AMAA (member) | AMPA (member) |
+| Responsibility | AMAMA (manager) | AMCOS (chief-of-staff) | AMOA (member) | AMIA (member) | AMAA (member) | MEMBER (member) |
 |----------------|:-:|:-:|:-:|:-:|:-:|:-:|
 | Create projects/teams | Yes | -- | -- | -- | -- | -- |
 | Create agents | Approves | Yes | Requests | -- | -- | -- |
 | Configure agents | -- | Yes | -- | -- | -- | -- |
 | Assign agents to team | -- | Yes | -- | -- | -- | -- |
-| Assign tasks | -- | -- | Yes | -- | -- | -- |
-| Manage kanban | -- | -- | Yes | -- | -- | -- |
-| Code review | -- | -- | -- | Yes | -- | -- |
-| Architecture | -- | -- | -- | -- | Yes | -- |
+| Assign tasks (TRDDs) | -- | -- | Yes | -- | -- | -- |
+| In-team dialog loops (A/B/C) | -- | -- | Yes | -- | -- | -- |
+| Kanban transitions up to `dev` re-bounce | -- | -- | Yes | -- | -- | -- |
+| **Flip column to `complete`** | -- | -- | -- | **Yes** | -- | -- |
+| Code review + merge | -- | -- | -- | Yes | -- | -- |
+| Project-type release (publish/deploy) | Approves | Forwards | -- | Yes | -- | -- |
+| Architecture / design-change dialog | -- | -- | -- | -- | Yes | -- |
 | Implementation | -- | -- | -- | -- | -- | Yes |
 | Talk to user | Yes | -- | -- | -- | -- | -- |
 | Cross-team governance | Approves | Requests | -- | -- | -- | -- |
-| Message other teams' members | Yes | **No** | **No** | **No** | **No** | **No** |
+| Message team-internal agents directly | **No** (via COS) | Yes (own team) | Yes (own team) | Yes (own team) | Yes (own team) | Yes (own team) |
+| Message members of OTHER closed teams | via that team's COS | **No** | **No** | **No** | **No** | **No** |
 
 ---
 
 **Plugin**: `ai-maestro-chief-of-staff`
-**Document Version**: 2.12.0
-**Last Updated**: 2026-03-13
+**Document Version**: 2.13.0
+**Last Updated**: 2026-06-11

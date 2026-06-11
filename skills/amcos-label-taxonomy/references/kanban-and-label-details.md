@@ -15,6 +15,10 @@
 ## Kanban Columns (Canonical 5-Status System)
 
 > These columns align with AI Maestro's task status model (`types/task.ts`).
+> This 5-column GitHub-Projects board is the **visual projection** of the
+> authoritative TRDD `column:` pipeline (see `docs/FULL_PROJECT_WORKFLOW.md`),
+> not a separate workflow. The TRDD `column:` lifecycle is the source of truth;
+> these 5 board columns are how it surfaces on GitHub Projects.
 
 The full workflow uses these 5 status columns:
 

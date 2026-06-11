@@ -48,8 +48,12 @@ gh issue edit $ISSUE_NUMBER --remove-label "status:in-progress" --add-label "sta
 
 ### Step 2: Add Comment Explaining Blocker
 
+Per PRRD G1.1, every GitHub comment body MUST begin with the self-identification line `This is the Claude responsible for the ai-maestro-chief-of-staff project.` followed by a blank line, then the message:
+
 ```bash
-gh issue comment $ISSUE_NUMBER --body "Agent blocked: $BLOCKER_REASON. Assigned to human for resolution."
+gh issue comment $ISSUE_NUMBER --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+
+Agent blocked: $BLOCKER_REASON. Assigned to human for resolution."
 ```
 
 ### Step 3: Determine Escalation Level
@@ -91,8 +95,10 @@ gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name'
 # Step 1: Update status
 gh issue edit 43 --remove-label "status:in-progress" --add-label "status:blocked"
 
-# Step 2: Add comment
-gh issue comment 43 --body "Agent blocked: waiting for external API credentials. Assigned to human for resolution."
+# Step 2: Add comment (body begins with the PRRD G1.1 self-id line)
+gh issue comment 43 --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+
+Agent blocked: waiting for external API credentials. Assigned to human for resolution."
 
 # Step 3: Escalate to human
 gh issue edit 43 --add-label "assign:human"
@@ -113,8 +119,10 @@ gh issue edit $ISSUE_NUMBER --remove-label "assign:human"
 # Update status back to in-progress or ready
 gh issue edit $ISSUE_NUMBER --remove-label "status:blocked" --add-label "status:in-progress"
 
-# Comment about resolution
-gh issue comment $ISSUE_NUMBER --body "Blocker resolved. Agent can proceed."
+# Comment about resolution (body begins with the PRRD G1.1 self-id line)
+gh issue comment $ISSUE_NUMBER --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+
+Blocker resolved. Agent can proceed."
 
 # Notify agent via AI Maestro
 ```

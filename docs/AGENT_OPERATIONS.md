@@ -1,9 +1,13 @@
 # AGENT_OPERATIONS.md - AMCOS Chief of Staff
 
-**Version**: 2.12.0 | **Last Updated**: 2026-03-15
-**SINGLE SOURCE OF TRUTH** for AMCOS (AI Maestro Chief of Staff) agent operations.
-**SCOPE**: TEAM-SCOPED. Each AMCOS instance manages exactly ONE team.
+**Version**: 2.13.0 | **Last Updated**: 2026-06-11
+**Operational reference** for AMCOS (AI Maestro Chief of Staff) agent-lifecycle operations (spawn / hibernate / wake / terminate / messaging).
+**SCOPE**: TEAM-SCOPED. Each AMCOS instance manages exactly ONE team and guards the team boundary (R6 v3).
 **Distribution**: Bundled with AI Maestro v0.26.0+.
+
+> **Scope note.** This document covers AMCOS *agent-lifecycle operations*. The authoritative **task workflow / kanban model** lives in [FULL_PROJECT_WORKFLOW.md](FULL_PROJECT_WORKFLOW.md) and [ROLE_BOUNDARIES.md](ROLE_BOUNDARIES.md), and the runtime source of truth is the TRDD `column:` pipeline (universal `prrd-trdd-kanban` skill in `ai-maestro-plugin`; the per-team `amcos-prrd-trdd-kanban` skill defers to it). Do not treat the kanban summary in §15 as a competing model — it points back to those.
+
+> **Corrected fleet model (R6 v3).** The COS guards the **team boundary** and is the sole entry/exit point between its team and the governance layer; the MANAGER reaches team-internal agents only via the COS. Inside the team, ORCHESTRATOR ⇄ ARCHITECT / INTEGRATOR / MEMBER are DIRECT edges. The three in-team dialog loops (comprehension handshake before coding, in-dev blocker dialog, pre-PR "done?" gate) are ORCHESTRATOR-owned and the COS never relays them. The **INTEGRATOR** owns the column → `complete` flip; nobody self-marks completed.
 
 ---
 
@@ -60,6 +64,9 @@ AMCOS can only send messages to:
 | Own team members | Yes | `amcos-orch-svgbbox`, `amcos-prog-svgbbox-001` |
 | Unassigned agents | Yes | Agents not yet assigned to any team |
 | Other teams' agents | **No** | Must use GovernanceRequest |
+| MAINTAINER / AUTONOMOUS (governance layer) | **No** | Route via MANAGER |
+
+**Boundary role (R6 v3):** the COS being able to message its own team members does NOT make it the in-team router. It is the team-layer gateway — the sole bridge between the team and the governance layer (MANAGER). The ORCHESTRATOR's three dialog loops and the ORCH⇄ARCH⇄INT⇄MEMBER coordination are DIRECT team-layer edges the COS does not relay. The COS forwards proposals/escalations up to MANAGER and relays MANAGER verdicts back down.
 
 ### 2.3 GovernanceRequest
 
@@ -442,19 +449,27 @@ amcos-prog-svgbbox-002
 
 All operations use the `ai-maestro-agents-management` skill.
 
-### 12.5 Task Delegation Flow
+### 12.5 Team Formation vs Task Delegation Flow
+
+The COS **forms the team** (spawns + assigns the agents). It does NOT delegate the *tasks* — the ORCHESTRATOR does, directly. Keep the two flows distinct:
 
 ```
+LIFECYCLE (COS owns):                  TASK WORK (ORCH owns, direct):
 User Request
      |
    MANAGER
-     | (spawns if complex)
-   AMCOS (Chief of Staff) -- TEAM-SCOPED
-     |
-     +---> Orchestrator (amcos-orch-*) ---> Implementation agents
-     +---> Architect (amcos-arch-*) ---> Design agents
-     +---> Integrator (amcos-intg-*) ---> Review agents
+     | (spawns COS if complex)
+   AMCOS (Chief of Staff) [TEAM-SCOPED]
+     | spawns + assigns to team:
+     +-- Orchestrator (amcos-orch-*)        ARCHITECT ⇄ ORCHESTRATOR ⇄ INTEGRATOR
+     +-- Architect    (amcos-arch-*)                       ⇅
+     +-- Integrator   (amcos-intg-*)                    MEMBER(s)
+     +-- Member(s)    (amcos-prog-*, ...)   loops (A) handshake, (B) blocker, (C) pre-PR
+                                            — all direct; COS does not relay them.
+                                            INTEGRATOR owns the `complete` flip.
 ```
+
+After forming the team, the COS guards the boundary; the ORCHESTRATOR runs the in-team work via direct edges.
 
 **AMCOS coordination responsibilities**:
 1. Assess task complexity and requirements
@@ -502,25 +517,19 @@ All operations use intent-based skill references:
 
 ---
 
-## 15. Kanban Column System
+## 15. Kanban — pointer to the canonical model
 
-> These columns align with AI Maestro's task status model (`types/task.ts`).
+> **The task lifecycle is NOT owned by the COS and is not defined here.** The
+> authoritative model is the TRDD `column:` pipeline; see
+> [FULL_PROJECT_WORKFLOW.md → "Kanban — the canonical TRDD `column:` pipeline"](FULL_PROJECT_WORKFLOW.md)
+> and the runtime universal `prrd-trdd-kanban` skill (`ai-maestro-plugin`),
+> which the per-team `amcos-prrd-trdd-kanban` skill defers to.
 
-All projects use the canonical **5-status kanban system** on GitHub Projects:
+What the COS needs to know operationally:
 
-| Column | Code | Label |
-|--------|------|-------|
-| Backlog | `backlog` | `status:backlog` |
-| Pending | `pending` | `status:pending` |
-| In Progress | `in_progress` | `status:in_progress` |
-| Review | `review` | `status:review` |
-| Completed | `completed` | `status:completed` |
-
-Use the `status:blocked` label to flag blocked tasks (not a separate kanban column).
-
-**Task routing**:
-- Small tasks: In Progress -> Review -> Completed
-- Big tasks: In Progress -> Review (includes human review if needed) -> Completed
+- A task is a TRDD; its `column:` advances `backburner → todo → design → dispatch → dev → testing → ai_review → human_review → complete`, then a **project-type-specific** release (`publish`→`published` for tools/libraries/apps, `deploy`→`live`→`live_auditing` for services). `blocked`, `failed`, and `superseded` are the exception states.
+- **The INTEGRATOR (AMIA) owns the column → `complete` flip** (validates the merged PR satisfies the TRDD). The ORCHESTRATOR drives the working transitions and the three in-team dialog loops but does NOT flip to `complete`; the COS owns no column at all.
+- The COS only touches **labels** it is responsible for (see `amcos-label-taxonomy`): it sets `status:blocked` when pausing/blocking work and `status:pending` when a blocker clears. The GitHub-Projects board is a 5-column **projection** of the pipeline (`status:backlog / pending / in_progress / review / completed`), with `status:blocked` as a label, not a column.
 
 ---
 
