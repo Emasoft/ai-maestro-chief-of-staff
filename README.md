@@ -1,6 +1,6 @@
 # AI Maestro Chief of Staff (amcos-)
 
-**Version**: 2.14.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.139
+**Version**: 2.15.0 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.139
 
 > Derived from emasoft-chief-of-staff v1.3.9, adapted for AI Maestro governance v0.26.0
 

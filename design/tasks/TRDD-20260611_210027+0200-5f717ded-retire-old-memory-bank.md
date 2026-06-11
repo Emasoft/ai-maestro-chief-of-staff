@@ -1,9 +1,9 @@
 ---
 trdd-id: 5f717ded-e4ec-4a60-a7f7-b5d3f2627906
 title: Retire the old session memory bank per the ratified fleet three-scope convention
-column: planned
+column: dev
 created: 2026-06-11T21:00:27+0200
-updated: 2026-06-11T21:00:27+0200
+updated: 2026-06-11T21:30:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 2
@@ -49,8 +49,15 @@ three-scope memory convention on
 path, memgrep-backed with the plain-grep fallback (the supported mode until
 the janitor's binaries publish — janitor#16, closed as implemented).
 
-**NEXT ACTION:** await USER go-ahead (surfaced 2026-06-11), then execute the
-retirement inventory below in one phase and ship as the next minor release.
+**EXECUTED 2026-06-11 (USER go-ahead "Complete the pending tasks"):** commit
+`0395d89` deleted the 4 bank scripts + 4 bank skills (278 files) and updated
+agent.toml / README / main-agent / the 2 surviving cross-ref docs. No content
+migration was needed — the repo held procedure docs only; live bank data
+exists solely in user projects at runtime. Ships in v2.15.0 together with the
+local-validator removal (TRDD-0263f190).
+
+**NEXT ACTION:** mark `published` once v2.15.0 is live; report the version on
+janitor#18.
 
 ## Verified retirement inventory (grep-verified 2026-06-11, v2.14.0 tree)
 
