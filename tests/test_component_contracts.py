@@ -188,16 +188,26 @@ def test_hooks_referenced_scripts_exist() -> None:
 
 # ─────────────────────────────── manifests ───────────────────────────────────
 def test_plugin_json_valid_and_dependency_declared() -> None:
-    """plugin.json is valid, carries required keys, and declares its dependency (M1)."""
+    """plugin.json is valid, carries required keys, and declares a PINNED ai-maestro-plugin dependency (M1).
+
+    Upstream CPV (validate_plugin.py validate_dependencies) accepts entries as
+    bare strings OR objects {"name", "version", "marketplace"}; the pinned
+    object form is the fleet convention (cpv#106 precedent). This asserts the
+    dependency is present AND version-pinned so an upstream release cannot
+    break this plugin without warning.
+    """
     data = json.loads(PLUGIN_JSON.read_text(encoding="utf-8"))
     for key in ("name", "version", "description"):
         assert data.get(key), f"plugin.json missing '{key}'"
     assert re.match(r"^\d+\.\d+\.\d+$", data["version"]), "plugin.json version not semver"
     deps = data.get("dependencies")
-    assert isinstance(deps, list) and all(isinstance(d, str) for d in deps), (
-        "plugin.json 'dependencies' must be an array of strings"
+    assert isinstance(deps, list) and deps, "plugin.json 'dependencies' must be a non-empty array"
+    names = [d if isinstance(d, str) else d.get("name") for d in deps if isinstance(d, (str, dict))]
+    assert "ai-maestro-plugin" in names, "plugin.json must declare ai-maestro-plugin (M1)"
+    entry = next(d for d in deps if isinstance(d, dict) and d.get("name") == "ai-maestro-plugin")
+    assert re.match(r"^[\^~>=]", str(entry.get("version", ""))), (
+        "ai-maestro-plugin dependency must carry a semver range pin (fleet convention, cpv#106)"
     )
-    assert "ai-maestro-plugin" in deps, "plugin.json must declare ai-maestro-plugin (M1)"
 
 
 def test_agent_toml_valid() -> None:

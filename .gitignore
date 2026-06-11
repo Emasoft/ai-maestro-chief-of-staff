@@ -73,3 +73,6 @@ llm_externalizer_output/
 # Agent reports (private data — never commit; see agent-reports-location rule)
 /reports/
 /reports_dev/
+
+# Claude Code runtime cache (agent outputs, session state) — never commit
+.claude/
