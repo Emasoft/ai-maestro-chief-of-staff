@@ -1,14 +1,15 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.15.1] - 2026-06-11
-
-### Bug Fixes
-
-- Pin ai-maestro-plugin ^2.6.0 (fleet convention) + gitignore .claude/ cache    
+    ## [2.16.0] - 2026-06-14
 
 ### Documentation
 
-- TRDD-5f717ded + TRDD-0263f190 published in v2.15.0    
+- Add TRDD-59581001 — adopt janitor-hosted global memory system (blocked on janitor publish; my repo #18)    
+
+### Features
+
+- Bootstrap PROJECT wikimem scope (TRDD-59581001 phase 1)    
+- Adopt global janitor-hosted memory system; remove per-plugin skills (TRDD-59581001)    
 
 
