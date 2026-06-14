@@ -51,7 +51,7 @@ def _send_message(
         subject: Message subject
         message: Message content
         priority: Message priority (low, normal, high, urgent)
-        msg_type: Message type (notification, request, acknowledgment, etc.)
+        msg_type: Message type (notification, request, ack, etc.)
         require_ack: Whether to request acknowledgment
 
     Returns:
@@ -62,7 +62,7 @@ def _send_message(
     if require_ack:
         full_message += (
             "\n\n[ACKNOWLEDGMENT REQUIRED] "
-            "Please acknowledge this message by sending a reply with type='acknowledgment'"
+            "Please acknowledge this message by sending a reply with type='ack'"
         )
 
     try:
@@ -242,7 +242,7 @@ def wait_for_acknowledgment(
             else:
                 msg_type = ""
 
-            if sender == agent and msg_type == "acknowledgment":
+            if sender == agent and msg_type == "ack":
                 return True
 
         # Send reminder if interval elapsed
@@ -257,7 +257,7 @@ def wait_for_acknowledgment(
                     f"Timeout in {int(timeout - elapsed)} seconds."
                 ),
                 priority="high",
-                msg_type="reminder",
+                msg_type="notification",
             )
             last_remind_time = time.time()
 
@@ -332,7 +332,7 @@ def broadcast_notification(
             subject=subject,
             message=message,
             priority=priority,
-            msg_type="broadcast",
+            msg_type="notification",
         )
 
         if success:
@@ -403,7 +403,7 @@ def skill_install_with_notification(
             f"Please save any pending work and acknowledge when ready."
         ),
         priority="high",
-        msg_type="skill_install_notification",
+        msg_type="notification",
         require_ack=wait_for_ok,
     )
 
@@ -517,7 +517,7 @@ def skill_install_with_notification(
                 f"After restart, verify the skill is active by checking /skills or running a skill-specific command."
             ),
             priority="high",
-            msg_type="skill_verify_notification",
+            msg_type="notification",
         )
 
         if verify_success:

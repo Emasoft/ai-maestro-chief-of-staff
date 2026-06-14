@@ -59,12 +59,12 @@ Send a message to the Assistant Manager (AMAMA) using the `agent-messaging` skil
 # Status update (routine)
 /amcos-notify-manager --subject "Daily Status Update" \
   --message "All 5 agents operational. 3 tasks completed, 2 in progress." \
-  --type status_update
+  --type status
 
 # Issue report (important)
 /amcos-notify-manager --subject "Agent helper-python unresponsive" \
   --message "Agent helper-python has not responded to heartbeat for 10 minutes. Last known state: executing pytest. Recommend investigation." \
-  --type issue_report \
+  --type alert \
   --priority high \
   --agent helper-python
 
@@ -77,20 +77,20 @@ Send a message to the Assistant Manager (AMAMA) using the `agent-messaging` skil
 # Task completion
 /amcos-notify-manager --subject "Agent deployment complete" \
   --message "Successfully spawned 3 new agents for the API project. All agents online and accepting tasks." \
-  --type completion \
+  --type update \
   --metadata '{"agents_spawned": ["api-worker-1", "api-worker-2", "api-tester"]}'
 
 # Escalation
 /amcos-notify-manager --subject "Permission escalation needed" \
   --message "Agent helper-devops needs access to production credentials. This is beyond AMCOS authority. Requesting manager decision." \
-  --type escalation \
+  --type alert \
   --priority high \
   --require-ack
 
 # Request information
 /amcos-notify-manager --subject "Clarification needed on task priority" \
   --message "Multiple urgent tasks received. Need guidance on execution order: (1) security patch, (2) feature deployment, (3) database migration." \
-  --type request_info \
+  --type request \
   --require-ack
 ```
 

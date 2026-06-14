@@ -34,7 +34,7 @@ def send_ai_maestro_message(
     subject: str,
     message: str,
     priority: str = "normal",
-    msg_type: str = "command",
+    msg_type: str = "request",
 ) -> tuple[bool, str]:
     """
     Send a message via AMP CLI (amp-send).
@@ -189,7 +189,7 @@ Examples:
         subject,
         message,
         priority="normal",
-        msg_type="command_request",
+        msg_type="request",
     )
 
     if success:

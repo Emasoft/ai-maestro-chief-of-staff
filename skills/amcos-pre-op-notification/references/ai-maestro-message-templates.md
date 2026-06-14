@@ -31,7 +31,7 @@ amp-init.sh --auto
 
 **Base send command:**
 ```bash
-amp-send.sh --to <recipient> --subject "<subject>" --priority <priority> --type <type> --message "<message>"
+amp-send.sh "<recipient>" "<subject>" "<message>" --priority <priority> --type <type>
 ```
 
 **Priority values:** `urgent`, `high`, `normal`, `low`
@@ -43,11 +43,8 @@ amp-send.sh --to <recipient> --subject "<subject>" --priority <priority> --type 
 **Use case:** Before spawning, terminating, or replacing agents.
 
 ```bash
-amp-send.sh --to amama-main \
-  --subject "APPROVAL REQUIRED: <operation_type>" \
-  --priority normal \
-  --type approval_request \
-  --message "Operation: <description>. Target: <agent>. Justification: <reason>. Risk: <low|medium|high>. Rollback: <plan>. Request-ID: <uuid>. Timeout: 120s"
+amp-send.sh "amama-main" "APPROVAL REQUIRED: <operation_type>" "Operation: <description>. Target: <agent>. Justification: <reason>. Risk: <low|medium|high>. Rollback: <plan>. Request-ID: <uuid>. Timeout: 120s" \
+  --priority normal --type request
 ```
 
 **Expected response fields:** `decision` (approved|rejected|revision_needed), `reason`, `conditions` (optional).
@@ -60,11 +57,8 @@ amp-send.sh --to amama-main \
 **Use case:** Issues outside AMCOS authority or requiring human intervention.
 
 ```bash
-amp-send.sh --to amama-assistant-manager \
-  --subject "[ESCALATION] <SITUATION_TYPE>" \
-  --priority <urgent|high|normal> \
-  --type escalation \
-  --message "Issue: <description>. Severity: <low|medium|high|critical>. Affected: <resources>. Attempts: <N>. Last error: <details>. Recommended action: <action>. User decision required: <yes|no>. Escalation-ID: <uuid>"
+amp-send.sh "amama-assistant-manager" "[ESCALATION] <SITUATION_TYPE>" "Issue: <description>. Severity: <low|medium|high|critical>. Affected: <resources>. Attempts: <N>. Last error: <details>. Recommended action: <action>. User decision required: <yes|no>. Escalation-ID: <uuid>" \
+  --priority <urgent|high|normal> --type alert
 ```
 
 **Escalation Priority Guidelines:**
@@ -85,11 +79,8 @@ amp-send.sh --to amama-assistant-manager \
 **Use case:** Before hibernating, terminating, or moving an agent.
 
 ```bash
-amp-send.sh --to <target-agent> \
-  --subject "NOTICE: <operation_type> in <seconds>s" \
-  --priority high \
-  --type operation_notice \
-  --message "Operation: <description>. Type: <hibernate|terminate|move>. Countdown: <seconds>s. Save your work and reply with 'ok' when ready."
+amp-send.sh "<target-agent>" "NOTICE: <operation_type> in <seconds>s" "Operation: <description>. Type: <hibernate|terminate|move>. Countdown: <seconds>s. Save your work and reply with 'ok' when ready." \
+  --priority high --type notification
 ```
 
 
@@ -102,11 +93,8 @@ amp-send.sh --to <target-agent> \
 **Use case:** After completing spawn, terminate, hibernate, wake operations.
 
 ```bash
-amp-send.sh --to <requesting_agent> \
-  --subject "RESULT: <operation_type> - <SUCCESS|FAILED>" \
-  --priority <normal|high> \
-  --type operation_result \
-  --message "Operation: <description>. Status: <success|failure|partial>. Target: <resource>. Duration: <ms>ms. Error: <details or none>"
+amp-send.sh "<requesting_agent>" "RESULT: <operation_type> - <SUCCESS|FAILED>" "Operation: <description>. Status: <success|failure|partial>. Target: <resource>. Duration: <ms>ms. Error: <details or none>" \
+  --priority <normal|high> --type response
 ```
 
 **Priority:** `normal` for success, `high` for failure.
@@ -119,11 +107,8 @@ amp-send.sh --to <requesting_agent> \
 **Use case:** After spawning agent and adding to team.
 
 ```bash
-amp-send.sh --to <orchestrator-session> \
-  --subject "NEW AGENT: <agent_name> available" \
-  --priority normal \
-  --type team_update \
-  --message "Agent: <name>. Role: <role>. Capabilities: <list>. Working dir: <path>. Registry: <path>. Agent is ready for task assignments."
+amp-send.sh "<orchestrator-session>" "NEW AGENT: <agent_name> available" "Agent: <name>. Role: <role>. Capabilities: <list>. Working dir: <path>. Registry: <path>. Agent is ready for task assignments." \
+  --priority normal --type update
 ```
 
 ---
@@ -134,11 +119,8 @@ amp-send.sh --to <orchestrator-session> \
 
 
 ```bash
-amp-send.sh --to <orchestrator-session> \
-  --subject "REQUEST: Team status report" \
-  --priority normal \
-  --type status_request \
-  --message "Requesting: active agents, hibernated agents, pending tasks, idle agents. Request-ID: <uuid>"
+amp-send.sh "<orchestrator-session>" "REQUEST: Team status report" "Requesting: active agents, hibernated agents, pending tasks, idle agents. Request-ID: <uuid>" \
+  --priority normal --type request
 ```
 
 ---
@@ -151,11 +133,8 @@ Send to each team member individually:
 
 ```bash
 for agent in <agent1> <agent2> <agent3>; do
-  amp-send.sh --to "$agent" \
-    --subject "TEAM UPDATE: <update_description>" \
-    --priority normal \
-    --type team_broadcast \
-    --message "Update: <description>. Registry: <path>. Action: <refresh_registry|update_roles|member_removed|member_added>"
+  amp-send.sh "$agent" "TEAM UPDATE: <update_description>" "Update: <description>. Registry: <path>. Action: <refresh_registry|update_roles|member_removed|member_added>" \
+    --priority normal --type notification
 done
 ```
 
@@ -168,13 +147,13 @@ done
 
 | Message Type | Purpose | Priority | Response Expected |
 |--------------|---------|----------|-------------------|
-| `approval_request` | Request permission from AMAMA | `normal` | Yes (timeout: 120s) |
-| `escalation` | Report critical issue to AMAMA | `urgent`/`high` | Yes (varies) |
-| `operation_notice` | Warn agent of upcoming operation | `high` | No |
-| `operation_result` | Report operation outcome | `normal`/`high` | No |
-| `team_update` | Notify AMOA of new agent | `normal` | No |
-| `status_request` | Request team status from AMOA | `normal` | Yes (timeout: 60s) |
-| `team_broadcast` | Notify all team members | `normal` | No |
+| `request` | Request permission from AMAMA | `normal` | Yes (timeout: 120s) |
+| `alert` | Report critical issue to AMAMA | `urgent`/`high` | Yes (varies) |
+| `notification` | Warn agent of upcoming operation | `high` | No |
+| `response` | Report operation outcome | `normal`/`high` | No |
+| `update` | Notify AMOA of new agent | `normal` | No |
+| `request` | Request team status from AMOA | `normal` | Yes (timeout: 60s) |
+| `notification` | Notify all team members | `normal` | No |
 | `health_check` | Verify agent is responsive | `normal` | Yes (timeout: 30s) |
 
 **Priority guidelines:**

@@ -198,11 +198,8 @@ All inter-agent messaging uses the **AMP protocol** via the official scripts in 
 ### Send a Message
 
 ```bash
-amp-send.sh --to svgbbox-orchestrator \
-  --subject "[PROGRESS] Task #42: Login fix 80% complete" \
-  --priority normal \
-  --type progress-report \
-  --message "Login fix implementation 80% complete. Running tests now."
+amp-send.sh "svgbbox-orchestrator" "[PROGRESS] Task #42: Login fix 80% complete" "Login fix implementation 80% complete. Running tests now." \
+  --priority normal --type status
 ```
 
 ### Check Inbox
@@ -287,11 +284,8 @@ Fix login validation bug
 4. **Notify all team agents** of registry changes via AMP:
 
 ```bash
-amp-send.sh --to svgbbox-orchestrator \
-  --subject "[REGISTRY UPDATE] Team contacts updated" \
-  --priority normal \
-  --type registry-update \
-  --message "Agent svgbbox-impl-03 added to team. Query API for current roster."
+amp-send.sh "svgbbox-orchestrator" "[REGISTRY UPDATE] Team contacts updated" "Agent svgbbox-impl-03 added to team. Query API for current roster." \
+  --priority normal --type update
 ```
 
 ---
@@ -337,9 +331,9 @@ For full kanban workflow details, see **FULL_PROJECT_WORKFLOW.md**.
 | Report task progress | Orchestrator | `GET /api/teams/[id]/agents` filter by sub-role |
 | Ask design questions | Architect | `GET /api/teams/[id]/agents` filter by sub-role |
 | Submit PR for review | Integrator | `GET /api/teams/[id]/agents` filter by sub-role |
-| Request approval | Manager | `amp-send.sh --to amama-assistant-manager` |
-| Report agent issues | Chief of Staff | `amp-send.sh --to amcos-chief-of-staff` |
-| Message teammate | By name | `amp-send.sh --to <agent-name>` |
+| Request approval | Manager | `amp-send.sh amama-assistant-manager` |
+| Report agent issues | Chief of Staff | `amp-send.sh amcos-chief-of-staff` |
+| Message teammate | By name | `amp-send.sh <agent-name>` |
 
 ---
 

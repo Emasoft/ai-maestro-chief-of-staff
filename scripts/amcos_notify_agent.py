@@ -10,7 +10,7 @@ otherwise falls back to sending directly by session name.
 Usage:
     python amcos_notify_agent.py my-agent --subject "Update" --message "Requirements changed"
     python amcos_notify_agent.py my-agent -s "Task" -m "Please review" -p high
-    python amcos_notify_agent.py my-agent -s "Info" -m "Done" --type acknowledgment
+    python amcos_notify_agent.py my-agent -s "Info" -m "Done" --type ack
 
 Output: Human-readable status lines + JSON summary on success
 """
@@ -131,8 +131,21 @@ def main() -> int:
         "--type",
         "-t",
         dest="msg_type",
+        choices=[
+            "request",
+            "response",
+            "notification",
+            "task",
+            "status",
+            "alert",
+            "update",
+            "handoff",
+            "ack",
+            "system",
+        ],
         default="notification",
-        help="Message type (notification, request, acknowledgment, etc.)",
+        help="Message type (default: notification). Mirrors the amp-send "
+        "executable's frozen 10-value enum so a bad type fails here, not silently downstream.",
     )
 
     args = parser.parse_args()

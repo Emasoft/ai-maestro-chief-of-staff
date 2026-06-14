@@ -140,29 +140,6 @@ def get_agent_status_from_cli(agent: str) -> dict[str, Any] | None:
         return None
 
 
-def get_agent_messages(agent: str, status: str = "unread") -> list[dict[str, Any]]:
-    """Get messages for an agent via aimaestro-agent.sh CLI.
-
-    Args:
-        agent: Agent session name
-        status: Message status filter ('unread', 'all')
-
-    Returns:
-        List of messages
-    """
-    code, stdout, _stderr = run_cli("messages", agent, "--status", status, "--json")
-    if code != 0:
-        return []
-    try:
-        data = json.loads(stdout)
-        messages = data.get("messages", data) if isinstance(data, dict) else data
-        return cast(
-            list[dict[str, Any]], messages if isinstance(messages, list) else []
-        )
-    except (json.JSONDecodeError, TypeError):
-        return []
-
-
 def send_ping_message(agent: str) -> bool:
     """Send a ping message to an agent via AMP CLI.
 
@@ -177,7 +154,7 @@ def send_ping_message(agent: str) -> bool:
         subject="Health check ping",
         message=f"Health check ping - please respond. Timestamp: {iso_now()}",
         priority="high",
-        msg_type="ping",
+        msg_type="status",
     )
 
 
@@ -503,7 +480,7 @@ def replace_agent(
         subject=f"Handoff request: {failed_agent} -> {new_name}",
         message=handoff_msg,
         priority="high",
-        msg_type="handoff_request",
+        msg_type="handoff",
     ):
         result["details"]["amoa_handoff_notified"] = True
     else:
@@ -519,7 +496,7 @@ def replace_agent(
         subject=f"Kanban update: agent replacement {new_name}",
         message=kanban_msg,
         priority="normal",
-        msg_type="kanban_update",
+        msg_type="update",
     ):
         result["details"]["amoa_kanban_notified"] = True
     else:
