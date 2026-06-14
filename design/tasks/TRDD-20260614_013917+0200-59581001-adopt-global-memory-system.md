@@ -3,7 +3,7 @@ trdd-id: 59581001-4f47-470e-9f16-746ce5194962
 title: Adopt the janitor-hosted global 3-scope memory system; remove per-plugin memory skills
 column: backburner
 created: 2026-06-14T01:39:17+0200
-updated: 2026-06-14T01:39:17+0200
+updated: 2026-06-14T17:37:15+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 2
@@ -34,14 +34,24 @@ plugins ship NO per-plugin memory skills. The MANAGER sequences the rollout
 (assistant-manager#15). Authorized by the USER's standing directive ("follow
 the memory-migration instructions from the github issues").
 
-**⛔ BLOCKED — do NOT execute yet.** The rollout "rides the janitor's next
-publish, when the global skills ship fixed." VERIFIED 2026-06-14: the janitor's
-updated memory work (the `/janitor-memory-bootstrap` skill + the zsh-array-fixed
-`janitor-memory-{recall,write,update}` skills) is **committed but
-unpushed/unpublished** (per MANAGER #15) — `/janitor-memory-bootstrap` is NOT in
-the installed janitor cache (only the prior `janitor-memory-recall/write/update`
-are). Executing now = capability gap + jumping the MANAGER's sequence. The fixed
-`~/.claude/rules/markdown-memory-recall.md` rule IS already auto-installed.
+**⏸ GATE 1 CLEARED — still HOLDING on GATE 2 (MANAGER sequencing).** Two gates
+guard execution; status as of 2026-06-14T17:37+0200:
+- **GATE 1 — janitor publishes bootstrap + fixed global skills: ✓ CLEARED.**
+  janitor **v0.8.5** shipped 2026-06-14T15:28Z and the installed cache now has
+  `.../ai-maestro-janitor/0.8.5/skills/janitor-memory-bootstrap` (+ recall/write/
+  update). The `[janitor-reload]` heartbeat marker fired on this auto-update.
+  The fixed `~/.claude/rules/markdown-memory-recall.md` rule was already installed.
+- **GATE 2 — MANAGER sequences chief-of-staff: ✗ NOT yet met.** assistant-manager#15
+  latest (MANAGER, 2026-06-14T04:36) only states AMAMA is "ready to fire on your
+  publish ping" about its OWN migration (TRDD-d369cf76); no explicit "chief-of-staff,
+  go" / rollout-slot for THIS plugin. Posted the publish-ping + sequencing request
+  on assistant-manager#15 (issuecomment-4702224544) 2026-06-14T17:37; awaiting the go.
+- **Also gated by approval tier:** this TRDD is `release-via: publish` + `impacts:
+  [public-api]` → Tier-2, so the publish step needs MANAGER sign-off regardless.
+- **In-session prerequisite:** this Claude Code session must `/reload-plugins`
+  (can't be self-invoked — asked the USER) to register the 0.8.5 `janitor-memory-bootstrap`
+  skill before step 1 can run.
+Do NOT execute the migration until GATE 2 is met (MANAGER go on #15/#18).
 
 **NEXT ACTION (when the janitor publishes the bootstrap + fixed global skills,
 AND the MANAGER sequences chief-of-staff):**
