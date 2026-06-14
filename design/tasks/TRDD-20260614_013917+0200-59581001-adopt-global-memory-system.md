@@ -1,9 +1,11 @@
 ---
 trdd-id: 59581001-4f47-470e-9f16-746ce5194962
 title: Adopt the janitor-hosted global 3-scope memory system; remove per-plugin memory skills
-column: backburner
+column: published
 created: 2026-06-14T01:39:17+0200
-updated: 2026-06-14T17:37:15+0200
+updated: 2026-06-14T18:17:05+0200
+published-version: 2.16.0
+published-at: 2026-06-14T18:15:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 2
@@ -34,8 +36,18 @@ plugins ship NO per-plugin memory skills. The MANAGER sequences the rollout
 (assistant-manager#15). Authorized by the USER's standing directive ("follow
 the memory-migration instructions from the github issues").
 
-**⏸ GATE 1 CLEARED — still HOLDING on GATE 2 (MANAGER sequencing).** Two gates
-guard execution; status as of 2026-06-14T17:37+0200:
+**✅ SHIPPED — v2.16.0 (2026-06-14T18:15+0200).** Both gates cleared, executed,
+published, CI green (Plugin Validation + Release + Notify Marketplace all ✓).
+Release: https://github.com/Emasoft/ai-maestro-chief-of-staff/releases/tag/v2.16.0
+Reported on my-repo #18 (issuecomment-4702329568). Commits: 33e0971 (phase 1
+bootstrap), ce0688c (migration), 8594049 (release bump). What landed: removed the
+3 per-plugin memory surfaces; added CLAUDE.md (COS moments + fixed recall form);
+repointed all live surfaces incl. the test (grep found more than the planned 5);
+proactive contract in main agent + all 9 sub-agents; PROJECT scope bootstrapped;
+test rewritten to validate adoption (121 pass; CPV strict + lint 0/0/0/0). This
+TRDD is now terminal (published) — do not edit the body further.
+
+Historical gate record (both now satisfied):
 - **GATE 1 — janitor publishes bootstrap + fixed global skills: ✓ CLEARED.**
   janitor **v0.8.5** shipped 2026-06-14T15:28Z and the installed cache now has
   `.../ai-maestro-janitor/0.8.5/skills/janitor-memory-bootstrap` (+ recall/write/
