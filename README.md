@@ -129,7 +129,7 @@ AMCOS (Chief of Staff) ---- one per team
 | `/amcos-resource-report` | Show team resource usage |
 | `/amcos-performance-report` | Show team performance metrics |
 
-### Skills (25)
+### Skills (23)
 
 | Skill | Purpose |
 |-------|---------|
@@ -156,8 +156,6 @@ AMCOS (Chief of Staff) ---- one per team
 | `amcos-staff-planning` | Staff planning and role assignment |
 | `amcos-team-coordination` | Team AMP messaging and coordination |
 | `amcos-transfer-management` | Cross-team agent transfer with dual-manager approval |
-| `cos-memory-recall` | Symptom-indexed memory recall before acting (memgrep, grep fallback) |
-| `cos-memory-write` | Capture durable facts as symptom-indexed memory notes |
 
 ### Hooks (5)
 

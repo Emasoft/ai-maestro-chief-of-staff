@@ -201,6 +201,19 @@ GovernanceRequest status: <pending|local-approved|remote-approved|dual-approved|
 What happens next or what is waiting for
 ```
 
+## Durable memory
+
+This plugin uses the **global** janitor-hosted 3-scope memory wiki (sub-agents
+inherit nothing, so this directive is restated here). Before acting on a
+recurring situation — a repeat failure, an alert seen before, a decision that
+may already be recorded — RECALL first with `/janitor-memory-recall` using the
+SYMPTOM ("have we hit this before?"). After solving a non-trivial problem or
+learning a durable constraint, capture it with `/janitor-memory-write` (revise
+with `/janitor-memory-update`). Protocol: `~/.claude/rules/markdown-memory-recall.md`;
+the COS-specific moments + the fixed zsh-array recall form live in the plugin
+`CLAUDE.md`. Scope routing: machine-private → LOCAL, project-shared (no secrets)
+→ PROJECT, cross-project → USER; unsure → LOCAL.
+
 ## Token-Efficient Tools
 
 When available, prefer these over reading large files into your context:

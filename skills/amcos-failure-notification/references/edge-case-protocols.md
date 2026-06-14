@@ -829,9 +829,12 @@ If multiple edge cases compound:
 
 ## Related Documents
 
-- Durable memory (recall before acting / write after learning): see the
-  `cos-memory-recall` and `cos-memory-write` skills (`rules/memory-protocol.md`).
-  The old session memory bank (`amcos-memory-initialization` /
-  `amcos-progress-tracking` / `amcos-context-management`) was retired per the
-  fleet three-scope memory convention (TRDD-5f717ded).
+- Durable memory (recall before acting / write after learning): use the
+  **global** janitor-hosted skills `/janitor-memory-recall` and
+  `/janitor-memory-write` (revise with `/janitor-memory-update`); protocol in
+  `~/.claude/rules/markdown-memory-recall.md`, PROJECT scope at
+  `.claude/project/memory/`, COS-specific moments in the plugin `CLAUDE.md`.
+  The per-plugin `cos-memory-*` skills + `rules/memory-protocol.md` mirror were
+  removed in favor of the global system (TRDD-59581001); the older session
+  memory bank was retired earlier (TRDD-5f717ded).
 - [SKILL.md](../SKILL.md) - Core notification protocols skill

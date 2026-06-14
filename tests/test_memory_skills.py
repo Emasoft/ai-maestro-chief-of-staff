@@ -1,46 +1,34 @@
-"""Real (non-mocked) tests for the cos-memory-recall / cos-memory-write skills.
+"""Real (non-mocked) tests for this plugin's ADOPTION of the global memory system.
 
-The skills are LLM recipes; their testable contract is the bash recipe they
-document: the note schema, the MEMORY.md index line, the memgrep recall
-ranking, and the plain-grep fallback when memgrep is absent. These tests
-execute that contract against a real fixture memory dir in tmp_path.
+ai-maestro-chief-of-staff no longer ships per-plugin memory skills — it adopts
+the janitor-hosted global 3-scope wiki (TRDD-59581001). The plugin's testable
+memory responsibility is therefore its ADOPTION STATE, not memory behavior: the
+per-plugin surfaces are gone, CLAUDE.md points at the global system and carries
+the COS-specific moments, the .gitignore re-includes the PROJECT memory scope,
+the seeded PROJECT pages are schema-valid, and no live surface still wires the
+removed skills. (The recall/write/grep-fallback BEHAVIOR is the janitor's
+responsibility, tested in the janitor's own suite — not duplicated here.)
 """
 
-import shutil
-import subprocess
+import re
 from pathlib import Path
 
 PLUGIN_ROOT = Path(__file__).resolve().parent.parent
 
-NOTE_BODY = """---
-name: reference_spawn_timeout
-description: "spawn request failed with a timeout / agent never came up after spawn"
-metadata:
-  node_type: memory
-  type: reference
----
-Spawn requests against a cold registry take up to 40s; the default 30s timeout
-fires first. Raise the per-spawn timeout to 60s before retrying.
-"""
+REMOVED_SURFACES = [
+    PLUGIN_ROOT / "skills" / "cos-memory-recall",
+    PLUGIN_ROOT / "skills" / "cos-memory-write",
+    PLUGIN_ROOT / "rules" / "memory-protocol.md",
+]
 
-DECOY_BODY = """---
-name: project_label_taxonomy
-description: "which label colors do we use for team agent classification"
-metadata:
-  node_type: memory
-  type: project
----
-Label taxonomy: blue = core roles, amber = transient workers.
-"""
+GLOBAL_SKILLS = ("janitor-memory-recall", "janitor-memory-write", "janitor-memory-update")
 
-
-def make_memory_dir(tmp_path: Path) -> Path:
-    """Build a fixture memory dir with one symptom-matching note and one decoy."""
-    memdir = tmp_path / "memory"
-    memdir.mkdir()
-    (memdir / "reference_spawn_timeout.md").write_text(NOTE_BODY, encoding="utf-8")
-    (memdir / "project_label_taxonomy.md").write_text(DECOY_BODY, encoding="utf-8")
-    return memdir
+# Live plugin surfaces that must not wire the removed skills. design/ (TRDDs that
+# legitimately name the deletion targets), CLAUDE.md (its "do NOT re-create" note
+# names them by design), and this test file are intentionally out of scope.
+SCAN_ROOTS = ("agents", "skills", "commands", "hooks", "rules")
+SCAN_FILES = ("README.md", "ai-maestro-chief-of-staff.agent.toml")
+SCAN_SUFFIXES = {".md", ".toml", ".json", ".py", ".sh"}
 
 
 def parse_frontmatter(text: str) -> dict:
@@ -67,90 +55,72 @@ def parse_frontmatter(text: str) -> dict:
     return fields
 
 
-def test_write_recipe_produces_schema_valid_note(tmp_path: Path) -> None:
-    """The documented write recipe yields a schema-valid note plus a MEMORY.md index line."""
-    memdir = tmp_path / "memory"
-    memdir.mkdir()
-    # Execute the skill's documented steps 4-5: write the note, append the index.
-    note = memdir / "feedback_batch_spawn_requests.md"
-    note.write_text(
-        """---
-name: feedback_batch_spawn_requests
-description: "how should I send spawn requests / one per message or batched"
-metadata:
-  node_type: memory
-  type: feedback
----
-MANAGER wants spawn requests batched, not one-per-message.
+def test_per_plugin_memory_surfaces_removed() -> None:
+    """The superseded per-plugin memory skills + rule mirror no longer ship."""
+    for p in REMOVED_SURFACES:
+        assert not p.exists(), f"{p.relative_to(PLUGIN_ROOT)} must be removed (superseded by the global system)"
 
-**Why:** one-per-message floods the approval queue.
-**How to apply:** collect spawn needs for the cycle, send one batched request.
-""",
-        encoding="utf-8",
-    )
+
+def test_claude_md_points_at_global_system() -> None:
+    """CLAUDE.md adopts the global janitor skills + the recall rule + names the PROJECT scope."""
+    cm = PLUGIN_ROOT / "CLAUDE.md"
+    assert cm.exists(), "plugin CLAUDE.md must exist (it folds the COS-specific memory guidance)"
+    body = cm.read_text(encoding="utf-8")
+    for sk in GLOBAL_SKILLS:
+        assert sk in body, f"CLAUDE.md must reference the global skill {sk}"
+    assert "markdown-memory-recall.md" in body, "CLAUDE.md must reference the global recall rule"
+    assert ".claude/project/memory" in body, "CLAUDE.md must name the PROJECT memory scope"
+
+
+def test_claude_md_carries_cos_specific_moments() -> None:
+    """CLAUDE.md preserves the COS-role recall/write moments folded from the removed surfaces."""
+    body = (PLUGIN_ROOT / "CLAUDE.md").read_text(encoding="utf-8")
+    assert "approval tier" in body, "must keep the classify-approval-tier recall moment"
+    assert ("recurring agent failure" in body or "recurring alert" in body), \
+        "must keep the recurring-failure/alert recall moment"
+
+
+def test_gitignore_reincludes_project_memory_scope() -> None:
+    """.gitignore widens .claude/ to /** and re-includes .claude/project/memory/**, with no bare line."""
+    gi = (PLUGIN_ROOT / ".gitignore").read_text(encoding="utf-8")
+    assert not re.search(r"(?m)^\.claude/?$", gi), \
+        "no bare .claude/ ignore line may remain (it would prune the re-included memory tree)"
+    assert "!.claude/project/memory/**" in gi, "the PROJECT memory re-include exception must be present"
+
+
+def test_seeded_project_pages_are_schema_valid() -> None:
+    """The bootstrapped PROJECT scope ships a schema-valid architecture hub + a MEMORY.md index."""
+    memdir = PLUGIN_ROOT / ".claude" / "project" / "memory"
+    hub = memdir / "architecture.md"
     index = memdir / "MEMORY.md"
-    index.write_text(
-        "- [Batch spawn requests](feedback_batch_spawn_requests.md) — MANAGER prefers batched spawns.\n",
-        encoding="utf-8",
-    )
-
-    fm = parse_frontmatter(note.read_text(encoding="utf-8"))
-    assert fm["name"] == note.stem, "frontmatter name must equal the filename stem"
-    assert fm["description"], "description (the symptom surface) must be non-empty"
+    assert hub.exists(), "architecture hub must be seeded"
+    assert index.exists(), "MEMORY.md index must be seeded"
+    fm = parse_frontmatter(hub.read_text(encoding="utf-8"))
+    assert fm["name"] == "architecture", "hub name must be 'architecture'"
+    assert fm["description"], "hub description must be non-empty"
     assert fm["metadata"]["node_type"] == "memory"
-    assert fm["metadata"]["type"] in {"user", "feedback", "project", "reference"}
-    assert note.stem in index.read_text(encoding="utf-8"), "MEMORY.md must index the note"
+    assert fm["metadata"]["tier"] == "hub", "the seeded page must be the hub tier"
+    assert "architecture.md" in index.read_text(encoding="utf-8"), "MEMORY.md must link the hub"
 
 
-def test_recall_memgrep_ranks_symptom_note_first(tmp_path: Path) -> None:
-    """memgrep recall on a SYMPTOM query surfaces the matching note above the decoy. 🐌"""
-    if shutil.which("memgrep") is None:
-        import pytest
-
-        pytest.skip("memgrep not installed — fallback path covered by the grep test")
-    memdir = make_memory_dir(tmp_path)
-    result = subprocess.run(
-        ["memgrep", "recall", "spawn request failed timeout agent never came up", str(memdir)],
-        capture_output=True,
-        text=True,
-        timeout=60,
-    )
-    assert result.returncode == 0, f"memgrep recall failed: {result.stderr}"
-    out = result.stdout
-    assert "reference_spawn_timeout" in out, "symptom query must surface the matching note"
-    if "project_label_taxonomy" in out:
-        assert out.index("reference_spawn_timeout") < out.index("project_label_taxonomy"), "matching note must rank above the decoy"
+def test_no_live_surface_references_removed_skills() -> None:
+    """No live agent/skill/manifest surface still wires the removed cos-memory-* skills."""
+    offenders = []
+    candidates = [PLUGIN_ROOT / f for f in SCAN_FILES]
+    for root in SCAN_ROOTS:
+        candidates += list((PLUGIN_ROOT / root).rglob("*"))
+    for path in candidates:
+        if not path.is_file() or path.suffix not in SCAN_SUFFIXES:
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        if "cos-memory-recall" in text or "cos-memory-write" in text:
+            offenders.append(str(path.relative_to(PLUGIN_ROOT)))
+    assert not offenders, f"these live surfaces still reference the removed skills: {offenders}"
 
 
-def test_recall_grep_fallback_without_memgrep(tmp_path: Path) -> None:
-    """With memgrep absent from PATH, the documented grep fallback still finds the note."""
-    memdir = make_memory_dir(tmp_path)
-    # Run the skill's exact fallback pipeline in a shell whose PATH cannot see
-    # memgrep (system dirs only) — proving the degrade-not-break contract.
-    script = (
-        'if command -v memgrep >/dev/null 2>&1; then echo MEMGREP_PRESENT; '
-        f'else grep -rliE "spawn request failed" "{memdir}" 2>/dev/null; fi'
-    )
-    result = subprocess.run(
-        ["/bin/bash", "-c", script],
-        capture_output=True,
-        text=True,
-        env={"PATH": "/usr/bin:/bin"},
-        timeout=30,
-    )
-    assert "MEMGREP_PRESENT" not in result.stdout, "test env must not see memgrep"
-    assert "reference_spawn_timeout.md" in result.stdout, "grep fallback must find the note"
-
-
-def test_skills_and_rule_document_the_degrade_contract() -> None:
-    """Both skills gate on command -v memgrep with a grep fallback, and the rule file exists."""
-    recall = (PLUGIN_ROOT / "skills" / "cos-memory-recall" / "SKILL.md").read_text(encoding="utf-8")
-    write = (PLUGIN_ROOT / "skills" / "cos-memory-write" / "SKILL.md").read_text(encoding="utf-8")
-    rule = PLUGIN_ROOT / "rules" / "memory-protocol.md"
-    for body, label in ((recall, "cos-memory-recall"), (write, "cos-memory-write")):
-        assert "command -v memgrep" in body, f"{label} must gate on memgrep presence"
-        assert "grep -rliE" in body, f"{label} must document the grep fallback"
-        assert "memory-protocol.md" in body, f"{label} must reference the memory-protocol rule"
-    assert rule.exists(), "rules/memory-protocol.md must ship with the plugin"
-    rule_text = rule.read_text(encoding="utf-8")
-    assert "index by the QUESTION" in rule_text, "the rule must state the one law"
+def test_main_agent_uses_global_skills() -> None:
+    """The main agent's Durable Memory directive points at the global skills, not the removed ones."""
+    agent = (PLUGIN_ROOT / "agents" / "ai-maestro-chief-of-staff-main-agent.md").read_text(encoding="utf-8")
+    assert "/janitor-memory-recall" in agent, "main agent must invoke the global recall skill"
+    assert "cos-memory-recall" not in agent and "cos-memory-write" not in agent, \
+        "main agent must not reference the removed per-plugin skills"
