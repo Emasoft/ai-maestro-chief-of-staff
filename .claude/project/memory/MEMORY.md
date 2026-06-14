@@ -6,3 +6,4 @@ the protocol lives in `~/.claude/rules/markdown-memory-recall.md` (run
 title to its file. Seed it with the architecture hub entry:
 
 - [architecture](architecture.md) — how ai-maestro-chief-of-staff works: overview + the parts map.
+- [amp-send CLI contract](reference_amp-send-cli-contract.md) — the 10 valid `--type` values, why CLI sends fail silently on a bad type, and verify-against-the-executable-not-the-doc.
