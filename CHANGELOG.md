@@ -1,15 +1,17 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.18.0] - 2026-06-15
+    ## [2.18.1] - 2026-06-15
+
+### Bug Fixes
+
+- Update stale example model id to current claude-sonnet-4-6    
 
 ### Documentation
 
-- Mark TRDD-e3156858 published (v2.17.0)    
-- Add PROJECT note on the amp-send CLI contract (10 types; verify the executable)    
-
-### Refactor
-
-- Repoint list-active heartbeat to the CLI layer; kill stale API TODOs (#20 pass 1)    
+- TRDD-8e8d6618 pass 1 shipped (v2.18.0); 3 classes pending CLIs    
+- #20 deploy-gated + scope corrected (no whoami; prompts/docs in scope)    
+- #20 acceptance bar refined per MANAGER (#16) — instructions not descriptive docs    
+- #20 capture pass-2 CLI interfaces + verify transfer-verb gap    
 
 
