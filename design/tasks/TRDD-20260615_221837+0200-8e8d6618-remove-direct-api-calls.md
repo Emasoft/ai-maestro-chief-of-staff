@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-15T23:11:14+0200
+updated: 2026-06-16T00:51:06+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -75,6 +75,23 @@ audit, + `TEAM_REGISTRY_SPECIFICATION.md`). Under the literal "`grep -rn '/api/'
 nothing" criterion these are in scope → pass-2 repoints scripts AND prompts/docs in one shot
 on the deploy signal. Full-tree `/api/` count now: 14 in scripts (4 files) + the .md prompt/doc
 references above.
+
+**UPDATE 2026-06-16T00:51 — read the CLI source; target interfaces captured + transfer gap
+VERIFIED.** Answered the MANAGER's open transfer-verb question from `~/ai-maestro/scripts/`
+source (read-only) on #16 (issuecomment-4713106202). **Pass-2 repoint targets (the interfaces I'll
+point COS at — modulo final pre-deploy edits):**
+- governance-request → **`aimaestro-governance.sh`**: `requests` · `request` (flags `--type
+  --agent --role --target-host --requested-by --payload-json --password`) · `approve`
+  (`--approver --password`) · `reject` (`--rejector --reason --password`).
+- teams-CRUD → **`aimaestro-teams.sh`**: `list · show · create · update · delete · add-agent ·
+  remove-agent`.
+- name-resolve → **`aimaestro-agent.sh resolve`** (+ `session`/`activity-update`/`user-input`
+  live in `agent-session.sh`, per the MANAGER's source trace).
+**Transfer verb VERIFIED ABSENT:** `grep -rniE 'transfer'` across ALL ai-maestro scripts = ZERO;
+no `/api/governance/transfers` path. So `commands/amcos-transfer-agent.md`'s transfer call has NO
+CLI equivalent yet — a real deploy-surface gap (candidate home: a governance `request --type
+transfer` + approve, since that machinery already carries agent/role/target-host/payload). COS
+can't reach grep-clean on the transfer-agent until this verb ships.
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
