@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-15T22:56:21+0200
+updated: 2026-06-15T23:11:14+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -90,5 +90,11 @@ once on PATH). Repoint + publish each as it lands. Don't stop until
 `grep -rn '/api/'` in the COS tree is empty.
 
 ## Acceptance criteria
-`grep -rn '/api/'` in the COS tree returns nothing; every former API call goes
-through the immutable CLI; tests + CPV strict + lint green; published; #20 answered.
+**Refined by MANAGER on #16 (issuecomment, 21:01Z, accepted COS's corrections; tracked in
+their TRDD-5fc2cb0a):** `grep -rn '/api/'` shows no direct-call **INSTRUCTIONS** in scripts
+OR prompts — but **descriptive "the CLI wraps /api/X" docs are FINE**. So COS pass-2:
+(1) repoints the 3 script classes to the CLIs; (2) repoints the instructing prompts
+(`amcos-approval-coordinator.md`, the teams agents, `amcos-transfer-agent.md`); (3) reframes
+`docs/TEAM_REGISTRY_SPECIFICATION.md` as descriptive CLI-wraps (NOT stripped). The
+`amcos-transfer-agent` transfer path is a confirmed fleet CLI-surface GAP (transfer verb) the
+MANAGER added to the build queue. Then tests + CPV strict + lint green; published; #20 answered.
