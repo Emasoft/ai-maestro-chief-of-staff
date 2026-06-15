@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-15T22:18:37+0200
+updated: 2026-06-15T22:41:05+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -42,7 +42,21 @@ Acked on #20 (issuecomment-4712078942).
 | teams-CRUD | `amcos_team_registry.py` ×6 + `amcos_generate_team_report.py:72` (`/api/teams*`) | `aimaestro-teams.sh` | NEARLY — script exists in `~/ai-maestro/scripts/` (Jun 15 21:54) but NOT on PATH; needs ai-maestro owner to wire |
 | (not calls) | `amcos_spawn/hibernate/terminate/wake_agent.py:2` | — | stale TODO comments `# TODO: Migrate to AI Maestro REST API` (now the WRONG advice) → rewrite to CLI |
 
-**NEXT ACTION (this pass — doable now):**
+**✅ PASS 1 SHIPPED — v2.18.0 (2026-06-15).** list-active repointed to the CLI +
+4 lifecycle TODOs fixed; those 5 files are grep-clean of the server-API path.
+121 tests; CPV strict + lint 0/0/0/0 (publish.py local gates). Reported on #20
+(issuecomment-4712252444). NB: the post-push Plugin Validation CI hung 15m
+(cold-CI `uvx` build-from-source, the known CPV #114; orphan uv+python) and was
+cancelled — NOT a plugin regression (local CPV strict passed; CPV validate is
+static). Added a data point to cpv#114. Commits 9b4de5f (pass 1), release bump.
+**REMAINING (3 pending classes, blocked on CLIs landing on ai-maestro#16):**
+name-resolve (`amcos_notify_agent.py:36`, needs `resolve`), governance-request
+(`amcos_approval_manager.py:48`, needs governance CLI), teams-CRUD
+(`amcos_team_registry.py` ×6 + `amcos_generate_team_report.py`, needs
+`aimaestro-teams.sh` ON PATH — it exists but isn't symlinked). Repoint + publish
+each as its CLI lands; this TRDD stays in `dev` until `grep -rn '/api/'` is empty.
+
+**NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
    --status online --json` (subprocess; tolerant `.get()` parse; KEEP the existing
    state-file fallback on any error — the CLI needs the server up at runtime, same
