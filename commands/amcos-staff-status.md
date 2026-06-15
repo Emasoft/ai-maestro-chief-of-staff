@@ -96,7 +96,7 @@ For detailed information about a specific agent, use the `ai-maestro-agents-mana
   Name:         helper-python
   Status:       online
   Program:      claude-code
-  Model:        claude-sonnet-4-20250514
+  Model:        claude-sonnet-4-6
 
   Working Dir:  ~/projects/backend
 
