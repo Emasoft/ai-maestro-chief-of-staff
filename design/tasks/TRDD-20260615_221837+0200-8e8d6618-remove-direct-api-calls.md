@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-15T22:41:05+0200
+updated: 2026-06-15T22:56:21+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -37,10 +37,11 @@ Acked on #20 (issuecomment-4712078942).
 | Call class | Site(s) | Repoint target | Status |
 |---|---|---|---|
 | list-active | `amcos_heartbeat_check.py:272` (`/api/agents?status=active`) | `aimaestro-agent.sh list --status online --json` (verified interface) | **DOABLE NOW** |
-| name-resolve | `amcos_notify_agent.py:36` (`/api/agents?name=`) | `resolve` CLI | PENDING (no `resolve` subcommand) |
-| governance-request | `amcos_approval_manager.py:48` (`/api/v1/governance/requests`) | governance CLI | PENDING |
-| teams-CRUD | `amcos_team_registry.py` ×6 + `amcos_generate_team_report.py:72` (`/api/teams*`) | `aimaestro-teams.sh` | NEARLY — script exists in `~/ai-maestro/scripts/` (Jun 15 21:54) but NOT on PATH; needs ai-maestro owner to wire |
-| (not calls) | `amcos_spawn/hibernate/terminate/wake_agent.py:2` | — | stale TODO comments `# TODO: Migrate to AI Maestro REST API` (now the WRONG advice) → rewrite to CLI |
+| name-resolve | `amcos_notify_agent.py:36` (`/api/agents?name=`) | `aimaestro-agent.sh resolve` | BLOCKED ON DEPLOY — `resolve)` now in source (L90) but `~/.local/bin` copy is Apr-14 (no resolve) |
+| governance-request | `amcos_approval_manager.py:48` (`/api/v1/governance/requests`) | `aimaestro-governance.sh` | BLOCKED ON DEPLOY — script landed in `~/ai-maestro/scripts/` but NOT in `~/.local/bin` |
+| teams-CRUD | `amcos_team_registry.py` ×6 + `amcos_generate_team_report.py:72` (`/api/teams*`) | `aimaestro-teams.sh` | BLOCKED ON DEPLOY — script in `~/ai-maestro/scripts/` (Jun 15 21:54) but NOT in `~/.local/bin` |
+| **prompt/doc API (NEW — script-only audit missed)** | `agents/amcos-approval-coordinator.md` ×7 (`/api/v1/governance/requests`); `agents/ai-maestro-chief-of-staff-main-agent.md` + `agents/amcos-team-coordinator.md` (`/api/teams*`); `commands/amcos-transfer-agent.md:28` (`/api/governance/transfers/` — distinct transfer path, in NO script audit); `docs/TEAM_REGISTRY_SPECIFICATION.md` (descriptive table) | same CLIs (governance/teams/transfer verb) | BLOCKED ON DEPLOY + final interface — repoint prompts to "invoke the CLI" once subcommands/args are stable |
+| (not calls) | `amcos_spawn/hibernate/terminate/wake_agent.py:2` | — | ✅ done in v2.18.0 — stale `# TODO: Migrate to AI Maestro REST API` rewritten to CLI |
 
 **✅ PASS 1 SHIPPED — v2.18.0 (2026-06-15).** list-active repointed to the CLI +
 4 lifecycle TODOs fixed; those 5 files are grep-clean of the server-API path.
@@ -55,6 +56,25 @@ name-resolve (`amcos_notify_agent.py:36`, needs `resolve`), governance-request
 (`amcos_team_registry.py` ×6 + `amcos_generate_team_report.py`, needs
 `aimaestro-teams.sh` ON PATH — it exists but isn't symlinked). Repoint + publish
 each as its CLI lands; this TRDD stays in `dev` until `grep -rn '/api/'` is empty.
+
+**UPDATE 2026-06-15T22:56 — deploy-gated, scope corrected (verified full-tree grep):**
+The 3 script classes are now blocked on ONE thing: the CLI **deploy**. The MANAGER
+confirmed (assistant-manager#16, 20:29Z) the CLIs are in **source** but NOT on PATH —
+`~/.local/bin/aimaestro-agent.sh` is the Apr-14 copy (no `resolve`); `aimaestro-governance.sh`
++ `aimaestro-teams.sh` aren't in `~/.local/bin` at all; `install-agent-cli.sh` hasn't run
+since April. The ai-maestro owner must deploy; the MANAGER then drives every plugin's
+pass-2 repoint. Repointing now would hit the stale/missing CLI → I HOLD (not idling for
+approval; a real deploy + interface dependency). **Two corrections posted on #16
+(issuecomment-4712359916):** (1) **no `governance-whoami` in COS** — the complete `/api/`
+set has no whoami path (that's core `prrd_lib.py` #7, mis-attributed to the COS line); COS
+is 4 classes total (list-active ✅ + 3 pending), not 5. (2) **The script-only audit
+undercounted** — the agent/command PROMPTS also instruct direct `/api/`
+(`amcos-approval-coordinator.md` ×7 governance, `main-agent.md` + `amcos-team-coordinator.md`
+teams, `amcos-transfer-agent.md:28` a distinct `/api/governance/transfers/` path in NO script
+audit, + `TEAM_REGISTRY_SPECIFICATION.md`). Under the literal "`grep -rn '/api/'` returns
+nothing" criterion these are in scope → pass-2 repoints scripts AND prompts/docs in one shot
+on the deploy signal. Full-tree `/api/` count now: 14 in scripts (4 files) + the .md prompt/doc
+references above.
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
