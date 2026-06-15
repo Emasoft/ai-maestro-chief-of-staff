@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# TODO: Migrate to AI Maestro REST API (POST /api/agents/register, etc.)
+# Agent lifecycle uses the ai-maestro-agents-management skill + the immutable aimaestro-agent.sh CLI — never the server API directly (#20).
 # Current implementation uses ai-maestro-agents-management skill
 """
 amcos_wake_agent.py - Wake a hibernated AI Maestro agent session.

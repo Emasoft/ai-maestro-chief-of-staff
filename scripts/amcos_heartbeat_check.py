@@ -22,9 +22,8 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 import sys
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -263,19 +262,24 @@ def main() -> int:
 
     out.log(f"Found {len(agents)} agent(s) in state file")
 
-    # Try AMP-based heartbeat check if AI Maestro API is available
-    api_base = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
+    # Prefer the immutable CLI layer for agent heartbeats — no direct server-API call (#20).
+    # 'active' == 'online' for the heartbeat. Falls back to the state file if the
+    # CLI is unavailable or the AI Maestro server is down (same degrade as before).
     session_name = os.environ.get("AIMAESTRO_AGENT", os.environ.get("SESSION_NAME", ""))
     if session_name:
         try:
-            # Query AI Maestro API for agent heartbeats (preferred over state file)
-            url = f"{api_base}/api/agents?status=active"
-            req = urllib.request.Request(url, headers={"Accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=3) as resp:
-                api_agents = json.loads(resp.read().decode())
+            cli = os.environ.get("AIMAESTRO_CLI", "aimaestro-agent.sh")
+            result = subprocess.run(
+                [cli, "list", "--status", "online", "--json"],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+            if result.returncode == 0:
+                api_agents = json.loads(result.stdout)
                 if isinstance(api_agents, list) and len(api_agents) > 0:
-                    out.log(f"Using AMP API data: {len(api_agents)} active agent(s)")
-                    # Use API data instead of state file data
+                    out.log(f"Using CLI data: {len(api_agents)} online agent(s)")
+                    # Use CLI data instead of state file data
                     agents = []
                     for a in api_agents:
                         hb = a.get("lastHeartbeat", "")
@@ -288,8 +292,8 @@ def main() -> int:
                                 "heartbeat_dt": parse_timestamp(hb) if hb else None,
                             }
                         )
-        except (urllib.error.URLError, OSError, json.JSONDecodeError, KeyError):
-            out.log("AMP API unavailable, using state file data")
+        except (subprocess.SubprocessError, OSError, json.JSONDecodeError, KeyError):
+            out.log("CLI unavailable, using state file data")
 
     unresponsive = check_unresponsive_agents(agents)
 
