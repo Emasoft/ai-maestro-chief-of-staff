@@ -2,8 +2,10 @@
 """
 AMCOS Team Registry Manager
 
-Manages team registries via the AI Maestro REST API.
-Creates, updates, and queries teams and their agent memberships.
+Manages team registries via the immutable AI Maestro CLI layer (#20).
+Creates, updates, and queries teams and their agent memberships by calling
+the frozen-interface CLIs (aimaestro-teams.sh / aimaestro-agent.sh), which
+wrap the server API and resolve auth internally — never the HTTP API directly.
 
 Usage:
     python amcos_team_registry.py create --team <name> --repo <url> [--project-board <url>]
@@ -16,16 +18,18 @@ Usage:
 import argparse
 import json
 import os
+import subprocess
 import sys
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from typing import Any
 
 from amcos_output_utils import AmcosOutput
 
-# API base URL from environment, default to localhost
-API_BASE = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
+# Frozen-CLI names, env-overridable exactly like amcos_notify_agent.py (#20).
+# The CLIs wrap the teams/agents API and resolve auth internally; this script
+# shells out to them and never touches the HTTP API.
+TEAMS_CLI = os.environ.get("AIMAESTRO_TEAMS_CLI", "aimaestro-teams.sh")
+AGENT_CLI = os.environ.get("AIMAESTRO_AGENT_CLI", "aimaestro-agent.sh")
 
 
 # Role constraints for team composition validation.
@@ -43,7 +47,7 @@ class RoleConstraint:
         self.min = min_count
         self.max = max_count
         self.plugin = plugin
-        # Governance role used when registering the agent with the API
+        # Governance role used when registering the agent with the CLI
         self.governance_role = governance_role
 
 
@@ -60,56 +64,56 @@ def get_timestamp() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _api_url(path: str) -> str:
-    """Build full API URL from a relative path."""
-    return f"{API_BASE}{path}"
+def _run_cli(argv: list[str], context: str) -> dict[str, Any]:
+    """Run a frozen-CLI command, returning a result dict.
 
-
-def _make_request(
-    url: str,
-    method: str,
-    body: dict[str, Any] | None = None,
-    timeout: int = 30,
-) -> Any:
-    """Build and send an HTTP request via urllib, returning the response object."""
-    headers: dict[str, str] = {"Accept": "application/json"}
-    data: bytes | None = None
-    if body is not None:
-        # Encode JSON body and set content-type header
-        data = json.dumps(body).encode("utf-8")
-        headers["Content-Type"] = "application/json"
-    req = urllib.request.Request(url, data=data, headers=headers, method=method)
-    # urlopen raises HTTPError for 4xx/5xx, which we catch at the call sites
-    return urllib.request.urlopen(req, timeout=timeout)  # type: ignore[return-value]
-
-
-def _handle_urllib_response(
-    resp: Any, status_code: int, _context: str
-) -> dict[str, Any]:
-    """Parse a successful urllib response body into a dict."""
-    # Some endpoints return empty body on success (e.g. DELETE 204)
-    if status_code == 204:
-        return {}
-    raw = resp.read()
-    if not raw:
-        return {}
-    return json.loads(raw.decode("utf-8"))
-
-
-def _handle_http_error(exc: urllib.error.HTTPError, context: str) -> dict[str, Any]:
-    """Extract error detail from an HTTPError and raise RuntimeError."""
+    Preserves the caller contract used throughout this module:
+      - success: {"success": True} with parsed JSON under "data" (object/array)
+        or the raw text under "raw" (when stdout is non-JSON but non-empty);
+      - failure: {"success": False, "error": "<context>: <detail>"}.
+    The CLI resolves auth internally and prints "Error: ..." to stderr on
+    non-zero exit (see aimaestro-teams.sh / aimaestro-agent.sh).
+    """
     try:
-        raw = exc.read()
-        body = json.loads(raw.decode("utf-8")) if raw else {}
-        detail = (
-            body.get("error")
-            or body.get("detail")
-            or body.get("message")
-            or json.dumps(body)
+        result = subprocess.run(argv, capture_output=True, text=True, timeout=30)
+    except (subprocess.SubprocessError, OSError) as exc:
+        return {"success": False, "error": f"{context}: CLI invocation failed: {exc}"}
+    if result.returncode != 0:
+        return {
+            "success": False,
+            "error": f"{context}: {result.stderr.strip() or 'non-zero exit'}",
+        }
+    out = result.stdout.strip()
+    if not out:
+        return {"success": True}
+    if out.startswith(("{", "[")):
+        try:
+            return {"success": True, "data": json.loads(out)}
+        except json.JSONDecodeError:
+            return {"success": True, "raw": out}
+    return {"success": True, "raw": out}
+
+
+def _parse_repo_url(repo_url: str) -> tuple[str, str]:
+    """Decompose a GitHub repo URL into (owner, repo).
+
+    Accepts https://github.com/<owner>/<repo> or the same with a trailing
+    '.git'. Strips scheme/host and the optional '.git' suffix. Raises
+    ValueError when the URL does not contain an <owner>/<repo> pair.
+    """
+    # Drop scheme (anything up to '://') if present, then drop the host segment.
+    path = repo_url.split("://", 1)[-1]
+    if "/" in path:
+        path = path.split("/", 1)[1]  # strip the host (e.g. github.com)
+    path = path.strip("/")
+    if path.endswith(".git"):
+        path = path[: -len(".git")]
+    parts = [p for p in path.split("/") if p]
+    if len(parts) < 2:
+        raise ValueError(
+            f"Cannot parse owner/repo from repository URL: {repo_url!r}"
         )
-    except Exception:
-        detail = exc.reason or str(exc)
-    raise RuntimeError(f"{context}: HTTP {exc.code} - {detail}")
+    return parts[0], parts[1]
 
 
 def validate_team_name(name: str) -> tuple[bool, str]:
@@ -127,26 +131,32 @@ def validate_team_name(name: str) -> tuple[bool, str]:
 def create_team(
     team_name: str, repo_url: str, project_board_url: str | None = None
 ) -> dict[str, Any]:
-    """Create a new team via the AI Maestro REST API."""
-    # Validate team name format locally before hitting the API
+    """Create a new team via the immutable CLI (aimaestro-teams.sh create)."""
+    # Validate team name format locally before invoking the CLI
     valid, msg = validate_team_name(team_name)
     if not valid:
         raise ValueError(msg)
 
-    payload: dict[str, Any] = {
-        "name": team_name,
-        "repository": repo_url,
-        "created_by": "amcos-chief-of-staff",
-    }
+    owner, repo = _parse_repo_url(repo_url)
+    argv = [
+        TEAMS_CLI,
+        "create",
+        "--name",
+        team_name,
+        "--gh-owner",
+        owner,
+        "--gh-repo",
+        repo,
+    ]
+    # `created_by` is dropped: the server infers the creator from CLI/AID auth.
     if project_board_url:
-        payload["github_project"] = project_board_url
-
-    url = _api_url("/api/teams")
-    try:
-        resp = _make_request(url, "POST", body=payload)
-        return _handle_urllib_response(resp, resp.status, f"Create team '{team_name}'")
-    except urllib.error.HTTPError as exc:
-        return _handle_http_error(exc, f"Create team '{team_name}'")
+        # DECOUPLE-BLOCKED ai-maestro#36: github_project — aimaestro-teams.sh create has no --gh-project flag yet; field dropped until it ships.
+        print(
+            "Warning: project_board_url given but aimaestro-teams.sh create has "
+            "no --gh-project flag (ai-maestro#36) — creating team without it.",
+            file=sys.stderr,
+        )
+    return _run_cli(argv, f"Create team '{team_name}'")
 
 
 def add_agent(
@@ -157,7 +167,11 @@ def add_agent(
     host: str,
     ai_maestro_address: str | None = None,
 ) -> dict[str, Any]:
-    """Add an agent to a team via the AI Maestro REST API."""
+    """Add an agent to a team via the immutable CLI (aimaestro-agent.sh create).
+
+    Cross-CLI: team membership for a brand-new agent is created through the
+    agent CLI's `create` (which accepts --team/--title/--plugin/--label).
+    """
     # Validate role locally
     if role not in ROLE_CONSTRAINTS:
         raise ValueError(
@@ -171,65 +185,86 @@ def add_agent(
             f"Role '{role}' requires plugin '{expected_plugin}', got '{plugin}'"
         )
 
-    # Default AI Maestro address to agent name
-    if ai_maestro_address is None:
-        ai_maestro_address = agent_name
+    governance_role = ROLE_CONSTRAINTS[role].governance_role
 
-    payload = {
-        "name": agent_name,
-        "role": role,
-        "governance_role": ROLE_CONSTRAINTS[role].governance_role,
-        "plugin": plugin,
-        "host": host,
-        "ai_maestro_address": ai_maestro_address,
-        "status": "active",
+    # DECOUPLE-BLOCKED ai-maestro#36: add-agent — aimaestro-agent.sh create
+    # requires a working directory (--dir <path>, hard-required) AND has NO
+    # --status flag (verified against agent-commands.sh cmd_create: the only
+    # --status is on `list`; create errors "Working directory is required").
+    # add_agent()'s signature carries no working-dir, and host/ai_maestro_address
+    # are server-inferred (dropped) — so the registry cannot synthesize a valid
+    # `agent create` invocation here without a --dir value it does not have.
+    # Pending MANAGER design call (same residual class as github_project /
+    # update-status): either agent-create gains a registry-mode that defaults
+    # --dir, or the registry grows a working-dir parameter. Fail-fast rather
+    # than emit a CLI call the frozen interface would reject.
+    _ = (governance_role, host, ai_maestro_address)  # referenced; intentionally unused until the verb ships
+    return {
+        "success": False,
+        "error": (
+            f"add-agent '{agent_name}' to team '{team_id}' DECOUPLE-BLOCKED ai-maestro#36: "
+            "aimaestro-agent.sh create requires --dir (no working-dir in "
+            "add_agent signature) and exposes no --status flag — no clean "
+            "registry-side mapping. Pending MANAGER design call."
+        ),
     }
-
-    url = _api_url(f"/api/teams/{team_id}/agents")
-    try:
-        resp = _make_request(url, "POST", body=payload)
-        return _handle_urllib_response(
-            resp, resp.status, f"Add agent '{agent_name}' to team '{team_id}'"
-        )
-    except urllib.error.HTTPError as exc:
-        return _handle_http_error(exc, f"Add agent '{agent_name}' to team '{team_id}'")
 
 
 def remove_agent(team_id: str, agent_id: str) -> dict[str, Any]:
-    """Remove an agent from a team via the AI Maestro REST API."""
-    url = _api_url(f"/api/teams/{team_id}/agents/{agent_id}")
-    context = f"Remove agent '{agent_id}' from team '{team_id}'"
-    try:
-        resp = _make_request(url, "DELETE")
-        return _handle_urllib_response(resp, resp.status, context)
-    except urllib.error.HTTPError as exc:
-        return _handle_http_error(exc, context)
+    """Remove an agent from a team via the immutable CLI (aimaestro-teams.sh remove-agent)."""
+    argv = [TEAMS_CLI, "remove-agent", team_id, agent_id]
+    return _run_cli(argv, f"Remove agent '{agent_id}' from team '{team_id}'")
 
 
 def update_team(team_id: str, updates: dict[str, Any]) -> dict[str, Any]:
-    """Update a team via the AI Maestro REST API."""
-    url = _api_url(f"/api/teams/{team_id}")
-    context = f"Update team '{team_id}'"
-    try:
-        resp = _make_request(url, "PATCH", body=updates)
-        return _handle_urllib_response(resp, resp.status, context)
-    except urllib.error.HTTPError as exc:
-        return _handle_http_error(exc, context)
+    """Update a team via the immutable CLI (aimaestro-teams.sh update).
+
+    Maps known `updates` keys to verified flags; unknown keys are skipped
+    with a stderr warning (never crash).
+    """
+    # Verified aimaestro-teams.sh update flag surface.
+    key_to_flag = {
+        "name": "--name",
+        "description": "--description",
+        "agents": "--agents",
+        "orchestrator": "--orchestrator",
+    }
+    argv = [TEAMS_CLI, "update", team_id]
+    for key, value in updates.items():
+        flag = key_to_flag.get(key)
+        if flag is None:
+            print(
+                f"Warning: update_team: unknown key '{key}' has no "
+                "aimaestro-teams.sh update flag — skipped.",
+                file=sys.stderr,
+            )
+            continue
+        argv.extend([flag, str(value)])
+    return _run_cli(argv, f"Update team '{team_id}'")
 
 
 def list_teams() -> dict[str, Any]:
-    """List all teams via the AI Maestro REST API."""
-    url = _api_url("/api/teams")
-    context = "List teams"
-    try:
-        resp = _make_request(url, "GET")
-        return _handle_urllib_response(resp, resp.status, context)
-    except urllib.error.HTTPError as exc:
-        return _handle_http_error(exc, context)
+    """List all teams via the immutable CLI (aimaestro-teams.sh list).
+
+    Returns {"success": True, "teams": [...]} so callers keep doing
+    data.get("teams", []); on failure returns {"success": False, "error": ...}.
+    The CLI may return a plain array or a {"teams": [...]} wrapper.
+    """
+    result = _run_cli([TEAMS_CLI, "list"], "List teams")
+    if not result.get("success"):
+        return result
+    data = result.get("data")
+    if isinstance(data, list):
+        teams = data
+    elif isinstance(data, dict):
+        teams = data.get("teams", [])
+    else:
+        teams = []
+    return {"success": True, "teams": teams}
 
 
 def get_team_by_name(team_name: str) -> dict[str, Any] | None:
-    """Find a team by name from the API. Returns the team dict or None."""
+    """Find a team by name from the CLI. Returns the team dict or None."""
     data = list_teams()
     teams = data.get("teams", [])
     for team in teams:
@@ -239,16 +274,16 @@ def get_team_by_name(team_name: str) -> dict[str, Any] | None:
 
 
 def _resolve_team_id(team_name: str) -> str:
-    """Resolve a team name to its API id. Raises if not found."""
+    """Resolve a team name to its id. Raises if not found."""
     team = get_team_by_name(team_name)
     if team is None:
         raise ValueError(f"Team '{team_name}' not found")
-    # The API may use 'id', '_id', or 'name' as identifier
+    # The registry may use 'id', '_id', or 'name' as identifier
     return str(team.get("id") or team.get("_id") or team["name"])
 
 
 def _resolve_agent_id(team: dict[str, Any], agent_name: str) -> str:
-    """Resolve an agent name to its API id within a team. Raises if not found."""
+    """Resolve an agent name to its id within a team. Raises if not found."""
     agents = team.get("agents", [])
     for agent in agents:
         if agent.get("name") == agent_name:
@@ -297,7 +332,7 @@ def format_all_teams(data: dict[str, Any]) -> str:
 def main() -> int:
     out = AmcosOutput("amcos_team_registry")
     parser = argparse.ArgumentParser(
-        description="AMCOS Team Registry Manager (REST API)",
+        description="AMCOS Team Registry Manager (immutable CLI layer)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -373,7 +408,7 @@ Examples:
             print(json.dumps(result, separators=(",", ":")))
             out.summary("DONE", f"Team '{args.team}' created")
             out.close()
-            return 0
+            return 0 if result.get("success") else 1
 
         elif args.command == "add-agent":
             team_id = _resolve_team_id(args.team)
@@ -385,12 +420,16 @@ Examples:
                 args.host,
                 args.address,
             )
-            out.log(f"Added agent '{args.agent_name}' to team '{args.team}'")
+            out.log(f"Add agent '{args.agent_name}' to team '{args.team}'")
             out.log_json(result, label="add-agent")
             print(json.dumps(result, separators=(",", ":")))
-            out.summary("DONE", f"Agent '{args.agent_name}' added to '{args.team}'")
+            if result.get("success"):
+                out.summary("DONE", f"Agent '{args.agent_name}' added to '{args.team}'")
+                out.close()
+                return 0
+            out.summary("FAILED", result.get("error", "add-agent failed"))
             out.close()
-            return 0
+            return 1
 
         elif args.command == "remove-agent":
             team = get_team_by_name(args.team)
@@ -398,17 +437,24 @@ Examples:
                 raise ValueError(f"Team '{args.team}' not found")
             team_id = str(team.get("id") or team.get("_id") or team["name"])
             agent_id = _resolve_agent_id(team, args.agent_name)
-            remove_agent(team_id, agent_id)
-            out.log(f"Removed agent '{args.agent_name}' from team '{args.team}'")
-            out.summary("DONE", f"Agent '{args.agent_name}' removed from '{args.team}'")
+            result = remove_agent(team_id, agent_id)
+            out.log(f"Remove agent '{args.agent_name}' from team '{args.team}'")
+            out.log_json(result, label="remove-agent")
+            print(json.dumps(result, separators=(",", ":")))
+            if result.get("success"):
+                out.summary(
+                    "DONE", f"Agent '{args.agent_name}' removed from '{args.team}'"
+                )
+                out.close()
+                return 0
+            out.summary("FAILED", result.get("error", "remove-agent failed"))
             out.close()
-            return 0
+            return 1
 
         elif args.command == "update-status":
             team = get_team_by_name(args.team)
             if team is None:
                 raise ValueError(f"Team '{args.team}' not found")
-            team_id = str(team.get("id") or team.get("_id") or team["name"])
 
             valid_statuses = ["active", "hibernated", "offline", "terminated"]
             if args.status not in valid_statuses:
@@ -416,24 +462,23 @@ Examples:
                     f"Invalid status: {args.status}. Valid: {valid_statuses}"
                 )
 
-            # Use PATCH on the team to update the agent's status
-            agent_id = _resolve_agent_id(team, args.agent_name)
-            # Update via the team agents endpoint - PATCH the agent within the team
-            patch_url = _api_url(f"/api/teams/{team_id}/agents/{agent_id}")
-            patch_ctx = f"Update status of '{args.agent_name}'"
-            try:
-                patch_resp = _make_request(
-                    patch_url,
-                    "PATCH",
-                    body={"status": args.status, "status_updated_at": get_timestamp()},
-                )
-                _handle_urllib_response(patch_resp, patch_resp.status, patch_ctx)
-            except urllib.error.HTTPError as exc:
-                _handle_http_error(exc, patch_ctx)
-            out.log(f"Updated '{args.agent_name}' status to '{args.status}'")
-            out.summary("DONE", f"Agent '{args.agent_name}' status -> '{args.status}'")
+            # DECOUPLE-BLOCKED ai-maestro#36: update-status — no generic agent-status-set verb (agent update=tags/task/model only; hibernate/wake/restart are actions, not label-sets). Pending MANAGER design call (same class as approval_manager.sync_local_to_api).
+            result = {
+                "success": False,
+                "error": (
+                    "update-status DECOUPLE-BLOCKED ai-maestro#36: no generic "
+                    "agent-status-set verb in the frozen CLI (aimaestro-agent.sh "
+                    "update sets tags/task/model only; hibernate/wake/restart are "
+                    "lifecycle ACTIONS, not registry status-label sets). Pending "
+                    "MANAGER design call."
+                ),
+            }
+            out.log(f"update-status '{args.agent_name}' -> '{args.status}'")
+            out.log_json(result, label="update-status")
+            print(json.dumps(result, separators=(",", ":")))
+            out.summary("FAILED", result["error"])
             out.close()
-            return 0
+            return 1
 
         elif args.command == "list":
             if args.team:
@@ -443,18 +488,13 @@ Examples:
                 out.log(format_team_list(team))
             else:
                 data = list_teams()
+                if not data.get("success"):
+                    raise RuntimeError(data.get("error", "List teams failed"))
                 out.log(format_all_teams(data))
             out.summary("DONE", "Team listing complete")
             out.close()
             return 0
 
-    except urllib.error.URLError as e:
-        # URLError covers connection failures (including timeouts via socket.timeout)
-        out.log(
-            f"Error: Cannot connect to AI Maestro API at {API_BASE}: {e.reason}"
-        )
-        out.close()
-        return 1
     except Exception as e:
         out.log(f"Error: {e}")
         out.close()
