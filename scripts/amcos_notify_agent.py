@@ -4,8 +4,8 @@ AI Maestro Chief of Staff - Notify Agent Script (amcos_notify_agent.py)
 
 Sends an AI Maestro message to an agent via AMP CLI (amp-send.sh).
 
-Resolves the agent name via the AI Maestro API when available,
-otherwise falls back to sending directly by session name.
+Resolves the agent name via the immutable CLI (aimaestro-agent.sh resolve)
+when available, otherwise falls back to sending directly by session name.
 
 Usage:
     python amcos_notify_agent.py my-agent --subject "Update" --message "Requirements changed"
@@ -27,17 +27,18 @@ from amcos_output_utils import AmcosOutput
 
 def resolve_agent(agent_name: str) -> str | None:
     """
-    Resolve agent name to session name via the AI Maestro API.
+    Resolve agent name to session name via the immutable CLI layer (#20).
 
-    Queries $AIMAESTRO_API/api/agents?name=<agent_name>.
-    Returns the session name if found, None otherwise.
+    Calls `aimaestro-agent.sh resolve <agent_name> --json` — the CLI wraps the
+    agents API and resolves auth internally (no direct server-API call). Returns the
+    session name if found, None otherwise; on None the caller falls back to
+    sending directly by session name (same degrade as before).
     """
-    api_base = os.environ.get("AIMAESTRO_API", "http://localhost:23000")
-    url = f"{api_base}/api/agents?name={agent_name}"
+    cli = os.environ.get("AIMAESTRO_CLI", "aimaestro-agent.sh")
 
     try:
         result = subprocess.run(
-            ["curl", "-sf", url],
+            [cli, "resolve", agent_name, "--json"],
             capture_output=True,
             text=True,
             timeout=10,
@@ -52,7 +53,7 @@ def resolve_agent(agent_name: str) -> str | None:
             return data[0].get("session_name") or data[0].get("name")
         if isinstance(data, dict):
             return data.get("session_name") or data.get("name")
-    except (subprocess.TimeoutExpired, json.JSONDecodeError, OSError):
+    except (subprocess.SubprocessError, json.JSONDecodeError, OSError):
         pass
 
     return None
