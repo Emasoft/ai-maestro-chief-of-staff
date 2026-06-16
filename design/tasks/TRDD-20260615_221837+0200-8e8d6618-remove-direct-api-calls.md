@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-16T00:51:06+0200
+updated: 2026-06-16T02:21:47+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -92,6 +92,18 @@ no `/api/governance/transfers` path. So `commands/amcos-transfer-agent.md`'s tra
 CLI equivalent yet — a real deploy-surface gap (candidate home: a governance `request --type
 transfer` + approve, since that machinery already carries agent/role/target-host/payload). COS
 can't reach grep-clean on the transfer-agent until this verb ships.
+
+**UPDATE 2026-06-16T02:21 — scope extended to HOOKS (USER governance rule, via MANAGER #16);
+COS hooks ALREADY COMPLIANT.** New fleet rule: split every script AND hook — api-part → installed
+CLI, plugin carries only the non-api part; a hook needing the server calls the CLI, never `/api/`.
+Audited all 5 COS hook scripts (hooks/hooks.json): `amcos_session_start` / `amcos_session_end` /
+`amcos_stop_check` = purely local; `amcos_resource_check` = `subprocess` to LOCAL system cmds only
+(`top`/`vm_stat`/`sysctl`/`df`, no API); `amcos_heartbeat_check` = the one server-touching hook,
+**already split in pass-1 v2.18.0** (calls `aimaestro-agent.sh ... --json`, state-file fallback).
+**Zero hooks call `/api/` direct or transitive; zero have an api-part lacking a CLI** → the hook-split
+adds NO new work to COS pass-2 (only the same deploy dependency: the heartbeat CLI needs to be on
+PATH at runtime; today it falls back gracefully). Reported on #16 (issuecomment-4713653714) — COS is
+the green hook-split exemplar.
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
