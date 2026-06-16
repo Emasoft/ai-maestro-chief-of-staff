@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-16T20:30:40+0200
+updated: 2026-06-16T21:13:25+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -125,6 +125,29 @@ need the CLIs on PATH at AUTHORING time — only the frozen SYNTAX (verified). A
 slice commit-not-publish on a branch; the MANAGER named COS to "do your slice now." So COS's pass-2
 is doable now; publish only after #36 deploys (so COS never ships calls to an absent CLI).
 
+**UPDATE 2026-06-16T21:13 — PASS-2 MECHANICAL WORK COMPLETE on the branch (commit-not-publish).**
+All non-design-blocked repoints are done + verified on `decouple/api-to-frozen-cli` (25 components, 5 commits):
+- **b1fed84** — 4 agent/command PROMPTS: `amcos-transfer-agent.md` (→ `aimaestro-governance.sh transfer create`),
+  `main-agent.md` ×2 + `amcos-team-coordinator.md` (→ `aimaestro-teams.sh list/show`), `amcos-approval-coordinator.md`
+  ×7 (→ `aimaestro-governance.sh request/requests/approve/reject`).
+- **a19d3cf** — 5 top-level SKILL.md (pre-op-notification, agent-spawning, agent-coordination, permission-management,
+  transfer-management) → teams/governance verbs.
+- **90d8d67** — `amcos_notify_agent.py` `resolve_agent()` → `aimaestro-agent.sh resolve --json` (subprocess; graceful fallback kept).
+- **4bc648d** — `amcos_generate_team_report.py` `fetch_teams_via_cli()` → `aimaestro-teams.sh list` (urllib + `--api` flag removed, no-legacy).
+- **ad58ce1** — 14 teams-only skill REFERENCE DOCS (op-hibernate/op-spawn/op-update-team-registry ×4 skills + workflow-checklists
+  + record-keeping) → `aimaestro-teams.sh list` (jq suffixes preserved; health-check → CLI reachability; "REST API"→"CLI"). Verified zero `/api/`.
+
+**REMAINING — DESIGN-BLOCKED, held for AMAMA's `design/handoffs/api-to-cli-mapping.md` (NOT mechanical):**
+- **2 big REST-client scripts** — `amcos_team_registry.py` (create/add_agent IMPEDANCE: rich registration
+  `{name,role,governance_role,plugin,host,...}` vs CLI `add-agent <team> <agentUUID>`; create URL-repo vs `--gh-owner/--gh-repo`)
+  and `amcos_approval_manager.py` (`respond_to_request` is password-LESS but CLI `approve`/`reject` REQUIRE `--password`;
+  PATCH carries richer decision metadata than CLI flags). Both flagged on #16.
+- **residual reference docs (14)** — governance ×8 (permission-management + transfer-management refs), label/agents ×3
+  (label-taxonomy PATCH — verb not deployed), sessions ×1 (`coordination-overview` `/api/sessions`), 2 mixed
+  (success-criteria, op-sync-registry-with-labels). All await the verb-mapping spec / residual-markers.
+
+**main UNCHANGED (publishable, original /api/ intact) — commit-not-publish isolation verified by branch-switch grep.** Publish HELD until ai-maestro#36 deploys.
+
 **FULL SCOPE (full-tree grep, BIGGER than the 4-script inventory):** 4 Python scripts
 (`amcos_notify_agent.py` resolve, `amcos_approval_manager.py` governance, `amcos_team_registry.py`
 ×6 + `amcos_generate_team_report.py` teams) + ~25 `.md` agent/command/skill files with direct
@@ -150,13 +173,17 @@ MANAGER's table summary which had `request <id>` imprecise):**
   (CLIs resolve auth internally); behavior unchanged; verify EVERY inserted verb vs the list above
   (MANAGER warns agents hallucinate verbs). Python scripts keep a graceful fallback like pass-1.
 
-**NEXT ACTION (resume here):** on branch `decouple/api-to-frozen-cli`, repoint methodically file by
-file (Read+Edit, transparent; NO sed/scripts), commit incrementally. Order: agent/command prompts
-(`amcos-approval-coordinator.md` read+verbs-ready, `main-agent.md`, `amcos-team-coordinator.md`,
-`amcos-transfer-agent.md`) → skill `.md` + references → the 4 Python scripts (+ their tests) →
-`TEAM_REGISTRY_SPECIFICATION.md` reframe. Then post-pass verb-audit (`grep aimaestro-*.sh` vs the
-verb list), tests + CPV strict + lint via `publish.py --dry-run`, and HOLD publish until #36 deploys.
-AMAMA's authoritative `design/handoffs/api-to-cli-mapping.md` ships when its branch merges — cross-check.
+**NEXT ACTION (resume here):** Mechanical pass-2 is COMPLETE (see the 2026-06-16T21:13 update). Two
+things remain, both GATED — not idling, real dependencies:
+1. **DESIGN-BLOCKED** — the 2 big scripts (`amcos_team_registry.py`, `amcos_approval_manager.py`) + the
+   14 residual governance/label/sessions reference docs need the verb-impedance decisions in AMAMA's
+   `design/handoffs/api-to-cli-mapping.md` (requested on #16 issuecomment-4722351485). When it lands (or
+   the MANAGER rules on create/add_agent payload + approve/reject-password impedances), repoint those and
+   drop `<!-- DECOUPLE-BLOCKED ai-maestro#36 -->` markers for ops that still have no verb.
+2. **DEPLOY-GATED** — when ai-maestro#36 deploys the CLIs to `~/.local/bin`, run the full-tree verb-audit
+   (`grep aimaestro-*.sh` vs the verb list) + `publish.py --dry-run`, then merge `decouple/api-to-frozen-cli`
+   → main + publish. NOT before (COS must never ship calls to an absent CLI). DEPLOY_TRIGGER still 0.
+Cross-check AMAMA's `design/handoffs/api-to-cli-mapping.md` when its branch merges.
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
