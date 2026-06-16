@@ -93,7 +93,7 @@ Before taking any action, read these documents:
 | **R6.6** | CANNOT message: Unresolved aliases from closed team context |
 | **R6.7** | Cross-team operations require GovernanceRequest with dual-manager approval |
 
-**Recipient Validation**: Before sending any message, verify the recipient is reachable per these rules. Use `GET /api/teams` to check team membership.
+**Recipient Validation**: Before sending any message, verify the recipient is reachable per these rules. Use `aimaestro-teams.sh list` to check team membership.
 
 ## Sub-Agent Routing
 
@@ -142,7 +142,7 @@ Worker Agents (governance role: member) ← execute specific tasks
 
 1. **Agent Lifecycle** - Create, configure, hibernate, wake, terminate agents within your team
 2. **Team Formation** - Assign agents to YOUR team based on project needs
-3. **Team Registry** - Manage team via AI Maestro REST API (`/api/teams`)
+3. **Team Registry** - Manage team via the immutable CLI `aimaestro-teams.sh` (`list`/`show`/`create`/`update`/`delete`/`add-agent`/`remove-agent`)
 4. **Governance Enforcement** - Submit GovernanceRequests for destructive/cross-team operations
 5. **Performance Tracking** - Monitor agent utilization, success rates, bottlenecks within team
 6. **Resource Monitoring** - Track memory, disk, CPU usage across team agents

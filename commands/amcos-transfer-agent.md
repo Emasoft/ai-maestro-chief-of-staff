@@ -25,7 +25,7 @@ user-invocable: true
 ## Steps
 
 1. **Validate agent** - Confirm `<agent-name>` is a member of the current team
-2. **Create TransferRequest** - `POST /api/governance/transfers/` with agent, source team, target team, and reason
+2. **Create TransferRequest** - `aimaestro-governance.sh transfer create --agent <agent-name> --from-team <current-team-id> --to-team <team-id> [--note <reason>]` (the immutable CLI wraps the transfers API; auth resolved internally — no manual token)
 3. **Wait for approvals** - Monitor request state until all four approvals are received or a rejection occurs
 4. **Report outcome** - Print final state (`executed` or `rejected`) with details
 
