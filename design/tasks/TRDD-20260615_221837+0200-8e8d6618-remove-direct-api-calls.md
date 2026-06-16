@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-16T02:21:47+0200
+updated: 2026-06-16T02:31:17+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -104,6 +104,20 @@ Audited all 5 COS hook scripts (hooks/hooks.json): `amcos_session_start` / `amco
 adds NO new work to COS pass-2 (only the same deploy dependency: the heartbeat CLI needs to be on
 PATH at runtime; today it falls back gracefully). Reported on #16 (issuecomment-4713653714) — COS is
 the green hook-split exemplar.
+
+**UPDATE 2026-06-16T02:31 — transfer verb BUILT (gap closed); decoupling principle generalized.**
+The ai-maestro owner built the transfer verb after my gap-find: `aimaestro-governance.sh transfer
+list/create/resolve` → `/api/governance/transfers[/{id}/resolve]` (commit `d946e0dc`), verified in
+source. So `amcos-transfer-agent` is **no longer a gap** — it repoints to `aimaestro-governance.sh
+transfer …` once deployed. **Remaining COS pass-2 repoint targets, all now have CLIs in source**:
+name-resolve→`aimaestro-agent.sh resolve`; governance-request→`aimaestro-governance.sh
+request/approve/reject`; teams-CRUD→`aimaestro-teams.sh`; transfer→`aimaestro-governance.sh transfer`.
+**Only `kanban-config` (COS #11, NOT #20) remains unbuilt** — still absent from `aimaestro-teams.sh`
+(ai-maestro#2/#36); it's a #11 feature need, not a #20 decoupling gap. The owner also generalized
+the decoupling invariant to ALL executable elements (hooks/MCP/scripts, no core exception) in
+ai-maestro CLAUDE.md + PLUGIN-ABSTRACTION-PRINCIPLE.md — COS already conforms (no new work). **Net:
+every CLI COS's existing /api/ elements need now EXISTS in source; the ONLY blocker is the deploy
+(ai-maestro#36).** Confirmed on #16 (issuecomment-4713719202).
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
