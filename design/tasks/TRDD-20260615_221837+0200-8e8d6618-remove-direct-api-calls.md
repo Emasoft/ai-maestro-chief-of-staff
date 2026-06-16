@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-16T21:13:25+0200
+updated: 2026-06-16T21:32:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -148,6 +148,13 @@ All non-design-blocked repoints are done + verified on `decouple/api-to-frozen-c
 
 **main UNCHANGED (publishable, original /api/ intact) — commit-not-publish isolation verified by branch-switch grep.** Publish HELD until ai-maestro#36 deploys.
 
+**UPDATE 2026-06-16T21:32 — MANAGER unblocked both REST clients (one premise verified-wrong); `team_registry` DONE; `approval_manager` held on a password design.** Branch now 9 commits ahead of main.
+- **`amcos_team_registry.py` ✅ committed a318976** — urllib→subprocess `_run_cli`; list/create/remove-agent/update → `aimaestro-teams.sh`; 3 residuals `DECOUPLE-BLOCKED ai-maestro#36`: github_project (no `--gh-project`), update-status (no status-set verb), **add_agent (NEW finding: `agent create` REQUIRES `--dir`=spawn semantics + no `--status`; rich roster-registration has no clean verb — corrects the MANAGER's add_agent→agent-create mapping)**. Agent-drafted (rate-limit-truncated at the team_id line), fully orchestrator-reviewed + finished + committed. Spec: `scripts_dev/team-registry-repoint-spec.md`.
+- **`amcos_notify_agent.py` ✅** — the resolve repoint had a BUG (parsed `session_name`; the `resolve --json` key is `tmuxSessionName`) → fixed d267c8a; comment grep-cleaned d9350c1. `resolve` IS a real verb (agent.sh:90→`cmd_resolve`@agent-session.sh:296, returns tmuxSessionName) — corrects the MANAGER's "resolve isn't a verb, use show" (they read the Apr-14 *deployed* copy). #16 issuecomment-4722644881.
+- **`amcos_approval_manager.py` 🔴 HELD** — verified COS captures NO governance password anywhere (`create_request`+whole-file) AND `cmd_approve`/`cmd_reject` mandate `--password` with no env-fallback. The decision path can't repoint without introducing a password source (on-disk = security regression). Recommended a CLI `${GOVERNANCE_PASSWORD}` env-fallback (#36 candidate) so COS never handles the secret; create/list/get are mappable but I hold the whole script to land ONE clean transport (no half-urllib/half-CLI class). `sync_local_to_api` status-PATCH also has no verb. #16 issuecomment-4722668327.
+- **`approve --comment`: dropped** (told MANAGER) — COS's comment survives via the YAML mirror + AMP notification, both independent of the CLI call.
+- Only remaining `/api/` in scripts = `amcos_approval_manager.py` (password-gated). The 4 open #36 calls COS needs: password env-fallback, status-set verb, rich roster-registration, `--gh-project`. team_registry+add_agent finding posted #16 issuecomment-4722932335.
+
 **FULL SCOPE (full-tree grep, BIGGER than the 4-script inventory):** 4 Python scripts
 (`amcos_notify_agent.py` resolve, `amcos_approval_manager.py` governance, `amcos_team_registry.py`
 ×6 + `amcos_generate_team_report.py` teams) + ~25 `.md` agent/command/skill files with direct
@@ -175,11 +182,13 @@ MANAGER's table summary which had `request <id>` imprecise):**
 
 **NEXT ACTION (resume here):** Mechanical pass-2 is COMPLETE (see the 2026-06-16T21:13 update). Two
 things remain, both GATED — not idling, real dependencies:
-1. **DESIGN-BLOCKED** — the 2 big scripts (`amcos_team_registry.py`, `amcos_approval_manager.py`) + the
-   14 residual governance/label/sessions reference docs need the verb-impedance decisions in AMAMA's
-   `design/handoffs/api-to-cli-mapping.md` (requested on #16 issuecomment-4722351485). When it lands (or
-   the MANAGER rules on create/add_agent payload + approve/reject-password impedances), repoint those and
-   drop `<!-- DECOUPLE-BLOCKED ai-maestro#36 -->` markers for ops that still have no verb.
+1. **DESIGN-BLOCKED** — `amcos_approval_manager.py` (decision path needs the `--password` env-fallback
+   #36 decision; create/list/get mappable but HELD to land one clean transport) + the 14 residual
+   governance/label/sessions reference docs (need the verb-mapping decisions / residual-markers). When the
+   MANAGER rules on the FOUR open #36 calls COS needs — (a) `approve`/`reject` `${GOVERNANCE_PASSWORD}`
+   env-fallback, (b) a status-set verb (update-status + sync_local_to_api), (c) rich roster-registration
+   (add_agent), (d) `teams create --gh-project` — repoint those + drop the `DECOUPLE-BLOCKED` markers.
+   (`amcos_team_registry.py` is now DONE — a318976, with 3 of those as marked residuals.)
 2. **DEPLOY-GATED** — when ai-maestro#36 deploys the CLIs to `~/.local/bin`, run the full-tree verb-audit
    (`grep aimaestro-*.sh` vs the verb list) + `publish.py --dry-run`, then merge `decouple/api-to-frozen-cli`
    → main + publish. NOT before (COS must never ship calls to an absent CLI). DEPLOY_TRIGGER still 0.
