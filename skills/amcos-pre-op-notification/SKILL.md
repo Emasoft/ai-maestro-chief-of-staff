@@ -37,7 +37,7 @@ Pre-operation notifications warn agents about upcoming disruptive operations bef
 | **Team member -> external** | COS checks reachability rules, forwards if allowed |
 | **External -> team member** | Must go through COS or MANAGER |
 
-Before sending, validate recipient against `GET /api/teams`. Block and log violations.
+Before sending, validate recipient against `aimaestro-teams.sh list`. Block and log violations.
 
 ## Instructions
 
@@ -48,7 +48,7 @@ Before sending, validate recipient against `GET /api/teams`. Block and log viola
 **Workflow:**
 
 1. **Identify affected agents** - Determine which agents will be impacted
-2. **Validate recipients** - Check team membership via `GET /api/teams`
+2. **Validate recipients** - Check team membership via `aimaestro-teams.sh list`
 3. **Compose notification** - AMP template with operation details and expected downtime
 4. **Send via AMP** - Use `amp-send.sh` exclusively
 5. **Track acknowledgments** - Monitor for agent readiness responses
@@ -77,7 +77,7 @@ See op-pre-operation-notification in Resources
 |-------|------------|
 | Not delivered | Check agent registration, verify AMP initialized. See references Section 1.7 |
 | Agent unreachable | Health check, retry after 10s |
-| Team violation | Validate against `GET /api/teams` before sending |
+| Team violation | Validate against `aimaestro-teams.sh list` before sending |
 | AMP signing failure | Re-run `amp-init.sh --auto` |
 
 ## Examples

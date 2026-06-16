@@ -20,7 +20,7 @@ Creates new agent instances with OAuth validation, plugin setup, and registry re
 ## Prerequisites
 
 - AI Maestro running, `ai-maestro-agents-management` and `agent-messaging` skills available
-- tmux installed, team registry accessible via REST API (`GET /api/teams`)
+- tmux installed, team registry accessible via the `aimaestro-teams.sh list` CLI
 
 ## Instructions
 

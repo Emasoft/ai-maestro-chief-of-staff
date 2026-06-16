@@ -20,7 +20,7 @@ Manages team registry, messaging, role boundaries, and delegation.
 ## Prerequisites
 
 - AI Maestro running with `agent-messaging` skill
-- Registry via REST API (`GET /api/teams/{id}/agents`)
+- Registry via `aimaestro-teams.sh show <team-id>` (team object includes its agents)
 - Script: `uv run python scripts/amcos_team_registry.py`
 
 ## Instructions
@@ -78,7 +78,7 @@ Registry update -> state reflected. Message -> delivery confirmed. Role assignme
 |-------|-----------|
 | Maestro unavailable | File-based fallback, retry 30s |
 | Delivery fails | Retry 3x/10s, escalate to AMAMA |
-| Registry fails | Retry 3x, fallback `POST /api/teams/{id}/agents` |
+| Registry fails | Retry 3x, fallback `aimaestro-teams.sh add-agent` |
 | Boundary violation | Log, reject, notify AMAMA |
 | Not in registry | Verify FULL name, check if terminated |
 

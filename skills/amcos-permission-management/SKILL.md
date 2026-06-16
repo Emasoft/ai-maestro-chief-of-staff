@@ -19,7 +19,7 @@ Uses the **GovernanceRequest** state machine to authorize privileged operations.
 
 ## Prerequisites
 
-1. GovernanceRequest API at `POST /api/v1/governance/requests`
+1. GovernanceRequest via the `aimaestro-governance.sh request` CLI (auth resolved internally)
 2. Agent roles and team membership defined
 3. Source and target manager identities known
 
@@ -40,12 +40,12 @@ Uses the **GovernanceRequest** state machine to authorize privileged operations.
 
 1. Identify operation type and scope (local vs cross-team)
 2. Determine required approvers
-3. `POST /api/v1/governance/requests` with payload
+3. `aimaestro-governance.sh request --type <T> [--password P] [--agent …] [--payload-json …]` with the request fields
 4. Receive `requestId` and `status: pending`
 
 ### PROCEDURE 2: Track GovernanceRequest State
 
-1. `GET /api/v1/governance/requests/{requestId}` to poll
+1. `aimaestro-governance.sh requests --status pending` (match by requestId) to poll
 2. Monitor transitions through approval states
 3. Handle `429` with exponential backoff
 
@@ -81,7 +81,7 @@ See governance-details-and-examples in Resources for payload format and approval
 |-------|------------|
 | Manager offline | Escalation timeline (60s/90s/120s) |
 | API 429 | Back off per Retry-After header |
-| targetManager unknown | `GET /api/v1/teams/{teamId}/manager` |
+| targetManager unknown | `aimaestro-teams.sh show <team-id>` (manager is in the team object) |
 | Password rejected | Re-request from sourceManager |
 | Conflicting approvals | Latest timestamp wins; log conflict |
 
@@ -90,9 +90,8 @@ See governance-details-and-examples in Resources for payload format and approval
 **Input:** Submit a local agent-spawn request
 
 ```bash
-curl -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
-  -H "Content-Type: application/json" \
-  -d '{"operation":"agent-spawn","scope":"local","sourceTeam":"libs-svg","sourceManager":"libs-svg-lead"}'
+aimaestro-governance.sh request --type agent-spawn \
+  --payload-json '{"operation":"agent-spawn","scope":"local","sourceTeam":"libs-svg","sourceManager":"libs-svg-lead"}'
 ```
 
 **Expected result:** `{"requestId": "gr-0042", "status": "pending"}` then after approval: `{"status": "dual-approved"}`

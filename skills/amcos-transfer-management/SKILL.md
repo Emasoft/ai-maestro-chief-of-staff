@@ -32,7 +32,7 @@ This skill is **TEAM-SCOPED**: you can only initiate transfers OUT of your team 
 
 1. Identify the agent to transfer and the target team
 2. Verify the agent is active in your team and the target team has capacity
-3. Submit a TransferRequest via `POST /api/v1/governance/requests` with `operation: "agent-transfer"`
+3. Submit a TransferRequest via `aimaestro-governance.sh request --type agent-transfer` (the generic governance-request path; auth resolved internally)
 4. Obtain source manager approval (your side)
 5. Notify target team manager via AMP and await their approval
 6. Once dual-approved, the system executes the transfer automatically
@@ -74,9 +74,8 @@ Copy this checklist and track your progress:
 **Input:** Transfer agent `libs-svg-renderer` from team `libs-svg` to team `apps-editor`
 
 ```bash
-curl -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
-  -H "Content-Type: application/json" \
-  -d '{"operation":"agent-transfer","agent":"libs-svg-renderer","sourceTeam":"libs-svg","targetTeam":"apps-editor"}'
+aimaestro-governance.sh request --type agent-transfer \
+  --payload-json '{"operation":"agent-transfer","agent":"libs-svg-renderer","sourceTeam":"libs-svg","targetTeam":"apps-editor"}'
 ```
 
 **Expected result:** `{"requestId": "tr-0017", "state": "pending"}` then after dual approval: `{"state": "executed"}`
