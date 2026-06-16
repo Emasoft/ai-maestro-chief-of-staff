@@ -149,7 +149,7 @@
 
 **Create team registry:**
 - [ ] Run `uv run python scripts/amcos_team_registry.py create <project-dir> --team-lead <agent-name>`
-- [ ] Verify team created via REST API: `curl -s "$AIMAESTRO_API/api/teams" | jq '.[].name'`
+- [ ] Verify team created via CLI: `aimaestro-teams.sh list | jq '.[].name'`
 
 **Assign agents to team:**
 - [ ] For each agent: `uv run python scripts/amcos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
@@ -172,9 +172,9 @@
 ## Checklist: Updating Team Registry
 
 **Before update:**
-- [ ] Verify team registry accessible via REST API: `curl -s -o /dev/null -w "%{http_code}" "$AIMAESTRO_API/api/teams"`
+- [ ] Verify team registry accessible via CLI: `aimaestro-teams.sh list >/dev/null 2>&1 && echo reachable || echo unreachable`
 - [ ] Verify agent exists (if adding agent)
-- [ ] Record current registry state: `curl -s "$AIMAESTRO_API/api/teams" | jq . > docs_dev/team-registry-snapshot-$(date +%Y%m%d%H%M%S).json`
+- [ ] Record current registry state: `aimaestro-teams.sh list | jq . > docs_dev/team-registry-snapshot-$(date +%Y%m%d%H%M%S).json`
 
 **Execute update:**
 - [ ] Run appropriate command:

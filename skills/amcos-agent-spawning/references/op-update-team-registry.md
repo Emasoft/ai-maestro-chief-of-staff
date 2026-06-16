@@ -38,7 +38,7 @@ version: 1.0.0
 
 - AI Maestro is running (registry managed via REST API)
 - `amcos_team_registry.py` script is available (wraps REST API)
-- Team exists in AI Maestro (verify with `curl -s "$AIMAESTRO_API/api/teams"`)
+- Team exists in AI Maestro (verify with `aimaestro-teams.sh list`)
 
 ## Procedure
 
@@ -117,7 +117,7 @@ After significant changes, confirm via REST API:
 ```bash
 # Uses AI Maestro REST API (not file-based)
 # Verify current team registry state
-curl -s "$AIMAESTRO_API/api/teams" | jq '.[] | {name: .name, members: (.members | length)}'
+aimaestro-teams.sh list | jq '.[] | {name: .name, members: (.members | length)}'
 ```
 
 ## Checklist

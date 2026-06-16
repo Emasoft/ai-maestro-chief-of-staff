@@ -252,7 +252,7 @@ All logs stored in `$CLAUDE_PROJECT_DIR/docs_dev/chief-of-staff/` are:
 
 ### Team Registry (Project-Level)
 
-**Location:** AI Maestro REST API (`GET $AIMAESTRO_API/api/teams`)
+**Location:** AI Maestro CLI (`aimaestro-teams.sh list`)
 
 **Purpose:** Track agents assigned to a specific project team
 
