@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-16T02:31:17+0200
+updated: 2026-06-16T20:30:40+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -118,6 +118,45 @@ the decoupling invariant to ALL executable elements (hooks/MCP/scripts, no core 
 ai-maestro CLAUDE.md + PLUGIN-ABSTRACTION-PRINCIPLE.md — COS already conforms (no new work). **Net:
 every CLI COS's existing /api/ elements need now EXISTS in source; the ONLY blocker is the deploy
 (ai-maestro#36).** Confirmed on #16 (issuecomment-4713719202).
+
+**UPDATE 2026-06-16T20:30 — PIVOT: do pass-2 NOW, commit-not-publish (per MANAGER's AMAMA recipe,
+#16 issuecomment-4713653714). Branch `decouple/api-to-frozen-cli` created.** The repoint does NOT
+need the CLIs on PATH at AUTHORING time — only the frozen SYNTAX (verified). AMAMA did its full
+slice commit-not-publish on a branch; the MANAGER named COS to "do your slice now." So COS's pass-2
+is doable now; publish only after #36 deploys (so COS never ships calls to an absent CLI).
+
+**FULL SCOPE (full-tree grep, BIGGER than the 4-script inventory):** 4 Python scripts
+(`amcos_notify_agent.py` resolve, `amcos_approval_manager.py` governance, `amcos_team_registry.py`
+×6 + `amcos_generate_team_report.py` teams) + ~25 `.md` agent/command/skill files with direct
+`/api/` INSTRUCTIONS (governance, teams, transfer, agents/labels) + `TEAM_REGISTRY_SPECIFICATION.md`
+(descriptive — reframe, don't strip). **FALSE POSITIVES — do NOT touch:** `skills/amcos-onboarding/
+references/*` mention `src/api/auth.py` / "Backend API" = SAMPLE PROJECT content, not AI Maestro.
+
+**VERIFIED frozen CLI verbs (read from `~/ai-maestro/scripts/` source — ground truth, NOT the
+MANAGER's table summary which had `request <id>` imprecise):**
+- `aimaestro-governance.sh`: `requests [--status|--type|--host|--agent]` = **LIST** (GET) · `request
+  --type T [--password P] [--agent] [--role] [--target-host] [--requested-by] [--payload-json]` =
+  **CREATE** (POST) · `approve <id> --password P [--approver]` · `reject <id> --password P [--reason]`
+  · `transfer list|create|resolve`. **No show-single-by-id verb** → poll = `requests --status` +
+  client-filter by requestId. PATCH-status ops (sync/timeout) → residual marker.
+- `aimaestro-teams.sh`: `list · show <id> · create --name N [--description --agents --type --cos
+  --password --gh-owner --gh-repo] · update <id> · delete <id> [--password --delete-agents] ·
+  add-agent · remove-agent`.
+- `aimaestro-agent.sh`: `resolve <name>|--cwd <path> [--json]` · `list [--status --json]` · session.
+- **Residual marker** (recipe §3, for ops w/ no verb): `<!-- DECOUPLE-BLOCKED ai-maestro#36: <op> —
+  CLI verb not yet deployed -->`. Known BLOCKED: kanban-config, presence, session-user-input,
+  team-tasks, governance-password-set, single-request-by-id show, PATCH-status.
+- Repoint rule: change INSTRUCTION calls only; DROP manual `-H "Authorization: Bearer $AID_AUTH"`
+  (CLIs resolve auth internally); behavior unchanged; verify EVERY inserted verb vs the list above
+  (MANAGER warns agents hallucinate verbs). Python scripts keep a graceful fallback like pass-1.
+
+**NEXT ACTION (resume here):** on branch `decouple/api-to-frozen-cli`, repoint methodically file by
+file (Read+Edit, transparent; NO sed/scripts), commit incrementally. Order: agent/command prompts
+(`amcos-approval-coordinator.md` read+verbs-ready, `main-agent.md`, `amcos-team-coordinator.md`,
+`amcos-transfer-agent.md`) → skill `.md` + references → the 4 Python scripts (+ their tests) →
+`TEAM_REGISTRY_SPECIFICATION.md` reframe. Then post-pass verb-audit (`grep aimaestro-*.sh` vs the
+verb list), tests + CPV strict + lint via `publish.py --dry-run`, and HOLD publish until #36 deploys.
+AMAMA's authoritative `design/handoffs/api-to-cli-mapping.md` ships when its branch merges — cross-check.
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
