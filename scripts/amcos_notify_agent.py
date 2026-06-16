@@ -50,7 +50,7 @@ def resolve_agent(agent_name: str) -> str | None:
         # {agentId, name, tmuxSessionName, workingDirectory, status}. The CLI's
         # tmuxSessionName already falls back to .name server-side when the agent
         # has no live session, so it is the session name to send AMP to. (The old
-        # /api/agents?name= query could return a list; `resolve` never does —
+        # agents-name query endpoint could return a list; `resolve` never does —
         # hence no list branch. Field is tmuxSessionName, NOT session_name.)
         data = json.loads(result.stdout)
         if isinstance(data, dict):
