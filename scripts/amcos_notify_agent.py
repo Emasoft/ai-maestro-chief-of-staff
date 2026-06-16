@@ -46,13 +46,15 @@ def resolve_agent(agent_name: str) -> str | None:
         if result.returncode != 0:
             return None
 
+        # `aimaestro-agent.sh resolve <name> --json` returns ONE object:
+        # {agentId, name, tmuxSessionName, workingDirectory, status}. The CLI's
+        # tmuxSessionName already falls back to .name server-side when the agent
+        # has no live session, so it is the session name to send AMP to. (The old
+        # /api/agents?name= query could return a list; `resolve` never does —
+        # hence no list branch. Field is tmuxSessionName, NOT session_name.)
         data = json.loads(result.stdout)
-
-        # Handle both single-agent and list responses
-        if isinstance(data, list) and len(data) > 0:
-            return data[0].get("session_name") or data[0].get("name")
         if isinstance(data, dict):
-            return data.get("session_name") or data.get("name")
+            return data.get("tmuxSessionName") or data.get("name")
     except (subprocess.SubprocessError, json.JSONDecodeError, OSError):
         pass
 
