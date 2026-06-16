@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-16T21:32:00+0200
+updated: 2026-06-16T21:48:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -154,6 +154,14 @@ All non-design-blocked repoints are done + verified on `decouple/api-to-frozen-c
 - **`amcos_approval_manager.py` 🔴 HELD** — verified COS captures NO governance password anywhere (`create_request`+whole-file) AND `cmd_approve`/`cmd_reject` mandate `--password` with no env-fallback. The decision path can't repoint without introducing a password source (on-disk = security regression). Recommended a CLI `${GOVERNANCE_PASSWORD}` env-fallback (#36 candidate) so COS never handles the secret; create/list/get are mappable but I hold the whole script to land ONE clean transport (no half-urllib/half-CLI class). `sync_local_to_api` status-PATCH also has no verb. #16 issuecomment-4722668327.
 - **`approve --comment`: dropped** (told MANAGER) — COS's comment survives via the YAML mirror + AMP notification, both independent of the CLI call.
 - Only remaining `/api/` in scripts = `amcos_approval_manager.py` (password-gated). The 4 open #36 calls COS needs: password env-fallback, status-set verb, rich roster-registration, `--gh-project`. team_registry+add_agent finding posted #16 issuecomment-4722932335.
+
+**UPDATE 2026-06-16T21:48 — MANAGER CONFIRMED both findings; all 4 residual classes routed to #36 with locked repoint mechanisms (#16 issuecomment-4723652466).** MANAGER verified add_agent≠agent-create (`cmd_create` hard-requires `--dir`, spawn semantics) + the approve/reject argv-leak (the password would be `ps`-visible) — both holds justified. **REPOINT RECIPE when #36 lands (execute in ONE pass → verb-audit → `publish.py --dry-run` → merge→main+publish):**
+- `approval_manager` decision → `aimaestro-governance.sh approve/reject` reading **`AIMAESTRO_GOV_PASSWORD` from env** (#36 fix mirrors `AIMAESTRO_SUDO_TOKEN` @ governance.sh:56; NO `--password` in argv). Repoint create/list/get in the same edit (one clean transport, not half-urllib).
+- `add_agent` → `aimaestro-agent.sh create --register-only --team --title --plugin --label` (#36 register-only mode drops the `--dir` requirement).
+- `update-status` + `sync_local_to_api` → the new **status-set verb** (`teams update --status` or `agent … status` — final name TBD by #36).
+- `create_team` github_project → `teams create --gh-project`.
+- SAME pass: repoint the 14 residual governance/label/sessions ref-docs + reframe `TEAM_REGISTRY_SPECIFICATION.md` (so they describe the final verb surface, not a guess).
+LOCAL memory note `aimaestro-cli-repoint-verb-gotchas` holds the verify-against-source discipline + the verified verb surfaces.
 
 **FULL SCOPE (full-tree grep, BIGGER than the 4-script inventory):** 4 Python scripts
 (`amcos_notify_agent.py` resolve, `amcos_approval_manager.py` governance, `amcos_team_registry.py`
