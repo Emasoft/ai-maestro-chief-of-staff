@@ -2,7 +2,7 @@
 """
 amcos_generate_team_report.py - Generate team assignments report.
 
-Fetches team data from the AI Maestro REST API (GET $AIMAESTRO_API/api/teams)
+Fetches team data via the immutable CLI (aimaestro-teams.sh list).
 and generates a report with team summaries, agent assignments, role coverage,
 and unassigned roles.
 
@@ -21,9 +21,8 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import subprocess
 import sys
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -33,8 +32,6 @@ from amcos_output_utils import AmcosOutput
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-
-DEFAULT_API_BASE = "http://localhost:23000"
 
 # All roles that should be filled in a complete team
 ALL_ROLES = frozenset(
@@ -55,38 +52,41 @@ VALID_FORMATS = ("text", "json", "md")
 # ---------------------------------------------------------------------------
 
 
-def fetch_teams_from_api(api_base: str) -> list[dict[str, Any]]:
-    """Fetch team data from the AI Maestro REST API.
+def fetch_teams_via_cli() -> list[dict[str, Any]]:
+    """Fetch team data via the immutable CLI (aimaestro-teams.sh list).
 
-    Calls GET {api_base}/api/teams and returns the list of team objects.
-
-    Args:
-        api_base: Base URL of the AI Maestro API (e.g. http://localhost:23000).
+    Calls `aimaestro-teams.sh list` — the CLI wraps the teams API and resolves
+    auth internally (no direct server-API call, #20).
 
     Returns:
-        List of team dicts returned by the API.
+        List of team dicts returned by the CLI.
 
     Raises:
-        SystemExit: If the API is unreachable or returns an unexpected response.
+        SystemExit: If the CLI is unavailable or returns an unexpected response.
     """
-    url = f"{api_base}/api/teams"
+    cli = os.environ.get("AIMAESTRO_CLI", "aimaestro-teams.sh")
     try:
-        req = urllib.request.Request(url, headers={"Accept": "application/json"})
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            raw = resp.read().decode("utf-8")
-    except urllib.error.URLError as exc:
-        print(
-            f"ERROR: Cannot connect to AI Maestro API at {url}: {exc}", file=sys.stderr
+        result = subprocess.run(
+            [cli, "list"],
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
+    except (subprocess.SubprocessError, OSError) as exc:
+        print(f"ERROR: Cannot run '{cli} list': {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    if result.returncode != 0:
+        print(f"ERROR: '{cli} list' failed: {result.stderr.strip()}", file=sys.stderr)
         sys.exit(1)
 
     try:
-        data = json.loads(raw)
+        data = json.loads(result.stdout)
     except json.JSONDecodeError as exc:
-        print(f"ERROR: Invalid JSON from API at {url}: {exc}", file=sys.stderr)
+        print(f"ERROR: Invalid JSON from '{cli} list': {exc}", file=sys.stderr)
         sys.exit(1)
 
-    # API may return a plain list or a wrapper object with a "teams" key
+    # CLI may return a plain list or a wrapper object with a "teams" key
     if isinstance(data, list):
         return data  # type: ignore[return-value]
     if isinstance(data, dict):
@@ -94,7 +94,7 @@ def fetch_teams_from_api(api_base: str) -> list[dict[str, Any]]:
         if isinstance(teams, list):
             return teams  # type: ignore[return-value]
 
-    print(f"ERROR: Unexpected API response structure from {url}", file=sys.stderr)
+    print(f"ERROR: Unexpected response structure from '{cli} list'", file=sys.stderr)
     sys.exit(1)
 
 
@@ -340,13 +340,7 @@ def main() -> int:
     """
     out = AmcosOutput("amcos_generate_team_report")
     parser = argparse.ArgumentParser(
-        description="Generate team assignments report from the AI Maestro REST API"
-    )
-    parser.add_argument(
-        "--api",
-        type=str,
-        default=None,
-        help=f"AI Maestro API base URL (defaults to $AIMAESTRO_API or {DEFAULT_API_BASE})",
+        description="Generate team assignments report via the aimaestro-teams.sh CLI"
     )
     parser.add_argument(
         "--output",
@@ -371,15 +365,11 @@ def main() -> int:
 
     args = parser.parse_args()
 
-    # Resolve API base URL: CLI flag > env var > default
-    api_base = args.api or os.environ.get("AIMAESTRO_API", DEFAULT_API_BASE)
-    api_base = api_base.rstrip("/")
-
     if args.verbose:
-        print(f"Fetching team data from: {api_base}/api/teams", file=sys.stderr)
+        print("Fetching team data via: aimaestro-teams.sh list", file=sys.stderr)
 
-    # Fetch teams from the REST API (exits on connection error)
-    teams = fetch_teams_from_api(api_base)
+    # Fetch teams via the immutable CLI (exits on CLI/parse error)
+    teams = fetch_teams_via_cli()
 
     if args.verbose:
         print(f"Received {len(teams)} team(s) from API", file=sys.stderr)
