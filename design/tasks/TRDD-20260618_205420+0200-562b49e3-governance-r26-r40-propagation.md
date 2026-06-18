@@ -1,9 +1,10 @@
 ---
 trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
-column: dev
+column: published
 created: 2026-06-18T20:54:20+0200
-updated: 2026-06-18T21:49:31+0200
+updated: 2026-06-18T22:00:00+0200
+published-version: 2.19.0
 current-owner: cos
 assignee: cos
 priority: 2
@@ -79,13 +80,11 @@ own AMAMA plugin **ai-maestro-assistant-manager-agent v2.12.0**.
   done — line-194 R29.1 fix + R30 mandate framing + 5-base-invariant/R31-FREEZE/R26-R40 gap-fills. ALL 18
   audit-flagged files reversed/gap-filled; `onboarding-overview-and-examples.md` verified-clean (skipped, non-bug).
 
-**NEXT ACTION:** EDIT PHASE DONE (18 files committed; see `git log --oneline | grep COS#21`). Author
-`tests/scenarios/governance-scenarios.md` (the SCEN) — follow the repo's `tests/scenarios/SCENARIOS_TESTS_RULES.md`
-conventions; mirror the AMAMA reference impl (ai-maestro-assistant-manager-agent v2.12.0
-`tests/scenarios/governance-scenarios.md`); cover the COS-relevant rules (R28 authz, R29 MANAGER-creates-team,
-R30 mandate-gated, R31 FREEZE, R32 no-agent-sudo, R36 obey-active-MAESTRO). Then run the plugin test runner + CPV
-`--strict` → clean (devitalize/fix, NEVER suppress) → publish v2.19.0 via publish.py → `gh run watch` →
-report on COS#21 + ai-maestro#37 with the version + self-id line.
+**NEXT ACTION:** ✅ DONE — nothing left. **Shipped v2.19.0** (https://github.com/Emasoft/ai-maestro-chief-of-staff/releases/tag/v2.19.0;
+CPV `--strict` 0/0/0/0; 130 tests). Reported on COS#21 (issuecomment-4745663737) + ai-maestro#37 (issuecomment-4745665892).
+The COS test convention is **pytest** (not markdown scenarios) — the SCEN equivalent is `tests/test_governance_r26_r40.py`
+(9 guards). Awaiting MANAGER verify-and-ack on COS#21. One question routed to the MANAGER: whether to rewrite the ~28
+failure-recovery "escalate to user" lines to "MAESTRO" (left as legitimate human-in-the-loop by my documented scope judgment).
 
 **Load-bearing facts / gotchas:**
 - Canonical source is GOVERNANCE-RULES.md v4.0.x R26-R40 — NOT ai-maestro#37 (that's R23/R24/R25,
