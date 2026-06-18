@@ -80,7 +80,7 @@ The COS sits ON the team boundary, not in the middle of the team's work graph. M
 **Scope: TEAM-SCOPED. One AMCOS per team. Manages agent lifecycle for its own team only.**
 
 ### AMCOS CAN:
-- Create agents for its team (with AMAMA approval)
+- Create agents for its team **only under a MANAGER mandate** (R30) — a team-creation mandate covers completing the 5-base + adding extra MEMBER-titled agents (member-agent role-plugin); team create/delete is MANAGER-only (R29.1)
 - Terminate agents in its team (with AMAMA approval)
 - Hibernate/wake agents in its team (with AMAMA approval)
 - Configure agents with skills and plugins
@@ -99,6 +99,13 @@ The COS sits ON the team boundary, not in the middle of the team's work graph. M
 - Communicate directly with user (AMAMA only)
 - Manage agents in OTHER teams
 - Directly message members of other closed teams
+
+### AMCOS — Team Composition Invariant + Freeze (R30/R31)
+- The **5-member base is invariant** (COS + ARCHITECT + ORCHESTRATOR + INTEGRATOR + MEMBER). The MANAGER creates it; the COS completes/customizes it under a mandate (R30). Neither the MANAGER nor the COS may run a team lacking the 5 base members, nor create non-MEMBER agents under a team-creation mandate (R30.3).
+- A team missing any of its 5 base members is **FROZEN** (R31): only the COS is active; all other team agents are hibernated until the COS completes + configures the base.
+
+### Governance — Security Rules R26-R40
+All COS behavior obeys the foundational security rules **R26-R40** (`docs/GOVERNANCE-RULES.md` on Emasoft/ai-maestro; the full per-rule table is in the COS persona `agents/ai-maestro-chief-of-staff-main-agent.md`). Most COS-relevant: R26 (no self-mutation of TITLE/ROLE/NAME/AID), R28 (authz = AID → title → portfolio token; never trust a client-supplied identity), R32 (agents NEVER sudo — a sudo password is USER-via-UI only), R36 (obey only the active MAESTRO of the host), R39 (a user has no terminal → an ASSISTANT agent; agents route via COS/MANAGER, not directly to users).
 
 ---
 
@@ -182,7 +189,8 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 **Governance role: `manager`.**
 
 ### AMAMA CAN:
-- Create projects and teams
+- Create projects and teams — creating a team auto-creates the COS + the 5 base members directly (R29.1)
+- Create/delete AUTONOMOUS + MAINTAINER agents on its own authority (R29.3)
 - Approve/reject AMCOS requests (agent create/terminate/etc.)
 - Approve cross-team GovernanceRequests
 - Communicate with user
@@ -191,7 +199,6 @@ Cross-team operations (e.g., borrowing an agent, sharing resources) require a `G
 - Grant autonomous operation directives
 
 ### AMAMA CANNOT:
-- Create agents directly (delegates to AMCOS)
 - Assign tasks directly (delegates to AMOA)
 - Message a team-internal agent (AMOA / AMAA / AMIA / MEMBER) directly — all MANAGER↔team-internal contact transits the COS (R6 v3)
 
