@@ -16,31 +16,20 @@
 ## Initiating a Transfer (Outbound - from YOUR team)
 
 1. **Validate the agent** - Confirm the agent is an active member of YOUR team using the team registry
-2. **Validate the target** - Confirm the target team exists and has capacity via `GET /api/teams/{target_team_id}`
-3. **Check for existing requests** - Ensure the agent does not already have a pending TransferRequest
-4. **Create the TransferRequest** - Submit to the GovernanceRequest API:
+2. **Validate the target** - Confirm the target team exists and has capacity by inspecting the teams list: `aimaestro-teams.sh list | jq '.[] | select(.id == "<target-team-id>")'`
+3. **Check for existing requests** - Ensure the agent does not already have a pending TransferRequest: `aimaestro-governance.sh transfer list --agent <agent-id> --status pending`
+4. **Create the TransferRequest** - Submit via the frozen governance CLI (export `AID_AUTH` first — the server reads `requestedBy` from the authenticated identity):
    ```bash
-   curl -X POST "$AIMAESTRO_API/api/governance/transfers/" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "agent_id": "<agent-id>",
-       "source_team_id": "<your-team-id>",
-       "target_team_id": "<target-team-id>",
-       "reason": "<justification for the transfer>",
-       "requested_by": "<your-cos-id>"
-     }'
+   aimaestro-governance.sh transfer create \
+     --agent "<agent-id>" \
+     --from-team "<your-team-id>" \
+     --to-team "<target-team-id>" \
+     --note "<justification for the transfer>"
    ```
 5. **Record the TransferRequest ID** - Save the returned **id** value for tracking
-6. **Approve as source COS** - Submit your own approval for the source side:
+6. **Approve as source COS** - Resolve your own (source) approval via the CLI:
    ```bash
-   curl -X POST "$AIMAESTRO_API/api/governance/transfers/{id}/approve" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "approver_id": "<your-cos-id>",
-       "approver_role": "source-cos",
-       "decision": "approve",
-       "comment": "Initiating transfer as source COS"
-     }'
+   aimaestro-governance.sh transfer resolve <id> --action approve
    ```
 7. **Notify the source manager** - Send AMP message requesting their approval:
    ```bash
@@ -52,49 +41,31 @@
    amp-send.sh "<target-cos-session>" "Incoming transfer request" \
      "high" '{"type": "transfer-approval-request", "message": "TransferRequest <id> requests agent <agent-id> to join your team from <source-team-id>. Reason: <reason>. Please review and approve/reject."}'
    ```
-9. **Wait for all approvals** - Monitor the request state. The transfer advances through `source-approved` and `target-approved` as approvals arrive.
-10. **Execute when dual-approved** - Once state reaches `target-approved` (all four approvals received), execute the transfer:
-    ```bash
-    curl -X POST "$AIMAESTRO_API/api/governance/transfers/{id}/execute" \
-      -H "Content-Type: application/json"
-    ```
+9. **Wait for all approvals** - Monitor the request state with `aimaestro-governance.sh transfer list --agent <agent-id>`. The transfer advances through `source-approved` and `target-approved` as approvals arrive.
+10. **Execution on dual-approval** - The transfer executes automatically once all four approvals land (state reaches `target-approved` → `executed`). The frozen CLI has no separate `execute` verb; confirm completion via `aimaestro-governance.sh transfer list --agent <agent-id> --status executed`.
 11. **Update registries** - Update both source and target team registries to reflect the agent's new team membership
 
 ## Approving a Transfer (Inbound - into YOUR team)
 
 1. **Receive the transfer notification** - Check AMP inbox for transfer-approval-request messages
-2. **Review the request** - Retrieve the TransferRequest details:
+2. **Review the request** - Retrieve the TransferRequest details from the list:
    ```bash
-   curl -s "$AIMAESTRO_API/api/governance/transfers/{id}" | jq .
+   aimaestro-governance.sh transfer list | jq '.[] | select(.id == "<id>")'
    ```
 3. **Evaluate fitness** - Assess whether the agent fits your team's needs and whether you have capacity
 4. **Submit your approval (or rejection)** as target COS:
    ```bash
-   curl -X POST "$AIMAESTRO_API/api/governance/transfers/{id}/approve" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "approver_id": "<your-cos-id>",
-       "approver_role": "target-cos",
-       "decision": "approve",
-       "comment": "Agent accepted into target team"
-     }'
+   aimaestro-governance.sh transfer resolve <id> --action approve
    ```
 5. **Notify your manager** - Send AMP message requesting the target manager's approval
-6. **If rejecting**, use `"decision": "reject"` with a `comment` explaining why. The request moves to `rejected` immediately.
+6. **If rejecting**, use `--action reject` with `--reject-reason` explaining why. The request moves to `rejected` immediately.
 
 ## Rejecting a Transfer
 
 At any point during the approval process, any authorized approver can reject:
 
 ```bash
-curl -X POST "$AIMAESTRO_API/api/governance/transfers/{id}/approve" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "approver_id": "<your-id>",
-    "approver_role": "<your-role>",
-    "decision": "reject",
-    "comment": "Reason for rejection"
-  }'
+aimaestro-governance.sh transfer resolve <id> --action reject --reject-reason "Reason for rejection"
 ```
 
 After rejection, notify all involved parties via AMP that the transfer has been denied.
@@ -130,27 +101,16 @@ All transfer-related AMP messages use these content types:
 **Scenario:** You are COS of team `team-alpha`. Agent `ampa-alpha-backend` has completed their project and is needed by `team-beta`.
 
 ```bash
-# Step 1: Create the transfer request
-curl -X POST "$AIMAESTRO_API/api/governance/transfers/" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "agent_id": "ampa-alpha-backend",
-    "source_team_id": "team-alpha",
-    "target_team_id": "team-beta",
-    "reason": "Backend work complete on alpha project. Agent skillset matches beta team needs.",
-    "requested_by": "amcos-alpha"
-  }'
+# Step 1: Create the transfer request (export AID_AUTH first — the server reads requestedBy from it)
+aimaestro-governance.sh transfer create \
+  --agent "ampa-alpha-backend" \
+  --from-team "team-alpha" \
+  --to-team "team-beta" \
+  --note "Backend work complete on alpha project. Agent skillset matches beta team needs."
 # Response: {"id": "tr-001", "state": "pending", "created_at": "2026-02-27T10:00:00Z"}
 
 # Step 2: Approve as source COS
-curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "approver_id": "amcos-alpha",
-    "approver_role": "source-cos",
-    "decision": "approve",
-    "comment": "Agent has completed all assigned tasks in team-alpha"
-  }'
+aimaestro-governance.sh transfer resolve tr-001 --action approve
 
 # Step 3: Notify source manager
 amp-send.sh "amama-main" "Transfer approval: ampa-alpha-backend -> team-beta" \
@@ -160,9 +120,8 @@ amp-send.sh "amama-main" "Transfer approval: ampa-alpha-backend -> team-beta" \
 amp-send.sh "amcos-beta" "Incoming transfer: ampa-alpha-backend" \
   "high" '{"type": "transfer-approval-request", "message": "TransferRequest tr-001: ampa-alpha-backend from team-alpha wants to join team-beta. Please review and approve."}'
 
-# Step 5: After all 4 approvals received, execute
-curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/execute" \
-  -H "Content-Type: application/json"
+# Step 5: All 4 approvals received -> the transfer executes automatically; confirm it landed
+aimaestro-governance.sh transfer list --agent ampa-alpha-backend --status executed
 
 # Step 6: Notify all parties
 amp-send.sh "ampa-alpha-backend" "Transfer complete" \
@@ -174,22 +133,15 @@ amp-send.sh "ampa-alpha-backend" "Transfer complete" \
 **Scenario:** You are COS of team `team-beta`. You receive an AMP notification that `ampa-alpha-backend` wants to join your team.
 
 ```bash
-# Step 1: Check your inbox
-curl -s "$AIMAESTRO_API/api/messages?agent=amcos-beta&action=list&status=unread" | jq '.messages[]'
+# Step 1: Check your inbox (use the agent-messaging skill, or amp-inbox.sh directly)
+amp-inbox.sh
 
 # Step 2: Review the transfer request details
-curl -s "$AIMAESTRO_API/api/governance/transfers/tr-001" | jq .
+aimaestro-governance.sh transfer list | jq '.[] | select(.id == "tr-001")'
 # Verify: agent capabilities match your team needs, you have capacity
 
 # Step 3: Approve as target COS
-curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-001/approve" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "approver_id": "amcos-beta",
-    "approver_role": "target-cos",
-    "decision": "approve",
-    "comment": "Agent capabilities match our team needs. We have capacity."
-  }'
+aimaestro-governance.sh transfer resolve tr-001 --action approve
 
 # Step 4: Notify your manager for their approval
 amp-send.sh "amama-main" "Transfer approval: ampa-alpha-backend into team-beta" \
@@ -202,14 +154,8 @@ amp-send.sh "amama-main" "Transfer approval: ampa-alpha-backend into team-beta" 
 
 ```bash
 # Reject with explanation
-curl -X POST "$AIMAESTRO_API/api/governance/transfers/tr-002/approve" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "approver_id": "amcos-beta",
-    "approver_role": "target-cos",
-    "decision": "reject",
-    "comment": "Team at full capacity. No open roles matching agent capabilities."
-  }'
+aimaestro-governance.sh transfer resolve tr-002 --action reject \
+  --reject-reason "Team at full capacity. No open roles matching agent capabilities."
 
 # Notify the source COS
 amp-send.sh "amcos-alpha" "Transfer rejected: tr-002" \

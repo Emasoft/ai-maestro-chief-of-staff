@@ -1,89 +1,94 @@
 # Team Registry Specification
 
 > **SUPERSEDED**: The file-based `.ai-maestro/team-registry.json` approach is superseded.
-> Team registries are now managed exclusively via the **AI Maestro REST API**.
+> Team registries are now managed exclusively via the **frozen `aimaestro-*.sh` CLIs**
+> (`aimaestro-teams.sh` / `aimaestro-agent.sh`) — the immutable wrappers over the
+> AI Maestro registry API. Plugins call these CLIs, never the HTTP API directly.
 
 **Version**: 2.12.0
 **Last Updated**: 2026-03-13
 
-This document specifies the team registry API, agent registration, and naming conventions for the AMCOS plugin.
+This document specifies the team registry CLI surface, agent registration, and naming conventions for the AMCOS plugin.
 
 ---
 
 ## Overview
 
-Team registries are managed centrally through the **AI Maestro REST API**. There are no local JSON files to maintain. All team and agent data is stored server-side and accessed via HTTP endpoints.
+Team registries are managed centrally through the frozen **`aimaestro-teams.sh`**
+CLI (and the agent-side CLIs). There are no local JSON files to maintain. All
+team and agent data is stored server-side; plugins reach it through the stable
+CLI commands below, never by calling the HTTP API.
 
 ---
 
-## API Endpoints
+## CLI Surface
 
-### Teams
+### Teams — `aimaestro-teams.sh`
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/teams` | Create a new team |
-| `GET` | `/api/teams` | List all teams |
-| `PATCH` | `/api/teams/[id]` | Update a team |
-| `DELETE` | `/api/teams/[id]` | Delete a team |
+| Command | Description |
+|---------|-------------|
+| `aimaestro-teams.sh create --name N [flags]` | Create a new team (governance action) |
+| `aimaestro-teams.sh list` | List all teams |
+| `aimaestro-teams.sh show <teamId>` | Show one team |
+| `aimaestro-teams.sh update <teamId> [flags]` | Update a team |
+| `aimaestro-teams.sh delete <teamId> [--password P] [--delete-agents]` | Delete a team (governance action) |
+| `aimaestro-teams.sh add-agent <teamId> <agentUUID> [--password P]` | Add one member |
+| `aimaestro-teams.sh remove-agent <teamId> <agentUUID> [--password P]` | Remove one member |
 
 ### Agents
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/teams/[id]/agents` | Register an agent to a team |
-| `GET` | `/api/teams/[id]/agents` | List agents in a team |
-| `PATCH` | `/api/teams/[id]/agents/[agent_id]` | Update agent status |
+Team membership is changed via `aimaestro-teams.sh add-agent` / `remove-agent`
+(above). Two registry operations have **no** frozen-CLI verb yet:
 
-### Base URL
+| Operation | Status |
+|-----------|--------|
+| Register a brand-new agent into a team (with role / sub_role / plugin / host metadata) | <!-- DECOUPLE-BLOCKED ai-maestro#36: agent register-into-team has no frozen-CLI verb (aimaestro-teams.sh add-agent attaches an existing agent UUID, it does not create+register a new agent with metadata). Pending a follow-up verb. --> |
+| Set an agent's status (hibernate / wake / terminate) on the registry | <!-- DECOUPLE-BLOCKED ai-maestro#36: agent status-set has no frozen-CLI verb. Pending a follow-up verb. --> |
+
+### Base host
+
+The CLI talks to this host by default (override with `AIMAESTRO_API_BASE`):
 
 ```
-$AIMAESTRO_API  (default: http://localhost:23000)
+default: http://localhost:23000
 ```
 
 ---
 
-## API Usage Examples
+## CLI Usage Examples
 
 ### Create a Team
 
 ```bash
-curl -X POST "$AIMAESTRO_API/api/teams" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "svgbbox-library-team",
-    "repository": "https://github.com/Emasoft/svgbbox",
-    "github_project": "https://github.com/orgs/Emasoft/projects/12",
-    "created_by": "amcos-chief-of-staff"
-  }'
+aimaestro-teams.sh create \
+  --name "svgbbox-library-team" \
+  --gh-owner "Emasoft" --gh-repo "svgbbox" \
+  --password "$GOV_PASSWORD"
 ```
 
 ### Register an Agent to a Team
 
+Registering a brand-new agent (with role / sub_role / plugin / host metadata)
+has **no** frozen-CLI verb yet:
+
+<!-- DECOUPLE-BLOCKED ai-maestro#36: agent register-into-team has no frozen-CLI verb (aimaestro-teams.sh add-agent attaches an existing agent UUID, it does not create+register a new agent with metadata). Pending a follow-up verb. -->
+
+To attach an **already-registered** agent (by UUID) to a team:
+
 ```bash
-curl -X POST "$AIMAESTRO_API/api/teams/svgbbox-library-team/agents" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "svgbbox-orchestrator",
-    "role": "member",
-    "sub_role": "orchestrator",
-    "plugin": "ai-maestro-orchestrator-agent",
-    "host": "macbook-dev-01"
-  }'
+aimaestro-teams.sh add-agent svgbbox-library-team <agent-uuid> --password "$GOV_PASSWORD"
 ```
 
 ### List Team Agents
 
 ```bash
-curl -s "$AIMAESTRO_API/api/teams/svgbbox-library-team/agents" | jq .
+aimaestro-teams.sh show svgbbox-library-team | jq '.agents'
 ```
 
 ### Update a Team
 
 ```bash
-curl -X PATCH "$AIMAESTRO_API/api/teams/svgbbox-library-team" \
-  -H "Content-Type: application/json" \
-  -d '{"github_project": "https://github.com/orgs/Emasoft/projects/15"}'
+aimaestro-teams.sh update svgbbox-library-team --gh-owner "Emasoft" --gh-repo "svgbbox"
 ```
 
 ---
@@ -278,9 +283,9 @@ Fix login validation bug
 
 ## AMCOS Responsibilities
 
-1. **Create teams** via `POST /api/teams`
-2. **Register agents** via `POST /api/teams/[id]/agents`
-3. **Update agent status** when agents hibernate/wake/terminate via `PATCH /api/teams/[id]/agents/[agent_id]`
+1. **Create teams** via `aimaestro-teams.sh create --name N …`
+2. **Register agents** — attach an existing agent UUID with `aimaestro-teams.sh add-agent <teamId> <agentUUID>`; registering a brand-new agent with metadata has no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#36: agent register-into-team has no frozen-CLI verb. Pending a follow-up verb. -->)
+3. **Update agent status** when agents hibernate/wake/terminate — no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#36: agent status-set has no frozen-CLI verb. Pending a follow-up verb. -->)
 4. **Notify all team agents** of registry changes via AMP:
 
 ```bash
@@ -328,9 +333,9 @@ For full kanban workflow details, see **FULL_PROJECT_WORKFLOW.md**.
 
 | When I need to... | Message this agent | How to find address |
 |-------------------|--------------------|---------------------|
-| Report task progress | Orchestrator | `GET /api/teams/[id]/agents` filter by sub-role |
-| Ask design questions | Architect | `GET /api/teams/[id]/agents` filter by sub-role |
-| Submit PR for review | Integrator | `GET /api/teams/[id]/agents` filter by sub-role |
+| Report task progress | Orchestrator | `aimaestro-teams.sh show <teamId>` filter by sub-role |
+| Ask design questions | Architect | `aimaestro-teams.sh show <teamId>` filter by sub-role |
+| Submit PR for review | Integrator | `aimaestro-teams.sh show <teamId>` filter by sub-role |
 | Request approval | Manager | `amp-send.sh amama-assistant-manager` |
 | Report agent issues | Chief of Staff | `amp-send.sh amcos-chief-of-staff` |
 | Message teammate | By name | `amp-send.sh <agent-name>` |

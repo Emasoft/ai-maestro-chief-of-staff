@@ -23,7 +23,7 @@ Create a new TransferRequest to move an agent from the source team to a target t
 
 1. **Validate agent membership** - Confirm the agent belongs to the current (source) team
 2. **Validate target team** - Confirm target team exists and can accept the agent
-3. **Submit request** - Call `POST /api/governance/transfers/` with payload
+3. **Submit request** - Run `aimaestro-governance.sh transfer create --agent <id> --from-team <id> --to-team <id> [--note <text>]` (export `AID_AUTH` first)
 4. **Notify approvers** - Source COS, source manager, target COS, target manager
 
 ## Request Payload

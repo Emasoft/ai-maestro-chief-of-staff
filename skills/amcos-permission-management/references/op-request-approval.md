@@ -95,17 +95,15 @@ Use the `agent-messaging` skill to send the approval request message to AMAMA wi
 ### Step 5: Register Pending Approval
 
 ```bash
-# Uses AI Maestro REST API (not file-based)
-# Register the pending approval request via REST API
-curl -s -X POST "$AIMAESTRO_API/api/v1/governance/requests" \
-  -H "Content-Type: application/json" \
-  -d "{\
-    \"request_id\": \"$REQUEST_ID\",\
-    \"operation\": \"$OPERATION_TYPE\",\
-    \"target\": \"$TARGET\",\
-    \"requested_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\
-    \"status\": \"pending\"
-  }"
+# Use the frozen aimaestro-governance.sh CLI (never call the API directly)
+# Register the pending approval request — the CLI sets status=pending server-side
+aimaestro-governance.sh request \
+  --type "$OPERATION_TYPE" \
+  --password "$GOV_PASSWORD" \
+  --target-host "$TARGET_HOST" \
+  --requested-by "amcos-chief-of-staff" \
+  --role "chief-of-staff" \
+  --agent "$TARGET"
 ```
 
 ### Step 6: Await Response

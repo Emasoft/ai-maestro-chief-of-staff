@@ -24,7 +24,14 @@ description: Operation procedure for synchronizing team registry with GitHub iss
 
 ## Purpose
 
-Ensure the team registry (via AI Maestro REST API) stays synchronized with GitHub issue assignment labels. Detect and resolve discrepancies.
+Ensure the team registry stays synchronized with GitHub issue assignment labels. Detect and resolve discrepancies.
+
+> **Note**: The registry side of this sync — reading and writing an agent's
+> `current_issues` from GitHub issue labels — has **no** frozen-CLI verb yet.
+> <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+> Until that verb ships, the registry-update steps below are blocked; the
+> GitHub-label side (via `gh`) and the team-roster read (via the
+> `ai-maestro-agents-management` skill) remain available.
 
 ## When to Use
 
@@ -36,7 +43,7 @@ Ensure the team registry (via AI Maestro REST API) stays synchronized with GitHu
 ## Prerequisites
 
 - GitHub CLI (`gh`) installed and authenticated
-- Access to AI Maestro REST API (`$AIMAESTRO_API`, default `http://localhost:23000`)
+- The `ai-maestro-agents-management` skill (to read the team roster)
 - `jq` installed for JSON processing
 
 ## Procedure
@@ -44,8 +51,8 @@ Ensure the team registry (via AI Maestro REST API) stays synchronized with GitHu
 ### Step 1: Load Current Registry
 
 ```bash
-# Fetch to a file first, then parse — keeps the raw response inspectable
-curl -s "$AIMAESTRO_API/api/teams/default/agents" -o /tmp/amcos-registry.json
+# Read the team roster via the ai-maestro-agents-management skill, then take
+# each agent's name. (Save the skill's JSON output to /tmp/amcos-registry.json.)
 AGENTS=$(jq -r '.[].name' /tmp/amcos-registry.json)
 ```
 
@@ -53,15 +60,13 @@ AGENTS=$(jq -r '.[].name' /tmp/amcos-registry.json)
 
 ```bash
 for AGENT in $AGENTS; do
-  # Get issues from registry via REST API (fetch to file, then parse)
-  curl -s "$AIMAESTRO_API/api/agents/$AGENT" -o /tmp/amcos-agent.json 2>/dev/null
-  REGISTERED=$(jq -r '.current_issues | sort | .[]' /tmp/amcos-agent.json 2>/dev/null)
-
-  # Get issues from GitHub labels
+  # Get issues currently labeled for this agent from GitHub
   LABELED=$(gh issue list --label "assign:$AGENT" --json number --jq '.[].number' | sort)
 
+  # The per-agent registry `current_issues` read has no frozen-CLI verb yet.
+  # <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+
   echo "Agent: $AGENT"
-  echo "  Registry: $REGISTERED"
   echo "  Labeled:  $LABELED"
 done
 ```
@@ -78,37 +83,35 @@ For each agent:
 
 ### Step 4: Reconcile Registry to Match Labels
 
-Labels are source of truth. Update registry:
+Labels are source of truth. The registry write that records each agent's
+`current_issues` from its GitHub labels has **no** frozen-CLI verb yet:
 
 ```bash
 for AGENT in $AGENTS; do
-  # Get actual labeled issues
+  # Get actual labeled issues (the label side, via gh, stays available)
   LABELED_ISSUES=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
 
-  # Update registry via REST API
-  curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT" \
-    -H "Content-Type: application/json" \
-    -d '{"current_issues": '"$LABELED_ISSUES"'}'
+  # Write LABELED_ISSUES into the agent's registry current_issues — BLOCKED.
+  # <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 done
 ```
 
 ### Step 5: Handle Orphaned Labels
 
-Find labels for agents not in registry:
+Find labels for agents not in the team roster:
 
 ```text
 # Get all assign:* labels in repo
 ALL_ASSIGN_LABELS=$(gh label list --json name --jq '.[] | select(.name | startswith("assign:")) | .name')
 
+# Read the team roster once via the ai-maestro-agents-management skill into
+# /tmp/amcos-registry.json, then check each label's agent against it.
 for LABEL in $ALL_ASSIGN_LABELS; do
   AGENT_NAME=$(echo $LABEL | sed 's/assign://')
-
-  # Check if agent exists in registry via REST API (fetch to file, then parse)
-  curl -s "$AIMAESTRO_API/api/agents/$AGENT_NAME" -o /tmp/amcos-agent.json
-  EXISTS=$(jq -r '.name // empty' /tmp/amcos-agent.json)
+  EXISTS=$(jq -r --arg n "$AGENT_NAME" '.[] | select(.name == $n) | .name' /tmp/amcos-registry.json)
 
   if [ -z "$EXISTS" ]; then
-    echo "WARNING: Label '$LABEL' exists but agent not in registry"
+    echo "WARNING: Label '$LABEL' exists but agent not in roster"
     # Either register agent or remove labels
   fi
 done
@@ -125,26 +128,13 @@ echo "Sync completed at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> docs_dev/sync-log.txt
 **Scenario:** Check sync for agent `implementer-1`.
 
 ```text
-# Get labeled issues
+# Get labeled issues (the label side, via gh, stays available)
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 echo "Labeled: $LABELED"
 
-# Get registered issues via REST API (fetch to file, then parse)
-curl -s "$AIMAESTRO_API/api/agents/implementer-1" -o /tmp/amcos-agent.json
-REGISTERED=$(jq -r '.current_issues | sort | .[]' /tmp/amcos-agent.json)
-echo "Registered: $REGISTERED"
-
-# Compare
-if [ "$LABELED" = "$REGISTERED" ]; then
-  echo "SYNC OK: Registry matches labels"
-else
-  echo "SYNC NEEDED: Discrepancy detected"
-  # Update registry via REST API
-  LABELED_JSON=$(gh issue list --label "assign:implementer-1" --state open --json number --jq '[.[].number]')
-  curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
-    -H "Content-Type: application/json" \
-    -d '{"current_issues": '"$LABELED_JSON"'}'
-fi
+# Reading the agent's registry current_issues, and writing them back from the
+# labels, both require a registry verb that does not exist yet.
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 ```
 
 ## Automated Sync Script
@@ -155,20 +145,16 @@ For scheduled sync, create a script:
 #!/bin/bash
 # scripts/amcos_sync_labels.sh
 
-AIMAESTRO_API="${AIMAESTRO_API:-http://localhost:23000}"
-
-# Get all agents from registry via REST API (fetch to file, then parse)
-curl -s "$AIMAESTRO_API/api/teams/default/agents" -o /tmp/amcos-registry.json
+# Get all agents from the team roster via the ai-maestro-agents-management
+# skill, saving its JSON to /tmp/amcos-registry.json.
 AGENTS=$(jq -r '.[].name' /tmp/amcos-registry.json)
 
 for AGENT in $AGENTS; do
-  # Get labeled issues (open only)
+  # Get labeled issues (open only) — the label side, via gh, stays available
   LABELED=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
 
-  # Update registry via REST API
-  curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT" \
-    -H "Content-Type: application/json" \
-    -d '{"current_issues": '"$LABELED"'}'
+  # Writing LABELED into the agent's registry current_issues — BLOCKED.
+  # <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 done
 
 echo "Sync complete: $(date)"
@@ -178,7 +164,7 @@ echo "Sync complete: $(date)"
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| JSON parse error | Malformed API response | Check AI Maestro API health at `$AIMAESTRO_API` |
+| JSON parse error | Malformed roster output | Re-run the `ai-maestro-agents-management` skill and check AI Maestro health |
 | gh rate limited | Too many API calls | Wait and retry with exponential backoff |
-| Registry API unreachable | AI Maestro API down | Verify API is running at `$AIMAESTRO_API` |
-| Agent not found | Agent not registered | Register agent with `POST $AIMAESTRO_API/api/agents/register` |
+| Roster unreachable | AI Maestro down | Verify AI Maestro is running (the `ai-maestro-agents-management` skill errors out) |
+| Agent not found | Agent not registered | Register the agent via the `ai-maestro-agents-management` skill |

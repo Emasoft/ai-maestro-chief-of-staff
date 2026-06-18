@@ -35,7 +35,6 @@ When an agent is being terminated, clear all its issue assignments and return is
 
 - GitHub CLI (`gh`) installed and authenticated
 - Agent name (session name) being terminated
-- Access to AI Maestro REST API (`$AIMAESTRO_API`, default `http://localhost:23000`)
 
 ## Procedure
 
@@ -57,11 +56,10 @@ done
 
 ### Step 3: Remove Agent from Team Registry
 
-```bash
-curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT_NAME" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "terminated"}'
-```
+The registry write that flips the agent's status to `terminated` is part of the
+issue-label↔registry surface that has **no** frozen-CLI verb yet.
+
+<!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 ### Step 4: Verify No Issues Remain Assigned
 
@@ -96,10 +94,8 @@ for ISSUE in $AGENT_ISSUES; do
   echo "Cleared assignment from issue #$ISSUE"
 done
 
-# Step 3: Remove from registry via REST API
-curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "terminated"}'
+# Step 3: Flip the agent's registry status to terminated — BLOCKED (no frozen-CLI verb).
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 # Step 4: Verify
 gh issue list --label "assign:implementer-1"
@@ -112,7 +108,7 @@ gh issue list --label "assign:implementer-1"
 |-------|-------|----------|
 | No issues found | Agent had no assignments | Continue with registry removal |
 | Label removal fails | Network or permission issue | Retry after brief delay |
-| Registry API error | AI Maestro API down | Check API is running at `$AIMAESTRO_API` |
+| Registry update blocked | No frozen-CLI verb for issue-label registry writes | Clear the labels via `gh` only until the verb ships (ai-maestro#36) |
 
 ## Considerations
 

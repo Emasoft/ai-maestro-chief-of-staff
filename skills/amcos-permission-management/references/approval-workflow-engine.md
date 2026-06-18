@@ -62,10 +62,8 @@
   - [12.3 AMAMA unreachable retry logic](#123-amama-unreachable-retry-logic)
   - [12.4 Duplicate request ID handling](#124-duplicate-request-id-handling)
 
-# Example: Move request to history (update decision status)
-curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-1706795200-abc123" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "approved"}'
+# Example: Approve a request (records the decision server-side)
+aimaestro-governance.sh approve AR-1706795200-abc123 --password "$GOV_PASSWORD"
 ```
 
 ---
@@ -309,7 +307,7 @@ pending --> approved --> executing --> completed
 
 ### 3.2 Pending approvals request structure
 
-**Source**: `GET $AIMAESTRO_API/api/v1/governance/requests?status=pending` (AI Maestro REST API, not file-based)
+**Source**: `aimaestro-governance.sh requests --status pending` (frozen CLI over the governance API, not file-based)
 
 ```json
 {
@@ -421,16 +419,12 @@ Use the `agent-messaging` skill to send reminder messages:
 
 ### 5.3 Tracking reminder count and elapsed time
 
-Update the request via REST API after each reminder (AI Maestro REST API, not file-based):
+Reminder cadence is driven entirely from the AMP messages the COS sends; the
+frozen CLI exposes no reminder-bookkeeping verb, so track the reminder count
+and last-reminder time in the COS's own tracking notes rather than on the
+governance request itself.
 
-```bash
-# Uses AI Maestro REST API (not file-based)
-curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-1706795200-abc123" \
-  -H "Content-Type: application/json" \
-  -d "{\"last_reminder_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"reminder_count\": 1}"
-```
-
-**Fields to update**:
+**Fields to track locally**:
 - `last_reminder_at`: ISO timestamp of last reminder sent
 - `reminder_count`: Increment by 1 each time
 
@@ -453,8 +447,8 @@ Is type "critical_operation"?
 For types: `agent_spawn`, `agent_terminate`, `agent_replace`, `plugin_install`
 
 **Procedure**:
-1. Update status to "timeout" via REST API: `curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-xxx" -H "Content-Type: application/json" -d '{"status": "timeout"}'`
-2. Move request to history (handled by AI Maestro on status update)
+1. Auto-reject the timed-out request via the CLI: `aimaestro-governance.sh reject AR-xxx --password "$GOV_PASSWORD" --reason "timeout — no manager response within 120s"`
+2. Move request to history (handled by AI Maestro on the reject)
 3. Log timeout to audit trail
 4. Notify requester via AI Maestro:
    ```
@@ -541,11 +535,9 @@ If validation fails: Log error, notify AMAMA of invalid decision message.
 
 For approved decision:
 ```bash
-# Uses AI Maestro REST API (not file-based)
-# Update status to "approved"
-curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-xxx" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "approved", "decided_by": "manager", "reason": "Team needs additional developer"}'
+# Use the frozen aimaestro-governance.sh CLI (never call the API directly)
+# Approve the request — the CLI records the decision (decided_by/decided_at) server-side
+aimaestro-governance.sh approve AR-xxx --password "$GOV_PASSWORD" --approver "manager"
 
 # Log to audit trail
 echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [AR-xxx] [DECIDE] decision=approved by=manager reason=\"Team needs additional developer\"" >> approval-audit.log
@@ -557,15 +549,11 @@ echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [AR-xxx] [DECIDE] decision=approved by=
 
 ### 8.1 Transitioning status to executing
 
-After approval received:
-
-```bash
-# Uses AI Maestro REST API (not file-based)
-# Update status to "executing"
-curl -s -X PATCH "$AIMAESTRO_API/api/v1/governance/requests/AR-xxx" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "executing"}'
-```
+After approval received, the request advances to `executing` server-side once
+the COS begins the operation. The frozen CLI exposes no explicit
+status-set verb for `executing`; treat the successful
+`aimaestro-governance.sh approve …` from §7.4 as the gate, then proceed to
+delegate the operation (§8.2) and track execution progress locally.
 
 ### 8.2 Delegating execution to appropriate AMCOS agent
 

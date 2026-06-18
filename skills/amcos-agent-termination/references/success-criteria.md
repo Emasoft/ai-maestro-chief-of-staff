@@ -44,7 +44,7 @@ Verify ALL criteria met:
    - **Content**: type `system`, message: "ping"
 3. Verify the agent responds within 30 seconds.
 4. Check the working directory exists: `test -d <working-directory> && echo exists`
-5. Check team registry (if applicable): `curl -s "$AIMAESTRO_API/api/agents" | jq '.[] | select(.name == "<agent-name>")'`
+5. Check team registry (if applicable): use the `ai-maestro-agents-management` skill to list agents and confirm `<agent-name>` appears in the team roster.
 6. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
@@ -70,7 +70,7 @@ Verify ALL criteria met:
 
 1. Use the `ai-maestro-agents-management` skill to list all agents and confirm the terminated agent does NOT appear.
 2. Verify no orphaned processes: `ps aux | grep <agent-name> | grep -v grep`
-3. Check team registries: `curl -s "$AIMAESTRO_API/api/agents" | jq -r '.[] | select(.name == "<agent-name>")'`
+3. Check team registries: use the `ai-maestro-agents-management` skill to list agents and confirm `<agent-name>` is absent from every team roster.
 4. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
@@ -129,7 +129,7 @@ Verify ALL criteria met:
    - **Content**: type `system`, message: "ping"
 2. Confirm the agent responds within 30 seconds.
 3. Use the `ai-maestro-agents-management` skill to get the agent's details and confirm status is `active`.
-4. Check team registry: `curl -s "$AIMAESTRO_API/api/agents" | jq -r '.[] | select(.name == "<agent-name>") | .status'`
+4. Check team registry: use the `ai-maestro-agents-management` skill to read `<agent-name>` and confirm its status is `active`.
 5. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 6. Verify context file still exists: `test -f $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json && echo exists`
 
@@ -138,7 +138,7 @@ Verify ALL criteria met:
 ## Team Assignment Complete
 
 Verify ALL criteria met:
-- [ ] Team registry API accessible: `$AIMAESTRO_API/api/teams`
+- [ ] Team registry reachable: `aimaestro-teams.sh list` returns the teams
 - [ ] Agent listed in team's `members` array
 - [ ] Agent's role correctly specified in registry
 - [ ] Agent notified of team assignment via messaging
@@ -155,8 +155,8 @@ Verify ALL criteria met:
 
 **Verification Steps:**
 
-1. Verify team registry API accessible: `curl -s -o /dev/null -w "%{http_code}" "$AIMAESTRO_API/api/teams"`
-2. Verify agent in team: `curl -s "$AIMAESTRO_API/api/agents?team=<team-name>" | jq -r '.[] | select(.name == "<agent-name>")'`
+1. Verify team registry reachable: `aimaestro-teams.sh list >/dev/null && echo ok`
+2. Verify agent in team: `aimaestro-teams.sh show <team-id> | jq -r '.agents[]? | select(.name == "<agent-name>")'`
 3. Verify team structure: `test -d .ai-maestro/teams/<team-name> && echo exists`
 4. Use the `agent-messaging` skill to check inbox for the agent and confirm a team assignment message was delivered:
    - Filter by subject containing "Team Assignment"
@@ -222,10 +222,10 @@ Verify ALL criteria met:
 4. Assignment operation failed silently
 
 **Verification Steps**:
-1. Verify team registry API accessible: `curl -s -o /dev/null -w "%{http_code}" "$AIMAESTRO_API/api/teams"`
-2. Validate API response: `curl -s "$AIMAESTRO_API/api/teams" | jq .`
-3. Check for team existence: `curl -s "$AIMAESTRO_API/api/teams" | jq -r '.[].name'`
-4. Check API health: `curl -s -o /dev/null -w "%{http_code}" "$AIMAESTRO_API/api/teams"`
+1. Verify team registry reachable: `aimaestro-teams.sh list >/dev/null && echo ok`
+2. Validate the response: `aimaestro-teams.sh list | jq .`
+3. Check for team existence: `aimaestro-teams.sh list | jq -r '.[].name'`
+4. Check registry health: `aimaestro-teams.sh list >/dev/null 2>&1 && echo healthy || echo unreachable`
 
 ### Context Not Saved During Hibernation
 

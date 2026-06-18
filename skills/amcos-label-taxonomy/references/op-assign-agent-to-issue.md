@@ -37,7 +37,6 @@ Assign a newly spawned or existing agent to a GitHub issue by applying the appro
 - GitHub CLI (`gh`) installed and authenticated
 - Issue number to assign
 - Agent name (session name) to assign
-- Access to AI Maestro REST API (`$AIMAESTRO_API`, default `http://localhost:23000`)
 
 ## Procedure
 
@@ -73,11 +72,11 @@ gh issue edit $ISSUE_NUMBER --remove-label "status:backlog" --add-label "status:
 
 ### Step 5: Update Team Registry
 
-```bash
-curl -X PATCH "$AIMAESTRO_API/api/agents/$AGENT_NAME" \
-  -H "Content-Type: application/json" \
-  -d '{"current_issues_add": ['$ISSUE_NUMBER']}'
-```
+The registry write that records this issue on the agent's `current_issues` has
+**no** frozen-CLI verb yet — the GitHub-label side (Steps 1-4, via `gh`) is the
+source of truth and remains available.
+
+<!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 ### Step 6: Verify Assignment
 
@@ -97,10 +96,8 @@ gh issue edit 42 --add-label "assign:implementer-1"
 # Step 2: Update status
 gh issue edit 42 --remove-label "status:backlog" --add-label "status:ready"
 
-# Step 3: Update registry via REST API
-curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
-  -H "Content-Type: application/json" \
-  -d '{"current_issues_add": [42]}'
+# Step 3: Record the issue on the agent's registry current_issues — BLOCKED (no frozen-CLI verb).
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 # Step 4: Verify
 gh issue view 42 --json labels --jq '.labels[].name'
@@ -113,7 +110,7 @@ gh issue view 42 --json labels --jq '.labels[].name'
 | Label not found | `assign:*` label doesn't exist | Create with `gh label create "assign:$AGENT_NAME"` |
 | Permission denied | Insufficient repo access | Verify GitHub token has repo scope |
 | Issue not found | Invalid issue number | Verify with `gh issue list` |
-| Registry update fails | API error | Check AI Maestro API is running at `$AIMAESTRO_API` |
+| Registry update blocked | No frozen-CLI verb for issue-label registry writes | Track the issue via the GitHub label only until the verb ships (ai-maestro#36) |
 
 ## Rollback
 

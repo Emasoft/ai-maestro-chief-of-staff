@@ -30,9 +30,9 @@ Approve a pending TransferRequest. Both source and target sides must approve bef
 
 ## Procedure
 
-1. **Retrieve request** - Get the TransferRequest by ID
-2. **Verify approver role** - Confirm the caller is an authorized approver
-3. **Submit approval** - Call `POST /api/governance/transfers/{id}/approve` with payload
+1. **Retrieve request** - Get the TransferRequest by ID: `aimaestro-governance.sh transfer list | jq '.[] | select(.id == "<id>")'`
+2. **Verify approver role** - Confirm the caller is an authorized approver (the server derives your role from `AID_AUTH`)
+3. **Submit approval** - Run `aimaestro-governance.sh transfer resolve <id> --action approve`
 4. **State transition** - System updates state if all approvals for a side are complete
 
 ## Request Payload

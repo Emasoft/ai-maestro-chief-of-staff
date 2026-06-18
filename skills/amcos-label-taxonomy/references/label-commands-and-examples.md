@@ -47,25 +47,24 @@ gh issue edit $ISSUE_NUMBER --remove-label "assign:$AGENT_NAME" --add-label "ass
 
 ## Agent Registry and Labels
 
-AMCOS maintains the team registry via the AI Maestro REST API. Labels should be synchronized with the registry:
+AMCOS keeps the team registry synchronized with the GitHub assignment labels.
+The per-agent registry read/write that exposes `current_issues` has **no**
+frozen-CLI verb yet:
 
 ```bash
-# Query agent info from registry via REST API
-curl -s "$AIMAESTRO_API/api/agents/implementer-1" | jq .
-# Returns: {"session_name": "code-impl-01", "status": "active", "current_issues": [42, 43]}
+# Read an agent's registry current_issues — BLOCKED (no frozen-CLI verb).
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+# (When available it would return: {"session_name": "code-impl-01", "status": "active", "current_issues": [42, 43]})
 ```
 
 ## Sync Check
 
 ```bash
-# Find issues assigned to agent from GitHub labels
+# Find issues assigned to agent from GitHub labels (the label side stays available)
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 
-# Compare with registry (via REST API; fetch to file, then parse)
-curl -s "$AIMAESTRO_API/api/agents/implementer-1" -o /tmp/amcos-agent.json
-REGISTERED=$(jq -r '.current_issues | sort | .[]' /tmp/amcos-agent.json)
-
-# Should match
+# Compare with the agent's registry current_issues — BLOCKED (no frozen-CLI verb).
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 ```
 
 ## Example 1: Spawning Agent and Assigning to Issue
@@ -79,10 +78,8 @@ gh issue edit 42 --add-label "assign:implementer-1"
 # Step 2: Update status from backlog to ready
 gh issue edit 42 --remove-label "status:backlog" --add-label "status:todo"
 
-# Step 3: Update team registry via REST API
-curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
-  -H "Content-Type: application/json" \
-  -d '{"current_issues": [42]}'
+# Step 3: Record the issue on the agent's registry current_issues — BLOCKED (no frozen-CLI verb).
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 # Step 4: Verify
 gh issue view 42 --json labels --jq '.labels[].name'
@@ -103,10 +100,8 @@ for ISSUE in $AGENT_ISSUES; do
   echo "Cleared assignment from issue #$ISSUE"
 done
 
-# Step 3: Remove agent from team registry via REST API
-curl -X PATCH "$AIMAESTRO_API/api/agents/implementer-1" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "terminated"}'
+# Step 3: Flip the agent's registry status to terminated — BLOCKED (no frozen-CLI verb).
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 # Step 4: Verify no issues remain assigned
 gh issue list --label "assign:implementer-1"

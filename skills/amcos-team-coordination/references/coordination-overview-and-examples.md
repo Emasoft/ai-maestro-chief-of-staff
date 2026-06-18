@@ -111,10 +111,11 @@ I need an architect, an orchestrator, and two programmers."
 
 ## Examples: Team Status Query with Input/Output
 
-**Input:** Query team status via AI Maestro API
+**Input:** Query team status via the `ai-maestro-agents-management` skill (list active sessions), then filter to the project. A project-filtered flat session list has **no** frozen-CLI verb yet:
 
 ```bash
-curl -s "http://localhost:23000/api/sessions" | jq '.sessions[] | select(.project == "auth-service")'
+# <!-- DECOUPLE-BLOCKED ai-maestro#36: list-sessions-by-project has no frozen-CLI verb (agent list returns agents+sessions, not a project-filtered session list). Pending a follow-up verb. -->
+# Until then: use the ai-maestro-agents-management skill to list agents+sessions, then keep only the ones whose project == "auth-service".
 ```
 
 **Output:** Current team status result

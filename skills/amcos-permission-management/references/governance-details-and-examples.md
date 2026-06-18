@@ -81,9 +81,9 @@ audit_trail:
 Copy this checklist and track your progress:
 
 - [ ] Identify operation requiring approval and risk level
-- [ ] Submit GovernanceRequest via API (`POST /api/v1/governance/requests`)
+- [ ] Submit GovernanceRequest via the CLI (`aimaestro-governance.sh request --type <T> --password <P> …`)
 - [ ] Send AMP notification to manager
-- [ ] Wait for manager decision (poll API or use `amcos_approval_manager.py wait`)
+- [ ] Wait for manager decision (poll `aimaestro-governance.sh requests --status pending` or use `amcos_approval_manager.py wait`)
 - [ ] On approval: execute the operation
 - [ ] On rejection: log reason and notify requester
 - [ ] Update local YAML audit trail
@@ -112,8 +112,9 @@ Run `amcos_approval_manager.py sync` to reconcile once the API is available.
 ## Example 1: Spawn Agent (Local, Same Team)
 
 ```
-PROCEDURE 1 -> POST /api/v1/governance/requests
-  operation: spawn, scope: local, agent: worker-impl-03
+PROCEDURE 1 -> aimaestro-governance.sh request --type agent_spawn --password <P> \
+                 --target-host <H> --requested-by amcos-chief-of-staff --role chief-of-staff \
+                 --agent worker-impl-03   (operation: spawn, scope: local)
 PROCEDURE 2 -> Poll: pending -> local-approved (sourceManager approved in 15s)
 Result: status=dual-approved (local ops need only sourceManager)
 -> Proceed with agent spawn
@@ -122,9 +123,10 @@ Result: status=dual-approved (local ops need only sourceManager)
 ## Example 2: Cross-Team Plugin Install
 
 ```
-PROCEDURE 1 -> POST /api/v1/governance/requests
-  operation: configure-agent, scope: cross-team
-  sourceTeam: svgbbox-library-team, targetTeam: maestro-api-team
+PROCEDURE 1 -> aimaestro-governance.sh request --type plugin_install --password <P> \
+                 --target-host <maestro-api-host> --requested-by amcos-chief-of-staff \
+                 --role chief-of-staff --payload-json '{"operation":"configure-agent"}'
+                 (scope: cross-team; sourceTeam: svgbbox-library-team, targetTeam: maestro-api-team)
 PROCEDURE 2 -> Poll: pending -> local-approved -> remote-approved -> dual-approved
 PROCEDURE 3 -> 60s reminder sent to targetManager (no response yet)
 Result: status=dual-approved after 75s
