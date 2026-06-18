@@ -1,17 +1,32 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.18.1] - 2026-06-15
+    ## [2.18.2] - 2026-06-18
 
 ### Bug Fixes
 
-- Update stale example model id to current claude-sonnet-4-6    
+- Amcos_notify_agent resolve parse → tmuxSessionName (was session_name); drop dead list branch    
 
 ### Documentation
 
-- TRDD-8e8d6618 pass 1 shipped (v2.18.0); 3 classes pending CLIs    
-- #20 deploy-gated + scope corrected (no whoami; prompts/docs in scope)    
-- #20 acceptance bar refined per MANAGER (#16) — instructions not descriptive docs    
-- #20 capture pass-2 CLI interfaces + verify transfer-verb gap    
+- #20 scope extended to hooks (USER rule) — COS hooks already compliant    
+- #20 transfer verb BUILT (d946e0dc) — gap closed, all COS pass-2 CLIs now in source    
+- #20 PIVOT to do-now commit-not-publish + verified CLI verbs (resume checkpoint)    
+- TRDD STATE — pass-2 mechanical complete (25 components, 5 commits); residual design-blocked + deploy-gated    
+- TRDD STATE — team_registry done (a318976, 3 residuals); approval_manager held on password env-fallback; resolve bug fixed    
+- TRDD — MANAGER confirmed both findings; locked repoint recipe for the 4 #36 residual classes    
+
+### Miscellaneous
+
+- Drop literal /api/ from amcos_notify_agent comment (now grep-clean)    
+
+### Refactor
+
+- Repoint agent/command PROMPTS off direct /api/ → frozen CLI verbs    
+- Repoint 5 top-level SKILL.md off direct /api/ → frozen CLI verbs    
+- Repoint amcos_notify_agent.py name-resolve → aimaestro-agent.sh resolve    
+- Repoint amcos_generate_team_report.py teams-fetch → aimaestro-teams.sh list    
+- Repoint 14 teams-only skill reference docs off direct /api/teams → aimaestro-teams.sh list    
+- Repoint amcos_team_registry.py off direct /api/ → frozen CLIs    
 
 
