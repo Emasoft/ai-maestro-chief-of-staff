@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-18T03:01:25+0200
+updated: 2026-06-18T03:34:10+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -188,28 +188,23 @@ MANAGER's table summary which had `request <id>` imprecise):**
   (CLIs resolve auth internally); behavior unchanged; verify EVERY inserted verb vs the list above
   (MANAGER warns agents hallucinate verbs). Python scripts keep a graceful fallback like pass-1.
 
-**NEXT ACTION (resume here):** ⭐ DEPLOY LANDED 2026-06-18 + base bulk PUBLISHED **v2.18.2**.
-ai-maestro#36 deploy reached `~/.local/bin` (all 4 CLIs + module-refresh: agent-session.sh 353→495, `resolve` ✓).
-Merged `decouple/api-to-frozen-cli` → main (ff), `publish.py --patch` → v2.18.2 (CPV strict 0/0/0/0). LIVE: prompts,
-5 SKILL.md, 14 teams ref-docs, notify_agent, generate_team_report, team_registry. Reported #20 (issuecomment-4736868440)
-+ #36 (issuecomment-4736835184).
-**⚠ The 4 follow-up verbs did NOT ship** (VERIFIED in deployed CLIs: `cmd_approve` still `--password`-required, no
-`AIMAESTRO_GOV_PASSWORD` env-read; agent `create` still `--dir`-required (agent-commands.sh:152), no `--register-only`;
-no status-set verb; no `teams --gh-project`). They stay DECOUPLE-BLOCKED pending a FOLLOW-UP deploy.
+**NEXT ACTION (resume here):** ✅ #20 RUNTIME COMPLETE 2026-06-18 — COS plugin is 100% off direct `/api/`.
+THREE publishes off one deploy: **v2.18.2** (prompts, 5 SKILL.md, 14 teams ref-docs, notify/report/registry scripts) ·
+**v2.18.3** (`approval_manager` — scripts 100% clean; also DEVITALIZED a CPV `PROTOTYPE_POLLUTION` FP that misfired on
+Python `argv.extend([…"--payload-json"…])` → split to two `.append()`; filed CPV#134 with repro+language-gate fix) ·
+**v2.18.4** (8 governance ref-docs → governance verbs, 3 transfer ref-docs → `transfer create/list/resolve`, teams-parts
+→ `teams list`, `TEAM_REGISTRY_SPECIFICATION.md` reframed, label-issue + sessions refs `DECOUPLE-BLOCKED`-marked).
+**FINAL AUDIT:** `grep -rn '/api/' scripts/ skills/ agents/ commands/ docs/` (excl onboarding sample-project FPs) = **0**.
+(Only CHANGELOG + this TRDD still contain the literal string `/api/`, describing the removal.) Reported #20 (issuecomment-4737046249).
 
-**RESIDUAL PASS (do NOW — base verbs suffice, no follow-up needed) → publish v2.18.3:**
-1. `amcos_approval_manager.py`: repoint create/list/get → `aimaestro-governance.sh request`/`requests` (base, deployed).
-   `respond_to_request` (decision) + `sync_local_to_api` are a generic password-LESS status-PATCH (NOT the CLI's
-   password-required approve/reject) = no CLI verb → **graceful-degrade**: `update()` returns None + logs DECOUPLE-BLOCKED,
-   so the YAML-mirror + AMP steps still run (same as the old api-unreachable path). Remove the urllib `GovernanceAPI` class.
-2. 8 governance ref-docs (permission-management ×5 + transfer-management ×3) → `aimaestro-governance.sh
-   request/requests/approve/reject` (DOC examples — `approve <id> --password P` is fine, no COS-held password needed).
-3. 1 sessions ref-doc (`coordination-overview` `/api/sessions`) → `aimaestro-agent.sh session command|activity-update|user-input`.
-4. teams-parts of `success-criteria` (teams=6) + `op-sync-registry-with-labels` (teams=2) → `aimaestro-teams.sh list`.
-5. label-taxonomy issue-label refs (op-assign / op-terminate / label-commands + the agents-parts of the mixed) →
-   DECOUPLE-BLOCKED (no issue-label-assignment CLI verb; `--label` is only a persona-name flag). `TEAM_REGISTRY_SPECIFICATION.md` → reframe.
-Then full-tree verb-audit + `publish.py --patch` → v2.18.3. After that ONLY the 4 verb-blocked ops + label-issue refs remain →
-`grep -rn '/api/'` reaches zero when the follow-up verbs land. (`approval_manager` is the LAST script with live `/api/`.)
+**ONLY remaining = an UPSTREAM dependency (NOT COS work):** 4 ops are `DECOUPLE-BLOCKED`-marked (zero `/api/`; they
+fail-fast / graceful-degrade) pending the 4 follow-up verbs that did NOT ship in this deploy (ai-maestro#36): gov-password
+env-fallback (approval decision/sync), `agent create --register-only` (`add_agent`), a status-set verb (`update-status`),
+`teams create --gh-project` (`create_team` github_project) — plus label-issue assignment + list-sessions-by-project which
+have no frozen-CLI verb at all. **WHEN ai-maestro ships those verbs on a follow-up deploy:** repoint the markers (a small
+patch publish) → the ops go live. The decoupling-rule compliance (zero direct `/api/`) is **ALREADY MET**; from COS's side
+#20 is substantively DONE — this TRDD stays open only to track the upstream verb dependency. CLI-repoint discipline +
+verified verb surfaces are in LOCAL memory `aimaestro-cli-repoint-verb-gotchas`.
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
