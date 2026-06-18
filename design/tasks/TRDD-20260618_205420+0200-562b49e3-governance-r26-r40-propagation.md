@@ -3,7 +3,7 @@ trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
 column: dev
 created: 2026-06-18T20:54:20+0200
-updated: 2026-06-18T21:24:37+0200
+updated: 2026-06-18T21:38:58+0200
 current-owner: cos
 assignee: cos
 priority: 2
@@ -60,10 +60,15 @@ own AMAMA plugin **ai-maestro-assistant-manager-agent v2.12.0**.
   `approval-workflow-engine.md`. All verified clean of `--password`/GOV_PASSWORD.
   (6-7) perm-mgmt cluster FINISHED (10d442d): `op-track-pending-approvals.md` + `governance-details-and-examples.md`
   (the "## Governance Password" section → a "Critical Operations Authorization (R28/R32)" section). **The entire
-  R32 perm-mgmt cluster (SKILL + 4 refs) is grep-clean of agent-held-password mechanisms. Progress: 7/~20.**
-  Remaining: R32+R29 `docs/TEAM_REGISTRY_SPECIFICATION.md`; R29 `docs/AGENT_OPERATIONS.md` +
-  `docs/FULL_PROJECT_WORKFLOW.md` + 3 skill examples; R30/R31+R33-R40 gaps in `docs/ROLE_BOUNDARIES.md` +
-  `README.md`; R27 2 files; R38/R39 LOW 2 onboarding refs. Then governance-scenarios.md → CPV --strict → publish v2.19.0.
+  R32 perm-mgmt cluster (SKILL + 4 refs) is grep-clean of agent-held-password mechanisms. **Progress: 13/~20.**
+  DONE since: (8) `docs/TEAM_REGISTRY_SPECIFICATION.md` R32+R29 (7a24606); (9-10) R29 docs
+  `docs/AGENT_OPERATIONS.md` + `docs/FULL_PROJECT_WORKFLOW.md` (7e7df9f); (11-13) R29 skill examples
+  `workflow-checklists.md` + `coordination-overview-and-examples.md` + `workflow-examples.md` (3f8294a) —
+  team-create routed to MANAGER, COS completes/customizes under mandate. **ALL R32 + ALL R29 done.**
+  Remaining: R30/R31+R33-R40 gaps in `docs/ROLE_BOUNDARIES.md` (line 194 + add 5-base/FREEZE) + `README.md`;
+  R27 `agents/amcos-plugin-configurator.md` + `commands/amcos-configure-plugins.md`; R38/R39 LOW
+  `skills/amcos-onboarding/references/{role-briefing,onboarding-overview-and-examples}.md`.
+  Then governance-scenarios.md → CPV --strict → publish v2.19.0.
 
 **NEXT ACTION:** continue the inline edits, per the audit report's per-file guidance. Remaining files,
 grouped: **R32** → skills/amcos-permission-management/SKILL.md + its 4 refs (governance-details-and-examples,
