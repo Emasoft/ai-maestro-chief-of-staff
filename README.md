@@ -203,6 +203,15 @@ All cross-plugin communication uses AMP (AI Maestro Protocol). AMCOS never calls
 
 Critical operations (spawn, terminate, replace) require a GovernanceRequest (sourceManager for local operations, dual-manager for cross-team). Dual-manager approval is required for cross-team agent transfers.
 
+### Foundational security rules (R26-R40)
+
+AMCOS internalizes the AI Maestro security-governance core (`docs/GOVERNANCE-RULES.md` R26-R40; the full per-rule table lives in the COS persona). Key invariants:
+
+- **The MANAGER creates teams** (R29.1) — creating a team auto-spawns the COS + the **5-member base** (COS + ARCHITECT + ORCHESTRATOR + INTEGRATOR + MEMBER). The COS does not create/delete teams; it **completes & customizes** the team under a MANAGER mandate (R30), adding only extra MEMBER-titled agents.
+- **5-base is invariant; incomplete teams FREEZE** (R30/R31) — a team missing any base member is frozen (only the COS active, others hibernated) until the base is complete.
+- **Agents never sudo** (R32) — authorization is AID → title → portfolio token (R28); a sudo password is requested only of the USER via the UI, never held or passed by an agent.
+- **Identity is immutable** (R26), the signed ledger is the source of truth (R33/R34), foreign agents/users need MAESTRO approval (R35/R40), there is one MAESTRO per host and agents obey only the active MAESTRO (R36/R37), and users (no terminal) act through an ASSISTANT agent (R38/R39).
+
 ## Validation
 
 ### Requirements/Dependencies
