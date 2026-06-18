@@ -1,6 +1,6 @@
 {
   "name": "ai-maestro-chief-of-staff",
-  "version": "2.19.1",
+  "version": "2.19.2",
   "description": "Per-team agent management - staff planning, lifecycle, governance workflows, failure recovery. Requires AI Maestro v0.26.0+ and Claude Code v2.1.139+.",
   "author": {
     "name": "Emasoft",
