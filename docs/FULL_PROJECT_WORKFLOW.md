@@ -23,7 +23,7 @@ GOVERNANCE LAYER
 ================  TEAM BOUNDARY (guarded by COS)  ================
                   |
   AMCOS (Chief of Staff) [TEAM-SCOPED]  -- sole entry/exit point
-   (2) forms team (>=5: COS+ARCH+ORCH+INT+MEMBER), guards boundary
+   (2) MANAGER-created (COS + 5 base: COS+ARCH+ORCH+INT+MEMBER, R29.1); COS completes/customizes under mandate + guards boundary
                   |
    +--- direct team-layer edges (NOT routed through COS) ---+
    |                                                        |
@@ -159,13 +159,14 @@ Use the `status:blocked` label to flag a blocked task at any stage (it is a labe
 **Communication**:
 - AMP: Back-and-forth messages until agreement
 
-#### Step 4: Team Creation
-**Actor**: AMCOS (Chief of Staff)
-**Action**:
-- Create the agents needed for the project team (within own team scope)
+#### Step 4: Team Creation + Completion
+**Actor**: the **MANAGER** creates the team (+ the COS + the 5 base members — R29.1); then **AMCOS** (Chief of Staff) completes & customizes it under the MANAGER's mandate (R30). While any of the 5 base members is missing the team is **FROZEN** — only the COS is active, the rest hibernated, until the base is complete (R31).
+**Action (COS, under mandate)**:
+- Complete the 5-member base the MANAGER created (add/configure any missing ARCH/ORCH/INT/MEMBER)
+- Add extra MEMBER-titled agents tailored to the project (on the member-agent role-plugin)
 - OR reassign agents from other projects within the same team
 - Configure each agent with appropriate `ai-maestro-*` skills and plugins for their role
-- Assign agents to the project team
+- (Team `create`/`delete` itself is MANAGER-only — R29.1; the COS never creates/deletes the team)
 
 **Communication**:
 - AMP: Coordination messages during agent creation

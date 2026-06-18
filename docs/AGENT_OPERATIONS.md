@@ -449,18 +449,18 @@ amcos-prog-svgbbox-002
 
 All operations use the `ai-maestro-agents-management` skill.
 
-### 12.5 Team Formation vs Task Delegation Flow
+### 12.5 Team Completion vs Task Delegation Flow
 
-The COS **forms the team** (spawns + assigns the agents). It does NOT delegate the *tasks* — the ORCHESTRATOR does, directly. Keep the two flows distinct:
+The MANAGER **creates the team** + the COS + the 5 base members (R29.1); the COS then **completes & customizes** it (adding/configuring any missing base member + extra MEMBERs, under a MANAGER mandate — R30). The COS does NOT delegate the *tasks* — the ORCHESTRATOR does, directly. Keep the two flows distinct:
 
 ```
 LIFECYCLE (COS owns):                  TASK WORK (ORCH owns, direct):
 User Request
      |
    MANAGER
-     | (spawns COS if complex)
+     | creates the team + COS + 5 base members (R29.1)
    AMCOS (Chief of Staff) [TEAM-SCOPED]
-     | spawns + assigns to team:
+     | completes + customizes under a mandate (R30):
      +-- Orchestrator (amcos-orch-*)        ARCHITECT ⇄ ORCHESTRATOR ⇄ INTEGRATOR
      +-- Architect    (amcos-arch-*)                       ⇅
      +-- Integrator   (amcos-intg-*)                    MEMBER(s)
@@ -469,7 +469,7 @@ User Request
                                             INTEGRATOR owns the `complete` flip.
 ```
 
-After forming the team, the COS guards the boundary; the ORCHESTRATOR runs the in-team work via direct edges.
+After the team is created (MANAGER) and completed (COS), the COS guards the boundary; the ORCHESTRATOR runs the in-team work via direct edges.
 
 **AMCOS coordination responsibilities**:
 1. Assess task complexity and requirements
