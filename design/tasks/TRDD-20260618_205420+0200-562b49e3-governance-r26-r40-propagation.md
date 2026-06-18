@@ -3,7 +3,7 @@ trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
 column: dev
 created: 2026-06-18T20:54:20+0200
-updated: 2026-06-18T21:20:12+0200
+updated: 2026-06-18T21:24:37+0200
 current-owner: cos
 assignee: cos
 priority: 2
@@ -58,8 +58,12 @@ own AMAMA plugin **ai-maestro-assistant-manager-agent v2.12.0**.
   files point at. (3-5) perm-mgmt R32 sub-batch (3fedcc5): `skills/amcos-permission-management/SKILL.md`
   (incl. an extra line-85 "Password rejected" hit the audit missed) + refs `op-request-approval.md` +
   `approval-workflow-engine.md`. All verified clean of `--password`/GOV_PASSWORD.
-  **Still in the R32 perm-mgmt cluster:** `references/op-track-pending-approvals.md` (lines 60,67,106,108,141,146,148)
-  + `references/governance-details-and-examples.md` (lines 6,32, the 37-43 "## Governance Password" SECTION to DELETE, 72,84,115,126).
+  (6-7) perm-mgmt cluster FINISHED (10d442d): `op-track-pending-approvals.md` + `governance-details-and-examples.md`
+  (the "## Governance Password" section → a "Critical Operations Authorization (R28/R32)" section). **The entire
+  R32 perm-mgmt cluster (SKILL + 4 refs) is grep-clean of agent-held-password mechanisms. Progress: 7/~20.**
+  Remaining: R32+R29 `docs/TEAM_REGISTRY_SPECIFICATION.md`; R29 `docs/AGENT_OPERATIONS.md` +
+  `docs/FULL_PROJECT_WORKFLOW.md` + 3 skill examples; R30/R31+R33-R40 gaps in `docs/ROLE_BOUNDARIES.md` +
+  `README.md`; R27 2 files; R38/R39 LOW 2 onboarding refs. Then governance-scenarios.md → CPV --strict → publish v2.19.0.
 
 **NEXT ACTION:** continue the inline edits, per the audit report's per-file guidance. Remaining files,
 grouped: **R32** → skills/amcos-permission-management/SKILL.md + its 4 refs (governance-details-and-examples,
