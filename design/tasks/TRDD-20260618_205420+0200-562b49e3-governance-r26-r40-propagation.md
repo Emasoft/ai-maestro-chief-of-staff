@@ -3,7 +3,7 @@ trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
 column: dev
 created: 2026-06-18T20:54:20+0200
-updated: 2026-06-18T21:15:52+0200
+updated: 2026-06-18T21:20:12+0200
 current-owner: cos
 assignee: cos
 priority: 2
@@ -52,11 +52,14 @@ own AMAMA plugin **ai-maestro-assistant-manager-agent v2.12.0**.
 - **STRATEGY CHANGE:** a 4-agent parallel edit swarm was launched but ALL died on fleet rate-limiting
   (API "temporarily limiting requests") — 1 correct partial edit landed, no other damage. Switched to
   doing the edits **MYSELF inline, serially** (transparent + rate-limit-resilient; right call for governance).
-- **Edits progress (2/~20 files):** (1) `agents/amcos-approval-coordinator.md` — R32 fully reversed
-  (c6f0218). (2) `agents/ai-maestro-chief-of-staff-main-agent.md` (the persona) — R29/R30/R31 reversals
-  (MANAGER creates team+COS+5-base; mandate-gated; R31 FREEZE) + a new **R26-R40 governance section**
-  (table) + residual `R12`→`R30` fix; verified clean; committed (029a6ea). The persona governance table
-  is the canonical in-plugin summary the other files can point at.
+- **Edits progress (5/~20 files):** (1) `agents/amcos-approval-coordinator.md` — R32 (c6f0218).
+  (2) `agents/ai-maestro-chief-of-staff-main-agent.md` (persona) — R29/R30/R31 + new **R26-R40 governance
+  section** (table) + `R12`→`R30` fix (029a6ea); the persona table is the canonical in-plugin summary other
+  files point at. (3-5) perm-mgmt R32 sub-batch (3fedcc5): `skills/amcos-permission-management/SKILL.md`
+  (incl. an extra line-85 "Password rejected" hit the audit missed) + refs `op-request-approval.md` +
+  `approval-workflow-engine.md`. All verified clean of `--password`/GOV_PASSWORD.
+  **Still in the R32 perm-mgmt cluster:** `references/op-track-pending-approvals.md` (lines 60,67,106,108,141,146,148)
+  + `references/governance-details-and-examples.md` (lines 6,32, the 37-43 "## Governance Password" SECTION to DELETE, 72,84,115,126).
 
 **NEXT ACTION:** continue the inline edits, per the audit report's per-file guidance. Remaining files,
 grouped: **R32** → skills/amcos-permission-management/SKILL.md + its 4 refs (governance-details-and-examples,
