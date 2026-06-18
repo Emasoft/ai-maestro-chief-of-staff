@@ -14,7 +14,7 @@
 
 ## 1.1 Workflow 1: Setting Up a Development Team
 
-**Scenario:** User request: "I need to implement a new feature across 3 microservices. Set up a team."
+**Scenario:** A request — "implement a new feature across 3 microservices" — reaches the **MANAGER**, who creates the team + the COS + the 5 base members (R29.1) and **mandates** the COS to staff it with extra MEMBER agents for the work (R30). (A non-MAESTRO user cannot create teams — R38; the request routes to the MANAGER.)
 
 **Step-by-Step Walkthrough:**
 
@@ -29,12 +29,13 @@
    - Available: 4 slots
    - Result: Approved
 
-3. Route to amcos-lifecycle-manager:
-   - Create 4 new agents with --agent flag:
-     - svgbbox-impl-01 (--agent ai-maestro-orchestrator-main-agent)
-     - svgbbox-impl-02
-     - svgbbox-impl-03
-     - svgbbox-reviewer-01
+3. Route to amcos-lifecycle-manager (under the MANAGER's team-creation mandate — R30):
+   - The 5 base members (COS+ARCH+ORCH+INT+MEMBER) were already created by the MANAGER (R29.1)
+   - Add 4 EXTRA MEMBER agents (MEMBER-titled, on the member-agent role-plugin — R30.3) for this feature:
+     - svgbbox-impl-01 (extra MEMBER)
+     - svgbbox-impl-02 (extra MEMBER)
+     - svgbbox-impl-03 (extra MEMBER)
+     - svgbbox-reviewer-01 (extra MEMBER)
 
 4. Update team registry (.ai-maestro/team-registry.json)
 

@@ -60,24 +60,25 @@ Use the `ai-maestro-agents-management` skill to list all active sessions and the
 
 ## Examples: Full Coordination Workflow with Input/Output
 
-**Input:** User requests a new team for project "auth-service"
+**Input:** A team-creation request for project "auth-service" arrives
 
 ```
-User message: "Set up a team for the auth-service project.
-I need an architect, an orchestrator, and two programmers."
+A team-create request reaches the MANAGER (a non-MAESTRO user cannot create
+teams — R38; team creation is the MANAGER's authority — R29.1). The MANAGER
+creates the team + the COS + the 5 base members, and mandates the COS to add
+two extra programmer MEMBERs for this project.
 ```
 
-**Output:** AMCOS creates the team and confirms formation
+**Output:** the MANAGER created the team + COS + 5 base; AMCOS completes & customizes it under the mandate (R30)
 
 ```
-[TEAM-FORMED] auth-service
-  Agents spawned:
-    - amaa-auth-service-architect (Architect) - ACTIVE
-    - amoa-auth-service-orchestrator (Orchestrator) - ACTIVE
-    - auth-service-programmer-001 (Programmer) - ACTIVE
-    - auth-service-programmer-002 (Programmer) - ACTIVE
-  Team registry updated via REST API
-  Messages sent: 4 role assignments delivered
+[TEAM-READY] auth-service   (created by MANAGER; completed by COS under mandate)
+  Base members (MANAGER-created, R29.1): COS + ARCHITECT + ORCHESTRATOR + INTEGRATOR + MEMBER
+  Extra MEMBERs added by the COS under mandate (R30):
+    - auth-service-programmer-001 (Programmer/MEMBER) - ACTIVE
+    - auth-service-programmer-002 (Programmer/MEMBER) - ACTIVE
+  Team registry updated via the immutable CLI (auth via AID — R28, no password)
+  Messages sent: role assignments delivered
 ```
 
 ## Examples: Role Assignment with Input/Output

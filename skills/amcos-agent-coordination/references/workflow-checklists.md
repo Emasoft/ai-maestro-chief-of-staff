@@ -15,7 +15,7 @@
 - [4.1 Waking Agent Checklist](#checklist-waking-agent) - Checklist for waking a hibernated agent and restoring its state
 
 ### When You Need to Create a New Project Team
-- [5.1 Forming Team Checklist](#checklist-forming-team) - Complete checklist for creating a new team and assigning agents
+- [5.1 Completing the Team Checklist](#checklist-completing-the-team) - Complete the MANAGER-created team base + add mandated MEMBERs
 
 ### When You Need to Modify Team Membership or Agent Status
 - [6.1 Updating Team Registry Checklist](#checklist-updating-team-registry) - Checklist for adding/removing agents or updating their status
@@ -139,7 +139,7 @@
 
 ---
 
-## Checklist: Forming Team
+## Checklist: Completing the Team
 
 **Preparation:**
 - [ ] Verify project directory exists
@@ -147,9 +147,9 @@
 - [ ] Identify team lead (typically AMOA - AI Maestro Orchestrator Agent)
 - [ ] Identify team members and their roles
 
-**Create team registry:**
-- [ ] Run `uv run python scripts/amcos_team_registry.py create <project-dir> --team-lead <agent-name>`
-- [ ] Verify team created via CLI: `aimaestro-teams.sh list | jq '.[].name'`
+**Verify the MANAGER-created team** (R29.1 — the MANAGER creates the team + the COS + the 5 base members; the COS does NOT run `create`):
+- [ ] Confirm the team exists via CLI: `aimaestro-teams.sh list | jq '.[].name'`
+- [ ] If any of the 5 base members is missing, the team is FROZEN (R31) — completing the base (below) is your FIRST action, under the MANAGER's mandate (R30)
 
 **Assign agents to team:**
 - [ ] For each agent: `uv run python scripts/amcos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
