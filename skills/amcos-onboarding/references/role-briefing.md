@@ -175,7 +175,7 @@ When you encounter issues:
 1. **Technical Blockers**: Contact orchestrator-master
 2. **Role Conflicts**: Contact chief-of-staff-agent
 3. **Resource Issues**: Contact chief-of-staff-agent
-4. **Unable to Reach Above**: If no response, message user directly
+4. **Unable to Reach Above**: If no response, escalate to the chief-of-staff (or, via the COS, the MANAGER) — agents route via the COS/MANAGER, not directly to a user (R38/R39)
 ```
 
 ---
@@ -268,7 +268,7 @@ If an agent asks something not covered:
 1. Acknowledge the question
 2. If you know the answer, provide it
 3. If you don't know, say so clearly
-4. Escalate to user if the question is important and unanswered
+4. Escalate to the chief-of-staff (or, via the COS, the MANAGER) if the question is important and unanswered — not directly to a user (R38/R39)
 
 ---
 

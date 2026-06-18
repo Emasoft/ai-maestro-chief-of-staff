@@ -57,7 +57,7 @@ When configuring agents on a **different host or different team**, submit a `con
 ```
 Is target agent on same host AND same team?
   - Verify independently via AI Maestro session registry (do NOT trust caller's assertion alone)
-  YES (verified) -> Direct configuration (use claude CLI, edit settings files)
+  YES (verified) -> Configure via the core ai-maestro-plugin skills (server-mediated install + CPV scan — R27.2/R27.3; never the Claude CLI directly)
   NO or UNVERIFIED -> Submit GovernanceRequest with configure-agent type
 ```
 
@@ -164,9 +164,9 @@ assistant: Configuring plugins for helper-agent-generic at ~/myproject.
 1. Checking if marketplace exists...
    - AI Maestro distribution: FOUND
 
-2. Installing plugin with local scope:
+2. Installing plugin with local scope (via the core ai-maestro-plugin skills — the skill calls the ai-maestro scripts → the server installs it after a CPV security scan; R27.2/R27.3 — never the Claude CLI directly):
    ```
-   claude plugin install perfect-skill-suggester@ai-maestro --scope local
+   Use the ai-maestro-agents-management skill: install perfect-skill-suggester@ai-maestro (scope: local)
    ```
    - Installation: SUCCESS
    - Version: 1.2.2

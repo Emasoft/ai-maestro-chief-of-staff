@@ -24,8 +24,8 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
    - Retrieves agent's project directory
 
 2. **Manages Plugin Installation**
-   - Adds plugins using `claude plugin install PLUGIN --scope SCOPE`
-   - Removes plugins using `claude plugin uninstall PLUGIN`
+   - Adds plugins via the core ai-maestro-plugin skills (server-mediated install + CPV security scan — R27.2/R27.3; never the Claude CLI directly)
+   - Removes plugins via the same core skills (not the Claude CLI)
    - Enables/disables plugins as needed
 
 3. **Configures Plugin Scope**
