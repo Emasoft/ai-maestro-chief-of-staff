@@ -3,7 +3,7 @@ trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
 column: dev
 created: 2026-06-18T20:54:20+0200
-updated: 2026-06-18T20:54:20+0200
+updated: 2026-06-18T21:11:24+0200
 current-owner: cos
 assignee: cos
 priority: 2
@@ -44,13 +44,30 @@ clean the CPV `--strict` gate, and publish via the canonical pipeline. Reference
 own AMAMA plugin **ai-maestro-assistant-manager-agent v2.12.0**.
 
 **Current state:**
-- Canonical rules FETCHED → `reports_dev/governance/GOVERNANCE-RULES.md` (v4.0.2, 1384 lines; R26-R40 bodies at lines 1211-1369).
-- COS#21 ACKed (issuecomment-4745175907). This TRDD authored.
-- Audit / edits / scenarios / CPV / publish: NOT STARTED.
+- Canonical rules FETCHED → `reports_dev/governance/GOVERNANCE-RULES.md` (v4.0.2; R26-R40 bodies at 1211-1369).
+- COS#21 ACKed (issuecomment-4745175907). TRDD authored + committed (3e822f8).
+- **Phase 1 audit DONE** → `reports/governance/20260618_210115+0200-r26-r40-audit.md` (verbatim-verified;
+  19 files w/ hits across 252 scanned; per-file `path:line` + suggested reversal). Dominant: R32 password
+  (8 files), R29 "COS forms team" (9), R30/R31, R27 (2), R38/R39 (2 LOW); R26/R28 clean; R33-R40 = gaps to ADD.
+- **STRATEGY CHANGE:** a 4-agent parallel edit swarm was launched but ALL died on fleet rate-limiting
+  (API "temporarily limiting requests") — 1 correct partial edit landed, no other damage. Switched to
+  doing the edits **MYSELF inline, serially** (transparent + rate-limit-resilient; right call for governance).
+- **Edits progress (1/~20 files):** `agents/amcos-approval-coordinator.md` — R32 fully reversed +
+  committed (c6f0218).
 
-**NEXT ACTION:** Phase 1 — audit the COS tree (agents/, commands/, skills/, docs/, shared/, README)
-for OLD-model statements to reverse (grep the bright-line phrases below); produce a file:line hit list.
-Delegate the read-only audit to keep orchestrator context clean; make the edits myself (transparency).
+**NEXT ACTION:** continue the inline edits, per the audit report's per-file guidance. Remaining files,
+grouped: **R32** → skills/amcos-permission-management/SKILL.md + its 4 refs (governance-details-and-examples,
+op-track-pending-approvals, op-request-approval, approval-workflow-engine), commands/amcos-request-approval.md,
+docs/TEAM_REGISTRY_SPECIFICATION.md (also R29). **R29** → agents/ai-maestro-chief-of-staff-main-agent.md
+(persona — also R30/R31), docs/AGENT_OPERATIONS.md, docs/FULL_PROJECT_WORKFLOW.md,
+skills/amcos-agent-coordination/references/workflow-checklists.md,
+skills/amcos-team-coordination/references/coordination-overview-and-examples.md,
+skills/amcos-agent-spawning/references/workflow-examples.md. **R30/R31 + R33-R40 GAPS** → persona +
+docs/ROLE_BOUNDARIES.md + README.md (add the 5-base invariant, the R31 FREEZE, and a new R26-R40
+governance section incl. signed-ledger SOT / foreign-host MAESTRO approval / one-MAESTRO / MAESTRO-DELEGATE /
+ASSISTANT model). **R27** → agents/amcos-plugin-configurator.md, commands/amcos-configure-plugins.md.
+**R38/R39 LOW** → skills/amcos-onboarding/references/{role-briefing,onboarding-overview-and-examples}.md.
+Commit per cluster (protect work vs rate-limit). Then: tests/scenarios/governance-scenarios.md → CPV --strict → publish v2.19.0.
 
 **Load-bearing facts / gotchas:**
 - Canonical source is GOVERNANCE-RULES.md v4.0.x R26-R40 — NOT ai-maestro#37 (that's R23/R24/R25,
