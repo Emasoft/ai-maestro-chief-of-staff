@@ -3,7 +3,7 @@ trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
 column: dev
 created: 2026-06-18T20:54:20+0200
-updated: 2026-06-18T21:44:53+0200
+updated: 2026-06-18T21:49:31+0200
 current-owner: cos
 assignee: cos
 priority: 2
@@ -75,22 +75,17 @@ own AMAMA plugin **ai-maestro-assistant-manager-agent v2.12.0**.
   escalation (the human = MAESTRO per R36/R37/R39; reaching a human when automation is exhausted is correct), NOT
   R38 messaging-matrix violations — consistent with the audit's deliberate LOW/bounded R38 scoping (it flagged only
   the comm-routing fallbacks). Left as-is by design; if the MANAGER wants "user"→"MAESTRO" everywhere, that's a
-  follow-up. **Progress: 16/~20.** Remaining: R30/R31+R33-R40 gaps in `docs/ROLE_BOUNDARIES.md` (line 194 +
-  add 5-base/FREEZE) + `README.md`. Then governance-scenarios.md → CPV --strict → publish v2.19.0.
+  follow-up. **Progress: 18 files edited — EDIT PHASE COMPLETE.** ROLE_BOUNDARIES (caf345a) + README (e9a5f87)
+  done — line-194 R29.1 fix + R30 mandate framing + 5-base-invariant/R31-FREEZE/R26-R40 gap-fills. ALL 18
+  audit-flagged files reversed/gap-filled; `onboarding-overview-and-examples.md` verified-clean (skipped, non-bug).
 
-**NEXT ACTION:** continue the inline edits, per the audit report's per-file guidance. Remaining files,
-grouped: **R32** → skills/amcos-permission-management/SKILL.md + its 4 refs (governance-details-and-examples,
-op-track-pending-approvals, op-request-approval, approval-workflow-engine), commands/amcos-request-approval.md,
-docs/TEAM_REGISTRY_SPECIFICATION.md (also R29). **R29** → agents/ai-maestro-chief-of-staff-main-agent.md
-(persona — also R30/R31), docs/AGENT_OPERATIONS.md, docs/FULL_PROJECT_WORKFLOW.md,
-skills/amcos-agent-coordination/references/workflow-checklists.md,
-skills/amcos-team-coordination/references/coordination-overview-and-examples.md,
-skills/amcos-agent-spawning/references/workflow-examples.md. **R30/R31 + R33-R40 GAPS** → persona +
-docs/ROLE_BOUNDARIES.md + README.md (add the 5-base invariant, the R31 FREEZE, and a new R26-R40
-governance section incl. signed-ledger SOT / foreign-host MAESTRO approval / one-MAESTRO / MAESTRO-DELEGATE /
-ASSISTANT model). **R27** → agents/amcos-plugin-configurator.md, commands/amcos-configure-plugins.md.
-**R38/R39 LOW** → skills/amcos-onboarding/references/{role-briefing,onboarding-overview-and-examples}.md.
-Commit per cluster (protect work vs rate-limit). Then: tests/scenarios/governance-scenarios.md → CPV --strict → publish v2.19.0.
+**NEXT ACTION:** EDIT PHASE DONE (18 files committed; see `git log --oneline | grep COS#21`). Author
+`tests/scenarios/governance-scenarios.md` (the SCEN) — follow the repo's `tests/scenarios/SCENARIOS_TESTS_RULES.md`
+conventions; mirror the AMAMA reference impl (ai-maestro-assistant-manager-agent v2.12.0
+`tests/scenarios/governance-scenarios.md`); cover the COS-relevant rules (R28 authz, R29 MANAGER-creates-team,
+R30 mandate-gated, R31 FREEZE, R32 no-agent-sudo, R36 obey-active-MAESTRO). Then run the plugin test runner + CPV
+`--strict` → clean (devitalize/fix, NEVER suppress) → publish v2.19.0 via publish.py → `gh run watch` →
+report on COS#21 + ai-maestro#37 with the version + self-id line.
 
 **Load-bearing facts / gotchas:**
 - Canonical source is GOVERNANCE-RULES.md v4.0.x R26-R40 — NOT ai-maestro#37 (that's R23/R24/R25,
