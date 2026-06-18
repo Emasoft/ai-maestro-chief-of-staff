@@ -57,14 +57,12 @@ When submitting a new approval request:
 
 ```bash
 TYPE="$1"            # request type (e.g. agent_spawn)
-PASSWORD="$2"        # governance password
-TARGET_HOST="$3"     # target host id
-AGENT="$4"           # subject agent id
+TARGET_HOST="$2"     # target host id
+AGENT="$3"           # subject agent id
 
-# Use the frozen aimaestro-governance.sh CLI (never call the API directly)
+# Use the frozen aimaestro-governance.sh CLI (never call the API directly; auth via AID — R28, no password)
 aimaestro-governance.sh request \
   --type "$TYPE" \
-  --password "$PASSWORD" \
   --target-host "$TARGET_HOST" \
   --requested-by "amcos-chief-of-staff" \
   --role "chief-of-staff" \
@@ -103,9 +101,9 @@ for REQUEST_ID in $PENDING_IDS; do
 
     # Apply the decision via the CLI (approve or reject)
     if [ "$DECISION" = "approved" ]; then
-      aimaestro-governance.sh approve "$REQUEST_ID" --password "$GOV_PASSWORD"
+      aimaestro-governance.sh approve "$REQUEST_ID"
     elif [ "$DECISION" = "rejected" ]; then
-      aimaestro-governance.sh reject "$REQUEST_ID" --password "$GOV_PASSWORD"
+      aimaestro-governance.sh reject "$REQUEST_ID"
     fi
   fi
 done
@@ -138,14 +136,13 @@ When approval is received:
 ```bash
 REQUEST_ID="$1"
 DECISION="$2"        # approved | rejected
-PASSWORD="$3"        # governance password
 
-# Use the frozen aimaestro-governance.sh CLI (never call the API directly)
+# Use the frozen aimaestro-governance.sh CLI (never call the API directly; auth via AID — R28, no password)
 # Apply the final decision — the CLI records decided_at / decided_by server-side
 if [ "$DECISION" = "approved" ]; then
-  aimaestro-governance.sh approve "$REQUEST_ID" --password "$PASSWORD"
+  aimaestro-governance.sh approve "$REQUEST_ID"
 else
-  aimaestro-governance.sh reject "$REQUEST_ID" --password "$PASSWORD"
+  aimaestro-governance.sh reject "$REQUEST_ID"
 fi
 ```
 

@@ -3,7 +3,6 @@
 ## Table of Contents
 
 - [GovernanceRequest Payload](#governancerequest-payload)
-- [Governance Password](#governance-password)
 - [Simplified Local Approval](#simplified-local-approval)
 - [Rate Limiting](#rate-limiting)
 - [Audit Trail](#audit-trail)
@@ -29,18 +28,17 @@
   "operation": {"action": "...", "target": "...", "parameters": {}},
   "justification": "why this operation is needed",
   "impact": {"scope": "local|cross-team", "risk_level": "low|medium|high|critical"},
-  "governancePassword": "<password-if-critical>",
   "status": "pending"
 }
 ```
 
-## Governance Password
+## Critical Operations Authorization (R28/R32)
 
-For **critical operations** (risk_level=critical), the manager provides a governance password:
-- Password is set per-team by the manager
-- Included in the GovernanceRequest payload for critical ops
-- API validates password before transitioning to `approved` state
-- Never log or store the password after submission
+For **critical operations** (risk_level=critical), authorization is the R28 three-check —
+**AID → TITLE → portfolio approval/mandate token** (resolved server-side from the COS's AID),
+plus dual-manager approval. There is **no agent-held governance password** (R32): a sudo
+password is requested **only of the USER, only via the UI**; the COS never holds, passes, or
+submits one.
 
 ## Simplified Local Approval
 
@@ -69,7 +67,6 @@ audit_trail:
     sourceManager: "..."
     targetCOS: "..."
     targetManager: "..."
-    governancePasswordUsed: true|false
     decided_at: "ISO-8601"
     escalation_count: 0|1|2|3
 ```
@@ -81,7 +78,7 @@ audit_trail:
 Copy this checklist and track your progress:
 
 - [ ] Identify operation requiring approval and risk level
-- [ ] Submit GovernanceRequest via the CLI (`aimaestro-governance.sh request --type <T> --password <P> …`)
+- [ ] Submit GovernanceRequest via the CLI (`aimaestro-governance.sh request --type <T> …`; auth via AID — R28, no password)
 - [ ] Send AMP notification to manager
 - [ ] Wait for manager decision (poll `aimaestro-governance.sh requests --status pending` or use `amcos_approval_manager.py wait`)
 - [ ] On approval: execute the operation
@@ -112,7 +109,7 @@ Run `amcos_approval_manager.py sync` to reconcile once the API is available.
 ## Example 1: Spawn Agent (Local, Same Team)
 
 ```
-PROCEDURE 1 -> aimaestro-governance.sh request --type agent_spawn --password <P> \
+PROCEDURE 1 -> aimaestro-governance.sh request --type agent_spawn \
                  --target-host <H> --requested-by amcos-chief-of-staff --role chief-of-staff \
                  --agent worker-impl-03   (operation: spawn, scope: local)
 PROCEDURE 2 -> Poll: pending -> local-approved (sourceManager approved in 15s)
@@ -123,7 +120,7 @@ Result: status=dual-approved (local ops need only sourceManager)
 ## Example 2: Cross-Team Plugin Install
 
 ```
-PROCEDURE 1 -> aimaestro-governance.sh request --type plugin_install --password <P> \
+PROCEDURE 1 -> aimaestro-governance.sh request --type plugin_install \
                  --target-host <maestro-api-host> --requested-by amcos-chief-of-staff \
                  --role chief-of-staff --payload-json '{"operation":"configure-agent"}'
                  (scope: cross-team; sourceTeam: svgbbox-library-team, targetTeam: maestro-api-team)
