@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-16T21:48:00+0200
+updated: 2026-06-18T03:01:25+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -188,19 +188,28 @@ MANAGER's table summary which had `request <id>` imprecise):**
   (CLIs resolve auth internally); behavior unchanged; verify EVERY inserted verb vs the list above
   (MANAGER warns agents hallucinate verbs). Python scripts keep a graceful fallback like pass-1.
 
-**NEXT ACTION (resume here):** Mechanical pass-2 is COMPLETE (see the 2026-06-16T21:13 update). Two
-things remain, both GATED — not idling, real dependencies:
-1. **DESIGN-BLOCKED** — `amcos_approval_manager.py` (decision path needs the `--password` env-fallback
-   #36 decision; create/list/get mappable but HELD to land one clean transport) + the 14 residual
-   governance/label/sessions reference docs (need the verb-mapping decisions / residual-markers). When the
-   MANAGER rules on the FOUR open #36 calls COS needs — (a) `approve`/`reject` `${GOVERNANCE_PASSWORD}`
-   env-fallback, (b) a status-set verb (update-status + sync_local_to_api), (c) rich roster-registration
-   (add_agent), (d) `teams create --gh-project` — repoint those + drop the `DECOUPLE-BLOCKED` markers.
-   (`amcos_team_registry.py` is now DONE — a318976, with 3 of those as marked residuals.)
-2. **DEPLOY-GATED** — when ai-maestro#36 deploys the CLIs to `~/.local/bin`, run the full-tree verb-audit
-   (`grep aimaestro-*.sh` vs the verb list) + `publish.py --dry-run`, then merge `decouple/api-to-frozen-cli`
-   → main + publish. NOT before (COS must never ship calls to an absent CLI). DEPLOY_TRIGGER still 0.
-Cross-check AMAMA's `design/handoffs/api-to-cli-mapping.md` when its branch merges.
+**NEXT ACTION (resume here):** ⭐ DEPLOY LANDED 2026-06-18 + base bulk PUBLISHED **v2.18.2**.
+ai-maestro#36 deploy reached `~/.local/bin` (all 4 CLIs + module-refresh: agent-session.sh 353→495, `resolve` ✓).
+Merged `decouple/api-to-frozen-cli` → main (ff), `publish.py --patch` → v2.18.2 (CPV strict 0/0/0/0). LIVE: prompts,
+5 SKILL.md, 14 teams ref-docs, notify_agent, generate_team_report, team_registry. Reported #20 (issuecomment-4736868440)
++ #36 (issuecomment-4736835184).
+**⚠ The 4 follow-up verbs did NOT ship** (VERIFIED in deployed CLIs: `cmd_approve` still `--password`-required, no
+`AIMAESTRO_GOV_PASSWORD` env-read; agent `create` still `--dir`-required (agent-commands.sh:152), no `--register-only`;
+no status-set verb; no `teams --gh-project`). They stay DECOUPLE-BLOCKED pending a FOLLOW-UP deploy.
+
+**RESIDUAL PASS (do NOW — base verbs suffice, no follow-up needed) → publish v2.18.3:**
+1. `amcos_approval_manager.py`: repoint create/list/get → `aimaestro-governance.sh request`/`requests` (base, deployed).
+   `respond_to_request` (decision) + `sync_local_to_api` are a generic password-LESS status-PATCH (NOT the CLI's
+   password-required approve/reject) = no CLI verb → **graceful-degrade**: `update()` returns None + logs DECOUPLE-BLOCKED,
+   so the YAML-mirror + AMP steps still run (same as the old api-unreachable path). Remove the urllib `GovernanceAPI` class.
+2. 8 governance ref-docs (permission-management ×5 + transfer-management ×3) → `aimaestro-governance.sh
+   request/requests/approve/reject` (DOC examples — `approve <id> --password P` is fine, no COS-held password needed).
+3. 1 sessions ref-doc (`coordination-overview` `/api/sessions`) → `aimaestro-agent.sh session command|activity-update|user-input`.
+4. teams-parts of `success-criteria` (teams=6) + `op-sync-registry-with-labels` (teams=2) → `aimaestro-teams.sh list`.
+5. label-taxonomy issue-label refs (op-assign / op-terminate / label-commands + the agents-parts of the mixed) →
+   DECOUPLE-BLOCKED (no issue-label-assignment CLI verb; `--label` is only a persona-name flag). `TEAM_REGISTRY_SPECIFICATION.md` → reframe.
+Then full-tree verb-audit + `publish.py --patch` → v2.18.3. After that ONLY the 4 verb-blocked ops + label-issue refs remain →
+`grep -rn '/api/'` reaches zero when the follow-up verbs land. (`approval_manager` is the LAST script with live `/api/`.)
 
 **NEXT ACTION (pass 1 — doable now) [DONE]:**
 1. Repoint `amcos_heartbeat_check.py` list-active → `aimaestro-agent.sh list
