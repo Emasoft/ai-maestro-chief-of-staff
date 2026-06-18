@@ -326,7 +326,7 @@ For detailed procedures, see skills:
   - 2.1 Terminating Agent Checklist
   - 3.1 Hibernating Agent Checklist
   - 4.1 Waking Agent Checklist
-  - 5.1 Forming Team Checklist
+  - 5.1 Completing the Team Checklist
   - 6.1 Updating Team Registry Checklist
   <!-- /TOC -->
 - **Staffing decisions (when to spawn/reuse/hibernate/terminate)** → [amcos-staff-planning](../skills/amcos-staff-planning/SKILL.md)
@@ -434,7 +434,7 @@ Send a message to another agent using the `agent-messaging` skill:
   - 2.1 Terminating Agent Checklist
   - 3.1 Hibernating Agent Checklist
   - 4.1 Waking Agent Checklist
-  - 5.1 Forming Team Checklist
+  - 5.1 Completing the Team Checklist
   - 6.1 Updating Team Registry Checklist
   <!-- /TOC -->
 

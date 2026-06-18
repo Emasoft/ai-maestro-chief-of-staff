@@ -129,5 +129,5 @@ Copy this checklist and track your progress:
   - 2.1 Terminating Agent Checklist
   - 3.1 Hibernating Agent Checklist
   - 4.1 Waking Agent Checklist
-  - 5.1 Forming Team Checklist
+  - 5.1 Completing the Team Checklist
   - 6.1 Updating Team Registry Checklist
