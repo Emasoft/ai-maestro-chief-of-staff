@@ -63,7 +63,7 @@
   - [12.4 Duplicate request ID handling](#124-duplicate-request-id-handling)
 
 # Example: Approve a request (records the decision server-side)
-aimaestro-governance.sh approve AR-1706795200-abc123 --password "$GOV_PASSWORD"
+aimaestro-governance.sh approve AR-1706795200-abc123
 ```
 
 ---
@@ -447,7 +447,7 @@ Is type "critical_operation"?
 For types: `agent_spawn`, `agent_terminate`, `agent_replace`, `plugin_install`
 
 **Procedure**:
-1. Auto-reject the timed-out request via the CLI: `aimaestro-governance.sh reject AR-xxx --password "$GOV_PASSWORD" --reason "timeout — no manager response within 120s"`
+1. Auto-reject the timed-out request via the CLI: `aimaestro-governance.sh reject AR-xxx --reason "timeout — no manager response within 120s"` (auth via AID — R28; no password)
 2. Move request to history (handled by AI Maestro on the reject)
 3. Log timeout to audit trail
 4. Notify requester via AI Maestro:
@@ -537,7 +537,7 @@ For approved decision:
 ```bash
 # Use the frozen aimaestro-governance.sh CLI (never call the API directly)
 # Approve the request — the CLI records the decision (decided_by/decided_at) server-side
-aimaestro-governance.sh approve AR-xxx --password "$GOV_PASSWORD" --approver "manager"
+aimaestro-governance.sh approve AR-xxx --approver "manager"
 
 # Log to audit trail
 echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] [AR-xxx] [DECIDE] decision=approved by=manager reason=\"Team needs additional developer\"" >> approval-audit.log

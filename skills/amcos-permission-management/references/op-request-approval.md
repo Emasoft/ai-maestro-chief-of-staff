@@ -99,7 +99,6 @@ Use the `agent-messaging` skill to send the approval request message to AMAMA wi
 # Register the pending approval request — the CLI sets status=pending server-side
 aimaestro-governance.sh request \
   --type "$OPERATION_TYPE" \
-  --password "$GOV_PASSWORD" \
   --target-host "$TARGET_HOST" \
   --requested-by "amcos-chief-of-staff" \
   --role "chief-of-staff" \

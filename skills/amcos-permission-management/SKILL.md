@@ -32,7 +32,7 @@ Uses the **GovernanceRequest** state machine to authorize privileged operations.
 | Agent Terminate | any | sourceManager (+ target if cross-team) |
 | Hibernate/Wake | local | sourceManager |
 | Plugin Install | any | sourceManager (+ target if cross-team) |
-| Critical Op | any | dual-manager + governance password |
+| Critical Op | any | dual-manager (R28 portfolio mandate/approval token — no agent password, R32) |
 
 ## Instructions
 
@@ -40,7 +40,7 @@ Uses the **GovernanceRequest** state machine to authorize privileged operations.
 
 1. Identify operation type and scope (local vs cross-team)
 2. Determine required approvers
-3. `aimaestro-governance.sh request --type <T> [--password P] [--agent …] [--payload-json …]` with the request fields
+3. `aimaestro-governance.sh request --type <T> [--agent …] [--payload-json …]` with the request fields (auth via AID — R28; no password)
 4. Receive `requestId` and `status: pending`
 
 ### PROCEDURE 2: Track GovernanceRequest State
@@ -82,7 +82,6 @@ See governance-details-and-examples in Resources for payload format and approval
 | Manager offline | Escalation timeline (60s/90s/120s) |
 | API 429 | Back off per Retry-After header |
 | targetManager unknown | `aimaestro-teams.sh show <team-id>` (manager is in the team object) |
-| Password rejected | Re-request from sourceManager |
 | Conflicting approvals | Latest timestamp wins; log conflict |
 
 ## Examples
@@ -98,9 +97,8 @@ aimaestro-governance.sh request --type agent-spawn \
 
 ## Resources
 
-- [governance-details-and-examples](references/governance-details-and-examples.md) — Payload format, governance password, approval flow, rate limiting, audit, examples
+- [governance-details-and-examples](references/governance-details-and-examples.md) — Payload format, approval flow, rate limiting, audit, examples
   - GovernanceRequest Payload
-  - Governance Password
   - Simplified Local Approval
   - Rate Limiting
   - Audit Trail
