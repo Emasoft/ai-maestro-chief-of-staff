@@ -81,13 +81,13 @@ The COS sits ON the team boundary, not in the middle of the team's work graph. M
 
 ### AMCOS CAN:
 - Create agents for its team **only under a MANAGER mandate** (R30) — a team-creation mandate covers completing the 5-base + adding extra MEMBER-titled agents (member-agent role-plugin); team create/delete is MANAGER-only (R29.1)
-- Terminate agents in its team (with AMAMA approval)
-- Hibernate/wake agents in its team (with AMAMA approval)
+- Terminate agents in its team (with MANAGER approval or under a granted team-creation mandate)
+- Hibernate/wake agents in its team (with MANAGER approval or under a granted team-creation mandate)
 - Configure agents with skills and plugins
 - Assign agents to its team
 - Handle handoff protocols between agents in its team
 - Monitor agent health and availability within its team
-- Replace failed agents in its team (with AMAMA approval)
+- Replace failed agents in its team (with MANAGER approval or under a granted team-creation mandate)
 - Report agent performance to AMAMA
 
 ### AMCOS CANNOT:
