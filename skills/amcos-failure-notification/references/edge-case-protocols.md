@@ -248,10 +248,10 @@ When Architect does not respond:
 3. **Urgent Reminder**:
    ```
    URGENT: Design task [TASK_ID] - no response.
-   Will escalate to user in 5 minutes if no response.
+   Will escalate up the chain to the MAESTRO in 5 minutes if no response.
    ```
 
-4. **Escalate to User**:
+4. **Escalate up the chain to the MAESTRO**:
    ```
    USER ATTENTION REQUIRED
 
@@ -617,7 +617,7 @@ For complex requests, gather requirements progressively:
 
 3. **Request resend** from source agent
 
-4. **If still missing**, escalate to user
+4. **If still missing**, escalate up the chain to the MAESTRO
 
 ### 7.2 Corrupted Handoff Data
 

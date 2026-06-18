@@ -154,7 +154,7 @@ Send reminders at 10s and 20s. Proceed immediately after 30s regardless.
 |-------|-------|------------|
 | No response within timeout | Agent busy/offline/crashed | Proceed per timeout policy; log occurrence |
 | Agent responds "not ready" | Work in progress | Ask when ready; reschedule if possible |
-| Agent responds "busy" | Cannot handle request | Escalate to user or find alternative agent |
+| Agent responds "busy" | Cannot handle request | Escalate up the chain to the MAESTRO, or find an alternative agent |
 | Reminder delivery fails | Messaging issue | Use the `ai-maestro-agents-management` skill to check AI Maestro health; proceed with timeout |
 | Agent acknowledges late | Response after timeout | Log late ACK; operation may already be in progress |
 | Invalid response format | Agent misunderstood request | Clarify expectations; retry request |

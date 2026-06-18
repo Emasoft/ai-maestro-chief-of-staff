@@ -102,3 +102,16 @@ def test_role_briefing_comm_routing_not_user_directly() -> None:
     low = t.lower()
     assert "message user directly" not in low, "role-briefing still says 'message user directly'"
     assert "escalate to user" not in low, "role-briefing still has a bare 'escalate to user' comm-routing line"
+
+
+def test_no_escalation_to_generic_user_anywhere() -> None:
+    """Plugin-wide: human-in-the-loop escalation addresses the MAESTRO, never a generic 'user' (R36/R37; MANAGER Ruling 1)."""
+    pat = re.compile(r"escalate to (the )?user|notify user directly|contact user for", re.I)
+    offenders = []
+    for sub in ("agents", "commands", "skills", "docs", "shared"):
+        for f in (PLUGIN_ROOT / sub).rglob("*.md"):
+            if pat.search(f.read_text(encoding="utf-8")):
+                offenders.append(f.relative_to(PLUGIN_ROOT).as_posix())
+    if pat.search((PLUGIN_ROOT / "README.md").read_text(encoding="utf-8")):
+        offenders.append("README.md")
+    assert not offenders, f"escalation to a generic 'user' (not the MAESTRO) still present in: {offenders}"

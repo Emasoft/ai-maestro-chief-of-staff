@@ -79,7 +79,7 @@ Copy this checklist and track your progress:
 
 | Issue | Resolution |
 |-------|------------|
-| Manager does not respond | Wait 15 min, reminder, escalate to user |
+| Manager does not respond | Wait 15 min, reminder, escalate up the chain to the MAESTRO |
 | New agent fails to register | Verify AI Maestro health and hooks |
 | Handoff rejected | Queue and retry in 5 minutes |
 | No artifacts recoverable | Document loss, notify AMOA to recreate |

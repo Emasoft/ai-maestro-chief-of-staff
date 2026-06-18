@@ -353,7 +353,7 @@ For agent `helper-agent-backup` that stopped responding:
 **Resolution:**
 1. Wait reasonable time (10-15 minutes)
 2. Check if agent is processing visible work
-3. Escalate to user if session appears frozen
+3. Escalate up the chain to the MAESTRO if session appears frozen
 4. User may need to restart the Claude Code session
 
 ### Issue: Too many status queries causing overhead

@@ -223,4 +223,4 @@ Before finalizing assessment:
 1. Check if capability can be decomposed
 2. Look for partial matches
 3. Consider human intervention
-4. Escalate to user for decision
+4. Escalate up the chain to the MAESTRO for decision

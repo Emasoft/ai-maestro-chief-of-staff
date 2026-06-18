@@ -191,7 +191,7 @@ Gap Mitigation:
 |-------|-------|------------|
 | Cannot determine required capabilities | Requirements unclear | Request clarification from user; document assumptions |
 | Multiple agents match same capability | Unclear which to assign | Check availability, prefer specialist over generalist |
-| Critical capability has no matching agent | Blocking gap identified | Decompose capability; check partial matches; escalate to user |
+| Critical capability has no matching agent | Blocking gap identified | Decompose capability; check partial matches; escalate up the chain to the MAESTRO |
 | Agent registry unavailable | System issue | Use cached registry; report issue to orchestrator |
 
 ## Related Operations

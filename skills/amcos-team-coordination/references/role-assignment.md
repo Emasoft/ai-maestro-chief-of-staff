@@ -207,7 +207,7 @@ If no acknowledgment is received:
 2. Send a reminder with higher priority
 3. If still no response after 10 minutes, check agent status
 4. If agent is inactive, reassign role to another agent
-5. If agent is active but unresponsive, escalate to user
+5. If agent is active but unresponsive, escalate up the chain to the MAESTRO
 
 ---
 
@@ -299,7 +299,7 @@ Use the `agent-messaging` skill to send:
 1. Use the `ai-maestro-agents-management` skill to check agent status
 2. If inactive, assign role to backup agent
 3. If active, send reminder with URGENT priority
-4. If still no response, escalate to user
+4. If still no response, escalate up the chain to the MAESTRO
 
 ### Issue: Multiple agents claim same role
 

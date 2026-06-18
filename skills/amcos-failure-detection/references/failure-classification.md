@@ -350,6 +350,6 @@ echo '{
 
 **Solution**:
 1. Wait 15 minutes for manager response
-2. If no response, escalate to user directly (if configured)
+2. If no response, escalate up the chain to the MAESTRO (if configured)
 3. If user unavailable, log the pending replacement and continue monitoring
 4. Do NOT proceed with replacement without approval - the manager may have context that affects the decision

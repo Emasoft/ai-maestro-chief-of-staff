@@ -458,7 +458,7 @@ Agent confirmed current state understanding.
 1. Understand the specific concern
 2. If valid, assign different role
 3. If misunderstanding, clarify and retry
-4. If persistent refusal, escalate to user
+4. If persistent refusal, escalate up the chain to the MAESTRO
 
 ---
 

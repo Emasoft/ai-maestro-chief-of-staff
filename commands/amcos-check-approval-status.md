@@ -175,7 +175,7 @@ Manager needs more information. Check `notes` for what is needed and submit a fo
 Request timed out without response. You can:
 - Resubmit with `/amcos-request-approval`
 - Check if AMAMA is online
-- Contact user for manual approval
+- Contact the MAESTRO for manual approval
 
 ## Related Commands
 

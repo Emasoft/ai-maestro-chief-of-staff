@@ -178,7 +178,7 @@ If onboarding fails at any step:
 ### Step 4: Retry Decision
 
 - If retriable error: attempt up to 3 times
-- If persistent failure: escalate to user
+- If persistent failure: escalate up the chain to the MAESTRO
 - If resource exhaustion: queue for later
 
 ## Onboarding Timeout Handling

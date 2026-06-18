@@ -156,7 +156,7 @@ Use appropriate severity in notifications:
 | Error | Cause | Resolution |
 |-------|-------|------------|
 | Failure notification not delivered | Affected agent is offline | Log locally; send when agent comes online; notify user |
-| Recovery action fails | Secondary failure | Escalate to user; do not retry indefinitely |
+| Recovery action fails | Secondary failure | Escalate up the chain to the MAESTRO; do not retry indefinitely |
 | Multiple agents affected | Cascading failure | Send individual notifications; coordinate recovery |
 | Agent confused by error | Unclear error message | Provide specific, actionable guidance in follow-up |
 | Duplicate failure notifications | Retry logic sending multiple | Track sent notifications; deduplicate by operation ID |

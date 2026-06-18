@@ -73,7 +73,7 @@ Attempt recovery strategies 1-4 in order
    - **Subject**: `[REMINDER] Agent replacement still awaiting approval`
    - **Priority**: `urgent`
    - **Content**: type `reminder`, message: "Original request sent 15 minutes ago. Agent [agent-name] replacement requires approval." Include `original_subject`: "[APPROVAL REQUIRED] Agent replacement request".
-3. If user contact is configured, escalate to user
+3. If MAESTRO contact is configured, escalate up the chain to the MAESTRO
 4. Do NOT proceed with replacement without approval
 
 **CRITICAL**: Never proceed with replacement without manager approval.

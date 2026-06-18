@@ -94,7 +94,7 @@ Therefore:
 
 2. **Wait for approval** (max 15 minutes)
 
-3. **If no response**: Send reminder, then escalate to user
+3. **If no response**: Send reminder, then escalate up the chain to the MAESTRO
 
 ### Phase 3: Create Replacement Agent
 

@@ -199,7 +199,7 @@ Examples:
 
 **If transmission fails:**
 - Retry up to 3 times with 5-second intervals
-- If all retries fail, log error and notify user directly
+- If all retries fail, log error and notify the MAESTRO (up the chain)
 - Do NOT proceed with operation without approval
 
 ### 1.3.5 Response Awaiting
@@ -323,7 +323,7 @@ Use the `agent-messaging` skill to send:
 1. Use the `ai-maestro-agents-management` skill to check system health
 2. If AI Maestro is not running, start it
 3. Retry the request
-4. If still failing, notify user directly about the infrastructure issue
+4. If still failing, notify the MAESTRO (up the chain) about the infrastructure issue
 
 ### Issue: AMAMA returns "invalid request format" error
 
