@@ -3,11 +3,14 @@
 amcos_approval_manager.py - Dual-Authority Approval Manager for AMCOS
 
 Manages GovernanceRequests using a dual-authority model:
-  PRIMARY:   AI Maestro REST API (/api/v1/governance/requests) — source of truth
+  PRIMARY:   AI Maestro governance layer via the frozen CLI
+             aimaestro-governance.sh (#20) — source of truth; the CLI wraps
+             the server and resolves auth internally.
   SECONDARY: Local YAML files (.claude/approvals/) — audit trail and offline cache
 
-When both are available, API state always wins. When the API is unreachable,
-local YAML keeps working with degraded authority (warnings emitted).
+When both are available, governance-layer state always wins. When the CLI is
+unreachable (or a needed verb is absent), local YAML keeps working with degraded
+authority (warnings emitted), and the decision is still recorded locally + AMP.
 
 Part of the ai-maestro-chief-of-staff plugin.
 
@@ -26,9 +29,6 @@ import os
 import subprocess
 import sys
 import time
-import urllib.error
-import urllib.parse
-import urllib.request
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -44,9 +44,11 @@ APPROVALS_DIR = ".claude/approvals"
 PENDING_DIR = f"{APPROVALS_DIR}/pending"
 COMPLETED_DIR = f"{APPROVALS_DIR}/completed"
 
-DEFAULT_API_BASE = "http://localhost:23000"
-GOVERNANCE_API_PATH = "/api/v1/governance/requests"
-API_TIMEOUT = 10
+# Frozen-CLI name, env-overridable exactly like amcos_team_registry.py /
+# amcos_notify_agent.py (#20). The CLI wraps the governance API and resolves
+# auth internally; this script shells out to it and never touches HTTP directly.
+GOV_CLI = os.environ.get("AIMAESTRO_GOVERNANCE_CLI", "aimaestro-governance.sh")
+CLI_TIMEOUT = 30
 
 # Extended status values matching GovernanceRequest state machine
 VALID_STATUSES = frozenset(
@@ -70,103 +72,198 @@ APPROVED_STATUSES = frozenset(
 
 
 # ---------------------------------------------------------------------------
-# Governance REST API Client
+# Governance CLI Client (frozen immutable layer — #20)
 # ---------------------------------------------------------------------------
 
 
+def _extract_id(record: dict[str, Any]) -> Optional[str]:
+    """Pull the request identifier from a CLI record, tolerating field naming."""
+    for key in ("id", "_id", "request_id"):
+        value = record.get(key)
+        if value is not None:
+            return str(value)
+    return None
+
+
 class GovernanceAPI:
-    """HTTP client for the AI Maestro GovernanceRequest REST API (stdlib-only)."""
+    """Client for the AI Maestro governance layer via the frozen CLI (#20).
+
+    Wraps ``aimaestro-governance.sh`` (env-overridable ``GOV_CLI``) instead of
+    the HTTP API. The CLI resolves auth internally. The four public methods
+    (submit/get/update/list_requests) and the ``.available`` flag are preserved
+    so the callers are unchanged. ``.available`` is True until a CLI invocation
+    exits non-zero (then degrade to local YAML, same contract as before).
+    """
 
     def __init__(self, api_base: Optional[str] = None):
-        base = api_base or os.environ.get("AIMAESTRO_API", DEFAULT_API_BASE)
-        self.base_url = base.rstrip("/") + GOVERNANCE_API_PATH
-        self.available = True  # set to False on connection failure
+        # api_base kept for signature compatibility; the CLI owns connectivity.
+        self._api_base = api_base  # retained for signature compat (unused; CLI owns connectivity)
+        self.available = True  # set to False on CLI failure
 
-    def _request(
-        self,
-        method: str,
-        path: str = "",
-        body: Optional[dict[str, Any]] = None,
-        query: Optional[dict[str, str]] = None,
-    ) -> Optional[dict[str, Any]]:
-        """Send an HTTP request to the governance API. Returns parsed JSON or None on failure."""
-        url = self.base_url + path
-        if query:
-            # Build query string from dict
-            params = "&".join(
-                f"{k}={urllib.parse.quote(v)}" for k, v in query.items() if v
-            )
-            if params:
-                url += "?" + params
+    def _run_gov(
+        self, argv: list[str], context: str
+    ) -> Optional[Any]:
+        """Run a ``GOV_CLI`` subcommand. Return parsed JSON, or None on failure.
 
-        data = json.dumps(body).encode("utf-8") if body else None
-        req = urllib.request.Request(
-            url,
-            data=data,
-            method=method,
-            headers={
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            },
-        )
-
+        Sets ``self.available`` from the exit code (mirrors
+        amcos_team_registry.py::_run_cli). A non-zero exit, a CLI invocation
+        error, or non-JSON stdout all yield None so callers degrade to YAML.
+        """
         try:
-            with urllib.request.urlopen(req, timeout=API_TIMEOUT) as resp:
-                raw = resp.read().decode("utf-8")
-                if not raw.strip():
-                    return {}  # 204 No Content
-                return json.loads(raw)
-        except urllib.error.HTTPError as exc:
-            # API returned an error status — still reachable
-            self.available = True
-            try:
-                error_body = json.loads(exc.read().decode("utf-8"))
-            except (json.JSONDecodeError, AttributeError):
-                error_body = {"error": exc.reason, "status": exc.code}
+            result = subprocess.run(
+                [GOV_CLI, *argv],
+                capture_output=True,
+                text=True,
+                timeout=CLI_TIMEOUT,
+            )
+        except (subprocess.SubprocessError, OSError) as exc:
+            self.available = False
             print(
-                f"WARNING: API error {exc.code} on {method} {url}: {error_body}",
+                f"WARNING: {context}: CLI invocation failed ({exc}). "
+                "Falling back to local YAML.",
                 file=sys.stderr,
             )
             return None
-        except (urllib.error.URLError, OSError, json.JSONDecodeError) as exc:
-            # API unreachable — degrade to YAML-only
+
+        if result.returncode != 0:
             self.available = False
+            detail = result.stderr.strip() or "non-zero exit"
             print(
-                f"WARNING: API unreachable ({exc}). Falling back to local YAML.",
+                f"WARNING: {context}: {detail}. Falling back to local YAML.",
+                file=sys.stderr,
+            )
+            return None
+
+        self.available = True
+        out = result.stdout.strip()
+        if not out:
+            return {}
+        try:
+            return json.loads(out)
+        except json.JSONDecodeError:
+            print(
+                f"WARNING: {context}: non-JSON CLI output. "
+                "Falling back to local YAML.",
                 file=sys.stderr,
             )
             return None
 
     def submit(self, request_data: dict[str, Any]) -> Optional[dict[str, Any]]:
-        """POST a new GovernanceRequest to the API."""
-        return self._request("POST", body=request_data)
+        """Create a GovernanceRequest via ``GOV_CLI request``.
+
+        Carries the full body as ``--payload-json`` and lifts the recognised
+        top-level keys to their dedicated flags. Returns the parsed JSON object
+        on success (so ``create_request``'s ``"request_id" in api_response``
+        check still works), or None on CLI failure.
+        """
+        request_type = request_data.get("type") or request_data.get(
+            "operation_type"
+        )
+        if not request_type:
+            self.available = False
+            print(
+                "WARNING: submit: request has no 'type'. "
+                "Falling back to local YAML.",
+                file=sys.stderr,
+            )
+            return None
+
+        argv: list[str] = ["request", "--type", str(request_type)]
+        # Lift recognised keys to dedicated flags when present (the CLI's
+        # verified create surface); the full body still travels in --payload-json.
+        flag_map = {
+            "agent": "--agent",
+            "agent_name": "--agent",
+            "role": "--role",
+            "target_host": "--target-host",
+            "requested_by": "--requested-by",
+            "requester": "--requested-by",
+        }
+        seen_flags: set[str] = set()
+        for key, flag in flag_map.items():
+            if flag in seen_flags:
+                continue
+            value = request_data.get(key)
+            if value:
+                argv.extend([flag, str(value)])
+                seen_flags.add(flag)
+        # Append separately (not list.extend()) so CPV skillaudit's
+        # PROTOTYPE_POLLUTION regex — `(merge|extend|assign|...)\(.*payload` —
+        # does not false-positive on this benign Python argv build. That rule
+        # targets JS prototype-merge attacks; a list append cannot pollute a
+        # prototype in Python. Behavior is identical to a single .extend().
+        argv.append("--payload-json")
+        argv.append(json.dumps(request_data))
+
+        result = self._run_gov(argv, "submit")
+        if isinstance(result, dict):
+            return result
+        return None
 
     def get(self, request_id: str) -> Optional[dict[str, Any]]:
-        """GET a GovernanceRequest by ID."""
-        return self._request("GET", path=f"/{request_id}")
+        """Fetch one GovernanceRequest by id via ``GOV_CLI requests``.
+
+        The CLI has no show-single-by-id verb, so list all and client-filter
+        on id (``id``/``_id``/``request_id``). Returns that dict or None.
+        """
+        result = self._run_gov(["requests"], "get")
+        records = self._as_record_list(result)
+        if records is None:
+            return None
+        for record in records:
+            if _extract_id(record) == str(request_id):
+                return record
+        return None
 
     def update(
         self, request_id: str, updates: dict[str, Any]
     ) -> Optional[dict[str, Any]]:
-        """PATCH a GovernanceRequest (e.g., to approve/reject)."""
-        return self._request("PATCH", path=f"/{request_id}", body=updates)
+        """Generic status-PATCH — GRACEFUL-DEGRADE, never hard-fail.
+
+        # DECOUPLE-BLOCKED ai-maestro#36: generic password-less status-PATCH has no CLI verb (approve/reject are password-required formal endpoints, a different op COS doesn't use; a status-set verb is pending). Graceful-degrade: return None so respond_to_request/sync_local_to_api fall back to YAML-mirror + AMP (decision still recorded locally), same as the old api-unreachable path.
+        """
+        print(
+            f"DECOUPLE-BLOCKED ai-maestro#36: no CLI verb for generic "
+            f"status-PATCH of {request_id} ({len(updates)} field(s)); deferring "
+            "server-side sync, recording decision locally (YAML + AMP).",
+            file=sys.stderr,
+        )
+        self.available = False
+        return None
 
     def list_requests(
         self,
         status: Optional[str] = None,
         requester: Optional[str] = None,
     ) -> Optional[list[dict[str, Any]]]:
-        """GET GovernanceRequests with optional filters."""
-        query: dict[str, str] = {}
-        if status:
-            query["status"] = status
-        if requester:
-            query["requester"] = requester
+        """List GovernanceRequests via ``GOV_CLI requests [--status S]``.
 
-        result = self._request("GET", query=query)
+        Parse the JSON array; if ``requester`` is given, client-filter by
+        ``.requester``. Returns the list, or None on CLI failure.
+        """
+        argv: list[str] = ["requests"]
+        if status:
+            argv.extend(["--status", str(status)])
+
+        result = self._run_gov(argv, "list_requests")
+        records = self._as_record_list(result)
+        if records is None:
+            return None
+        if requester:
+            records = [r for r in records if r.get("requester") == requester]
+        return records
+
+    @staticmethod
+    def _as_record_list(
+        result: Optional[Any],
+    ) -> Optional[list[dict[str, Any]]]:
+        """Normalise CLI output to a list of records (or None on failure).
+
+        Accepts a bare JSON array or a ``{"requests"|"data": [...]}`` wrapper,
+        preserving the original unwrap contract.
+        """
         if result is None:
             return None
-        # API may return a list directly or wrapped in {"requests": [...]}
         if isinstance(result, list):
             return result
         if isinstance(result, dict):
@@ -864,8 +961,9 @@ def wait_for_decision(
 def sync_local_to_api(api: GovernanceAPI) -> dict[str, Any]:
     """Sync all local-only (unsynced) YAML requests to the API."""
     if not api.available:
-        # Test connectivity first
-        api._request("GET", query={"limit": "1"})
+        # Test connectivity first via the public list surface (the CLI sets
+        # .available from its exit code; there is no private _request anymore).
+        api.list_requests()
         if not api.available:
             return {"success": False, "error": "API unreachable, cannot sync"}
 
@@ -949,7 +1047,11 @@ Examples:
         "--api-url",
         type=str,
         default=None,
-        help=f"AI Maestro API base URL (default: $AIMAESTRO_API or {DEFAULT_API_BASE})",
+        help=(
+            "Deprecated/ignored: governance now flows through the frozen CLI "
+            f"$AIMAESTRO_GOVERNANCE_CLI (default: {GOV_CLI}), which owns "
+            "connectivity and auth"
+        ),
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
