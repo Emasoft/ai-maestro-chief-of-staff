@@ -443,7 +443,7 @@ Please confirm you understand the role change.
 1. Immediately clarify the scope violation
 2. Re-explain out-of-scope boundaries
 3. If repeated, add explicit "do not do" examples
-4. If persistent, escalate to user
+4. If persistent, escalate to the chief-of-staff (or, via the COS, the MANAGER) — not directly to a user (R38/R39)
 
 ### Issue: Agent claims role is too narrow
 
