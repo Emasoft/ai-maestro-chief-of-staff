@@ -3,7 +3,7 @@ trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
 column: dev
 created: 2026-06-18T20:54:20+0200
-updated: 2026-06-18T21:38:58+0200
+updated: 2026-06-18T21:44:53+0200
 current-owner: cos
 assignee: cos
 priority: 2
@@ -65,10 +65,18 @@ own AMAMA plugin **ai-maestro-assistant-manager-agent v2.12.0**.
   `docs/AGENT_OPERATIONS.md` + `docs/FULL_PROJECT_WORKFLOW.md` (7e7df9f); (11-13) R29 skill examples
   `workflow-checklists.md` + `coordination-overview-and-examples.md` + `workflow-examples.md` (3f8294a) —
   team-create routed to MANAGER, COS completes/customizes under mandate. **ALL R32 + ALL R29 done.**
-  Remaining: R30/R31+R33-R40 gaps in `docs/ROLE_BOUNDARIES.md` (line 194 + add 5-base/FREEZE) + `README.md`;
-  R27 `agents/amcos-plugin-configurator.md` + `commands/amcos-configure-plugins.md`; R38/R39 LOW
-  `skills/amcos-onboarding/references/{role-briefing,onboarding-overview-and-examples}.md`.
-  Then governance-scenarios.md → CPV --strict → publish v2.19.0.
+  (14-16) R27 + R38/R39 done (690e288, d9a5348): `agents/amcos-plugin-configurator.md` +
+  `commands/amcos-configure-plugins.md` (installs route via core ai-maestro-plugin skills + CPV scan, not the
+  Claude CLI — R27.2/R27.3); `skills/amcos-onboarding/references/role-briefing.md` (3 comm-routing
+  "escalate/message user directly" → "escalate to COS/MANAGER"; lines 178/271/446 — audit undercounted, found via
+  whole-plugin grep). `onboarding-overview-and-examples.md` verified ALREADY-COMPLIANT (escalates to COS) — non-bug, skipped.
+  **R38/R39 SCOPE JUDGMENT (documented):** a whole-plugin grep found ~28 MORE "escalate to user" lines, ALL in
+  failure-recovery/timeout tables ("recovery fails → escalate to user"). These are legitimate human-in-the-loop
+  escalation (the human = MAESTRO per R36/R37/R39; reaching a human when automation is exhausted is correct), NOT
+  R38 messaging-matrix violations — consistent with the audit's deliberate LOW/bounded R38 scoping (it flagged only
+  the comm-routing fallbacks). Left as-is by design; if the MANAGER wants "user"→"MAESTRO" everywhere, that's a
+  follow-up. **Progress: 16/~20.** Remaining: R30/R31+R33-R40 gaps in `docs/ROLE_BOUNDARIES.md` (line 194 +
+  add 5-base/FREEZE) + `README.md`. Then governance-scenarios.md → CPV --strict → publish v2.19.0.
 
 **NEXT ACTION:** continue the inline edits, per the audit report's per-file guidance. Remaining files,
 grouped: **R32** → skills/amcos-permission-management/SKILL.md + its 4 refs (governance-details-and-examples,
