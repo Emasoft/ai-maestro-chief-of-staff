@@ -27,13 +27,13 @@ CLI commands below, never by calling the HTTP API.
 
 | Command | Description |
 |---------|-------------|
-| `aimaestro-teams.sh create --name N [flags]` | Create a new team (governance action) |
+| `aimaestro-teams.sh create --name N [flags]` | Create a new team — **MANAGER-only** (R29.1); not a COS action |
 | `aimaestro-teams.sh list` | List all teams |
 | `aimaestro-teams.sh show <teamId>` | Show one team |
 | `aimaestro-teams.sh update <teamId> [flags]` | Update a team |
-| `aimaestro-teams.sh delete <teamId> [--password P] [--delete-agents]` | Delete a team (governance action) |
-| `aimaestro-teams.sh add-agent <teamId> <agentUUID> [--password P]` | Add one member |
-| `aimaestro-teams.sh remove-agent <teamId> <agentUUID> [--password P]` | Remove one member |
+| `aimaestro-teams.sh delete <teamId> [--delete-agents]` | Delete a team — **MANAGER-only** (R29.1); not a COS action |
+| `aimaestro-teams.sh add-agent <teamId> <agentUUID>` | Add one member (COS, under a MANAGER mandate; auth via AID — R28, no password) |
+| `aimaestro-teams.sh remove-agent <teamId> <agentUUID>` | Remove one member (COS, under a MANAGER mandate; auth via AID — R28, no password) |
 
 ### Agents
 
@@ -57,13 +57,15 @@ default: http://localhost:23000
 
 ## CLI Usage Examples
 
-### Create a Team
+### Create a Team (MANAGER-only — R29.1)
+
+Team creation is a **MANAGER** action — the MANAGER creates the team and auto-spawns the COS + the 5 base members (R29.1). The COS does NOT run this; it is shown only to document the CLI surface. The COS completes & customizes the team it is created into, under the MANAGER's mandate (R30).
 
 ```bash
+# Run by the MANAGER (not the COS); auth via AID — R28, no password
 aimaestro-teams.sh create \
   --name "svgbbox-library-team" \
-  --gh-owner "Emasoft" --gh-repo "svgbbox" \
-  --password "$GOV_PASSWORD"
+  --gh-owner "Emasoft" --gh-repo "svgbbox"
 ```
 
 ### Register an Agent to a Team
@@ -76,7 +78,7 @@ has **no** frozen-CLI verb yet:
 To attach an **already-registered** agent (by UUID) to a team:
 
 ```bash
-aimaestro-teams.sh add-agent svgbbox-library-team <agent-uuid> --password "$GOV_PASSWORD"
+aimaestro-teams.sh add-agent svgbbox-library-team <agent-uuid>   # COS, under a MANAGER mandate; auth via AID — R28, no password
 ```
 
 ### List Team Agents
@@ -283,7 +285,7 @@ Fix login validation bug
 
 ## AMCOS Responsibilities
 
-1. **Create teams** via `aimaestro-teams.sh create --name N …`
+1. **Complete & customize the team** the MANAGER created — under a MANAGER mandate (R30), add/configure the 5 base members + extra MEMBERs via `aimaestro-teams.sh add-agent`. Team `create`/`delete` is MANAGER-only (R29.1), not a COS responsibility.
 2. **Register agents** — attach an existing agent UUID with `aimaestro-teams.sh add-agent <teamId> <agentUUID>`; registering a brand-new agent with metadata has no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#36: agent register-into-team has no frozen-CLI verb. Pending a follow-up verb. -->)
 3. **Update agent status** when agents hibernate/wake/terminate — no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#36: agent status-set has no frozen-CLI verb. Pending a follow-up verb. -->)
 4. **Notify all team agents** of registry changes via AMP:
