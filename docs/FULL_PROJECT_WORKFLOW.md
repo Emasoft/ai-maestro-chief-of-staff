@@ -109,7 +109,7 @@ Each task is a TRDD whose `column:` field advances through the pipeline below. T
 
 ### GitHub-Projects board (the MANAGER-ratified 8-column projection)
 
-The team board is a **projection** of the pipeline above onto the MANAGER-ratified **8-column model** (Tier-2, COS#11) — a faithful simplification of the TRDD v2 lifecycle that keeps the two governance review gates (`ai-review`, `human-review`) DISTINCT and `blocked` first-class. COS sets this column schema once at team creation (via the `kanban-config` verb — ai-maestro#36, not yet deployed); the canonical column set + mapping is the single source of truth in the `amcos-prrd-trdd-kanban` skill.
+The team board is a **projection** of the pipeline above onto the MANAGER-ratified **8-column model** (Tier-2, COS#11) — a faithful simplification of the TRDD v2 lifecycle that keeps the two governance review gates (`ai-review`, `human-review`) DISTINCT and `blocked` first-class. COS sets this column schema once at team creation (via the deployed `kanban-config` verb; the per-team column **backend** is gated on ai-maestro#2); the canonical column set + mapping is the single source of truth in the `amcos-prrd-trdd-kanban` skill.
 
 | Board lane | TRDD `column:` values it projects |
 |------------|-----------------------------------|

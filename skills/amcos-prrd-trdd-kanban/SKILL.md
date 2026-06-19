@@ -119,10 +119,12 @@ Keep ONE `merge-release` lane — the TRDD frontmatter (`release-via`,
 publish-vs-deploy) carries that detail; the lane is not split.
 
 **Status:** COS applies this schema via the `kanban-config` CLI verb at
-team creation. That verb is not yet deployed (ai-maestro#36), so the
-schema above is the design COS configures the moment the verb ships — the
-model is locked in now. The velocity/distribution monitoring half of
-COS#11 (parts 2-4) rides the deployed `amp-kanban-*` CLIs.
+team creation. The verb is **deployed** (`aimaestro-teams.sh kanban-config
+<teamId> --set-file <8col.json>`, wrapping the team column-config
+endpoint); the gate is the **backend — ai-maestro#2** (per-team column
+configuration, still OPEN). So part-1 is CLI-ready now and lands the moment
+#2 is live — the model is locked in. The velocity/distribution monitoring
+half of COS#11 (parts 2-4) rides the deployed `amp-kanban-*` CLIs.
 
 ## Resources
 

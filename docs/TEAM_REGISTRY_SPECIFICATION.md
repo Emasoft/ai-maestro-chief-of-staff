@@ -315,8 +315,8 @@ amp-send.sh "svgbbox-orchestrator" "[REGISTRY UPDATE] Team contacts updated" "Ag
 
 > The team board is the MANAGER-ratified **8-column model** (Tier-2, COS#11) — a
 > simplified projection of the TRDD v2 `column:` lifecycle. COS sets this column
-> schema once at team creation (via the `kanban-config` verb — ai-maestro#36, not
-> yet deployed).
+> schema once at team creation (via the deployed `kanban-config` verb; the
+> per-team column backend is gated on ai-maestro#2).
 
 All projects use the canonical **8-column board**:
 
