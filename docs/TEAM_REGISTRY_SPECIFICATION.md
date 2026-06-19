@@ -313,19 +313,20 @@ amp-send.sh "svgbbox-orchestrator" "[REGISTRY UPDATE] Team contacts updated" "Ag
 
 ## Kanban System Reference
 
-> These columns align with AI Maestro's task status model (`types/task.ts`).
+> The team board is the MANAGER-ratified **8-column model** (Tier-2, COS#11) — a
+> simplified projection of the TRDD v2 `column:` lifecycle. COS sets this column
+> schema once at team creation (via the `kanban-config` verb — ai-maestro#36, not
+> yet deployed).
 
-All projects use the canonical **5-status kanban system** on GitHub Projects:
+All projects use the canonical **8-column board**:
 
-| Column | Code | Label |
-|--------|------|-------|
-| Backlog | `backlog` | `status:backlog` |
-| Pending | `pending` | `status:pending` |
-| In Progress | `in_progress` | `status:in_progress` |
-| Review | `review` | `status:review` |
-| Completed | `completed` | `status:completed` |
+`backlog · todo · in-progress · ai-review · human-review · merge-release · done · blocked`
 
-Use the `status:blocked` label to flag blocked tasks (not a separate kanban column).
+The two governance review gates (`ai-review`, `human-review`) stay DISTINCT and
+`blocked` is a first-class lane. The canonical column set + the full TRDD
+`column:`→lane mapping live in the `amcos-prrd-trdd-kanban` skill (the single
+source of truth); the operational `status:*` GitHub-issue labels are a separate,
+coarser layer (not 1:1 with the 8 lanes).
 
 For full kanban workflow details, see **FULL_PROJECT_WORKFLOW.md**.
 

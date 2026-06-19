@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-- [Kanban Columns (Canonical 5-Status System)](#kanban-columns-canonical-5-status-system)
+- [Kanban Columns (MANAGER-ratified 8-column model)](#kanban-columns-manager-ratified-8-column-model)
 - [Task Routing Rules](#task-routing-rules)
 - [Status Labels AMCOS Updates](#status-labels-amcos-updates)
 - [Labels AMCOS Monitors](#labels-amcos-monitors)
@@ -12,32 +12,36 @@
 
 ---
 
-## Kanban Columns (Canonical 5-Status System)
+## Kanban Columns (MANAGER-ratified 8-column model)
 
-> These columns align with AI Maestro's task status model (`types/task.ts`).
-> This 5-column GitHub-Projects board is the **visual projection** of the
-> authoritative TRDD `column:` pipeline (see `docs/FULL_PROJECT_WORKFLOW.md`),
-> not a separate workflow. The TRDD `column:` lifecycle is the source of truth;
-> these 5 board columns are how it surfaces on GitHub Projects.
+> The team board is the **visual projection** of the authoritative TRDD
+> `column:` pipeline — not a separate workflow. The TRDD `column:` lifecycle is
+> the source of truth; the board lanes are how it surfaces. The MANAGER ratified
+> the **8-column model** (Tier-2, COS#11) — a simplified projection of the TRDD
+> v2 lifecycle that, unlike the old collapsed 5-status set, keeps the two
+> governance review gates (`ai-review`, `human-review`) DISTINCT and `blocked` a
+> first-class lane.
 
-The full workflow uses these 5 status columns:
+**The 8 lanes** (the canonical column set + the full TRDD `column:`→lane mapping
+live in the `amcos-prrd-trdd-kanban` skill — the single source of truth; not
+duplicated here):
 
-| # | Column Code | Display Name | Label | Description |
-|---|-------------|-------------|-------|-------------|
-| 1 | `backlog` | Backlog | `status:backlog` | Entry point for new tasks |
-| 2 | `pending` | Pending | `status:pending` | Ready to start |
-| 3 | `in_progress` | In Progress | `status:in_progress` | Active work |
-| 4 | `review` | Review | `status:review` | Integrator and/or user reviews the task |
-| 5 | `completed` | Completed | `status:completed` | Completed and merged |
+`backlog · todo · in-progress · ai-review · human-review · merge-release · done · blocked`
 
-Use the `status:blocked` label to flag blocked tasks at any stage (not a separate kanban column).
+COS sets this column schema once, at team creation, via the `kanban-config` CLI
+verb (not yet deployed — ai-maestro#36); COS does NOT move cards between lanes.
+
+> **Note — the `status:*` issue-labels below are a separate, coarser layer.** The
+> operational `status:*` GitHub-issue labels AMCOS sets/monitors (next sections)
+> have NOT been expanded one-per-lane; that label-taxonomy change touches live
+> issue labels across teams and is a separate MANAGER decision, not part of the
+> board-model ratification.
 
 ## Task Routing Rules
 
-- **Small tasks**: In Progress -> Review -> Completed
-- **Big tasks**: In Progress -> Review (includes human review if needed) -> Completed
-- **Human Review** within the Review column is requested via AMAMA (Assistant Manager asks user to test/review)
-- Not all tasks go through human review -- only significant changes requiring human judgment
+- **Small tasks**: in-progress -> ai-review -> merge-release -> done
+- **Big tasks**: in-progress -> ai-review -> human-review -> merge-release -> done
+- **human-review is a DISTINCT lane** (never folded into ai-review): the MANAGER mediates the human gate (R6.6). Not all tasks pass through it — only significant changes needing human judgment.
 
 ## Status Labels AMCOS Updates
 

@@ -529,7 +529,7 @@ What the COS needs to know operationally:
 
 - A task is a TRDD; its `column:` advances `backburner → todo → design → dispatch → dev → testing → ai_review → human_review → complete`, then a **project-type-specific** release (`publish`→`published` for tools/libraries/apps, `deploy`→`live`→`live_auditing` for services). `blocked`, `failed`, and `superseded` are the exception states.
 - **The INTEGRATOR (AMIA) owns the column → `complete` flip** (validates the merged PR satisfies the TRDD). The ORCHESTRATOR drives the working transitions and the three in-team dialog loops but does NOT flip to `complete`; the COS owns no column at all.
-- The COS only touches **labels** it is responsible for (see `amcos-label-taxonomy`): it sets `status:blocked` when pausing/blocking work and `status:pending` when a blocker clears. The GitHub-Projects board is a 5-column **projection** of the pipeline (`status:backlog / pending / in_progress / review / completed`), with `status:blocked` as a label, not a column.
+- The COS only touches **labels** it is responsible for (see `amcos-label-taxonomy`): it sets `status:blocked` when pausing/blocking work and `status:pending` when a blocker clears. The board itself is the MANAGER-ratified **8-column** projection of the pipeline (`backlog · todo · in-progress · ai-review · human-review · merge-release · done · blocked` — canonical set + mapping in the `amcos-prrd-trdd-kanban` skill); the `status:*` labels the COS sets are a separate, coarser layer (not 1:1 with the 8 lanes).
 
 ---
 

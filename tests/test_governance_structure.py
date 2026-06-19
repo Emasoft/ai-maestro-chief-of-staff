@@ -65,7 +65,7 @@ def test_dialog_loops_doc_is_orch_owned() -> None:
 
 def test_refreshed_docs_have_no_stale_workflow_terms() -> None:
     """The refreshed governance docs no longer present the v1 5-status board as the workflow (M4/M6)."""
-    for name in ("FULL_PROJECT_WORKFLOW.md", "ROLE_BOUNDARIES.md", "AGENT_OPERATIONS.md"):
+    for name in ("FULL_PROJECT_WORKFLOW.md", "ROLE_BOUNDARIES.md", "AGENT_OPERATIONS.md", "TEAM_REGISTRY_SPECIFICATION.md"):
         text = (DOCS / name).read_text(encoding="utf-8").lower()
         assert "5-status kanban system" not in text, f"{name} still calls the board the workflow"
         # the corrected model must name the INTEGRATOR as the completion-flip owner

@@ -107,19 +107,22 @@ Each task is a TRDD whose `column:` field advances through the pipeline below. T
 
 **Who flips to `complete` (critical).** Nobody self-marks a task completed. The **INTEGRATOR (AMIA)** owns the column→`complete` flip: it validates that the merged PR actually satisfies the TRDD (acceptance criteria, tests, design) and only then advances the column. The ORCHESTRATOR does **not** own the final flip — ORCH owns the in-team coordination and the three dialog loops, INT owns completion.
 
-### GitHub-Projects board (the 5-column visual projection)
+### GitHub-Projects board (the MANAGER-ratified 8-column projection)
 
-The GitHub-Projects board the COS labels is a **projection** of the pipeline above onto five visible columns, driven by the `status:*` labels in the `amcos-label-taxonomy` skill:
+The team board is a **projection** of the pipeline above onto the MANAGER-ratified **8-column model** (Tier-2, COS#11) — a faithful simplification of the TRDD v2 lifecycle that keeps the two governance review gates (`ai-review`, `human-review`) DISTINCT and `blocked` first-class. COS sets this column schema once at team creation (via the `kanban-config` verb — ai-maestro#36, not yet deployed); the canonical column set + mapping is the single source of truth in the `amcos-prrd-trdd-kanban` skill.
 
-| Board column | Label | Pipeline columns it projects |
-|--------------|-------|------------------------------|
-| Backlog | `status:backlog` | `backburner`, `todo` |
-| Pending | `status:pending` | `dispatch` |
-| In Progress | `status:in_progress` | `dev`, `testing`, `ai_review` |
-| Review | `status:review` | `human_review` (+ INT validation before the flip) |
-| Completed | `status:completed` | `complete`, `published`, `live` |
+| Board lane | TRDD `column:` values it projects |
+|------------|-----------------------------------|
+| `backlog` | `backburner`, `todo` |
+| `todo` | `dispatch` |
+| `in-progress` | `dev`, `testing` |
+| `ai-review` | `ai_review` |
+| `human-review` | `human_review` (+ INT validation before the `complete` flip) |
+| `merge-release` | `complete`, `publish`, `deploy` |
+| `done` | `published`, `live` |
+| `blocked` | `blocked` |
 
-Use the `status:blocked` label to flag a blocked task at any stage (it is a label, not a board column); the task returns to its previous column when unblocked. Labels use the `status:` prefix with underscores (`status:in_progress`); the TRDD `column:` field uses the bare kebab-case values above.
+`blocked` is a first-class lane: a blocked task returns to its `pre-block-column:` when unblocked. The operational `status:*` GitHub-issue labels AMCOS sets (in `amcos-label-taxonomy`) are a **separate, coarser** layer — not 1:1 with these 8 lanes; expanding the label set to match is a separate MANAGER decision.
 
 ---
 

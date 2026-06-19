@@ -4,7 +4,7 @@ description: "CHIEF-OF-STAFF's role in the PRRD / TRDD / Kanban workflow. COS do
 allowed-tools: "Bash(python3:*), Bash(get-prrd.py:*), Bash(findprrd.py:*), Bash(findtrdd.py:*), Bash(kanban.py:*), Bash(amp-send:*), Bash(amp-inbox:*), Read, Edit, Grep, Glob"
 metadata:
   author: "Emasoft"
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 ## Overview
@@ -86,6 +86,43 @@ build tool, INT requests a credential, and a MEMBER requests a budget
 bump. All three are NON-EXEMPT resource changes. The COS batches them
 into ONE MANAGER approval-request, awaits the verdict, relays each
 decision back, and records them in the relevant TRDDs' `## Approval log`.
+
+## Team-board column schema (COS sets it once, at team creation)
+
+"COS owns NO kanban columns" means COS does not MOVE cards through the
+workflow — the column owners / ORCH do that. It does NOT mean COS is
+absent from the board: per COS#11, **COS sets the team board's column
+SCHEMA once, at team creation** (the canonical column SET, not the card
+flow). The MANAGER ratified that schema (Tier-2, COS#11): the **8-column
+model**, a simplified projection of the TRDD v2 lifecycle.
+
+**The 8 columns** — keep `ai-review` and `human-review` DISTINCT (the
+R26–R40 dual-review / human-gate depends on it; collapsing them hides the
+human gate), and keep `blocked` a first-class lane:
+
+`backlog · todo · in-progress · ai-review · human-review · merge-release · done · blocked`
+
+**TRDD `column:` → board lane** (a TRDD's frontmatter `column:` drives its lane):
+
+| Board lane | TRDD v2 `column:` values |
+|---|---|
+| `backlog` | backburner, todo |
+| `todo` | dispatch |
+| `in-progress` | dev, testing |
+| `ai-review` | ai_review |
+| `human-review` | human_review |
+| `merge-release` | complete, publish, deploy |
+| `done` | published, live |
+| `blocked` | blocked |
+
+Keep ONE `merge-release` lane — the TRDD frontmatter (`release-via`,
+publish-vs-deploy) carries that detail; the lane is not split.
+
+**Status:** COS applies this schema via the `kanban-config` CLI verb at
+team creation. That verb is not yet deployed (ai-maestro#36), so the
+schema above is the design COS configures the moment the verb ships — the
+model is locked in now. The velocity/distribution monitoring half of
+COS#11 (parts 2-4) rides the deployed `amp-kanban-*` CLIs.
 
 ## Resources
 
