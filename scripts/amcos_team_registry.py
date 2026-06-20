@@ -13,6 +13,7 @@ Usage:
     python amcos_team_registry.py remove-agent --team <name> --agent-name <name>
     python amcos_team_registry.py update-status --team <name> --agent-name <name> --status <status>
     python amcos_team_registry.py list [--team <name>]
+    python amcos_team_registry.py kanban-velocity --team <name>
 """
 
 import argparse
@@ -23,6 +24,7 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
+from amcos_kanban import ensure_kanban_columns, kanban_velocity
 from amcos_output_utils import AmcosOutput
 
 # Frozen-CLI names, env-overridable exactly like amcos_notify_agent.py (#20).
@@ -30,6 +32,7 @@ from amcos_output_utils import AmcosOutput
 # shells out to them and never touches the HTTP API.
 TEAMS_CLI = os.environ.get("AIMAESTRO_TEAMS_CLI", "aimaestro-teams.sh")
 AGENT_CLI = os.environ.get("AIMAESTRO_AGENT_CLI", "aimaestro-agent.sh")
+AMP_KANBAN_LIST_CLI = os.environ.get("AMP_KANBAN_LIST_CLI", "amp-kanban-list.sh")
 
 
 # Role constraints for team composition validation.
@@ -156,7 +159,49 @@ def create_team(
             "no --gh-project flag (ai-maestro#36) — creating team without it.",
             file=sys.stderr,
         )
-    return _run_cli(argv, f"Create team '{team_name}'")
+    result = _run_cli(argv, f"Create team '{team_name}'")
+    if not result.get("success"):
+        return result
+
+    # COS#11 / #26: after a successful create, ensure the new board carries the
+    # canonical 14-stage column set (the TRDD `column:` enum, which COS owns).
+    # design (c) verify-and-correct: this GETs the board and only --sets on
+    # drift, so the common case (server default already matches) is a no-op.
+    # Fail-fast — propagate any CLI error from the column-ensure as the create
+    # result so a half-configured team is never reported as a clean success.
+    team_id = _extract_created_team_id(result.get("data"))
+    if team_id is None:
+        return {
+            "success": False,
+            "error": (
+                f"Create team '{team_name}': succeeded but could not resolve the "
+                "new team id from the CLI response to ensure kanban columns "
+                f"(got: {result.get('data')!r})"
+            ),
+        }
+    kanban_result = ensure_kanban_columns(team_id, _run_cli, TEAMS_CLI)
+    if not kanban_result.get("success"):
+        return kanban_result
+    result["kanban"] = kanban_result
+    return result
+
+
+def _extract_created_team_id(create_data: Any) -> str | None:
+    """Resolve the new team's id from `aimaestro-teams.sh create` output.
+
+    The server returns `{team: {id, ...}, needsChiefOfStaff} ` (verified:
+    ai-maestro services/teams-service.ts createTeam → POST /api/teams). Also
+    tolerate a bare team object `{id, ...}` in case the wire shape ever
+    flattens, mirroring _resolve_team_id's id/_id/name tolerance. Returns the
+    id string, or None when it cannot be resolved (caller fails fast).
+    """
+    if not isinstance(create_data, dict):
+        return None
+    team = create_data.get("team")
+    if not isinstance(team, dict):
+        team = create_data  # bare team object fallback
+    tid = team.get("id") or team.get("_id")
+    return str(tid) if tid else None
 
 
 def add_agent(
@@ -398,6 +443,13 @@ Examples:
     list_parser = subparsers.add_parser("list", help="List teams and agents")
     list_parser.add_argument("--team", help="Team name (omit to list all teams)")
 
+    # Kanban velocity command (COS#11 parts 2-4): read-only per-column /
+    # per-assignee task distribution over the team board.
+    velocity_parser = subparsers.add_parser(
+        "kanban-velocity", help="Per-column / per-assignee task counts for a team"
+    )
+    velocity_parser.add_argument("--team", required=True, help="Team name")
+
     args = parser.parse_args()
 
     try:
@@ -494,6 +546,20 @@ Examples:
             out.summary("DONE", "Team listing complete")
             out.close()
             return 0
+
+        elif args.command == "kanban-velocity":
+            team_id = _resolve_team_id(args.team)
+            result = kanban_velocity(team_id, _run_cli, AMP_KANBAN_LIST_CLI)
+            out.log(f"kanban-velocity for team '{args.team}'")
+            out.log_json(result, label="kanban-velocity")
+            print(json.dumps(result, separators=(",", ":")))
+            if result.get("success"):
+                out.summary("DONE", f"velocity for '{args.team}': {result.get('total', 0)} tasks")
+                out.close()
+                return 0
+            out.summary("FAILED", result.get("error", "kanban-velocity failed"))
+            out.close()
+            return 1
 
     except Exception as e:
         out.log(f"Error: {e}")
