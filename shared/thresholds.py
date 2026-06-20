@@ -80,21 +80,3 @@ MAX_MESSAGE_LENGTH = 4000
 
 # Maximum handoff document size (KB)
 MAX_HANDOFF_SIZE_KB = 100
-
-# =============================================================================
-# ROLE ROUTING
-# =============================================================================
-
-# Valid roles that Chief of Staff can route requests to
-# NOTE: Authoritative source is the team-governance skill. Keep in sync.
-VALID_ROLES = frozenset(["architect", "orchestrator", "integrator", "programmer"])
-
-# Role to session prefix mapping (AI Maestro am* convention)
-# NOTE: Authoritative source is the team-governance skill. Keep in sync.
-ROLE_PREFIX_MAP = {
-    "chief-of-staff": "amcos-",
-    "architect": "amaa-",
-    "orchestrator": "amoa-",
-    "integrator": "amia-",
-    "programmer": "ampa-",
-}
