@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.20.2] - 2026-06-20
+    ## [2.20.3] - 2026-06-20
 
-### Refactor
+### Bug Fixes
 
-- Remove dead VALID_ROLES/ROLE_PREFIX_MAP role mirror from thresholds.py    
+- Never write per-agent logs under $HOME (ai-maestro#32)    
 
 
