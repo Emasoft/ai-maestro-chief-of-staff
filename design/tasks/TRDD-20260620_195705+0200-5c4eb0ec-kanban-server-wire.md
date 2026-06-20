@@ -1,9 +1,9 @@
 ---
 trdd-id: 5c4eb0ec-7ded-4492-954f-efd586e0dca5
 title: Ensure the 14-stage kanban columns at COS team creation + amp-kanban-list velocity (COS#11 #26 server-half)
-column: dispatch
+column: testing
 created: 2026-06-20T19:57:05+0200
-updated: 2026-06-20T19:57:05+0200
+updated: 2026-06-20T21:35:09+0200
 current-owner: cos
 assignee: cos
 priority: 3
@@ -24,9 +24,9 @@ test-requirements: [unit, lint]
 audit-requirements: []
 review-requirements: [code-review]
 impacts: []
-attempts: 0
-last-test-result: not-run
-implementation-commits: []
+attempts: 1
+last-test-result: partial
+implementation-commits: [bac7802]
 published-version: null
 published-at: null
 external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/11", "github.com/Emasoft/ai-maestro-chief-of-staff/issues/22", "github.com/Emasoft/ai-maestro/issues/2", "github.com/Emasoft/ai-maestro/issues/40", "github.com/Emasoft/ai-maestro/issues/43"]
@@ -35,6 +35,22 @@ external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/11", "githu
 # Ensure the 14-stage kanban columns at COS team creation + amp-kanban-list velocity (COS#11 #26 server-half)
 
 ## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative; supersedes the body)
+
+**UPDATE 2026-06-20T21:35 — CODE DONE + COMMITTED (held local, unpublished):**
+design (c) implemented in commit `bac7802` (NOT pushed). New `scripts/amcos_kanban.py`
+(`KANBAN_14STAGE_COLUMN_IDS`, `DEFAULT_14STAGE_COLUMNS`, `ensure_kanban_columns`
+verify-and-correct, `summarize_velocity`/`kanban_velocity`); `create_team` wired to
+ensure columns after a successful create (fail-fast on CLI error / unresolvable team
+id); `kanban-velocity` CLI subcommand added. Tests: 153 pass (22 new — real pure-logic
+exercised via the module's injected `run_cli` DI seam, which exists for circular-import
+reasons; this is NOT a CLI/server mock), ruff clean, CPV strict 0/0/0/0. **REMAINING —
+gated on a LIVE AI Maestro server (no-mocks rule): step 5 integration round-trip**
+(create team → assert the 14-stage columns → move a task
+dev→ai_review→human_review→complete for COS#11) **then `publish.py` + reply/close
+COS#11.** `bac7802` is HELD local until that round-trip validates the real CLI/server
+path — the unit tests cover the decision logic only; the wire shapes are source-verified
+(read ai-maestro teams-service.ts / kanban-config route.ts / task.ts) but NOT yet
+round-tripped against a running server.
 
 **What this is:** the SERVER-HALF of COS#11 (#26), unblocked 2026-06-20 when the
 ai-maestro server-layer Claude shipped the #2 backend (AM#43) + signalled COS
