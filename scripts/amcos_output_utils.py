@@ -44,17 +44,19 @@ class AmcosOutput:
     """
 
     def __init__(self, script_name: str, log_dir: Path | None = None) -> None:
-        # Determine log directory: explicit > CLAUDE_PROJECT_DIR > cwd > home fallback
+        # Determine log directory: explicit > AIMAESTRO_AGENT_DIR > CLAUDE_PROJECT_DIR > cwd.
+        # NEVER fall back to $HOME: per-agent state written under $HOME does not travel with
+        # the agent working directory, so it is lost on AI Maestro backup/restore + host
+        # migration (ai-maestro#32). This mirrors the fleet remediation chain
+        # ${AIMAESTRO_AGENT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}} — cwd always exists, so it is a
+        # safe terminal fallback and the host-global path is removed entirely.
         if log_dir is not None:
             base = log_dir
         else:
-            project_dir = os.environ.get("CLAUDE_PROJECT_DIR", "")
-            if project_dir:
-                base = Path(project_dir) / ".amcos-logs"
-            else:
-                # Fallback: try cwd, then home
-                cwd_logs = Path.cwd() / ".amcos-logs"
-                base = cwd_logs if cwd_logs.parent.exists() else Path.home() / ".amcos-logs"
+            agent_dir = os.environ.get("AIMAESTRO_AGENT_DIR", "") or os.environ.get(
+                "CLAUDE_PROJECT_DIR", ""
+            )
+            base = Path(agent_dir) / ".amcos-logs" if agent_dir else Path.cwd() / ".amcos-logs"
 
         self._script_name = script_name
         self._log_dir = base / script_name
