@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.20.3] - 2026-06-20
+    ## [2.20.4] - 2026-06-20
 
-### Bug Fixes
+### Documentation
 
-- Never write per-agent logs under $HOME (ai-maestro#32)    
+- Supersede 8-column board model with ratified 14-stage pipeline (TRDD-b0048a21)    
 
 
