@@ -62,7 +62,7 @@ AMCOS tracks assignments, reassigns when agents become unavailable, and clears a
 
 ## Kanban and Label Details
 
-Full kanban column system, status labels, priority labels, and quick reference. See [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents, Kanban Columns (MANAGER-ratified 8-column model), Task Routing Rules, Status Labels AMCOS Updates, Labels AMCOS Monitors, Priority Labels (`priority:*`), Status Labels (`status:*`), Quick Reference: AMCOS Label Responsibilities, Labels AMCOS Never Sets, Checklist
+Full kanban column system, status labels, priority labels, and quick reference. See [kanban-and-label-details](references/kanban-and-label-details.md) — Topics: Kanban Columns and Label Details, Table of Contents, Kanban Columns (ratified 14-stage pipeline), Task Routing Rules, Status Labels AMCOS Updates, Labels AMCOS Monitors, Priority Labels (`priority:*`), Status Labels (`status:*`), Quick Reference: AMCOS Label Responsibilities, Labels AMCOS Never Sets, Checklist
 
 ## Error Handling
 
@@ -107,7 +107,7 @@ Copy this checklist and track your progress:
   - [Error Handling](#error-handling)
   - [Rollback](#rollback)
 - [kanban-and-label-details](references/kanban-and-label-details.md) — Kanban columns and label details
-  - [Kanban Columns (MANAGER-ratified 8-column model)](#kanban-columns-manager-ratified-8-column-model)
+  - [Kanban Columns (ratified 14-stage pipeline)](#kanban-columns-ratified-14-stage-pipeline)
   - [Task Routing Rules](#task-routing-rules)
   - [Status Labels AMCOS Updates](#status-labels-amcos-updates)
   - [Labels AMCOS Monitors](#labels-amcos-monitors)

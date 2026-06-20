@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-- [Kanban Columns (MANAGER-ratified 8-column model)](#kanban-columns-manager-ratified-8-column-model)
+- [Kanban Columns (ratified 14-stage pipeline)](#kanban-columns-ratified-14-stage-pipeline)
 - [Task Routing Rules](#task-routing-rules)
 - [Status Labels AMCOS Updates](#status-labels-amcos-updates)
 - [Labels AMCOS Monitors](#labels-amcos-monitors)
@@ -12,24 +12,26 @@
 
 ---
 
-## Kanban Columns (MANAGER-ratified 8-column model)
+## Kanban Columns (ratified 14-stage pipeline)
 
-> The team board is the **visual projection** of the authoritative TRDD
-> `column:` pipeline — not a separate workflow. The TRDD `column:` lifecycle is
-> the source of truth; the board lanes are how it surfaces. The MANAGER ratified
-> the **8-column model** (Tier-2, COS#11) — a simplified projection of the TRDD
-> v2 lifecycle that, unlike the old collapsed 5-status set, keeps the two
-> governance review gates (`ai-review`, `human-review`) DISTINCT and `blocked` a
-> first-class lane.
+> The team board is a **1:1 mirror** of the authoritative TRDD `column:`
+> pipeline — not a separate workflow and NOT a projection. The TRDD `column:`
+> lifecycle is the source of truth; each lane IS one `column:` value. An earlier
+> **8-column** model (v2.20.0) was **superseded** by the MANAGER's ai-maestro#2
+> decision (a) (COS#11): a 14→8 collapse hid the human gate and the
+> publish/deploy tails, so the board now carries every `column:` as its own lane,
+> keeping the two governance review gates (`ai_review`, `human_review`) DISTINCT
+> and `blocked`/`failed`/`superseded` first-class.
 
-**The 8 lanes** (the canonical column set + the full TRDD `column:`→lane mapping
-live in the `amcos-prrd-trdd-kanban` skill — the single source of truth; not
-duplicated here):
+**The lanes** (the canonical column set lives in the `amcos-prrd-trdd-kanban`
+skill — the single source of truth; the TRDD `column:` values in lifecycle order,
++ exceptions):
 
-`backlog · todo · in-progress · ai-review · human-review · merge-release · done · blocked`
+`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
 
-COS sets this column schema once, at team creation, via the `kanban-config` CLI
-verb (not yet deployed — ai-maestro#36); COS does NOT move cards between lanes.
+COS sets this column schema once, at team creation, via the deployed
+`kanban-config` CLI verb (the per-team column **backend** is gated on
+ai-maestro#2); COS does NOT move cards between lanes.
 
 > **Note — the `status:*` issue-labels below are a separate, coarser layer.** The
 > operational `status:*` GitHub-issue labels AMCOS sets/monitors (next sections)
@@ -39,9 +41,9 @@ verb (not yet deployed — ai-maestro#36); COS does NOT move cards between lanes
 
 ## Task Routing Rules
 
-- **Small tasks**: in-progress -> ai-review -> merge-release -> done
-- **Big tasks**: in-progress -> ai-review -> human-review -> merge-release -> done
-- **human-review is a DISTINCT lane** (never folded into ai-review): the MANAGER mediates the human gate (R6.6). Not all tasks pass through it — only significant changes needing human judgment.
+- **Small tasks**: `dev` -> `testing` -> `ai_review` -> `complete` -> release
+- **Big tasks**: `dev` -> `testing` -> `ai_review` -> `human_review` -> `complete` -> release
+- **`human_review` is a DISTINCT lane** (never folded into `ai_review`): the MANAGER mediates the human gate (R6.6). Not all tasks pass through it — only significant changes needing human judgment.
 
 ## Status Labels AMCOS Updates
 

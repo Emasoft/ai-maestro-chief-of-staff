@@ -107,22 +107,15 @@ Each task is a TRDD whose `column:` field advances through the pipeline below. T
 
 **Who flips to `complete` (critical).** Nobody self-marks a task completed. The **INTEGRATOR (AMIA)** owns the column→`complete` flip: it validates that the merged PR actually satisfies the TRDD (acceptance criteria, tests, design) and only then advances the column. The ORCHESTRATOR does **not** own the final flip — ORCH owns the in-team coordination and the three dialog loops, INT owns completion.
 
-### GitHub-Projects board (the MANAGER-ratified 8-column projection)
+### GitHub-Projects board (the ratified 14-stage pipeline — no projection)
 
-The team board is a **projection** of the pipeline above onto the MANAGER-ratified **8-column model** (Tier-2, COS#11) — a faithful simplification of the TRDD v2 lifecycle that keeps the two governance review gates (`ai-review`, `human-review`) DISTINCT and `blocked` first-class. COS sets this column schema once at team creation (via the deployed `kanban-config` verb; the per-team column **backend** is gated on ai-maestro#2); the canonical column set + mapping is the single source of truth in the `amcos-prrd-trdd-kanban` skill.
+The team board **mirrors the 14-stage TRDD v2 pipeline above 1:1**, plus the `blocked`/`failed`/`superseded` exception lanes — there is **no projection**. An earlier 8-column model (v2.20.0) was **superseded** by the MANAGER's ai-maestro#2 decision (a) (COS#11): a 14→8 collapse hid the human gate and the publish/deploy tails, so the board carries every TRDD `column:` as its own lane. The two governance review gates (`ai_review`, `human_review`) stay DISTINCT and `blocked` stays first-class by construction. COS sets this column schema once at team creation (via the deployed `kanban-config` verb; the per-team column **backend** is gated on ai-maestro#2); the canonical column set is the single source of truth in the `amcos-prrd-trdd-kanban` skill.
 
-| Board lane | TRDD `column:` values it projects |
-|------------|-----------------------------------|
-| `backlog` | `backburner`, `todo` |
-| `todo` | `dispatch` |
-| `in-progress` | `dev`, `testing` |
-| `ai-review` | `ai_review` |
-| `human-review` | `human_review` (+ INT validation before the `complete` flip) |
-| `merge-release` | `complete`, `publish`, `deploy` |
-| `done` | `published`, `live` |
-| `blocked` | `blocked` |
+The board lanes are exactly the TRDD `column:` values, in lifecycle order:
 
-`blocked` is a first-class lane: a blocked task returns to its `pre-block-column:` when unblocked. The operational `status:*` GitHub-issue labels AMCOS sets (in `amcos-label-taxonomy`) are a **separate, coarser** layer — not 1:1 with these 8 lanes; expanding the label set to match is a separate MANAGER decision.
+`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
+
+A TRDD's frontmatter `column:` IS its board lane (no mapping table); the publish/deploy tails follow each TRDD's `release-via:`, and INT validates acceptance before the `complete` flip. `blocked` is a first-class lane: a blocked task returns to its `pre-block-column:` when unblocked. The operational `status:*` GitHub-issue labels AMCOS sets (in `amcos-label-taxonomy`) are a **separate, coarser** layer — not 1:1 with these lanes; expanding the label set to match is a separate MANAGER decision.
 
 ---
 

@@ -313,20 +313,24 @@ amp-send.sh "svgbbox-orchestrator" "[REGISTRY UPDATE] Team contacts updated" "Ag
 
 ## Kanban System Reference
 
-> The team board is the MANAGER-ratified **8-column model** (Tier-2, COS#11) — a
-> simplified projection of the TRDD v2 `column:` lifecycle. COS sets this column
-> schema once at team creation (via the deployed `kanban-config` verb; the
-> per-team column backend is gated on ai-maestro#2).
+> The team board **mirrors the 14-stage TRDD v2 `column:` pipeline 1:1** plus the
+> `blocked`/`failed`/`superseded` exception lanes — NOT a projection. An earlier
+> 8-column model (v2.20.0) was **superseded** by the MANAGER's ai-maestro#2
+> decision (a) (COS#11). COS sets this column schema once at team creation (via
+> the deployed `kanban-config` verb; the per-team column backend is gated on
+> ai-maestro#2).
 
-All projects use the canonical **8-column board**:
+All projects use the canonical **14-stage board** (the TRDD `column:` values, in
+lifecycle order, + exceptions):
 
-`backlog · todo · in-progress · ai-review · human-review · merge-release · done · blocked`
+`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
 
-The two governance review gates (`ai-review`, `human-review`) stay DISTINCT and
-`blocked` is a first-class lane. The canonical column set + the full TRDD
-`column:`→lane mapping live in the `amcos-prrd-trdd-kanban` skill (the single
-source of truth); the operational `status:*` GitHub-issue labels are a separate,
-coarser layer (not 1:1 with the 8 lanes).
+The two governance review gates (`ai_review`, `human_review`) stay DISTINCT and
+`blocked`/`failed`/`superseded` are first-class lanes. A TRDD's frontmatter
+`column:` IS its board lane (no mapping table); the canonical column set lives in
+the `amcos-prrd-trdd-kanban` skill (the single source of truth); the operational
+`status:*` GitHub-issue labels are a separate, coarser layer (not 1:1 with these
+lanes).
 
 For full kanban workflow details, see **FULL_PROJECT_WORKFLOW.md**.
 

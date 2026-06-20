@@ -93,38 +93,36 @@ decision back, and records them in the relevant TRDDs' `## Approval log`.
 workflow — the column owners / ORCH do that. It does NOT mean COS is
 absent from the board: per COS#11, **COS sets the team board's column
 SCHEMA once, at team creation** (the canonical column SET, not the card
-flow). The MANAGER ratified that schema (Tier-2, COS#11): the **8-column
-model**, a simplified projection of the TRDD v2 lifecycle.
+flow).
 
-**The 8 columns** — keep `ai-review` and `human-review` DISTINCT (the
-R26–R40 dual-review / human-gate depends on it; collapsing them hides the
-human gate), and keep `blocked` a first-class lane:
+**The ratified schema is the full 14-stage TRDD v2 pipeline plus the
+three exception lanes — a 1:1 mirror of the TRDD `column:` enum, NOT a
+projection.** An earlier **8-column** model (v2.20.0) was **superseded**
+by the MANAGER's ai-maestro#2 decision (a) (COS#11): there is **NO 14→8
+collapse** — a projection hid the human gate and the publish/deploy tails.
+A TRDD's frontmatter `column:` IS its board lane directly, so there is no
+mapping table to maintain.
 
-`backlog · todo · in-progress · ai-review · human-review · merge-release · done · blocked`
+**The lanes** (the TRDD v2 `column:` values, in lifecycle order) —
+`ai_review` and `human_review` stay DISTINCT (the R26–R40 dual-review /
+human gate depends on it; collapsing them hides the human gate), and
+`blocked`/`failed`/`superseded` are first-class:
 
-**TRDD `column:` → board lane** (a TRDD's frontmatter `column:` drives its lane):
+`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
 
-| Board lane | TRDD v2 `column:` values |
-|---|---|
-| `backlog` | backburner, todo |
-| `todo` | dispatch |
-| `in-progress` | dev, testing |
-| `ai-review` | ai_review |
-| `human-review` | human_review |
-| `merge-release` | complete, publish, deploy |
-| `done` | published, live |
-| `blocked` | blocked |
+The publish/deploy tails follow each TRDD's `release-via:` (`publish` →
+`published`; `deploy` → `live` → `live_auditing` soak); `release-via: none`
+ends at `complete`.
 
-Keep ONE `merge-release` lane — the TRDD frontmatter (`release-via`,
-publish-vs-deploy) carries that detail; the lane is not split.
-
-**Status:** COS applies this schema via the `kanban-config` CLI verb at
-team creation. The verb is **deployed** (`aimaestro-teams.sh kanban-config
-<teamId> --set-file <8col.json>`, wrapping the team column-config
-endpoint); the gate is the **backend — ai-maestro#2** (per-team column
-configuration, still OPEN). So part-1 is CLI-ready now and lands the moment
-#2 is live — the model is locked in. The velocity/distribution monitoring
-half of COS#11 (parts 2-4) rides the deployed `amp-kanban-*` CLIs.
+**Status:** the file-based half is **live today** — the 14-stage `column:`
+pipeline + `kanban.py` render. COS applies the schema to the team SERVER
+board via the deployed `kanban-config` CLI verb (`aimaestro-teams.sh
+kanban-config <teamId> --set-file <schema.json>`); the remaining gate is
+the **backend — ai-maestro#2** (per-team column storage, still OPEN — the
+server holds only 5 hardcoded statuses, ai-maestro#40). So COS configures
+the 14-stage board at team creation the moment #2 is live; the
+velocity/distribution monitoring half of COS#11 (parts 2-4) rides the
+deployed `amp-kanban-*` CLIs.
 
 ## Resources
 
