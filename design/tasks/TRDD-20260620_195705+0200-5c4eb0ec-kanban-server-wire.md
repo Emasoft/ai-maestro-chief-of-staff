@@ -1,9 +1,9 @@
 ---
 trdd-id: 5c4eb0ec-7ded-4492-954f-efd586e0dca5
 title: Ensure the 14-stage kanban columns at COS team creation + amp-kanban-list velocity (COS#11 #26 server-half)
-column: testing
+column: published
 created: 2026-06-20T19:57:05+0200
-updated: 2026-06-20T21:35:09+0200
+updated: 2026-06-22T10:20:29+0200
 current-owner: cos
 assignee: cos
 priority: 3
@@ -27,14 +27,25 @@ impacts: []
 attempts: 1
 last-test-result: partial
 implementation-commits: [bac7802]
-published-version: null
-published-at: null
+published-version: 2.20.6
+published-at: 2026-06-22T10:20:29+0200
 external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/11", "github.com/Emasoft/ai-maestro-chief-of-staff/issues/22", "github.com/Emasoft/ai-maestro/issues/2", "github.com/Emasoft/ai-maestro/issues/40", "github.com/Emasoft/ai-maestro/issues/43"]
 ---
 
 # Ensure the 14-stage kanban columns at COS team creation + amp-kanban-list velocity (COS#11 #26 server-half)
 
 ## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative; supersedes the body)
+
+**UPDATE 2026-06-22T10:20 — PUBLISHED DORMANT v2.20.6 (per USER decision):** the code shipped in
+**v2.20.6** (commits bac7802 + c291341 + release 2886d30; CI 4/4 green). The USER chose "publish
+now (dormant)" — the live integration round-trip is DEFERRED to first live use. ⚠ SUPERSEDES the
+"held local until round-trip" line below. **The live round-trip is still BLOCKED upstream by BOTH:
+(1) the AI Maestro server (being brought up by the server-layer Claude — issues being fixed), and
+(2) ai-maestro#46 — AMP sessions can't self-resolve identity, so `amp-kanban-list` (COS velocity)
++ the `amp-*` CLIs refuse with "Multiple AMP agents found. Use --id <uuid>"; COS must NOT guess a
+uuid (state-corrupting). Same blocker as the fleet #40 round-trip.** When the server is up AND
+amp-* self-identifies, run step 5 (create team → assert columns → velocity → move a task
+dev→ai_review→human_review→complete) then reply/close COS#11.
 
 **UPDATE 2026-06-20T21:35 — CODE DONE + COMMITTED (held local, unpublished):**
 design (c) implemented in commit `bac7802` (NOT pushed). New `scripts/amcos_kanban.py`
