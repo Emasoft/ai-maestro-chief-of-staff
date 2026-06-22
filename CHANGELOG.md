@@ -1,11 +1,14 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.20.5] - 2026-06-20
+    ## [2.20.6] - 2026-06-22
 
 ### Documentation
 
-- Finalize TRDD-b0048a21 -> published (v2.20.4)    
-- Add TRDD-5c4eb0ec — #26 server-half kanban wire plan (COS#11)    
+- TRDD-5c4eb0ec → testing — #34 code done+committed (bac7802), integration round-trip gated on live server    
+
+### Features
+
+- Ensure 14-stage columns at team creation + velocity helper (TRDD-5c4eb0ec)    
 
 
