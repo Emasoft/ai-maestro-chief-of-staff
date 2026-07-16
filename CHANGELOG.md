@@ -1,15 +1,19 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.21.0] - 2026-07-16
+    ## [2.21.1] - 2026-07-16
 
 ### Bug Fixes
 
-- Repoint legacy prrd-trdd-kanban skill → granular ama-* + bump dep floor (COS#24 A1/A1b)    
-- Drop references/ prefix from cross-plugin backtick paths (CPV MINOR)    
+- Correct proposals path + de-conflate README version axes (COS#24 B3/B1)    
+- Standardize GitHub self-id line to the ecosystem G1.1 phrase (COS#24 B2)    
 
 ### Features
 
-- Add COS-scoped 3-pillars governance block to the 5 governance-adjacent sub-agents (COS#24 A2/A3)    
+- Add min-approval-requirement field + R41 self-classification (COS#24 B3)    
+
+### Tests
+
+- Add executable guards for the approval-tier / 3-pillars surface (COS#24 B4)    
 
 
