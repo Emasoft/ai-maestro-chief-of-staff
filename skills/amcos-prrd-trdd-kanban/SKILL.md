@@ -1,10 +1,10 @@
 ---
 name: amcos-prrd-trdd-kanban
 description: "CHIEF-OF-STAFF's role in the PRRD / TRDD / Kanban workflow. COS does NOT own kanban columns directly — it ROUTES messages and proposals between the team layer (ORCH/ARCH/INT/MEMBER) and the governance layer (MANAGER). Use when COS forwards a PRRD proposal, relays approval decisions, broadcasts TRDD status updates, or aggregates team status for AMAMA."
-allowed-tools: "Bash(python3:*), Bash(get-prrd.py:*), Bash(findprrd.py:*), Bash(findtrdd.py:*), Bash(kanban.py:*), Bash(amp-send:*), Bash(amp-inbox:*), Read, Edit, Grep, Glob"
+allowed-tools: "Bash(amp-send:*), Bash(amp-inbox:*), Read, Edit, Grep, Glob"
 metadata:
   author: "Emasoft"
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 ## Overview
@@ -15,15 +15,23 @@ ARCH, INT, MEMBER) to write ONLY to its COS; the COS then classifies each
 request as COS-AUTONOMOUS (decide within the team, nothing upstream) or
 COS-ESCALATE (forward ONE consolidated approval-request to MANAGER).
 Forwarding everything would overload the MANAGER and nullify the COS.
-COS owns NO kanban columns. For universal mechanics and the FULL tier
-tables / unifying principle / consolidation rule / escalation format, see
-the `prrd-trdd-kanban` skill in `ai-maestro-plugin` and its bundled
-`cos-delegation-authority.md`.
+COS owns NO kanban columns. For the universal mechanics and the FULL tier
+tables / unifying principle / consolidation rule / escalation format, see the
+granular `ama-*` skills in `ai-maestro-plugin` (the monolithic
+`prrd-trdd-kanban` skill was split into them and no longer exists). The
+references hub is `ama-trdd-transition` — its
+`references/cos-delegation-authority.md`, `references/exempt-operations.md`,
+and `references/approval-tiers-and-zones.md` are the shared source of truth.
 
 ## Prerequisites
 
-- The universal `prrd-trdd-kanban` skill (ai-maestro-plugin) for the
-  shared PRRD/TRDD/kanban mechanics and tier tables.
+- The granular `ama-*` skills (ai-maestro-plugin >= 2.7.9) for the shared
+  PRRD/TRDD/kanban mechanics: `ama-prrd-get` / `ama-prrd-find` (read rules),
+  `ama-prrd-propose` (relay a SILVER-PRRD change on a team agent's behalf,
+  `--routed-via <cos-session>`), `ama-proposal-approvals` (relay a proposal's
+  approve/refuse/archive — COS is **relay-only**, the MANAGER decides),
+  `ama-trdd-transition` (the tier-table + delegation references hub),
+  `ama-trdd-write` / `-find` / `-update`, and `ama-kanban-render`.
 - A PRRD and per-task TRDDs under `design/tasks/` (and proposals under
   `design/requirements/proposals/`).
 - AMP (`amp-send`, `amp-inbox`) for inter-agent messaging.
@@ -38,7 +46,7 @@ the `prrd-trdd-kanban` skill in `ai-maestro-plugin` and its bundled
    - **COS-AUTONOMOUS** — decide within the team, nothing goes upstream.
      Covers intra-team assignment/sequencing/relay, answering scope
      questions already settled by the TRDD/PRRD, approving anything
-     already EXEMPT (`exempt-operations.md`), team health/lifecycle
+     already EXEMPT (`ama-trdd-transition`'s `references/exempt-operations.md`), team health/lifecycle
      within the approved R12 composition, in-team triage.
    - **COS-ESCALATE** — anything hard-floor, NON-EXEMPT, resource or
      composition change (new member, budget, tool, credential),
@@ -96,8 +104,8 @@ SCHEMA once, at team creation** (the canonical column SET, not the card
 flow).
 
 **The ratified schema is the full 14-stage TRDD v2 pipeline plus the
-three exception lanes — a 1:1 mirror of the TRDD `column:` enum, NOT a
-projection.** An earlier **8-column** model (v2.20.0) was **superseded**
+three exception lanes — 17 columns total, a 1:1 mirror of the TRDD
+`column:` enum, NOT a projection.** An earlier **8-column** model (v2.20.0) was **superseded**
 by the MANAGER's ai-maestro#2 decision (a) (COS#11): there is **NO 14→8
 collapse** — a projection hid the human gate and the publish/deploy tails.
 A TRDD's frontmatter `column:` IS its board lane directly, so there is no
@@ -115,7 +123,7 @@ The publish/deploy tails follow each TRDD's `release-via:` (`publish` →
 ends at `complete`.
 
 **Status:** the file-based half is **live today** — the 14-stage `column:`
-pipeline + `kanban.py` render. COS applies the schema to the team SERVER
+pipeline + the `ama-kanban-render` skill. COS applies the schema to the team SERVER
 board via the deployed `kanban-config` CLI verb (`aimaestro-teams.sh
 kanban-config <teamId> --set-file <schema.json>`); the remaining gate is
 the **backend — ai-maestro#2** (per-team column storage, still OPEN — the
@@ -127,8 +135,9 @@ deployed `amp-kanban-*` CLIs.
 ## Resources
 
 For the full two-tier authority tables, the unifying principle, the
-consolidation rule, and the escalation message format, read the universal
-`prrd-trdd-kanban` skill in `ai-maestro-plugin` together with its bundled
-`cos-delegation-authority.md` and `exempt-operations.md` references. The
-universal skill is the single source of truth for the shared mechanics;
-this skill only adds the COS gatekeeper role on top of it.
+consolidation rule, and the escalation message format, read the granular
+`ama-*` skills in `ai-maestro-plugin` — the references hub is
+`ama-trdd-transition`, whose `references/cos-delegation-authority.md`,
+`references/exempt-operations.md`, and `references/approval-tiers-and-zones.md`
+are the single source of truth for the shared mechanics. This skill only adds
+the COS gatekeeper role on top of them.

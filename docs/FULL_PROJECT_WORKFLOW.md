@@ -80,9 +80,10 @@ All cross-team GovernanceRequests must be approved by both teams' managers (AMAM
 
 > **Runtime source of truth.** The authoritative task lifecycle is the TRDD
 > v2 `column:` state machine (see `~/.claude/rules/trdd-design-tasks.md` and
-> the universal `prrd-trdd-kanban` skill in `ai-maestro-plugin`). The
-> per-team `amcos-prrd-trdd-kanban` skill defers to that universal skill. Do
-> NOT hardcode a different column set in any plugin.
+> the granular `ama-*` skills in `ai-maestro-plugin` >= 2.7.9 —
+> `ama-trdd-transition` et al., which replaced the monolithic
+> `prrd-trdd-kanban`). The per-team `amcos-prrd-trdd-kanban` skill defers to
+> those skills. Do NOT hardcode a different column set in any plugin.
 
 Each task is a TRDD whose `column:` field advances through the pipeline below. The COS owns **no** column directly — column ownership lives with the team-layer agents, and the COS only routes the proposals/escalations that authorize transitions.
 

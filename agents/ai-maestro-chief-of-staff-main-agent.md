@@ -216,8 +216,9 @@ MANAGER request, not N pings. That batching IS your load-absorption.
 > Full tier tables + escalation-message format + the self-tuning
 > mechanism (recurring waved-through escalations become new
 > COS-AUTONOMOUS entries via a PRRD proposal): see
-> `cos-delegation-authority.md` in the `prrd-trdd-kanban` universal
-> skill (`ai-maestro-plugin`).
+> `references/cos-delegation-authority.md` in the `ama-trdd-transition`
+> skill (`ai-maestro-plugin` >= 2.7.9 — the granular skills that replaced
+> the monolithic `prrd-trdd-kanban`).
 
 ## The Three In-Team Dialog Loops Are ORCH-Owned — Do NOT Relay Them (PRRD S7.1)
 

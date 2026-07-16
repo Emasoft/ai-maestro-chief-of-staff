@@ -165,8 +165,10 @@ old PREFIX-dated doc family (`REQ-`/`SPEC-`/`ARCH-`/…), which is superseded
 by the **3-pillars system** — TRDDs in `design/tasks/` (v2 `column:`
 frontmatter) and the PRRD in `design/requirements/PRRD.md`. Validate design
 docs by the 3-pillars conventions (see the `amcos-prrd-trdd-kanban` skill and
-the universal `prrd-trdd-kanban` skill in `ai-maestro-plugin`); the repo test
-suite (`tests/test_governance_structure.py`) guards the v2 TRDD schema.
+the granular `ama-*` skills in `ai-maestro-plugin` >= 2.7.9 — `ama-prrd-get` /
+`ama-trdd-find` / `ama-trdd-transition`, which replaced the monolithic
+`prrd-trdd-kanban`); the repo test suite (`tests/test_governance_structure.py`)
+guards the v2 TRDD schema.
 
 ## 5. Search Procedures
 

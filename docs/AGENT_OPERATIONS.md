@@ -522,8 +522,9 @@ All operations use intent-based skill references:
 > **The task lifecycle is NOT owned by the COS and is not defined here.** The
 > authoritative model is the TRDD `column:` pipeline; see
 > [FULL_PROJECT_WORKFLOW.md → "Kanban — the canonical TRDD `column:` pipeline"](FULL_PROJECT_WORKFLOW.md)
-> and the runtime universal `prrd-trdd-kanban` skill (`ai-maestro-plugin`),
-> which the per-team `amcos-prrd-trdd-kanban` skill defers to.
+> and the runtime granular `ama-*` skills (`ai-maestro-plugin` >= 2.7.9 —
+> `ama-trdd-transition` et al., which replaced the monolithic
+> `prrd-trdd-kanban`), which the per-team `amcos-prrd-trdd-kanban` skill defers to.
 
 What the COS needs to know operationally:
 
