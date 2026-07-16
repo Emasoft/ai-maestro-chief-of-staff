@@ -519,6 +519,39 @@ def _toml_str(content: str, section: str, key: str) -> str | None:
         return None
 
 
+def resolver_tag_name(plugin_root: Path, version: str) -> str:
+    """Return the `{manifest-name}--v{version}` tag Claude Code's resolver needs.
+
+    Since Claude Code 2.1.110 a VERSION-CONSTRAINED plugin dependency resolves
+    ONLY against tags named `{plugin-name}--v{version}`. A plain `v2.8.0` tag is
+    invisible to it, so a dependent reports `no git tag satisfying <range>` on a
+    repo visibly full of tags. That is what grounded the fleet (TRDD-JT3U4ZVM,
+    COS#25); the fix is to emit BOTH tag shapes on every release.
+
+    The name is read from the manifest HERE rather than reused from
+    ProjectInfo.name, which degrades to "unknown" on a read error — that would
+    silently publish an `unknown--v2.20.7` tag no resolver will ever match,
+    reproducing the invisible-tag bug this function exists to prevent. A tag is
+    permanent and consumer-facing, so this hard-fails instead.
+
+    (Do NOT reach for `claude plugin tag <name>` — that CLI's positional arg is
+    a PATH, not a tag name, so the call silently creates nothing.)
+    """
+    manifest = plugin_root / ".claude-plugin" / "plugin.json"
+    if not manifest.is_file():
+        raise SystemExit(f"{RED}✗ resolver tag: {manifest} not found — cannot derive the plugin name.{NC}")
+    try:
+        name = json.loads(manifest.read_text(encoding="utf-8")).get("name")
+    except json.JSONDecodeError as e:
+        raise SystemExit(f"{RED}✗ resolver tag: {manifest} is not valid JSON: {e}{NC}") from e
+    if not isinstance(name, str) or not name.strip():
+        raise SystemExit(
+            f"{RED}✗ resolver tag: {manifest} has no 'name' — a version-constrained\n"
+            f"  dependency on this plugin would be unresolvable. Refusing to publish.{NC}"
+        )
+    return f"{name.strip()}--v{version}"
+
+
 def _git_latest_semver_tag(root: Path) -> str:
     """Return the latest vX.Y.Z git tag, or 0.0.0 if none."""
     try:
@@ -1454,14 +1487,26 @@ Examples:
     run(["git", "tag", "-a", f"v{new_version}", "-m", final_notes], cwd=git_root)
     print(f"{GREEN}ok Tagged v{new_version} (annotated, body = release notes){NC}")
 
-    # ── Step 13: Push commit + tag to origin ──
+    # The SECOND tag is the one Claude Code's dependency resolver actually reads
+    # (see resolver_tag_name). Both point at the same commit: `v{version}` stays
+    # the human/changelog-facing name, `{plugin}--v{version}` is machine-facing.
+    resolver_tag = resolver_tag_name(plugin_root, new_version)
+    run(["git", "tag", "-a", resolver_tag, "-m", final_notes], cwd=git_root)
+    print(f"{GREEN}ok Tagged {resolver_tag} (resolver tag — dependency resolution){NC}")
+
+    # ── Step 13: Push commit + tags to origin ──
     # The pre-push hook verifies its caller via PROCESS ANCESTRY: it walks
     # the PID tree and looks for a `python.*scripts/publish.py` ancestor.
     # Because this process IS scripts/publish.py, the hook will find it and
     # allow the push. No env var needed — process trees can't be spoofed.
-    print(f"\n{BLUE}=== Step 13: Push commit + tag to origin/{default_branch} ==={NC}")
-    run(["git", "push", "origin", "HEAD"], cwd=git_root)
-    run(["git", "push", "origin", f"v{new_version}"], cwd=git_root)
+    #
+    # --atomic: commit + BOTH tags land together or nothing does. Pushed
+    # separately, a mid-way failure could publish the release commit and the
+    # human tag while the resolver tag stayed local — leaving a version that
+    # looks released but is unresolvable to any version-constrained dependent,
+    # which is precisely the failure mode this whole change removes.
+    print(f"\n{BLUE}=== Step 13: Push commit + tags to origin/{default_branch} ==={NC}")
+    run(["git", "push", "--atomic", "origin", "HEAD", f"v{new_version}", resolver_tag], cwd=git_root)
     print(f"\n{GREEN}ok Published v{new_version} ({info.name}){NC}")
 
     # ── Step 14: Create GitHub release with release notes (MANDATORY) ──
