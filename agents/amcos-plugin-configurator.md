@@ -2,7 +2,7 @@
 name: amcos-plugin-configurator
 description: Configures plugins locally for each agent in their project folders. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Read
   - Write
   - Bash

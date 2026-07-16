@@ -2,7 +2,7 @@
 name: amcos-resource-monitor
 description: Monitors system resources and enforces Claude Code instance limits. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Bash
   - Read
 skills:

@@ -2,7 +2,7 @@
 name: amcos-performance-reporter
 description: Analyzes agent performance and reports strengths/weaknesses. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Bash
   - Read
   - Write

@@ -2,7 +2,7 @@
 name: amcos-lifecycle-manager
 description: Manages agent lifecycle - spawn, terminate, hibernate, wake. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Bash
   - Read
 skills:

@@ -59,7 +59,7 @@ This template defines the standard structure and boundaries for AMCOS sub-agents
 name: amcos-<function>-<role>
 description: Single-line description of what this agent does. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent   # the subagent-spawn tool — `Task` is a defunct name that resolves to nothing
   - Bash
   - Read
   - Write  # Only if agent needs to create/modify files
@@ -421,7 +421,7 @@ Each sub-agent should have 3-7 core procedures, following this format:
 name: amcos-example-worker
 description: Single-line description of worker's purpose. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Bash
   - Read
   - Write

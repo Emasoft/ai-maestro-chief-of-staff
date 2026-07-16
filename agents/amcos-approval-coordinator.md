@@ -2,7 +2,7 @@
 name: amcos-approval-coordinator
 description: Manages GovernanceRequest workflows and coordinates dual-manager approvals. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Bash
   - Read
   - Write

@@ -2,7 +2,7 @@
 name: amcos-recovery-coordinator
 description: Detects agent failures and coordinates recovery workflows. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Bash
   - Read
 skills:

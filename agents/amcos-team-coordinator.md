@@ -2,7 +2,7 @@
 name: amcos-team-coordinator
 description: Intra-team coordination - tracks team agents, assignments, and internal coordination. Requires AI Maestro v0.26.0+.
 tools:
-  - Task
+  - Agent
   - Read
   - Write
   - Bash

@@ -60,6 +60,42 @@ def parse_frontmatter(text: str) -> dict[str, str] | None:
     return out
 
 
+# Tool names the harness once exposed and no longer does. A declaration of one
+# is silently dropped — the agent launches minus that capability — so only a
+# test catches it. `Task` was renamed to `Agent` (the subagent-spawn tool).
+DEFUNCT_TOOLS = frozenset({"Task"})
+
+
+def _declared_tools(text: str) -> list[str]:
+    """Return the agent's `tools:` list items, or [] when it declares none.
+
+    parse_frontmatter() above captures flat `key: value` lines only and skips
+    indented ones, so a YAML *list* is invisible to it — hence this second,
+    equally dependency-free reader. No `tools:` key means "inherit everything",
+    which is a valid (and defect-free) declaration, so [] is the right answer
+    for it: the caller intersects against DEFUNCT_TOOLS and finds nothing.
+    """
+    if not text.startswith("---"):
+        return []
+    end = text.find("\n---", 3)
+    if end == -1:
+        return []
+    out: list[str] = []
+    in_tools = False
+    for line in text[3:end].splitlines():
+        if re.match(r"^tools:\s*$", line):
+            in_tools = True
+            continue
+        if in_tools:
+            m = re.match(r"^\s+-\s+([A-Za-z_][\w-]*)", line)
+            if m:
+                out.append(m.group(1))
+                continue
+            if line.strip():  # a new top-level key ends the list
+                in_tools = False
+    return out
+
+
 def _discover(dir_path: Path, pattern: str) -> list[Path]:
     return sorted(dir_path.glob(pattern)) if dir_path.is_dir() else []
 
@@ -147,6 +183,42 @@ def test_agent_frontmatter_has_name_and_description(agent: Path) -> None:
     assert fm is not None, f"{agent} has no YAML frontmatter"
     assert fm.get("name"), f"{agent} frontmatter missing 'name'"
     assert fm.get("description"), f"{agent} frontmatter missing 'description'"
+
+
+@pytest.mark.parametrize("agent", AGENT_FILES, ids=[_id(p) for p in AGENT_FILES])
+def test_agent_declares_no_defunct_tool(agent: Path) -> None:
+    """No agent declares a tool name the harness no longer exposes (COS#27).
+
+    A defunct name is NOT a hard error — the agent still launches on its other
+    declared tools — so the capability just vanishes silently. That is why this
+    is a test and not a runtime check: nothing else would ever tell us.
+
+    `Task` is the trap: it reads like the spawn tool but the current name is
+    `Agent`. (TaskCreate/TaskUpdate/TaskList/TaskGet are todo management — a
+    different surface — so only the bare name is defunct.)
+    """
+    tools = _declared_tools(agent.read_text(encoding="utf-8"))
+    bad = sorted(set(tools) & DEFUNCT_TOOLS)
+    assert not bad, (
+        f"{agent.name} declares defunct tool(s) {bad}; "
+        f"the subagent-spawn tool is 'Agent' (see {', '.join(sorted(DEFUNCT_TOOLS))} → Agent)"
+    )
+
+
+def test_agent_templates_teach_no_defunct_tool() -> None:
+    """The authoring templates must not teach a defunct tool name (COS#27 root cause).
+
+    Fixing only the shipped agents leaves the bug's SOURCE intact: every agent
+    later authored from a template would reinherit `Task`. The templates are
+    the single point where the name propagates, so they are asserted too.
+    """
+    offenders = [
+        f"{p.relative_to(PLUGIN_ROOT)}:{i}"
+        for p in SKILLS_DIR.rglob("*template*.md")
+        for i, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1)
+        if re.match(r"^\s+-\s+(%s)\s*(#.*)?$" % "|".join(sorted(DEFUNCT_TOOLS)), line)
+    ]
+    assert not offenders, f"template(s) still teach a defunct tool name: {offenders}"
 
 
 # ─────────────────────────────── commands ────────────────────────────────────

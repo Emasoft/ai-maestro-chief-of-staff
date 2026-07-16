@@ -2,7 +2,7 @@
 name: amcos-staff-planner
 description: Analyzes task requirements and determines staffing needs. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Read
   - Bash
 skills:

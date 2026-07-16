@@ -2,7 +2,7 @@
 name: amcos-skill-validator
 description: Validates skills and triggers PSS reindexing when needed. Requires AI Maestro installed.
 tools:
-  - Task
+  - Agent
   - Bash
   - Read
 skills:
