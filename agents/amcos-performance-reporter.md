@@ -2,7 +2,11 @@
 name: amcos-performance-reporter
 description: Analyzes agent performance and reports strengths/weaknesses. Requires AI Maestro installed.
 tools:
-  - Agent
+  # No spawn tool ON PURPOSE: this agent reports, it never spawns (see "you do
+  # NOT execute code, fix bugs, modify files, or spawn agents" below). The old
+  # `Task` declaration was inert — the harness dropped that name — so renaming
+  # it to `Agent` would have granted a capability this agent's own prose
+  # forbids, rather than restoring one it ever had (COS#27).
   - Bash
   - Read
   - Write
