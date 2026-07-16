@@ -20,8 +20,8 @@ tables / unifying principle / consolidation rule / escalation format, see the
 granular `ama-*` skills in `ai-maestro-plugin` (the monolithic
 `prrd-trdd-kanban` skill was split into them and no longer exists). The
 references hub is `ama-trdd-transition` — its
-`references/cos-delegation-authority.md`, `references/exempt-operations.md`,
-and `references/approval-tiers-and-zones.md` are the shared source of truth.
+`cos-delegation-authority.md`, `exempt-operations.md`,
+and `approval-tiers-and-zones.md` are the shared source of truth.
 
 ## Prerequisites
 
@@ -46,7 +46,7 @@ and `references/approval-tiers-and-zones.md` are the shared source of truth.
    - **COS-AUTONOMOUS** — decide within the team, nothing goes upstream.
      Covers intra-team assignment/sequencing/relay, answering scope
      questions already settled by the TRDD/PRRD, approving anything
-     already EXEMPT (`ama-trdd-transition`'s `references/exempt-operations.md`), team health/lifecycle
+     already EXEMPT (`ama-trdd-transition`'s `exempt-operations.md`), team health/lifecycle
      within the approved R12 composition, in-team triage.
    - **COS-ESCALATE** — anything hard-floor, NON-EXEMPT, resource or
      composition change (new member, budget, tool, credential),
@@ -137,7 +137,7 @@ deployed `amp-kanban-*` CLIs.
 For the full two-tier authority tables, the unifying principle, the
 consolidation rule, and the escalation message format, read the granular
 `ama-*` skills in `ai-maestro-plugin` — the references hub is
-`ama-trdd-transition`, whose `references/cos-delegation-authority.md`,
-`references/exempt-operations.md`, and `references/approval-tiers-and-zones.md`
+`ama-trdd-transition`, whose `cos-delegation-authority.md`,
+`exempt-operations.md`, and `approval-tiers-and-zones.md`
 are the single source of truth for the shared mechanics. This skill only adds
 the COS gatekeeper role on top of them.

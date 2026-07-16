@@ -216,7 +216,7 @@ MANAGER request, not N pings. That batching IS your load-absorption.
 > Full tier tables + escalation-message format + the self-tuning
 > mechanism (recurring waved-through escalations become new
 > COS-AUTONOMOUS entries via a PRRD proposal): see
-> `references/cos-delegation-authority.md` in the `ama-trdd-transition`
+> the `cos-delegation-authority.md` reference of the `ama-trdd-transition`
 > skill (`ai-maestro-plugin` >= 2.7.9 — the granular skills that replaced
 > the monolithic `prrd-trdd-kanban`).
 
