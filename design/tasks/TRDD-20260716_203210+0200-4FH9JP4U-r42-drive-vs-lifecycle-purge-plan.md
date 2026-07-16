@@ -1,9 +1,9 @@
 ---
 trdd-id: 4FH9JP4U
 title: R42 drive-vs-lifecycle audit — categorized purge plan (execution-gated on R42 text)
-column: blocked
+column: dev
 created: 2026-07-16T20:32:10+0200
-updated: 2026-07-16T20:32:10+0200
+updated: 2026-07-16T21:42:04+0200
 current-owner: cos-ai-maestro-chief-of-staff
 task-type: audit
 release-via: publish
@@ -20,21 +20,41 @@ min-approval-requirement: none
   after the MANAGER, on ai-maestro#72 (2026-07-16T17:24:25Z), confirmed R42 has **no readable
   rule body** (governance-rules stuck at v4.2.0; R42–R49 unpushed) but **explicitly invited
   planning** against the CODIFIED anchors R9 / R10.3 / R17 / R29 / R30.
-- **VERDICT: the #42 purge is NEAR-EMPTY.** The R42 revocation target — steering a *running*
-  session (send-command, hard process-restart-to-control, stop-to-boss) — **does not exist**
-  anywhere in the COS surface (`send-command`=0, `steer`=0, `boss`=0 hits; `drive`/`stop the`
-  are all governance-column / AMP-messaging / analytics, never session-steering). COS "restart"
-  is **already DEFINED as a hibernate+wake lifecycle cycle** (see EVIDENCE), which R10.3
-  preserves by name. So there is essentially nothing to remove.
-- **NEXT ACTION (gated — do NOT execute yet):** when R42's actual text becomes readable
-  (unblocks with the hub's `git push origin governance-rules`, ai-maestro#71), re-read R42, then
-  apply the small REPHRASE hygiene list below ONLY if R42 draws the line where the MANAGER's
-  interim reading puts it. Until then: parked.
-- **BLOCKED-BY (external):** R42 rule text not codified on readable `governance-rules`
-  (ai-maestro#71 / #72). pre-block-column: backburner.
-- **SUPERSEDED — do NOT carry forward:** the earlier assumption (from the R41–R48 briefing) that
-  #42 would be a large multi-file "purge of drive semantics." It is not — the MANAGER retracted
-  the over-cited R42 paraphrase, and the audit shows the surface was already R42-clean.
+- **UNBLOCKED 2026-07-16T~19:32 (ai-maestro#72):** `git push origin governance-rules` landed;
+  R42 is now readable — `GOVERNANCE-RULES.md` v4.5.0 L1510: **"No Agent May Drive Another Agent —
+  Messaging Is the ONLY Channel"** (CRITICAL/IRON/USER-set). MANAGER confirmed my finding and said
+  EXECUTE. R42's literal sets: **REVOKED** = injecting a command/keystroke/prompt/queued-input into
+  ANOTHER agent's session (routes `POST …/[id]/{panel,queue,prompt/answer}`, `PATCH …/[id]/session`,
+  `POST /api/sessions/[id]/{stop,restart}`; TRDD-BF3JN4TL). **PRESERVED** = hibernate/wake own-team
+  (R10.3), spawn/terminate (R29/R30) — governed by R10, NOT R42; self-drive (R42.4);
+  **R42.6 "Configuring is NOT driving"** (local skills/subagents/MCP/hooks + TEAM/TITLE).
+- **VERDICT (corrected by THE CHECK): the config/lifecycle surface IS R42-clean, BUT the RECOVERY
+  path is NOT — a real repoint, not the earlier "2-spot rephrase".** THE CHECK the MANAGER asked
+  for (grep recovery for revoked routes) SURPRISED us: no direct `/api/sessions/*/restart` calls in
+  scripts (task #23 migrated those), but the recovery SKILL PROSE instructs R42-revoked
+  session-injection — tmux keystroke inject (`examples.md:30,38` "Send restart command via tmux
+  session (exit and relaunch Claude Code)") and "send a soft/hard restart signal to the agent"
+  (`op-execute-recovery-strategy.md:57,64`; `recovery-operations.md:228,291`), duplicated across
+  BOTH `amcos-recovery-execution` and `amcos-failure-detection` (files DIFFER). Strategy 4
+  (Hibernate-Wake) and the message-based "graceful restart request" are already R42-compliant.
+- **FIX TAXONOMY (grounded in R42's sets):** soft restart → **MESSAGE the agent to self-restart**
+  (R42.2 directive-as-message + R42.4 self-drive); hard restart → **hibernate→wake cycle** (R10.3
+  own-team; wake reloads config per R17.21) — a server lifecycle-STATE op, NEVER the revoked
+  `sessions/[id]/restart` route or a tmux keystroke; then terminate+respawn (R29/R30) / op-replace.
+  Caveat (R42 rationale, HONEST LIMIT): R42 is tamper-EVIDENT not tamper-PROOF (tmux unfenced) —
+  **do NOT describe R42 as a sandbox** in any rephrase.
+- **EXECUTION COMPLETE 2026-07-16T~21:5x — 21 surface files repointed, verified clean, 195 tests green.**
+  MANAGER approved cells 1/2/HONEST-LIMIT on ai-maestro#72 (19:45:35Z); cell 3 (terminate+respawn)
+  confirmed delete+create via `op-replace-agent.md` (line 38 "no memory of the old agent") and gated
+  — it ALREADY requires MANAGER approval (Phase 2), made explicit at every reference. The initial
+  recovery-scoped grep UNDER-scoped: the tmux/kill/restart boilerplate was duplicated across
+  `amcos-{recovery-execution,failure-detection,emergency-handoff,agent-replacement}` examples,
+  `op-wake-agent.md` ×4, `op-install-plugin-remote`, `op-restart-agent-plugin`, `cli-reference`, and
+  the `amcos-recovery-workflow`/`amcos-wake-agent` commands — a repo-wide re-grep (with a
+  never/NOT/R42/read-only filter) found and cleared ALL of them. Worst finding: a raw
+  `tmux list-panes … | kill -TERM $PID` in recovery-operations.md §4.1 (COS process-killing a peer) —
+  removed. **NEXT ACTION:** publish (deferred to a deliberate release — bundles with `fa385e0`/`a0f3ed2`).
+  Verify on resume: `grep -rlniE '<injection pattern>' … | filter` returns empty; `uv run pytest tests/` green.
 
 ## Context
 

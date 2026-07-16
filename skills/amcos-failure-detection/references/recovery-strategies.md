@@ -120,7 +120,7 @@ Use this strategy when:
 
 ### 3.4.2 Soft Restart Procedure
 
-A soft restart sends a graceful termination signal and allows the agent to clean up before restarting.
+A soft restart sends the agent a graceful self-restart request — a message (R42: messaging is the only cross-agent channel), not an injected signal — and lets it save state and restart itself.
 
 **Step 1: Request graceful shutdown**
 

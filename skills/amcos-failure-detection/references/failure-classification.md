@@ -112,7 +112,7 @@ A **recoverable failure** is a disruption that requires intervention but does no
 |---------|----------|-----------------|
 | Session hibernation | Agent unresponsive, session marked "idle" | Wake via terminal command |
 | Out of memory | Agent crashed, error in logs | Restart with more memory |
-| Infinite loop/hang | Agent responsive but task stuck | Send interrupt, restart task |
+| Infinite loop/hang | Agent responsive but task stuck | Message the agent to abandon the stuck task (R42: no keystroke injection) |
 | Dependency failure | Agent cannot reach external service | Wait for service, retry |
 | User terminal closed | Agent process orphaned | Reconnect terminal session |
 | Context window exceeded | Agent cannot process new input | Compact context, restart |
@@ -218,7 +218,7 @@ START: Failure detected
 [Can agent     [Agent likely hung or overloaded]
  process be        |
  found?]           v
-    |          [Send interrupt signal]
+    |          [Message: request self-restart]
     |               |
     | No            v
     v          [Agent responds within 2 min?]

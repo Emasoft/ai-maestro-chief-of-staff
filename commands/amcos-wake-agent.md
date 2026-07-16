@@ -123,7 +123,7 @@ When woken, the agent:
 
 ## Restart Agent (After Plugin Install)
 
-After installing plugins or marketplaces, use the `ai-maestro-agents-management` skill to restart the agent. A restart is equivalent to hibernate followed by wake, which auto-applies plugin changes.
+After installing plugins or marketplaces, use the `ai-maestro-agents-management` skill to restart the agent — a restart here is the R10.3 hibernate→wake cycle (never a session-injection; R42), and wake auto-applies the plugin changes (R17.21).
 
 ## Related Commands
 

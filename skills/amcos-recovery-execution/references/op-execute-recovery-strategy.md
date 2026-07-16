@@ -54,17 +54,28 @@ Attempt to restore a failed agent to operational status using appropriate recove
 
 ### Strategy 2: Restart Agent (Soft)
 
-1. Use the `ai-maestro-agents-management` skill to send a soft restart signal to the agent.
-2. Wait 2 minutes for restart
+R42 (messaging is the only cross-agent channel): ask the agent to restart *itself* — never inject
+a command/keystroke into its session.
+
+1. Use the `agent-messaging` skill to send the agent a graceful self-restart request (it saves
+   state and restarts itself; R42.2 directive-as-message + R42.4 self-drive).
+2. Wait 2 minutes for the agent to acknowledge and restart
 3. Verify agent status
-4. If failed, attempt hard restart
+4. If no acknowledgment, attempt hard restart
 
 ### Strategy 3: Restart Agent (Hard)
 
-1. Use the `ai-maestro-agents-management` skill to send a hard restart signal to the agent.
-2. Wait 5 minutes for full restart
+For a hung agent that will not answer a message, force a clean reload with the R10.3
+hibernate→wake cycle — a server-side lifecycle-state op (wake reloads plugin/config, R17.21),
+NOT the R42-revoked `POST /api/sessions/[id]/restart` route and NOT a tmux keystroke.
+
+1. Use the `ai-maestro-agents-management` skill to hibernate the agent, then wake it (own-team only, R10.3).
+2. Wait 5 minutes for the wake and config reload to complete
 3. Verify agent status
-4. If failed, classify as terminal
+4. If still failed, classify as terminal. Terminate+respawn is a delete+create (new AID, no memory
+   of the old agent) — R29/R30 MANAGER-lifecycle territory, so it requires a **MANAGER mandate**:
+   route through `op-replace-agent.md` (its Phase 2 gates on MANAGER approval before the replacement
+   is created). COS does not unilaterally tear down and rebuild a member.
 
 ### Strategy 4: Hibernate-Wake Cycle
 

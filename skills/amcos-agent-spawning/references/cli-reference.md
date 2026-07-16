@@ -242,7 +242,7 @@ You can optionally specify a custom wait time between hibernate and wake (defaul
 1. Exit Claude Code manually
 2. Use the `ai-maestro-agents-management` skill to wake your own agent from another agent
 
-**Or from another agent:** use the skill to restart the target agent.
+**Or from another agent:** use the skill to restart the target agent (own-team; this is the R10.3 hibernate→wake cycle from §6.1 — never a session-injection, R42).
 
 ---
 

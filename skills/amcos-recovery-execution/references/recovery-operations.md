@@ -69,6 +69,11 @@ tmux has-session -t <agent-name> 2>/dev/null && echo "SESSION_EXISTS" || echo "S
 
 **Purpose**: Verify Claude Code process is running inside the tmux session.
 
+> Prefer the `ai-maestro-agents-management` skill's status query (server registry: status,
+> last_seen) as the primary health signal. The tmux/ps check below is a read-only local
+> diagnostic — observation only, never a drive-op (R42 revokes *injecting into* a peer's
+> session, not *observing* it).
+
 ```bash
 # Check if Claude Code process is running in the session
 tmux list-panes -t <agent-name> -F '#{pane_pid}' 2>/dev/null | xargs -I {} ps -p {} -o pid,state,comm
@@ -225,7 +230,7 @@ FAILURE_DETECTED
 
 2. Wait 60 seconds for potential self-recovery
 
-3. If still unresponsive, use the `ai-maestro-agents-management` skill to restart the agent
+3. If still unresponsive, use the `ai-maestro-agents-management` skill to hibernate then wake the agent (R10.3 own-team; wake reloads config, R17.21) — never inject a keystroke into, or kill the process of, another agent (R42)
 
 **Decision after restart:**
 - If healthy then log and continue monitoring
@@ -261,34 +266,28 @@ FAILURE_DETECTED
 
 ### 4.1 Soft Restart Procedure
 
-**When to use**: Agent process is stuck but tmux session exists.
+**When to use**: Agent process is stuck but may still respond to a message.
+
+R42 — messaging is the ONLY cross-agent channel. COS never SIGTERMs/kills another agent's
+process and never injects a keystroke into its tmux session. It asks the agent to restart itself.
 
 **Steps:**
-1. Send SIGTERM to the Claude Code process
-2. Wait 30 seconds for graceful shutdown
-3. Process should automatically restart (tmux keeps session alive)
-4. Verify health after restart
-
-**Command:**
-```bash
-# Get the process PID
-PID=$(tmux list-panes -t <agent-name> -F '#{pane_pid}')
-
-# Send SIGTERM
-kill -TERM $PID
-
-# Wait for restart
-sleep 30
-```
+1. Use the `agent-messaging` skill to send the agent a graceful self-restart request (it saves
+   state and restarts itself; R42.2 directive-as-message + R42.4 self-drive)
+2. Wait 60 seconds for the agent to acknowledge and self-recover
+3. Verify health after restart
+4. If no acknowledgment, proceed to 4.2 (hibernate→wake)
 
 After waiting, use the `ai-maestro-agents-management` skill to check the agent's status.
 
 ### 4.2 Wake via Lifecycle Manager
 
-**When to use**: Soft restart failed or process is in unrecoverable state.
+**When to use**: The soft-restart message got no response, or the session is suspended.
 
 **Steps:**
-1. Use the `ai-maestro-agents-management` skill to restart the agent
+1. Use the `ai-maestro-agents-management` skill to hibernate then wake the agent (R10.3 own-team
+   lifecycle-state op; wake reloads plugin/config, R17.21) — NOT the R42-revoked
+   `POST /api/sessions/[id]/restart` route
 2. Wait for agent to re-register with AI Maestro
 3. Verify health
 

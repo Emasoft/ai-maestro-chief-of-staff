@@ -181,7 +181,7 @@ For agent `dev-frontend-bob`:
 | Agent not found in hibernated status | Agent was terminated or never hibernated | Spawn new agent instead |
 | State file missing | Hibernation did not save state properly | Wake without state, agent starts fresh |
 | Wake command fails | tmux session corrupted | Delete and respawn agent |
-| Agent not responding after wake | Claude Code instance crashed | Use the `ai-maestro-agents-management` skill to restart the agent |
+| Agent not responding after wake | Claude Code instance crashed | Hibernate→wake again (R10.3, own-team); if still crashed, escalate to `op-replace-agent` (delete+create, MANAGER-gated) — never inject/kill (R42) |
 | Resource limit exceeded | Too many running agents | Hibernate another agent first |
 | State restoration fails | Corrupt state file | Continue without state, log incident |
 

@@ -119,10 +119,10 @@ Use the `ai-maestro-agents-management` skill for all plugin operations on a remo
 | Error | Cause | Resolution |
 |-------|-------|------------|
 | Agent not found | Wrong session name | Use the skill to list agents and find the correct name |
-| Agent not responding | Session crashed | Use the skill to restart the agent |
+| Agent not responding | Session crashed | Use the skill to hibernate→wake the agent (R10.3; never inject/kill — R42) |
 | Marketplace add fails | Network issue | Check connectivity, retry |
 | Plugin install fails | Plugin not in marketplace | Verify plugin name, update marketplace cache |
-| Auto-restart fails | Claude Code issue | Use the skill to manually restart the agent |
+| Auto-restart fails | Claude Code issue | Use the skill to manually hibernate→wake the agent (R10.3); if still failing, escalate to `op-replace-agent` (MANAGER-gated) |
 | Plugin not appearing | Cache issue | Use the skill to clean plugin cache, then reinstall |
 
 ## Related Operations

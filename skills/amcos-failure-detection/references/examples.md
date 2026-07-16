@@ -27,7 +27,7 @@
 **Recovery steps**:
 1. Heartbeat monitor detects `svgbbox-impl-01` unresponsive (5 min timeout)
 2. Classify as recoverable (no explicit crash signal)
-3. Send restart command via tmux
+3. Restart via the R10.3 hibernate→wake cycle (own-team) — never inject a keystroke into its session
 4. Wait for agent to re-register in AI Maestro
 5. Verify agent received pending messages
 6. Report recovery to AMAMA
@@ -35,7 +35,7 @@
 **Detailed procedure**:
 
 - **Step 1**: Use the `ai-maestro-agents-management` skill to check agent `svgbbox-impl-01` status. Expected: "offline" or "unknown"
-- **Step 3**: Send restart command via tmux session (exit and relaunch Claude Code)
+- **Step 3**: Use the `ai-maestro-agents-management` skill to hibernate then wake agent `svgbbox-impl-01` (R10.3 own-team; wake reloads plugin/config, R17.21). Never inject a tmux keystroke or call `POST /api/sessions/[id]/restart` — R42-revoked cross-agent session-injection.
 - **Step 4**: Wait 60 seconds, then use the `ai-maestro-agents-management` skill to verify agent status is "online"
 - **Step 5**: Use the `agent-messaging` skill to check for pending messages for agent `svgbbox-impl-01`. Expected: 0 pending
 - **Step 6**: Use the `agent-messaging` skill to report recovery to AMAMA:

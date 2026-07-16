@@ -186,8 +186,11 @@ everything nullifies your purpose.
 - Approve anything already EXEMPT (see the universal skill's
   `exempt-operations.md`): mechanical kanban transitions, read-only
   ops, runtime-evidence logging, applying the ratified baseline as-is.
-- Wake / hibernate / restart a member already in the approved R30 team
-  composition (the invariant 5-member base); re-dispatch a bounced TRDD.
+- Wake / hibernate a member already in the approved R30 team composition
+  (the invariant 5-member base) — a "restart" here means the R10.3
+  hibernate→wake cycle (config reloads on wake, R17.21), NEVER a
+  keystroke/route injection into another agent's session (R42, IRON);
+  re-dispatch a bounced TRDD.
 - First-line problem triage: try to resolve in-team (reassign, clarify,
   unblock via another member) BEFORE escalating.
 

@@ -25,7 +25,7 @@ Execute a recovery workflow for a failed, unresponsive, or degraded agent. Suppo
 │                                                             │
 │  RESTART (Level 1 - Mild Issues)                            │
 │  └─> For: Temporary hangs, minor memory issues              │
-│  └─> Action: Restart tmux session and Claude Code           │
+│  └─> Action: Message self-restart / hibernate-wake           │
 │  └─> Risk: Low - preserves session context                  │
 │                                                             │
 │  HIBERNATE-WAKE (Level 2 - Moderate Issues)                 │
@@ -81,14 +81,14 @@ Execute a recovery workflow for a failed, unresponsive, or degraded agent. Suppo
 **Workflow**:
 ```
 1. Check current agent status
-2. Send SIGTERM to Claude Code process (graceful stop)
-3. Wait for process to exit (up to timeout)
-4. Restart tmux session with Claude Code
+2. Message the agent to gracefully self-restart (R42: a directive is a message, never a signal/keystroke)
+3. Wait for acknowledgment (up to timeout)
+4. If no acknowledgment, hibernate then wake the agent (R10.3; wake reloads config, R17.21)
 5. Verify agent is responsive (if --verify)
 ```
 
 **Operations**: Use the `ai-maestro-agents-management` skill to:
-1. Restart the agent's tmux session
+1. Hibernate then wake the agent (R10.3 own-team; NOT the R42-revoked `sessions/[id]/restart` route or a tmux keystroke)
 2. Wait for the agent to come online (timeout: 60s)
 3. Verify health (if `--verify`)
 
@@ -155,13 +155,13 @@ with parameters derived from the failed agent's metadata.
     Last Heartbeat:   5 minutes ago
     Session:          helper-backend (exists)
 
-  Step 2: Stop Agent
-    ✓ Sent SIGTERM to process 12345
-    ✓ Process terminated gracefully
+  Step 2: Request self-restart
+    ✓ Sent graceful self-restart message
+    ✓ No acknowledgment within 120s
 
-  Step 3: Restart Session
-    ✓ tmux session restarted
-    ✓ Claude Code launched
+  Step 3: Hibernate→Wake (R10.3)
+    ✓ Agent hibernated, then woken
+    ✓ Config reloaded, Claude Code online
 
   Step 4: Wait for Online
     ✓ Agent online after 8 seconds

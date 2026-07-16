@@ -5,6 +5,11 @@ parent-skill: amcos-plugin-management
 
 # Restart Agent After Plugin Changes
 
+> **R42 note:** "restart" here is the R10.3 hibernate→wake cycle — wake reloads the agent's
+> plugins/config (R17.21). For a REMOTE agent it is a lifecycle-state op via the
+> `ai-maestro-agents-management` skill, never a keystroke/route injection into its session
+> (`POST /api/sessions/[id]/restart` is R42-revoked). Restarting the LOCAL agent (self) is
+> R42.4 self-drive and always allowed.
 
 ## Contents
 
@@ -61,7 +66,7 @@ Wait 30 seconds for the agent to save state.
 
 #### Step 3: Execute Restart
 
-Use the `ai-maestro-agents-management` skill to restart the target agent.
+Use the `ai-maestro-agents-management` skill to restart the target agent (the hibernate→wake cycle per the R42 note above — never a session-injection).
 
 For slow systems, use a longer wait time option if available.
 
