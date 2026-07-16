@@ -48,10 +48,10 @@ gh issue edit $ISSUE_NUMBER --remove-label "status:in-progress" --add-label "sta
 
 ### Step 2: Add Comment Explaining Blocker
 
-Per PRRD G1.1, every GitHub comment body MUST begin with the self-identification line `This is the Claude responsible for the ai-maestro-chief-of-staff project.` followed by a blank line, then the message:
+Per PRRD G1.1, every GitHub comment body MUST begin with the self-identification line `_Posted by the Claude developing the **ai-maestro-chief-of-staff** (the COS role; via the shared @Emasoft gh auth)._` followed by a blank line, then the message:
 
 ```bash
-gh issue comment $ISSUE_NUMBER --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+gh issue comment $ISSUE_NUMBER --body "_Posted by the Claude developing the **ai-maestro-chief-of-staff** (the COS role; via the shared @Emasoft gh auth)._
 
 Agent blocked: $BLOCKER_REASON. Assigned to human for resolution."
 ```
@@ -96,7 +96,7 @@ gh issue view $ISSUE_NUMBER --json labels --jq '.labels[].name'
 gh issue edit 43 --remove-label "status:in-progress" --add-label "status:blocked"
 
 # Step 2: Add comment (body begins with the PRRD G1.1 self-id line)
-gh issue comment 43 --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+gh issue comment 43 --body "_Posted by the Claude developing the **ai-maestro-chief-of-staff** (the COS role; via the shared @Emasoft gh auth)._
 
 Agent blocked: waiting for external API credentials. Assigned to human for resolution."
 
@@ -120,7 +120,7 @@ gh issue edit $ISSUE_NUMBER --remove-label "assign:human"
 gh issue edit $ISSUE_NUMBER --remove-label "status:blocked" --add-label "status:in-progress"
 
 # Comment about resolution (body begins with the PRRD G1.1 self-id line)
-gh issue comment $ISSUE_NUMBER --body "This is the Claude responsible for the ai-maestro-chief-of-staff project.
+gh issue comment $ISSUE_NUMBER --body "_Posted by the Claude developing the **ai-maestro-chief-of-staff** (the COS role; via the shared @Emasoft gh auth)._
 
 Blocker resolved. Agent can proceed."
 
