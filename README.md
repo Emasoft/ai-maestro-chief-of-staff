@@ -1,8 +1,11 @@
 # AI Maestro Chief of Staff (amcos-)
 
-**Version**: 2.15.1 | **Minimum AI Maestro**: 0.26.0 | **Minimum Claude Code**: 2.1.139
+**Minimum AI Maestro platform**: 0.26.0 | **Minimum Claude Code**: 2.1.139 | **Governance ruleset**: v4.x
 
-> Derived from emasoft-chief-of-staff v1.3.9, adapted for AI Maestro governance v0.26.0
+> The plugin version is the source of truth in `.claude-plugin/plugin.json` (not
+> restated here, so it cannot drift). Derived from emasoft-chief-of-staff v1.3.9,
+> adapted for the AI Maestro governance ruleset (the **AI Maestro platform** min
+> version 0.26.0 and the **governance ruleset** version are separate axes).
 
 ## Overview
 

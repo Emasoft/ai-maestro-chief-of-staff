@@ -32,8 +32,8 @@ and `approval-tiers-and-zones.md` are the shared source of truth.
   approve/refuse/archive — COS is **relay-only**, the MANAGER decides),
   `ama-trdd-transition` (the tier-table + delegation references hub),
   `ama-trdd-write` / `-find` / `-update`, and `ama-kanban-render`.
-- A PRRD and per-task TRDDs under `design/tasks/` (and proposals under
-  `design/requirements/proposals/`).
+- A PRRD (`design/requirements/PRRD.md`) and per-task TRDDs under `design/tasks/`
+  (proposals await approval under `design/proposals/`).
 - AMP (`amp-send`, `amp-inbox`) for inter-agent messaging.
 - A closed team per R6 v3: MANAGER ↔ COS ↔ members is the only path; the
   COS is the sole entry/exit point.
