@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: dev
 created: 2026-06-15T22:18:37+0200
-updated: 2026-06-18T03:34:10+0200
+updated: 2026-07-16T19:52:43+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -11,6 +11,7 @@ severity: HIGH
 effort: L
 labels: [decoupling, frozen-interface, no-direct-api, fleet-audit]
 task-type: refactor
+min-approval-requirement: none
 relevant-rules: [1]
 release-via: publish
 delivery: direct-push

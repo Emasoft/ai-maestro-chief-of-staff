@@ -670,7 +670,7 @@ you **GRANT** Tier 1 yourself, and you **FORWARD** Tier 2/Tier 3 up to MANAGER
 
 ### Two folders (location = authorization)
 
-| Folder | `status:` | Meaning |
+| Folder | `column:` | Meaning |
 |--------|-----------|---------|
 | `design/proposals/` | `proposal` | Authored, **awaiting approval — not authorized to execute**. |
 | `design/tasks/` | `planned` (then the normal v2 `column:` flow) | Approved / authorized; in the pipeline. |
@@ -680,6 +680,31 @@ TRDD body `## Approval log`, and **moves the file** with
 `git mv design/proposals/TRDD-….md design/tasks/TRDD-….md` (preserves history).
 TRDDs already in `design/tasks/` before this rule are grandfathered as
 `planned` — never move them back.
+
+### The `min-approval-requirement:` field — the floor, and born-approved (R41)
+
+Every TRDD carries **`min-approval-requirement:`** in its frontmatter — the
+LOWEST authority that may authorize it, on the ladder
+`none` < `orchestrator` < `chief-of-staff` < `manager` < `user`. A task is
+**born approved** (authored straight into `design/tasks/` as `planned`, no
+proposal step) **iff** the authority of whoever **mandated** it is at or above
+that floor; otherwise it is a **proposal** in `design/proposals/` awaiting an
+approver at or above the floor. No one self-approves above their own rung — not
+even the MANAGER.
+
+**You classify the floor** from what the task actually touches, using the
+objective tier-floor in `~/.claude/rules/trdd-approval-tiers.md` (§D3):
+GOLDEN-PRRD / shared credentials / irreversible-destructive / first production
+deploy → `user`; `.github` or baseline-ruleset deviation / cross-repo /
+SILVER-PRRD / release-to-prod → `manager`; affects other team members →
+`chief-of-staff`; everything else (in-scope dev, NPT/EHT, docs, local refactor)
+→ `none`. When unsure, floor one rung HIGHER — conservative beats sorry.
+
+**You are authority rung `chief-of-staff`.** You may mandate (born-approve) a
+task whose floor is `chief-of-staff` or below; you FORWARD anything floored at
+`manager` / `user` up the chain. Set the field on every NEW TRDD you author;
+never edit it on a terminal (`complete` / `published` / `failed` / `superseded`)
+TRDD — those are frozen.
 
 ### Your gate obligations
 
