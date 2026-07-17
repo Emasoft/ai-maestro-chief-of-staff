@@ -59,13 +59,33 @@ Therefore:
    - Backup logs if available
    - Document last known state
 
-3. **Record in incident log**
+3. **Capture the failing agent's in-flight kanban load (read-only context)**
+   Replacement decisions must be made WITH kanban context, not blind — you need
+   the actual in-progress task count and IDs so the impact estimate, the AMOA
+   reassignment request, and the new agent's handoff are data-driven rather than
+   guessed. Query the frozen CLI (this is read-only OBSERVATION, not driving —
+   R42-compliant; it is also the successor to the removed `GET /api/.../tasks?assignee=`).
+   `--status` takes ONE stage per call, so query each active stage the agent
+   could be mid-work in and union the results:
+   ```bash
+   for stage in dev testing ai_review human_review; do
+     amp-kanban-list.sh --assignee "<FAILED_AGENT_ID>" --status "$stage"
+   done
+   ```
+   `<FAILED_AGENT_ID>` is the agent's registered UUID (from the team registry).
+   Record the resulting task IDs — they populate the `impact` field in Phase 2
+   and the reassignment list you hand AMOA in Phase 4. You do NOT reassign them
+   yourself: task reassignment on the kanban is ORCHESTRATOR-owned; you supply
+   the context and request the move.
+
+4. **Record in incident log**
    ```json
    {
      "event": "terminal_failure_confirmed",
      "agent": "failed-agent-name",
      "timestamp": "ISO8601",
      "recovery_attempts": 3,
+     "in_progress_tasks": ["task-id", "..."],
      "artifacts_preserved": ["list", "of", "files"]
    }
    ```
@@ -87,7 +107,7 @@ Therefore:
        "failed_agent": "AGENT_NAME",
        "failure_type": "terminal",
        "recovery_attempts": 3,
-       "impact": "Tasks X, Y, Z are blocked"
+       "impact": "N tasks in progress (from the Phase-1 kanban capture): [task-id, ...] — will need ORCHESTRATOR reassignment"
      }
    }
    ```

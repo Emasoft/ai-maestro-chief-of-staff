@@ -29,7 +29,7 @@ Replace a failed agent when recovery has failed or failure is terminal. Covers f
 
 1. **Confirm failure** -- verify all recovery strategies attempted or failure is terminal
 2. **Preserve artifacts** -- save recoverable work to `thoughts/shared/handoffs/AGENT_NAME/`
-3. **Request approval** -- send `urgent` replacement request to AMAMA; wait for approval
+3. **Request approval** -- first capture the failing agent's in-progress kanban load (read-only `amp-kanban-list --assignee`, per active stage) so the impact estimate is data-driven not guessed; then send the `urgent` replacement request to AMAMA and wait for approval
 4. **Create replacement** -- use `ai-maestro-agents-management` skill
 5. **Notify AMOA** -- so it can generate handoff docs and update kanban
 6. **Send handoff docs** to new agent (validate with checklist below)
