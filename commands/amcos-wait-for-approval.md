@@ -2,7 +2,7 @@
 name: amcos-wait-for-approval
 description: "Wait for approval response from AMAMA with configurable timeout and polling"
 argument-hint: "--request-id <ID> [--timeout <SECONDS>] [--poll-interval <SECONDS>]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

@@ -96,6 +96,23 @@ def _declared_tools(text: str) -> list[str]:
     return out
 
 
+def _flow_tools(value: str) -> list[str]:
+    """Return base tool names from a flow-style `allowed-tools: ["A", "B(spec:*)"]`.
+
+    Commands declare their tools under a different KEY (`allowed-tools`, not
+    `tools`) and in a different STYLE (inline JSON array, not a block list) than
+    agents do. `_declared_tools()` above reads only the block form on agents, so
+    nothing ever inspected a command's list — which is exactly how `Task`
+    survived in 18 commands after the agents were fixed for COS#27, with the
+    suite green the whole time. A defunct entry is silently dropped at load, so
+    a test is the only thing that can catch it.
+
+    An entry may carry a permission specifier (`Bash(python3 foo.py:*)`); only
+    the base name before `(` is meaningful for a defunct-name check.
+    """
+    return [m.group(1) for m in re.finditer(r'"\s*([A-Za-z_][\w-]*)', value)]
+
+
 def _discover(dir_path: Path, pattern: str) -> list[Path]:
     return sorted(dir_path.glob(pattern)) if dir_path.is_dir() else []
 
@@ -228,6 +245,29 @@ def test_command_frontmatter_parses(cmd: Path) -> None:
     fm = parse_frontmatter(cmd.read_text(encoding="utf-8"))
     assert fm is not None, f"{cmd} has no YAML frontmatter"
     assert fm.get("description"), f"{cmd} frontmatter missing 'description'"
+
+
+@pytest.mark.parametrize("cmd", COMMAND_FILES, ids=[_id(p) for p in COMMAND_FILES])
+def test_command_declares_no_defunct_tool(cmd: Path) -> None:
+    """No command declares a defunct tool in `allowed-tools` (COS#27 follow-up).
+
+    Fixing the agents left the commands untouched because the agent guard reads
+    a different key and style (see `_flow_tools`). When this was finally
+    measured, 18 of 23 commands still declared `Task` — none of which spawn a
+    subagent at all.
+
+    That is why the fix was to DROP the entry rather than rename it to `Agent`:
+    renaming would have granted every one of those commands a subagent-spawn
+    capability it never uses, which is the opposite of least privilege.
+    """
+    fm = parse_frontmatter(cmd.read_text(encoding="utf-8")) or {}
+    declared = _flow_tools(fm.get("allowed-tools", ""))
+    bad = sorted(set(declared) & DEFUNCT_TOOLS)
+    assert not bad, (
+        f"{cmd.name} declares defunct tool(s) {bad} in allowed-tools; the "
+        "subagent-spawn tool is 'Agent' — and if the command does not spawn "
+        "subagents, DROP the entry rather than renaming it (least privilege)"
+    )
 
 
 # ───────────────────────────────── hooks ─────────────────────────────────────

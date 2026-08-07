@@ -2,7 +2,7 @@
 name: amcos-health-check
 description: "Check health status of agents including heartbeat, responsiveness, and resource usage"
 argument-hint: "[--agent <NAME>] [--all] [--verbose] [--format table|json]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

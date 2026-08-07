@@ -2,7 +2,7 @@
 name: amcos-notify-agents
 description: "Notify agents before or after operations via AI Maestro messaging API"
 argument-hint: "--agents <name1,name2,...> | --all --operation <type> --message <text> [--require-ack]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

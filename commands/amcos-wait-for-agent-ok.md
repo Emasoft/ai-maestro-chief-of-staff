@@ -2,7 +2,7 @@
 name: amcos-wait-for-agent-ok
 description: "Wait for an agent to acknowledge readiness with polling and reminders"
 argument-hint: "--agent <name> [--timeout <seconds>] [--remind-interval <seconds>]"
-allowed-tools: ["Bash", "Task", "Read"]
+allowed-tools: ["Bash", "Read"]
 user-invocable: true
 ---
 

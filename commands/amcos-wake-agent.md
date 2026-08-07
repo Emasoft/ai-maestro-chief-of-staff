@@ -2,7 +2,7 @@
 name: amcos-wake-agent
 description: "Wake a hibernated agent, restoring its previous state using AI Maestro CLI"
 argument-hint: "<AGENT_NAME> [--attach]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

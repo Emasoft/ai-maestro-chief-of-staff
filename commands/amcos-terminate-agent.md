@@ -2,7 +2,7 @@
 name: amcos-terminate-agent
 description: "Terminate a remote agent and clean up its session using AI Maestro CLI"
 argument-hint: "<AGENT_NAME> --confirm [--keep-folder]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

@@ -2,7 +2,7 @@
 name: amcos-transfer-agent
 description: "Transfer an agent to a target team via GovernanceRequest"
 argument-hint: "<agent-name> --to-team <team-id> [--reason <text>]"
-allowed-tools: ["Bash", "Task", "Read"]
+allowed-tools: ["Bash", "Read"]
 user-invocable: true
 ---
 

@@ -2,7 +2,7 @@
 name: amcos-install-skill-notify
 description: "Install skill with full notification protocol: notify, wait for ok, install, verify"
 argument-hint: "--agent <name> | --global --skill <name> | --marketplace <marketplace>/<skill> [--wait-for-ok]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

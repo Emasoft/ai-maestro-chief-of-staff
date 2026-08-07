@@ -2,7 +2,7 @@
 name: amcos-transfer-work
 description: "Transfer work from one agent to another by sending handoff documentation via AI Maestro messaging"
 argument-hint: "--from <AGENT> --to <AGENT> --handoff-file <PATH> [--priority urgent|high|normal]"
-allowed-tools: ["Bash", "Task", "Read"]
+allowed-tools: ["Bash", "Read"]
 user-invocable: true
 ---
 

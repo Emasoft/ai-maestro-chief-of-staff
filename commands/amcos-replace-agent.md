@@ -2,7 +2,7 @@
 name: amcos-replace-agent
 description: "Replace a failed or terminated agent with a new one, including manager approval, handoff generation, and kanban update"
 argument-hint: "--failed-agent <NAME> --new-name <NAME> --role <ROLE> --project <PROJECT> --dir <PATH>"
-allowed-tools: ["Bash", "Read", "Task"]
+allowed-tools: ["Bash", "Read"]
 user-invocable: true
 ---
 

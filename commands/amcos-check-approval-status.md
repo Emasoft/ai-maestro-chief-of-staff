@@ -2,7 +2,7 @@
 name: amcos-check-approval-status
 description: "Check status of pending approval requests from AMAMA"
 argument-hint: "[--request-id <ID>] [--all] [--status <STATUS>] [--since <HOURS>]"
-allowed-tools: ["Bash", "Task", "Read"]
+allowed-tools: ["Bash", "Read"]
 user-invocable: true
 ---
 

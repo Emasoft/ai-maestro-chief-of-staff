@@ -2,7 +2,7 @@
 name: amcos-recovery-workflow
 description: "Execute recovery workflow for a failed or unhealthy agent with restart, hibernate-wake, or replace actions"
 argument-hint: "--agent <NAME> --action [restart|hibernate-wake|replace] [--timeout <SECONDS>]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

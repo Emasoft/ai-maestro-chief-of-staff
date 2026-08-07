@@ -2,7 +2,7 @@
 name: amcos-hibernate-agent
 description: "Put a remote agent to sleep, preserving its state for later resumption using AI Maestro CLI"
 argument-hint: "<AGENT_NAME>"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

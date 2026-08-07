@@ -2,7 +2,7 @@
 name: amcos-notify-manager
 description: "Notify the Assistant Manager (AMAMA) about issues, status updates, or alerts via AI Maestro"
 argument-hint: "--subject <TEXT> --message <TEXT> [--priority <PRIORITY>] [--type <TYPE>]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 

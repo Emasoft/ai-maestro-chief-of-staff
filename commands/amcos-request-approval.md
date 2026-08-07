@@ -2,7 +2,7 @@
 name: amcos-request-approval
 description: "Submit a GovernanceRequest for agent operations via AI Maestro API"
 argument-hint: "--type <T> --agent <A> --reason <R> [--scope] [--urgent] [--timeout] [--governance-password <PWD>]"
-allowed-tools: ["Bash", "Task", "Read"]
+allowed-tools: ["Bash", "Read"]
 user-invocable: true
 ---
 

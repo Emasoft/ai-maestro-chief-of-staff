@@ -2,7 +2,7 @@
 name: amcos-broadcast-notification
 description: "Send notification to multiple agents simultaneously with filtering by role or project"
 argument-hint: "--agents <names> | --role <role> | --project <proj> --subject <text> --message <text> [--priority]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 
