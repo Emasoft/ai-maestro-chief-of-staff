@@ -59,7 +59,7 @@ done
 The registry write that flips the agent's status to `terminated` is part of the
 issue-label↔registry surface that has **no** frozen-CLI verb yet.
 
-<!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+<!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 ### Step 4: Verify No Issues Remain Assigned
 
@@ -95,7 +95,7 @@ for ISSUE in $AGENT_ISSUES; do
 done
 
 # Step 3: Flip the agent's registry status to terminated — BLOCKED (no frozen-CLI verb).
-# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+# <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 # Step 4: Verify
 gh issue list --label "assign:implementer-1"
@@ -108,7 +108,7 @@ gh issue list --label "assign:implementer-1"
 |-------|-------|----------|
 | No issues found | Agent had no assignments | Continue with registry removal |
 | Label removal fails | Network or permission issue | Retry after brief delay |
-| Registry update blocked | No frozen-CLI verb for issue-label registry writes | Clear the labels via `gh` only until the verb ships (ai-maestro#36) |
+| Registry update blocked | No frozen-CLI verb for issue-label registry writes | Clear the labels via `gh` only until the verb ships (ai-maestro#76) |
 
 ## Considerations
 

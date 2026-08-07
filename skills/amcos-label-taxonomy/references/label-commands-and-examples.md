@@ -53,7 +53,7 @@ frozen-CLI verb yet:
 
 ```bash
 # Read an agent's registry current_issues — BLOCKED (no frozen-CLI verb).
-# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+# <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 # (When available it would return: {"session_name": "code-impl-01", "status": "active", "current_issues": [42, 43]})
 ```
 
@@ -64,7 +64,7 @@ frozen-CLI verb yet:
 LABELED=$(gh issue list --label "assign:implementer-1" --json number --jq '.[].number' | sort)
 
 # Compare with the agent's registry current_issues — BLOCKED (no frozen-CLI verb).
-# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+# <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 ```
 
 ## Example 1: Spawning Agent and Assigning to Issue
@@ -79,7 +79,7 @@ gh issue edit 42 --add-label "assign:implementer-1"
 gh issue edit 42 --remove-label "status:backlog" --add-label "status:todo"
 
 # Step 3: Record the issue on the agent's registry current_issues — BLOCKED (no frozen-CLI verb).
-# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+# <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 # Step 4: Verify
 gh issue view 42 --json labels --jq '.labels[].name'
@@ -101,7 +101,7 @@ for ISSUE in $AGENT_ISSUES; do
 done
 
 # Step 3: Flip the agent's registry status to terminated — BLOCKED (no frozen-CLI verb).
-# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+# <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
 # Step 4: Verify no issues remain assigned
 gh issue list --label "assign:implementer-1"

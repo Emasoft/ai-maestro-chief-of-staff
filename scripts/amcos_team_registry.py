@@ -153,10 +153,10 @@ def create_team(
     ]
     # `created_by` is dropped: the server infers the creator from CLI/AID auth.
     if project_board_url:
-        # DECOUPLE-BLOCKED ai-maestro#36: github_project — aimaestro-teams.sh create has no --gh-project flag yet; field dropped until it ships.
+        # DECOUPLE-BLOCKED ai-maestro#76: github_project — aimaestro-teams.sh create has no --gh-project flag yet; field dropped until it ships.
         print(
             "Warning: project_board_url given but aimaestro-teams.sh create has "
-            "no --gh-project flag (ai-maestro#36) — creating team without it.",
+            "no --gh-project flag (ai-maestro#76) — creating team without it.",
             file=sys.stderr,
         )
     result = _run_cli(argv, f"Create team '{team_name}'")
@@ -232,7 +232,7 @@ def add_agent(
 
     governance_role = ROLE_CONSTRAINTS[role].governance_role
 
-    # DECOUPLE-BLOCKED ai-maestro#36: add-agent — aimaestro-agent.sh create
+    # DECOUPLE-BLOCKED ai-maestro#76: add-agent — aimaestro-agent.sh create
     # requires a working directory (--dir <path>, hard-required) AND has NO
     # --status flag (verified against agent-commands.sh cmd_create: the only
     # --status is on `list`; create errors "Working directory is required").
@@ -247,7 +247,7 @@ def add_agent(
     return {
         "success": False,
         "error": (
-            f"add-agent '{agent_name}' to team '{team_id}' DECOUPLE-BLOCKED ai-maestro#36: "
+            f"add-agent '{agent_name}' to team '{team_id}' DECOUPLE-BLOCKED ai-maestro#76: "
             "aimaestro-agent.sh create requires --dir (no working-dir in "
             "add_agent signature) and exposes no --status flag — no clean "
             "registry-side mapping. Pending MANAGER design call."
@@ -514,11 +514,11 @@ Examples:
                     f"Invalid status: {args.status}. Valid: {valid_statuses}"
                 )
 
-            # DECOUPLE-BLOCKED ai-maestro#36: update-status — no generic agent-status-set verb (agent update=tags/task/model only; hibernate/wake/restart are actions, not label-sets). Pending MANAGER design call (same class as approval_manager.sync_local_to_api).
+            # DECOUPLE-BLOCKED ai-maestro#76: update-status — no generic agent-status-set verb (agent update=tags/task/model only; hibernate/wake/restart are actions, not label-sets). Pending MANAGER design call (same class as approval_manager.sync_local_to_api).
             result = {
                 "success": False,
                 "error": (
-                    "update-status DECOUPLE-BLOCKED ai-maestro#36: no generic "
+                    "update-status DECOUPLE-BLOCKED ai-maestro#76: no generic "
                     "agent-status-set verb in the frozen CLI (aimaestro-agent.sh "
                     "update sets tags/task/model only; hibernate/wake/restart are "
                     "lifecycle ACTIONS, not registry status-label sets). Pending "

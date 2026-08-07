@@ -220,10 +220,10 @@ class GovernanceAPI:
     ) -> Optional[dict[str, Any]]:
         """Generic status-PATCH — GRACEFUL-DEGRADE, never hard-fail.
 
-        # DECOUPLE-BLOCKED ai-maestro#36: generic password-less status-PATCH has no CLI verb (approve/reject are password-required formal endpoints, a different op COS doesn't use; a status-set verb is pending). Graceful-degrade: return None so respond_to_request/sync_local_to_api fall back to YAML-mirror + AMP (decision still recorded locally), same as the old api-unreachable path.
+        # DECOUPLE-BLOCKED ai-maestro#76: generic password-less status-PATCH has no CLI verb (approve/reject are password-required formal endpoints, a different op COS doesn't use; a status-set verb is pending). Graceful-degrade: return None so respond_to_request/sync_local_to_api fall back to YAML-mirror + AMP (decision still recorded locally), same as the old api-unreachable path.
         """
         print(
-            f"DECOUPLE-BLOCKED ai-maestro#36: no CLI verb for generic "
+            f"DECOUPLE-BLOCKED ai-maestro#76: no CLI verb for generic "
             f"status-PATCH of {request_id} ({len(updates)} field(s)); deferring "
             "server-side sync, recording decision locally (YAML + AMP).",
             file=sys.stderr,

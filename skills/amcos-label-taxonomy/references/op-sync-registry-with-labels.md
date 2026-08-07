@@ -28,7 +28,7 @@ Ensure the team registry stays synchronized with GitHub issue assignment labels.
 
 > **Note**: The registry side of this sync — reading and writing an agent's
 > `current_issues` from GitHub issue labels — has **no** frozen-CLI verb yet.
-> <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+> <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 > Until that verb ships, the registry-update steps below are blocked; the
 > GitHub-label side (via `gh`) and the team-roster read (via the
 > `ai-maestro-agents-management` skill) remain available.
@@ -64,7 +64,7 @@ for AGENT in $AGENTS; do
   LABELED=$(gh issue list --label "assign:$AGENT" --json number --jq '.[].number' | sort)
 
   # The per-agent registry `current_issues` read has no frozen-CLI verb yet.
-  # <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+  # <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 
   echo "Agent: $AGENT"
   echo "  Labeled:  $LABELED"
@@ -92,7 +92,7 @@ for AGENT in $AGENTS; do
   LABELED_ISSUES=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
 
   # Write LABELED_ISSUES into the agent's registry current_issues — BLOCKED.
-  # <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+  # <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 done
 ```
 
@@ -134,7 +134,7 @@ echo "Labeled: $LABELED"
 
 # Reading the agent's registry current_issues, and writing them back from the
 # labels, both require a registry verb that does not exist yet.
-# <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+# <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 ```
 
 ## Automated Sync Script
@@ -154,7 +154,7 @@ for AGENT in $AGENTS; do
   LABELED=$(gh issue list --label "assign:$AGENT" --state open --json number --jq '[.[].number]')
 
   # Writing LABELED into the agent's registry current_issues — BLOCKED.
-  # <!-- DECOUPLE-BLOCKED ai-maestro#36: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
+  # <!-- DECOUPLE-BLOCKED ai-maestro#76: issue-label assignment has no frozen-CLI verb (agent --label is a persona name, not a GitHub-issue label). Pending a follow-up verb. -->
 done
 
 echo "Sync complete: $(date)"

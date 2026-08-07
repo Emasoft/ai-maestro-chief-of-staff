@@ -42,8 +42,8 @@ Team membership is changed via `aimaestro-teams.sh add-agent` / `remove-agent`
 
 | Operation | Status |
 |-----------|--------|
-| Register a brand-new agent into a team (with role / sub_role / plugin / host metadata) | <!-- DECOUPLE-BLOCKED ai-maestro#36: agent register-into-team has no frozen-CLI verb (aimaestro-teams.sh add-agent attaches an existing agent UUID, it does not create+register a new agent with metadata). Pending a follow-up verb. --> |
-| Set an agent's status (hibernate / wake / terminate) on the registry | <!-- DECOUPLE-BLOCKED ai-maestro#36: agent status-set has no frozen-CLI verb. Pending a follow-up verb. --> |
+| Register a brand-new agent into a team (with role / sub_role / plugin / host metadata) | <!-- DECOUPLE-BLOCKED ai-maestro#76: agent register-into-team has no frozen-CLI verb (aimaestro-teams.sh add-agent attaches an existing agent UUID, it does not create+register a new agent with metadata). Pending a follow-up verb. --> |
+| Set an agent's status (hibernate / wake / terminate) on the registry | <!-- DECOUPLE-BLOCKED ai-maestro#76: agent status-set has no frozen-CLI verb. Pending a follow-up verb. --> |
 
 ### Base host
 
@@ -73,7 +73,7 @@ aimaestro-teams.sh create \
 Registering a brand-new agent (with role / sub_role / plugin / host metadata)
 has **no** frozen-CLI verb yet:
 
-<!-- DECOUPLE-BLOCKED ai-maestro#36: agent register-into-team has no frozen-CLI verb (aimaestro-teams.sh add-agent attaches an existing agent UUID, it does not create+register a new agent with metadata). Pending a follow-up verb. -->
+<!-- DECOUPLE-BLOCKED ai-maestro#76: agent register-into-team has no frozen-CLI verb (aimaestro-teams.sh add-agent attaches an existing agent UUID, it does not create+register a new agent with metadata). Pending a follow-up verb. -->
 
 To attach an **already-registered** agent (by UUID) to a team:
 
@@ -286,8 +286,8 @@ Fix login validation bug
 ## AMCOS Responsibilities
 
 1. **Complete & customize the team** the MANAGER created — under a MANAGER mandate (R30), add/configure the 5 base members + extra MEMBERs via `aimaestro-teams.sh add-agent`. Team `create`/`delete` is MANAGER-only (R29.1), not a COS responsibility.
-2. **Register agents** — attach an existing agent UUID with `aimaestro-teams.sh add-agent <teamId> <agentUUID>`; registering a brand-new agent with metadata has no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#36: agent register-into-team has no frozen-CLI verb. Pending a follow-up verb. -->)
-3. **Update agent status** when agents hibernate/wake/terminate — no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#36: agent status-set has no frozen-CLI verb. Pending a follow-up verb. -->)
+2. **Register agents** — attach an existing agent UUID with `aimaestro-teams.sh add-agent <teamId> <agentUUID>`; registering a brand-new agent with metadata has no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#76: agent register-into-team has no frozen-CLI verb. Pending a follow-up verb. -->)
+3. **Update agent status** when agents hibernate/wake/terminate — no frozen-CLI verb yet (<!-- DECOUPLE-BLOCKED ai-maestro#76: agent status-set has no frozen-CLI verb. Pending a follow-up verb. -->)
 4. **Notify all team agents** of registry changes via AMP:
 
 ```bash
