@@ -268,6 +268,15 @@ def test_forked_skill_pins_background(skill: Path) -> None:
     )
 
 
+# Sits deliberately BELOW the actual count (22), not at it. A floor pinned to the
+# current number goes red the first time a skill is legitimately retired — and a
+# guard that cries wolf gets deleted, which costs the whole check. The headroom
+# buys a removal or two without a test edit while still catching mass erosion.
+# Reasoning adopted from ai-maestro-integrator-agent (0dff4a9), which chose the
+# same margin after this guard's shape went the other way.
+FORKED_SKILL_FLOOR = 15
+
+
 def test_forked_skills_exist() -> None:
     """Guard the VACUOUS PASS: the check above asserts nothing if no skill forks.
 
@@ -281,10 +290,12 @@ def test_forked_skills_exist() -> None:
         for p in SKILL_FILES
         if (parse_frontmatter(p.read_text(encoding="utf-8")) or {}).get("context") == "fork"
     ]
-    assert len(forked) >= 20, (
-        f"only {len(forked)} skills declare `context: fork`, expected >= 20 — "
-        "if forked skills were legitimately removed, lower this floor deliberately "
-        "rather than letting the pairing guard pass vacuously"
+    assert len(forked) >= FORKED_SKILL_FLOOR, (
+        f"only {len(forked)} skills declare `context: fork`, expected >= "
+        f"{FORKED_SKILL_FLOOR}. Either the forked skills were eroded en masse, or "
+        "the `context:` value was renamed and the per-skill pairing guard above is "
+        "now asserting nothing. If skills were legitimately retired, lower this "
+        "floor deliberately rather than letting the pairing guard pass vacuously"
     )
 
 
