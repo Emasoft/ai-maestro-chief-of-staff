@@ -8,6 +8,7 @@ metadata:
   author: Emasoft
   version: 2.0.0
 context: fork
+background: false
 agent: ai-maestro-chief-of-staff-main-agent
 ---
 

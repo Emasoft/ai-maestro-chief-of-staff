@@ -205,7 +205,14 @@ These fields are Claude Code specific and may generate warnings from generic val
 **Example:**
 ```yaml
 context: fork
+background: false
 ```
+
+**Always pair `context: fork` with `background: false`** for an operational
+skill. Claude Code 2.1.218 changed a forked skill to run in the BACKGROUND by
+default; without the opt-out the caller gets a task notification later rather
+than the inline result, silently breaking any workflow whose next step depends
+on the outcome.
 
 ### 1.5.2 agent
 
@@ -245,6 +252,7 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
+background: false
 ---
 ```
 

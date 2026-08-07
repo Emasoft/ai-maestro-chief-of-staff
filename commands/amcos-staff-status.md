@@ -2,7 +2,7 @@
 name: amcos-staff-status
 description: "View all remote agents with status, working directory, and tags using AI Maestro CLI"
 argument-hint: "[--status online|offline|hibernated|all] [--format table|json|names]"
-allowed-tools: ["Bash", "Task"]
+allowed-tools: ["Bash"]
 user-invocable: true
 ---
 
@@ -96,7 +96,7 @@ For detailed information about a specific agent, use the `ai-maestro-agents-mana
   Name:         helper-python
   Status:       online
   Program:      claude-code
-  Model:        claude-sonnet-4-6
+  Model:        claude-sonnet-5
 
   Working Dir:  ~/projects/backend
 

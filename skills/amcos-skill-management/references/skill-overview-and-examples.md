@@ -91,8 +91,13 @@ metadata:
   author: Emasoft
   version: 1.0.0
 context: fork
+background: false
 ---
 ```
+
+`background: false` is not optional boilerplate: since Claude Code 2.1.218 a
+`context: fork` skill runs in the background by default, which would hand the
+main agent a deferred notification instead of the result it needs to continue.
 
 ## Examples: Triggering PSS Reindex
 

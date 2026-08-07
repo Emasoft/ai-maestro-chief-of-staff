@@ -82,7 +82,13 @@ head -20 /path/to/my-skill/SKILL.md
 - `compatibility` - Requirements and dependencies
 
 **Optional Claude Code fields:**
-- `context: fork` - Fork behavior
+- `context: fork` - Fork behavior. **Pair it with `background: false`** unless the
+  skill is genuinely fire-and-forget: since Claude Code 2.1.218 a `context: fork`
+  skill runs in the BACKGROUND by default, so its result arrives later as a task
+  notification instead of inline. Every operational COS skill needs the result
+  inline to drive its next step, so all of them set `background: false`.
+- `background` - `false` keeps a forked skill inline (the pre-2.1.218 behavior);
+  omit it only when a deferred notification is actually what you want
 - `agent` - Target agent types
 - `workflow-instruction` - Workflow step reference
 - `procedure` - Procedure reference
