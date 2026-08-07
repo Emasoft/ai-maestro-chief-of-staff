@@ -238,6 +238,56 @@ def test_agent_templates_teach_no_defunct_tool() -> None:
     assert not offenders, f"template(s) still teach a defunct tool name: {offenders}"
 
 
+@pytest.mark.parametrize("skill", SKILL_FILES, ids=[_id(p) for p in SKILL_FILES])
+def test_forked_skill_pins_background(skill: Path) -> None:
+    """A `context: fork` skill must also declare `background:` (Claude Code 2.1.218).
+
+    2.1.218 changed forked skills to run in the BACKGROUND by default. An
+    unpinned one returns only an agent handle; its text arrives later as a
+    notification, so the invoking agent gets NOTHING in the turn that asked —
+    and nothing errors, no test fails, no log complains. Every COS skill is a
+    procedure whose result drives the caller's next step (spawn->verify,
+    request-approval->act, detect->classify), so all of them pin `false`.
+
+    This is a TEST and not a line in the authoring guide because the failure is
+    silent and the guide can only advise: a skill authored next month would
+    reintroduce it and nothing would notice. Practice adopted from the
+    integrator plugin, which chose a blocking guard over a template fix for
+    exactly this reason.
+    """
+    fm = parse_frontmatter(skill.read_text(encoding="utf-8")) or {}
+    if fm.get("context") != "fork":
+        return
+    assert "background" in fm, (
+        f"{skill.parent.name} declares `context: fork` with no `background:` — "
+        "since Claude Code 2.1.218 it runs in the BACKGROUND and returns nothing "
+        "in-turn. Ask: does the caller need this output IN THE TURN IT ASKS? "
+        "YES -> add `background: false` (every current COS skill answers yes, "
+        "verified per-skill); NO -> set it explicitly with a comment saying the "
+        "backgrounding is deliberate, so the next reader does not undo it"
+    )
+
+
+def test_forked_skills_exist() -> None:
+    """Guard the VACUOUS PASS: the check above asserts nothing if no skill forks.
+
+    Delete every forked skill — or rename the field — and the parametrized guard
+    silently degrades to zero assertions while staying green, which is the one
+    failure a guard cannot report about itself. Pin a floor so that collapse is
+    visible.
+    """
+    forked = [
+        p
+        for p in SKILL_FILES
+        if (parse_frontmatter(p.read_text(encoding="utf-8")) or {}).get("context") == "fork"
+    ]
+    assert len(forked) >= 20, (
+        f"only {len(forked)} skills declare `context: fork`, expected >= 20 — "
+        "if forked skills were legitimately removed, lower this floor deliberately "
+        "rather than letting the pairing guard pass vacuously"
+    )
+
+
 # ─────────────────────────────── commands ────────────────────────────────────
 @pytest.mark.parametrize("cmd", COMMAND_FILES, ids=[_id(p) for p in COMMAND_FILES])
 def test_command_frontmatter_parses(cmd: Path) -> None:
