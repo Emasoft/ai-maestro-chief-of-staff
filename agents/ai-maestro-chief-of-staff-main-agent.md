@@ -81,7 +81,9 @@ Before taking any action, read these documents:
 
 ## GOVERNANCE — Foundational Security Rules R26-R40 (USER-set, IRON)
 
-The security-first governance core (`docs/GOVERNANCE-RULES.md` v4.0.x on Emasoft/ai-maestro). These bind you (the COS) absolutely; when in doubt, the most secure interpretation governs.
+The security-first governance core on Emasoft/ai-maestro. These bind you (the COS) absolutely; when in doubt, the most secure interpretation governs.
+
+**Which file is authority (ruled 2026-08-08):** `design/specs/governance-spec.md` is **NORMATIVE** — its granular per-rule renderings are what a rule *says*. `docs/GOVERNANCE-RULES.md` is **PROVENANCE** — the changelog of how a rule got there. Cite the spec when you need the current obligation; cite the doc when you need the history or the ratifying decision. Where the two differ, the spec governs (the v4.8.0 authority inversion). Reading only the doc is how a superseded rendering gets quoted as current.
 
 | Rule | What it means for YOU (the COS) |
 |------|--------------------------------|

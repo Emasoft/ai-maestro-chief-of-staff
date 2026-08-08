@@ -400,10 +400,15 @@ def test_agent_toml_valid() -> None:
     assert floor >= (2, 1, 139), f".agent.toml CC floor stale: {floor}"
 
 
-# The owner handle, assembled at runtime so THIS FILE never contains the literal
-# it forbids — a guard that trips on its own source teaches the next author to
-# add an exemption, and an exempted guard is a disabled one.
-_OWNER_HANDLE = "@" + "Emasoft"
+# Handles assembled at runtime so THIS FILE never contains the literals it
+# forbids — a guard that trips on its own source teaches the next author to add
+# an exemption, and an exempted guard is a disabled one.
+#
+# `@owner` is here for the same reason as the concrete handle: it is itself a
+# real GitHub org, so the PLACEHOLDER pages an account too — before substitution
+# and after. Guarding only the concrete handle left the byline TEMPLATE (the
+# thing actually copied into comments) unguarded, which is backwards.
+_FORBIDDEN_HANDLES = ("@" + "Emasoft", "@" + "owner")
 
 
 def _tracked_prose_files() -> list[Path]:
@@ -433,12 +438,16 @@ def test_no_paging_owner_handle_in_shipped_prose() -> None:
     offenders: list[str] = []
     for path in _tracked_prose_files():
         for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-            if _OWNER_HANDLE in line:
-                offenders.append(f"{path.relative_to(PLUGIN_ROOT)}:{i}")
+            for handle in _FORBIDDEN_HANDLES:
+                if handle in line:
+                    offenders.append(f"{path.relative_to(PLUGIN_ROOT)}:{i}")
+                    break
     assert not offenders, (
-        f"{len(offenders)} shipped line(s) carry the literal owner handle and would "
-        f"page a real account when copied into a GitHub body: {offenders}. "
-        f"Write the name as a plain word ('via the shared Emasoft gh auth')."
+        f"{len(offenders)} shipped line(s) carry a literal paging handle and would "
+        f"notify a real account when copied into a GitHub body: {offenders}. "
+        "Write the name as a plain word ('via the shared Emasoft gh auth'). "
+        "Backticking is NOT a fix — a template is copied OUT of its code span, so "
+        "the character itself has to go."
     )
 
 

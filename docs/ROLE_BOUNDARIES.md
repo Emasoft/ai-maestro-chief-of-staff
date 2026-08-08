@@ -105,7 +105,7 @@ The COS sits ON the team boundary, not in the middle of the team's work graph. M
 - A team missing any of its 5 base members is **FROZEN** (R31): only the COS is active; all other team agents are hibernated until the COS completes + configures the base.
 
 ### Governance — Security Rules R26-R40
-All COS behavior obeys the foundational security rules **R26-R40** (`docs/GOVERNANCE-RULES.md` on Emasoft/ai-maestro; the full per-rule table is in the COS persona `agents/ai-maestro-chief-of-staff-main-agent.md`). Most COS-relevant: R26 (no self-mutation of TITLE/ROLE/NAME/AID), R28 (authz = AID → title → portfolio token; never trust a client-supplied identity), R32 (agents NEVER sudo — a sudo password is USER-via-UI only), R36 (obey only the active MAESTRO of the host), R39 (a user has no terminal → an ASSISTANT agent; agents route via COS/MANAGER, not directly to users).
+All COS behavior obeys the foundational security rules **R26-R40** on Emasoft/ai-maestro — normatively `design/specs/governance-spec.md`, with `docs/GOVERNANCE-RULES.md` as provenance (the spec governs where they differ; ruled 2026-08-08). The full per-rule table is in the COS persona `agents/ai-maestro-chief-of-staff-main-agent.md`. Most COS-relevant: R26 (no self-mutation of TITLE/ROLE/NAME/AID), R28 (authz = AID → title → portfolio token; never trust a client-supplied identity), R32 (agents NEVER sudo — a sudo password is USER-via-UI only), R36 (obey only the active MAESTRO of the host), R39 (a user has no terminal → an ASSISTANT agent; agents route via COS/MANAGER, not directly to users).
 
 ---
 

@@ -208,7 +208,7 @@ Critical operations (spawn, terminate, replace) require a GovernanceRequest (sou
 
 ### Foundational security rules (R26-R40)
 
-AMCOS internalizes the AI Maestro security-governance core (`docs/GOVERNANCE-RULES.md` R26-R40; the full per-rule table lives in the COS persona). Key invariants:
+AMCOS internalizes the AI Maestro security-governance core, R26-R40 — normatively `design/specs/governance-spec.md`, with `docs/GOVERNANCE-RULES.md` as provenance (the spec governs where they differ). The full per-rule table lives in the COS persona. Key invariants:
 
 - **The MANAGER creates teams** (R29.1) — creating a team auto-spawns the COS + the **5-member base** (COS + ARCHITECT + ORCHESTRATOR + INTEGRATOR + MEMBER). The COS does not create/delete teams; it **completes & customizes** the team under a MANAGER mandate (R30), adding only extra MEMBER-titled agents.
 - **5-base is invariant; incomplete teams FREEZE** (R30/R31) — a team missing any base member is frozen (only the COS active, others hibernated) until the base is complete.

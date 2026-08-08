@@ -27,7 +27,23 @@ spec: `~/.claude/rules/prrd-design-rules.md`.
 
 ## 🥇 GOLDEN — set by the USER (immutable to MANAGER)
 
-- **G1.1** — Every agent that writes to GitHub (issue, issue comment, PR, PR comment, PR review, discussion, release note) MUST begin the body with a one-line self-identification of which agent/role/plugin authored it, because all AI Maestro agents share the single human-owner GitHub identity (the owner's gh CLI auth). Recommended leading line: _Posted by the Claude developing **<plugin-or-role>** (via the shared @owner gh auth)._ Commit messages SHOULD carry an `Agent: <role>` trailer.
+> **Provenance log — why a GOLDEN rule's text changed without a new USER decision.**
+> A golden rule is USER-only, so any edit here needs its authority visible.
+>
+> - **2026-08-08 — G1.1 byline SYNCED to canon (not a new decision).** The line shipped a literal
+>   `@`-handle in bare prose; an agent copying the template verbatim into an issue PAGES the real
+>   account. This edit does **not** decide anything: it brings a stale copy into line with a
+>   decision the USER already made — the IRON rule of **2026-08-02** ("templates carry no `@` at
+>   all", which cites this very byline as its worked example) and its ratification in the fleet
+>   canon of **2026-08-05**, where `R22.2` reads `(via the shared <owner> gh auth)` — *"carries NO
+>   `@`, deliberately"* — with its authority column marked **Explicit (USER)**. Verified at
+>   `ai-maestro@governance-rules` tip `0be8cf32` in BOTH `docs/GOVERNANCE-RULES.md` and
+>   `design/specs/governance-spec.md`, read directly rather than relayed.
+>   **Backticking is NOT the fix** and was not applied: a template is copied OUT of its code span,
+>   so only removing the character helps. Reported by the fleet R22/R23 check (10/10 population).
+>   If the owner reads this as a new decision rather than a sync, revert it — one token, one line.
+
+- **G1.1** — Every agent that writes to GitHub (issue, issue comment, PR, PR comment, PR review, discussion, release note) MUST begin the body with a one-line self-identification of which agent/role/plugin authored it, because all AI Maestro agents share the single human-owner GitHub identity (the owner's gh CLI auth). Recommended leading line: _Posted by the Claude developing **<plugin-or-role>** (via the shared &lt;owner&gt; gh auth)._ — the template **carries NO `@`, deliberately**: a byline is copied OUT of its code span into a real comment, where an `@` linkifies and PAGES a live account, so backticks protect it where it sits and not where it is used. Naming the owner in plain words self-identifies exactly as well; the `@` only adds a notification. Commit messages SHOULD carry an `Agent: <role>` trailer.
 
 ## 🥈 SILVER — MANAGER-mutable (agents propose via COS)
 
