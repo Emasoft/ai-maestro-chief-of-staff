@@ -103,8 +103,16 @@ find_publish_ancestor() {
         # Rejects:   bash -c "touch scripts/publish.py && git push"
         #            git push
         #            any shell where publish.py is not the actual interpreter target
+        # One pattern, not two. The second alternative used to be
+        # `*python*/scripts/publish.py*`, which is strictly NARROWER than the
+        # first — the leading `*` already absorbs any directory prefix, so every
+        # command the narrow pattern matched the broad one matches too. It was
+        # unreachable (shellcheck SC2221/SC2222), and an unreachable branch in an
+        # authorization check is worse than dead code: it reads as a second guard
+        # while enforcing nothing, so a later edit "relaxing" the broad pattern
+        # would look survivable when it is not.
         case "${cmd}" in
-            *python*scripts/publish.py*|*python*/scripts/publish.py*)
+            *python*scripts/publish.py*)
                 return 0
                 ;;
         esac
