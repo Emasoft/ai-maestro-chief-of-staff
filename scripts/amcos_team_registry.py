@@ -131,6 +131,62 @@ def validate_team_name(name: str) -> tuple[bool, str]:
     return True, "Valid"
 
 
+def _parse_project_board_url(board_url: str) -> tuple[str, int, str | None]:
+    """Decompose a GitHub Projects-v2 URL into (owner, number, repo_or_None).
+
+    The board NUMBER is the identity — `owner` alone names no board, which is why
+    the server requires `number` and why the CLI refuses `--gh-owner` without
+    `--gh-number`. Three accepted shapes:
+
+        github.com/<owner>/<repo>/projects/<n>   -> (owner, n, repo)  full CRUD
+        github.com/orgs/<owner>/projects/<n>     -> (owner, n, None)  browse-only
+        github.com/users/<owner>/projects/<n>    -> (owner, n, None)  browse-only
+
+    `repo` is returned as None — NEVER substituted — for an org/user board. The
+    server treats a repo-less link as browse-only precisely because task CRUD has
+    to file issues into a real repo; inventing one (the `repo = owner` fallback
+    that ai-maestro#133 deleted from the UI) yields a link that validates and then
+    points at a repo-scoped board that does not exist. A caller's separate repo
+    URL is NOT folded in here either: doing so would silently promote a
+    browse-only board to CRUD-capable based on an input the board URL never
+    named.
+
+    Raises ValueError on anything else, rather than guessing — a malformed board
+    URL that silently produced no board is how the old code path stayed broken
+    without anyone noticing.
+    """
+    path = board_url.split("://", 1)[-1]
+    if "/" in path:
+        path = path.split("/", 1)[1]  # strip the host (e.g. github.com)
+    parts = [p for p in path.strip("/").split("/") if p]
+
+    # ORDER IS LOAD-BEARING: orgs|users/<owner>/projects/<n> is ALSO 4 segments
+    # with "projects" at index 2, so it matches the repo-scoped shape below. Test
+    # it first or an org board parses as owner="orgs", repo=<the real owner> — a
+    # link that validates and points nowhere, which is the exact failure this
+    # helper exists to prevent.
+    repo: str | None
+    if len(parts) == 4 and parts[0] in ("orgs", "users") and parts[2] == "projects":
+        owner, repo, number = parts[1], None, parts[3]
+    # <owner>/<repo>/projects/<n>
+    elif len(parts) == 4 and parts[2] == "projects":
+        owner, repo, number = parts[0], parts[1], parts[3]
+    else:
+        raise ValueError(
+            f"Cannot parse a GitHub Projects-v2 board from URL: {board_url!r}. "
+            "Expected github.com/<owner>/<repo>/projects/<n>, "
+            "github.com/orgs/<owner>/projects/<n>, or "
+            "github.com/users/<owner>/projects/<n>."
+        )
+
+    if not number.isdigit() or int(number) < 1:
+        raise ValueError(
+            f"Board number must be a positive integer, got {number!r} "
+            f"from URL: {board_url!r}"
+        )
+    return owner, int(number), repo
+
+
 def create_team(
     team_name: str, repo_url: str, project_board_url: str | None = None
 ) -> dict[str, Any]:
@@ -140,23 +196,46 @@ def create_team(
     if not valid:
         raise ValueError(msg)
 
+    # Parsed for validation only — a malformed repo URL must still fail loudly
+    # here, even though it no longer feeds githubProject (see below).
     owner, repo = _parse_repo_url(repo_url)
-    argv = [
-        TEAMS_CLI,
-        "create",
-        "--name",
-        team_name,
-        "--gh-owner",
-        owner,
-        "--gh-repo",
-        repo,
-    ]
+    argv = [TEAMS_CLI, "create", "--name", team_name]
+
     # `created_by` is dropped: the server infers the creator from CLI/AID auth.
+    #
+    # githubProject is built ONLY from the board URL. It used to be built from
+    # repo_url as {owner, repo} with no number — which the server has rejected
+    # since de060a50, because `number` is required and the object is .strict().
+    # So this path could not succeed; ai-maestro#137 fixed the CLI half and this
+    # is the caller half.
+    #
+    # repo_url is deliberately NOT folded in as a fallback repo. The board URL is
+    # the only thing that says which repo backs the board, and supplying a
+    # different one would silently promote a browse-only org board to
+    # CRUD-capable — the same fabrication ai-maestro#133 removed from the UI.
     if project_board_url:
-        # DECOUPLE-BLOCKED ai-maestro#76: github_project — aimaestro-teams.sh create has no --gh-project flag yet; field dropped until it ships.
+        board_owner, board_number, board_repo = _parse_project_board_url(
+            project_board_url
+        )
+        argv += ["--gh-owner", board_owner, "--gh-number", str(board_number)]
+        if board_repo is not None:
+            argv += ["--gh-repo", board_repo]
+        else:
+            print(
+                f"Note: {project_board_url} is an org/user-level board — the team "
+                "kanban will be browse-only (task CRUD needs a repo-scoped board "
+                "so issues have somewhere to be filed).",
+                file=sys.stderr,
+            )
+    else:
+        # Loud, because the previous code SILENTLY attached owner/repo here and
+        # the caller had no way to know the association never landed. The server
+        # models the repo only inside githubProject, so with no board there is
+        # nowhere to put it.
         print(
-            "Warning: project_board_url given but aimaestro-teams.sh create has "
-            "no --gh-project flag (ai-maestro#76) — creating team without it.",
+            f"Note: no project board URL given, so {owner}/{repo} is not recorded "
+            "on the team — the server carries a repo only inside githubProject, "
+            "which requires a board number. Pass a /projects/<n> URL to link one.",
             file=sys.stderr,
         )
     result = _run_cli(argv, f"Create team '{team_name}'")

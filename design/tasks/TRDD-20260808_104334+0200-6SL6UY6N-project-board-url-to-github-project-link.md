@@ -1,11 +1,10 @@
 ---
 trdd-id: 6SL6UY6N
 title: Wire project_board_url through to githubProject instead of dropping it
-column: backburner
+column: testing
 created: 2026-08-08T10:43:34+0200
-updated: 2026-08-08T10:55:00+0200
+updated: 2026-08-08T11:42:00+0200
 current-owner: ai-maestro-chief-of-staff
-blocked-by: [ai-maestro#137]
 task-type: feature
 scope: project
 project-id: ai-maestro-chief-of-staff
@@ -80,7 +79,16 @@ and `/` both 200, and the live bundle `.next/server/chunks/9792.js` greps positi
 production literal ("the board is browse-only"), with 456 JS files built after 10:00. Committed,
 pushed, and deployed are three claims; all three are now true and each was measured.
 
-**(2) The frozen CLI can express a board number — NOT MET (ai-maestro#137).** This card's original
+**(2) The frozen CLI can express a board number — NOW MET (ai-maestro#137 fixed + deployed).**
+Verified 2026-08-08 11:40 **through the bare command name**, not a repo-relative path: `command -v
+aimaestro-teams.sh` → `~/.local/bin/aimaestro-teams.sh`, which now carries 15 `gh-number`
+occurrences and the contract `--gh-owner O --gh-number N [--gh-repo R]`, validates the number as a
+positive integer pre-`jq`, and emits `{owner, number: ($ghn | tonumber)}` plus `repo` only when
+given. That check matters here specifically: CORE found the PATH copy was stale at Aug 5 with zero
+`gh-number` while the repo copy was already fixed — a repo-relative verification would have passed
+against a binary my calls never reach.
+
+The original text of condition (2) follows, kept because the mistake is the lesson. This card's original
 trigger named only condition (1), and that was an incomplete gate — recorded here rather than
 silently widened, because the mistake is instructive. The COS path does not talk to the server; it
 talks to `aimaestro-teams.sh`, which talks to the server. A server that can represent a board is
@@ -102,14 +110,47 @@ recognized-but-unsupported message.
 
 ## Acceptance criteria
 
-- [ ] A repo-scoped board URL round-trips to `{owner, repo, number}` and reaches the create call.
-- [ ] An org/user-level URL parses to `{owner, number}` with `repo` **absent** — asserted
+- [x] A repo-scoped board URL round-trips to `{owner, repo, number}` and reaches the create call.
+- [x] An org/user-level URL parses to `{owner, number}` with `repo` **absent** — asserted
       explicitly, since a test that only checks `owner`/`number` passes while `repo: owner` is
       fabricated alongside them.
-- [ ] Before Half 2 deploys, an org URL is reported as recognized-but-unsupported — **not** a
-      parse failure, so the message stays actionable.
-- [ ] A malformed URL fails loudly. No silent drop, no fabricated field.
-- [ ] The existing stderr warning is not made quieter by the replacement.
+- [x] ~~Before Half 2 deploys, an org URL is reported as recognized-but-unsupported~~ — **moot**,
+      Half 2 deployed 10:51. An org URL is now a first-class browse-only link.
+- [x] A malformed URL fails loudly. No silent drop, no fabricated field.
+- [x] The existing stderr warning is not made quieter by the replacement — it got **louder**: the
+      no-board branch now says the repo is not recorded at all, which the old code never disclosed.
+
+## Implementation
+
+`scripts/amcos_team_registry.py`: `_parse_project_board_url()` + a rewritten `create_team()` argv
+build. `tests/test_project_board_url.py`: 17 tests, suite 262 → 279, ruff clean.
+
+**A bug caught in review, worth recording because the tests now pin it.** The first draft tested
+the repo-scoped shape FIRST. But `orgs/<owner>/projects/<n>` is *also* four segments with
+`projects` at index 2, so it matched that branch and parsed as `owner="orgs"`,
+`repo=<the real owner>` — a link that validates and points nowhere. Ordering is load-bearing and
+now carries a comment saying so. Falsified: restoring the wrong order reddens exactly the four org
+tests, including both `repo is None` assertions.
+
+**One design call worth stating.** `githubProject` is built ONLY from the board URL. `repo_url` is
+parsed for validation but deliberately not folded in as a fallback repo — supplying a repo the
+board URL never named would silently promote a browse-only org board to CRUD-capable, which is the
+same fabrication ai-maestro#133 removed from the server UI. A consequence: with no board URL, the
+team records no repo at all, because the server carries `repo` only inside `githubProject`. That
+is now said out loud on stderr rather than silently attached-and-rejected.
+
+**Pre-existing breakage this exposes:** the old path sent `{owner, repo}` with no `number` on
+EVERY call, which the server has rejected since `de060a50`. So `create_team` could not have
+succeeded with a repo URL. Verified by reading the schema and the old CLI, not by execution —
+this session cannot execute it (401, see below).
+
+## Remaining before `complete`
+
+Live end-to-end against a real server, which this session **cannot** do: `aimaestro-teams.sh`
+returns `401 auth_required` here because this is a plugin-development session, not a registered
+COS agent with an AID (R32 — the AID is the authorization). The pure parse and the argv build are
+unit-tested; the round-trip belongs to a running agent. Card sits in `testing`, not `complete`,
+for exactly that gap — marking it complete would claim a verification nobody has performed.
 
 ## Not in scope
 
