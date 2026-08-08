@@ -40,7 +40,10 @@ echo -e "${BLUE}Pushing to:${NC} $REMOTE ($URL)"
 echo ""
 
 # Check if plugin files changed in the commits being pushed
-while read -r LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA; do
+# git feeds four fields per line but only the SHAs drive the checks below. The
+# two ref slots are read into `_` rather than named variables, so nothing here
+# reads as live state that a later edit might wire up by mistake (SC2034).
+while read -r _ LOCAL_SHA _ REMOTE_SHA; do
     if [ "$LOCAL_SHA" = "0000000000000000000000000000000000000000" ]; then
         # Branch deletion, skip validation
         echo -e "${GREEN}Branch deletion detected. No validation needed.${NC}"

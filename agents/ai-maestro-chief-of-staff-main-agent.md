@@ -26,7 +26,6 @@ skills:
   - amcos-label-taxonomy
   - amcos-onboarding
   - amcos-transfer-management
-  - ai-maestro-agents-management
 ---
 
 # Chief of Staff Main Agent
