@@ -3,8 +3,9 @@ trdd-id: 6SL6UY6N
 title: Wire project_board_url through to githubProject instead of dropping it
 column: backburner
 created: 2026-08-08T10:43:34+0200
-updated: 2026-08-08T10:47:00+0200
+updated: 2026-08-08T10:55:00+0200
 current-owner: ai-maestro-chief-of-staff
+blocked-by: [ai-maestro#137]
 task-type: feature
 scope: project
 project-id: ai-maestro-chief-of-staff
@@ -72,14 +73,32 @@ board that does not exist.
 
 ## Sequencing — the constraint that makes this NOT ready to start
 
-**Half 2 is committed but NOT DEPLOYED** (routes are bundled; `yarn build` deliberately deferred).
-The running server still enforces the old required-repo schema. So until deploy, an org-level URL
-must keep producing the current recognized-but-unsupported message.
+**TWO conditions gate this card. The first is now MET; the second is not.**
 
-This is why the card opens in `backburner` rather than `todo`: starting now would mean writing a
-parser whose org-URL branch cannot be exercised end-to-end, and the temptation would be to ship it
-untested behind a flag. The trigger to move it to `todo` is **Half 2 deployed**, not Half 2
-committed — the distinction that cost the fleet a night to learn.
+**(1) Half 2 deployed — MET, verified 2026-08-08 10:53.** Not taken on report: `/api/v1/health`
+and `/` both 200, and the live bundle `.next/server/chunks/9792.js` greps positive for Half 2's
+production literal ("the board is browse-only"), with 456 JS files built after 10:00. Committed,
+pushed, and deployed are three claims; all three are now true and each was measured.
+
+**(2) The frozen CLI can express a board number — NOT MET (ai-maestro#137).** This card's original
+trigger named only condition (1), and that was an incomplete gate — recorded here rather than
+silently widened, because the mistake is instructive. The COS path does not talk to the server; it
+talks to `aimaestro-teams.sh`, which talks to the server. A server that can represent a board is
+useless to this card while the CLI cannot express one, so "the dependency deployed" was never the
+right question. **The right question is whether the dependency is reachable ALONG MY OWN CALL
+PATH.**
+
+The CLI advertises `--gh-owner O --gh-repo R  attach a GitHub project` but emits
+`{githubProject: {owner, repo}}` with no `number`, while `CreateTeamSchema` requires `number` and
+is `.strict()` — so every use of those flags is rejected. Pre-dates Half 2 (`number` was already
+required in `21be3e96^`). Filed as ai-maestro#137.
+
+Two bugs were masking each other: this repo declined to use the flags because it believed they did
+not exist, and therefore never discovered that they also do not work. A workaround that avoids a
+path is also a workaround that stops testing it.
+
+Promote to `todo` only when BOTH hold. Until then an org-level URL keeps producing the current
+recognized-but-unsupported message.
 
 ## Acceptance criteria
 
