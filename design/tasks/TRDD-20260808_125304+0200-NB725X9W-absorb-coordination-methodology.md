@@ -3,7 +3,7 @@ trdd-id: NB725X9W
 title: Absorb the multi-agent coordination methodology into the COS persona
 column: complete
 created: 2026-08-08T12:53:04+0200
-updated: 2026-08-08T15:02:05+0200
+updated: 2026-08-08T15:05:51+0200
 current-owner: ai-maestro-chief-of-staff
 task-type: docs
 scope: project
@@ -86,7 +86,8 @@ the first guard naming it; widening the scope fires the second with the char cou
 ## Closure record
 
 - **Release:** v2.24.0
-- **Tip sha:** recorded on publish (see the release commit)
+- **Tip sha:** `109f5f7` (`chore(release): v2.24.0`) on `origin/main` — pushed, re-fetched and read
+  at `2026-08-08 15:05:51 +0200` (pasted)
 - **Measured:** `2026-08-08 15:02:05 +0200` — pasted from `date`, not composed (§1; the anti-pattern
   that recurred today despite a written lesson)
 - **Suite:** 293 tests green (was 291); ruff clean
@@ -103,6 +104,3 @@ zero; this one a check whose SEARCH SPACE is wider than the invariant it guards.
 green while measuring the wrong thing — which is why the falsification step is not optional
 ceremony.
 
-## Closure record
-
-Release tag, tip sha, and pasted timestamps recorded here on completion.
