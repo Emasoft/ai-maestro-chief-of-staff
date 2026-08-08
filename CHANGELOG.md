@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.24.1] - 2026-08-08
+    ## [2.24.2] - 2026-08-08
 
-### Documentation
+### Bug Fixes
 
-- Complete TRDD-NB725X9W's closure record (tip sha) and drop the duplicated heading    
+- Sync G1.1's byline to canon (no `@`) + arm the widened guard + name the normative spec    
 
 
