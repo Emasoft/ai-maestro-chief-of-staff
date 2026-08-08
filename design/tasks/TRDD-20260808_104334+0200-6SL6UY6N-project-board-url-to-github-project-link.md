@@ -3,7 +3,7 @@ trdd-id: 6SL6UY6N
 title: Wire project_board_url through to githubProject instead of dropping it
 column: backburner
 created: 2026-08-08T10:43:34+0200
-updated: 2026-08-08T10:43:34+0200
+updated: 2026-08-08T10:47:00+0200
 current-owner: ai-maestro-chief-of-staff
 task-type: feature
 scope: project
@@ -35,10 +35,20 @@ quieter than what it replaces.
 
 ## What the server side now supports (Half 2, LANDED — reachability stated)
 
-CORE landed the server half as commit `21be3e96` on `ai-maestro@governance-rules`. **That commit
-is LOCAL-ONLY — it is on no remote** (verified with `git branch -r --contains`), so it is not
-auditable off this host and must not be cited elsewhere as established. Its content, verified by
-reading it rather than relayed:
+CORE landed the server half as commit `21be3e96` on `ai-maestro@governance-rules`. **It is PUSHED
+and fetchable** on `fork/governance-rules` — re-verified 2026-08-08 10:45.
+
+An earlier revision of this card said "local-only, on no remote". That was **true when measured**
+(~02:00) and became false without anyone editing the card: the reflog shows
+`fork/governance-rules` was pushed six times later the same morning — 08:03, then 10:15, 10:22,
+10:23, 10:40, 10:44. Worth recording rather than quietly overwriting, because the two failure
+modes look identical in a document and need opposite remedies: **a stale PROBE** (checked against
+refs you never refreshed) is fixed by fetching first, while **a correct probe whose FACT later
+moved** is fixed only by timestamping the claim. This card carried the second. Reachability is a
+property with a clock on it, so any claim about it that omits when it was taken will eventually be
+wrong on its own.
+
+Its content, verified by reading the commit rather than relayed:
 
 - `GitHubProjectLink.repo` becomes `repo?: string`; all three team-route zod schemas accept a
   repo-less `githubProject`.
