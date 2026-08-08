@@ -857,7 +857,7 @@ begin its body with this exact self-identification line so a human can tell
 which Claude authored it:
 
 ```
-_Posted by the Claude developing the **ai-maestro-chief-of-staff** (the COS role; via the shared @Emasoft gh auth)._
+_Posted by the Claude developing the **ai-maestro-chief-of-staff** (the COS role; via the shared Emasoft gh auth)._
 ```
 
 This applies to every command/skill template that posts to GitHub. Commit

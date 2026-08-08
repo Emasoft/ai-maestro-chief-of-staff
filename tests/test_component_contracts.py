@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -397,3 +398,60 @@ def test_agent_toml_valid() -> None:
     assert m, ".agent.toml missing a claude_code_version floor"
     floor = tuple(int(g) for g in m.groups())
     assert floor >= (2, 1, 139), f".agent.toml CC floor stale: {floor}"
+
+
+# The owner handle, assembled at runtime so THIS FILE never contains the literal
+# it forbids — a guard that trips on its own source teaches the next author to
+# add an exemption, and an exempted guard is a disabled one.
+_OWNER_HANDLE = "@" + "Emasoft"
+
+
+def _tracked_prose_files() -> list[Path]:
+    """Every git-TRACKED .md file — the shippable population, per `git ls-files`.
+
+    Not a glob: an untracked scratch file is not shipped and a tracked one in an
+    unexpected directory still is, so the index is the only honest census.
+    """
+    out = subprocess.run(
+        ["git", "ls-files", "*.md"],
+        cwd=PLUGIN_ROOT, capture_output=True, text=True, check=True,
+    ).stdout.split()
+    return [PLUGIN_ROOT / p for p in out]
+
+
+def test_no_paging_owner_handle_in_shipped_prose() -> None:
+    """No shipped markdown may carry a literal `@<owner>` — it PAGES a real account.
+
+    The self-identification template is the specific hazard (R22.2). Backticks do
+    NOT make it safe: a template exists to be copied OUT of its code span into a
+    real comment body, where the `@` linkifies and notifies the live account. So
+    the protection has to be the absence of the character, not its surroundings.
+
+    Naming a person is not mentioning them — the byline reads the same with the
+    bare word, and the `@` adds nothing but the notification.
+    """
+    offenders: list[str] = []
+    for path in _tracked_prose_files():
+        for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if _OWNER_HANDLE in line:
+                offenders.append(f"{path.relative_to(PLUGIN_ROOT)}:{i}")
+    assert not offenders, (
+        f"{len(offenders)} shipped line(s) carry the literal owner handle and would "
+        f"page a real account when copied into a GitHub body: {offenders}. "
+        f"Write the name as a plain word ('via the shared Emasoft gh auth')."
+    )
+
+
+def test_paging_handle_guard_scans_a_real_population() -> None:
+    """Guard the VACUOUS PASS: the check above asserts nothing over an empty file list.
+
+    `git ls-files` returns nothing when run outside the work tree or when the
+    glob stops matching, and the scan would then pass while inspecting zero
+    files — green, and blind. Pin a floor so that collapse is visible.
+    """
+    n = len(_tracked_prose_files())
+    assert n >= 40, (
+        f"only {n} tracked .md files found, expected >= 40 — the owner-handle "
+        "scan is running over a near-empty population and is not actually "
+        "checking anything."
+    )
