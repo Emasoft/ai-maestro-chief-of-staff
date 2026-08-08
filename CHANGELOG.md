@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.23.2] - 2026-08-08
+    ## [2.24.0] - 2026-08-08
 
-### Bug Fixes
+### Documentation
 
-- Drop the main-agent `model:` pin and guard it (RP-MODEL-01)    
+- Absorb the coordination methodology + fix a live menu gap (TRDD-NB725X9W)    
 
 
