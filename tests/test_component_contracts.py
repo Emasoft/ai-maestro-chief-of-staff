@@ -479,3 +479,59 @@ def test_agent_declares_no_model_pin(agent: Path) -> None:
         "OMIT it and inherit the session model (RP-MODEL-01). The launcher owns "
         "the cost decision; a pinned artifact spends their budget for them."
     )
+
+
+MAIN_AGENT = AGENTS_DIR / "ai-maestro-chief-of-staff-main-agent.md"
+SKILL_MENU_HEADING = "## Skill References"
+
+
+def _skill_menu_section() -> str:
+    """The persona's skill-menu section ONLY — heading to the next `## `.
+
+    Scope is the entire point (RP-SKILL-MENU-01, via AUTONOMOUS). Matching skill
+    names against the WHOLE persona passes while the menu quietly loses an entry,
+    because the frontmatter `skills:` preload list names every skill near the top
+    of the file — so a file-wide search always finds a "mention" and the menu can
+    rot untouched underneath it. Measured here before the fix: 23 skills on disk,
+    23 findable file-wide, only 17 in the menu.
+    """
+    text = MAIN_AGENT.read_text(encoding="utf-8")
+    start = text.index(SKILL_MENU_HEADING)
+    rest = text[start + len(SKILL_MENU_HEADING):]
+    nxt = rest.find("\n## ")
+    return rest if nxt == -1 else rest[:nxt]
+
+
+def test_every_skill_appears_in_the_persona_menu() -> None:
+    """Every shipped skill must be listed in the persona's menu SECTION (RP-SKILL-MENU-01).
+
+    A skill absent from the menu still loads, so nothing breaks loudly — the agent
+    simply never learns the skill exists and silently stops routing to it. That is
+    the failure this guards: not a crash, a capability quietly going unused.
+    """
+    section = _skill_menu_section()
+    on_disk = sorted(p.name for p in SKILLS_DIR.iterdir() if p.is_dir())
+    missing = [s for s in on_disk if s not in section]
+    assert not missing, (
+        f"{len(missing)} skill(s) exist but are absent from '{SKILL_MENU_HEADING}': "
+        f"{missing}. They are still preloaded, so nothing fails — the agent just "
+        "never learns they exist. Add a menu line; do NOT widen this check to the "
+        "whole file, which passes on the frontmatter preload list alone."
+    )
+
+
+def test_skill_menu_scope_is_narrower_than_the_file() -> None:
+    """Guard the guard: prove the menu section is a strict SUBSET of the persona.
+
+    If `_skill_menu_section` ever returned the whole file (heading renamed, parse
+    broken), the check above would still pass while asserting nothing — the exact
+    vacuity RP-SKILL-MENU-01 warns about. Pin that the section is materially
+    smaller than the document it lives in.
+    """
+    section = _skill_menu_section()
+    whole = MAIN_AGENT.read_text(encoding="utf-8")
+    assert len(section) < len(whole) * 0.5, (
+        f"the skill-menu section is {len(section)} chars of a {len(whole)}-char "
+        "persona — that is not a section, and the menu check has degenerated into "
+        "a file-wide search that passes on the frontmatter preload list."
+    )
