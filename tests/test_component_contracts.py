@@ -455,3 +455,27 @@ def test_paging_handle_guard_scans_a_real_population() -> None:
         "scan is running over a near-empty population and is not actually "
         "checking anything."
     )
+
+
+@pytest.mark.parametrize("agent", AGENT_FILES, ids=[_id(p) for p in AGENT_FILES])
+def test_agent_declares_no_model_pin(agent: Path) -> None:
+    """No agent — main or sub — may pin `model:` (RP-MODEL-01, role-plugins-spec 1.1.0).
+
+    Subagents omitting it was already settled; the ruling extends it to the main
+    agent. The reasoning is why this is a guard and not a preference: model choice
+    is a cost/capability decision belonging to whoever LAUNCHES the session, and a
+    pin in a released artifact inverts that — it lets a role author spend the
+    operator's budget, on every invocation, with no way for them to opt out short
+    of editing the plugin.
+
+    Two failure modes a pin adds that omission does not have: a movable token
+    (`opus` has already shifted once, under a pattern set before Opus 5 existed)
+    makes a versioned artifact's behaviour change without a release; and a pin is
+    the only spelling that can SILENTLY degrade under an org model restriction.
+    """
+    fm = parse_frontmatter(agent.read_text(encoding="utf-8")) or {}
+    assert "model" not in fm, (
+        f"{agent.name} pins `model: {fm.get('model')}` — role-plugin agents must "
+        "OMIT it and inherit the session model (RP-MODEL-01). The launcher owns "
+        "the cost decision; a pinned artifact spends their budget for them."
+    )
