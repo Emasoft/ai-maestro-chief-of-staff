@@ -3,7 +3,7 @@ trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: blocked
 pre-block-column: dev
-blocked-by: [ai-maestro#144]
+blocked-by: [ai-maestro#76]
 created: 2026-06-15T22:18:37+0200
 updated: 2026-08-11T19:54:10+0200
 current-owner: cos-ai-maestro-chief-of-staff
@@ -28,7 +28,7 @@ external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "githu
 
 ## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative) — 2026-08-11
 
-**⏸ BLOCKED 2026-08-11 (was `dev`; `pre-block-column: dev`) — `blocked-by: ai-maestro#144`.**
+**⏸ BLOCKED 2026-08-11 (was `dev`; `pre-block-column: dev`) — `blocked-by: ai-maestro#76`.**
 Nothing below has changed; only the card's honesty has. It sat at `column: dev` for 26 days
 asserting active work while nobody touched it, which is worse than sitting in `blocked`,
 because a work column hides a stall from the one view anyone consults.
@@ -44,11 +44,22 @@ manufactures a false negative (it nearly did).
 
 `ai-maestro#36`, the original blocker, was **CLOSED 2026-07-17 — one day after this card
 stalled**, and the unblock went unnoticed for 26 days precisely because the board was lying.
-A `blocked-by:` naming a closed issue is a false claim that would rebuild that same
-invisibility, so the blocker is re-filed as **ai-maestro#144** and pointed at here.
+A `blocked-by:` naming a closed issue is a false claim, so the pointer had to move.
 
-**NEXT ACTION on unblock:** when #144 reports the verbs live, repoint the four
-`DECOUPLE-BLOCKED` markers → small patch publish → the ops go live. No design work remains.
+**It moves to `ai-maestro#76`, which already existed.** Correcting my own error of the same
+day: on finding #36 closed I filed a NEW issue (#144) instead of asking whether the gap was
+already tracked. It was — #76 ("6 verbs/registry-writes the COS layer still lacks") was opened
+at the MANAGER's direction precisely so these residuals would survive #36's closure, and it
+enumerates six classes with exact call-sites where I had four verbs and a grep. The pointer was
+in THIS repo the whole time: `## Notes` on TRDD-6SL6UY6N says the DECOUPLE-BLOCKED markers
+"point there since `ae04e20`". #144 is closed as a duplicate. **The lesson, because it is not
+obvious: confirming the NAMED blocker is closed is a different question from confirming the
+BLOCKER is untracked, and only the second one licenses filing.** #144 also re-requested a
+`gov-password env-fallback` copied from a pre-reconciliation line here — #76 item 1 records the
+agreed shape as AID-only with no password even in env, since that is what R32 removes; retracted.
+
+**NEXT ACTION on unblock:** when #76's verbs land, repoint the four `DECOUPLE-BLOCKED` markers
+→ small patch publish → the ops go live. No design work remains.
 
 **Source:** MANAGER work order #20. **USER hardened the no-direct-API rule to
 ABSOLUTE (2026-06-15) + gave STANDING PRE-AUTHORIZATION: execute, do NOT stop for
