@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.25.2] - 2026-08-11
+    ## [2.25.3] - 2026-08-11
 
-### Documentation
+### Bug Fixes
 
-- Classify the two stalled dev cards (ai-maestro#144)    
+- Repoint 8e8d6618 blocked-by to ai-maestro#76 (close my duplicate #144)    
 
 
