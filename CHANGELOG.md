@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.25.0] - 2026-08-11
+    ## [2.25.1] - 2026-08-11
 
-### Bug Fixes
+### Documentation
 
-- State R6 as binding on WHO, not on the transport (ai-maestro#131)    
+- File 10 terminal TRDDs into design/archived/    
 
 
