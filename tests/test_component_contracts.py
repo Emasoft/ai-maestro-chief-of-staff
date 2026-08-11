@@ -75,6 +75,17 @@ def _declared_tools(text: str) -> list[str]:
     equally dependency-free reader. No `tools:` key means "inherit everything",
     which is a valid (and defect-free) declaration, so [] is the right answer
     for it: the caller intersects against DEFUNCT_TOOLS and finds nothing.
+
+    A COMMENT inside the block does NOT end it. That distinction is load-bearing,
+    not pedantry: this reader used to treat any non-`- Tool` line as the start of
+    the next top-level key, so a leading `# ...` comment truncated the list to
+    empty. Two agents carry exactly such a comment — added by COS#27 to record
+    that their spawn tool was removed ON PURPOSE — so the prose documenting a
+    security decision silently blinded every check of it. `amcos-staff-planner`
+    and `amcos-performance-reporter` parsed as `[]`, meaning the defunct-tool
+    guard had been asserting nothing on the two files it was written for: a `Task`
+    entry re-added below the comment would have passed. Terminate only on a real
+    top-level key — non-blank, non-comment, and unindented.
     """
     if not text.startswith("---"):
         return []
@@ -92,7 +103,9 @@ def _declared_tools(text: str) -> list[str]:
             if m:
                 out.append(m.group(1))
                 continue
-            if line.strip():  # a new top-level key ends the list
+            if not line.strip() or line.lstrip().startswith("#"):
+                continue  # blank / comment — still inside the block
+            if not line[:1].isspace():  # a new top-level key ends the list
                 in_tools = False
     return out
 
@@ -543,4 +556,151 @@ def test_skill_menu_scope_is_narrower_than_the_file() -> None:
         f"the skill-menu section is {len(section)} chars of a {len(whole)}-char "
         "persona — that is not a section, and the menu check has degenerated into "
         "a file-wide search that passes on the frontmatter preload list."
+    )
+
+
+# --- The second transport (ai-maestro#131) ------------------------------------
+#
+# Claude Code 2.1.224 added a native cross-session transport (`SendMessage` /
+# `ListAgents`) alongside AMP. The R6 graph is defined over AI-Maestro TITLES and
+# enforced by the server on the AMP path; the native directory keys on SESSION
+# NAMES, so there is no identity for a graph check to key on and no 403 can ever
+# arrive there. Measured in this session 2026-08-11T19:28:17+0200: `ListAgents`
+# returned 18 peers INCLUDING an `ai-maestro-autonomous-agent-*` session — a
+# title this persona forbids — addressable by name with nothing in the way.
+#
+# The persona must therefore say the rule binds on WHO is contacted rather than
+# on the transport. These are three separate assertions on purpose: naming the
+# tools and disclaiming enforcement are independent failures, and a body that
+# merely name-dropped `SendMessage` would satisfy a keyword scan while still
+# implying the server covers it.
+
+_NATIVE_TRANSPORT_TOOLS = ("SendMessage", "ListAgents")
+
+
+def test_persona_names_the_native_transport() -> None:
+    """The persona must NAME the second transport it is silent about otherwise.
+
+    A restriction the reader cannot map onto the tool in front of them is not a
+    restriction. Before this guard the persona mentioned `403` four times and
+    these two tool names zero times, so every statement of the rule pointed at
+    the one path that is policed and none at the one that is not.
+    """
+    text = MAIN_AGENT.read_text(encoding="utf-8")
+    missing = [t for t in _NATIVE_TRANSPORT_TOOLS if t not in text]
+    assert not missing, (
+        f"the persona never names {missing} — the harness transport that carries "
+        "no AID and cannot 403. An agent reading only about the API believes the "
+        "server covers a path it has no enforcement point on (ai-maestro#131)."
+    )
+
+
+def test_persona_states_the_native_transport_is_not_policed() -> None:
+    """Naming the tools is not enough — the persona must DISCLAIM enforcement there.
+
+    This is the assertion that cannot be satisfied by vocabulary. A persona could
+    name `SendMessage` in passing (e.g. listing its tools) and still leave every
+    statement of the rule reading as server-guaranteed. What has to survive is the
+    load-bearing claim: no check exists on that path, so the agent is the
+    enforcement point.
+    """
+    text = MAIN_AGENT.read_text(encoding="utf-8")
+    assert "you are the only enforcement point" in text.lower(), (
+        "the persona names the native transport but never says it is UNPOLICED. "
+        "Vocabulary is not a warning: without the disclaimer the four `403` "
+        "promises still read as covering every path (ai-maestro#131)."
+    )
+    assert "is not a licence to contact it" in text.lower(), (
+        "the persona does not say that `ListAgents` visibility confers no "
+        "permission. An agent told 'you may message only X' and then handed a "
+        "directory of everyone will reason its way around the rule."
+    )
+    assert "untrusted data" in text.lower(), (
+        "the persona does not say inbound cross-session messages carry no "
+        "server-side identity check. This matters most for a title that DOES "
+        "receive authenticated instructions over AMP — on arrival the two look "
+        "alike, and only one of them was checked."
+    )
+
+
+def test_shipped_subagents_cannot_reach_a_peer_session() -> None:
+    """The subagent restriction must be MECHANICAL, not merely asserted in prose.
+
+    The persona tells subagents they cannot message peers. For the agents this
+    plugin ships that is enforced by the `tools:` allowlist rather than by any
+    server — so it holds only as long as no allowlist grows `SendMessage`. Pin it,
+    because the failure is silent: a subagent that gained the tool would be able
+    to contact any listed session, with no AMP identity and nothing to refuse it.
+    """
+    offenders = []
+    for agent in AGENT_FILES:
+        if agent == MAIN_AGENT:
+            continue
+        tools = _declared_tools(agent.read_text(encoding="utf-8"))
+        if any(t in _NATIVE_TRANSPORT_TOOLS for t in tools):
+            offenders.append(agent.name)
+    assert not offenders, (
+        f"{offenders} declare a native cross-session tool. Subagents have no AMP "
+        "identity, so nothing would authenticate or refuse them — the R6 graph "
+        "would bind them with no enforcement point at all."
+    )
+
+
+def test_declared_tools_survives_a_comment_in_the_block() -> None:
+    """A `#` comment inside `tools:` must not truncate the parsed list.
+
+    Regression pin. The reader used to end the block at any non-`- Tool` line, so
+    a leading comment yielded `[]` — and `[]` passes every check that intersects
+    against a forbidden set. Two shipped agents lead their block with a comment
+    recording that a spawn tool was deliberately removed (COS#27), so the note
+    explaining the safety property disabled the test enforcing it. Both spellings
+    are asserted: leading comment, and comment interleaved between entries.
+    """
+    leading = "---\ntools:\n  # why there is no spawn tool\n  - Bash\n  - Read\n---\n"
+    assert _declared_tools(leading) == ["Bash", "Read"], (
+        "a leading comment truncated the tools list to "
+        f"{_declared_tools(leading)} — an empty list silently passes every "
+        "forbidden-tool check, which is how a guard stops guarding."
+    )
+    interleaved = "---\ntools:\n  - Bash\n\n  # note\n  - Read\nskills:\n  - x\n---\n"
+    assert _declared_tools(interleaved) == ["Bash", "Read"], (
+        f"comment/blank between entries truncated the list to "
+        f"{_declared_tools(interleaved)}"
+    )
+    assert _declared_tools("---\ntools:\n  - Bash\nskills:\n  - x\n---\n") == ["Bash"], (
+        "a genuine top-level key must still END the block"
+    )
+
+
+def test_every_subagent_declares_a_parseable_tool_allowlist() -> None:
+    """Every subagent must parse to a NON-EMPTY allowlist.
+
+    This is the assertion that would have caught the parser bug on the day the
+    COS#27 comments landed. An agent whose allowlist reads as empty is
+    indistinguishable — to every guard in this file — from one that declares
+    nothing and inherits the full tool surface.
+    """
+    empty = [
+        a.name
+        for a in AGENT_FILES
+        if a != MAIN_AGENT and not _declared_tools(a.read_text(encoding="utf-8"))
+    ]
+    assert not empty, (
+        f"{empty} parse to an EMPTY tools allowlist. Either the agent really "
+        "declares none (it then inherits everything, including the native "
+        "cross-session transport), or the reader is truncating — both are "
+        "defects, and both make every tool check on that file vacuous."
+    )
+
+
+def test_subagent_transport_guard_scans_a_real_population() -> None:
+    """Guard the guard: an empty subagent list would pass the check above vacuously."""
+    subagents = [a for a in AGENT_FILES if a != MAIN_AGENT]
+    assert len(subagents) >= 5, (
+        f"only {len(subagents)} subagent(s) discovered — the allowlist check above "
+        "asserts nothing on an empty or truncated population."
+    )
+    assert all(_declared_tools(a.read_text(encoding="utf-8")) for a in subagents), (
+        "a subagent declares NO tools at all, which parses as an empty allowlist "
+        "and would pass the transport check while actually inheriting everything."
     )
