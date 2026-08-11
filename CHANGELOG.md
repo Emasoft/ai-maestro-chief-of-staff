@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.27.0] - 2026-08-11
+    ## [2.27.1] - 2026-08-11
 
-### Bug Fixes
+### Tests
 
-- Carry the inbound duty on the ONLY agent-visible wake surface    
+- Select sections by property, refusing ambiguity (ai-maestro#131)    
 
 
