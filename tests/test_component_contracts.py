@@ -706,6 +706,61 @@ def test_persona_enumerates_every_inbound_channel_not_just_amp() -> None:
     )
 
 
+def test_persona_says_blocked_does_not_suspend_checking() -> None:
+    """Blocked licenses stopping WORK, never stopping CHECKING (ARCHITECT, #131).
+
+    Distinct from the enumeration guard above and worth its own assertion: an
+    agent can name all three channels and still stop polling them the moment it
+    declares itself blocked. ARCHITECT measured that exact conflation — fifteen
+    consecutive truthful "blocked, stopping" replies while a directive addressed
+    to them sat unread. Every report correct; four days lost. The failure is not
+    a missing channel, it is a correct status sentence used as permission to stop
+    looking.
+    """
+    bullet = _inbound_section()
+    assert re.search(r"(?i)stopping work.{0,40}never.{0,20}stopping checking", bullet), (
+        "the inbound rule does not separate stopping WORK from stopping "
+        "CHECKING. Without it, 'blocked on a human decision' silently reads as "
+        "permission to stop polling, and each individual report stays true "
+        "while the outage accumulates."
+    )
+
+
+def test_session_start_hook_echoes_the_inbound_duty() -> None:
+    """The wake-time surface must carry the duty, not only the persona.
+
+    The persona is one copy, and a wake that never reads it never sees the rule.
+    This hook's `summary(extra=...)` is the ONLY agent-visible output at wake —
+    everything `format_status_summary` builds goes to a log file nothing reads
+    then. Assert against the stdout path specifically, because a banner line
+    would look identical in source while reaching no one.
+    """
+    src = (PLUGIN_ROOT / "scripts" / "amcos_session_start.py").read_text(encoding="utf-8")
+    # Select the call that CARRIES `extra=`, not the first textual match. There
+    # are two `out.summary(` sites and the first is a WARN early-exit, so
+    # `src.index(...)` silently windows the wrong one — the selector picking a
+    # true-but-irrelevant occurrence, which is the same failure this file
+    # already guards twice (empty tools list, file-wide menu search).
+    calls = [src[m.start() : m.start() + 900] for m in re.finditer(r"out\.summary\(", src)]
+    assert calls, "no out.summary(...) call site found at all"
+    call = next((c for c in calls if "extra=" in c), "")
+    assert call, (
+        "no out.summary(...) passes `extra=`. `out.log(...)` writes to the LOG "
+        "FILE, which nothing reads at wake — putting the inbound duty there is a "
+        "false claim of wake-time coverage."
+    )
+    for token, why in (
+        ("amp-inbox", "channel 1 unnamed in the wake echo"),
+        ("peer sessions", "channel 2 unnamed in the wake echo"),
+        ("gh issue list", "channel 3 unnamed in the wake echo"),
+    ):
+        assert token in call, f"{why} — `{token}` absent from the summary() call"
+    assert re.search(r"(?i)never stopping checking", call), (
+        "the wake echo omits that being blocked does not suspend the check — "
+        "the one rule that had to survive with no persona loaded."
+    )
+
+
 def test_inbound_guard_is_scoped_not_file_wide() -> None:
     """Guard the guard: prove the section is a strict subset of the persona.
 

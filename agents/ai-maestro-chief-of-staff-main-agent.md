@@ -131,7 +131,21 @@ absence**, so nothing will ever surface it for you.
 | 3 | **GitHub issue / PR threads** | not delivered at all — **GitHub cannot notify an agent** | you must LOOK: `gh issue list --state open`, and re-read threads you are awaiting a reply on. A thread waiting on you is invisible until you check it |
 
 **NEVER call the inbox clear on the strength of one channel.** All three carry
-real work orders; a delivered mandate is a work ORDER, not a banner.
+real work orders; a delivered mandate is a work ORDER, not a banner. And do not
+read the table as the definition — **the duty is to check every channel that can
+carry a directive**, including any that appears after this was written; three is
+today's count, not the rule.
+
+**Being BLOCKED licenses stopping WORK. It never licenses stopping CHECKING.**
+"Blocked on a human decision — stopping" is a statement about what you may
+*do*, not permission to stop *looking*, and the two are easy to conflate because
+each individual report is true. ARCHITECT made exactly that conflation and
+measured the cost (`ai-maestro#131`): **fifteen consecutive heartbeats** of a
+truthful "blocked, stopping" — empty board, clean tree, no open issues — while a
+directive addressed to them sat unread on a thread that pages nobody. Four days,
+every report individually correct, collectively an outage. A blocker you were
+told had cleared is the most expensive thing to keep believing: re-test it
+rather than trusting a column that has not been re-read since it was written.
 
 **This binds harder on you than on any other title.** You are the team's SOLE
 entry point (R6 v3) and its Tier-1 approver: a proposal, an approval decision,

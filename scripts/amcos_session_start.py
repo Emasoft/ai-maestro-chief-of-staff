@@ -355,8 +355,35 @@ def main() -> int:
     # Write verbose banner to log file
     format_status_summary(out, agents, tasks, alerts, session_count)
 
-    # Print concise summary to stdout for the hook consumer
-    out.summary("DONE", f"Session #{session_count} initialized")
+    # Print concise summary to stdout for the hook consumer.
+    #
+    # The `extra` line carries the INBOUND duty because this is the only
+    # agent-visible surface that runs at wake with NO skill and NO persona
+    # section loaded (ai-maestro#131, MAINTAINER's receive-side finding).
+    # Everything format_status_summary() builds above goes to the LOG FILE,
+    # which nothing reads on wake — so the banner listing agents, tasks and
+    # alerts is not the wake-time picture, this line is. A wake report that
+    # enumerates pending work while omitting arrivals reads as COMPLETE, and
+    # the omitted class is the one nothing else will ever surface: AMP is
+    # pollable, peer messages are delivered-not-pollable, and GitHub cannot
+    # notify an agent at all.
+    #
+    # Bound to the DUTY rather than to this list (ARCHITECT, same thread), so
+    # a fourth channel does not silently invalidate it. The last clause is the
+    # rule that cost ARCHITECT four days: fifteen consecutive "blocked,
+    # stopping" replies, each individually true, while a directive addressed
+    # to them sat unread on a thread that pages nobody.
+    out.summary(
+        "DONE",
+        f"Session #{session_count} initialized",
+        extra=(
+            "INBOUND: AMP (`amp-inbox`) · peer sessions (delivered mid-turn, "
+            "NOT pollable) · GitHub threads (`gh issue list` — cannot notify you).\n"
+            "Check every channel that can carry a directive, never just one; "
+            "being BLOCKED licenses stopping WORK, never stopping CHECKING. "
+            "Detail: persona § Inbound discipline."
+        ),
+    )
     out.close()
 
     return 0
