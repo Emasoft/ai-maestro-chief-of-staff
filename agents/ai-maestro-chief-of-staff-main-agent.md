@@ -115,6 +115,31 @@ The security-first governance core on Emasoft/ai-maestro. These bind you (the CO
 
 **Recipient Validation**: Before sending any message, verify the recipient is reachable per these rules. Use `aimaestro-teams.sh list` to check team membership.
 
+### Inbound discipline — THREE channels arrive, and only ONE has an inbox to drain
+
+Everything above is the SEND half. Work also arrives, on three separate channels,
+and **only the first is pollable**. Naming one of them and calling the inbox clear
+is the failure this section exists to prevent — it produces a wake that looks
+successful (drained AMP, found nothing, resumed self-chosen work) while live
+directives wait. **Silence on an unpolled channel is indistinguishable from
+absence**, so nothing will ever surface it for you.
+
+| # | Channel | How it arrives | Your duty |
+|---|---------|----------------|-----------|
+| 1 | **AMP** | server-held queue | poll it: `amp-inbox` (unread), then `amp-read <message-id>` |
+| 2 | **Direct session channel** | delivered mid-turn as `<cross-session-message from="…">` — **never** in `amp-inbox`, because it never reaches the server | nothing to poll; ACT when it lands rather than finishing the current step and losing it. Reply by copying its `from` attribute verbatim as `to` |
+| 3 | **GitHub issue / PR threads** | not delivered at all — **GitHub cannot notify an agent** | you must LOOK: `gh issue list --state open`, and re-read threads you are awaiting a reply on. A thread waiting on you is invisible until you check it |
+
+**NEVER call the inbox clear on the strength of one channel.** All three carry
+real work orders; a delivered mandate is a work ORDER, not a banner.
+
+**This binds harder on you than on any other title.** You are the team's SOLE
+entry point (R6 v3) and its Tier-1 approver: a proposal, an approval decision,
+or an escalation that you fail to notice is not merely your own dropped thread —
+it strands the member waiting on it, who has no other path in and no way to
+tell your silence from a refusal. Channel 3 is the one that bites hardest here,
+because approvals and specs routinely arrive on threads that will never page you.
+
 ## Sub-Agent Routing
 
 Delegate specialized tasks to sub-agents (all operate within YOUR team boundary):

@@ -646,6 +646,83 @@ def test_shipped_subagents_cannot_reach_a_peer_session() -> None:
     )
 
 
+# --- The RECEIVE side (ai-maestro#131, MAINTAINER's mirror finding) -----------
+#
+# The fleet screen asked every persona "do you claim a forbidden SEND returns
+# 403?". Nobody asked the mirror question: "does the persona tell the agent where
+# messages ARRIVE?". Measured here 2026-08-11 before the fix: this persona named
+# ZERO inbound channels; three exist. (The two `amp-inbox` hits in skills/ are an
+# allowed-tools declaration and a mid-procedure step, not a wake rule.)
+#
+# The receive failure is worse than the send failure and that is why it is
+# guarded: a forbidden send at least leaves an artifact on the recipient, while a
+# missed receive produces a SUCCESSFUL-looking wake — inbox drained, nothing
+# found, work resumed — with live directives still waiting and nobody able to
+# notice. Silence on an unpolled channel reads exactly like absence.
+#
+# For COS specifically the blast radius is not its own thread: as the team's sole
+# entry point and Tier-1 approver, a missed inbound strands a member who has no
+# other path in and cannot distinguish silence from refusal.
+
+INBOUND_HEADING = "### Inbound discipline"
+
+
+def _inbound_section() -> str:
+    """The inbound bullet ONLY — heading to the next heading of any level.
+
+    Scoping is load-bearing here and the trap is specific to this file: the
+    send-side fix (v2.25.0) put `SendMessage` into the Communication Permissions
+    section, so a whole-file `assert "SendMessage" in persona` now passes on THAT
+    text alone and would green-light an AMP-only inbound rule. The guard would
+    assert nothing precisely because an earlier fix succeeded.
+    """
+    text = MAIN_AGENT.read_text(encoding="utf-8")
+    start = text.index(INBOUND_HEADING)
+    rest = text[start + len(INBOUND_HEADING):]
+    nxt = re.search(r"\n#{1,3} ", rest)
+    return rest[: nxt.start()] if nxt else rest
+
+
+def test_persona_enumerates_every_inbound_channel_not_just_amp() -> None:
+    """The inbound rule must name all THREE arrival channels, not only AMP."""
+    bullet = _inbound_section()
+    assert "amp-inbox" in bullet, "channel 1 (AMP) unnamed"
+    assert "SendMessage" in bullet or "cross-session-message" in bullet, (
+        "channel 2 (direct session channel) unnamed — it is never in `amp-inbox` "
+        "and there is nothing to poll, so an agent that does not know it exists "
+        "loses every peer message that lands mid-turn."
+    )
+    assert re.search(r"(?i)never\b[^.]{0,60}in\s+`?amp-inbox", bullet), (
+        "the rule does not state that channel 2 NEVER appears in amp-inbox — "
+        "without it, draining AMP still reads as draining everything."
+    )
+    assert re.search(r"(?i)gh issue list", bullet), (
+        "channel 3 (GitHub threads) unnamed. GitHub cannot notify an agent, so a "
+        "thread awaiting your reply is invisible until you look for it."
+    )
+    assert re.search(r"(?i)never call the inbox clear on the strength of one", bullet), (
+        "the rule does not forbid declaring the inbox clear from one channel — "
+        "which is the whole failure mode."
+    )
+
+
+def test_inbound_guard_is_scoped_not_file_wide() -> None:
+    """Guard the guard: prove the section is a strict subset of the persona.
+
+    If `_inbound_section` ever returned the whole file, every assertion above
+    would pass on unrelated text — `SendMessage` and `amp-inbox` both appear
+    elsewhere in this repo's prose. That is the vacuity this whole issue is about,
+    reproduced inside its own fix.
+    """
+    section = _inbound_section()
+    whole = MAIN_AGENT.read_text(encoding="utf-8")
+    assert len(section) < len(whole) * 0.25, (
+        f"the inbound section is {len(section)} chars of a {len(whole)}-char "
+        "persona — that is not a section, and the check has degenerated into a "
+        "file-wide search that passes on the send-side text."
+    )
+
+
 def test_declared_tools_survives_a_comment_in_the_block() -> None:
     """A `#` comment inside `tools:` must not truncate the parsed list.
 
