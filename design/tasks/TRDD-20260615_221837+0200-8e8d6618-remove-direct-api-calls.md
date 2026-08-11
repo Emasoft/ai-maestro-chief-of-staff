@@ -1,9 +1,11 @@
 ---
 trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
-column: dev
+column: blocked
+pre-block-column: dev
+blocked-by: [ai-maestro#144]
 created: 2026-06-15T22:18:37+0200
-updated: 2026-07-16T19:52:43+0200
+updated: 2026-08-11T19:54:10+0200
 current-owner: cos-ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
@@ -24,7 +26,29 @@ external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "githu
 
 # TRDD-8e8d6618 — Remove direct /api/* calls from COS scripts (#20)
 
-## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative) — 2026-06-15
+## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative) — 2026-08-11
+
+**⏸ BLOCKED 2026-08-11 (was `dev`; `pre-block-column: dev`) — `blocked-by: ai-maestro#144`.**
+Nothing below has changed; only the card's honesty has. It sat at `column: dev` for 26 days
+asserting active work while nobody touched it, which is worse than sitting in `blocked`,
+because a work column hides a stall from the one view anyone consults.
+
+The COS-side obligation is **already MET** — `grep -rn '/api/'` over `scripts/ skills/ agents/`
+returns **zero** (re-verified 2026-08-11). What remains is NOT COS work: four ops are parked
+`DECOUPLE-BLOCKED` awaiting upstream CLI verbs. Re-checked those verbs today by grepping the
+CLI **sources** in `~/.local/bin/` — `register-only`, `gh-project`, a status *setter*
+(`--status` exists only as a `list` filter), `gov_password`, `label-issue` and
+`sessions-by-project` are all absent. Do NOT re-probe with `<subcmd> --help`: it returns
+HTTP 401 or `unknown flag`, so a grep over it reports "absent" for the wrong reason and
+manufactures a false negative (it nearly did).
+
+`ai-maestro#36`, the original blocker, was **CLOSED 2026-07-17 — one day after this card
+stalled**, and the unblock went unnoticed for 26 days precisely because the board was lying.
+A `blocked-by:` naming a closed issue is a false claim that would rebuild that same
+invisibility, so the blocker is re-filed as **ai-maestro#144** and pointed at here.
+
+**NEXT ACTION on unblock:** when #144 reports the verbs live, repoint the four
+`DECOUPLE-BLOCKED` markers → small patch publish → the ops go live. No design work remains.
 
 **Source:** MANAGER work order #20. **USER hardened the no-direct-API rule to
 ABSOLUTE (2026-06-15) + gave STANDING PRE-AUTHORIZATION: execute, do NOT stop for

@@ -1,9 +1,9 @@
 ---
 trdd-id: 4FH9JP4U
 title: R42 drive-vs-lifecycle audit — categorized purge plan (execution-gated on R42 text)
-column: dev
+column: complete
 created: 2026-07-16T20:32:10+0200
-updated: 2026-07-16T21:42:04+0200
+updated: 2026-08-11T19:54:10+0200
 current-owner: cos-ai-maestro-chief-of-staff
 task-type: audit
 release-via: publish
@@ -128,3 +128,16 @@ surface against CODIFIED rules before scoping a "purge" from a changelog paraphr
 ## Source artefacts
 - MANAGER R42 answer: ai-maestro#72 comment 2026-07-16T17:24:25Z.
 - MANAGER push-blocker finding: ai-maestro#71 comment 2026-07-16T17:24:54Z.
+
+## Approval log
+
+- 2026-08-11T19:54:10+0200 — COMPLETED. Closing a card whose work finished on
+  2026-07-16 and which then sat at `column: dev` for 26 days claiming active
+  work. Its only outstanding item was `NEXT ACTION: publish (deferred to a
+  deliberate release)`; 46 `v2.*` releases have shipped since, most recently
+  v2.25.1, so the deferral resolved itself long ago and nobody closed the card.
+  Verified against this card's OWN acceptance check rather than its self-report,
+  because a card asserting "EXECUTION COMPLETE" is a claim, not evidence:
+  the R42 injection-prose grep returns empty, the raw `kill -TERM $PID` of a
+  peer is gone from `recovery-operations.md`, and 299 tests pass. Not archived
+  as a guess — the three checks are what closed it.
