@@ -507,6 +507,43 @@ MAIN_AGENT = AGENTS_DIR / "ai-maestro-chief-of-staff-main-agent.md"
 SKILL_MENU_HEADING = "## Skill References"
 
 
+def _slice_unique(text: str, anchor: str, terminator: str, must_contain: str) -> str:
+    """Select a section by PROPERTY, refusing ambiguity — never by first match.
+
+    Two guarantees, and ARCHITECT's point (ai-maestro#131) is that either alone is
+    weaker than both: a uniqueness check still lets a guard pick *something* when
+    the anchor is unique-but-wrong, and a content check still lets it pick the
+    first of several candidates that happens to qualify.
+
+    1. REFUSE when the anchor does not occur exactly once, reporting the count,
+       instead of silently taking the first hit.
+    2. ASSERT the selected slice carries a marker only the real section can carry,
+       folding the failure mode into the selection rather than leaving it as a
+       separate assertion a mis-selected slice could still satisfy.
+
+    Both anchors here occur exactly once today, so nothing is broken — but the
+    likeliest future edit is the one that breaks it: a cross-reference naming the
+    section, written from elsewhere in the same file. `str.index` would then
+    select the prose mention and every assertion in the class would start passing
+    or failing for reasons unrelated to the invariant. This repo has already been
+    bitten three times by a selector reporting on the wrong occurrence.
+    """
+    hits = text.count(anchor)
+    assert hits == 1, (
+        f"anchor {anchor!r} occurs {hits} times — refusing to guess which is the "
+        "real section. A first-match slice would pick one and the guard would "
+        "silently stop testing what it claims to test."
+    )
+    rest = text[text.index(anchor) + len(anchor) :]
+    m = re.search(terminator, rest)
+    section = rest[: m.start()] if m else rest
+    assert must_contain in section, (
+        f"the slice selected by {anchor!r} does not contain {must_contain!r}, so "
+        "it is the wrong slice however it was found."
+    )
+    return section
+
+
 def _skill_menu_section() -> str:
     """The persona's skill-menu section ONLY — heading to the next `## `.
 
@@ -517,11 +554,14 @@ def _skill_menu_section() -> str:
     rot untouched underneath it. Measured here before the fix: 23 skills on disk,
     23 findable file-wide, only 17 in the menu.
     """
-    text = MAIN_AGENT.read_text(encoding="utf-8")
-    start = text.index(SKILL_MENU_HEADING)
-    rest = text[start + len(SKILL_MENU_HEADING):]
-    nxt = rest.find("\n## ")
-    return rest if nxt == -1 else rest[:nxt]
+    # `amcos-` is the marker only the real menu can carry: every shipped skill is
+    # named `amcos-*`, so a slice without one is not the menu.
+    return _slice_unique(
+        MAIN_AGENT.read_text(encoding="utf-8"),
+        SKILL_MENU_HEADING,
+        r"\n## ",
+        "amcos-",
+    )
 
 
 def test_every_skill_appears_in_the_persona_menu() -> None:
@@ -676,11 +716,15 @@ def _inbound_section() -> str:
     text alone and would green-light an AMP-only inbound rule. The guard would
     assert nothing precisely because an earlier fix succeeded.
     """
-    text = MAIN_AGENT.read_text(encoding="utf-8")
-    start = text.index(INBOUND_HEADING)
-    rest = text[start + len(INBOUND_HEADING):]
-    nxt = re.search(r"\n#{1,3} ", rest)
-    return rest[: nxt.start()] if nxt else rest
+    # `amp-inbox` is the marker only the real bullet can carry: it enumerates the
+    # channels, so a slice missing channel 1 is the wrong slice however it was
+    # found (ARCHITECT's sharpening — refuse ambiguity AND assert the marker).
+    return _slice_unique(
+        MAIN_AGENT.read_text(encoding="utf-8"),
+        INBOUND_HEADING,
+        r"\n#{1,3} ",
+        "amp-inbox",
+    )
 
 
 def test_persona_enumerates_every_inbound_channel_not_just_amp() -> None:
