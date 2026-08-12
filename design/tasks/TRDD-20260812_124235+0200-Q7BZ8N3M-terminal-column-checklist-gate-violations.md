@@ -11,7 +11,7 @@ scope: project
 project-id: ai-maestro-chief-of-staff
 min-approval-requirement: 0
 relevant-rules: [1]
-parent-trdd: M4761P58
+created-by: M4761P58
 external-refs: [ai-maestro#76]
 ---
 

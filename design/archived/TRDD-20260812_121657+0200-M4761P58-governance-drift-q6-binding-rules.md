@@ -1,9 +1,9 @@
 ---
 trdd-id: M4761P58
 title: Audit the persona against the Q6 binding-rules list and close the remaining drift
-column: dev
+column: complete
 created: 2026-08-12T12:16:57+0200
-updated: 2026-08-12T12:41:47+0200
+updated: 2026-08-12T13:02:00+0200
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
@@ -122,6 +122,17 @@ script" discipline applies exactly here.
       (no disk edit — no stale `.pyc`, no crash window), with the seed verified to have
       actually applied before trusting a GREEN.
 - [x] Suite green (313), ruff clean, published.
+
+## Approval log
+
+- 2026-08-12T13:02:00+0200 — COMPLETED by ai-maestro-chief-of-staff (Tier 0, own scope).
+  All four acceptance boxes checked against evidence, not asserted: four classifications
+  with source line refs; four persona sections; four guards each falsified by seeded
+  substitution; suite 313→322 green; published v2.29.0 + v2.30.0.
+  **This is the first card in this repo to pass THROUGH the checklist gate it added** —
+  4 boxes, ≥1, all `- [x]`, and no `npt:`/`eht:` outstanding. The nine cards that fail
+  the gate are carried by TRDD-Q7BZ8N3M, which is derived work, not a precondition of
+  this card, so it does not gate this transition.
 
 ## Notes
 
