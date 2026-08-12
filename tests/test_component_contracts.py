@@ -530,6 +530,14 @@ def _slice_unique(text: str, anchor: str, terminator: str, must_contain: str) ->
     bitten three times by a selector reporting on the wrong occurrence.
     """
     hits = text.count(anchor)
+    assert hits != 0, (
+        f"anchor {anchor!r} is ABSENT. This is a distinct failure from ambiguity "
+        "and the more dangerous one: `.find` returns -1, so a naive slice becomes "
+        "the WHOLE document, and a positive 'does it contain X' assertion then "
+        "passes because the document trivially contains its own content. CORE "
+        "measured that shape growing a slice 10,095 -> 214,697 chars while its "
+        "test stayed green (ai-maestro#131). Re-anchor or fix the source."
+    )
     assert hits == 1, (
         f"anchor {anchor!r} occurs {hits} times — refusing to guess which is the "
         "real section. A first-match slice would pick one and the guard would "
@@ -955,6 +963,44 @@ def parameterised(t, anchor):
 '''
 
 _SHAPES_COVERED = ("## Communication Permissions", "## Approval Tiers", "### Inbound discipline")
+
+
+def test_slice_unique_refuses_both_arities_not_just_ambiguity() -> None:
+    """Pin BOTH arity failures: anchor absent (0) and anchor duplicated (>=2).
+
+    ARITY is an axis independent of how the anchor is BOUND (literal, module
+    constant, function-local, ...), and CORE found the half neither ARCHITECT nor
+    I had: **absence**. Ours were both ambiguity, so a canonical guard summarising
+    our two findings as "refuse when the anchor is ambiguous" would have shipped
+    `count > 1` — false when `count == 0` — and been adopted green by a tree whose
+    only real defect it could not see.
+
+    `_slice_unique` already refused absence, because `== 1` happens to be the
+    `!= 1` predicate CORE argues for. That was correct by construction rather than
+    by anticipation, and it was pinned by NOTHING: the behaviour existed only as a
+    shell probe I ran once. So this test is the pin, not the fix.
+
+    Note why the marker assertion cannot substitute here. A vacuous absent-anchor
+    slice is a SUPERSET of the real section, so "does the slice carry a marker
+    only the real section can carry" passes on it. **The discriminator for arity
+    is arity** — that is CORE's correction to the refinement I sent them, and it
+    is why both checks have to exist.
+    """
+    doc = "# Title\n\nbody with amp-inbox in it\n\n## Other\n"
+
+    with pytest.raises(AssertionError, match="is ABSENT"):
+        _slice_unique(doc, "### Nope Missing", r"\n#{1,3} ", "amp-inbox")
+
+    with pytest.raises(AssertionError, match="occurs 2 times"):
+        _slice_unique(doc + "\n## Other\n", "## Other", r"\n#{1,3} ", "amp-inbox")
+
+    # And the arity-correct case still returns a PROPER SUBSET — the property a
+    # vacuous slice violates while every positive assertion on it still passes.
+    section = _slice_unique(doc, "# Title", r"\n#{1,3} ", "amp-inbox")
+    assert len(section) < len(doc), (
+        "a correctly-anchored slice must be smaller than the document; if it is "
+        "not, the slice degenerated to the whole file and asserts nothing."
+    )
 
 
 def test_first_match_detector_covers_every_anchor_shape(tmp_path: Path) -> None:
