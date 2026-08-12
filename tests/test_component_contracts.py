@@ -20,6 +20,7 @@ this suite only guards the structural contracts the plugin itself owns.
 
 from __future__ import annotations
 
+import ast
 import json
 import re
 import subprocess
@@ -819,6 +820,86 @@ def test_inbound_guard_is_scoped_not_file_wide() -> None:
         f"the inbound section is {len(section)} chars of a {len(whole)}-char "
         "persona — that is not a section, and the check has degenerated into a "
         "file-wide search that passes on the send-side text."
+    )
+
+
+# A NAMED section anchor: a heading marker plus an actual title. ARCHITECT's
+# discriminator (ai-maestro#131), and it came out of falsifying rather than
+# reasoning: a bare "\n## " is a DELIMITER (legitimate as a section-END search),
+# while "## Communication Permissions" NAMES a section and must never be located
+# by first match.
+_NAMED_SECTION_ANCHOR = re.compile(r"^\s*#{1,6}\s+\w{2,}")
+
+
+def _first_match_section_selections(path: Path) -> list[str]:
+    """Find `.index(X)` / `.find(X)` where X resolves to a NAMED section anchor.
+
+    Resolves module-level `NAME = "literal"` constants before matching, which is
+    the part that matters on THIS tree and the documented blind spot in the
+    upstream version. ARCHITECT measured their source-pattern guard catching a
+    literal anchor and MISSING a variable one — and every selector in this file
+    uses a constant (`SKILL_MENU_HEADING`, `INBOUND_HEADING`). A literal-only
+    detector adopted here would therefore be incapable of catching the exact
+    pattern it was written for: a guard that cannot fail, which is the failure
+    this whole issue is about.
+
+    KNOWN BLIND SPOTS, stated because a guard's misses are worth more to the next
+    reader than its hit rate: an anchor built at runtime (f-string, concatenation,
+    a value read from disk) or passed in as a parameter cannot be resolved
+    statically and will NOT be caught. `_slice_unique` is such a case and is the
+    SAFE path — its `anchor` is a parameter and it counts occurrences before
+    selecting — so exclusion there is correct rather than a gap.
+    """
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    consts: dict[str, str] = {}
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant):
+            if isinstance(node.value.value, str):
+                for tgt in node.targets:
+                    if isinstance(tgt, ast.Name):
+                        consts[tgt.id] = node.value.value
+
+    offenders: list[str] = []
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)):
+            continue
+        if node.func.attr not in {"index", "find"} or not node.args:
+            continue
+        arg = node.args[0]
+        if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+            value = arg.value
+        elif isinstance(arg, ast.Name) and arg.id in consts:
+            value = consts[arg.id]
+        else:
+            continue
+        if _NAMED_SECTION_ANCHOR.match(value):
+            offenders.append(f"line {node.lineno}: .{node.func.attr}({value!r})")
+    return offenders
+
+
+def test_no_first_match_selection_of_a_named_section() -> None:
+    """Suite-wide convention: never locate a NAMED section by first match.
+
+    Adopted after ARCHITECT and I each fixed a selector and each then found a
+    SECOND one of the same shape in our own tree that the first fix did not
+    prompt us to check. Fixing an instance demonstrably does not fix the class,
+    in either of our hands — so the convention has to be enforced rather than
+    remembered, because the condition under which it rots is that nothing is red.
+
+    Deliberately narrow: it does not ban `.find`/`.index` generally. A frontmatter
+    terminator, a section-END search, and an argv lookup are correct by
+    definition, and a guard that fired on those would be noise — which is how a
+    guard earns its way into being ignored.
+    """
+    offenders = _first_match_section_selections(Path(__file__))
+    assert not offenders, (
+        "first-match selection of a named section: "
+        + "; ".join(offenders)
+        + ". Use _slice_unique(), which refuses on ambiguity and asserts the "
+        "slice carries a marker only the real section can carry. A first-match "
+        "slice silently picks the wrong occurrence the moment a cross-reference "
+        "names the section, and the guard then passes or fails for reasons "
+        "unrelated to the invariant."
     )
 
 
