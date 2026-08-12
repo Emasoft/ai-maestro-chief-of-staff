@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.31.1] - 2026-08-12
+    ## [2.31.2] - 2026-08-12
 
-### Bug Fixes
+### Documentation
 
-- Repo selection must never gate on PUSH time (caught by its own control)    
+- Correct "rule position" to "claim collocation" — CORE disproved the framing    
 
 
