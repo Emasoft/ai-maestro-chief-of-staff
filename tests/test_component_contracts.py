@@ -965,39 +965,54 @@ def parameterised(t, anchor):
 _SHAPES_COVERED = ("## Communication Permissions", "## Approval Tiers", "### Inbound discipline")
 
 
-def test_slice_unique_refuses_both_arities_not_just_ambiguity() -> None:
-    """Pin BOTH arity failures: anchor absent (0) and anchor duplicated (>=2).
+# ARITY is an axis independent of how the anchor is BOUND (literal, module
+# constant, function-local, ...). CORE found the half neither ARCHITECT nor I had
+# — **absence** — because ours were both ambiguity, so a canonical guard
+# summarising our two findings as "refuse when the anchor is ambiguous" would have
+# shipped `count > 1` (false when `count == 0`) and been adopted green by the one
+# tree whose only real defect it could not see. `_slice_unique` already refused
+# absence, because `== 1` happens to be the `!= 1` predicate CORE argues for:
+# correct by construction, not by anticipation, and pinned by nothing.
+#
+# The two controls below are SEPARATE ON PURPOSE, per CORE's measurement. One test
+# holding both assertions reds for either weakening under the SAME name — it
+# reports that something broke without reporting which door is open. Split, the
+# failing test NAME carries the axis, and the independence becomes an executable
+# property rather than a claim: each reddens only for the weakening of its own
+# predicate, and neither covers for the other.
+_ARITY_DOC = "# Title\n\nbody with amp-inbox in it\n\n## Other\n"
 
-    ARITY is an axis independent of how the anchor is BOUND (literal, module
-    constant, function-local, ...), and CORE found the half neither ARCHITECT nor
-    I had: **absence**. Ours were both ambiguity, so a canonical guard summarising
-    our two findings as "refuse when the anchor is ambiguous" would have shipped
-    `count > 1` — false when `count == 0` — and been adopted green by a tree whose
-    only real defect it could not see.
 
-    `_slice_unique` already refused absence, because `== 1` happens to be the
-    `!= 1` predicate CORE argues for. That was correct by construction rather than
-    by anticipation, and it was pinned by NOTHING: the behaviour existed only as a
-    shell probe I ran once. So this test is the pin, not the fix.
+def test_slice_unique_refuses_an_ABSENT_anchor() -> None:
+    """Absence is the dangerous arity: `.find` → -1 → the slice becomes the DOCUMENT.
 
-    Note why the marker assertion cannot substitute here. A vacuous absent-anchor
-    slice is a SUPERSET of the real section, so "does the slice carry a marker
-    only the real section can carry" passes on it. **The discriminator for arity
-    is arity** — that is CORE's correction to the refinement I sent them, and it
-    is why both checks have to exist.
+    Every positive assertion then passes, because a document trivially contains
+    its own content. CORE measured that shape growing a slice 10,095 → 214,697
+    chars with the test still green (ai-maestro#131).
+
+    A marker assertion cannot substitute for this check: the vacuous slice is a
+    SUPERSET of the real section, so "carries a marker only the real section can
+    carry" passes on it. The discriminator for arity is arity.
     """
-    doc = "# Title\n\nbody with amp-inbox in it\n\n## Other\n"
-
     with pytest.raises(AssertionError, match="is ABSENT"):
-        _slice_unique(doc, "### Nope Missing", r"\n#{1,3} ", "amp-inbox")
+        _slice_unique(_ARITY_DOC, "### Nope Missing", r"\n#{1,3} ", "amp-inbox")
 
+
+def test_slice_unique_refuses_a_DUPLICATED_anchor() -> None:
+    """Ambiguity: a first-match slice would silently pick one of several.
+
+    The realistic trigger is a cross-reference naming the section, added from
+    elsewhere in the same file — an ordinary edit that makes the guard start
+    passing or failing for reasons unrelated to the invariant.
+    """
     with pytest.raises(AssertionError, match="occurs 2 times"):
-        _slice_unique(doc + "\n## Other\n", "## Other", r"\n#{1,3} ", "amp-inbox")
+        _slice_unique(_ARITY_DOC + "\n## Other\n", "## Other", r"\n#{1,3} ", "amp-inbox")
 
-    # And the arity-correct case still returns a PROPER SUBSET — the property a
-    # vacuous slice violates while every positive assertion on it still passes.
-    section = _slice_unique(doc, "# Title", r"\n#{1,3} ", "amp-inbox")
-    assert len(section) < len(doc), (
+
+def test_slice_unique_returns_a_proper_subset_when_arity_is_correct() -> None:
+    """The property a vacuous slice violates while every positive assertion passes."""
+    section = _slice_unique(_ARITY_DOC, "# Title", r"\n#{1,3} ", "amp-inbox")
+    assert len(section) < len(_ARITY_DOC), (
         "a correctly-anchored slice must be smaller than the document; if it is "
         "not, the slice degenerated to the whole file and asserts nothing."
     )
