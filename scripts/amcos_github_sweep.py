@@ -120,12 +120,37 @@ def _gh(args: list[str]) -> str:
     return proc.stdout
 
 
-def discover_repos(owner: str, pushed_since: str) -> list[str]:
-    out = _gh(["repo", "list", owner, "--limit", "100", "--json", "name,pushedAt"])
-    repos = [r["name"] for r in json.loads(out or "[]") if r.get("pushedAt", "") > pushed_since]
+def select_repos(records: list[dict]) -> list[str]:
+    """Which repos can carry an inbound thread. NEVER gated on PUSH time.
+
+    The first version of this filtered on `pushedAt > since` and it was wrong in
+    the way this whole module is about. **Issue activity is independent of commit
+    activity**, and the repos most likely to carry a thread addressed to me are the
+    governance/spec repos, which go weeks without a push while their issues move
+    daily. Measured 2026-08-12: `ai-maestro` last pushed 08-08, while ai-maestro#131
+    was updated 08-12 — so a `--since` of 08-12 excluded the single most important
+    repo in the fleet BEFORE any issue was listed, leaving 5 of 21 repos.
+
+    Worse than merely wrong: it passed on a WIDE window (--since 08-05 predates the
+    08-08 push, so the repo survived) and failed only on a NARROW one — which is the
+    normal incremental sweep. A bug that appears exactly when the tool is used the
+    way it is meant to be used, and hides during the wide-window check you would
+    naturally run first.
+
+    Selection is now on properties that actually bear on whether a repo can hold an
+    inbound thread: issues enabled, not archived. `--since` narrows THREADS, never
+    repos. Caught by the --control precondition, which refused to report the
+    resulting 1-thread scan as an inbox state.
+    """
+    return sorted(r["name"] for r in records if r.get("hasIssuesEnabled", True) and not r.get("isArchived", False))
+
+
+def discover_repos(owner: str) -> list[str]:
+    out = _gh(["repo", "list", owner, "--limit", "200", "--json", "name,hasIssuesEnabled,isArchived"])
+    repos = select_repos(json.loads(out or "[]"))
     if not repos:
-        raise SweepBroken(f"no repos for {owner!r} pushed since {pushed_since} — refusing to sweep nothing")
-    return sorted(repos)
+        raise SweepBroken(f"no issue-bearing repos found for {owner!r} — refusing to sweep nothing")
+    return repos
 
 
 def enumerate_threads(owner: str, repos: list[str], since: str) -> list[Thread]:
@@ -172,7 +197,7 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     try:
-        repos = discover_repos(args.owner, args.since[:10])
+        repos = discover_repos(args.owner)
         threads = enumerate_threads(args.owner, repos, args.since)
         verify_control(threads, args.control)
     except SweepBroken as exc:
