@@ -918,6 +918,81 @@ def test_no_first_match_selection_of_a_named_section() -> None:
     )
 
 
+# Every anchor shape, with its expected verdict. This is the miss list as CODE
+# rather than prose — ARCHITECT found (ai-maestro#131) that they had fixed their
+# all-scope resolver while seeding controls for only two shapes, so nothing
+# proved the third stayed covered. Same hole was live here: my controls were
+# ephemeral shell commands, so narrowing the resolver back to module scope would
+# have left the suite green. Fixing a resolver and not pinning its shape is this
+# thread's own defect one more time — a check that cannot fail, reporting a pass.
+_ANCHOR_SHAPE_FIXTURE = '''
+_MODULE_CONST = "## Approval Tiers"
+
+
+def literal(t):
+    return t.index("## Communication Permissions")
+
+
+def module_const(t):
+    return t.find(_MODULE_CONST)
+
+
+def function_local(t):
+    marker = "### Inbound discipline"
+    return t.find(marker)
+
+
+def delimiter(t):
+    return t.find("\\n## ")
+
+
+def runtime_built(t, name):
+    return t.find(f"## {name}")
+
+
+def parameterised(t, anchor):
+    return t.index(anchor)
+'''
+
+_SHAPES_COVERED = ("## Communication Permissions", "## Approval Tiers", "### Inbound discipline")
+
+
+def test_first_match_detector_covers_every_anchor_shape(tmp_path: Path) -> None:
+    """The shape table is EXECUTABLE: each anchor shape asserted, covered or not.
+
+    Three shapes must be caught — literal, module constant, function-local. Each
+    was added only after a guard measured green on the tree that produced it and
+    blind on another's, so a regression here is not hypothetical: it is how both
+    of the previous two versions failed.
+
+    The two known-uncovered shapes are asserted as UNCAUGHT rather than omitted.
+    A blind spot left out of the table is indistinguishable from one nobody
+    thought of, and if coverage is ever extended this test says so out loud
+    instead of passing quietly with a stale docstring.
+    """
+    fixture = tmp_path / "shapes.py"
+    fixture.write_text(_ANCHOR_SHAPE_FIXTURE, encoding="utf-8")
+    found = _first_match_section_selections(fixture)
+    blob = " ".join(found)
+
+    for anchor in _SHAPES_COVERED:
+        assert anchor in blob, (
+            f"anchor shape {anchor!r} is NOT caught. If the resolver was narrowed "
+            "(e.g. back to module scope only), the convention guard has silently "
+            "stopped covering a shape it was widened to catch."
+        )
+    assert "\n## " not in blob, (
+        "a bare delimiter was flagged — the guard now fires on correct code "
+        "(section-END searches), and a noisy guard earns its way into being ignored."
+    )
+    assert len(found) == len(_SHAPES_COVERED), (
+        f"expected exactly {len(_SHAPES_COVERED)} hits, got {len(found)}: {found}. "
+        "A runtime-built (f-string) or parameterised anchor cannot be resolved by "
+        "parsing; if one is now caught, extend _SHAPES_COVERED and the docstring's "
+        "blind-spot list together."
+    )
+
+
 def test_declared_tools_survives_a_comment_in_the_block() -> None:
     """A `#` comment inside `tools:` must not truncate the parsed list.
 
