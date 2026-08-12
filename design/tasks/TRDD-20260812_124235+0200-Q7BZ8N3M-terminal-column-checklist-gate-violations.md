@@ -84,8 +84,11 @@ repo's public history, so it is raised rather than taken.
 - [ ] Each of the nine cards resolved per that disposition, one at a time, no scripted sweep.
 - [ ] No box ticked retroactively anywhere; any box that is checked is checked against
       named evidence.
-- [ ] A guard added that fails when a card enters a terminal column without a complete
-      checklist, so this cannot recur silently.
+- [x] A guard added that fails when a card enters a terminal column without a complete
+      checklist, so this cannot recur silently. → `tests/test_board_discipline.py`
+      (4 tests, suite 322 → 326). Done AHEAD of the disposition on purpose: it is the
+      only box here that does not depend on which of 1/2/3 is chosen, since the tenth
+      violation is prevented identically either way.
 - [ ] Suite green, ruff clean.
 
 ## Notes
@@ -94,5 +97,12 @@ repo's public history, so it is raised rather than taken.
   spec, and **neither overlay is installed on this machine** — they are server-installed
   into registered agent workdirs, and this is a plugin-development session. A rule that
   governs this board is structurally invisible from it, which is why it went unapplied.
-- The last acceptance box matters most: nine violations arose because nothing checked. A
-  disposition without a guard just resets the clock.
+- The guard box mattered most and is now closed: nine violations arose because nothing
+  checked, and a disposition without a guard just resets the clock. The nine are recorded
+  in `KNOWN_UNGATED` as **explicit, bounded, shrink-only** debt — a stale entry reds as
+  loudly as a new violation, so repairing a card FORCES removing its exemption, and the
+  list can never quietly become a high-water mark nobody prunes. A `_DEBT_CEILING` makes
+  adding a tenth entry a visible edit rather than a same-commit escape hatch.
+- Whichever disposition is chosen, the mechanical work is now bounded: remove entries from
+  `KNOWN_UNGATED` as cards are resolved, and the suite tells you when the list is wrong in
+  either direction.
