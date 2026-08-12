@@ -834,14 +834,22 @@ _NAMED_SECTION_ANCHOR = re.compile(r"^\s*#{1,6}\s+\w{2,}")
 def _first_match_section_selections(path: Path) -> list[str]:
     """Find `.index(X)` / `.find(X)` where X resolves to a NAMED section anchor.
 
-    Resolves module-level `NAME = "literal"` constants before matching, which is
-    the part that matters on THIS tree and the documented blind spot in the
-    upstream version. ARCHITECT measured their source-pattern guard catching a
-    literal anchor and MISSING a variable one — and every selector in this file
-    uses a constant (`SKILL_MENU_HEADING`, `INBOUND_HEADING`). A literal-only
-    detector adopted here would therefore be incapable of catching the exact
-    pattern it was written for: a guard that cannot fail, which is the failure
-    this whole issue is about.
+    Resolves `NAME = "literal"` bindings in ANY scope before matching. Each
+    widening came from a guard being vacuous on a tree it had not been measured
+    against, in both directions:
+
+    - literal-only (upstream's first version) catches nothing here — every
+      selector in this file uses a constant (`SKILL_MENU_HEADING`,
+      `INBOUND_HEADING`), so it scored 0 of 2 on this tree while looking enforced;
+    - module-level-only (this file's first version) scored 1 of 2 on ARCHITECT's,
+      whose anchor is bound inside the helper. Seeding that shape here showed the
+      same hole locally — the guard passed green on it.
+
+    **ADOPTION STEP, not optional:** run this against your own pre-fix commit and
+    confirm it reddens. If it does not, it is not covering your shape, and a
+    measurement inherited from the tree that produced the fix is worth nothing —
+    that is the one failure in this family that cannot be fixed by writing the
+    guard more carefully.
 
     KNOWN BLIND SPOTS, stated because a guard's misses are worth more to the next
     reader than its hit rate: an anchor built at runtime (f-string, concatenation,
@@ -852,7 +860,14 @@ def _first_match_section_selections(path: Path) -> list[str]:
     """
     tree = ast.parse(path.read_text(encoding="utf-8"))
     consts: dict[str, str] = {}
-    for node in tree.body:
+    # ANY scope, not just module level. Collecting only `tree.body` was this
+    # guard's own vacuity: ARCHITECT adopted that version unmodified and still
+    # scored 1 of 2, because their miss binds the anchor INSIDE the helper
+    # (`marker = "..."` then `persona.find(marker)`). Verified the same hole here
+    # by seeding that exact shape — my guard passed green on it. A name reused in
+    # two functions can in principle mis-resolve, but that yields a LOUD false
+    # positive, never a silent miss, which is the correct direction for a net.
+    for node in ast.walk(tree):
         if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant):
             if isinstance(node.value.value, str):
                 for tgt in node.targets:
