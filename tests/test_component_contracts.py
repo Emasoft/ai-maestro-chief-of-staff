@@ -877,10 +877,36 @@ def test_persona_states_checklist_gate_including_the_empty_checklist_shape() -> 
     `"≥1 box" in section` stayed GREEN — a guard passing on prose that explains
     why a rule exists, after the rule itself was deleted. Same shape as the R42.8
     `"assistant" in section` case earlier in this thread, found the same way:
-    by seeding, not by reading. The assertion now anchors the phrase to its
-    RULE POSITION (`checklist exists (≥1 box)`), which the rationale cannot
-    satisfy. Writing a rationale next to a rule makes the rule harder to guard —
-    the words are present either way, so only position distinguishes them.
+    by seeding, not by reading.
+
+    THE FIX IS A CLAIM COLLOCATION, NOT A POSITION — an earlier revision of this
+    docstring said "anchors the phrase to its RULE POSITION", and CORE disproved
+    that framing by implementing its natural reading (require the evidence within N
+    chars of the keyword) and MEASURING it: on their corpus any threshold catching a
+    gutted file at 1610 chars also reddens two CORRECT files at 7915 and 7213, where
+    the rule legitimately sits far from its scoping prose. A distance predicate
+    cannot separate "the rule was deleted" from "the document is long".
+
+    What this assertion actually keys on is a short collocation lifted from the
+    OPERATIVE SENTENCE (`checklist exists (≥1 box)`) — a phrase rationale prose
+    cannot satisfy, because rationale DESCRIBES a rule in different words than the
+    rule STATES it. Verified on CORE's own file: deleting their two operative
+    paragraphs (786 chars) leaves `sendmessage` at 3 occurrences and
+    `title_communication_forbidden` at 1 — both keyword guards still green — while
+    the claim collocations drop to 0. No distance is involved, so the false-positive
+    problem never arises.
+
+    Cost, since it is real: the guard couples to the rule's WORDING, so rewording
+    reds it. Kept acceptable by keeping the collocation SHORT (3-6 words carrying
+    the obligation), and arguably correct — changing a rule's operative claim should
+    require acknowledging the test over it, which is a different act from adding
+    rationale, the act that must NOT red. It catches DELETION, not weakening in
+    place (`MUST` -> `SHOULD`); no predicate here covers that.
+
+    The uncomfortable half stands: the more load-bearing a rule is, the more prose
+    accretes around it. But that accretion is commentary, and commentary reliably
+    uses different words than the rule's own sentence — which is the divergence this
+    predicate rides rather than suffers from.
     """
     section = _slice_unique(
         MAIN_AGENT.read_text(encoding="utf-8"),
