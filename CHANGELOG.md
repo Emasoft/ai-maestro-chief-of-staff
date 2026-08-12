@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.27.6] - 2026-08-12
+    ## [2.28.0] - 2026-08-12
 
-### Tests
+### Features
 
-- Split the arity controls so the failing NAME carries the axis    
+- State R42.8 — the one cross-agent power this title holds    
 
 
