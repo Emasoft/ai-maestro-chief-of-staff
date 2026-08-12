@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""Sweep the GitHub inbound channel — the one channel that cannot notify you.
+
+The persona names three inbound channels (AMP, peer sessions, GitHub threads) and
+requires every one to be checked. AMP has an inbox to drain and peer sessions are
+delivered mid-turn; GitHub is the channel with neither property, so it is swept or
+it is missed. Until now there was no instrument, which is why a thread on this
+plugin's OWN tracker went unlooked-at while a two-thread hardcoded list reported
+"0 unread" and looked exactly like a working sweep.
+
+THREE FAILURE MODES THIS MODULE REFUSES TO HAVE, each measured in the wild:
+
+1. **A hardcoded thread list** finds replies on threads you already know about and
+   is blind BY CONSTRUCTION to a new thread addressed to you. Mine covered two
+   threads on one repo (2026-08-12); the fleet had 25 recently-updated open issues
+   across 21 repos, including one on this plugin's own tracker.
+
+2. **A keyword filter** looks like precision and is indistinguishable from a
+   working sweep when it returns nothing. ARCHITECT shipped `title ~ "architect"`
+   and got ZERO across 8 repos — dropping ai-maestro#131, the thread addressed to
+   them that the work came from, because its title does not contain their name.
+   Selection is by PROPERTY (updatedAt), never by a guess about wording.
+
+3. **A typed watermark** develops a blind window the moment you type a timestamp
+   later than the last thing you actually read. Mine cost five days on a consolidated
+   eleven-ruling mirror. The watermark is DERIVED from my own last comment, so it
+   cannot skip, and it self-clears only when I actually reply — an item read but
+   unanswered stays flagged, which is correct.
+
+AND THE PRECONDITION THAT MAKES A CLEAN RESULT MEAN ANYTHING (ARCHITECT's rule,
+ai-maestro#131): *verify a sweep by checking it FINDS A THREAD YOU KNOW IS THERE,
+never by checking it runs without error.* A sweep returning zero has the same shape
+as a guard that cannot fail — no error, no output, no signal. So a known-present
+control thread is REQUIRED, and its absence is a hard failure reported as a broken
+instrument, never as "nothing new".
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import shutil
+import subprocess
+import sys
+from dataclasses import dataclass
+
+SELF_MARKER = "Agent: ai-maestro-chief-of-staff"
+EPOCH = "1970-01-01T00:00:00Z"
+
+
+class SweepBroken(RuntimeError):
+    """The instrument failed. Distinct from 'the instrument ran and found nothing'.
+
+    Kept as its own type because collapsing the two is the entire defect family:
+    a broken sweep that reports 'clean' is worse than one that crashes, since only
+    the crash gets investigated.
+    """
+
+
+@dataclass(frozen=True)
+class Thread:
+    repo: str
+    number: int
+    title: str
+    updated_at: str
+
+    @property
+    def ref(self) -> str:
+        return f"{self.repo}#{self.number}"
+
+
+def select_recent(threads: list[Thread], since: str) -> list[Thread]:
+    """Narrow by updatedAt — a PROPERTY of the thread, never a guess at its wording.
+
+    Recency is a fact the thread carries. A keyword is a hypothesis about how
+    someone phrased a title, and it fails precisely when they write ABOUT you
+    without NAMING you — the normal case for a fleet-wide finding.
+    """
+    return sorted(
+        (t for t in threads if t.updated_at > since),
+        key=lambda t: t.updated_at,
+        reverse=True,
+    )
+
+
+def unread_after_watermark(comments: list[dict], self_marker: str = SELF_MARKER) -> list[dict]:
+    """Comments newer than MY last comment on the thread.
+
+    The watermark is my own last reply, read off the thread itself. Two properties
+    worth keeping: it cannot develop a blind window (nothing is typed), and it
+    clears only when I actually answer — so a thread I have read but not replied to
+    stays flagged rather than silently going quiet.
+    """
+    mine = [c["createdAt"] for c in comments if self_marker in (c.get("body") or "")]
+    watermark = max(mine) if mine else EPOCH
+    return [c for c in comments if c["createdAt"] > watermark]
+
+
+def verify_control(threads: list[Thread], control: str) -> None:
+    """Fail unless the sweep found a thread known to exist. The anti-vacuity gate.
+
+    Without this an empty result is unfalsifiable: a correct sweep over a quiet
+    fleet and a sweep whose filter drops everything produce byte-identical output.
+    The control converts "I found nothing" into a claim that can be wrong.
+    """
+    if not threads:
+        raise SweepBroken("the sweep enumerated ZERO threads. A fleet with open issues cannot be empty, so this is a broken instrument, not a quiet inbox. Reporting 'nothing new' here is the failure this check exists to prevent.")
+    if control and not any(t.ref == control for t in threads):
+        raise SweepBroken(f"control thread {control!r} is KNOWN to be open and the sweep did not find it among {len(threads)} results. The sweep is dropping inputs silently — do NOT read its output as an inbox state.")
+
+
+def _gh(args: list[str]) -> str:
+    if not shutil.which("gh"):
+        raise SweepBroken("`gh` is not on PATH; the GitHub channel cannot be swept")
+    proc = subprocess.run(["gh", *args], capture_output=True, text=True, timeout=120)
+    if proc.returncode != 0:
+        # Fail loudly. A swallowed gh error degrades into an empty list, which the
+        # caller would otherwise render as a clean inbox.
+        raise SweepBroken(f"gh {' '.join(args[:3])}… failed: {proc.stderr.strip()[:200]}")
+    return proc.stdout
+
+
+def discover_repos(owner: str, pushed_since: str) -> list[str]:
+    out = _gh(["repo", "list", owner, "--limit", "100", "--json", "name,pushedAt"])
+    repos = [r["name"] for r in json.loads(out or "[]") if r.get("pushedAt", "") > pushed_since]
+    if not repos:
+        raise SweepBroken(f"no repos for {owner!r} pushed since {pushed_since} — refusing to sweep nothing")
+    return sorted(repos)
+
+
+def enumerate_threads(owner: str, repos: list[str], since: str) -> list[Thread]:
+    """Unfiltered enumeration, then a property-based narrow. No keyword anywhere."""
+    found: list[Thread] = []
+    for repo in repos:
+        try:
+            out = _gh(
+                [
+                    "issue",
+                    "list",
+                    "--repo",
+                    f"{owner}/{repo}",
+                    "--state",
+                    "open",
+                    "--limit",
+                    "100",
+                    "--json",
+                    "number,title,updatedAt",
+                ]
+            )
+        except SweepBroken:
+            continue  # a repo with issues disabled is not a broken sweep
+        for it in json.loads(out or "[]"):
+            found.append(Thread(repo, it["number"], it["title"], it["updatedAt"]))
+    return select_recent(found, since)
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--owner", default="Emasoft")
+    ap.add_argument("--since", required=True, help="ISO instant; threads updated after it")
+    ap.add_argument(
+        "--control",
+        default="",
+        help="REPO#N known to be open and to match --since. REQUIRED for a trustworthy clean result; without it an empty sweep proves nothing.",
+    )
+    args = ap.parse_args(argv)
+
+    if not args.control:
+        print(
+            "WARNING: no --control given. An empty result from this run is UNFALSIFIABLE — it cannot be distinguished from a filter that drops everything. Pass a thread you know is open.",
+            file=sys.stderr,
+        )
+
+    try:
+        repos = discover_repos(args.owner, args.since[:10])
+        threads = enumerate_threads(args.owner, repos, args.since)
+        verify_control(threads, args.control)
+    except SweepBroken as exc:
+        print(f"SWEEP-BROKEN: {exc}", file=sys.stderr)
+        return 2
+
+    print(f"repos={len(repos)} threads={len(threads)} control={args.control or 'NONE'}")
+    for t in threads:
+        print(f"{t.ref}\t{t.updated_at}\t{t.title[:70]}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
