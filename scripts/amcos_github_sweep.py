@@ -96,17 +96,49 @@ def unread_after_watermark(comments: list[dict], self_marker: str = SELF_MARKER)
     return [c for c in comments if c["createdAt"] > watermark]
 
 
-def verify_control(threads: list[Thread], control: str) -> None:
+class ControlStale(ValueError):
+    """The INVOCATION is wrong, not the instrument — a control outside the window.
+
+    Deliberately NOT a SweepBroken. Conflating them reproduces this module's own
+    defect one level up: a diagnostic that names the wrong culprit sends the next
+    reader hunting a bug that does not exist, and the first thing they would do is
+    distrust a sweep that is working perfectly. Measured 2026-08-13: `--since
+    12:00Z --control ai-maestro#131` reported "the sweep is dropping inputs
+    silently" when #131 had simply last moved at 11:48Z — twelve minutes before the
+    window. Nine threads were found and every one of them was correct.
+    """
+
+
+def verify_control(threads: list[Thread], control: str, enumerated: list[Thread] | None = None) -> None:
     """Fail unless the sweep found a thread known to exist. The anti-vacuity gate.
 
     Without this an empty result is unfalsifiable: a correct sweep over a quiet
     fleet and a sweep whose filter drops everything produce byte-identical output.
     The control converts "I found nothing" into a claim that can be wrong.
+
+    Pass `enumerated` (the UNFILTERED enumeration) to separate the two ways a
+    control can go missing, which look identical from the narrowed list alone:
+
+    - present in `enumerated`, absent from `threads` → the control is OUTSIDE the
+      `--since` window. The sweep is fine; the invocation is stale. `ControlStale`.
+    - absent from BOTH → the sweep really is dropping inputs. `SweepBroken`.
+
+    Omitting `enumerated` keeps the old conservative behaviour: any missing control
+    is reported as a broken sweep, which over-blames but never under-warns.
     """
-    if not threads:
+    if enumerated is not None and not enumerated:
         raise SweepBroken("the sweep enumerated ZERO threads. A fleet with open issues cannot be empty, so this is a broken instrument, not a quiet inbox. Reporting 'nothing new' here is the failure this check exists to prevent.")
-    if control and not any(t.ref == control for t in threads):
-        raise SweepBroken(f"control thread {control!r} is KNOWN to be open and the sweep did not find it among {len(threads)} results. The sweep is dropping inputs silently — do NOT read its output as an inbox state.")
+    if enumerated is None and not threads:
+        raise SweepBroken("the sweep enumerated ZERO threads. A fleet with open issues cannot be empty, so this is a broken instrument, not a quiet inbox. Reporting 'nothing new' here is the failure this check exists to prevent.")
+    if not control or any(t.ref == control for t in threads):
+        return
+    if enumerated is not None:
+        hit = next((t for t in enumerated if t.ref == control), None)
+        if hit is not None:
+            raise ControlStale(
+                f"control thread {control!r} exists and is open, but it last moved at {hit.updated_at}, which is OUTSIDE the --since window — so it could not appear. The sweep is NOT broken; the control is. Pick a control you know moved inside the window, or widen --since. (It found {len(threads)} thread(s) in-window out of {len(enumerated)} enumerated.)"
+            )
+    raise SweepBroken(f"control thread {control!r} is KNOWN to be open and the sweep did not find it among {len(threads)} results. The sweep is dropping inputs silently — do NOT read its output as an inbox state.")
 
 
 def _gh(args: list[str]) -> str:
@@ -153,8 +185,14 @@ def discover_repos(owner: str) -> list[str]:
     return repos
 
 
-def enumerate_threads(owner: str, repos: list[str], since: str) -> list[Thread]:
-    """Unfiltered enumeration, then a property-based narrow. No keyword anywhere."""
+def enumerate_threads(owner: str, repos: list[str]) -> list[Thread]:
+    """UNFILTERED enumeration of every open thread. The caller narrows.
+
+    Narrowing moved out so the unfiltered list survives to `verify_control`, which
+    needs it to tell a stale control from a dropping sweep. Folding the narrow in
+    here discarded the only evidence that separates them, and the diagnostic then
+    blamed the instrument for the caller's window.
+    """
     found: list[Thread] = []
     for repo in repos:
         try:
@@ -176,7 +214,7 @@ def enumerate_threads(owner: str, repos: list[str], since: str) -> list[Thread]:
             continue  # a repo with issues disabled is not a broken sweep
         for it in json.loads(out or "[]"):
             found.append(Thread(repo, it["number"], it["title"], it["updatedAt"]))
-    return select_recent(found, since)
+    return found
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -198,8 +236,14 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         repos = discover_repos(args.owner)
-        threads = enumerate_threads(args.owner, repos, args.since)
-        verify_control(threads, args.control)
+        enumerated = enumerate_threads(args.owner, repos)
+        threads = select_recent(enumerated, args.since)
+        verify_control(threads, args.control, enumerated)
+    except ControlStale as exc:
+        # Exit 3, not 2: the instrument worked. A caller scripting this must be
+        # able to tell "fix your invocation" from "distrust the output".
+        print(f"CONTROL-STALE: {exc}", file=sys.stderr)
+        return 3
     except SweepBroken as exc:
         print(f"SWEEP-BROKEN: {exc}", file=sys.stderr)
         return 2

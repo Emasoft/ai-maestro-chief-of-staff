@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from amcos_github_sweep import (  # noqa: E402
     EPOCH,
     SELF_MARKER,
+    ControlStale,
     SweepBroken,
     Thread,
     select_recent,
@@ -150,6 +151,58 @@ def test_repo_selection_defaults_to_including_a_repo_on_missing_fields() -> None
     listing call and is obvious in the output.
     """
     assert select_repos([{"name": "unknown-shape"}]) == ["unknown-shape"]
+
+
+def test_a_control_outside_the_window_is_a_STALE_CONTROL_not_a_broken_sweep() -> None:
+    """Name the right culprit — the invocation, not the instrument.
+
+    MEASURED 2026-08-13: `--since 2026-08-12T12:00:00Z --control ai-maestro#131`
+    reported "the sweep is dropping inputs silently". The sweep was perfect — it
+    found 9 threads, all correct — and #131 had simply last moved at 11:48:33Z,
+    twelve minutes before the window, so it could not appear.
+
+    That diagnostic is this module's own defect one level up: a check that fires
+    correctly but blames the wrong thing sends the next reader hunting a
+    nonexistent bug, and the first thing they do is distrust a working sweep. The
+    unfiltered enumeration is what separates the two cases, which is why
+    `enumerate_threads` no longer narrows.
+    """
+    inwindow = [T131]
+    enumerated = [T131, T20]  # T20 is older than the window below
+    with pytest.raises(ControlStale, match="OUTSIDE the --since window"):
+        verify_control(inwindow, T20.ref, enumerated)
+
+
+def test_a_control_in_neither_list_is_still_a_broken_sweep() -> None:
+    """The stale-control branch must not swallow the real failure it sits beside.
+
+    A control absent from the UNFILTERED enumeration too was never narrowed away —
+    it was dropped. That is the original defect and must still raise SweepBroken,
+    or adding the friendlier diagnostic would have quietly disarmed the gate.
+    """
+    with pytest.raises(SweepBroken, match="dropping inputs silently"):
+        verify_control([T131], "ai-maestro#999999", [T131, T20])
+
+
+def test_stale_control_and_broken_sweep_are_different_types() -> None:
+    """Callers must be able to branch: fix your invocation vs distrust the output.
+
+    Same reason SweepBroken is not a bare RuntimeError — collapsing two outcomes
+    with opposite remedies into one type is how the wrong remedy gets applied.
+    """
+    assert not issubclass(ControlStale, SweepBroken)
+    assert not issubclass(SweepBroken, ControlStale)
+
+
+def test_omitting_the_enumeration_keeps_the_conservative_old_behaviour() -> None:
+    """Without the unfiltered list the two cases are indistinguishable — over-blame.
+
+    A caller that cannot supply the enumeration gets the pre-existing verdict: any
+    missing control is a broken sweep. Over-blaming is the safe direction; the
+    unsafe one is reporting a clean inbox that was never verified.
+    """
+    with pytest.raises(SweepBroken, match="dropping inputs silently"):
+        verify_control([T131], T20.ref)
 
 
 def test_sweep_broken_is_not_confusable_with_a_clean_result() -> None:
