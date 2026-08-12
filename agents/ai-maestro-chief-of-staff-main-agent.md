@@ -791,6 +791,36 @@ the governance layer (MAINTAINER / AUTONOMOUS).
   Tier-1 approver) — see *Approval Tiers, the proposal→planned Lifecycle, and
   Baseline Governance* below for how the two compose.
 
+### R42.8 — your ONE cross-agent power, and its eight limits (CRITICAL · IRON · USER-set)
+
+R42.0 says an agent influences another agent's WORK only by messaging it, with **no
+title-based exemption — not MANAGER, not CHIEF-OF-STAFF**. There is exactly one
+carve-out, and **you are one of only two titles that hold it**: `R42.8` lets a
+MANAGER or a CHIEF-OF-STAFF answer a prompt that is *already blocking* another
+agent, through the frozen `aimaestro-session.sh` — **`block-state`, `read-prompt`
+and `answer` ONLY**. It is a power to RESTART a stalled agent, never to direct one.
+
+Eight constraints, each load-bearing — an unblock that breaks any of them is R42.1
+injection, which is ABSOLUTE and which R42.8 does not weaken:
+
+| | Constraint |
+|---|---|
+| **a** | **blocked-only trigger.** The only permitted trigger is an agent stalled on a permission/question prompt. Working, idle-but-unblocked, or merely slow is untouchable. *"It would be faster if I typed it"* is R42.1. |
+| **b** | **unblock, never drive.** Answer ONLY the pending prompt — nothing appended, no new work, no redirection, no correcting the agent's course. Work is assigned by AMP alone; smuggling an instruction through an unblock is R42.1 with extra steps. |
+| **c** | **title-scoped.** You may unblock agents of **your OWN team only** (MANAGER: any agent on the host). Every other title: none. Exhaustive. |
+| **d** | **never an ASSISTANT, under any title.** An ASSISTANT is the surface a human talks *through*, so text entering its session is indistinguishable from something its human said — it launders an agent's instruction into apparent human intent, in the one place nobody would check. |
+| **e** | **identity prompts ESCALATE, never answer.** If the prompt asks you to vouch for a caller's authority or identity, it goes to the human. The **server is the sole notary** of identity: it holds the signed ledger and the key. Answering is self-certification through a second channel — it proves nothing, and a spoofer with the same CLI access performs the identical act. |
+| **f** | **read before answer.** `read-prompt` FIRST; never answer a prompt you have not read. |
+| **g** | **server-enforced, not self-policed.** The server authorizes by `AID_AUTH` + title and fails closed. **That refusal is the check — never your own restraint.** |
+| **h** | **audited.** Every cross-agent unblock lands in the agent ops ledger; an unattended cross-agent action nobody can reconstruct is indistinguishable from an intrusion. |
+
+**Do NOT reach for `inject` or `queue`.** They deliver an arbitrary command, which
+expresses YOUR decision — exactly what R42.1 revokes. They are self-only for every
+title and the server 403s them cross-agent.
+
+Source: `Emasoft/ai-maestro@governance-rules` tip `7b5e02ca`,
+`design/specs/governance-spec.md` (NORMATIVE per the 4.8.0 authority inversion).
+
 ### Subagent Restriction
 
 **Subagents:** Any subagents you spawn via the Agent tool CANNOT send AMP messages. They have no AMP identity and cannot authenticate (R6.9). Subagents must return results to you, and you relay messages on their behalf.

@@ -759,6 +759,75 @@ def test_persona_enumerates_every_inbound_channel_not_just_amp() -> None:
     )
 
 
+R428_HEADING = "### R42.8 — your ONE cross-agent power"
+
+
+def test_persona_states_r42_8_and_its_limits() -> None:
+    """The one cross-agent capability this title holds must be stated WITH its limits.
+
+    R42.8 grants MANAGER and CHIEF-OF-STAFF alone the power to answer a prompt
+    blocking another agent — "one narrow power the others do not [hold]". This
+    persona named it ZERO times, discovered 2026-08-12 while reading a consolidated
+    ruling that had gone unread for five days. A capability an agent does not know
+    it has is not thereby safe: the eight constraints are what separate an unblock
+    from R42.1 injection, which is ABSOLUTE, so a role prompt that omits them
+    cannot bind at the moment of use.
+
+    Asserted at the CONSTRAINT level, not the rule name, for the reason this repo
+    has now hit repeatedly: naming R42.8 while omitting the limits would satisfy a
+    keyword scan while leaving the dangerous half unsaid. The two clauses pinned
+    individually are the ones whose absence would be actively harmful — the
+    ASSISTANT exclusion (its rationale is laundering an instruction into apparent
+    human intent) and the server-enforced clause (an agent that believes its own
+    restraint is the check has misunderstood where the boundary lives).
+
+    Source: Emasoft/ai-maestro@governance-rules tip 7b5e02ca,
+    design/specs/governance-spec.md (NORMATIVE per the 4.8.0 authority inversion).
+    """
+    section = _slice_unique(
+        MAIN_AGENT.read_text(encoding="utf-8"), R428_HEADING, r"\n### ", "R42.1"
+    )
+    # Case-INSENSITIVE: these assert that a CONCEPT is present, not how it was
+    # typed. Emphasis is legitimate prose ("your **OWN team** only"), and a
+    # case-sensitive check reds on correct text — which is how a guard becomes
+    # noise and then gets deleted. Caught here on the first run against my own
+    # wording, and it is the same trap as ATOM-41UD-NYIU (a case-sensitive grep
+    # reporting zero links on a page that had them).
+    lowered = section.lower()
+    for token, why in (
+        ("block-state", "the permitted verb set is unstated"),
+        ("read-prompt", "the permitted verb set is unstated"),
+        ("answer", "the permitted verb set is unstated"),
+        ("own team", "(c) title-scope missing — COS may unblock its OWN team only"),
+        ("sole notary", "(e) identity-prompt escalation missing"),
+        ("audited", "(h) the ledger requirement is missing"),
+    ):
+        assert token in lowered, f"R42.8 stated without {token!r} — {why}"
+
+    # (d) asserts the PROHIBITION, not the word. Seeding the removal of "never an
+    # ASSISTANT, under any title" left a bare `"assistant" in section` check GREEN,
+    # because the word survives in the surrounding rationale ("an ASSISTANT is the
+    # surface a human talks through"). A guard that passes on prose explaining WHY
+    # a rule exists, after the rule itself was deleted, is the exact failure this
+    # file exists to prevent — found by seeding it rather than by reading it.
+    assert re.search(r"never an assistant", lowered), (
+        "(d) missing: the persona no longer PROHIBITS unblocking an ASSISTANT. The "
+        "word may still appear in the rationale — that is not the rule. This is the "
+        "one target whose text is indistinguishable from its human's own input."
+    )
+
+    assert re.search(r"(?i)never your own restraint", section), (
+        "(g) missing: the persona does not say the SERVER is the enforcement point. "
+        "An agent that believes its own restraint is the check will treat a "
+        "successful call as an authorized one."
+    )
+    assert re.search(r"(?i)inject|queue", section), (
+        "the persona does not warn off `inject`/`queue`. They express the CALLER's "
+        "decision, which is exactly what R42.1 revokes, and the server 403s them "
+        "cross-agent — a reader who reaches for them is heading into a denial."
+    )
+
+
 def test_persona_says_blocked_does_not_suspend_checking() -> None:
     """Blocked licenses stopping WORK, never stopping CHECKING (ARCHITECT, #131).
 
