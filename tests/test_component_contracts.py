@@ -723,7 +723,7 @@ def test_persona_states_r42_8_and_its_limits() -> None:
     # surface a human talks through"). A guard that passes on prose explaining WHY
     # a rule exists, after the rule itself was deleted, is the exact failure this
     # file exists to prevent — found by seeding it rather than by reading it.
-    assert re.search(r"never an assistant", lowered), "(d) missing: the persona no longer PROHIBITS unblocking an ASSISTANT. The word may still appear in the rationale — that is not the rule. This is the one target whose text is indistinguishable from its human's own input."
+    _assert_rule_unique(section, "never an assistant", "(d) missing: the persona no longer PROHIBITS unblocking an ASSISTANT. The word may still appear in the rationale — that is not the rule. This is the one target whose text is indistinguishable from its human's own input.")
 
     assert re.search(r"(?i)never your own restraint", section), "(g) missing: the persona does not say the SERVER is the enforcement point. An agent that believes its own restraint is the check will treat a successful call as an authorized one."
     assert re.search(r"(?i)inject|queue", section), "the persona does not warn off `inject`/`queue`. They express the CALLER's decision, which is exactly what R42.1 revokes, and the server 403s them cross-agent — a reader who reaches for them is heading into a denial."
@@ -744,6 +744,48 @@ def _prose(text: str) -> str:
     written, which is the cheap way to find it.
     """
     return re.sub(r"[\s>]+", " ", text.lower())
+
+
+def _assert_rule_unique(section: str, collocation: str, why: str) -> None:
+    """Assert a claim collocation is PRESENT and anchored to the RULE, not the document.
+
+    `in` cannot distinguish "the rule is present" from "something QUOTING the rule
+    is present". So a collocation that the surrounding rationale also quotes holds
+    the guard up after the rule itself is deleted — the exact vacuity a collocation
+    was introduced to fix, reproduced inside the fix at a smaller radius.
+
+    MEASURED 2026-08-13, and it is why this helper exists: `≥1 box` occurred TWICE
+    in this persona — once in the rule, once in the paragraph quoting the rule to
+    explain it. Seeding the deletion of the rule's copy left `"≥1 box" in section`
+    GREEN. I had recommended the bare-collocation technique to another role-plugin
+    on ai-maestro#131 before finding this, which is why the retraction there matters
+    more than the local fix.
+
+    A COUNT separates the two worlds, and it fires when the collocation is CHOSEN
+    rather than after a seeded deletion — from the document alone, with nothing to
+    set up. The two failures need OPPOSITE fixes, so they are reported separately
+    (ARCHITECT's construction, ai-maestro#131 — the same culprit-discrimination
+    principle as ControlStale-vs-SweepBroken in `amcos_github_sweep`):
+
+        0   -> the rule is gone or reworded — restore it, or update the guard
+        2+  -> NOT anchored to the rule — deleting it leaves the other copy passing
+
+    Counting on `_prose(section)` rather than the caller's own lowered text is
+    deliberate: a second occurrence WRAPPED across a newline would otherwise be
+    invisible to the count, and a uniqueness check that can miss a duplicate is
+    another guard that cannot fail.
+
+    Its one false-alarm mode is a legitimate second mention. Taken deliberately —
+    the failure it replaces is SILENT, while this red is actionable either way.
+    """
+    n = _prose(section).count(collocation)
+    assert n != 0, f"{collocation!r} is ABSENT from the section — {why}"
+    assert n == 1, (
+        f"{collocation!r} occurs {n} times in this section, so the guard over it is no longer "
+        f"anchored to the RULE: deleting the rule would leave the other copy passing and this "
+        f"test would stay green forever. Pick a longer collocation carried ONLY by the operative "
+        f"sentence. ({why})"
+    )
 
 
 R427_HEADING = "### R42.7 is NOT yours"
@@ -774,7 +816,7 @@ def test_persona_states_r42_7_is_infrastructure_and_asking_is_the_violation() ->
     # The load-bearing clause: the REQUEST is the offence. A guard that only
     # checked "no agent may invoke it" would stay green on a persona that dropped
     # this, and dropping it is precisely what makes asking feel available.
-    assert re.search(r"asking for a fleet restart remains an r42\.1 violation", lowered), "(f) missing: the persona does not say that ASKING for a fleet restart is itself an R42.1 violation. Without it a reader concludes only that it cannot perform the restart, and routes the request to someone who can."
+    _assert_rule_unique(section, "asking for a fleet restart remains an r42.1 violation", "(f) missing: the persona does not say that ASKING for a fleet restart is itself an R42.1 violation. Without it a reader concludes only that it cannot perform the restart, and routes the request to someone who can.")
     assert "no agent may invoke it" in lowered, "(f) missing: the persona does not state that NO agent may invoke R42.7. Holding R42.8 makes the neighbouring exception read as available."
     # The subject line — infrastructure, not a title. Without it R42.7 reads as a
     # power some title holds, and the only question left is which one.
@@ -848,7 +890,7 @@ def test_persona_states_r52_write_boundary_with_reads_unrestricted() -> None:
     assert re.search(r"asking that cli", lowered), "R52.4 missing: where another tool's CLI owns a file, it is mutated by asking that CLI, never by hand-editing. Two writers over one file do not disagree until the other side changes its schema."
     # The enforcement's own stated limitation. Without this, a passing gate is
     # read as a verification — the exact class of defect this suite exists for.
-    assert re.search(r"never proves the write was in-bounds", lowered), "the enforcement's STATED blind spot is missing. `write-boundary.ts` is a textual scan blind to a write through a local variable, so a green gate is not evidence the write was in-bounds."
+    _assert_rule_unique(section, "never proves the write was in-bounds", "the enforcement's STATED blind spot is missing. `write-boundary.ts` is a textual scan blind to a write through a local variable, so a green gate is not evidence the write was in-bounds.")
 
 
 CHECKLIST_HEADING = "### Terminal columns are checklist-gated"
@@ -903,10 +945,19 @@ def test_persona_states_checklist_gate_including_the_empty_checklist_shape() -> 
     rationale, the act that must NOT red. It catches DELETION, not weakening in
     place (`MUST` -> `SHOULD`); no predicate here covers that.
 
-    The uncomfortable half stands: the more load-bearing a rule is, the more prose
-    accretes around it. But that accretion is commentary, and commentary reliably
-    uses different words than the rule's own sentence — which is the divergence this
-    predicate rides rather than suffers from.
+    RETRACTED 2026-08-13. An earlier revision of this docstring closed with: "that
+    accretion is commentary, and commentary reliably uses different words than the
+    rule's own sentence — which is the divergence this predicate rides rather than
+    suffers from." That is a TENDENCY, not a property, and it fails exactly where it
+    matters — commentary that QUOTES its own rule is the normal shape in a document
+    that explains its own rules, and then the collocation appears twice and deleting
+    the rule leaves the guard GREEN. Measured right here: `≥1 box` at the rule and
+    again in the rationale quoting it.
+
+    So the uncomfortable half is not answered, only NARROWED: a keyword survives
+    deletion in every document; a collocation survives only where the rule is quoted
+    nearby. `_assert_rule_unique` converts that residue into a red at the moment the
+    collocation is CHOSEN, rather than a silence discovered by seeding a deletion.
     """
     section = _slice_unique(
         MAIN_AGENT.read_text(encoding="utf-8"),
@@ -916,8 +967,10 @@ def test_persona_states_checklist_gate_including_the_empty_checklist_shape() -> 
     )
     lowered = _prose(section)
 
-    assert "checklist exists (≥1 box)" in lowered, (
-        "the EXISTENCE half is missing from the RULE. Without '>=1 box' stated as a condition of the gate, it is the original vacuous form: expressed only over unchecked boxes, it passes on a card with no checklist at all. Anchored to rule position on purpose — the phrase also appears in the rationale below, where it cannot rescue a deleted rule."
+    _assert_rule_unique(
+        section,
+        "checklist exists (≥1 box)",
+        "the EXISTENCE half is missing from the RULE. Without '>=1 box' stated as a condition of the gate, it is the original vacuous form: expressed only over unchecked boxes, it passes on a card with no checklist at all. NOTE the bare phrase '≥1 box' is unusable as the collocation here — it also occurs in the rationale below, so it would survive deleting the rule.",
     )
     assert "no checklist at all" in lowered, "the persona does not name the empty-checklist shape as a false completion. It is the shape that carried 87 of 108 cards past the gate."
     for col in ("complete", "published", "live"):
