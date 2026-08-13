@@ -773,12 +773,22 @@ def _assert_rule_unique(section: str, collocation: str, why: str) -> None:
     Counting on `_prose(section)` rather than the caller's own lowered text is
     deliberate: a second occurrence WRAPPED across a newline would otherwise be
     invisible to the count, and a uniqueness check that can miss a duplicate is
-    another guard that cannot fail.
+    another guard that cannot fail. A raw `grep -c` has exactly that hole.
+
+    BOTH SIDES ARE NORMALIZED, and the first version of this helper normalized only
+    the haystack — shipped in v2.31.4 and wrong. `_prose` collapses `>` (a blockquote
+    marker), so a collocation CONTAINING `>` — say `via the shared <owner> gh auth` —
+    became `…<owner gh auth` in the section but was searched for with the `>` intact,
+    and the count came back 0: a false ABSENT reported as "the rule is gone". My four
+    collocations happen to contain no `>`, which is the only reason the suite was
+    green — the guard was correct and unearned, the very state this file is about.
+    Found while measuring the wrapped-duplicate case for another role-plugin whose
+    collocation does contain `<owner>`; their adoption would have hit it first.
 
     Its one false-alarm mode is a legitimate second mention. Taken deliberately —
     the failure it replaces is SILENT, while this red is actionable either way.
     """
-    n = _prose(section).count(collocation)
+    n = _prose(section).count(_prose(collocation))
     assert n != 0, f"{collocation!r} is ABSENT from the section — {why}"
     assert n == 1, (
         f"{collocation!r} occurs {n} times in this section, so the guard over it is no longer "
@@ -786,6 +796,42 @@ def _assert_rule_unique(section: str, collocation: str, why: str) -> None:
         f"test would stay green forever. Pick a longer collocation carried ONLY by the operative "
         f"sentence. ({why})"
     )
+
+
+def test_rule_unique_normalizes_both_sides_and_sees_a_wrapped_duplicate() -> None:
+    """Pins the two properties `_assert_rule_unique` exists for, both measured.
+
+    Neither is hypothetical and neither is covered by the four live guards, because
+    all four of those collocations are `>`-free and none is currently duplicated —
+    so the live guards pass without exercising either property. A helper whose
+    behaviour is only ever observed on inputs that cannot fail is the shape this
+    whole file is about, which is why these use synthetic documents.
+
+    1. WRAPPED DUPLICATE — markdown wraps at ~88 columns, so a rationale QUOTING the
+       rule routinely splits the quote across a newline. `grep -c` and a raw
+       `.count()` both report 1 and the collocation looks rule-unique when it is not.
+    2. `>` IN THE COLLOCATION — `_prose` collapses `>` as a blockquote marker, so
+       normalizing only the haystack turns a present rule into a false ABSENT
+       (v2.31.4's bug, fixed by normalizing the needle too).
+    """
+    phrase = "via the shared <owner> gh auth"
+    rule = f"- **G1.2** — begin the body with `{phrase}`.\n"
+    # The quote below is split exactly where an 88-column wrap would put it.
+    wrapped_quote = "We require it to read `via the shared <owner>\ngh auth`, never a bare handle.\n"
+
+    # (2) the rule alone must READ AS PRESENT — the v2.31.4 bug made this a false ABSENT
+    _assert_rule_unique(rule, phrase, "control: a >-bearing collocation must be found")
+
+    # (1) rule + wrapped quote is NOT rule-unique, and the count must say so
+    with pytest.raises(AssertionError, match="occurs 2 times"):
+        _assert_rule_unique(rule + wrapped_quote, phrase, "why")
+
+    # and the raw predicates this replaces are both blind to that duplicate
+    assert (rule + wrapped_quote).lower().count(phrase) == 1, "raw count sees the wrapped quote — the premise of this guard is wrong"
+
+    # (0) deletion still reds, distinctly from the 2+ case
+    with pytest.raises(AssertionError, match="is ABSENT"):
+        _assert_rule_unique("no rule here", phrase, "why")
 
 
 R427_HEADING = "### R42.7 is NOT yours"
