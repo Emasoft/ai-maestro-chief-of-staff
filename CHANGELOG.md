@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.31.5] - 2026-08-13
+    ## [2.32.0] - 2026-08-13
 
-### Bug Fixes
+### Features
 
-- Normalize BOTH sides of the collocation count    
+- Distinguish "needs attention" from "read and passed on"    
 
 
