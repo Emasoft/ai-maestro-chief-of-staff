@@ -39,10 +39,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
 from dataclasses import dataclass
+from pathlib import Path
 
 SELF_MARKER = "Agent: ai-maestro-chief-of-staff"
 EPOCH = "1970-01-01T00:00:00Z"
@@ -94,6 +96,61 @@ def unread_after_watermark(comments: list[dict], self_marker: str = SELF_MARKER)
     mine = [c["createdAt"] for c in comments if self_marker in (c.get("body") or "")]
     watermark = max(mine) if mine else EPOCH
     return [c for c in comments if c["createdAt"] > watermark]
+
+
+def _acks_path() -> Path:
+    """Where conscious no-reply decisions are recorded. Machine state, never the repo.
+
+    Overridable so tests never touch the real file — and because this is per-machine
+    operational state, not plugin content.
+    """
+    return Path(os.environ.get("AMCOS_SWEEP_ACKS", "~/.claude/amcos-sweep-acks.json")).expanduser()
+
+
+def load_acks(path: Path | None = None) -> dict[str, str]:
+    p = path or _acks_path()
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        # Absent or corrupt ⇒ acknowledge NOTHING. Failing toward "everything still
+        # needs attention" is the safe direction; the unsafe one is a parse error
+        # silently marking the whole inbox as handled.
+        return {}
+
+
+def acknowledge_through(acks: dict[str, str], ref: str, iso: str) -> dict[str, str]:
+    """Record that everything up to `iso` on `ref` was READ and consciously passed on.
+
+    MONOTONIC — an ack never moves backwards, so a stale caller cannot re-open
+    decisions that were already made, and re-acking is idempotent.
+    """
+    return {**acks, ref: max(acks.get(ref, EPOCH), iso)}
+
+
+def needs_attention(unread: list[dict], acked_through: str | None) -> list[dict]:
+    """Unread comments MINUS the ones I read and deliberately chose not to answer.
+
+    WHY THIS EXISTS, measured on my own instrument 2026-08-13: a derived watermark
+    clears only when I reply, which is the property that makes it unable to skip —
+    and it therefore cannot represent "read, and deliberately not answering". Every
+    thread I consciously pass on stays flagged forever. ai-maestro#145 sat at
+    `unread=6` after I judged that exchange not mine to join, and #131 at `unread=1`
+    after a converged thread needed no further reply. Both counts were permanent.
+
+    A count that includes items requiring no action stops meaning "needs attention",
+    which is the same defect this module was built to avoid one level up: a number
+    that cannot distinguish two states.
+
+    THE BLIND-WINDOW TRAP IS DELIBERATELY NOT REINTRODUCED. The original sin here
+    was a HAND-TYPED watermark, which skipped five days of a thread because I typed
+    a time later than what I had actually read. An ack is not that: it is only ever
+    set to the timestamp of a comment the tool just DISPLAYED, so it cannot cover
+    anything unseen, and anything arriving later is strictly greater and surfaces
+    normally. The safety property is pinned by a test.
+    """
+    if not acked_through:
+        return list(unread)
+    return [c for c in unread if c["createdAt"] > acked_through]
 
 
 class ControlStale(ValueError):
@@ -217,16 +274,56 @@ def enumerate_threads(owner: str, repos: list[str]) -> list[Thread]:
     return found
 
 
+def fetch_comments(owner: str, ref: str) -> list[dict]:
+    """Comments on REPO#N. Separate from enumeration because it costs one call each."""
+    repo, _, num = ref.partition("#")
+    out = _gh(["issue", "view", num, "--repo", f"{owner}/{repo}", "--json", "comments"])
+    return json.loads(out or "{}").get("comments", [])
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--owner", default="Emasoft")
-    ap.add_argument("--since", required=True, help="ISO instant; threads updated after it")
+    ap.add_argument("--since", default="", help="ISO instant; threads updated after it. Required to sweep; not needed with --ack alone.")
     ap.add_argument(
         "--control",
         default="",
         help="REPO#N known to be open and to match --since. REQUIRED for a trustworthy clean result; without it an empty sweep proves nothing.",
     )
+    ap.add_argument(
+        "--unread",
+        action="store_true",
+        help="also fetch each narrowed thread's comments and report what NEEDS ATTENTION (unread minus consciously-acknowledged). One extra gh call per thread.",
+    )
+    ap.add_argument(
+        "--ack",
+        default="",
+        help="REPO#N to mark READ-AND-DELIBERATELY-NOT-ANSWERING, through its newest comment as fetched right now. Use when a thread is resolved or not yours to join; a later comment still surfaces.",
+    )
     args = ap.parse_args(argv)
+
+    if args.ack:
+        # Ack BEFORE the sweep so it is usable standalone, and record only the
+        # timestamp of a comment actually fetched in this run — never a typed one.
+        comments = fetch_comments(args.owner, args.ack)
+        if not comments:
+            print(f"no comments on {args.ack} — nothing to acknowledge", file=sys.stderr)
+            return 1
+        newest = max(c["createdAt"] for c in comments)
+        path = _acks_path()
+        acks = acknowledge_through(load_acks(path), args.ack, newest)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(acks, indent=2, sort_keys=True), encoding="utf-8")
+        print(f"acknowledged {args.ack} through {newest}")
+        # Return here rather than falling through to the sweep. An ack is a state
+        # mutation, not an inbox read, and falling through made a pure `--ack` emit
+        # the no-control WARNING — a warning that fires on CORRECT usage, which is
+        # how warnings get tuned out entirely. Same failure as a guard that reds on
+        # correct writing and therefore gets deleted.
+        return 0
+
+    if not args.since:
+        ap.error("--since is required to sweep (it is optional only with --ack)")
 
     if not args.control:
         print(
@@ -249,8 +346,28 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     print(f"repos={len(repos)} threads={len(threads)} control={args.control or 'NONE'}")
+    if not args.unread:
+        for t in threads:
+            print(f"{t.ref}\t{t.updated_at}\t{t.title[:70]}")
+        return 0
+
+    acks = load_acks()
+    total_attention = 0
     for t in threads:
-        print(f"{t.ref}\t{t.updated_at}\t{t.title[:70]}")
+        try:
+            comments = fetch_comments(args.owner, t.ref)
+        except SweepBroken as exc:
+            # One unreadable thread is not a broken sweep, but it is NOT "nothing
+            # unread" either — say so per-thread instead of silently scoring it 0.
+            print(f"{t.ref}\tERROR\t{exc}")
+            continue
+        unread = unread_after_watermark(comments)
+        attention = needs_attention(unread, acks.get(t.ref))
+        total_attention += len(attention)
+        passed = len(unread) - len(attention)
+        note = f"needs-attention={len(attention)}" + (f" (+{passed} acknowledged)" if passed else "")
+        print(f"{t.ref}\t{t.updated_at}\t{note}\t{t.title[:50]}")
+    print(f"TOTAL needing attention: {total_attention}")
     return 0
 
 

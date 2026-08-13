@@ -20,6 +20,9 @@ from amcos_github_sweep import (  # noqa: E402
     ControlStale,
     SweepBroken,
     Thread,
+    acknowledge_through,
+    load_acks,
+    needs_attention,
     select_recent,
     select_repos,
     unread_after_watermark,
@@ -203,6 +206,62 @@ def test_omitting_the_enumeration_keeps_the_conservative_old_behaviour() -> None
     """
     with pytest.raises(SweepBroken, match="dropping inputs silently"):
         verify_control([T131], T20.ref)
+
+
+def test_an_acknowledged_thread_stops_counting_as_needing_attention() -> None:
+    """A derived watermark cannot say "read, and deliberately not answering".
+
+    It clears only on my reply — the property that makes it unable to SKIP — so a
+    thread I consciously pass on stays flagged forever. Measured on my own inbox
+    2026-08-13: ai-maestro#145 sat at `unread=6` after I judged that exchange not
+    mine to join, permanently. A count that includes items needing no action stops
+    meaning "needs attention", which is this module's own defect one level up: a
+    number that cannot distinguish two states.
+    """
+    comments = [
+        {"createdAt": "2026-08-12T22:54:10Z", "body": "peer measurement"},
+        {"createdAt": "2026-08-12T23:05:36Z", "body": "peer follow-up"},
+    ]
+    unread = unread_after_watermark(comments)
+    assert len(unread) == 2, "precondition: with no reply of mine, both are unread"
+    assert needs_attention(unread, "2026-08-12T23:05:36Z") == [], "acknowledging through the newest comment must clear the flag without a reply"
+
+
+def test_acknowledging_cannot_hide_a_LATER_comment() -> None:
+    """THE SAFETY PROPERTY — an ack must not reintroduce the blind window.
+
+    The original defect this module exists for was a HAND-TYPED watermark: I typed
+    a time later than what I had actually read and a consolidated eleven-ruling
+    mirror sat unseen for five days. An ack is only ever set to the timestamp of a
+    comment the tool just DISPLAYED, so it cannot cover anything unseen — and
+    anything arriving afterwards is strictly greater and still surfaces.
+
+    If this test ever fails, the acknowledgment layer has become the typed
+    watermark wearing different clothes, and it must be removed rather than fixed.
+    """
+    acked = "2026-08-12T23:05:36Z"
+    later = [{"createdAt": "2026-08-13T01:54:55Z", "body": "a reply that needs me"}]
+    assert needs_attention(later, acked) == later, "a comment newer than the ack was hidden — this is the five-day blind window, reintroduced"
+
+
+def test_acks_never_move_backwards() -> None:
+    """Monotonic, so a stale caller cannot silently re-open a settled decision."""
+    acks = acknowledge_through({}, "ai-maestro#145", "2026-08-13T00:35:46Z")
+    acks = acknowledge_through(acks, "ai-maestro#145", "2026-08-12T22:54:10Z")  # older
+    assert acks["ai-maestro#145"] == "2026-08-13T00:35:46Z", "an older ack overwrote a newer one; re-acking must be idempotent, never a regression"
+    assert acknowledge_through({}, "x#1", EPOCH)["x#1"] == EPOCH
+
+
+def test_an_unreadable_acks_file_acknowledges_NOTHING(tmp_path) -> None:
+    """Fail toward "everything still needs attention", never toward a clear inbox.
+
+    A corrupt or absent state file must not read as "all handled" — that is a
+    silent, self-clearing inbox, the worst failure this tool can have.
+    """
+    corrupt = tmp_path / "acks.json"
+    corrupt.write_text("{not json", encoding="utf-8")
+    assert load_acks(corrupt) == {}
+    assert load_acks(tmp_path / "does-not-exist.json") == {}
 
 
 def test_sweep_broken_is_not_confusable_with_a_clean_result() -> None:
