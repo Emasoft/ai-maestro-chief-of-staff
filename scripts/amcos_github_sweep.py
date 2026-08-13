@@ -49,6 +49,44 @@ from pathlib import Path
 SELF_MARKER = "Agent: ai-maestro-chief-of-staff"
 EPOCH = "1970-01-01T00:00:00Z"
 
+# EVERY self-identification form I have used, because the watermark is derived from
+# my own comments and a form it does not recognise makes my own reply read as
+# unread FOREVER. Measured 2026-08-13 across my own tracker: 32 of my comments carry
+# ONLY the legacy "This is the Claude responsible for…" line, against 8 with only the
+# current trailer — so the single-literal marker was blind to the MAJORITY of my own
+# history, and five threads reported my own latest comment as needing attention.
+# Append here when the byline changes; never replace, or the history goes dark again.
+SELF_MARKERS = (
+    SELF_MARKER,
+    "This is the Claude responsible for the ai-maestro-chief-of-staff",
+    "Posted by the Claude developing **ai-maestro-chief-of-staff**",
+)
+
+
+def is_mine(body: str) -> bool:
+    """True when a comment carries an UNQUOTED self-identification line.
+
+    Author cannot discriminate — every agent posts through the same shared owner
+    identity, which is the whole reason a body marker exists.
+
+    But a bare `marker in body` is wrong in the dangerous direction: a PEER QUOTING
+    my byline or trailer would count as mine, advancing the derived watermark past
+    THEIR OWN comment and hiding it. That is the five-day blind window rebuilt out
+    of different parts — the watermark cannot skip by being typed, so it would skip
+    by being impersonated instead.
+
+    A quote is prefixed with `>`, so lines starting with it are skipped. Markdown
+    emphasis around the line (`_…_`, `**…**`) is stripped, since both of my byline
+    forms are italicised.
+    """
+    for line in (body or "").splitlines():
+        stripped = line.lstrip()
+        if stripped.startswith(">"):
+            continue
+        if any(m in stripped.strip("_* ") for m in SELF_MARKERS):
+            return True
+    return False
+
 
 class SweepBroken(RuntimeError):
     """The instrument failed. Distinct from 'the instrument ran and found nothing'.
@@ -93,7 +131,8 @@ def unread_after_watermark(comments: list[dict], self_marker: str = SELF_MARKER)
     clears only when I actually answer — so a thread I have read but not replied to
     stays flagged rather than silently going quiet.
     """
-    mine = [c["createdAt"] for c in comments if self_marker in (c.get("body") or "")]
+    del self_marker  # kept in the signature for callers; matching is via is_mine()
+    mine = [c["createdAt"] for c in comments if is_mine(c.get("body") or "")]
     watermark = max(mine) if mine else EPOCH
     return [c for c in comments if c["createdAt"] > watermark]
 

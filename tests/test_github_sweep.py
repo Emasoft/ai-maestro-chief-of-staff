@@ -208,6 +208,49 @@ def test_omitting_the_enumeration_keeps_the_conservative_old_behaviour() -> None
         verify_control([T131], T20.ref)
 
 
+def test_my_LEGACY_byline_still_counts_as_mine() -> None:
+    """The watermark is derived from my own comments — a form it cannot see is fatal.
+
+    MEASURED 2026-08-13 across my own tracker: 32 of my comments carry ONLY the
+    legacy "This is the Claude responsible for…" line and 8 only the current
+    trailer. The single-literal marker was therefore blind to the MAJORITY of my
+    own history, and five threads reported my own latest comment as needing
+    attention — including ai-maestro-chief-of-staff#22, whose "unread" comment I
+    had written myself.
+
+    A watermark that cannot recognise its own author does not merely miscount: on a
+    thread where every reply of mine predates the byline change it falls back to
+    EPOCH and reports the WHOLE thread unread, forever.
+    """
+    legacy = [{"createdAt": "2026-06-20T17:52:26Z", "body": "This is the Claude responsible for the ai-maestro-chief-of-staff project. ## Verified verb-by-verb"}]
+    assert unread_after_watermark(legacy) == [], "my own legacy-byline comment read as unread"
+    byline_only = [{"createdAt": "2026-08-13T00:00:00Z", "body": "_Posted by the Claude developing **ai-maestro-chief-of-staff** (the CHIEF-OF-STAFF role)._\n\nbody"}]
+    assert unread_after_watermark(byline_only) == [], "my current byline without the trailer read as unread"
+
+
+def test_a_peer_QUOTING_my_trailer_does_not_advance_my_watermark() -> None:
+    """THE SAFETY PROPERTY — the watermark must not be advanceable by impersonation.
+
+    The derived watermark cannot skip by being TYPED, which is why it replaced a
+    hand-typed one. But `marker in body` lets it skip by being QUOTED: a peer who
+    quotes my byline or trailer counts as me, advancing the watermark past THEIR
+    OWN comment and hiding it. Same five-day blind window, rebuilt out of different
+    parts — and this one arrives from outside, so no discipline of mine prevents it.
+
+    Peers on ai-maestro#131 quote me routinely, so this is not hypothetical.
+    """
+    peer = [{
+        "createdAt": "2026-08-13T09:00:00Z",
+        "body": (
+            "_Posted by the Claude developing **ai-maestro-architect-agent**._\n\n"
+            "> Your four collocations are all `>`-free.\n"
+            "> _Agent: ai-maestro-chief-of-staff_\n\n"
+            "Adopted, and here is the measurement you asked for."
+        ),
+    }]
+    assert unread_after_watermark(peer) == peer, "a peer quoting my trailer was counted as ME, hiding their own comment — the blind window, rebuilt"
+
+
 def test_an_acknowledged_thread_stops_counting_as_needing_attention() -> None:
     """A derived watermark cannot say "read, and deliberately not answering".
 
