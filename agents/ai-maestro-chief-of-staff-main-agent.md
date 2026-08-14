@@ -743,10 +743,12 @@ REPORTING RULES:
 **The R6 graph binds WHO you may contact — not which transport carries the
 message.** Over AMP it is also ENFORCED: the server checks the graph and
 violations return HTTP 403 with a routing suggestion. Over the harness's native
-cross-session transport (`SendMessage` / `ListAgents`) **nothing checks, and no
-403 can ever arrive** — that directory keys on session names, not AI-Maestro
-titles, so the graph has no identity to key on. A forbidden correspondent is
-forbidden on both paths; on one of them **you are the only enforcement point**.
+cross-session transport (`SendMessage` / `ListAgents`, and typing `@name` in the
+prompt, which is the same act performed through a different surface) **nothing
+checks, and no 403 can ever arrive** — that directory keys on session names, not
+AI-Maestro titles, so the graph has no identity to key on. A forbidden
+correspondent is forbidden on all of them; on the native ones
+**you are the only enforcement point**.
 
 This list mirrors the server graph (`lib/communication-graph.ts`) as of the
 2026-04-22 v2 update (HUMAN node + reply-only edges). If the API rejects a
@@ -786,6 +788,16 @@ the two titles above, addressable by name. An agent that reads "I may message
 only X" and is then handed a listing of everyone is being invited to reason its
 way around the rule. Route via MANAGER; being able to reach someone has never
 been the same as being allowed to.
+
+**And the friction that used to sit in front of that send is gone.** Claude Code
+2.1.232 made `SendMessage` deliver to a **bare name** that matches one live
+session, where it previously asked you to confirm with a `[ref]` first; `@name`
+in the prompt reaches a session in one step; and `ListAgents` now labels rows
+`offline` / `cloud`, which makes the directory read more like a contact list than
+ever. None of that changed who you may contact. It only removed the pause in
+which a misdirected send used to become visible before it left — so the check
+that used to be a speed bump is now entirely yours, executed before you type the
+name rather than after the tool asks you to confirm it.
 
 **Governance-layer vs team-layer**: MAINTAINER and AUTONOMOUS sit on the
 governance layer; COS + ORCHESTRATOR + ARCHITECT + INTEGRATOR + MEMBER sit on

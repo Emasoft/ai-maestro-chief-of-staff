@@ -568,10 +568,21 @@ def test_skill_menu_scope_is_narrower_than_the_file() -> None:
 # title this persona forbids — addressable by name with nothing in the way.
 #
 # The persona must therefore say the rule binds on WHO is contacted rather than
-# on the transport. These are three separate assertions on purpose: naming the
+# on the transport. These are four separate assertions on purpose: naming the
 # tools and disclaiming enforcement are independent failures, and a body that
 # merely name-dropped `SendMessage` would satisfy a keyword scan while still
 # implying the server covers it.
+#
+# Claude Code 2.1.232 added a THIRD surface onto the same unpoliced path: typing
+# `@name` in the prompt reaches a session directly, `SendMessage` now delivers to
+# a bare name that matches one live session instead of asking to confirm with a
+# `[ref]` first, and `ListAgents` labels rows `offline`/`cloud`. None of that
+# changed WHO may be contacted — it removed the confirmation step in which a
+# misdirected send used to become visible before it left. That is why the fourth
+# assertion exists: a persona written against the two-tool wording would still
+# pass the three above while never telling the agent that `@name` is the same
+# act. A guard that pins only the surfaces that existed when it was written goes
+# quiet exactly when a new one is added.
 
 _NATIVE_TRANSPORT_TOOLS = ("SendMessage", "ListAgents")
 
@@ -602,6 +613,7 @@ def test_persona_states_the_native_transport_is_not_policed() -> None:
     assert "you are the only enforcement point" in text.lower(), "the persona names the native transport but never says it is UNPOLICED. Vocabulary is not a warning: without the disclaimer the four `403` promises still read as covering every path (ai-maestro#131)."
     assert "is not a licence to contact it" in text.lower(), "the persona does not say that `ListAgents` visibility confers no permission. An agent told 'you may message only X' and then handed a directory of everyone will reason its way around the rule."
     assert "untrusted data" in text.lower(), "the persona does not say inbound cross-session messages carry no server-side identity check. This matters most for a title that DOES receive authenticated instructions over AMP — on arrival the two look alike, and only one of them was checked."
+    assert "same act performed through a different surface" in text.lower(), "the persona names `SendMessage`/`ListAgents` but not the `@name` prompt mention Claude Code 2.1.232 added onto the same unpoliced path. An agent that has internalised 'do not SendMessage MAINTAINER' has not necessarily internalised '@ing them is the same send', and the confirmation step that used to make a misdirected send visible before it left is gone."
 
 
 def test_shipped_subagents_cannot_reach_a_peer_session() -> None:

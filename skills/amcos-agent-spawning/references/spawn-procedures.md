@@ -111,7 +111,11 @@ environment:                      # Environment variables
 
 **Using the Agent tool:**
 
-Spawn the subagent with Claude Code's Agent tool. Set `subagent_type` to the agent type (e.g. `code-implementer`), give a short 3-5 word `description` (e.g. "Implement user login feature"), and put the full assignment in `prompt`: a role line ("You are a code-implementer agent"), the project directory, the concrete task (e.g. "Implement user login with JWT authentication"), and the instruction to report progress via AI Maestro to the chief-of-staff. The tool call returns the agent's final report when it completes.
+Spawn the subagent with Claude Code's Agent tool. Set `subagent_type` to the agent type (e.g. `code-implementer`), give a short 3-5 word `description` (e.g. "Implement user login feature"), and put the full assignment in `prompt`: a role line ("You are a code-implementer agent"), the project directory, the concrete task (e.g. "Implement user login with JWT authentication"), and the instruction to report progress via AI Maestro to the chief-of-staff.
+
+**The call does NOT block for the report.** Since Claude Code 2.1.232 a non-teammate agent spawned from an interactive session runs in the **background by default**: the tool returns immediately and the agent's result arrives later as a task notification. Write the prompt so the agent is self-sufficient — it will finish with nobody waiting on it — and do not sequence later steps on the assumption that the spawn call handed you a report.
+
+**Choosing `subagent_type`: `"fork"` vs a named type.** `"fork"` inherits this session's full conversation AND its prompt cache, so it is the cheap option when the agent needs context you already hold; a named type starts cold, which costs a fresh cache write but keeps your context out of it. Pick a named type when the work is genuinely independent or the agent must not see this conversation, and `"fork"` when re-explaining the context would cost more than inheriting it. A `model` override is ignored on a fork — it always runs on this session's model.
 
 **Using AI Maestro:**
 
