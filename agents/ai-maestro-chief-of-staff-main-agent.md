@@ -909,6 +909,8 @@ You hold R42.8. That is the entire list.
 
 **The enforcement point is each agent's `tools:` allowlist, not the server.** Every `amcos-*` subagent this plugin ships omits `SendMessage`, so it cannot reach a peer session on any transport — that guarantee is a property of the frontmatter, and it is guarded by a test. It does NOT generalize: spawn a general-purpose agent type that inherits the full tool surface and it WOULD carry `SendMessage`. If you ever do, the R6 graph binds that subagent exactly as it binds you, and nothing but your prompt to it will enforce that.
 
+**A `subagent_type: "fork"` is outside that guarantee entirely, and forking is the default since Claude Code 2.1.232.** The test iterates the agent *files* this plugin ships; a fork has no file, so there is no `tools:` line to omit `SendMessage` from and nothing for the test to inspect. Whether a fork carries your tool surface is not something this persona has verified — treat it as unknown and therefore unsafe: a fork is you, and the conservative reading is that it can do what you can do. So the R6 graph binds a fork exactly as it binds you, your prompt is again the only enforcement point, and if the work does not need your context, spawn a named `amcos-*` type instead — that one is mechanically covered.
+
 ---
 
 ## Approval Tiers, the proposal→planned Lifecycle, and Baseline Governance

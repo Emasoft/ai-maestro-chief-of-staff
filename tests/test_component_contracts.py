@@ -635,6 +635,26 @@ def test_shipped_subagents_cannot_reach_a_peer_session() -> None:
     assert not offenders, f"{offenders} declare a native cross-session tool. Subagents have no AMP identity, so nothing would authenticate or refuse them — the R6 graph would bind them with no enforcement point at all."
 
 
+def test_persona_states_the_fork_escape_from_the_tools_guarantee() -> None:
+    """The `tools:` guarantee covers shipped FILES; a fork has none, so say so.
+
+    `test_shipped_subagents_cannot_reach_a_peer_session` above iterates
+    `AGENT_FILES`. That is the whole guarantee and it is bounded by construction:
+    a `subagent_type: "fork"` has no agent file, so there is no `tools:` line to
+    omit `SendMessage` from and nothing for that test to inspect. Claude Code
+    2.1.232 made forking the default, which moved the uncovered case from rare to
+    ordinary.
+
+    This is the same shape as the surface gap one test above: a guard that pins
+    what exists at writing time goes quiet when the uncovered case becomes the
+    common one. The mechanical test CANNOT be extended to cover forks — there is
+    no artifact to check — so the persona has to carry it, and this pins that it
+    does.
+    """
+    text = MAIN_AGENT.read_text(encoding="utf-8")
+    assert "a fork has no file" in text.lower(), "the persona does not say that the shipped-`tools:` guarantee excludes forks. Since 2.1.232 a fork is the DEFAULT subagent, and it is the one kind the mechanical test cannot see: no file, no `tools:` line, nothing to assert on."
+
+
 # --- The RECEIVE side (ai-maestro#131, MAINTAINER's mirror finding) -----------
 #
 # The fleet screen asked every persona "do you claim a forbidden SEND returns
