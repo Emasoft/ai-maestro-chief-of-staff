@@ -3,7 +3,7 @@ trdd-id: 6SL6UY6N
 title: Wire project_board_url through to githubProject instead of dropping it
 column: testing
 created: 2026-08-08T10:43:34+0200
-updated: 2026-08-08T11:42:00+0200
+updated: 2026-08-14T08:59:04+0200
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: feature
@@ -14,6 +14,7 @@ mandated-by: self
 min-approval-requirement: 0
 relevant-rules: [1]
 external-refs: [ai-maestro#133, ai-maestro#76]
+implementation-commits: [5b5718a]
 ---
 
 # Wire `project_board_url` through to `githubProject` instead of dropping it
