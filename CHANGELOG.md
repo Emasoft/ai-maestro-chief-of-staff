@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.32.3] - 2026-08-14
+    ## [2.32.4] - 2026-08-14
 
-### Documentation
+### Bug Fixes
 
-- Add TRDD-0N722ZCO — close the TRDD-id-in-commit-subject gap (2% measured)    
+- The spawn doc promised a return value the tool no longer gives, and the transport guard pinned only two of three surfaces    
 
 
