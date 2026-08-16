@@ -3,7 +3,7 @@ trdd-id: Q7BZ8N3M
 title: Resolve the nine terminal-column cards that fail the checklist gate
 column: todo
 created: 2026-08-12T12:42:35+0200
-updated: 2026-08-12T12:42:35+0200
+updated: 2026-08-16T23:36:03+0200
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
@@ -78,12 +78,104 @@ Option 3 is the closest analogue to what the rule's own authors did, and it is w
 recommend — but it is a governance judgment about someone else's rule applied to this
 repo's public history, so it is raised rather than taken.
 
+## ⏵ DISPOSITION — DECIDED 2026-08-16 (supersedes the three options above)
+
+**None of 1, 2 or 3. The question those options answer does not exist, because this card's
+central premise is false.** The premise was: *"All ten of this repo's terminal cards
+transitioned 2026-08-11, so every one of them is inside the governed window."* Measured:
+**eight of the nine transitioned in JUNE 2026**, before the rule's own 2026-07-31 boundary.
+
+| card | terminal column first set | commit |
+|---|---|---|
+| `227e77d0` `5f717ded` `0263f190` | 2026-06-11 | `10d57ca`, `6a986b7` |
+| `59581001` `e3156858` | 2026-06-14 | `fced238`, `1bea658` |
+| `562b49e3` | 2026-06-18 | `c26e442` |
+| `b0048a21` | 2026-06-20 | `260bafe` |
+| `5c4eb0ec` | 2026-06-22 | `146a17b` |
+| **`4FH9JP4U`** | **2026-08-11** | **`779a8b2`** |
+
+Method: `git log --follow --format='%ad %h' --date=short -S"column: <value>" -- <path> | tail -1`
+— the OLDEST commit touching that column string, i.e. when it was first set. Cross-checked
+against each file's `--diff-filter=A` add commit so the dates are not a `--follow` artifact.
+
+**Where the false premise came from, because the mechanism matters more than the correction.**
+The 2026-08-11 event was commit `2400fa2`, *"docs(board): file 10 terminal TRDDs into
+design/archived/"*, whose own message reads: *"git mv ONLY — no frontmatter touched...
+Deliberately did NOT bump `updated:`, per the TRDD rule that a mechanical repair must not."*
+It was an **archival filing**, and a later reader took its date for a transition date. The
+commit did the correct thing and said so; the date it left behind was simply the wrong date to
+read. `updated:` was deliberately not bumped **precisely so** this would not look like a
+change — and the filing date got used instead.
+
+**What the rule actually says**, fetched verbatim from `Emasoft/ai-maestro@governance-rules`,
+`rules/aimaestro/aimaestro-trdd-approval.md:801-824`, rather than quoted from this card:
+
+> "the gate binds the TRANSITION INTO a terminal column, never the card's whole life"
+>
+> "GRANDFATHER BOUNDARY: a card already in a terminal column is FROZEN (IND base step 12), so
+> those 46 cannot be repaired and are not flagged... What the fix changes is every terminal
+> transition FROM 2026-07-31 ON."
+
+So the eight June cards are not violations awaiting a disposition. They are **frozen and not
+flagged by the rule's own terms**, and no local boundary needs declaring — the upstream
+boundary already covers them. **The debt is ONE card, not nine.**
+
+**`562b49e3` specifically: leave it alone.** It is the loudest-looking of the nine — `published`
+with five boxes, all open, one of them reading *"Published (v2.19.0)"*. The hub session advised
+annotating it with its release evidence. Its transition is 2026-06-18, **pre-boundary**, so IND
+step 12 freezes it and the annotation would breach the freeze to satisfy a gate that does not
+bind it. The hub accepted this correction: the rule it was citing had already answered the
+question it asked me to work around. A card that looks worst is not the same as a card that is
+in scope.
+
+**`4FH9JP4U` is the one genuine violation** — `column: complete` set 2026-08-11, post-boundary,
+zero checklist boxes in 143 lines. It is also the vacuous case the "≥1 box" clause was added
+for: a gate stated only over boxes that are *unchecked* passes on a card with no boxes at all.
+
+Its work IS done. Its `## Approval log` records three checks run at close, and all three were
+re-run 2026-08-16 and still pass: the R42 injection-INSTRUCTION prose is gone (what remains is
+prose *prohibiting* injection, in four skills); `kill -TERM` of a peer is absent; the suite is
+green (299 then, 340 now). What is missing is the checklist section, not the verification.
+
+Planned repair, DEFERRED (see below): move it to `column: dev` — the rule's own stated remedy,
+which also lifts the step-12 freeze — write the checklist from those three checks, tick each
+against the 2026-08-16 re-run, and re-advance. That is not retro-ticking: retro-ticking is
+ticking a box whose verification never happened, and here the verification happened, was
+recorded, and was re-run before any box is ticked.
+
+**Why the repair is not executed in this edit.** `4FH9JP4U` is also a CONFIRMED finding of the
+Phase-1 self-audit under the USER fleet mandate `TRDD-BRRJK57P` (axis 2), and that mandate is
+explicit: discovery only, fix nothing, because a fix during discovery destroys the evidence the
+remediation plan is built from. Phase-2 dispatch is blocked on the USER. So the disposition is
+decided and recorded here; the one repair it implies is Phase-2 work.
+
+**Corroboration, because a conclusion this convenient deserves it.** An independent audit agent
+was given the rule text and the git method but NOT this conclusion, and reproduced the same
+table and the same verdict — including two POST-boundary cards this card never considered
+(`NB725X9W` 2026-08-08, `M4761P58` 2026-08-12), both of which PASS with full checklists. The
+hub session, which owns the rule, agrees with the reading. Two advisor consultations were
+dispatched to attack the conclusion and both froze without returning (16.5 KB and 17.9 KB of
+transcript, flat, no verdict) — recorded here as an explicit gap rather than an endorsement I
+did not receive.
+
+**What this cost, stated plainly:** the original nine were filed on a date read from the wrong
+artifact, and every option debated afterwards inherited it. Nothing was fabricated and every
+individual fact in this card was true; the one thing nobody measured was whether the gate
+applied at all.
+
 ## Acceptance criteria
 
-- [ ] A disposition chosen (1/2/3) and recorded here with its rationale.
+- [x] A disposition chosen and recorded here with its rationale. → the DISPOSITION section
+      above, 2026-08-16. The chosen answer is NONE of 1/2/3, because the premise the three
+      options rested on was measured false.
 - [ ] Each of the nine cards resolved per that disposition, one at a time, no scripted sweep.
-- [ ] No box ticked retroactively anywhere; any box that is checked is checked against
-      named evidence.
+      → eight are RESOLVED as "not violations, frozen pre-boundary, no action" (measured per
+      card, see the table). The ninth, `4FH9JP4U`, is deferred to Phase 2 of `TRDD-BRRJK57P`,
+      which forbids fixes during discovery. This box stays OPEN because that one card is not
+      yet resolved — it is not ticked on a plan.
+- [x] No box ticked retroactively anywhere; any box that is checked is checked against
+      named evidence. → held. The `4FH9JP4U` repair, when it runs, ticks its boxes against the
+      2026-08-16 re-run of its own three recorded checks, never against its prose.
 - [x] A guard added that fails when a card enters a terminal column without a complete
       checklist, so this cannot recur silently. → `tests/test_board_discipline.py`
       (4 tests, suite 322 → 326). Done AHEAD of the disposition on purpose: it is the
