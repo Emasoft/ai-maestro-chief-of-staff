@@ -1,9 +1,9 @@
 ---
 trdd-id: 4FH9JP4U
 title: R42 drive-vs-lifecycle audit — categorized purge plan (execution-gated on R42 text)
-column: complete
+column: dev
 created: 2026-07-16T20:32:10+0200
-updated: 2026-08-11T19:54:10+0200
+updated: 2026-08-18T23:50:51+0200
 current-owner: cos-ai-maestro-chief-of-staff
 task-type: audit
 release-via: publish
