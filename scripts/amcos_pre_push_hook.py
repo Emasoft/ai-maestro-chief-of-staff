@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-"""pre-push-hook.py - Prevent pushing broken plugins to GitHub.
+"""amcos_pre_push_hook.py - Prevent pushing broken plugins to GitHub.
 
-This hook runs validation before allowing git push.
-If any CRITICAL issues are found, the push is blocked.
+This hook runs validation before allowing git push. Strict mode: ANY issue
+(CRITICAL, MAJOR, or MINOR) blocks the push — see main(), which returns 1 on
+any non-empty severity bucket. The docstring must match that behaviour: an
+earlier version claimed only CRITICAL blocked, and a maintainer reading it
+would have treated MAJOR/MINOR as non-blocking warnings.
 
-To install:
-    cp scripts/pre-push-hook.py .git/hooks/pre-push
+To install (the source path is THIS file — it ships as amcos_pre_push_hook.py):
+    cp scripts/amcos_pre_push_hook.py .git/hooks/pre-push
     chmod +x .git/hooks/pre-push
 
 Exit codes:
     0 - All validations passed, push allowed
-    1 - Validation failed, push blocked
+    1 - Any validation issue found (any severity), push blocked
 """
 
 import codecs

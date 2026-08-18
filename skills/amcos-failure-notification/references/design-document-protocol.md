@@ -286,7 +286,9 @@ To link a document to an existing issue:
 
 **Detection:** `design/` folder or subfolders don't exist
 **Resolution:**
-1. Run `amcos_init_design_folders.py` to create structure
+1. Create the 3-pillars layout directly (no init script exists — an earlier revision named
+   `amcos_init_design_folders.py`, which was never shipped):
+   `mkdir -p design/proposals design/tasks design/archived design/refused design/requirements`
 2. Retry operation
 
 ## 8. File Naming Convention
