@@ -1,9 +1,10 @@
 ---
 trdd-id: ENZLC63L
 title: Align four command docs to the flags their scripts actually parse
-column: ai_review
+column: complete
 created: 2026-08-18T19:54:27+0200
-updated: 2026-08-18T20:39:01+0200
+updated: 2026-08-18T23:40:02+0200
+implementation-commits: [b261e74]
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
@@ -42,8 +43,20 @@ justification.
 
 ## Acceptance criteria
 
-- [ ] Each doc's arguments table lists exactly the parser's flags — nothing more.
-- [ ] Every example in each doc, run verbatim, is accepted by the parser (exit 0 or a real run).
-- [ ] Where behaviour differs from what the old doc implied (single-action, JSON-only), the doc
-      says so in one line rather than silently dropping the claim.
-- [ ] Suite green, ruff clean.
+- [x] Each doc's arguments table lists exactly the parser's flags — nothing more. → verified per
+      file against the argparse blocks; resource-report's fictional agent-listing/trends sections
+      replaced with what the script measures (verified by RUNNING it).
+- [x] Every example in each doc, run verbatim, is accepted by the parser. → all four checked:
+      argparse-level acceptance (perf --all exit 0, reindex --dry-run 0, configure --list 0,
+      resource --check-spawn exit 1 = runtime "cannot spawn", not a usage error).
+- [x] Behaviour differences stated in one line each (single-action, JSON-only, no watch/wait).
+- [x] Suite green (341), ruff clean.
+
+## Approval log
+
+- 2026-08-18T23:40:02+0200 — COMPLETED. Flow: todo → dev → testing (parsers accept every
+  example, suite 341) → ai_review (llm-ext 3-model ensemble on the commands/ diff: 2/3 approve
+  all four files; the one REJECT — argument-hint missing optional --project-dir on
+  performance-report — was a valid nit and was FIXED before closing; report
+  reports/llm-externalizer/20260818_233923+0200-code_task-enzl.diff-1629a5.md) → complete.
+  Implementation commit b261e74 (+ the nit fix in the closing commit).
