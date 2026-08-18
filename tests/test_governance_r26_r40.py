@@ -52,6 +52,28 @@ def test_perm_mgmt_skill_clean_of_agent_password() -> None:
     assert not offenders, f"agent-held password mechanism still present in: {offenders}"
 
 
+def test_no_agent_held_password_anywhere_in_agent_facing_docs() -> None:
+    """No command/skill/agent doc reintroduces an agent-held governance password (R32, TRDD-1846EVM2).
+
+    The narrower test above passed for months while commands/amcos-request-approval.md
+    documented --governance-password with a worked example — a guard scoped to one skill
+    cannot see the same defect one directory over. This one scans every agent-facing doc
+    tree. Prohibition prose is fine; a FLAG, a payload FIELD, or a $-substituted literal
+    is not.
+    """
+    offenders = []
+    for tree in ("commands", "skills", "agents"):
+        for f in (PLUGIN_ROOT / tree).rglob("*.md"):
+            t = f.read_text(encoding="utf-8")
+            if re.search(r"--governance-password|\"governancePassword\"|\$GOV_PWD", t):
+                offenders.append(f.relative_to(PLUGIN_ROOT).as_posix())
+    assert not offenders, (
+        f"agent-held governance-password mechanism present in: {offenders}. "
+        "R32: a sudo password is requested only of the USER, only via the UI — "
+        "no flag, no payload field, no substituted literal."
+    )
+
+
 def test_approval_coordinator_no_agent_password() -> None:
     """amcos-approval-coordinator no longer holds/passes a governance password; authz is AID (R32/R28)."""
     t = (AGENTS / "amcos-approval-coordinator.md").read_text(encoding="utf-8")

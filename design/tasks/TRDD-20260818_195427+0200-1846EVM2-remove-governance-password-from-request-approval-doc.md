@@ -1,9 +1,9 @@
 ---
 trdd-id: 1846EVM2
 title: Remove the agent-held governance password from the amcos-request-approval command doc
-column: todo
+column: ai_review
 created: 2026-08-18T19:54:27+0200
-updated: 2026-08-18T19:54:27+0200
+updated: 2026-08-18T20:00:30+0200
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: security
@@ -40,13 +40,16 @@ and the payload field, not just the example.
 
 ## Acceptance criteria
 
-- [ ] `--governance-password` gone from `argument-hint`, the arguments table, and every example.
-- [ ] `governancePassword` field gone from both JSON payload samples (schema artifact; carries
-      the wrong shape forward).
-- [ ] The doc states the R32 model in one line where the flag row was: critical ops are gated by
-      a sudo password requested only of the USER, only via the UI — never agent-held.
-- [ ] `grep -rn "governance-password\|governancePassword" commands/ skills/ agents/` returns 0
-      hits outside historical/prohibition prose.
-- [ ] No password literal introduced anywhere; `$AIM_GOVERNANCE_PASSWORD` named only if a
-      reference is needed at all.
-- [ ] Suite green (`uv run --with pytest pytest tests/`), `ruff check .` clean.
+- [x] `--governance-password` gone from `argument-hint`, the arguments table, and every example.
+      → all three edits landed; the critical-op example now says the sudo gate is USER-via-UI.
+- [x] `governancePassword` field gone from both JSON payload samples. → both `null` lines removed;
+      the "Invalid password" error row replaced with the R32 pending-gate row.
+- [x] The doc states the R32 model where the flag row was. → one paragraph under the operations
+      table; the table's gate column now reads "USER via UI (R32)" for `critical`.
+- [x] Repo-wide grep clean: `grep -rn "governance-password\|governancePassword" commands/ skills/
+      agents/ scripts/ tests/` → only the guard tests' own detector needles remain.
+- [x] No password literal introduced; `$AIM_GOVERNANCE_PASSWORD` not needed and not named.
+- [x] Suite green, ruff clean → 341 passed (a NEW tree-wide guard test was added:
+      `test_no_agent_held_password_anywhere_in_agent_facing_docs`, because the existing R32 guard
+      scanned only one skill directory and could never have seen this defect in commands/ — the
+      guard's scope was narrower than its invariant, which is how the defect survived).

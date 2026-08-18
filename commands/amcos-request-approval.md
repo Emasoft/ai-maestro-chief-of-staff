@@ -1,7 +1,7 @@
 ---
 name: amcos-request-approval
 description: "Submit a GovernanceRequest for agent operations via AI Maestro API"
-argument-hint: "--type <T> --agent <A> --reason <R> [--scope] [--urgent] [--timeout] [--governance-password <PWD>]"
+argument-hint: "--type <T> --agent <A> --reason <R> [--scope] [--urgent] [--timeout]"
 allowed-tools: ["Bash", "Read"]
 user-invocable: true
 ---
@@ -26,8 +26,8 @@ pending → local-approved / remote-approved → dual-approved → executed
 
 ## Operations Requiring GovernanceRequest
 
-| Operation | Scope | Approvers | Password |
-|-----------|-------|-----------|----------|
+| Operation | Scope | Approvers | Sudo gate |
+|-----------|-------|-----------|-----------|
 | `spawn` | local | sourceManager | No |
 | `spawn` | cross-team | sourceManager + targetManager | No |
 | `terminate` | local | sourceManager | No |
@@ -37,7 +37,11 @@ pending → local-approved / remote-approved → dual-approved → executed
 | `install` | local | sourceManager | No |
 | `install` | cross-team | sourceManager + targetManager | No |
 | `replace` | any | sourceManager (+ targetManager) | No |
-| `critical` | any | dual-manager | **Yes** |
+| `critical` | any | dual-manager | **USER via UI (R32)** |
+
+Critical operations are additionally gated by a sudo password that is requested **only of the
+USER, only via the AI Maestro UI** (R32). The COS never holds, passes, or submits one — there is
+no password argument on this command and no password field in the payload.
 
 ## Arguments
 
@@ -49,7 +53,6 @@ pending → local-approved / remote-approved → dual-approved → executed
 | `--scope <SCOPE>` | No | `local` (default) or `cross-team` |
 | `--target-cos <NAME>` | If cross-team | Target COS session |
 | `--target-manager <NAME>` | If cross-team | Target manager session |
-| `--governance-password <PWD>` | If critical | Manager-provided governance password |
 | `--urgent` | No | Set priority to urgent |
 | `--timeout <SECONDS>` | No | Wait for response (default: 0) |
 | `--metadata <JSON>` | No | Additional context |
@@ -72,9 +75,8 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
   --scope cross-team --target-cos amcos-backend --target-manager amama-backend \
   --reason "Need worker on backend team for data migration"
 
-# Critical operation (governance password required)
-/amcos-request-approval --type critical --agent prod-deployer \
-  --governance-password "$GOV_PWD" --urgent \
+# Critical operation (sudo gate: the USER approves via the UI — R32; no password argument exists)
+/amcos-request-approval --type critical --agent prod-deployer --urgent \
   --reason "Emergency production deployment"
 
 # Local terminate with wait
@@ -99,7 +101,6 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
   },
   "justification": "Agent has critical unrecoverable bug",
   "impact": {"scope": "local", "risk_level": "high"},
-  "governancePassword": null,
   "priority": "high",
   "status": "pending"
 }
@@ -122,7 +123,6 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
   },
   "justification": "Need worker on backend team for data migration",
   "impact": {"scope": "cross-team", "risk_level": "medium"},
-  "governancePassword": null,
   "priority": "high",
   "status": "pending"
 }
@@ -169,7 +169,7 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
 | Error | Cause | Solution |
 |-------|-------|----------|
 | Rate limited | Too many requests | Back off and retry |
-| Invalid password | Wrong governance password | Re-request from manager |
+| Sudo gate pending | Critical op awaiting the USER's UI approval (R32) | Wait; do not attempt to supply a password |
 | Unknown target manager | Invalid targetManager | Query team registry |
 | Service unreachable | AI Maestro down | Check if AI Maestro is running |
 | Missing `--target-cos` | Cross-team without target | Provide target COS and manager |
