@@ -90,7 +90,8 @@ If graceful termination fails, use the force option if available.
 
 ```bash
 uv run python scripts/amcos_team_registry.py remove-agent \
-  --name "<agent-session-name>"
+  --team "<team>" \
+  --agent-name "<agent-session-name>"
 ```
 
 ### Step 6: Cleanup Resources
@@ -99,13 +100,8 @@ Optionally remove the agent's working directory and local plugin cache. Keep the
 
 ### Step 7: Log Termination
 
-```bash
-uv run python scripts/amcos_team_registry.py log \
-  --event "termination" \
-  --agent "<agent-session-name>" \
-  --reason "<termination reason>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
+`amcos_team_registry.py` has no `log` subcommand — note the termination event in
+the team's coordination channel (`agent-messaging`) instead.
 
 ## Checklist
 
@@ -143,16 +139,10 @@ For agent `dev-backend-alice`:
 5. Use the `ai-maestro-agents-management` skill to terminate agent `dev-backend-alice` with confirmation
 6. Update registry:
    ```bash
-   uv run python scripts/amcos_team_registry.py remove-agent --name "dev-backend-alice"
+   uv run python scripts/amcos_team_registry.py remove-agent --team "<team>" --agent-name "dev-backend-alice"
    ```
-7. Log the event:
-   ```bash
-   uv run python scripts/amcos_team_registry.py log \
-     --event "termination" \
-     --agent "dev-backend-alice" \
-     --reason "Task completed - backend API implementation finished" \
-     --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-   ```
+7. Log the event (no `log` subcommand exists — send a team notification via
+   `agent-messaging` instead): "Task completed - backend API implementation finished."
 
 ## Error Handling
 

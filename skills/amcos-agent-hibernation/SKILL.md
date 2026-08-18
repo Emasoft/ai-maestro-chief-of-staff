@@ -50,7 +50,7 @@ SPAWNING -> RUNNING <-> HIBERNATED
 3. **Send warning** via `agent-messaging` (type: `hibernation-warning`)
 4. **Request state capture** - Agent saves context/handoff
 5. **Execute** via `ai-maestro-agents-management`
-6. **Update registry** - `uv run python scripts/amcos_team_registry.py update-status --name <agent> --status hibernated`
+6. **Update registry** - `uv run python scripts/amcos_team_registry.py update-status --team <team> --agent-name <agent> --status hibernated`
 7. **Log event**
 
 ### Wake Procedure
@@ -97,7 +97,7 @@ Remote host ops require GovernanceRequest; state replicated via GovernanceSyncMe
 ```bash
 # Warn -> wait 2min -> hibernate -> update registry
 uv run python scripts/amcos_team_registry.py update-status \
-  --name ampa-svgbbox-impl --status hibernated
+  --team svgbbox-team --agent-name ampa-svgbbox-impl --status hibernated
 ```
 
 ### Wake a Hibernated Agent
@@ -105,7 +105,7 @@ uv run python scripts/amcos_team_registry.py update-status \
 ```bash
 # Wake (--continue) -> notify -> update registry
 uv run python scripts/amcos_team_registry.py update-status \
-  --name ampa-svgbbox-impl --status running
+  --team svgbbox-team --agent-name ampa-svgbbox-impl --status running
 ```
 
 ## Checklist

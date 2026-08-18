@@ -101,15 +101,9 @@ Use the `agent-messaging` skill to request final confirmation:
 
 ### Step 5: Document Onboarding
 
-Log the onboarding completion:
-
-```bash
-uv run python scripts/amcos_team_registry.py log \
-  --event "onboarding-complete" \
-  --agent "<agent-session-name>" \
-  --reason "Initial onboarding for [role] on [project]" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
+Log the onboarding completion: `amcos_team_registry.py` has no `log`
+subcommand — note the event in the team's coordination channel
+(`agent-messaging`) instead: "Initial onboarding for [role] on [project]."
 
 ## Checklist
 
@@ -174,14 +168,9 @@ For agent `dev-backend-alice` on project `backend-api` with role `developer`:
    - **Subject**: `Onboarding Complete`
    - **Priority**: `high`
    - **Content**: type `request`, message: "Onboarding complete. Confirm understanding of all 6 items."
-10. **Log**: Record onboarding completion in team registry:
-    ```bash
-    uv run python scripts/amcos_team_registry.py log \
-      --event "onboarding-complete" \
-      --agent "dev-backend-alice" \
-      --reason "Initial onboarding for developer on backend-api" \
-      --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-    ```
+10. **Log**: `amcos_team_registry.py` has no `log` subcommand — note the
+    completion in the team's coordination channel (`agent-messaging`)
+    instead: "Initial onboarding for developer on backend-api."
 
 ## Error Handling
 

@@ -1,7 +1,7 @@
 ---
 name: amcos-reindex-skills
 description: "Trigger Perfect Skill Suggester reindex for an agent's skills"
-argument-hint: "<SESSION_NAME> [--force] [--wait]"
+argument-hint: "<SESSION_NAME> [--force] [--dry-run]"
 user-invocable: true
 allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_reindex_skills.py:*)"]
 ---
@@ -28,15 +28,10 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_reindex_skills.py" $ARGUMENTS
    - Uses high-priority message for immediate processing
    - Includes reindex parameters if specified
 
-3. **Monitors Reindex Progress** (with `--wait`)
-   - Polls agent for reindex completion
-   - Reports progress percentage
-   - Times out after configurable period
-
-4. **Reports Reindex Results**
-   - Shows number of skills indexed
-   - Lists any skills that failed indexing
-   - Reports index generation time
+3. **Reports the Send Result**
+   - The command is fire-and-forget: it reports that the reindex request was sent, not the
+     reindex outcome. The target agent performs the reindex on its own schedule.
+   - With `--dry-run`, shows what would be sent without sending it.
 
 ## Arguments
 
@@ -44,9 +39,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_reindex_skills.py" $ARGUMENTS
 |----------|----------|-------------|
 | `SESSION_NAME` | Yes | Target agent session name (e.g., `orchestrator-master`) |
 | `--force` | No | Force full reindex even if cache is fresh |
-| `--wait` | No | Wait for reindex completion and report results |
-| `--timeout SECONDS` | No | Maximum wait time (default: 300) |
-| `--verbose` | No | Show detailed reindex progress |
+| `--dry-run` | No | Show what would be sent without actually sending the request |
 
 ## Examples
 
@@ -56,21 +49,19 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_reindex_skills.py" $ARGUMENTS
 /amcos-reindex-skills orchestrator-master
 ```
 
-### Force full reindex and wait for completion
+### Force full reindex
 
 ```bash
-/amcos-reindex-skills orchestrator-master --force --wait
+/amcos-reindex-skills orchestrator-master --force
 ```
 
-### Trigger with custom timeout
+### Preview without sending
 
 ```bash
-/amcos-reindex-skills libs-svg-svgbbox --wait --timeout 600
+/amcos-reindex-skills libs-svg-svgbbox --dry-run
 ```
 
 ## Output Example
-
-### Without --wait
 
 ```
 ╔════════════════════════════════════════════════════════════════╗
@@ -82,28 +73,15 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_reindex_skills.py" $ARGUMENTS
 ║ Priority: high                                                 ║
 ╠════════════════════════════════════════════════════════════════╣
 ║ STATUS: Request sent via AI Maestro                            ║
-║ NOTE: Use --wait to monitor completion                         ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 
-### With --wait
+The command reports the SEND, not the reindex outcome — the target agent runs the reindex on
+its own schedule. To see the result, check the target agent's own PSS status.
 
 ```
 ╔════════════════════════════════════════════════════════════════╗
-║                    SKILL REINDEX COMPLETE                      ║
-╠════════════════════════════════════════════════════════════════╣
-║ Agent: orchestrator-master                                     ║
-║ Duration: 45.2 seconds                                         ║
-╠════════════════════════════════════════════════════════════════╣
-║ REINDEX RESULTS                                                ║
-╠════════════════════════════════════════════════════════════════╣
-║ Skills Indexed: 47                                             ║
-║ Skills Failed: 0                                               ║
-║ Index Size: 128 KB                                             ║
-║ Keywords Generated: 342                                        ║
-║ Co-usage Relationships: 156                                    ║
-╠════════════════════════════════════════════════════════════════╣
-║ INDEX LOCATION                                                 ║
+║ INDEX LOCATION (on the target agent)                           ║
 ║ ~/.claude/cache/pss/skills-index.json                          ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
@@ -142,8 +120,8 @@ The Perfect Skill Suggester uses a two-pass indexing process:
 
 ## Notes
 
-- Reindex is **non-blocking** by default - it sends the command and returns
-- Use `--wait` for synchronous operation (blocking until complete)
+- Reindex is **non-blocking** — the command sends the request and returns; there is no
+  synchronous/wait mode
 - The index is the **superset** of all skills; agent filters against its available skills
 - Regenerating index clears any cached skill suggestions
 

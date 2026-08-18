@@ -152,7 +152,7 @@
 - [ ] If any of the 5 base members is missing, the team is FROZEN (R31) — completing the base (below) is your FIRST action, under the MANAGER's mandate (R30)
 
 **Assign agents to team:**
-- [ ] For each agent: `uv run python scripts/amcos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
+- [ ] For each agent: `uv run python scripts/amcos_team_registry.py add-agent --team <team> --agent-name <agent-name> --role <role> --plugin <plugin> --host <host>`
 - [ ] Verify each agent added to registry
 
 **Notify team members:**
@@ -165,7 +165,6 @@
 **Finalize:**
 - [ ] Log team formation in lifecycle log
 - [ ] Update cross-project tracking
-- [ ] Publish team registry (if shared team)
 
 ---
 
@@ -178,10 +177,10 @@
 
 **Execute update:**
 - [ ] Run appropriate command:
-  - Add agent: `uv run python scripts/amcos_team_registry.py add-agent <project-dir> <agent-name> --role <role>`
-  - Remove agent: `uv run python scripts/amcos_team_registry.py remove-agent <project-dir> <agent-name>`
-  - Update status: `uv run python scripts/amcos_team_registry.py update-status <project-dir> <agent-name> <status>`
-- [ ] Verify registry updated correctly: `uv run python scripts/amcos_team_registry.py list <project-dir>`
+  - Add agent: `uv run python scripts/amcos_team_registry.py add-agent --team <team> --agent-name <agent-name> --role <role> --plugin <plugin> --host <host>`
+  - Remove agent: `uv run python scripts/amcos_team_registry.py remove-agent --team <team> --agent-name <agent-name>`
+  - Update status: `uv run python scripts/amcos_team_registry.py update-status --team <team> --agent-name <agent-name> --status <status>`
+- [ ] Verify registry updated correctly: `uv run python scripts/amcos_team_registry.py list --team <team>`
 
 **Notify affected agents:**
 - [ ] Notify agent of registry change

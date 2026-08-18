@@ -51,64 +51,49 @@ Determine which registry operation is needed:
 | New agent | `add-agent` |
 | Agent removed | `remove-agent` |
 | Status change | `update-status` |
-| Role change | `update-role` |
-| Log event | `log` |
+
+`amcos_team_registry.py` has no `update-role` and no `log` subcommand — a role
+change or event log is not tracked by this script; use `agent-messaging` to
+notify the team instead.
 
 ### Step 2: Execute Registry Update
 
 **Add new agent:**
 ```bash
 uv run python scripts/amcos_team_registry.py add-agent \
-  --name "<agent-session-name>" \
+  --team "<team>" \
+  --agent-name "<agent-session-name>" \
   --role "<role>" \
-  --project "<project>" \
-  --status "running"
+  --plugin "<plugin>" \
+  --host "$(hostname)"
 ```
 
 **Remove agent:**
 ```bash
 uv run python scripts/amcos_team_registry.py remove-agent \
-  --name "<agent-session-name>"
+  --team "<team>" \
+  --agent-name "<agent-session-name>"
 ```
 
 **Update status:**
 ```bash
 uv run python scripts/amcos_team_registry.py update-status \
-  --name "<agent-session-name>" \
-  --status "<running|hibernated|terminated>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
-
-**Log event:**
-```bash
-uv run python scripts/amcos_team_registry.py log \
-  --event "<event-type>" \
-  --agent "<agent-session-name>" \
-  --reason "<reason>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  --team "<team>" \
+  --agent-name "<agent-session-name>" \
+  --status "<running|hibernated|terminated>"
 ```
 
 ### Step 3: Verify Update
 
 ```bash
-# View updated registry
-uv run python scripts/amcos_team_registry.py list
-
-# Check specific agent
-uv run python scripts/amcos_team_registry.py list --filter-name "<agent-session-name>"
+# View the team's registry (list only supports --team, no per-agent filter)
+uv run python scripts/amcos_team_registry.py list --team "<team>"
 ```
 
 ### Step 4: Publish Update to Team (Optional)
 
-If teammates need to know about the change:
-
-```bash
-uv run python scripts/amcos_team_registry.py publish \
-  --broadcast-to "all" \
-  --message "Team registry updated: <description of change>"
-```
-
-This sends a `registry-update` message to all registered agents.
+`amcos_team_registry.py` has no `publish` subcommand — if teammates need to
+know about the change, notify them via the `agent-messaging` skill instead.
 
 ### Step 5: Verify Registry State (Recommended)
 
@@ -138,52 +123,42 @@ Copy this checklist and track your progress:
 
 ```bash
 SESSION_NAME="dev-api-charlie"
+TEAM_NAME="backend-api-team"
 
 # Add to registry
 uv run python scripts/amcos_team_registry.py add-agent \
-  --name "$SESSION_NAME" \
+  --team "$TEAM_NAME" \
+  --agent-name "$SESSION_NAME" \
   --role "developer" \
-  --project "backend-api" \
-  --status "running"
+  --plugin "ai-maestro-programmer-agent" \
+  --host "$(hostname)"
 
 # Verify
-uv run python scripts/amcos_team_registry.py list --filter-name "$SESSION_NAME"
-# Output: dev-api-charlie | running | developer | backend-api
+uv run python scripts/amcos_team_registry.py list --team "$TEAM_NAME"
+# Read dev-api-charlie's entry from the output
 
-# Log the addition
-uv run python scripts/amcos_team_registry.py log \
-  --event "spawn" \
-  --agent "$SESSION_NAME" \
-  --reason "New developer for API work" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
-# Notify team
-uv run python scripts/amcos_team_registry.py publish \
-  --broadcast-to "all" \
-  --message "New team member: $SESSION_NAME (developer on backend-api)"
+# Log the addition / notify team — no log or publish subcommand exists;
+# use the agent-messaging skill instead: "New team member: $SESSION_NAME (developer on backend-api)"
 ```
 
 ### Example: Status Change After Hibernation
 
 ```bash
 SESSION_NAME="dev-frontend-bob"
+TEAM_NAME="webapp-team"
 
 # Update status
 uv run python scripts/amcos_team_registry.py update-status \
-  --name "$SESSION_NAME" \
-  --status "hibernated" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  --team "$TEAM_NAME" \
+  --agent-name "$SESSION_NAME" \
+  --status "hibernated"
 
-# Log hibernation
-uv run python scripts/amcos_team_registry.py log \
-  --event "hibernation" \
-  --agent "$SESSION_NAME" \
-  --reason "Idle timeout exceeded (30 min)" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+# Log hibernation — no log subcommand exists; use agent-messaging instead:
+# "Idle timeout exceeded (30 min)"
 
 # Verify
-uv run python scripts/amcos_team_registry.py list --filter-name "$SESSION_NAME"
-# Output: dev-frontend-bob | hibernated | developer | webapp
+uv run python scripts/amcos_team_registry.py list --team "$TEAM_NAME"
+# Read dev-frontend-bob's entry from the output
 ```
 
 ## Error Handling

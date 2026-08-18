@@ -533,7 +533,7 @@ For detailed procedures, see skills:
 ```bash
 uv run python scripts/amcos_team_registry.py <command> [args]
 ```
-Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
+Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `kanban-velocity`
 
 **Agent Creation:**
 

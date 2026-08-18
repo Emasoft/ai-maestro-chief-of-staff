@@ -1,7 +1,7 @@
 ---
 name: amcos-resource-report
 description: "Generate system resource report with CPU, memory, disk, and active agents"
-argument-hint: "[--format text|json] [--include-history]"
+argument-hint: "[--check-spawn | --status] [--compact]"
 user-invocable: true
 allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_monitor.py:*)"]
 ---
@@ -18,37 +18,30 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_monitor.py" $ARGUMENTS
 
 ## What This Command Does
 
-1. **Collects System Metrics**
-   - CPU usage (per-core and aggregate)
-   - Memory usage (used, available, cached)
-   - Disk usage for key directories
-   - System load averages
+1. **Collects System Metrics** (point-in-time; no history/trends)
+   - CPU usage and availability
+   - Memory (total, available, used percent)
+   - Disk (available, used percent)
 
-2. **Queries Active Agents**
-   - Lists all registered agents in AI Maestro
-   - Shows agent status (active, idle, offline)
-   - Reports agent resource consumption if available
-   - Counts pending messages per agent
+2. **Counts Claude Processes**
+   - Running `claude` process count and PIDs, checked against a max-processes threshold
 
-3. **Analyzes Resource Trends** (with `--include-history`)
-   - CPU trend over last hour
-   - Memory trend over last hour
-   - Disk growth rate
+3. **Checks Spawn Capacity** (`--check-spawn`, or the `can_spawn` field of `--status`)
+   - Whether a new agent can be spawned given the configured thresholds
 
-4. **Generates Resource Warnings**
-   - High CPU usage alerts (>80%)
-   - Low memory warnings (<20% available)
-   - Low disk space alerts (<10% free)
-   - Agent overload warnings
+4. **Generates Resource Warnings and Recommendations**
+   - Threshold breaches (CPU, memory, disk, process count) with a remediation hint each
 
 ## Arguments
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `--format` | No | Output format: `text` (default) or `json` |
-| `--include-history` | No | Include historical trends (last hour) |
-| `--verbose` | No | Show detailed per-process information |
-| `--watch SECONDS` | No | Continuously update every N seconds |
+| `--check-spawn` | No (excludes `--status`) | Focused output: can a new agent be spawned? |
+| `--status` | No (excludes `--check-spawn`) | Full resource status (the default with no flags) |
+| `--compact` | No | Compact JSON (no indentation) |
+
+Output is always JSON; there is no text mode, no history, and no watch loop. For continuous
+monitoring, wrap the command in a shell loop or a Monitor.
 
 ## Examples
 
@@ -58,22 +51,16 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_monitor.py" $ARGUMENTS
 /amcos-resource-report
 ```
 
-### Get JSON output for automation
+### Focused spawn-capacity check
 
 ```bash
-/amcos-resource-report --format json
+/amcos-resource-report --check-spawn
 ```
 
-### Include historical trends
+### Compact JSON for piping
 
 ```bash
-/amcos-resource-report --include-history
-```
-
-### Watch mode (update every 5 seconds)
-
-```bash
-/amcos-resource-report --watch 5
+/amcos-resource-report --status --compact
 ```
 
 ## Output Example
@@ -180,8 +167,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_resource_monitor.py" $ARGUMENTS
 
 - CPU usage is averaged over a 1-second sampling period
 - Memory figures exclude OS-reserved memory
-- Agent status is based on last heartbeat from AI Maestro
-- Use `--watch` mode for continuous monitoring
+- For continuous monitoring, wrap the command in a shell loop (there is no built-in watch mode)
 
 ## Related Commands
 

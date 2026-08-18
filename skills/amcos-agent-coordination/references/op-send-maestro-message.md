@@ -135,9 +135,11 @@ Use the `agent-messaging` skill to send a hibernation warning:
 
 To broadcast to all running agents:
 
-1. Get all running agent names from the team registry:
+1. Get all running agent names from the team registry (`list` only supports
+   `--team`, no `--filter-status`/`--names-only`; its output is a plain-text
+   table — filter it yourself):
    ```bash
-   AGENTS=$(uv run python scripts/amcos_team_registry.py list --filter-status running --names-only)
+   AGENTS=$(uv run python scripts/amcos_team_registry.py list --team "<team>" | awk '$NF=="running"{print $1}')
    ```
 2. For each agent, use the `agent-messaging` skill to send a team notification:
    - **Recipient**: the agent session name

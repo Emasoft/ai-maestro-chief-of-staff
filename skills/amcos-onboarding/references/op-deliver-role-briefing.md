@@ -88,18 +88,10 @@ Use the `agent-messaging` skill to send:
 
 ### Step 6: Log Role Assignment
 
-```bash
-uv run python scripts/amcos_team_registry.py update-role \
-  --name "<agent-session-name>" \
-  --role "<role-name>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
-uv run python scripts/amcos_team_registry.py log \
-  --event "role-briefing" \
-  --agent "<agent-session-name>" \
-  --reason "Assigned as <role> on <project>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
+`amcos_team_registry.py` has no `update-role` or `log` subcommand — the role
+is set once at `add-agent` time (`--role`). Note the briefing event in the
+team's coordination channel (`agent-messaging`) instead:
+"Assigned as <role> on <project>."
 
 ## Checklist
 

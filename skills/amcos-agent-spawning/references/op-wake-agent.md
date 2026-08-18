@@ -49,10 +49,11 @@ version: 1.0.0
 
 Check the agent's status in the team registry:
 
+`list` only supports `--team` (no `--filter-name`/`--show-status`) — list the
+team and read the agent's status from the output:
+
 ```bash
-uv run python scripts/amcos_team_registry.py list \
-  --filter-name "<agent-session-name>" \
-  --show-status
+uv run python scripts/amcos_team_registry.py list --team "<team>"
 ```
 
 Expected: status = "hibernated"
@@ -61,8 +62,11 @@ Verify the state file exists at `~/.ai-maestro/agent-states/<agent-session-name>
 
 ### Step 2: Check Resource Availability
 
+`list` has no `--filter-status`/`--count` — list the team and count "running"
+entries yourself:
+
 ```bash
-RUNNING_COUNT=$(uv run python scripts/amcos_team_registry.py list --filter-status running --count)
+RUNNING_COUNT=$(uv run python scripts/amcos_team_registry.py list --team "<team>" | awk '$NF=="running"' | wc -l)
 MAX_AGENTS=5
 
 if [ "$RUNNING_COUNT" -ge "$MAX_AGENTS" ]; then
@@ -105,20 +109,15 @@ If the agent needs context restoration, use the `agent-messaging` skill to send 
 
 ```bash
 uv run python scripts/amcos_team_registry.py update-status \
-  --name "<agent-session-name>" \
-  --status "running" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  --team "<team>" \
+  --agent-name "<agent-session-name>" \
+  --status "running"
 ```
 
 ### Step 7: Log Wake Event
 
-```bash
-uv run python scripts/amcos_team_registry.py log \
-  --event "wake" \
-  --agent "<agent-session-name>" \
-  --reason "<wake reason>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
+`amcos_team_registry.py` has no `log` subcommand — note the wake event in the
+team's coordination channel (`agent-messaging`) instead.
 
 ## Checklist
 
@@ -143,12 +142,12 @@ For agent `dev-frontend-bob`:
 
 1. Verify hibernated status:
    ```bash
-   uv run python scripts/amcos_team_registry.py list --filter-name "dev-frontend-bob" --show-status
-   # Output: dev-frontend-bob | hibernated | frontend | webapp
+   uv run python scripts/amcos_team_registry.py list --team "<team>"
+   # Read status for dev-frontend-bob from the output
    ```
 2. Check capacity:
    ```bash
-   RUNNING=$(uv run python scripts/amcos_team_registry.py list --filter-status running --count)
+   RUNNING=$(uv run python scripts/amcos_team_registry.py list --team "<team>" | awk '$NF=="running"' | wc -l)
    echo "Currently running: $RUNNING / 5"
    ```
 3. Use the `ai-maestro-agents-management` skill to wake agent `dev-frontend-bob`
@@ -161,18 +160,12 @@ For agent `dev-frontend-bob`:
 6. Update registry:
    ```bash
    uv run python scripts/amcos_team_registry.py update-status \
-     --name "dev-frontend-bob" \
-     --status "running" \
-     --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+     --team "<team>" \
+     --agent-name "dev-frontend-bob" \
+     --status "running"
    ```
-7. Log the event:
-   ```bash
-   uv run python scripts/amcos_team_registry.py log \
-     --event "wake" \
-     --agent "dev-frontend-bob" \
-     --reason "Morning work session start" \
-     --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-   ```
+7. Log the event (no `log` subcommand exists — send a team notification via
+   `agent-messaging` instead): "Morning work session start."
 
 ## Error Handling
 

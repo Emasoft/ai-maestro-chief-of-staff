@@ -86,20 +86,15 @@ This suspends the tmux session while preserving state.
 
 ```bash
 uv run python scripts/amcos_team_registry.py update-status \
-  --name "<agent-session-name>" \
-  --status "hibernated" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  --team "<team>" \
+  --agent-name "<agent-session-name>" \
+  --status "hibernated"
 ```
 
 ### Step 6: Log Hibernation Event
 
-```bash
-uv run python scripts/amcos_team_registry.py log \
-  --event "hibernation" \
-  --agent "<agent-session-name>" \
-  --reason "<hibernation reason>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
+`amcos_team_registry.py` has no `log` subcommand — note the hibernation event in
+the team's coordination channel (`agent-messaging`) instead.
 
 ## Checklist
 
@@ -137,18 +132,12 @@ For agent `dev-frontend-bob`:
 6. Update registry:
    ```bash
    uv run python scripts/amcos_team_registry.py update-status \
-     --name "dev-frontend-bob" \
-     --status "hibernated" \
-     --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+     --team "<team>" \
+     --agent-name "dev-frontend-bob" \
+     --status "hibernated"
    ```
-7. Log the event:
-   ```bash
-   uv run python scripts/amcos_team_registry.py log \
-     --event "hibernation" \
-     --agent "dev-frontend-bob" \
-     --reason "End of day - scheduled hibernation" \
-     --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-   ```
+7. Log the event (no `log` subcommand exists — send a team notification via
+   `agent-messaging` instead): "End of day - scheduled hibernation."
 
 ## Error Handling
 

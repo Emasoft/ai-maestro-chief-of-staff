@@ -77,7 +77,7 @@ Always attempt graceful first.
 # 1. Send status request via agent-messaging
 # 2. After confirmation, terminate via ai-maestro-agents-management skill
 # 3. Update registry
-uv run python scripts/amcos_team_registry.py remove-agent --name ampa-svgbbox-impl
+uv run python scripts/amcos_team_registry.py remove-agent --team svgbbox-team --agent-name ampa-svgbbox-impl
 # 4. Verify
 tmux has-session -t ampa-svgbbox-impl 2>/dev/null && echo "RUNNING" || echo "TERMINATED"
 ```
@@ -87,7 +87,7 @@ tmux has-session -t ampa-svgbbox-impl 2>/dev/null && echo "RUNNING" || echo "TER
 ```bash
 # After 5 min no response:
 tmux kill-session -t ampa-stuck-agent
-uv run python scripts/amcos_team_registry.py remove-agent --name ampa-stuck-agent
+uv run python scripts/amcos_team_registry.py remove-agent --team svgbbox-team --agent-name ampa-stuck-agent
 ```
 
 ## Checklist

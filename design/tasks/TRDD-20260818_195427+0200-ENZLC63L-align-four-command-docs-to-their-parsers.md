@@ -1,9 +1,9 @@
 ---
 trdd-id: ENZLC63L
 title: Align four command docs to the flags their scripts actually parse
-column: todo
+column: ai_review
 created: 2026-08-18T19:54:27+0200
-updated: 2026-08-18T19:54:27+0200
+updated: 2026-08-18T20:39:01+0200
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs

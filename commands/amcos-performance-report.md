@@ -1,7 +1,7 @@
 ---
 name: amcos-performance-report
 description: "Generate agent performance report with metrics, strengths, and improvement areas"
-argument-hint: "[--agent SESSION_NAME] [--period DAYS] [--project PROJECT_ID]"
+argument-hint: "(--agent SESSION_NAME | --project PROJECT_ID | --all) [--period DAYS] [--compact]"
 user-invocable: true
 allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_performance_report.py:*)"]
 ---
@@ -44,19 +44,22 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_performance_report.py" $ARGUMENTS
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `--agent SESSION_NAME` | No | Specific agent (default: all agents) |
+| `--agent SESSION_NAME` | One of the three | Report on a specific agent |
+| `--project PROJECT_ID` | One of the three | Report on a project |
+| `--all` | One of the three | Report on all agents |
 | `--period DAYS` | No | Analysis period in days (default: 7) |
-| `--project PROJECT_ID` | No | Filter by GitHub project ID |
-| `--format text|json|csv` | No | Output format (default: text) |
-| `--compare` | No | Include comparison to previous period |
-| `--detailed` | No | Include per-task breakdown |
+| `--project-dir PATH` | No | Project directory to search for state files |
+| `--compact` | No | Compact JSON (no indentation) |
+
+`--agent`, `--project`, and `--all` are a required mutually-exclusive group — a bare invocation
+is rejected. Output is always JSON; there is no text/csv mode.
 
 ## Examples
 
 ### Report for all agents (last 7 days)
 
 ```bash
-/amcos-performance-report
+/amcos-performance-report --all
 ```
 
 ### Report for specific agent
@@ -65,10 +68,10 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_performance_report.py" $ARGUMENTS
 /amcos-performance-report --agent libs-svg-svgbbox
 ```
 
-### Last 30 days with comparison
+### Last 30 days, all agents
 
 ```bash
-/amcos-performance-report --period 30 --compare
+/amcos-performance-report --all --period 30
 ```
 
 ### Filter by project
@@ -77,10 +80,10 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_performance_report.py" $ARGUMENTS
 /amcos-performance-report --project PVT_kwDOABC123 --period 14
 ```
 
-### Detailed CSV export
+### Compact JSON for piping
 
 ```bash
-/amcos-performance-report --format csv --detailed
+/amcos-performance-report --all --compact
 ```
 
 ## Output Example
@@ -182,8 +185,7 @@ Performance data is collected from:
 
 - Performance data is refreshed every 15 minutes
 - Historical data is retained for 90 days by default
-- Comparisons show percentage change from previous period
-- Use `--detailed` for per-task debugging but expect longer output
+- Output is JSON; pipe through `jq` (or `distill`) for filtered views
 
 ## Related Commands
 

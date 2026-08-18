@@ -82,15 +82,8 @@ Then use the `agent-messaging` skill to send a confirmation request:
 
 #### Step 5: Update Registry Status
 
-Update the team registry log with the restart event:
-
-```bash
-uv run python scripts/amcos_team_registry.py log \
-  --event "restart" \
-  --agent "<agent-session-name>" \
-  --reason "Plugin changes applied" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
+`amcos_team_registry.py` has no `log` subcommand — note the restart event in
+the team's coordination channel (`agent-messaging`) instead: "Plugin changes applied."
 
 ## Checklist
 

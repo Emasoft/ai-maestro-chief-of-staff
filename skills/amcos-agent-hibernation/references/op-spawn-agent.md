@@ -93,10 +93,11 @@ Use the `ai-maestro-agents-management` skill to check the agent's status. Expect
 
 ```bash
 uv run python scripts/amcos_team_registry.py add-agent \
-  --name "<session-name>" \
+  --team "<team>" \
+  --agent-name "<session-name>" \
   --role "<role>" \
-  --project "<project>" \
-  --status "running"
+  --plugin "<plugin>" \
+  --host "$(hostname)"
 ```
 
 ### Step 6: Send Welcome Message
@@ -138,10 +139,11 @@ Copy this checklist and track your progress:
 5. Register in team registry:
    ```bash
    uv run python scripts/amcos_team_registry.py add-agent \
-     --name "amoa-svgbbox-orchestrator" \
+     --team "svgbbox-team" \
+     --agent-name "amoa-svgbbox-orchestrator" \
      --role "orchestrator" \
-     --project "svgbbox" \
-     --status "running"
+     --plugin "ai-maestro-orchestrator-agent" \
+     --host "$(hostname)"
    ```
 
 ### Example: Creating a Programmer for svgbbox Project
@@ -157,10 +159,11 @@ Copy this checklist and track your progress:
 5. Register in team registry:
    ```bash
    uv run python scripts/amcos_team_registry.py add-agent \
-     --name "svgbbox-programmer-001" \
+     --team "svgbbox-team" \
+     --agent-name "svgbbox-programmer-001" \
      --role "programmer" \
-     --project "svgbbox" \
-     --status "running"
+     --plugin "ai-maestro-programmer-agent" \
+     --host "$(hostname)"
    ```
 
 ## Error Handling

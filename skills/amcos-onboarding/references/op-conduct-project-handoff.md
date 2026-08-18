@@ -103,13 +103,9 @@ Use the `agent-messaging` skill to send:
 
 ### Step 6: Log Handoff
 
-```bash
-uv run python scripts/amcos_team_registry.py log \
-  --event "project-handoff" \
-  --agent "<agent-session-name>" \
-  --reason "Handoff for <project> - <role>" \
-  --timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-```
+`amcos_team_registry.py` has no `log` subcommand — note the handoff event in
+the team's coordination channel (`agent-messaging`) instead:
+"Handoff for <project> - <role>."
 
 ## Checklist
 

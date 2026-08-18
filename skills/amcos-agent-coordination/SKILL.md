@@ -33,9 +33,9 @@ Manages team registry, messaging, role boundaries, and delegation.
 
 ### Team Registry
 
-Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `publish`
+Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `kanban-velocity`
 
-**Steps:** Identify type -> Execute -> Verify via `list` -> Optionally publish -> Backup
+**Steps:** Identify type -> Execute -> Verify via `list`
 
 ### Inter-Agent Messaging
 
@@ -89,7 +89,7 @@ Registry update -> state reflected. Message -> delivery confirmed. Role assignme
 
 ```bash
 uv run python scripts/amcos_team_registry.py add-agent \
-  --team svgbbox-team --name ampa-svgbbox-impl --role programmer --status running
+  --team svgbbox-team --agent-name ampa-svgbbox-impl --role programmer --plugin ai-maestro-programmer-agent --host "$(hostname)"
 uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 ```
 

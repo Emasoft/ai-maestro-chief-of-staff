@@ -1,7 +1,7 @@
 ---
 name: amcos-configure-plugins
 description: "Configure plugins for an agent's project by adding, removing, or managing plugin scope"
-argument-hint: "<SESSION_NAME> --add PLUGIN [--remove PLUGIN] [--scope local|project]"
+argument-hint: "<SESSION_NAME> (--add PLUGIN | --remove PLUGIN | --list) [--scope local|project|user]"
 user-invocable: true
 allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py:*)"]
 ---
@@ -26,7 +26,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 2. **Manages Plugin Installation**
    - Adds plugins via the core ai-maestro-plugin skills (server-mediated install + CPV security scan — R27.2/R27.3; never the Claude CLI directly)
    - Removes plugins via the same core skills (not the Claude CLI)
-   - Enables/disables plugins as needed
+   - One action per invocation: `--add`, `--remove`, and `--list` are mutually exclusive
 
 3. **Configures Plugin Scope**
    - `local`: Plugin active only for this agent (stored in .claude/settings.local.json)
@@ -35,19 +35,20 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 4. **Reports Configuration Status**
    - Lists currently installed plugins
    - Shows plugin versions and scopes
-   - Indicates which plugins are enabled/disabled
 
 ## Arguments
 
 | Argument | Required | Description |
 |----------|----------|-------------|
 | `SESSION_NAME` | Yes | Target agent session name (e.g., `libs-svg-svgbbox`) |
-| `--add PLUGIN` | No | Plugin name or path to add (can be repeated) |
-| `--remove PLUGIN` | No | Plugin name to remove (can be repeated) |
-| `--scope` | No | Installation scope: `local` (default) or `project` |
-| `--list` | No | List currently installed plugins without making changes |
-| `--enable PLUGIN` | No | Enable a disabled plugin |
-| `--disable PLUGIN` | No | Disable a plugin without uninstalling |
+| `--add PLUGIN` | One of the three | Plugin name or path to add (one per invocation) |
+| `--remove PLUGIN` | One of the three | Plugin name to remove (one per invocation) |
+| `--list` | One of the three | List currently installed plugins without making changes |
+| `--scope` | No | Installation scope: `local` (default), `project`, or `user` |
+
+`--add`, `--remove`, and `--list` are a required mutually-exclusive group: exactly one action
+per invocation. To add or remove several plugins, run the command once per plugin. There is no
+enable/disable — a plugin is either installed at a scope or removed.
 
 ## Examples
 
@@ -75,10 +76,11 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/amcos_configure_plugins.py" $ARGUMENTS
 /amcos-configure-plugins libs-svg-svgbbox --list
 ```
 
-### Add and remove in one command
+### Replace a plugin (two invocations — one action per run)
 
 ```bash
-/amcos-configure-plugins helper-agent-generic --add new-plugin --remove deprecated-plugin
+/amcos-configure-plugins helper-agent-generic --remove deprecated-plugin
+/amcos-configure-plugins helper-agent-generic --add new-plugin
 ```
 
 ## Output Example
