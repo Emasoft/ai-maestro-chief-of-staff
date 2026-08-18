@@ -5,13 +5,14 @@ column: todo
 created: 2026-08-18T20:07:39+0200
 updated: 2026-08-18T23:47:30+0200
 current-owner: ai-maestro-chief-of-staff
+created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
 scope: project
 project-id: ai-maestro-chief-of-staff
 mandate: true
 mandated-by: manager
-min-approval-requirement: 0
+min-approval-requirement: none
 npt: []
 eht: []
 blocked-by: []

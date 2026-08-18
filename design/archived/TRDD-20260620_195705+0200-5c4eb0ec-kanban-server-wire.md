@@ -1,5 +1,5 @@
 ---
-trdd-id: 5c4eb0ec-7ded-4492-954f-efd586e0dca5
+trdd-id: 5C4EB0EC
 title: Ensure the 14-stage kanban columns at COS team creation + amp-kanban-list velocity (COS#11 #26 server-half)
 column: published
 created: 2026-06-20T19:57:05+0200

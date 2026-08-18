@@ -1,5 +1,5 @@
 ---
-trdd-id: 0263f190-6a45-4a0e-9da5-f188403af0f5
+trdd-id: 0263F190
 title: Remove the vendored local validator suite — remote CPV is the only validator
 column: published
 created: 2026-06-11T21:23:50+0200

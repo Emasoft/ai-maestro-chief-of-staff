@@ -1,5 +1,5 @@
 ---
-trdd-id: 59581001-4f47-470e-9f16-746ce5194962
+trdd-id: 59581001
 title: Adopt the janitor-hosted global 3-scope memory system; remove per-plugin memory skills
 column: published
 created: 2026-06-14T01:39:17+0200

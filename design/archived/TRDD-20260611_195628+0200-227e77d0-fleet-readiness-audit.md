@@ -1,5 +1,5 @@
 ---
-trdd-id: 227e77d0-a2d1-47cb-96c5-f263a52819cd
+trdd-id: 227E77D0
 title: Fleet-readiness deep audit — close governance gaps before fleet start (issue #17)
 column: published
 created: 2026-06-11T19:56:28+0200

@@ -12,7 +12,7 @@ scope: project
 project-id: ai-maestro-chief-of-staff
 mandate: true
 mandated-by: user
-min-approval-requirement: 0
+min-approval-requirement: none
 created-by: DAESKVN9
 npt: []
 eht: []

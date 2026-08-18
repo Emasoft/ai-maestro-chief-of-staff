@@ -6,10 +6,12 @@ pre-block-column: todo
 created: 2026-08-15T00:34:08+0200
 updated: 2026-08-15T00:34:08+0200
 current-owner: cos-plugin-dev-session
+created-by: ai-maestro-chief-of-staff
+assignee: ai-maestro-chief-of-staff
 task-type: infra
+min-approval-requirement: none
 blocked-by: [ai-maestro#145]
 external-refs: [ai-maestro#145]
-approval-tier: 0
 ---
 
 # Adopt RP-CITATION-01 rule-citation guard once the hub ratifies it

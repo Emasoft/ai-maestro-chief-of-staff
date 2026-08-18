@@ -5,13 +5,14 @@ column: testing
 created: 2026-08-08T10:43:34+0200
 updated: 2026-08-14T08:59:04+0200
 current-owner: ai-maestro-chief-of-staff
+created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: feature
 scope: project
 project-id: ai-maestro-chief-of-staff
 mandate: true
-mandated-by: self
-min-approval-requirement: 0
+mandated-by: chief-of-staff
+min-approval-requirement: none
 relevant-rules: [1]
 external-refs: [ai-maestro#133, ai-maestro#76]
 implementation-commits: [5b5718a]

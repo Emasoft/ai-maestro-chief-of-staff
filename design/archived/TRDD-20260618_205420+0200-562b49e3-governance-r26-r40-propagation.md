@@ -1,5 +1,5 @@
 ---
-trdd-id: 562b49e3-0569-4b6c-9565-f4a085940601
+trdd-id: 562B49E3
 title: Propagate governance R26-R40 into the COS persona, skills, docs + governance SCEN
 column: published
 created: 2026-06-18T20:54:20+0200

@@ -10,7 +10,7 @@ scope: project
 project-id: ai-maestro-chief-of-staff
 mandate: true
 mandated-by: ai-maestro-hub-work-order
-min-approval-requirement: 0
+min-approval-requirement: none
 external-refs: [ai-maestro#136]
 ---
 

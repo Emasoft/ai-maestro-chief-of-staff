@@ -1,5 +1,5 @@
 ---
-trdd-id: 8e8d6618-ecd0-4b53-a733-829c4c7dfe20
+trdd-id: 8E8D6618
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
 column: blocked
 pre-block-column: dev
@@ -7,6 +7,7 @@ blocked-by: [ai-maestro#76]
 created: 2026-06-15T22:18:37+0200
 updated: 2026-08-11T19:54:10+0200
 current-owner: cos-ai-maestro-chief-of-staff
+created-by: ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 priority: 1
 severity: HIGH
@@ -21,7 +22,7 @@ target-branch: main
 publish-target: ai-maestro-plugins
 test-requirements: [unit, lint]
 impacts: [public-api]
-external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "github.com/Emasoft/ai-maestro-assistant-manager-agent/issues/16"]
+external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "github.com/Emasoft/ai-maestro-assistant-manager-agent/issues/16", ai-maestro#76]
 ---
 
 # TRDD-8e8d6618 — Remove direct /api/* calls from COS scripts (#20)

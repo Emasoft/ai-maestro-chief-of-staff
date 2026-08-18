@@ -7,11 +7,12 @@ project-id: ai-maestro-chief-of-staff
 created: 2026-08-16T16:59:25+0200
 updated: 2026-08-16T16:59:25+0200
 current-owner: ai-maestro-chief-of-staff
+created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: audit
 mandate: true
 mandated-by: user
-min-approval-requirement: 0
+min-approval-requirement: none
 relevant-rules: [1]
 release-via: none
 npt: []

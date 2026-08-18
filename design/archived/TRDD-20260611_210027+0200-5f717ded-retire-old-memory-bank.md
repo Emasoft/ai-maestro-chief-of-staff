@@ -1,5 +1,5 @@
 ---
-trdd-id: 5f717ded-e4ec-4a60-a7f7-b5d3f2627906
+trdd-id: 5F717DED
 title: Retire the old session memory bank per the ratified fleet three-scope convention
 column: published
 created: 2026-06-11T21:00:27+0200

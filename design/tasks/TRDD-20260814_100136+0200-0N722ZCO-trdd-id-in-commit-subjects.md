@@ -5,6 +5,7 @@ column: backburner
 created: 2026-08-14T10:01:36+0200
 updated: 2026-08-14T10:01:36+0200
 current-owner: ai-maestro-chief-of-staff
+created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: infra
 scope: project

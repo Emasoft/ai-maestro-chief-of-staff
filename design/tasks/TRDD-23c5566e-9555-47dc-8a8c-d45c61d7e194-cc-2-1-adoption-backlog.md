@@ -1,10 +1,11 @@
 ---
-trdd-id: 23c5566e-9555-47dc-8a8c-d45c61d7e194
+trdd-id: 23C5566E
 title: Claude Code v2.1 (.101 to .143) Adoption Backlog
 column: backburner
 created: 2026-05-16T00:00:00+0200
 updated: 2026-07-16T19:52:43+0200
 current-owner: cos-ai-maestro-chief-of-staff
+created-by: ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
 task-type: feature
 release-via: publish

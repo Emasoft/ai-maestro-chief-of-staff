@@ -34,14 +34,19 @@ TERMINAL = {"complete", "published", "live"}
 
 # id8 -> why it is here. MAY ONLY SHRINK (see test_debt_list_may_only_shrink).
 KNOWN_UNGATED: dict[str, str] = {
-    "227e77d0": "published 2026-08-11, no checklist",
-    "5f717ded": "published 2026-08-11, no checklist",
-    "0263f190": "published 2026-08-11, no checklist",
-    "59581001": "published 2026-08-11, no checklist",
-    "e3156858": "published 2026-08-11, no checklist",
-    "562b49e3": "published 2026-08-11, 5 boxes ALL unchecked — incl. one reading 'Published (v2.19.0)'; the work shipped, the boxes were never ticked",
-    "b0048a21": "published 2026-08-11, no checklist",
-    "5c4eb0ec": "published 2026-08-11, no checklist",
+    # Ids uppercase since `trddgrep fix` normalized trdd-id: to 8-char UPPERCASE base36
+    # (2026-08-19, mechanical, updated: untouched). Dates below are the ARCHIVAL date the
+    # original card used; the true transitions are June 2026 — pre-boundary, frozen
+    # (Q7BZ8N3M disposition, f15f1df). These are NOT repairable debt, they are the
+    # guard's map of why the eight are exempt.
+    "227E77D0": "published (frozen pre-boundary), no checklist",
+    "5F717DED": "published (frozen pre-boundary), no checklist",
+    "0263F190": "published (frozen pre-boundary), no checklist",
+    "59581001": "published (frozen pre-boundary), no checklist",
+    "E3156858": "published (frozen pre-boundary), no checklist",
+    "562B49E3": "published (frozen pre-boundary), 5 boxes ALL unchecked; the work shipped (v2.19.0 tag exists), the boxes were never ticked",
+    "B0048A21": "published (frozen pre-boundary), no checklist",
+    "5C4EB0EC": "published (frozen pre-boundary), no checklist",
 }
 
 # The measured size of the debt on 2026-08-12. The list may only SHRINK, so this
