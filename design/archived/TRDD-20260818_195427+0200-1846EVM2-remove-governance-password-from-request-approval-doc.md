@@ -1,9 +1,10 @@
 ---
 trdd-id: 1846EVM2
 title: Remove the agent-held governance password from the amcos-request-approval command doc
-column: ai_review
+column: complete
 created: 2026-08-18T19:54:27+0200
-updated: 2026-08-18T20:00:30+0200
+updated: 2026-08-18T20:03:49+0200
+implementation-commits: [e3a3518]
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: security
@@ -53,3 +54,10 @@ and the payload field, not just the example.
       `test_no_agent_held_password_anywhere_in_agent_facing_docs`, because the existing R32 guard
       scanned only one skill directory and could never have seen this defect in commands/ — the
       guard's scope was narrower than its invariant, which is how the defect survived).
+
+## Approval log
+
+- 2026-08-18T20:03:49+0200 — COMPLETED. Flow: todo → dev (19:57) → testing (suite 341 green,
+  ruff clean) → ai_review (llm-ext 3-model ensemble, all three APPROVE — report
+  `reports/llm-externalizer/20260818_200331+0200-code_task-p1.diff-0bd7b3.md`) → complete.
+  Implementation commit e3a3518. human_review OUT per TRDD-BRRJK57P (hub holds that column).
