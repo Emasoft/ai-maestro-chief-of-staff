@@ -1,9 +1,10 @@
 ---
 trdd-id: MJ6X0LN0
 title: Align every documented amcos_team_registry.py invocation to its real argparse surface
-column: ai_review
+column: complete
 created: 2026-08-18T19:54:27+0200
-updated: 2026-08-18T20:39:01+0200
+updated: 2026-08-18T23:46:35+0200
+implementation-commits: [b261e74]
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
@@ -51,10 +52,20 @@ TRDD-8e8d6618 / #76's territory).
 
 ## Acceptance criteria
 
-- [ ] Every doc invocation above, run verbatim, reaches the script body (argparse accepts it) —
-      proven by running each with `--help`-level dry semantics or against the parser error output.
-- [ ] `grep -rn "team_registry.py" skills/ agents/ commands/` shows no remaining `--name ` or
-      `--status` on add-agent, no `publish` subcommand claim.
-- [ ] The persona's subcommand list (:536) matches `add_parser` calls exactly, incl.
-      `kanban-velocity`.
-- [ ] Suite green, ruff clean.
+- [x] Every doc invocation reaches the script body — worker verified parser acceptance; my
+      independent grep of team-registry blocks for `--name`/`--project`/`--timestamp` returned 0.
+- [x] No remaining `--name`/`--status`-on-add-agent, no `publish` claim — verified by grep after
+      the worker returned (decide-on-facts: not taken from its report).
+- [x] Persona :536 now lists exactly create, add-agent, remove-agent, update-status, list,
+      kanban-velocity — read verbatim.
+- [x] Suite green (341), ruff clean.
+
+## Approval log
+
+- 2026-08-18T23:46:35+0200 — COMPLETED. Flow: todo → dev (lean-worker, 131 invocation sites
+  across 30 files; scope was 5x the audit's headline estimate once the duplicated op-*.md
+  reference sets were counted) → testing (grep + parser acceptance + suite 341) → ai_review
+  (llm-ext 3-model ensemble on the skills/agents diff: 3/3 APPROVE, per-file; report
+  reports/llm-externalizer/20260818_234623+0200-code_task-mj6x.diff-01548d.md) → complete.
+  Implementation commit b261e74. Worker report:
+  reports/plugin-self-audit/20260818_200736+0200-MJ6X0LN0-fix-report.md.
