@@ -3,7 +3,7 @@ trdd-id: 3A0PSVPV
 title: Adopt R41 approval-vs-mandate + PRRD golden-silver citations and re-check G1.1 templates + memory contract
 column: todo
 created: 2026-08-18T20:07:39+0200
-updated: 2026-08-18T20:07:39+0200
+updated: 2026-08-18T23:47:30+0200
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
@@ -14,8 +14,7 @@ mandated-by: manager
 min-approval-requirement: 0
 npt: []
 eht: []
-blocked-by: [MJ6X0LN0]
-pre-block-column: todo
+blocked-by: []
 release-via: publish
 external-refs: [ai-maestro-chief-of-staff#30, ai-maestro TRDD-BRRJK57P]
 priority: 7
