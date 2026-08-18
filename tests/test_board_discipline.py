@@ -42,14 +42,13 @@ KNOWN_UNGATED: dict[str, str] = {
     "562b49e3": "published 2026-08-11, 5 boxes ALL unchecked — incl. one reading 'Published (v2.19.0)'; the work shipped, the boxes were never ticked",
     "b0048a21": "published 2026-08-11, no checklist",
     "5c4eb0ec": "published 2026-08-11, no checklist",
-    "4FH9JP4U": "complete 2026-08-11, no checklist",
 }
 
 # The measured size of the debt on 2026-08-12. The list may only SHRINK, so this
 # number is a ratchet: adding a tenth entry requires editing this line, which is a
 # visible, deliberate act in a diff. Without it, the escape hatch is to add a new
 # violation and its exemption in the same commit and stay green.
-_DEBT_CEILING = 9
+_DEBT_CEILING = 8
 
 _BOX = re.compile(r"^[ \t]*- \[([ xX])\]", re.MULTILINE)
 

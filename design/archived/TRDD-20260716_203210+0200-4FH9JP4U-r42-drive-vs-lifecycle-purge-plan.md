@@ -1,9 +1,9 @@
 ---
 trdd-id: 4FH9JP4U
 title: R42 drive-vs-lifecycle audit — categorized purge plan (execution-gated on R42 text)
-column: dev
+column: complete
 created: 2026-07-16T20:32:10+0200
-updated: 2026-08-18T23:50:51+0200
+updated: 2026-08-18T23:52:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 task-type: audit
 release-via: publish
@@ -129,6 +129,16 @@ surface against CODIFIED rules before scoping a "purge" from a changelog paraphr
 - MANAGER R42 answer: ai-maestro#72 comment 2026-07-16T17:24:25Z.
 - MANAGER push-blocker finding: ai-maestro#71 comment 2026-07-16T17:24:54Z.
 
+## Acceptance checklist (written 2026-08-18 against that day's re-run — see Approval log)
+
+- [x] No R42-revoked injection-INSTRUCTION prose remains in skills/ — re-run 2026-08-18T23:50:51:
+      `grep -rniE '^[^|]*((Send|send) (a )?(soft|hard) restart signal|Send restart command via tmux)' skills/`
+      → exit 1 (no match). What remains is prose PROHIBITING injection, in 4 skills.
+- [x] No raw `kill -TERM` of a peer in skills/ or scripts/ — re-run 2026-08-18T23:50:51:
+      `grep -rn "kill -TERM" skills/ scripts/` → exit 1 (no match).
+- [x] Test suite green — re-run 2026-08-18T23:50:51: `uv run --with pytest pytest tests/` →
+      341 passed (299 at original close; the suite grew, none red).
+
 ## Approval log
 
 - 2026-08-11T19:54:10+0200 — COMPLETED. Closing a card whose work finished on
@@ -141,3 +151,11 @@ surface against CODIFIED rules before scoping a "purge" from a changelog paraphr
   the R42 injection-prose grep returns empty, the raw `kill -TERM $PID` of a
   peer is gone from `recovery-operations.md`, and 299 tests pass. Not archived
   as a guess — the three checks are what closed it.
+- 2026-08-18T23:50:51+0200 — REOPENED → dev, per the checklist gate's remedy: the 2026-08-11
+  close was a POST-boundary terminal transition with no checklist (the vacuous case the
+  "≥1 box" clause exists for; Q7BZ8N3M disposition, commit f15f1df). Audit finding
+  TRDD-BRRJK57P axis 2, repair card TRDD-4HSTGXGB.
+- 2026-08-18T23:52:00+0200 — RE-COMPLETED. The three closing checks were RE-RUN today (commands
+  and exits in the checklist above) and the checklist written and ticked against that re-run —
+  not against the 2026-08-11 prose. Work content unchanged; only the verification record the
+  gate requires was added.
