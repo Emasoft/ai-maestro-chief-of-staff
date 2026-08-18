@@ -1,9 +1,10 @@
 ---
 trdd-id: B94VK7LR
 title: Fix the troubleshooting step that instructs running a script that does not exist
-column: todo
+column: complete
 created: 2026-08-18T19:54:27+0200
-updated: 2026-08-18T19:54:27+0200
+updated: 2026-08-18T23:50:30+0200
+implementation-commits: [497536a]
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
@@ -40,6 +41,14 @@ writing it), or point at whichever shipped script actually creates the layout if
 
 ## Acceptance criteria
 
-- [ ] The resolution step names only commands/files that exist and work, run verbatim.
-- [ ] `grep -rn "amcos_init_design_folders" .` returns 0 hits outside historical prose.
-- [ ] Suite green, ruff clean.
+- [x] The resolution step names only commands that exist — the mkdir one-liner was RUN verbatim
+      in a scratch dir before committing.
+- [x] Repo grep: the only remaining `amcos_init_design_folders` hit is the deliberate historical
+      note in the fixed step itself.
+- [x] Suite green (341), ruff clean.
+
+## Approval log
+
+- 2026-08-18T23:50:30+0200 — COMPLETED. todo → dev → testing → ai_review (llm-ext ensemble 3/3
+  APPROVE; report reports/llm-externalizer/20260818_234940+0200-code_task-b94.diff-18cf77.md)
+  → complete. Implementation commit 497536a.

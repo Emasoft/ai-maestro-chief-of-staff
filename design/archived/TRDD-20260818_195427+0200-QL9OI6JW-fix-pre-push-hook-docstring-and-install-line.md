@@ -1,9 +1,10 @@
 ---
 trdd-id: QL9OI6JW
 title: Fix the pre-push hook's self-name, dead install line, and false severity claim
-column: todo
+column: complete
 created: 2026-08-18T19:54:27+0200
-updated: 2026-08-18T19:54:27+0200
+updated: 2026-08-18T23:49:31+0200
+implementation-commits: [497536a]
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: bugfix
@@ -41,8 +42,14 @@ behaviour per the in-code comment.
 
 ## Acceptance criteria
 
-- [ ] Docstring self-name matches the real filename.
-- [ ] Install line copies the file that exists; run the `cp` verbatim in a scratch clone or
-      assert the source path exists before claiming done.
-- [ ] Docstring states strict-mode blocking (all severities), matching :298.
-- [ ] Suite green, ruff clean.
+- [x] Docstring self-name matches the real filename → 0 residual `pre-push-hook.py` refs in file.
+- [x] Install line copies the file that exists → `ls scripts/amcos_pre_push_hook.py` asserted.
+- [x] Docstring states strict-mode blocking (all severities), matching :298 — with a comment on
+      WHY it must stay coupled to main().
+- [x] Suite green (341), ruff clean.
+
+## Approval log
+
+- 2026-08-18T23:49:31+0200 — COMPLETED. todo → dev → testing → ai_review (llm-ext ensemble 3/3
+  APPROVE; report reports/llm-externalizer/20260818_234921+0200-code_task-ql9.diff-a037ad.md)
+  → complete. Implementation commit 497536a.
