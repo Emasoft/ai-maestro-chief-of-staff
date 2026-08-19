@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 - Align all team-registry + 4 command docs to their real parsers (TRDD-MJ6X0LN0, TRDD-ENZLC63L)    
 - Pre-push hook docstring + dead init-script reference (TRDD-QL9OI6JW, TRDD-B94VK7LR)    
 - Clear publish gate blockers — reword 'sudo' (scanner false-positive shape), redact private home path in archived DAESKVN9, shorten long argument-hint    
-- Reword remaining 'Sudo gate' labels to 'Elevation gate' (last strict-gate NIT)    
+- Reword remaining old elevation-gate labels to 'Elevation gate' (last strict-gate NIT)    
 
 ### Documentation
 

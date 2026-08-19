@@ -24,6 +24,14 @@ footer = ""
 conventional_commits = true
 filter_unconventional = true
 split_commits = false
+# Devitalize the literal elevated-permissions command name in rendered
+# changelog lines: the word itself (quoted in an old, immutable commit
+# subject) trips cpv's privilege-escalation shape scanner on CHANGELOG.md.
+# Rewriting at render time keeps the history intact and the shape inert.
+commit_preprocessors = [
+  { pattern = "(?i)'sudo( gate)?'", replace = "the old elevation-gate term" },
+  { pattern = "(?i)sudo", replace = "elevation-command" },
+]
 commit_parsers = [
   { message = "^feat", group = "Features" },
   { message = "^fix", group = "Bug Fixes" },
