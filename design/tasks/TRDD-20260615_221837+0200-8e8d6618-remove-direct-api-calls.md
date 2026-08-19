@@ -1,11 +1,12 @@
 ---
 trdd-id: 8E8D6618
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
-column: backburner
+column: blocked
+pre-block-column: backburner
 review-after: 2026-09-15
-blocked-by: []
+blocked-by: [ai-maestro:TRDD-IBKR7F74]
 created: 2026-06-15T22:18:37+0200
-updated: 2026-08-19T04:36:00+0200
+updated: 2026-08-19T05:20:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
@@ -29,13 +30,13 @@ external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "githu
 
 ## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative) — 2026-08-19
 
-**⏸ PARKED 2026-08-19 (`backburner` + `review-after: 2026-09-15`) — the real blocker is the hub
-card `ai-maestro TRDD-IBKR7F74`** (CLI verbs for the three DECOUPLE-BLOCKED operations, itself
-blocked hub-side on TRDD-K2WJH7RF agent-policy). Held in `external-refs:`, NOT `blocked-by:`,
-per the hub's interim grammar (2026-08-19): trddgrep cannot yet express an external blocker
-(hub card TRDD-PTFPGSLV adds `gh:`/project-scoped skip-edge syntax; its acceptance box is "COS
-re-runs, the 2 sanctioned ERRORs become WARNs" — restore the blocked-by pointer THEN). The day
-IBKR7F74's verbs ship: repoint scripts, unpark, work at `dev`.
+**⏸ BLOCKED 2026-08-19 on `blocked-by: [ai-maestro:TRDD-IBKR7F74]`** — the sanctioned
+cross-project-blocker spelling, adopted the moment hub TRDD-PTFPGSLV shipped (c242d4ca):
+`trddgrep validate` emits WARN GRAPH-CROSS-PROJECT-BLOCKER for it and the graph verbs report
+the card BLOCKED. IBKR7F74 = CLI verbs for the three DECOUPLE-BLOCKED operations, itself
+blocked hub-side on TRDD-K2WJH7RF agent-policy. `review-after: 2026-09-15` kept as the
+fail-open re-check backstop; `pre-block-column: backburner`. The day IBKR7F74's verbs ship:
+clear `blocked-by`, repoint scripts, work at `dev`.
 
 **Previous state (2026-08-11), kept for the trail:**
 **⏸ BLOCKED 2026-08-11 (was `dev`; `pre-block-column: dev`) — `blocked-by: ai-maestro#76`.**
