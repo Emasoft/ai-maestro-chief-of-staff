@@ -1,20 +1,30 @@
 ---
 trdd-id: TH95SZFZ
 title: Adopt RP-CITATION-01 rule-citation guard once the hub ratifies it
-column: blocked
+column: human_review
 pre-block-column: todo
 created: 2026-08-15T00:34:08+0200
-updated: 2026-08-15T00:34:08+0200
+updated: 2026-08-19T04:37:00+0200
 current-owner: cos-plugin-dev-session
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: infra
 min-approval-requirement: none
-blocked-by: [ai-maestro#145]
+blocked-by: []
 external-refs: [ai-maestro#145]
 ---
 
 # Adopt RP-CITATION-01 rule-citation guard once the hub ratifies it
+
+## ⏵ STATE — 2026-08-19
+
+At `column: human_review`: the wait is on hub#145 RATIFICATION, a decision only the USER can
+take (verified OPEN 2026-08-16, last event 2026-08-13 — pending a decision, not evidence).
+The pointer lives in `external-refs:`, not `blocked-by:`, per the hub's interim grammar
+(2026-08-19): trddgrep cannot yet express an external blocker (hub card TRDD-PTFPGSLV adds the
+syntax; when it ships and `trddgrep validate` stops ERRORing on issue refs, a `blocked` +
+`blocked-by: [gh:Emasoft/ai-maestro#145]` form becomes available again). On ratification:
+implement per the card body.
 
 ## Why
 

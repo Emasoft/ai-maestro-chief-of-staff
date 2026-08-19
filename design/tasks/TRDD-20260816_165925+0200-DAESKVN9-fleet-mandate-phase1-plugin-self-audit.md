@@ -1,11 +1,11 @@
 ---
 trdd-id: DAESKVN9
 title: Phase 1 self-audit of this plugin across the four mandated axes
-column: dev
+column: complete
 scope: project
 project-id: ai-maestro-chief-of-staff
 created: 2026-08-16T16:59:25+0200
-updated: 2026-08-16T16:59:25+0200
+updated: 2026-08-19T04:33:25+0200
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
@@ -77,13 +77,25 @@ describes registered agents, and nothing in it fails when the participants are n
 
 ## Acceptance criteria
 
-- [ ] All four axes audited, each with a pass-1 discover and a pass-2 falsify.
-- [ ] Every CONFIRMED finding carries `file:line` plus the exact command that produced it, and at
-      least one cited `file:line` per finding re-verified by me first-hand, not on a worker's word.
-- [ ] Refuted candidates recorded one line each with the refutation.
-- [ ] Report written under `reports/plugin-self-audit/`; per-axis confirmed/refuted counts returned
-      to the hub WITHOUT pasting findings into the message.
-- [ ] Nothing in this repo was fixed during the phase.
+- [x] All four axes audited with discover+falsify passes → 4 reports in
+      `reports/plugin-self-audit/` (2026-08-16), final counts 14 CONFIRMED / 25 REFUTED /
+      2 NOT-VERIFIED after the hub's re-verification and my corrections.
+- [x] Citations with commands; at least one per finding re-verified first-hand (incl. catching
+      the hub's own `--role` over-claim and withdrawing my two null-payload citations).
+- [x] Refuted candidates recorded with refutations in each axis report.
+- [x] Counts + report paths sent to the hub (2026-08-16 23:27, ledgered; hub re-verified one
+      citation per axis).
+- [x] Nothing fixed during the phase — every remediation landed AFTER the Phase-2 GO
+      (BRRJK57P Approval log 2026-08-18T19:53:29+0200), as commits e3a3518..f8040f9.
+
+## Approval log
+
+- 2026-08-19T04:33:25+0200 — COMPLETED. Phase 1 delivered 2026-08-16; card held open through
+  Phase 2 as the findings' anchor. All 14 CONFIRMED findings now remediated (6 Phase-2 cards,
+  all complete+archived) plus the goal-driven follow-ons (trddgrep adoption 3b70ff1, R41
+  adoption ab0a5a6, INTEGRATOR ownership c63a9e6). Scenario-blocker analysis written:
+  reports/plugin-self-audit/20260819_043500+0200-usage-scenario-blockers.md (7 scenarios,
+  2 blockers compound on ai-maestro#76/#2 — sent to the hub as asks).
 
 ## Notes
 

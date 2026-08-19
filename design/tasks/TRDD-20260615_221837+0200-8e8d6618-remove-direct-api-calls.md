@@ -1,11 +1,11 @@
 ---
 trdd-id: 8E8D6618
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
-column: blocked
-pre-block-column: dev
-blocked-by: [ai-maestro#76]
+column: backburner
+review-after: 2026-09-15
+blocked-by: []
 created: 2026-06-15T22:18:37+0200
-updated: 2026-08-11T19:54:10+0200
+updated: 2026-08-19T04:36:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
@@ -22,13 +22,22 @@ target-branch: main
 publish-target: ai-maestro-plugins
 test-requirements: [unit, lint]
 impacts: [public-api]
-external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "github.com/Emasoft/ai-maestro-assistant-manager-agent/issues/16", ai-maestro#76]
+external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "github.com/Emasoft/ai-maestro-assistant-manager-agent/issues/16", ai-maestro#76, ai-maestro TRDD-IBKR7F74]
 ---
 
 # TRDD-8e8d6618 — Remove direct /api/* calls from COS scripts (#20)
 
-## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative) — 2026-08-11
+## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative) — 2026-08-19
 
+**⏸ PARKED 2026-08-19 (`backburner` + `review-after: 2026-09-15`) — the real blocker is the hub
+card `ai-maestro TRDD-IBKR7F74`** (CLI verbs for the three DECOUPLE-BLOCKED operations, itself
+blocked hub-side on TRDD-K2WJH7RF agent-policy). Held in `external-refs:`, NOT `blocked-by:`,
+per the hub's interim grammar (2026-08-19): trddgrep cannot yet express an external blocker
+(hub card TRDD-PTFPGSLV adds `gh:`/project-scoped skip-edge syntax; its acceptance box is "COS
+re-runs, the 2 sanctioned ERRORs become WARNs" — restore the blocked-by pointer THEN). The day
+IBKR7F74's verbs ship: repoint scripts, unpark, work at `dev`.
+
+**Previous state (2026-08-11), kept for the trail:**
 **⏸ BLOCKED 2026-08-11 (was `dev`; `pre-block-column: dev`) — `blocked-by: ai-maestro#76`.**
 Nothing below has changed; only the card's honesty has. It sat at `column: dev` for 26 days
 asserting active work while nobody touched it, which is worse than sitting in `blocked`,
