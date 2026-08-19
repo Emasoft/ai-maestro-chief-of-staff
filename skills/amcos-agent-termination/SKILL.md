@@ -20,7 +20,7 @@ Handles clean shutdown of agent instances including work verification, state pre
 
 ## Prerequisites
 
-- AI Maestro running, `ai-maestro-agents-management` and `agent-messaging` skills available
+- AI Maestro running, `ai-maestro-agents-management` skill and the `ai-maestro-plugin:agent-messaging` skill available
 - Target agent in RUNNING or HIBERNATED state
 - Team registry accessible via REST API
 
@@ -31,7 +31,7 @@ Handles clean shutdown of agent instances including work verification, state pre
 1. **Request GovernanceRequest approval** - Submit termination request to sourceManager via `amcos-permission-management` skill. BLOCK until approved. Do NOT proceed without approval.
 2. **Verify work complete** - Confirm no pending tasks or uncommitted work
 3. **Save final state** - Request agent to save context/progress to handoff file
-4. **Send termination warning** via `agent-messaging` with `hibernation-warning` type
+4. **Send termination warning** via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type hibernation-warning`
 5. **Execute termination** via `ai-maestro-agents-management` skill (requires confirmation)
 6. **Update registry** - `uv run python scripts/amcos_team_registry.py remove-agent`
 7. **Cleanup resources** - Verify tmux session gone, temp directories cleaned
@@ -74,7 +74,7 @@ Always attempt graceful first.
 ### Graceful Termination
 
 ```bash
-# 1. Send status request via agent-messaging
+# 1. Send status request via the amp-send CLI
 # 2. After confirmation, terminate via ai-maestro-agents-management skill
 # 3. Update registry
 uv run python scripts/amcos_team_registry.py remove-agent --team svgbbox-team --agent-name ampa-svgbbox-impl

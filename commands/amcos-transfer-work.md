@@ -143,7 +143,7 @@ Read the handoff file contents to include in the transfer message.
 
 ### Step 3: Send Transfer Message
 
-Send the handoff to the target agent using the `agent-messaging` skill:
+Send the handoff to the target agent via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`
 - **Recipient**: the target agent
 - **Subject**: `[WORK TRANSFER] Task handoff from <source-agent>`
 - **Content**: handoff document with source agent name, handoff file path, summary, and instructions
@@ -154,7 +154,7 @@ Send the handoff to the target agent using the `agent-messaging` skill:
 
 ### Step 4: Notify Orchestrator (if requested)
 
-If `--notify-orchestrator` is set, send a notification to AMOA using the `agent-messaging` skill:
+If `--notify-orchestrator` is set, send a notification to AMOA via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[TRANSFER NOTIFICATION] Work transferred: <from> -> <to>`
 - **Content**: notification about the work transfer with both agent names

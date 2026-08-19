@@ -221,7 +221,7 @@ AMCOS internalizes the AI Maestro security-governance core, R26-R40 — normativ
 
 - AI Maestro v0.26.0+
 - Claude Code v2.1.139+ (pinned for hook stability and `args` exec form — see notes below)
-- External skills: `ai-maestro-agents-management` and `agent-messaging` (provided by AI Maestro core)
+- External skills: `ai-maestro-agents-management` and `ai-maestro-plugin:agent-messaging` (provided by AI Maestro core)
 
 #### Claude Code version notes
 

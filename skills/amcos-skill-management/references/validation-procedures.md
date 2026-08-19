@@ -347,7 +347,7 @@ When PSS runs in a separate Claude Code session (recommended for development):
 
 **Step 1: Send reindex request**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `perfect-skill-suggester`
 - **Subject**: `Reindex Skills Request`
 - **Priority**: `normal`
@@ -357,7 +357,7 @@ Use the `agent-messaging` skill to send:
 
 PSS will respond via AI Maestro message when reindex completes.
 
-Use the `agent-messaging` skill to check for unread messages. Look for a response from `perfect-skill-suggester` containing reindex results.
+Use the `amp-inbox` CLI to check for unread messages. Look for a response from `perfect-skill-suggester` containing reindex results.
 
 **Step 3: Parse reindex results**
 

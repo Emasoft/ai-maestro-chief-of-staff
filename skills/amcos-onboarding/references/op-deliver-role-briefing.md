@@ -36,7 +36,7 @@ parent-skill: amcos-onboarding
 
 - Agent is onboarded (basic checklist complete)
 - Role definition document exists
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 - Reporting structure is defined
 
 ## Procedure
@@ -64,7 +64,7 @@ Structure the briefing with these sections:
 
 ### Step 3: Send Role Briefing
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: `Role Briefing: [Role Name]`
 - **Priority**: `high`
@@ -72,7 +72,7 @@ Use the `agent-messaging` skill to send:
 
 ### Step 4: Handle Questions
 
-If the agent asks clarifying questions, use the `agent-messaging` skill to reply:
+If the agent asks clarifying questions, reply via the `amp-reply` CLI:
 - **Recipient**: the agent session name
 - **Subject**: `RE: Role Clarification`
 - **Priority**: `normal`
@@ -80,7 +80,7 @@ If the agent asks clarifying questions, use the `agent-messaging` skill to reply
 
 ### Step 5: Confirm Understanding
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: the agent session name
 - **Subject**: `Role Understanding Confirmation`
 - **Priority**: `high`
@@ -90,7 +90,7 @@ Use the `agent-messaging` skill to send:
 
 `amcos_team_registry.py` has no `update-role` or `log` subcommand — the role
 is set once at `add-agent` time (`--role`). Note the briefing event in the
-team's coordination channel (`agent-messaging`) instead:
+team's coordination channel via the `amp-send` CLI instead:
 "Assigned as <role> on <project>."
 
 ## Checklist
@@ -99,7 +99,7 @@ Copy this checklist and track your progress:
 
 - [ ] Retrieve role definition document
 - [ ] Compose role briefing with all sections
-- [ ] Send role briefing message via `agent-messaging` skill
+- [ ] Send role briefing message via the `amp-send` CLI
 - [ ] Wait for initial acknowledgment
 - [ ] Answer any clarifying questions
 - [ ] Request understanding confirmation
@@ -111,7 +111,7 @@ Copy this checklist and track your progress:
 
 ### Example: Developer Role Briefing
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `dev-backend-alice`
 - **Subject**: `Role Briefing: Developer`
 - **Priority**: `high`
@@ -119,7 +119,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example: Orchestrator Role Briefing
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amoa-webapp-orchestrator`
 - **Subject**: `Role Briefing: Orchestrator`
 - **Priority**: `high`

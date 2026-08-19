@@ -72,7 +72,7 @@ If blocker is agent reassignment or permission within AMCOS authority:
 ### Step 2B: Route to AMAMA (If User Decision Needed)
 
 1. **Compose blocker-escalation message**
-   > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+   > **Note**: Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`. The JSON structure below shows the message content.
 
    ```json
    {
@@ -111,7 +111,7 @@ If blocker is agent reassignment or permission within AMCOS authority:
    - Verify it includes user's exact decision (RULE 14)
 
 2. **Route to AMOA**
-   > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+   > **Note**: Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`. The JSON structure below shows the message content.
 
    ```json
    {

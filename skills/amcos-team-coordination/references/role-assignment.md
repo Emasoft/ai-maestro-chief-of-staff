@@ -157,15 +157,15 @@ Create a message containing:
 - Any immediate tasks
 - Acknowledgment request
 
-**Step 4: Send the assignment via `agent-messaging` skill**
+**Step 4: Send the assignment via the `amp-send` CLI**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type T [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: `Role Assignment: [ROLE_NAME]`
 - **Priority**: `high`
 - **Content**: type `role-assignment`, message: "You are assigned the [ROLE_NAME] role. Responsibilities: [LIST]. Report to: [AGENTS]. Please acknowledge receipt."
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent-messages view.
 
 **Step 5: Wait for acknowledgment**
 
@@ -198,7 +198,7 @@ The assigned agent should respond with:
 
 ### Example Acknowledgment
 
-The agent replies via the `agent-messaging` skill with type `role-acknowledgment`, role: "Code Reviewer", status: "accepted", message: "Role accepted. I understand my responsibilities: review PRs, enforce standards, provide feedback. Ready to begin."
+The agent replies via the `amp-reply` CLI with type `role-acknowledgment`, role: "Code Reviewer", status: "accepted", message: "Role accepted. I understand my responsibilities: review PRs, enforce standards, provide feedback. Ready to begin."
 
 ### Handling Non-Acknowledgment
 
@@ -247,7 +247,7 @@ For urgent transitions (agent failure, critical issue):
 
 ### Example: Assigning Developer Role
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `libs-svg-svgbbox`
 - **Subject**: `Role Assignment: Developer`
 - **Priority**: `high`
@@ -255,13 +255,13 @@ Use the `agent-messaging` skill to send:
 
 ### Example: Reassigning Role Due to Workload
 
-**Step 1:** Notify original agent using the `agent-messaging` skill:
+**Step 1:** Notify original agent via the `amp-send` CLI:
 - **Recipient**: `helper-agent-generic`
 - **Subject**: `Role Transition: Code Reviewer`
 - **Priority**: `normal`
 - **Content**: type `role-transition`, message: "Due to high workload, the Code Reviewer role will be transferred to helper-agent-backup. Please complete any in-progress reviews within 1 hour and hand off remaining items."
 
-**Step 2:** Assign to new agent using the `agent-messaging` skill:
+**Step 2:** Assign to new agent via the `amp-send` CLI:
 - **Recipient**: `helper-agent-backup`
 - **Subject**: `Role Assignment: Code Reviewer`
 - **Priority**: `high`

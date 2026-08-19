@@ -35,7 +35,7 @@ Maintaining visibility into all team members' current status and activities.
 
 ## Examples: Assigning a Role to a New Agent
 
-Use the `agent-messaging` skill to send a role assignment message:
+Send a role assignment message via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `helper-agent-generic`
 - **Subject**: `Role Assignment: Code Reviewer`
 - **Priority**: `high`
@@ -45,7 +45,7 @@ Use the `agent-messaging` skill to send a role assignment message:
 
 ## Examples: Broadcasting a Team Update
 
-Use the `agent-messaging` skill to broadcast a message to all team members:
+Broadcast via the `amp-send` CLI to each team member:
 - **Subject**: `Sprint Planning Complete`
 - **Priority**: `normal`
 - **Content**: type `announcement`, informing that Sprint 5 planning is complete and all tasks are assigned

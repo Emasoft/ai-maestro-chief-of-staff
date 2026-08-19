@@ -20,7 +20,7 @@ Manages team registry, messaging, role boundaries, and delegation.
 
 ## Prerequisites
 
-- AI Maestro running with `agent-messaging` skill
+- AI Maestro running with the `amp-send`/`amp-inbox`/`amp-read`/`amp-reply` CLIs
 - Registry via `aimaestro-teams.sh show <team-id>` (team object includes its agents)
 - Script: `uv run python scripts/amcos_team_registry.py`
 
@@ -39,7 +39,7 @@ Commands: `create`, `add-agent`, `remove-agent`, `update-status`, `list`, `kanba
 
 ### Inter-Agent Messaging
 
-Use `agent-messaging` skill. Always use FULL session names (e.g., `amoa-svgbbox-orchestrator`).
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type T --priority P`. Always use FULL session names (e.g., `amoa-svgbbox-orchestrator`).
 
 **Message types:** `role-assignment`, `project-assignment`, `task-delegation`, `status-request`, `status-report`, `team-notification`, `hibernation-warning`, `wake-notification`, `registry-update`
 
@@ -96,8 +96,7 @@ uv run python scripts/amcos_team_registry.py list --team svgbbox-team
 ### Send Team Notification
 
 ```bash
-# Via agent-messaging: To: amoa-svgbbox-orchestrator
-# Content: { "type": "team-notification", "message": "Agent online" }
+amp-send amoa-svgbbox-orchestrator "Agent online" "Agent online" --type notification --priority normal
 ```
 
 ## Checklist

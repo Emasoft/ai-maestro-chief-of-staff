@@ -60,7 +60,7 @@ The `description` field in SKILL.md frontmatter is the PRIMARY source for keywor
 
 **Best practices:**
 - Use action verbs: "Use when spawning", "Trigger with agent creation"
-- Include tool names: "AI Maestro", "`agent-messaging` skill"
+- Include tool names: "AI Maestro", "`ai-maestro-plugin:agent-messaging` skill"
 - Include concepts: "lifecycle management", "team coordination"
 - Use natural language that matches user queries
 

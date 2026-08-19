@@ -11,7 +11,7 @@
 - 2.3 Post-operation notification procedure - Step-by-step process
   - 2.3.1 Confirm operation success - Verify completion
   - 2.3.2 Compose confirmation - What to tell agents
-  - 2.3.3 Send notification - Using the `agent-messaging` skill
+  - 2.3.3 Send notification - Using the `amp-send` CLI
   - 2.3.4 Request verification - Ask agent to confirm
   - 2.3.5 Log outcome - Record the result
 - 2.4 Verification request format - Asking agents to confirm
@@ -109,15 +109,15 @@ Post-operation notifications complete the notification protocol flow. They are s
 
 ### 2.3.3 Send notification
 
-**Purpose:** Deliver the confirmation using the `agent-messaging` skill.
+**Purpose:** Deliver the confirmation using the `amp-send` CLI.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type notification --priority normal`.
 - **Recipient**: the target agent session name
 - **Subject**: `[Operation Type] Complete`
 - **Priority**: `normal`
 - **Content**: type `post-operation`, message: "The [operation] has been completed successfully. [Summary of changes]. Please [verification request]." Include fields: `operation` (the operation type), `status`: "success", `operation_details` (with completed_at timestamp and changes list), `verification_requested` (true or false).
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 ### 2.3.4 Request verification
 
@@ -167,7 +167,7 @@ Use the `agent-messaging` skill to send:
 
 **Standard verification request structure:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type notification --priority normal`.
 - **Recipient**: the agent session name
 - **Subject**: `[Operation Type] Complete - Verification Requested`
 - **Priority**: `normal`
@@ -179,7 +179,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 1: Skill Installation Complete
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send code-impl-auth "Skill Installation Complete" "<message>" --type notification --priority normal`.
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Skill Installation Complete`
 - **Priority**: `normal`
@@ -187,7 +187,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 2: Plugin Installation Complete (Context Lost)
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send test-engineer-01 "Plugin Installation Complete" "<message>" --type notification --priority normal`.
 - **Recipient**: `test-engineer-01`
 - **Subject**: `Plugin Installation Complete`
 - **Priority**: `normal`
@@ -195,7 +195,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 3: Configuration Change Applied
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send devops-ci "Configuration Change Applied" "<message>" --type notification --priority normal`.
 - **Recipient**: `devops-ci`
 - **Subject**: `Configuration Change Applied`
 - **Priority**: `normal`
@@ -203,7 +203,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 4: Broadcast Maintenance Complete
 
-For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`, `devops-ci`), use the `agent-messaging` skill to send:
+For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`, `devops-ci`), send via the `amp-send` CLI: `amp-send <agent> "System Maintenance Complete" "<message>" --type notification --priority normal`.
 - **Recipient**: the agent session name
 - **Subject**: `System Maintenance Complete`
 - **Priority**: `normal`
@@ -219,7 +219,7 @@ For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`,
 
 **Resolution:**
 1. Use the `ai-maestro-agents-management` skill to verify agent is online after operation
-2. Check message delivery status via the `agent-messaging` skill
+2. Check message delivery status via the `amp-send` CLI output
 3. Confirm agent session name is correct
 4. Resend notification if delivery failed
 5. Check agent inbox directly

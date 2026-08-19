@@ -37,7 +37,7 @@ version: 1.0.0
 
 - AI Maestro is running locally
 - The `ai-maestro-agents-management` skill is available
-- The `agent-messaging` skill is available
+- The `amp-send` CLI is available
 - tmux is installed for session management
 - Team registry CLI is accessible (`aimaestro-teams.sh list`)
 - Plugin for the agent role is installed in marketplace cache
@@ -102,13 +102,13 @@ uv run python scripts/amcos_team_registry.py add-agent \
 
 ### Step 6: Send Welcome Message
 
-Use the `agent-messaging` skill to send a welcome message:
+Send via the `amp-send` CLI: `amp-send <recipient> "Welcome - Agent Created" "<message>" --type notification --priority high`.
 - **Recipient**: the new agent session name
 - **Subject**: `Welcome - Agent Created`
 - **Priority**: `high`
 - **Content**: type `team-notification`, informing the agent it has been created and registered, and is awaiting role assignment from the orchestrator
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 ## Checklist
 
@@ -121,7 +121,7 @@ Copy this checklist and track your progress:
 - [ ] Create agent via `ai-maestro-agents-management` skill
 - [ ] Verify agent status is "running"
 - [ ] Register agent in team registry
-- [ ] Send welcome message via `agent-messaging` skill
+- [ ] Send welcome message via `amp-send`
 - [ ] Confirm agent acknowledgment received
 
 ## Examples

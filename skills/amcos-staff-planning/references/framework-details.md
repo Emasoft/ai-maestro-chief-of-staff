@@ -127,7 +127,7 @@
 - **Check tmux sessions**: Run `tmux list-sessions` in the terminal
 - **Check disk space**: Run `df -h "${CLAUDE_PROJECT_DIR:-$HOME}"` in the terminal
 - **Check running agents**: Use the `ai-maestro-agents-management` skill to list all agents and their status
-- **Check agent workload**: Use the `agent-messaging` skill to check pending messages count
+- **Check agent workload**: Use the `amp-inbox` CLI to check pending messages count
 
 **Interpretation**:
 - If max concurrent agents reached, recommend queuing or sequential phasing
@@ -340,7 +340,7 @@ Is the task long-running (>30 min)?
 | Concurrent agents | Use `ai-maestro-agents-management` skill to list agents | 4-6 agents | Queue additional work |
 | Context memory | Check task size | ~100K tokens per agent | Split large tasks |
 | Disk space | `df -h "${CLAUDE_PROJECT_DIR}"` | <10% free | Cleanup or use different volume |
-| Pending messages | Use `agent-messaging` skill to check pending count | >20 messages | Wait for agents to catch up |
+| Pending messages | Use `amp-inbox` CLI to check pending count | >20 messages | Wait for agents to catch up |
 
 **Action plan when constrained**:
 

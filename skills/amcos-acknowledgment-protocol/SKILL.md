@@ -88,7 +88,7 @@ Expected: agent replies "ok" within 60s; if no reply after reminders at 15s/30s/
 ## Checklist
 
 Copy this checklist and track your progress:
-- [ ] Send ACK request via agent-messaging with correct timeout
+- [ ] Send ACK request via `amp-send` with correct timeout
 - [ ] Send reminders at defined intervals if no response
 - [ ] Process response or handle timeout per policy
 

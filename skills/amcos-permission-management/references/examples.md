@@ -31,7 +31,7 @@
 
 ### Request Message
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Spawn Agent: code-impl-auth`
 - **Priority**: `high`
@@ -56,7 +56,7 @@ AMAMA replies with type `approval_response`, `request_id`: "spawn-req-2025-02-02
 
 ### Request Message
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Terminate Agent: data-processor-03`
 - **Priority**: `normal`
@@ -90,7 +90,7 @@ AMAMA replies with type `approval_response`, `request_id`: "term-req-2025-02-02-
 
 ### Reminder Notification (T+60 seconds)
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[REMINDER] Pending Approval: Spawn code-impl-auth`
 - **Priority**: `high`
@@ -98,7 +98,7 @@ Use the `agent-messaging` skill to send:
 
 ### Urgent Notification (T+90 seconds)
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[URGENT] Approval Required: Spawn code-impl-auth - Will proceed in 30s`
 - **Priority**: `urgent`
@@ -143,7 +143,7 @@ AMCOS must have received an autonomous directive from AMAMA:
 
 ### Post-Operation Notification
 
-After executing under autonomous directive, use the `agent-messaging` skill to send:
+After executing under autonomous directive, send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[AUTONOMOUS] Agent Spawned: test-runner-04`
 - **Priority**: `normal`

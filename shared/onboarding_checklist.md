@@ -100,7 +100,7 @@ Every spawned agent receives the following briefing message:
 
 ### Briefing Message Template
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -185,7 +185,7 @@ If onboarding fails at any step:
 
 If agent does not acknowledge within ONBOARDING_TIMEOUT_SECONDS (60):
 
-1. Send warning message to agent using the `agent-messaging` skill
+1. Send warning message to agent via the `amp-send` CLI
 2. Wait additional 30 seconds
 3. If still no response:
    - Mark agent as unresponsive

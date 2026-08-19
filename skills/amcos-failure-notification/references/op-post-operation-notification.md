@@ -38,7 +38,7 @@ Trigger this operation AFTER:
 - Operation completed successfully
 - Agent is back online (for restart/hibernation operations)
 - Verification criteria are defined
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 - The `ai-maestro-agents-management` skill is available
 
 ## Procedure
@@ -62,7 +62,7 @@ Include these elements:
 
 ### Step 3: Send Confirmation
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" --priority <priority>`):
 - **Recipient**: the target agent session name
 - **Subject**: `[Operation Type] Complete`
 - **Priority**: `normal`
@@ -70,7 +70,7 @@ Use the `agent-messaging` skill to send:
 
 ### Step 4: Request Verification
 
-Use the `agent-messaging` skill to check for unread messages from the target agent. Wait up to 30 seconds (per health check timeout). Look for a response containing a verification confirmation from the target agent.
+Use the `amp-inbox` CLI to check for unread messages from the target agent. Wait up to 30 seconds (per health check timeout). Look for a response containing a verification confirmation from the target agent.
 
 ### Step 5: Log Outcome
 
@@ -86,7 +86,7 @@ Copy this checklist and track your progress:
 
 - [ ] Verified operation completed successfully
 - [ ] Composed confirmation message with verification request
-- [ ] Sent post-operation notification via `agent-messaging` skill
+- [ ] Sent post-operation notification via `amp-send` CLI
 - [ ] Received verification from agent (or noted pending)
 - [ ] Logged operation outcome
 - [ ] Documented any issues encountered
@@ -97,7 +97,7 @@ Copy this checklist and track your progress:
 
 **Scenario:** security-audit skill was installed on code-impl-auth.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Skill Installation Complete`
 - **Priority**: `normal`
@@ -111,7 +111,7 @@ The agent should reply with a message of type `verification`, confirming "securi
 
 **Scenario:** test-engineer-01 was restarted for plugin update.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `test-engineer-01`
 - **Subject**: `Restart Complete`
 - **Priority**: `normal`
@@ -121,7 +121,7 @@ Use the `agent-messaging` skill to send:
 
 **Scenario:** System maintenance finished, all agents back online.
 
-For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`), use the `agent-messaging` skill to send:
+For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`), send via the `amp-send` CLI:
 - **Recipient**: the agent session name
 - **Subject**: `System Maintenance Complete`
 - **Priority**: `normal`

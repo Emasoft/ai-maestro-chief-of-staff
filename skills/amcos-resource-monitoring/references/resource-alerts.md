@@ -285,7 +285,7 @@ Alerts indicating a system-threatening condition.
 
 ### User Notification Format
 
-Use the `agent-messaging` skill to send an urgent user notification:
+Send an urgent user notification via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: user (via AMAMA escalation)
 - **Subject**: `Memory Critical - Action Required`
 - **Priority**: `urgent`

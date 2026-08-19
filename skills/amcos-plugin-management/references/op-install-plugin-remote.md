@@ -64,7 +64,7 @@ Use the `ai-maestro-agents-management` skill to list plugins on the target agent
 
 ### Step 5: Send Notification (Optional)
 
-Use the `agent-messaging` skill to notify the target agent:
+Via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, notify the target agent:
 - **Recipient**: the target agent session name
 - **Subject**: `Plugin Installed`
 - **Priority**: `normal`
@@ -94,7 +94,7 @@ For each target agent (`dev-backend-alice`, `dev-frontend-bob`, `dev-api-charlie
 1. Use the `ai-maestro-agents-management` skill to install the plugin on the agent (auto-restarts)
 2. Wait for restart to complete
 3. Use the skill to list plugins on the agent and verify installation
-4. Use the `agent-messaging` skill to notify the agent about the update
+4. Via the `amp-send` CLI, notify the agent about the update
 
 ### Example: Remote Marketplace Management
 

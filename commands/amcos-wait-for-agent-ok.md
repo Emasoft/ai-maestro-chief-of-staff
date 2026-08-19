@@ -25,7 +25,7 @@ REMIND_INTERVAL=30
 
 ## Messaging Integration
 
-This command uses the `agent-messaging` skill to poll for acknowledgment messages from a specific agent.
+This command uses the `amp-inbox` CLI to poll for acknowledgment messages from a specific agent.
 
 **Expected Acknowledgment**: A message from the target agent with type `ack` and status `ready`.
 
@@ -74,8 +74,8 @@ This command uses the `agent-messaging` skill to poll for acknowledgment message
 
 This command implements a polling loop:
 
-1. **Poll for acknowledgment**: Use the `agent-messaging` skill to check for unread messages from the target agent with type `ack` and status `ready`
-2. **Send reminders**: At each remind interval, send a reminder message to the target agent using the `agent-messaging` skill:
+1. **Poll for acknowledgment**: Use the `amp-inbox` CLI to check for unread messages from the target agent with type `ack` and status `ready`
+2. **Send reminders**: At each remind interval, send a reminder message to the target agent via the `amp-send` CLI:
    - **Recipient**: the target agent
    - **Subject**: `[REMINDER] Waiting for your acknowledgment`
    - **Content**: "Please acknowledge when ready. Waiting for Xs of Ys."
@@ -143,7 +143,7 @@ This command implements a polling loop:
 
 Agents should respond with this message format:
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Use the `amp-send` CLI to send messages. The JSON structure below shows the message content.
 
 ```json
 {

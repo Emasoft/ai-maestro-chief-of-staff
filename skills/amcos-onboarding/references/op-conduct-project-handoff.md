@@ -37,7 +37,7 @@ parent-skill: amcos-onboarding
 - Agent has completed onboarding checklist
 - Agent has received role briefing
 - Project documentation is current
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 - Current project state is known
 
 ## Procedure
@@ -87,7 +87,7 @@ uvx --from git+https://github.com/Emasoft/claude-plugins-validation \
 
 ### Step 4: Send Project Handoff
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" --priority <priority>`):
 - **Recipient**: the target agent session name
 - **Subject**: `Project Handoff: [Project Name]`
 - **Priority**: `high`
@@ -95,7 +95,7 @@ Use the `agent-messaging` skill to send:
 
 ### Step 5: Verify Comprehension
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: the target agent session name
 - **Subject**: `Project Handoff Verification`
 - **Priority**: `high`
@@ -103,8 +103,8 @@ Use the `agent-messaging` skill to send:
 
 ### Step 6: Log Handoff
 
-`amcos_team_registry.py` has no `log` subcommand — note the handoff event in
-the team's coordination channel (`agent-messaging`) instead:
+`amcos_team_registry.py` has no `log` subcommand — note the handoff event via
+the team's coordination channel (the `amp-send` CLI, `ai-maestro-plugin:agent-messaging`) instead:
 "Handoff for <project> - <role>."
 
 ## Checklist
@@ -119,7 +119,7 @@ Copy this checklist and track your progress:
 - [ ] Note active context and next steps
 - [ ] Validate handoff document (no placeholders)
 - [ ] Verify all referenced files exist
-- [ ] Send handoff message via `agent-messaging` skill
+- [ ] Send handoff message via `amp-send` CLI
 - [ ] Wait for receipt confirmation
 - [ ] Ask verification questions
 - [ ] Confirm agent comprehension
@@ -129,7 +129,7 @@ Copy this checklist and track your progress:
 
 ### Example: API Project Handoff
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `dev-api-charlie`
 - **Subject**: `Project Handoff: Backend API`
 - **Priority**: `high`
@@ -137,7 +137,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example: Emergency Mid-Project Handoff
 
-**Step 1:** Request state dump from outgoing agent using the `agent-messaging` skill:
+**Step 1:** Request state dump from outgoing agent via the `amp-send` CLI:
 - **Recipient**: the outgoing agent session name
 - **Subject**: `Urgent: State Dump Required`
 - **Priority**: `urgent`
@@ -145,7 +145,7 @@ Use the `agent-messaging` skill to send:
 
 **Step 2:** Wait briefly for state dump (30 seconds).
 
-**Step 3:** Send handoff to incoming agent using the `agent-messaging` skill:
+**Step 3:** Send handoff to incoming agent via the `amp-send` CLI:
 - **Recipient**: the incoming agent session name
 - **Subject**: `EMERGENCY Handoff: [Project Name]`
 - **Priority**: `urgent`

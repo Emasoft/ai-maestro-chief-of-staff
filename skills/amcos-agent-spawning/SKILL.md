@@ -20,7 +20,7 @@ Creates new agent instances with OAuth validation, plugin setup, and registry re
 
 ## Prerequisites
 
-- AI Maestro running, `ai-maestro-agents-management` and `agent-messaging` skills available
+- AI Maestro running, `ai-maestro-agents-management` skill and the `amp-send`/`amp-inbox` CLIs available
 - tmux installed, team registry accessible via the `aimaestro-teams.sh list` CLI
 
 ## Instructions
@@ -32,7 +32,7 @@ Copy this checklist and track your progress:
 - [ ] Setup plugin from cache to agent directory
 - [ ] Create agent instance via ai-maestro-agents-management skill
 - [ ] Verify agent online and register in team registry
-- [ ] Send welcome message via agent-messaging skill
+- [ ] Send welcome message via the `amp-send` CLI
 
 ### Pre-Flight: Validate OAuth Scopes
 
@@ -51,7 +51,7 @@ Required: `repo`, `project`, `read:project`. If missing, request human to run `g
 5. **Create instance** via `ai-maestro-agents-management` skill with args: `--dangerously-skip-permissions --chrome --add-dir /tmp --plugin-dir <path> --agent <agent-name>`
 6. **Verify** agent appears online in agent list
 7. **Register** via `uv run python scripts/amcos_team_registry.py add-agent`
-8. **Send welcome message** via `agent-messaging` skill
+8. **Send welcome message** via the `amp-send` CLI
 
 ### The --agent Flag
 

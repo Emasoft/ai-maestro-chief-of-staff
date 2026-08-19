@@ -37,8 +37,8 @@
 - **Step 1**: Use the `ai-maestro-agents-management` skill to check agent `svgbbox-impl-01` status. Expected: "offline" or "unknown"
 - **Step 3**: Use the `ai-maestro-agents-management` skill to hibernate then wake agent `svgbbox-impl-01` (R10.3 own-team; wake reloads plugin/config, R17.21). Never inject a tmux keystroke or call `POST /api/sessions/[id]/restart` — R42-revoked cross-agent session-injection.
 - **Step 4**: Wait 60 seconds, then use the `ai-maestro-agents-management` skill to verify agent status is "online"
-- **Step 5**: Use the `agent-messaging` skill to check for pending messages for agent `svgbbox-impl-01`. Expected: 0 pending
-- **Step 6**: Use the `agent-messaging` skill to report recovery to AMAMA:
+- **Step 5**: Use the `amp-inbox` CLI to check for pending messages for agent `svgbbox-impl-01`. Expected: 0 pending
+- **Step 6**: Send via the `amp-send` CLI to report recovery to AMAMA:
   - **Recipient**: `amama-assistant-manager`
   - **Subject**: `[RESOLVED] Agent svgbbox-impl-01 recovered`
   - **Priority**: `normal`
@@ -65,12 +65,12 @@
 **Detailed procedure**:
 
 - **Step 2**: Log terminal classification to incident log
-- **Step 3**: Use the `agent-messaging` skill to request replacement approval:
+- **Step 3**: Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]` — a replacement approval request:
   - **Recipient**: `amama-assistant-manager`
   - **Subject**: `[APPROVAL REQUIRED] Agent replacement: feature-impl-03`
   - **Priority**: `urgent`
   - **Content**: type `replacement-approval-request`, message explaining the agent crashed 3 times in 10 minutes, including agent name, failure type "terminal", crash count, time window, and awaiting approval flag
-- **Step 5**: After approval, use the `agent-messaging` skill to notify the orchestrator:
+- **Step 5**: After approval, send via the `amp-send` CLI to notify the orchestrator:
   - **Recipient**: `amoa-orchestrator`
   - **Subject**: `[HANDOFF] Replacement agent created: feature-impl-04`
   - **Priority**: `high`
@@ -118,12 +118,12 @@
 
 **Detailed procedure**:
 
-- **Step 3**: Use the `agent-messaging` skill to initiate emergency handoff:
+- **Step 3**: Send via the `amp-send` CLI to initiate emergency handoff:
   - **Recipient**: `amoa-orchestrator`
   - **Subject**: `[EMERGENCY] Critical handoff - 90 minutes to deadline`
   - **Priority**: `urgent`
   - **Content**: type `emergency-handoff-request`, message explaining the failure and deadline urgency, including the failed agent name, deadline timestamp, list of critical tasks with IDs and estimated minutes, and action requested "immediate_reassignment"
-- **Step 4**: Use the `agent-messaging` skill to notify the manager:
+- **Step 4**: Send via the `amp-send` CLI to notify the manager:
   - **Recipient**: `amama-assistant-manager`
   - **Subject**: `[EMERGENCY] Agent failure - critical deadline at risk`
   - **Priority**: `urgent`
@@ -135,13 +135,13 @@
 
 ### Heartbeat Ping
 
-Use the `agent-messaging` skill to send a heartbeat:
+Send via the `amp-send` CLI a heartbeat:
 - **Recipient**: the target agent session name
 - **Subject**: `[HEARTBEAT] Health check`
 - **Priority**: `low`
 - **Content**: type `heartbeat`, message: "ping"
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's confirmation output.
 
 ### Check Agent Status
 
@@ -149,7 +149,7 @@ Use the `ai-maestro-agents-management` skill to check the target agent's status.
 
 ### Soft Restart Request
 
-Use the `agent-messaging` skill to request a graceful restart:
+Send via the `amp-send` CLI to request a graceful restart:
 - **Recipient**: the target agent session name
 - **Subject**: `[SYSTEM] Graceful restart requested`
 - **Priority**: `urgent`
@@ -157,7 +157,7 @@ Use the `agent-messaging` skill to request a graceful restart:
 
 ### Replacement Approval Request
 
-Use the `agent-messaging` skill to request replacement approval:
+Send via the `amp-send` CLI to request replacement approval:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUIRED] Agent replacement request`
 - **Priority**: `urgent`
@@ -165,7 +165,7 @@ Use the `agent-messaging` skill to request replacement approval:
 
 ### Emergency Handoff Request
 
-Use the `agent-messaging` skill to request emergency handoff:
+Send via the `amp-send` CLI to request emergency handoff:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY] Work handoff required`
 - **Priority**: `urgent`

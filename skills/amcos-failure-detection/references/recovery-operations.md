@@ -88,15 +88,15 @@ tmux list-panes -t <agent-name> -F '#{pane_pid}' 2>/dev/null | xargs -I {} ps -p
 
 **Purpose**: Confirm the agent can receive and respond to messages.
 
-Use the `agent-messaging` skill to send a health check ping:
+via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, send a health check ping:
 - **Recipient**: the target agent session name
 - **Subject**: `Health Check Ping`
 - **Priority**: `high`
 - **Content**: type `health-check`, message: "PING"
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
-Wait 60 seconds, then use the `agent-messaging` skill to check for unread messages. Look for a response with subject "Health Check Pong".
+Wait 60 seconds, then use the `amp-inbox` CLI to check for unread messages. Look for a response with subject "Health Check Pong".
 
 **What to look for:**
 - No response within 60 seconds then RECOVERABLE or TERMINAL depending on other checks
@@ -222,7 +222,7 @@ FAILURE_DETECTED
 
 **Procedure:**
 
-1. Use the `agent-messaging` skill to notify the agent of pending recovery:
+1. via the `amp-send` CLI, notify the agent of pending recovery:
    - **Recipient**: the failing agent session name
    - **Subject**: `Recovery Warning`
    - **Priority**: `urgent`
@@ -242,13 +242,13 @@ FAILURE_DETECTED
 
 **Procedure:**
 
-1. Use the `agent-messaging` skill to notify the orchestrator of task orphaning risk:
+1. via the `amp-send` CLI, notify the orchestrator of task orphaning risk:
    - **Recipient**: the orchestrator session name (e.g., `orchestrator-master`)
    - **Subject**: `Agent Failure - Tasks Need Reassignment`
    - **Priority**: `urgent`
    - **Content**: type `failure-report`, message: "Agent [agent-name] has TERMINAL failure. Assigned tasks need reassignment."
 
-2. Use the `agent-messaging` skill to notify the manager for critical failure:
+2. via the `amp-send` CLI, notify the manager for critical failure:
    - **Recipient**: `amama-assistant-manager` (or the manager session name)
    - **Subject**: `CRITICAL: Agent Failure`
    - **Priority**: `urgent`
@@ -272,7 +272,7 @@ R42 — messaging is the ONLY cross-agent channel. COS never SIGTERMs/kills anot
 process and never injects a keystroke into its tmux session. It asks the agent to restart itself.
 
 **Steps:**
-1. Use the `agent-messaging` skill to send the agent a graceful self-restart request (it saves
+1. via the `amp-send` CLI, send the agent a graceful self-restart request (it saves
    state and restarts itself; R42.2 directive-as-message + R42.4 self-drive)
 2. Wait 60 seconds for the agent to acknowledge and self-recover
 3. Verify health after restart
@@ -300,7 +300,7 @@ After waiting, use the `ai-maestro-agents-management` skill to check the agent's
 2. Use the `ai-maestro-agents-management` skill to spawn a new agent with incremented name (e.g., worker-001 to worker-002)
 3. Transfer tasks to new agent
 4. Update agent registry
-5. Notify all affected parties using the `agent-messaging` skill
+5. Notify all affected parties via the `amp-send` CLI
 
 ---
 
@@ -410,13 +410,13 @@ This file must be accessible to the Recovery Coordinator agent.
 
 **Purpose**: Notify the failing agent before forceful restart.
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: the failing agent session name
 - **Subject**: `Recovery Warning`
 - **Priority**: `urgent`
 - **Content**: type `recovery-warning`, message: "You have been unresponsive for 3 minutes. Recovery will be attempted in 60 seconds." Include `recovery_type`: "soft_restart`, `countdown_seconds`: 60.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **When to send:**
 - Before all RECOVERABLE actions
@@ -427,13 +427,13 @@ Use the `agent-messaging` skill to send:
 
 **Purpose**: Prevent task loss when agent fails.
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: the orchestrator session name (e.g., `orchestrator-master`)
 - **Subject**: `Agent Failure - Tasks Need Reassignment`
 - **Priority**: `urgent`
 - **Content**: type `failure-report`, message: "Agent [agent-name] has experienced TERMINAL failure." Include `failed_agent`, `failure_classification`: "TERMINAL`, `failure_reason`, `orphaned_tasks` (list of task descriptions), `recommended_action`: "reassign_tasks".
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **When to send:**
 - ALL TERMINAL failures
@@ -443,13 +443,13 @@ Use the `agent-messaging` skill to send:
 
 **Purpose**: Get human approval for terminal recovery actions.
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager` (or the manager session name)
 - **Subject**: `CRITICAL: Agent Terminal Failure`
 - **Priority**: `urgent`
 - **Content**: type `critical-failure`, message: "Agent [agent-name] has experienced TERMINAL failure requiring approval." Include `failed_agent`, `failure_classification`: "TERMINAL`, `failure_reason`, `recovery_attempts` count, `orphaned_tasks` list, `recovery_options` array listing "replace", "reassign_only", and "investigate" options with descriptions, `awaiting`: "approval".
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **When to send:**
 - TERMINAL failures when `auto_replace_on_terminal: false`

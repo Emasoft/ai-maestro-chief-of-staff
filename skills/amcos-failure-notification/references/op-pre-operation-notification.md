@@ -36,7 +36,7 @@ Trigger this operation BEFORE:
 ## Prerequisites
 
 - AI Maestro messaging system is running
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 - The `ai-maestro-agents-management` skill is available
 - Target agent(s) are registered and reachable
 - Operation details are known (type, expected duration, impact)
@@ -61,7 +61,7 @@ Include these required elements:
 
 ### Step 3: Send Notification
 
-Use the `agent-messaging` skill to send the pre-operation notification:
+Send the pre-operation notification via the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" --priority <priority>`):
 - **Recipient**: the target agent session name
 - **Subject**: `[Operation Type] Pending`
 - **Priority**: `high`
@@ -69,13 +69,13 @@ Use the `agent-messaging` skill to send the pre-operation notification:
 
 ### Step 4: Track Acknowledgments
 
-Use the `agent-messaging` skill to periodically check for unread messages from the target agent. Poll every 5 seconds for up to 60 seconds. Look for a response containing "ok" or type `acknowledgment`.
+Use the `amp-inbox` CLI to periodically check for unread messages from the target agent. Poll every 5 seconds for up to 60 seconds. Look for a response containing "ok" or type `acknowledgment`.
 
 ### Step 5: Handle Timeout
 
 If no acknowledgment after 60 seconds:
 
-1. Use the `agent-messaging` skill to send a final notice (see Example 2)
+1. Send a final notice via the `amp-send` CLI (see Example 2)
 2. Log the timeout occurrence
 3. Proceed with operation
 
@@ -85,7 +85,7 @@ Copy this checklist and track your progress:
 
 - [ ] Identified all affected agents
 - [ ] Composed notification with all required elements
-- [ ] Sent notification with high priority via `agent-messaging` skill
+- [ ] Sent notification with high priority via `amp-send` CLI
 - [ ] Started acknowledgment tracking
 - [ ] Sent reminders at 15s, 30s, 45s (if no response)
 - [ ] Received acknowledgment OR handled timeout
@@ -98,7 +98,7 @@ Copy this checklist and track your progress:
 
 **Scenario:** Installing security-audit skill on code-impl-auth agent.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Skill Installation Pending`
 - **Priority**: `high`
@@ -108,7 +108,7 @@ Use the `agent-messaging` skill to send:
 
 **Scenario:** Agent did not respond within 60 seconds.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Proceeding Without Acknowledgment`
 - **Priority**: `high`
@@ -118,7 +118,7 @@ Use the `agent-messaging` skill to send:
 
 **Scenario:** Notifying all agents about upcoming system maintenance.
 
-For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`), use the `agent-messaging` skill to send:
+For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`), send via the `amp-send` CLI:
 - **Recipient**: the agent session name
 - **Subject**: `System Maintenance in 5 Minutes`
 - **Priority**: `high`

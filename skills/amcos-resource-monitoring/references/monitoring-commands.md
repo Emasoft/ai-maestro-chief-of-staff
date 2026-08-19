@@ -344,8 +344,8 @@ done
 - `false → true`: When **all** resources return to normal
 
 **Notifications**:
-- Send alert to Chief of Staff using the `agent-messaging` skill when transitioning to `false`
-- Send recovery notification using the `agent-messaging` skill when transitioning to `true`
+- Send alert to Chief of Staff via the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`) when transitioning to `false`
+- Send recovery notification via the `amp-send` CLI when transitioning to `true`
 
 ---
 
@@ -414,7 +414,7 @@ done
 6. **Continue** until memory drops below 80%
 
 **Hibernate message format**:
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send this via the `amp-send` CLI. The JSON structure below shows the message content.
 ```json
 {
   "to": "agent-name",
@@ -442,7 +442,7 @@ done
 5. **Report to Chief of Staff** for investigation
 
 **Throttle message format**:
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send this via the `amp-send` CLI. The JSON structure below shows the message content.
 ```json
 {
   "to": "agent-name",

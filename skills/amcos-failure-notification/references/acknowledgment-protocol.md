@@ -127,7 +127,7 @@ Chief of Staff                    Agent
 
 **Purpose:** Request the agent's readiness confirmation.
 
-Use the `agent-messaging` skill to send the acknowledgment request:
+via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, send the acknowledgment request:
 - **Recipient**: the target agent session name
 - **Subject**: `[Operation] Pending - Acknowledgment Required`
 - **Priority**: `high`
@@ -154,7 +154,7 @@ After sending the request, start a 2-minute timer. Record the start time and mon
 - 60 seconds: Second reminder (60 seconds remaining)
 - 90 seconds: Final reminder (30 seconds remaining)
 
-For each reminder, use the `agent-messaging` skill to send a reminder message:
+For each reminder, via the `amp-send` CLI, send a reminder message:
 - **Recipient**: the target agent session name
 - **Subject**: `Reminder: Acknowledgment Required`
 - **Priority**: `high`
@@ -170,7 +170,7 @@ For each reminder, use the `agent-messaging` skill to send a reminder message:
 3. `"cancel"` - Agent requests operation cancellation
 4. Other message - Treat as information, still waiting
 
-Use the `agent-messaging` skill to check for unread messages from the target agent. Look for messages with type `acknowledgment` and content containing "ok", "wait", or "cancel".
+Use the `amp-inbox` CLI to check for unread messages from the target agent. Look for messages with type `acknowledgment` and content containing "ok", "wait", or "cancel".
 
 **Response handling logic:**
 - If message contains "ok" or "ready": Proceed with operation
@@ -188,7 +188,7 @@ Use the `agent-messaging` skill to check for unread messages from the target age
 
 **On timeout:**
 1. Log the timeout with timestamp
-2. Use the `agent-messaging` skill to send a timeout notice:
+2. via the `amp-send` CLI, send a timeout notice:
    - **Recipient**: the target agent session name
    - **Subject**: `Proceeding Without Acknowledgment`
    - **Priority**: `high`
@@ -258,7 +258,7 @@ Use the `agent-messaging` skill to check for unread messages from the target age
 | Other | Information | Log message, continue waiting |
 
 **Expected response message from agent:**
-The agent should use the `agent-messaging` skill to reply with:
+The agent should use the `amp-reply` CLI to reply with:
 - **Recipient**: `chief-of-staff` session name
 - **Subject**: `RE: [Operation] Pending - Acknowledgment Required`
 - **Content**: type `acknowledgment`, message: "ok", plus optional `ready` (true/false) and `notes` fields.
@@ -274,7 +274,7 @@ The agent should use the `agent-messaging` skill to reply with:
    [2025-02-02T10:30:00Z] TIMEOUT: No acknowledgment from code-impl-auth after 120 seconds
    ```
 
-2. **Send timeout notice to agent** using the `agent-messaging` skill:
+2. **Send timeout notice to agent** via the `amp-send` CLI:
    - **Recipient**: the target agent session name
    - **Subject**: `Proceeding Without Acknowledgment`
    - **Priority**: `high`
@@ -312,7 +312,7 @@ The agent should use the `agent-messaging` skill to reply with:
 
 ### Example 1: Successful Acknowledgment Flow
 
-1. Use the `agent-messaging` skill to send the initial acknowledgment request:
+1. via the `amp-send` CLI, send the initial acknowledgment request:
    - **Recipient**: `code-impl-auth`
    - **Subject**: `Skill Installation Pending - Acknowledgment Required`
    - **Priority**: `high`
@@ -330,7 +330,7 @@ The agent should use the `agent-messaging` skill to reply with:
 
 1. Send initial acknowledgment request (same as Example 1).
 
-2. No response by 30 seconds. Use the `agent-messaging` skill to send reminder 1:
+2. No response by 30 seconds. via the `amp-send` CLI, send reminder 1:
    - **Recipient**: `code-impl-auth`
    - **Subject**: `Reminder: Acknowledgment Required`
    - **Priority**: `high`
@@ -347,7 +347,7 @@ The agent should use the `agent-messaging` skill to reply with:
 1. Send initial acknowledgment request.
 2. Send reminders at 30s, 60s, 90s.
 3. No response after 120 seconds - timeout reached.
-4. Use the `agent-messaging` skill to send timeout notice:
+4. via the `amp-send` CLI, send timeout notice:
    - **Recipient**: `code-impl-auth`
    - **Subject**: `Proceeding Without Acknowledgment`
    - **Priority**: `high`
@@ -359,7 +359,7 @@ The agent should use the `agent-messaging` skill to reply with:
 1. Send initial acknowledgment request.
 2. Agent responds at 45 seconds with message: "wait", notes: "Need 30 more seconds to save state".
 3. Extend timeout by 60 seconds (new total: 135 seconds remaining from original start).
-4. Use the `agent-messaging` skill to send extension confirmation:
+4. via the `amp-send` CLI, send extension confirmation:
    - **Recipient**: `code-impl-auth`
    - **Subject**: `Extension Granted`
    - **Priority**: `normal`
@@ -377,7 +377,7 @@ The agent should use the `agent-messaging` skill to reply with:
 **Resolution:**
 1. Verify agent is online and not stuck
 2. Check if agent has AI Maestro polling enabled
-3. Use the `agent-messaging` skill to verify message is being delivered (check inbox)
+3. Use the `amp-inbox` CLI to verify message is being delivered (check inbox)
 4. Agent may be in a blocking operation
 5. Consider agent restart if consistently unresponsive
 

@@ -221,11 +221,11 @@
 
 ### 3.1 AI Maestro API Queries
 
-**Primary Method**: Use the `agent-messaging` skill for all message queries
+**Primary Method**: Use the `amp-inbox` CLI for all message queries
 
 **Query Examples**:
 
-Use the `agent-messaging` skill to query message history:
+Query message history via the `amp-inbox` CLI:
 - **List all messages for a specific agent**: Query by agent name with `action=list`
 - **Get messages in a time range**: Filter by `from_date` and `to_date` (ISO-8601 format)
 - **Example**: Get last 7 days of messages for `helper-agent-generic` by specifying the date range
@@ -1087,7 +1087,7 @@ Partial Report: {YES/NO}
 ```
 [FAILED] amcos-performance-reporter: team report generation failed
 
-Reason: AI Maestro API unreachable (agent-messaging skill failed to connect)
+Reason: AI Maestro API unreachable (amp-inbox CLI failed to connect)
 Missing Data: Message history, task assignments
 Attempted Period: 2026-01-25 to 2026-02-01
 Partial Report: NO

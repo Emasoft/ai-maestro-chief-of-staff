@@ -92,7 +92,7 @@ PENDING_IDS=$(jq -r '.[].request_id' /tmp/amcos-pending.json)
 
 for REQUEST_ID in $PENDING_IDS; do
   # Check AI Maestro inbox for response
-  # Use the agent-messaging skill to check for unread messages matching the request ID
+  # Use the amp-inbox CLI to check for unread messages matching the request ID
   RESPONSE=$(check_messages_for_request_id "$REQUEST_ID" "approval-response")
 
   if [ -n "$RESPONSE" ]; then

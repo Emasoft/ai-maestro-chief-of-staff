@@ -74,7 +74,7 @@ Hibernate when:
 4. Last activity beyond threshold
 
 **Idle Check Command:**
-Use the `agent-messaging` skill to check the agent's activity status. Expect a response showing `status: "IDLE"` and `last_activity` timestamp.
+Send via the `amp-send` CLI: `amp-send <agent-session> "Idle Check" "<request>" --type request --priority normal`, then check for a reply via `amp-inbox`. Expect a response showing `status: "IDLE"` and `last_activity` timestamp.
 
 ### 3.3.2 State capture
 

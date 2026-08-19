@@ -80,7 +80,7 @@ Use this strategy when:
 
 2. **Set a timer for the retry interval** (see backoff schedule below)
 
-3. **Continue monitoring** - use the `agent-messaging` skill to send periodic health check pings at increased frequency
+3. **Continue monitoring** - via the `amp-send` CLI, send periodic health check pings at increased frequency
 
 4. **Evaluate at each interval** - did agent respond?
 
@@ -124,13 +124,13 @@ A soft restart sends the agent a graceful self-restart request — a message (R4
 
 **Step 1: Request graceful shutdown**
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: the unresponsive agent session name
 - **Subject**: `Graceful restart requested`
 - **Priority**: `urgent`
 - **Content**: type `system-command`, with a message that notifies the agent it appears unresponsive and asks it to save state and restart within a two-minute window. Include `command`: "graceful_restart`, `timeout_seconds`: 120.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **Step 2: Wait 2 minutes for acknowledgment**
 
@@ -144,23 +144,23 @@ A hard restart forcefully terminates the agent process and starts a new one. Use
 
 **Step 1: Notify manager about hard restart**
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager` (or the manager session name)
 - **Subject**: `[ACTION] Hard restart required for agent`
 - **Priority**: `high`
 - **Content**: type `action-notification`, message: "Soft restart failed for agent [agent-name]. Initiating hard restart. The agent may lose unsaved work." Include `agent`, `action`: "hard_restart`, `risk`: "Unsaved work may be lost", `proceeding_in`: "30 seconds".
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **Step 2: Request user to execute restart**
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: the user or admin agent session name
 - **Subject**: `[USER ACTION REQUIRED] Restart agent process`
 - **Priority**: `urgent`
 - **Content**: type `user-action-required`, message: "Please restart the Claude Code session for agent [agent-name]. The session is unresponsive and cannot be recovered remotely." Include `instructions` listing the steps: find the terminal, press Ctrl+C, run claude --resume, verify responsiveness. Include `agent` and `urgency`: "Please complete within 10 minutes".
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **Step 3: Wait for restart confirmation**
 
@@ -172,13 +172,13 @@ After restart (soft or hard), verify the agent is functional:
 
 **Step 2: Send verification heartbeat**
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: the restarted agent session name
 - **Subject**: `[VERIFICATION] Post-restart health check`
 - **Priority**: `high`
 - **Content**: type `verification`, message: "Please confirm you are operational after restart. Respond with your current status and any issues." Include `expected_response`: "status_report`, `timeout_seconds`: 120.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **Step 3: Verify response and log result** to the recovery log.
 
@@ -220,23 +220,23 @@ tmux has-session -t <agent-name> 2>/dev/null && echo "SESSION_EXISTS" || echo "S
 
 **For tmux sessions:**
 
-Use the `agent-messaging` skill to send to the user or admin agent:
+via the `amp-send` CLI, send to the user or admin agent:
 - **Recipient**: the user or admin agent session name
 - **Subject**: `[USER ACTION REQUIRED] Wake hibernated agent`
 - **Priority**: `high`
 - **Content**: type `user-action-required`, message: "Agent [agent-name] is hibernated in a tmux session. Please wake it." Include `instructions` listing: SSH to the host, attach to tmux session, the Claude session should resume automatically, press Enter if not responsive. Include `agent`.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 **For idle Claude sessions:**
 
-Sometimes a Claude Code session goes idle due to inactivity. Sending a message may wake it. Use the `agent-messaging` skill to send:
+Sometimes a Claude Code session goes idle due to inactivity. Sending a message may wake it. via the `amp-send` CLI:
 - **Recipient**: the idle agent session name
 - **Subject**: `[WAKE] Activity ping`
 - **Priority**: `high`
 - **Content**: type `wake-ping`, message: "This is a wake-up ping. Please acknowledge if you are active." Include `timestamp`.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 ### 3.5.4 Post-Wake Verification
 
@@ -271,13 +271,13 @@ Use this strategy when:
 
 AMCOS cannot directly modify system resources. Request changes via manager.
 
-Use the `agent-messaging` skill to send:
+via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager` (or the manager session name)
 - **Subject**: `[RESOURCE REQUEST] Agent needs more resources`
 - **Priority**: `high`
 - **Content**: type `resource-request`, message: "Agent [agent-name] crashed due to insufficient memory. Requesting memory increase to allow recovery." Include fields: `agent`, `resource_issue` (e.g., "out_of_memory"), `current_allocation`, `requested_allocation`, `justification`, `alternative` (a workaround if resource increase is denied).
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 ---
 
@@ -308,13 +308,13 @@ See `references/agent-replacement-protocol.md` for the complete replacement work
 
 **Short version:**
 
-Use the `agent-messaging` skill to send a replacement request:
+via the `amp-send` CLI, send a replacement request:
 - **Recipient**: `amama-assistant-manager` (or the manager session name)
 - **Subject**: `[REPLACEMENT] Recovery failed, replacement required`
 - **Priority**: `urgent`
 - **Content**: type `replacement-request`, message: "All recovery strategies have failed for agent [agent-name]. Requesting approval to proceed with replacement." Include fields: `agent`, `recovery_attempts` (array of strategies tried with results), `recommendation`: "replace", `awaiting_approval`: true.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 ---
 
@@ -383,7 +383,7 @@ START: Recoverable failure detected
 **Cause**: Agent's message polling hook may be disabled or the agent is truly unresponsive.
 
 **Solution**:
-1. Use the `agent-messaging` skill to check the message queue - is the message delivered?
+1. Use the `amp-inbox` CLI to check the message queue - is the message delivered?
 2. If delivered but not acknowledged, agent is unresponsive
 3. Proceed to hard restart
 

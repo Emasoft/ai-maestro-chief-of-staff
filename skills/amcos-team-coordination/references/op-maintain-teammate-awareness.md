@@ -37,7 +37,7 @@ Trigger this operation when:
 
 - AI Maestro is running
 - The `ai-maestro-agents-management` skill is available
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 - Team roster exists with expected agents
 - Permission to query agent sessions
 - Understanding of expected team composition
@@ -50,7 +50,7 @@ Use the `ai-maestro-agents-management` skill to list all registered sessions. No
 
 ### Step 2: Query Each Agent's Status
 
-For agents that need detailed status, use the `agent-messaging` skill to send a status request:
+For agents that need detailed status, send a status request via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: `Status Check`
 - **Priority**: `normal`
@@ -82,7 +82,7 @@ Document any anomalies:
 Copy this checklist and track your progress:
 
 - [ ] Used `ai-maestro-agents-management` skill to poll all active sessions
-- [ ] Sent status requests to key agents via `agent-messaging` skill
+- [ ] Sent status requests to key agents via the `amp-send` CLI
 - [ ] Updated team roster with current information
 - [ ] Identified any inactive or missing agents
 - [ ] Flagged issues for follow-up
@@ -96,7 +96,7 @@ Copy this checklist and track your progress:
 
 1. Use the `ai-maestro-agents-management` skill to list all registered sessions. Note name, status, and last seen timestamp for each.
 
-2. Use the `agent-messaging` skill to check for unread messages in the Chief of Staff inbox. Note any pending issues from other agents.
+2. Use the `amp-inbox` CLI to check for unread messages in the Chief of Staff inbox. Note any pending issues from other agents.
 
 **Expected results:**
 - A list of all active agents with their current status
@@ -108,7 +108,7 @@ Copy this checklist and track your progress:
 
 1. Use the `ai-maestro-agents-management` skill to list agents and find `code-impl-auth`. Check its status.
 
-2. If the agent is active, use the `agent-messaging` skill to send:
+2. If the agent is active, send via the `amp-send` CLI:
    - **Recipient**: `code-impl-auth`
    - **Subject**: `Availability Check`
    - **Priority**: `normal`

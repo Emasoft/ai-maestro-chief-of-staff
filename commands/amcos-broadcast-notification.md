@@ -33,7 +33,7 @@ Send a notification to multiple agents simultaneously with filtering options by 
 
 ## Messaging Integration
 
-This command uses the `agent-messaging` skill to broadcast notifications. It first queries the agent registry to resolve filter criteria, then sends messages to all matching agents using the `agent-messaging` skill.
+This command broadcasts notifications via the `amp-send` CLI. It first queries the agent registry to resolve filter criteria, then sends messages to all matching agents via `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`.
 
 ## Arguments
 
@@ -111,7 +111,7 @@ The command uses the `ai-maestro-agents-management` skill to query agents matchi
 This command is implemented by:
 
 1. **Resolving target agents** using the `ai-maestro-agents-management` skill to list agents matching the filter criteria (by name, role, or project)
-2. **Sending messages** to each resolved agent using the `agent-messaging` skill:
+2. **Sending messages** to each resolved agent via the `amp-send` CLI:
    - **Recipient**: each matching agent
    - **Subject**: the provided subject
    - **Content**: the provided message with type "broadcast"

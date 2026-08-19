@@ -20,7 +20,7 @@ Suspends idle agents and resumes them when needed. Preserves full state so agent
 
 ## Prerequisites
 
-- AI Maestro running with `ai-maestro-agents-management` and `agent-messaging` skills
+- AI Maestro running with the `ai-maestro-agents-management` skill and the `amp-send`/`amp-inbox`/`amp-read`/`amp-reply` CLIs
 - Agent in RUNNING (hibernate) or HIBERNATED (wake) state
 - Team registry accessible
 
@@ -29,7 +29,7 @@ Suspends idle agents and resumes them when needed. Preserves full state so agent
 Copy this checklist and track your progress:
 - [ ] Request GovernanceRequest approval from sourceManager via amcos-permission-management
 - [ ] Confirm agent idle with no active work
-- [ ] Send hibernation warning via agent-messaging skill
+- [ ] Send hibernation warning via `amp-send`
 - [ ] Request state capture and wait for confirmation
 - [ ] Execute hibernation via ai-maestro-agents-management skill
 - [ ] Update registry status to hibernated and log event
@@ -47,7 +47,7 @@ SPAWNING -> RUNNING <-> HIBERNATED
 
 1. **Request approval** via `amcos-permission-management`. BLOCK until approved.
 2. **Confirm idle** - Verify no active work
-3. **Send warning** via `agent-messaging` (type: `hibernation-warning`)
+3. **Send warning** via `amp-send` (type: `hibernation-warning`)
 4. **Request state capture** - Agent saves context/handoff
 5. **Execute** via `ai-maestro-agents-management`
 6. **Update registry** - `uv run python scripts/amcos_team_registry.py update-status --team <team> --agent-name <agent> --status hibernated`

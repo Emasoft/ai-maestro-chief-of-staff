@@ -228,7 +228,7 @@ amp-reply.sh --id <message-id> \
   --message "Acknowledged. Proceed with merge when tests pass."
 ```
 
-> **Note**: These examples use amp-*.sh scripts directly. In production, use the `agent-messaging` skill which wraps these scripts.
+> **Note**: These examples use the frozen `amp-*` CLIs directly — this is the production mechanism (`amp-send`, `amp-inbox`, `amp-read`, `amp-reply`).
 
 ---
 

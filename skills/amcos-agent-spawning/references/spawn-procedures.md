@@ -119,13 +119,10 @@ Spawn the subagent with Claude Code's Agent tool. Set `subagent_type` to the age
 
 **Using AI Maestro:**
 
-Use the `agent-messaging` skill to send a spawn request:
-- **Recipient**: `agent-spawner`
-- **Subject**: `Spawn Request`
-- **Priority**: `high`
-- **Content**: type `spawn-request`, message: "Spawn code-implementer". Include `config` with `agent_type`, `task`, and `project` fields.
+Send a spawn request via the `amp-send` CLI:
+`amp-send agent-spawner "Spawn Request" "Spawn code-implementer. config: {agent_type, task, project}" --type spawn-request --priority high`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm delivery via the `amp-inbox` CLI.
 
 ### 1.3.4 Initialization verification
 
@@ -189,10 +186,8 @@ reporting:
 
 **Sending spawn request:**
 
-Use the `agent-messaging` skill to send:
-- **Recipient**: `agent-spawner`
-- **Subject**: `Spawn Request`
-- **Content**: type `spawn-request`, message: "Spawn agent for task". Include `config` with the spawn configuration object.
+Send via the `amp-send` CLI:
+`amp-send agent-spawner "Spawn Request" "Spawn agent for task. config: <spawn configuration object>" --type spawn-request`
 
 **Receiving spawn confirmation:**
 ```json
@@ -210,12 +205,10 @@ Use the `agent-messaging` skill to send:
 
 **Messaging spawned agent:**
 
-Use the `agent-messaging` skill to send:
-- **Recipient**: the spawned agent session name (e.g., `code-impl-01`)
-- **Subject**: `Task Update`
-- **Content**: type `instruction`, message: "Priority changed to critical"
+Send via the `amp-send` CLI:
+`amp-send code-impl-01 "Task Update" "Priority changed to critical" --type instruction`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm delivery via the `amp-inbox` CLI.
 
 ---
 

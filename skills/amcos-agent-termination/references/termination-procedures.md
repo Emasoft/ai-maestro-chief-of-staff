@@ -79,7 +79,7 @@ Terminate when:
 
 **Work Status Check:**
 
-Use the `agent-messaging` skill to query the target agent's current task status. Expect a response including status (e.g., IDLE), pending task count, and last activity timestamp.
+Use the `amp-send` CLI to query the target agent's current task status (then `amp-inbox`/`amp-read` for the reply). Expect a response including status (e.g., IDLE), pending task count, and last activity timestamp.
 
 ### 2.3.2 State preservation
 
@@ -106,23 +106,17 @@ design/memory/agents/
 
 **Graceful Termination:**
 
-Use the `agent-messaging` skill to send:
-- **Recipient**: the target agent session name (e.g., `code-impl-01`)
-- **Subject**: `Termination Request`
-- **Priority**: `high`
-- **Content**: type `terminate-request`, message: "Please save state and terminate gracefully". Include `reason` (e.g., "Task completed"), `graceful`: true, `timeout`: 60.
+Send via the `amp-send` CLI:
+`amp-send code-impl-01 "Termination Request" "Please save state and terminate gracefully. reason: Task completed, graceful: true, timeout: 60" --type terminate-request --priority high`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm delivery via the `amp-inbox` CLI.
 
 **Forced Termination:**
 
-Use the `agent-messaging` skill to send:
-- **Recipient**: the target agent session name (e.g., `code-impl-01`)
-- **Subject**: `Forced Termination`
-- **Priority**: `urgent`
-- **Content**: type `terminate-request`, message: "Immediate termination required". Include `reason` (e.g., "Error condition"), `graceful`: false.
+Send via the `amp-send` CLI:
+`amp-send code-impl-01 "Forced Termination" "Immediate termination required. reason: Error condition, graceful: false" --type terminate-request --priority urgent`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm delivery via the `amp-inbox` CLI.
 
 ### 2.3.4 Confirmation await
 

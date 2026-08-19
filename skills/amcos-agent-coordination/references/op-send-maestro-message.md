@@ -38,7 +38,7 @@ parent-skill: amcos-agent-coordination
 ## Prerequisites
 
 - AI Maestro is running locally
-- The `agent-messaging` skill is available
+- The `amp-send` and `amp-inbox` CLIs are available
 - Target agent is registered in AI Maestro
 
 ## Procedure
@@ -78,7 +78,7 @@ Additional fields may be included as needed.
 
 ### Step 4: Send Message
 
-Use the `agent-messaging` skill to send a message:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type <type> --priority <priority>`.
 - **Recipient**: the target agent session name
 - **Subject**: a brief, descriptive subject line
 - **Priority**: `normal`, `high`, or `urgent`
@@ -86,11 +86,11 @@ Use the `agent-messaging` skill to send a message:
 
 ### Step 5: Verify Delivery (Optional)
 
-Use the `agent-messaging` skill to check the message status or list unread messages for the target agent.
+Use the `amp-inbox` CLI to check the message status or list unread messages for the target agent.
 
 ### Step 6: Wait for Response (If Expected)
 
-For messages expecting a response, use the `agent-messaging` skill to poll your inbox for unread messages.
+For messages expecting a response, use the `amp-inbox` CLI to poll your inbox for unread messages.
 
 ## Checklist
 
@@ -100,7 +100,7 @@ Copy this checklist and track your progress:
 - [ ] Select priority level
 - [ ] Compose clear message content
 - [ ] Verify target agent name is correct
-- [ ] Send message via `agent-messaging` skill
+- [ ] Send message via `amp-send`
 - [ ] Check for delivery confirmation
 - [ ] Wait for response if expected
 - [ ] Log message exchange if significant
@@ -109,7 +109,7 @@ Copy this checklist and track your progress:
 
 ### Example: Role Assignment Message
 
-Use the `agent-messaging` skill to send a role assignment:
+Send via the `amp-send` CLI: `amp-send dev-api-charlie "Role Assignment - API Developer" "<message>" --type task --priority high`.
 - **Recipient**: `dev-api-charlie`
 - **Subject**: `Role Assignment - API Developer`
 - **Priority**: `high`
@@ -117,7 +117,7 @@ Use the `agent-messaging` skill to send a role assignment:
 
 ### Example: Status Request Message
 
-Use the `agent-messaging` skill to request status:
+Send via the `amp-send` CLI: `amp-send amoa-webapp-orchestrator "Status Request - Sprint Progress" "<message>" --type request --priority normal`.
 - **Recipient**: `amoa-webapp-orchestrator`
 - **Subject**: `Status Request - Sprint Progress`
 - **Priority**: `normal`
@@ -125,7 +125,7 @@ Use the `agent-messaging` skill to request status:
 
 ### Example: Hibernation Warning Message
 
-Use the `agent-messaging` skill to send a hibernation warning:
+Send via the `amp-send` CLI: `amp-send dev-frontend-bob "Hibernation Warning - 60 Seconds" "<message>" --type notification --priority urgent`.
 - **Recipient**: `dev-frontend-bob`
 - **Subject**: `Hibernation Warning - 60 Seconds`
 - **Priority**: `urgent`
@@ -141,7 +141,7 @@ To broadcast to all running agents:
    ```bash
    AGENTS=$(uv run python scripts/amcos_team_registry.py list --team "<team>" | awk '$NF=="running"{print $1}')
    ```
-2. For each agent, use the `agent-messaging` skill to send a team notification:
+2. For each agent, send via the `amp-send` CLI: `amp-send <agent> "Team Announcement" "<message>" --type notification --priority normal`.
    - **Recipient**: the agent session name
    - **Subject**: `Team Announcement`
    - **Priority**: `normal`

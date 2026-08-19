@@ -133,8 +133,8 @@ amp-send.sh "ampa-alpha-backend" "Transfer complete" \
 **Scenario:** You are COS of team `team-beta`. You receive an AMP notification that `ampa-alpha-backend` wants to join your team.
 
 ```bash
-# Step 1: Check your inbox (use the agent-messaging skill, or amp-inbox.sh directly)
-amp-inbox.sh
+# Step 1: Check your inbox via the amp-inbox CLI
+amp-inbox
 
 # Step 2: Review the transfer request details
 aimaestro-governance.sh transfer list | jq '.[] | select(.id == "tr-001")'

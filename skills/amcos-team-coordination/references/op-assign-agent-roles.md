@@ -34,7 +34,7 @@ Trigger this operation when:
 ## Prerequisites
 
 - Team registry is accessible
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 - The `ai-maestro-agents-management` skill is available
 - Target agent is registered and reachable
 - Role definitions are available (see role-assignment.md Section 1.2)
@@ -56,7 +56,7 @@ Evaluate available agents against role requirements. Consider:
 
 ### Step 3: Send Role Assignment Message
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: `Role Assignment: [Role Name]`
 - **Priority**: `high`
@@ -66,7 +66,7 @@ Use the `agent-messaging` skill to send:
 
 Wait for agent acknowledgment (up to 60 seconds per ACK timeout policy).
 
-Use the `agent-messaging` skill to check for unread messages from the target agent. Look for a response of type `acknowledgment` confirming role acceptance.
+Use the `amp-inbox` CLI to check for unread messages from the target agent. Look for a response of type `acknowledgment` confirming role acceptance.
 
 ### Step 5: Update Team Roster
 
@@ -82,7 +82,7 @@ Copy this checklist and track your progress:
 
 - [ ] Identified the required role
 - [ ] Evaluated available agents for capability match
-- [ ] Sent role assignment message via `agent-messaging` skill
+- [ ] Sent role assignment message via the `amp-send` CLI
 - [ ] Received acknowledgment from agent
 - [ ] Updated team roster with new assignment
 - [ ] Verified agent understands their responsibilities
@@ -93,7 +93,7 @@ Copy this checklist and track your progress:
 
 **Scenario:** A new PR needs review, and no agent currently has the Code Reviewer role.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `helper-agent-generic`
 - **Subject**: `Role Assignment: Code Reviewer`
 - **Priority**: `high`
@@ -107,7 +107,7 @@ The agent should reply with type `acknowledgment`, message: "Role accepted. Read
 
 **Scenario:** Moving test-engineer-01 from Unit Testing to Integration Testing role.
 
-**Step 1:** Use the `agent-messaging` skill to notify the current agent:
+**Step 1:** Notify the current agent via the `amp-send` CLI:
 - **Recipient**: `test-engineer-01`
 - **Subject**: `Role Transition: Integration Testing`
 - **Priority**: `high`

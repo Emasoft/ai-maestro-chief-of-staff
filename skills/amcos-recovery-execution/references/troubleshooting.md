@@ -26,7 +26,7 @@
 
 **Solution**:
 1. Check if agent has AI Maestro hooks in `~/.claude/settings.json`
-2. Use the `agent-messaging` skill to send a high-priority status inquiry:
+2. Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]` — a high-priority status inquiry:
    - **Recipient**: the unresponsive agent session name
    - **Subject**: `[URGENT] Status inquiry`
    - **Priority**: `urgent`
@@ -68,7 +68,7 @@ Attempt recovery strategies 1-4 in order
 
 **Solution**:
 1. Wait 15 minutes
-2. Use the `agent-messaging` skill to send a reminder:
+2. Send via the `amp-send` CLI a reminder:
    - **Recipient**: `amama-assistant-manager` (or the manager session name)
    - **Subject**: `[REMINDER] Agent replacement still awaiting approval`
    - **Priority**: `urgent`
@@ -141,7 +141,7 @@ Attempt recovery strategies 1-4 in order
 2. _____________
 ```
 
-**Notify stakeholders** using the `agent-messaging` skill:
+**Notify stakeholders** via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager` (or the manager session name)
 - **Subject**: `[INCIDENT] Deadline missed - post-mortem required`
 - **Priority**: `high`

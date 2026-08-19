@@ -455,7 +455,7 @@ For detailed procedures, see skills:
   - 2.3 Post-operation notification procedure - Step-by-step process
     - 2.3.1 Confirm operation success - Verify completion
     - 2.3.2 Compose confirmation - What to tell agents
-    - 2.3.3 Send notification - Using the `agent-messaging` skill
+    - 2.3.3 Send notification - Using the `amp-send` CLI
     - 2.3.4 Request verification - Ask agent to confirm
     - 2.3.5 Log outcome - Record the result
   - 2.4 Verification request format - Asking agents to confirm
@@ -548,7 +548,7 @@ Use the `ai-maestro-agents-management` skill to create a new agent:
 
 **Send Inter-Agent Message:**
 
-Send a message to another agent using the `agent-messaging` skill:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`
 - **Recipient**: the target agent session name
 - **Subject**: descriptive subject line
 - **Content**: structured message content
@@ -586,9 +586,9 @@ Send a message to another agent using the `agent-messaging` skill:
    - **Task**: "Develop auth module"
    - **Program args**: include `--plugin-dir` and `--agent` flags as needed
    - **Verify**: agent appears in agent list with "online" status
-3. Verify agent health by sending a health check message using the `agent-messaging` skill (30s timeout)
+3. Verify agent health by sending a health check message via the `amp-send` CLI (30s timeout)
 4. Use `amcos_team_registry.py add-agent` to add agent to team
-5. Notify AMOA of new agent availability using the `agent-messaging` skill
+5. Notify AMOA of new agent availability via the `amp-send` CLI
 6. Log operation to `docs_dev/amcos-team/agent-lifecycle.log`
 
 > For detailed checklist, see [workflow-checklists](../skills/amcos-agent-coordination/references/workflow-checklists.md)
@@ -606,8 +606,8 @@ Send a message to another agent using the `agent-messaging` skill:
 **Scenario:** Agent idle for 2+ hours, may be needed again
 
 **Steps:**
-1. Check agent idle time via message history using the `agent-messaging` skill
-2. Send a notification to the agent using the `agent-messaging` skill: "You will be hibernated in 30s. Save state."
+1. Check agent idle time via message history using the `amp-inbox` CLI
+2. Send a notification to the agent via the `amp-send` CLI: "You will be hibernated in 30s. Save state."
 3. Wait up to 60 seconds for an explicit acknowledgment message from the agent confirming it has saved state. If no acknowledgment is received within 60 seconds, log a warning and proceed with caution — do NOT assume the agent has saved state. Record the absence of acknowledgment in the lifecycle log.
 4. Validate that `<agent-name>` matches `^[a-z0-9][a-z0-9-]*$` before constructing the context path. Save agent context to `$CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 5. Update agent status in team registry to `hibernated`

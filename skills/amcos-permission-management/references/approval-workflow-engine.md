@@ -345,7 +345,7 @@ When a request receives a decision or times out:
 
 ### 4.1 AI Maestro message format for approval requests
 
-Use the `agent-messaging` skill to send the approval request to AMAMA:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, the approval request to AMAMA:
 - **Recipient**: `amama-main` (AMAMA's session name)
 - **Subject**: `APPROVAL REQUIRED: [operation_type]`
 - **Priority**: `normal`, `high`, or `urgent` (matches request priority)
@@ -405,7 +405,7 @@ All approval requests follow this escalation timeline:
 
 ### 5.2 Sending reminder messages at intervals
 
-Use the `agent-messaging` skill to send reminder messages:
+Send reminder messages via the `amp-send` CLI:
 - **Recipient**: `amama-main`
 - **Subject**: `REMINDER: Approval pending - [request_id]`
 - **Priority**: `high`
@@ -464,7 +464,7 @@ For type: `critical_operation`
 **Procedure**:
 1. Elevate priority to URGENT
 2. Extend timeout by 60 seconds
-3. Use the `agent-messaging` skill to send escalation message to AMAMA:
+3. Send via the `amp-send` CLI, escalation message to AMAMA:
    - **Recipient**: `amama-main`
    - **Subject**: `URGENT ESCALATION: critical_operation timeout`
    - **Priority**: `urgent`
@@ -493,7 +493,7 @@ If critical operation receives no response after extended timeout:
 
 ### 7.1 Decision message format from AMAMA
 
-Use the `agent-messaging` skill to check for unread messages. Filter for messages where the content type is `approval_decision`.
+Use the `amp-inbox` CLI to check for unread messages. Filter for messages where the content type is `approval_decision`.
 
 Expected decision format:
 
@@ -571,7 +571,7 @@ Send execution command via AI Maestro message.
 
 ### 8.3 Monitoring execution progress
 
-Use the `agent-messaging` skill to check for unread messages. Filter for messages where the content type is `execution_result` and the `request_id` matches the expected request ID (e.g., "AR-xxx").
+Use the `amp-inbox` CLI to check for unread messages. Filter for messages where the content type is `execution_result` and the `request_id` matches the expected request ID (e.g., "AR-xxx").
 
 Expected result format:
 

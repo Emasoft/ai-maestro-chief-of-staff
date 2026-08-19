@@ -1034,7 +1034,7 @@ After configuring plugins for an agent, send a restart notification via AI Maest
 
 **Procedure:**
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: `Plugin Configuration Changed - Restart Required`
 - **Priority**: `high`
@@ -1042,7 +1042,7 @@ Use the `agent-messaging` skill to send:
 
 **Example:**
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI, send:
 - **Recipient**: `helper-agent-generic`
 - **Subject**: `Plugin Configuration Changed - Restart Required`
 - **Priority**: `high`
@@ -1055,7 +1055,7 @@ Use the `agent-messaging` skill to send:
 
 **Message Content Template:**
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Use the `amp-send` CLI to send messages. The JSON structure below shows the message content.
 ```json
 {
   "to": "<agent-name>",

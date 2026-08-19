@@ -197,7 +197,7 @@ Save and distribute:
 REPORT_FILE="$CLAUDE_PROJECT_DIR/.amcos/reports/weekly-$(date +%Y%m%d).md"
 
 # Notify stakeholders
-# Use the agent-messaging skill to notify the manager:
+# Notify the manager via the `amp-send` CLI:
 # Recipient: amama-assistant-manager
 # Subject: "Weekly Performance Report"
 # Content: type "performance-report", report_path: $REPORT_FILE

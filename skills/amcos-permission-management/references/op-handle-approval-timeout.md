@@ -37,7 +37,7 @@ Handle situations where approval requests do not receive timely responses, inclu
 ## Prerequisites
 
 - Pending approval request with known request ID
-- The `agent-messaging` skill is available
+- The `amp-send`/`amp-inbox`/`amp-reply` CLIs are available
 - The `aimaestro-governance.sh` CLI on PATH (the frozen wrapper over the governance API)
 - Audit log at `docs_dev/audit/`
 
@@ -57,7 +57,7 @@ aimaestro-governance.sh requests --status pending \
 
 If the request age is between 60 and 90 seconds, and no reminder has been sent yet:
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[REMINDER] Approval pending: [REQUEST_ID]`
 - **Priority**: `high`
@@ -69,7 +69,7 @@ Then update the tracking file to mark `reminder_sent` as true for this request.
 
 If the request age is between 90 and 120 seconds, and no urgent notification has been sent yet:
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[URGENT] Approval timeout imminent: [REQUEST_ID]`
 - **Priority**: `urgent`
@@ -95,7 +95,7 @@ If the request age reaches 120 seconds or more:
 
 1. Update the tracking file status to `timeout_proceed` or `timeout_abort`
 2. Write an audit log entry to `docs_dev/audit/amcos-approvals-[DATE].yaml` with: timestamp, operation, target, request_id, decision, decided_by: "timeout", escalation_count: 2
-3. Use the `agent-messaging` skill to notify AMAMA:
+3. Via the `amp-send` CLI, notify AMAMA:
    - **Recipient**: `amama-assistant-manager`
    - **Subject**: `[TIMEOUT] Approval auto-[proceed/abort]: [REQUEST_ID]`
    - **Priority**: `high`
@@ -111,11 +111,11 @@ If the request age reaches 120 seconds or more:
 - Target: `implementer-2`
 - Default action for spawn: `proceed`
 
-At 60 seconds: Use the `agent-messaging` skill to send a reminder to `amama-assistant-manager` with subject "[REMINDER] Approval pending: abc-123", priority `high`.
+At 60 seconds: via the `amp-send` CLI, send a reminder to `amama-assistant-manager` with subject "[REMINDER] Approval pending: abc-123", priority `high`.
 
-At 90 seconds: Use the `agent-messaging` skill to send an urgent notice to `amama-assistant-manager` with subject "[URGENT] Approval timeout imminent: abc-123", priority `urgent`.
+At 90 seconds: via the `amp-send` CLI, send an urgent notice to `amama-assistant-manager` with subject "[URGENT] Approval timeout imminent: abc-123", priority `urgent`.
 
-At 120 seconds: Log timeout to audit trail, then use the `agent-messaging` skill to send timeout notification to `amama-assistant-manager` with subject "[TIMEOUT] Approval auto-proceed: abc-123". Then proceed with spawning `implementer-2`.
+At 120 seconds: Log timeout to audit trail, then via the `amp-send` CLI, send timeout notification to `amama-assistant-manager` with subject "[TIMEOUT] Approval auto-proceed: abc-123". Then proceed with spawning `implementer-2`.
 
 ## Escalation Timeline
 
@@ -138,7 +138,7 @@ At 120 seconds: Log timeout to audit trail, then use the `agent-messaging` skill
 
 ## Autonomous Mode
 
-When operating under autonomous directive, skip the approval wait entirely. After executing the operation, use the `agent-messaging` skill to notify AMAMA:
+When operating under autonomous directive, skip the approval wait entirely. After executing the operation, via the `amp-send` CLI, notify AMAMA:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[AUTONOMOUS] Executed: [operation] [target]`
 - **Priority**: `normal`

@@ -37,7 +37,7 @@ Trigger this operation when:
 ## Prerequisites
 
 - AI Maestro messaging system is running
-- The `agent-messaging` skill is available
+- The `amp-send`/`amp-inbox`/`amp-reply` CLIs are available
 - Target agent is active and reachable
 - Timeout values are understood (see Standardized ACK Timeout Policy)
 - Fallback behavior is defined for timeout scenarios
@@ -57,7 +57,7 @@ Trigger this operation when:
 
 ### Step 1: Send Acknowledgment Request
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: the request subject
 - **Priority**: `high`
@@ -70,7 +70,7 @@ Track elapsed time from request sent. Default timeout: 60 seconds. Reminder inte
 ### Step 3: Send Reminders
 
 
-At each reminder interval, if no response, use the `agent-messaging` skill to send a reminder:
+At each reminder interval, if no response, via the `amp-send` CLI, send a reminder:
 - **Recipient**: the target agent session name
 - **Subject**: `Reminder: [Original Subject]`
 - **Priority**: `high`
@@ -78,7 +78,7 @@ At each reminder interval, if no response, use the `agent-messaging` skill to se
 
 ### Step 4: Process Response
 
-Use the `agent-messaging` skill to check for unread messages from the target agent. Look for responses containing:
+Use the `amp-inbox` CLI to check for unread messages from the target agent. Look for responses containing:
 - `"ok"` - Agent is ready, proceed
 - `"not ready"` - Agent needs more time, negotiate
 - `"busy"` - Agent cannot respond now, may need escalation
@@ -89,7 +89,7 @@ Use the `agent-messaging` skill to check for unread messages from the target age
 **If acknowledgment received:** Proceed with operation.
 
 **If timeout occurs:**
-1. Use the `agent-messaging` skill to send a final timeout notice:
+1. Via the `amp-send` CLI, send a final timeout notice:
    - **Recipient**: the target agent session name
    - **Subject**: `Proceeding Without Acknowledgment`
    - **Priority**: `high`
@@ -101,7 +101,7 @@ Use the `agent-messaging` skill to check for unread messages from the target age
 
 Copy this checklist and track your progress:
 
-- [ ] Sent acknowledgment request with clear instructions via `agent-messaging` skill
+- [ ] Sent acknowledgment request with clear instructions via `amp-send` CLI
 - [ ] Started timeout timer
 - [ ] Sent reminder at 15 seconds (if no response)
 - [ ] Sent reminder at 30 seconds (if no response)
@@ -116,7 +116,7 @@ Copy this checklist and track your progress:
 
 **Scenario:** Getting acknowledgment before skill installation.
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI, send:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Ready for Skill Installation?`
 - **Priority**: `high`
@@ -130,7 +130,7 @@ On "ok" response: Proceed with skill installation.
 
 **Scenario:** Requesting AMAMA approval for expensive operation.
 
-Use the `agent-messaging` skill to send (2 minute timeout):
+Via the `amp-send` CLI, send (2 minute timeout):
 - **Recipient**: `ai-maestro-assistant-manager-agent`
 - **Subject**: `Approval Request: Full Project Rescan`
 - **Priority**: `high`
@@ -140,7 +140,7 @@ Use the `agent-messaging` skill to send (2 minute timeout):
 
 **Scenario:** Emergency handoff with tight timeout.
 
-Use the `agent-messaging` skill to send (30 second timeout):
+Via the `amp-send` CLI, send (30 second timeout):
 - **Recipient**: `backup-coordinator`
 - **Subject**: `URGENT: Emergency Handoff`
 - **Priority**: `urgent`

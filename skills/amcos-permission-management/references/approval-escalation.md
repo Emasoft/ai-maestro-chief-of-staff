@@ -112,7 +112,7 @@ SENT        SENT            SENT             REACHED
 
 **Message format:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[REMINDER] Pending Approval: {operation} {target}`
 - **Priority**: `high`
@@ -132,7 +132,7 @@ Use the `agent-messaging` skill to send:
 
 **Message format:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[URGENT] Approval Required: {operation} {target} - Will {action} in 30s`
 - **Priority**: `urgent`
@@ -152,17 +152,17 @@ Use the `agent-messaging` skill to send:
 1. Log timeout decision with justification
 2. Resolve request with decision = `timeout_proceed`
 3. Execute the operation
-4. Send post-operation notification to AMAMA using the `agent-messaging` skill
+4. Send post-operation notification to AMAMA using the `amp-send` CLI
 
 **Post-operation notification:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[TIMEOUT PROCEED] Completed: {operation} {target}`
 - **Priority**: `normal`
 - **Content**: type `timeout_notification`, message: "Operation completed after approval timeout". Include `request_id`, `operation`, `target`, `executed_at` (ISO-8601 timestamp), `escalation_count`: 3, `notes`: "Proceeded after 3 notification attempts with no response. User can reverse if needed."
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's sent messages feature.
 
 ### 3.3.4 Abort Decision - When to Cancel Operation
 
@@ -177,11 +177,11 @@ Use the `agent-messaging` skill to send:
 1. Log timeout decision with justification
 2. Resolve request with decision = `timeout_abort`
 3. Do NOT execute the operation
-4. Send abort notification to AMAMA using the `agent-messaging` skill
+4. Send abort notification to AMAMA using the `amp-send` CLI
 
 **Abort notification:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[TIMEOUT ABORT] Cancelled: {operation} {target}`
 - **Priority**: `high`
@@ -249,12 +249,12 @@ directive:
 2. Verify directive has not expired
 3. Check any conditions (e.g., max concurrent agents)
 4. If all checks pass: execute without pre-approval
-5. Send post-operation notification to AMAMA using the `agent-messaging` skill
+5. Send post-operation notification to AMAMA using the `amp-send` CLI
 6. Log with directive reference
 
 **Post-operation notification (autonomous):**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[AUTONOMOUS] {operation}: {target}`
 - **Priority**: `normal`

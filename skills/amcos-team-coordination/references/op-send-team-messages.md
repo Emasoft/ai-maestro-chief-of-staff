@@ -38,7 +38,7 @@ Trigger this operation when:
 ## Prerequisites
 
 - AI Maestro messaging system is running
-- The `agent-messaging` skill is available
+- The `amp-send`/`amp-inbox`/`amp-reply` CLIs are available
 - The `ai-maestro-agents-management` skill is available
 - Recipient agents are registered with valid session names
 - Message content and priority are determined
@@ -68,26 +68,19 @@ Select appropriate priority level:
 
 **For targeted message (single recipient):**
 
-Use the `agent-messaging` skill to send a message:
-- **Recipient**: the target agent session name
-- **Subject**: descriptive subject line
-- **Priority**: appropriate priority level
-- **Content**: type matching the message purpose (e.g., `instruction`, `announcement`, `request`), message with the actual content
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type T [--priority P]`.
 
 **For broadcast message (all team members):**
 
-Use the `agent-messaging` skill to broadcast a message to all active sessions:
-- **Subject**: descriptive broadcast subject
-- **Priority**: appropriate priority level
-- **Content**: type `announcement`, message with the broadcast content
+For each active session, send via the `amp-send` CLI (no native broadcast — repeat the send per recipient) with the same subject/priority/content.
 
 **For multi-recipient message (specific group):**
 
-For each target agent in the group, use the `agent-messaging` skill to send an individual message with the same content.
+For each target agent in the group, send via the `amp-send` CLI with the same content.
 
 ### Step 4: Confirm Delivery
 
-Use the `agent-messaging` skill to check message status by message ID. For important messages, verify delivery was successful.
+Use the `amp-inbox` CLI to check message status by message ID. For important messages, verify delivery was successful.
 
 ### Step 5: Log in Coordination State
 
@@ -106,7 +99,7 @@ Copy this checklist and track your progress:
 - [ ] Identified all recipients for the message
 - [ ] Determined appropriate message priority
 - [ ] Composed clear, actionable message content
-- [ ] Sent message via `agent-messaging` skill
+- [ ] Sent message via the `amp-send` CLI
 - [ ] Verified delivery confirmation received
 - [ ] Logged message in coordination state
 
@@ -116,7 +109,7 @@ Copy this checklist and track your progress:
 
 **Scenario:** Sprint 5 is starting, all team members need to be informed.
 
-Use the `agent-messaging` skill to broadcast:
+Send via the `amp-send` CLI to each active session:
 - **Subject**: `Sprint 5 Starting Now`
 - **Priority**: `high`
 - **Content**: type `announcement`, message: "Sprint 5 has officially started. Duration: 2 weeks. Focus: Authentication module refactor. Check your inbox for individual task assignments."
@@ -125,7 +118,7 @@ Use the `agent-messaging` skill to broadcast:
 
 **Scenario:** Agent `code-impl-auth` needs to pause work for an upcoming operation.
 
-Use the `agent-messaging` skill to send a message:
+Send via the `amp-send` CLI:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Pause Work: Incoming Skill Installation`
 - **Priority**: `high`
@@ -135,7 +128,7 @@ Use the `agent-messaging` skill to send a message:
 
 **Scenario:** Need status from all developers before standup.
 
-For each developer agent (`code-impl-auth`, `code-impl-core`, `code-impl-api`), use the `agent-messaging` skill to send:
+For each developer agent (`code-impl-auth`, `code-impl-core`, `code-impl-api`), send via the `amp-send` CLI:
 - **Recipient**: the developer agent session name
 - **Subject**: `Status Request: Pre-Standup`
 - **Priority**: `normal`

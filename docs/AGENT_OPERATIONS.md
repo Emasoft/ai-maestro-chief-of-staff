@@ -80,7 +80,7 @@ Cross-team operations require a GovernanceRequest sent to the MANAGER:
 | Spawn agent for own team | Yes (sourceManager only) |
 | Message own team members | No |
 
-**GovernanceRequest format** (sent via `agent-messaging` skill):
+**GovernanceRequest format** (sent via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type request --priority high`):
 - **Recipient**: MANAGER session name
 - **Subject**: `GovernanceRequest: <operation>`
 - **Content type**: `request`
@@ -94,7 +94,7 @@ Cross-team operations require a GovernanceRequest sent to the MANAGER:
 **Environment Variables**:
 - `${CLAUDE_PLUGIN_ROOT}` - Set by Claude Code when plugin loaded via `--plugin-dir`
 - `${CLAUDE_PROJECT_DIR}` - Working directory of the Claude Code session
-- AI Maestro API endpoint is configured automatically by AI Maestro and accessed via the `agent-messaging` skill
+- AI Maestro API endpoint is configured automatically by AI Maestro and accessed via the `amp-*` CLIs (`amp-send`, `amp-inbox`, `amp-read`, `amp-reply`)
 
 **Path Resolution**:
 ```bash
@@ -333,11 +333,11 @@ Each plugin must include all skills, commands, agents, and hooks needed for that
 
 ## 10. Inter-Agent Messaging
 
-All messaging operations use the `agent-messaging` skill. Never use explicit API calls or command-line tools directly.
+All messaging operations use the `amp-*` CLIs. Never call the AI Maestro API directly.
 
 ### 10.1 Send Message
 
-Use the `agent-messaging` skill to send a message:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type T --priority P`:
 - **Recipient**: the target agent session name
 - **Subject**: descriptive subject line
 - **Content**: structured message with type and body
@@ -360,17 +360,17 @@ Use the `agent-messaging` skill to send a message:
 
 ### 10.2 Check Inbox / Mark Read
 
-Use the `agent-messaging` skill to check for unread messages or mark a message as read.
+Use `amp-inbox` to list unread messages and `amp-read <message-id>` to read (and mark read) one.
 
 ### 10.3 Message Workflow Example
 
-1. **AMCOS sends task to Orchestrator** via `agent-messaging`:
+1. **AMCOS sends task to Orchestrator** via `amp-send`:
    - Recipient: `amcos-orch-svgbbox` | Subject: "Implement Feature X" | Priority: `high`
 
-2. **Orchestrator acknowledges** via `agent-messaging`:
+2. **Orchestrator acknowledges** via `amp-reply`:
    - Recipient: `amcos-chief-of-staff-one` | Subject: "Re: Implement Feature X" | Priority: `normal`
 
-3. **Orchestrator reports completion** via `agent-messaging`:
+3. **Orchestrator reports completion** via `amp-send`:
    - Recipient: `amcos-chief-of-staff-one` | Subject: "Re: Implement Feature X" | Priority: `normal`
 
 ---
@@ -511,9 +511,9 @@ All operations use intent-based skill references:
 | **Terminate agent** | `ai-maestro-agents-management` | Delete an agent by name (with confirmation) |
 | **List agents** | `ai-maestro-agents-management` | List all registered agents with status |
 | **Check agent health** | `ai-maestro-agents-management` | Check health status for an agent |
-| **Send message** | `agent-messaging` | Send message to a recipient with subject, content, and priority |
-| **Check inbox** | `agent-messaging` | Check for unread messages |
-| **Mark read** | `agent-messaging` | Mark a message as read |
+| **Send message** | `amp-send` | Send message to a recipient with subject, content, and priority |
+| **Check inbox** | `amp-inbox` | Check for unread messages |
+| **Mark read** | `amp-read` | Read a message (marks it read) |
 
 ---
 

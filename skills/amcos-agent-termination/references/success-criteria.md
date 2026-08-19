@@ -29,7 +29,7 @@ Verify ALL criteria met:
 
 **Evidence Required:**
 - Session exists (use the `ai-maestro-agents-management` skill to list agents and confirm the new agent appears)
-- Agent responds to a health check (use the `agent-messaging` skill to send a health check message and receive a response)
+- Agent responds to a health check (use the `amp-send` CLI to send a health check message and the `amp-inbox` CLI to receive a response)
 - Directory existence verification
 - Team registry JSON showing agent in members array
 - Lifecycle log entry with spawn timestamp
@@ -37,11 +37,8 @@ Verify ALL criteria met:
 **Verification Steps:**
 
 1. Use the `ai-maestro-agents-management` skill to list all agents and confirm the newly spawned agent appears with status `active` or `online`.
-2. Use the `agent-messaging` skill to send a health check message to the agent:
-   - **Recipient**: the new agent session name
-   - **Subject**: `Health Check`
-   - **Priority**: `normal`
-   - **Content**: type `system`, message: "ping"
+2. Send a health check message via the `amp-send` CLI:
+   `amp-send <new-agent-session-name> "Health Check" "ping" --type system --priority normal`
 3. Verify the agent responds within 30 seconds.
 4. Check the working directory exists: `test -d <working-directory> && echo exists`
 5. Check team registry (if applicable): use the `ai-maestro-agents-management` skill to list agents and confirm `<agent-name>` appears in the team roster.
@@ -97,7 +94,7 @@ Verify ALL criteria met:
 1. Use the `ai-maestro-agents-management` skill to get the agent's details and confirm status is `hibernated`.
 2. Verify context saved: `ls -l $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
 3. Validate context JSON: `jq . $CLAUDE_PROJECT_DIR/.ai-maestro/hibernated-agents/<agent-name>/context.json`
-4. Use the `agent-messaging` skill to send a health check message. It should timeout after 30 seconds (agent is sleeping).
+4. Send a health check message via the `amp-send` CLI. It should timeout after 30 seconds (agent is sleeping).
 5. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
 ---
@@ -122,11 +119,8 @@ Verify ALL criteria met:
 
 **Verification Steps:**
 
-1. Use the `agent-messaging` skill to send a health check message:
-   - **Recipient**: the agent session name
-   - **Subject**: `Health Check`
-   - **Priority**: `normal`
-   - **Content**: type `system`, message: "ping"
+1. Send a health check message via the `amp-send` CLI:
+   `amp-send <agent-session-name> "Health Check" "ping" --type system --priority normal`
 2. Confirm the agent responds within 30 seconds.
 3. Use the `ai-maestro-agents-management` skill to get the agent's details and confirm status is `active`.
 4. Check team registry: use the `ai-maestro-agents-management` skill to read `<agent-name>` and confirm its status is `active`.
@@ -158,7 +152,7 @@ Verify ALL criteria met:
 1. Verify team registry reachable: `aimaestro-teams.sh list >/dev/null && echo ok`
 2. Verify agent in team: `aimaestro-teams.sh show <team-id> | jq -r '.agents[]? | select(.name == "<agent-name>")'`
 3. Verify team structure: `test -d .ai-maestro/teams/<team-name> && echo exists`
-4. Use the `agent-messaging` skill to check inbox for the agent and confirm a team assignment message was delivered:
+4. Use the `amp-inbox` CLI to check inbox for the agent and confirm a team assignment message was delivered:
    - Filter by subject containing "Team Assignment"
 5. Check lifecycle log: `tail -n 20 docs_dev/amcos-team/agent-lifecycle.log | grep "<agent-name>"`
 
@@ -187,7 +181,7 @@ Verify ALL criteria met:
 
 1. Check approval log: `grep "<request-id>" docs_dev/chief-of-staff/approval-requests.log`
 2. Verify audit trail entry: `tail -n 50 docs_dev/chief-of-staff/approval-audit.log | grep "<request-id>"`
-3. Use the `agent-messaging` skill to check inbox for messages from AMAMA containing approval decisions related to the request ID.
+3. Use the `amp-inbox` CLI to check inbox for messages from AMAMA containing approval decisions related to the request ID.
 4. Verify decision is approved: `grep "<request-id>" docs_dev/chief-of-staff/approval-audit.log | grep -o '"decision":"[^"]*"'`
 
 ---

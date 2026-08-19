@@ -140,7 +140,7 @@ Activity detection helps distinguish between agents that are working and those t
 
 **Step 1: Check message activity**
 
-Use the `agent-messaging` skill to list messages from a specific agent within the last hour.
+Use the `amp-inbox` CLI to list messages from a specific agent within the last hour.
 
 **Step 2: Check session heartbeat**
 
@@ -148,7 +148,7 @@ Use the `ai-maestro-agents-management` skill to get the session's last activity 
 
 **Step 3: Send ping if uncertain**
 
-Use the `agent-messaging` skill to send a low-priority ping:
+Send via the `amp-send` CLI a low-priority ping:
 - **Recipient**: the target agent session name
 - **Subject**: `Heartbeat Check`
 - **Priority**: `normal`
@@ -285,7 +285,7 @@ Reporting Period: Last 24 hours
 
 ### Example: Sending Team-Wide Status Request
 
-Use the `agent-messaging` skill to broadcast a status check:
+Send via the `amp-send` CLI to each active session a status check:
 - **Subject**: `Status Check - Please Respond`
 - **Priority**: `normal`
 - **Content**: type `request`, message: "Please respond with your current status: (1) Current task, (2) Percent complete, (3) Any blockers. Respond within 15 minutes."
@@ -294,13 +294,13 @@ Use the `agent-messaging` skill to broadcast a status check:
 
 For agent `helper-agent-backup` that stopped responding:
 
-1. Use the `agent-messaging` skill to send an urgent ping:
+1. Send via the `amp-send` CLI an urgent ping:
    - **Recipient**: `helper-agent-backup`
    - **Subject**: `URGENT: Status Check`
    - **Priority**: `urgent`
    - **Content**: type `request`, message: "Please respond immediately if you are active."
-2. Wait 5 minutes, then use the `agent-messaging` skill to check for messages from `helper-agent-backup` in the last 5 minutes
-3. If no response, use the `agent-messaging` skill to notify the orchestrator:
+2. Wait 5 minutes, then use the `amp-inbox` CLI to check for messages from `helper-agent-backup` in the last 5 minutes
+3. If no response, send via the `amp-send` CLI to notify the orchestrator:
    - **Recipient**: `orchestrator-master`
    - **Subject**: `Agent Offline: helper-agent-backup`
    - **Priority**: `high`

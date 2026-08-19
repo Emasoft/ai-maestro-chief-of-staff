@@ -2,7 +2,7 @@
 
 Standard message formats for inter-role communication via AI Maestro.
 
-> All message templates below should be sent using the `agent-messaging` skill, which handles the AI Maestro API format automatically.
+> All message templates below should be sent using the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" --type T --priority P`), which handles the AI Maestro API format automatically.
 
 ## Chief of Staff Specific Message Types
 
@@ -10,7 +10,7 @@ Standard message formats for inter-role communication via AI Maestro.
 
 Sent to newly spawned agents to establish their role and task.
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 
 ```json
@@ -43,7 +43,7 @@ Sent to newly spawned agents to establish their role and task.
 
 Detailed briefing sent after agent acknowledges onboarding.
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -83,7 +83,7 @@ Detailed briefing sent after agent acknowledges onboarding.
 Sent when agent will be terminated due to timeout or resource constraints.
 
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -109,7 +109,7 @@ Sent when agent will be terminated due to timeout or resource constraints.
 
 Periodic message to verify agent responsiveness.
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -135,7 +135,7 @@ Periodic message to verify agent responsiveness.
 
 Request for detailed performance metrics from an agent.
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -169,7 +169,7 @@ Request for detailed performance metrics from an agent.
 
 ### 6. Task Assignment
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 
 ```json
@@ -189,7 +189,7 @@ Request for detailed performance metrics from an agent.
 
 ### 7. Status Request
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -206,7 +206,7 @@ Request for detailed performance metrics from an agent.
 
 ### 8. Status Update
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 
 ```json
@@ -228,7 +228,7 @@ Request for detailed performance metrics from an agent.
 
 ### 9. Completion Signal
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 
 ```json
@@ -249,7 +249,7 @@ Request for detailed performance metrics from an agent.
 
 ### 10. Approval Request
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -269,7 +269,7 @@ Request for detailed performance metrics from an agent.
 
 ### 11. Approval Response
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 
 
@@ -290,7 +290,7 @@ Request for detailed performance metrics from an agent.
 
 ### 12. Question / Clarification
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {
@@ -310,7 +310,7 @@ Request for detailed performance metrics from an agent.
 ### 13. Error / Issue Report
 
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Send via the `amp-send` CLI. The JSON structure below shows the message content.
 
 ```json
 {

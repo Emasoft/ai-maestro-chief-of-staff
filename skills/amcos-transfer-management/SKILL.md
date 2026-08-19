@@ -26,7 +26,7 @@ This skill is **TEAM-SCOPED**: you can only initiate transfers OUT of your team 
 
 1. AI Maestro v0.26.0+ running locally
 2. GovernanceRequest API accessible at `$AIMAESTRO_API`
-3. `agent-messaging` skill and `amp-send.sh` available
+3. The `amp-send`/`amp-inbox`/`amp-reply` CLIs available
 4. Agent to transfer is active in source team; target team exists with capacity
 
 ## Instructions

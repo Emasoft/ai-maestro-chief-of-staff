@@ -12,7 +12,7 @@ Wait for an approval response from the Assistant Manager (AMAMA) with configurab
 
 ## Usage
 
-Poll for an approval response from AMAMA using the `agent-messaging` skill:
+Poll for an approval response from AMAMA using the `amp-inbox` CLI:
 1. Check for unread messages matching the request ID and type `approval_response`
 2. Poll at the configured interval until response received or timeout
 3. Return the approval decision when found
@@ -167,8 +167,8 @@ Typical workflow combining request and wait:
 
 When using `--on-approved` and `--on-rejected`, the command executes the appropriate action based on the decision:
 
-- **On approved**: Use the `ai-maestro-agents-management` skill to execute the approved operation, then notify the manager of completion using the `agent-messaging` skill
-- **On rejected**: Notify the manager that the operation was blocked using the `agent-messaging` skill
+- **On approved**: Use the `ai-maestro-agents-management` skill to execute the approved operation, then notify the manager of completion via the `amp-send` CLI
+- **On rejected**: Notify the manager that the operation was blocked via the `amp-send` CLI
 
 ## Error Handling
 

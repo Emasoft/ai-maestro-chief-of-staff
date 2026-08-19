@@ -39,7 +39,7 @@ version: 1.0.0
 - Agent exists and is registered in team registry
 - AI Maestro is running locally
 - The `ai-maestro-agents-management` skill is available
-- The `agent-messaging` skill is available
+- The `amp-send` CLI is available
 - Team registry is accessible
 
 ## Procedure
@@ -48,13 +48,13 @@ version: 1.0.0
 
 Before terminating, confirm the agent has no pending work.
 
-Use the `agent-messaging` skill to send a status request:
+Send via the `amp-send` CLI: `amp-send <recipient> "Pre-Termination Status Check" "<message>" --type status --priority high`.
 - **Recipient**: the target agent session name
 - **Subject**: `Pre-Termination Status Check`
 - **Priority**: `high`
 - **Content**: type `status-request`, asking the agent to confirm all tasks are complete before termination
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 Wait for confirmation response.
 
@@ -62,23 +62,23 @@ Wait for confirmation response.
 
 If state preservation is needed for audit or handoff:
 
-Use the `agent-messaging` skill to request a state dump:
+Send via the `amp-send` CLI: `amp-send <recipient> "State Dump Request" "<message>" --type request --priority high`.
 - **Recipient**: the target agent session name
 - **Subject**: `State Dump Request`
 - **Priority**: `high`
 - **Content**: type `request`, asking the agent to save its current state to `~/.ai-maestro/agent-states/<session-name>-final.json` before termination
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 ### Step 3: Send Termination Warning
 
-Use the `agent-messaging` skill to send a termination notice:
+Send via the `amp-send` CLI: `amp-send <recipient> "Termination Notice" "<message>" --type notification --priority urgent`.
 - **Recipient**: the target agent session name
 - **Subject**: `Termination Notice`
 - **Priority**: `urgent`
 - **Content**: type `hibernation-warning`, informing the agent it will be terminated in 60 seconds and should complete any final cleanup
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 ### Step 4: Execute Termination
 
@@ -100,8 +100,8 @@ Optionally remove the agent's working directory and local plugin cache. Keep the
 
 ### Step 7: Log Termination
 
-`amcos_team_registry.py` has no `log` subcommand — note the termination event in
-the team's coordination channel (`agent-messaging`) instead.
+`amcos_team_registry.py` has no `log` subcommand — note the termination event
+via the `amp-send` CLI to the team's coordination channel instead.
 
 ## Checklist
 
@@ -124,13 +124,13 @@ Copy this checklist and track your progress:
 
 For agent `dev-backend-alice`:
 
-1. Use the `agent-messaging` skill to send a pre-termination status check:
+1. Send via the `amp-send` CLI: `amp-send dev-backend-alice "Pre-Termination Status Check" "Please confirm all tasks are complete." --type status --priority high`.
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Pre-Termination Status Check`
    - **Priority**: `high`
    - **Content**: type `status-request`, message: "Please confirm all tasks are complete."
 2. Wait for response confirming work is done
-3. Use the `agent-messaging` skill to send a termination warning:
+3. Send via the `amp-send` CLI: `amp-send dev-backend-alice "Termination Notice" "Termination in 60 seconds." --type notification --priority urgent`.
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Termination Notice`
    - **Priority**: `urgent`
@@ -142,7 +142,7 @@ For agent `dev-backend-alice`:
    uv run python scripts/amcos_team_registry.py remove-agent --team "<team>" --agent-name "dev-backend-alice"
    ```
 7. Log the event (no `log` subcommand exists — send a team notification via
-   `agent-messaging` instead): "Task completed - backend API implementation finished."
+   `amp-send` instead): "Task completed - backend API implementation finished."
 
 ## Error Handling
 

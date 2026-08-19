@@ -140,7 +140,7 @@ def register_request(request_id, operation, target, details, justification):
 
 **Check for responses:**
 
-Use the `agent-messaging` skill to check for unread messages with content type `approval_response`.
+Use the `amp-inbox` CLI to check for unread messages with content type `approval_response`.
 
 **Match response to request:**
 

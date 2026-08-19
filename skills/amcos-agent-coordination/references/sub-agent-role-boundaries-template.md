@@ -245,13 +245,13 @@ Sub-agents communicate with other AMCOS components via AI Maestro messaging.
 
 #### Sending Messages
 
-Use the `agent-messaging` skill to send messages to other agents. Each message requires:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type T --priority P`. Each message requires:
 - **Recipient**: the target agent session name
 - **Subject**: a descriptive subject line
 - **Priority**: `normal`, `high`, or `urgent`
 - **Content**: an object with `type` (the message type), `message` (the message text), and optionally `operation_id`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via `amp-send`'s output (message id).
 
 #### Target Agents
 
@@ -314,7 +314,7 @@ AMCOS Sub-Agents (Workers)
 - Keep helper prompts focused (single responsibility)
 
 **Bash Tool:**
-- Execute operations via the `ai-maestro-agents-management` and `agent-messaging` skills
+- Execute operations via the `ai-maestro-agents-management` skill and the `amp-send`/`amp-inbox`/`amp-read`/`amp-reply` CLIs
 - Always set `timeout: 1200000` (20 minutes)
 - Always include `description` parameter
 - Never use for file operations (use Read/Write instead)
@@ -338,7 +338,7 @@ Sub-agents may use these CLI tools via Bash:
 | Tool | Purpose | Example |
 |------|---------|---------|
 | `ai-maestro-agents-management` skill | Agent lifecycle management | Use the skill to create, terminate, hibernate, or wake agents |
-| `agent-messaging` skill | Inter-agent messaging | Use the skill to send, read, and reply to messages |
+| `amp-send`/`amp-inbox`/`amp-read`/`amp-reply` CLIs | Inter-agent messaging | Use `amp-send` to send, `amp-inbox`/`amp-read` to check, `amp-reply` to reply |
 | `jq` | JSON parsing | `jq -r '.status' state.json` |
 | `date` | Timestamp generation | `date -u +"%Y-%m-%dT%H:%M:%SZ"` |
 | `openssl` | Random ID generation | `openssl rand -hex 3` |
@@ -369,7 +369,7 @@ All sub-agents should follow this error handling pattern:
 **Standard Error Response:**
 1. Log error to audit trail with full context
 2. Execute rollback if operation was partially complete
-3. Send escalation message to Chief of Staff using the `agent-messaging` skill
+3. Send escalation message to Chief of Staff via `amp-send`
 4. Update operation status to `failed`
 5. Wait for instructions
 
@@ -499,5 +499,5 @@ Before deploying a new sub-agent, verify:
 
 - Main skill: [amcos-agent-coordination/SKILL.md](../SKILL.md)
 - Agent hierarchy: described in the `amcos-agent-coordination` skill (see SKILL.md section on agent roles and hierarchy)
-- Communication protocols: use the `agent-messaging` skill for all inter-agent messaging (see Communication Rules section above)
+- Communication protocols: use the `amp-send`/`amp-inbox`/`amp-read`/`amp-reply` CLIs for all inter-agent messaging (see Communication Rules section above)
 - Approval workflows: use the `amcos-permission-management` skill for approval request procedures

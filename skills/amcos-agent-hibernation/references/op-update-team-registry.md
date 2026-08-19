@@ -53,7 +53,7 @@ Determine which registry operation is needed:
 | Status change | `update-status` |
 
 `amcos_team_registry.py` has no `update-role` and no `log` subcommand — a role
-change or event log is not tracked by this script; use `agent-messaging` to
+change or event log is not tracked by this script; use `amp-send` to
 notify the team instead.
 
 ### Step 2: Execute Registry Update
@@ -93,7 +93,7 @@ uv run python scripts/amcos_team_registry.py list --team "<team>"
 ### Step 4: Publish Update to Team (Optional)
 
 `amcos_team_registry.py` has no `publish` subcommand — if teammates need to
-know about the change, notify them via the `agent-messaging` skill instead.
+know about the change, notify them via `amp-send` instead.
 
 ### Step 5: Verify Registry State (Recommended)
 
@@ -138,7 +138,7 @@ uv run python scripts/amcos_team_registry.py list --team "$TEAM_NAME"
 # Read dev-api-charlie's entry from the output
 
 # Log the addition / notify team — no log or publish subcommand exists;
-# use the agent-messaging skill instead: "New team member: $SESSION_NAME (developer on backend-api)"
+# use amp-send instead: "New team member: $SESSION_NAME (developer on backend-api)"
 ```
 
 ### Example: Status Change After Hibernation
@@ -153,7 +153,7 @@ uv run python scripts/amcos_team_registry.py update-status \
   --agent-name "$SESSION_NAME" \
   --status "hibernated"
 
-# Log hibernation — no log subcommand exists; use agent-messaging instead:
+# Log hibernation — no log subcommand exists; use amp-send instead:
 # "Idle timeout exceeded (30 min)"
 
 # Verify

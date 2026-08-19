@@ -79,7 +79,7 @@ Initiate emergency handoff when ALL of the following are true:
 
 Immediately notify AMOA when initiating emergency handoff.
 
-Use the `agent-messaging` skill to send the handoff request:
+Send the handoff request via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY] Agent failure - work handoff required`
 - **Priority**: `urgent`
@@ -93,13 +93,13 @@ Use the `agent-messaging` skill to send the handoff request:
   - Action requested: "reassign_critical_tasks"
   - Suggested recipient agent (if known)
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent-messages view.
 
 ### 5.3.3 Notification to Manager
 
 Notify AMAMA about the emergency handoff.
 
-Use the `agent-messaging` skill to send notification:
+Send notification via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[ALERT] Emergency work handoff initiated`
 - **Priority**: `urgent`
@@ -111,7 +111,7 @@ Use the `agent-messaging` skill to send notification:
   - Reason for the decision
   - This is a notification only (not awaiting approval)
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent-messages view.
 
 ---
 
@@ -196,7 +196,7 @@ git diff --name-only HEAD~5..HEAD
 
 **From previous messages:**
 
-Use the `agent-messaging` skill to list recent messages sent by the failed agent (limit to last 5 messages).
+Use the `amp-inbox` CLI to list recent messages sent by the failed agent (limit to last 5 messages).
 
 ---
 
@@ -210,7 +210,7 @@ When reassigning to another agent:
 2. **Check agent availability** - are they overloaded?
 3. **Request reassignment from AMOA**
 
-Use the `agent-messaging` skill to request reassignment:
+Request reassignment via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[REQUEST] Temporary task reassignment`
 - **Priority**: `urgent`
@@ -228,7 +228,7 @@ Use the `agent-messaging` skill to request reassignment:
 Non-critical tasks should be held, not reassigned.
 
 
-Use the `agent-messaging` skill to notify the orchestrator:
+Notify the orchestrator via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[INFO] Tasks being held for replacement agent`
 - **Priority**: `normal`
@@ -243,7 +243,7 @@ Use the `agent-messaging` skill to notify the orchestrator:
 
 If a task is large, it may be split.
 
-Use the `agent-messaging` skill to request a task split:
+Request a task split via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[REQUEST] Split task for parallel work`
 - **Priority**: `urgent`
@@ -259,7 +259,7 @@ Use the `agent-messaging` skill to request a task split:
 
 ### 5.6.1 Handoff Request to Orchestrator
 
-Use the `agent-messaging` skill to request AMOA to coordinate emergency handoff:
+Request AMOA to coordinate emergency handoff via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[EMERGENCY HANDOFF] Immediate coordination required`
 - **Priority**: `urgent`
@@ -273,7 +273,7 @@ Use the `agent-messaging` skill to request AMOA to coordinate emergency handoff:
 ### 5.6.2 Task Reassignment Notification
 
 
-Use the `agent-messaging` skill to notify the receiving agent:
+Notify the receiving agent via the `amp-send` CLI:
 - **Recipient**: the receiving agent session name
 - **Subject**: `[EMERGENCY ASSIGNMENT] Critical task reassigned to you`
 - **Priority**: `urgent`
@@ -287,7 +287,7 @@ Use the `agent-messaging` skill to notify the receiving agent:
 
 ### 5.6.3 Receiving Agent Instructions
 
-Use the `agent-messaging` skill to send detailed instructions:
+Send detailed instructions via the `amp-send` CLI:
 - **Recipient**: the receiving agent session name
 - **Subject**: `[INSTRUCTIONS] How to proceed with emergency task`
 - **Priority**: `high`
@@ -297,7 +297,7 @@ Use the `agent-messaging` skill to send detailed instructions:
   - Completion criteria (acceptance criteria met, tests pass, code committed and pushed, PR created or merged)
   - Reporting structure (progress to AMCOS, blockers to AMOA, completion to both)
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent-messages view.
 
 ---
 
@@ -324,7 +324,7 @@ git diff failed-agent-last-commit..receiving-agent-first-commit --name-only
 
 If both agents made progress, request AMOA to coordinate the merge.
 
-Use the `agent-messaging` skill to request reconciliation:
+Request reconciliation via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[RECONCILIATION] Work merge required`
 - **Priority**: `normal`
@@ -352,7 +352,7 @@ jq --arg task "task-001" --arg status "completed" '
 
 **2. Request GitHub Project update from AMOA:**
 
-Use the `agent-messaging` skill to request update:
+Request update via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[UPDATE] Task status after emergency handoff`
 - **Priority**: `normal`
@@ -360,7 +360,7 @@ Use the `agent-messaging` skill to request update:
 
 **3. Notify manager of resolution:**
 
-Use the `agent-messaging` skill to report resolution:
+Report resolution via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[RESOLVED] Emergency handoff completed successfully`
 - **Priority**: `normal`
@@ -415,7 +415,7 @@ Use the `agent-messaging` skill to report resolution:
 
 ## Emergency Handoff Message Template (Complete)
 
-Use the `agent-messaging` skill to send the complete emergency handoff message:
+Send the complete emergency handoff message via the `amp-send` CLI:
 - **Recipient**: the target agent session name
 - **Subject**: `[EMERGENCY HANDOFF] Agent Failure - Work Transfer`
 - **Priority**: `urgent`
@@ -440,4 +440,4 @@ Use the `agent-messaging` skill to send the complete emergency handoff message:
 | `acknowledgment_required` | boolean | Must be `true` for emergency handoffs |
 | `acknowledge_by` | string | ISO-8601 timestamp for ACK deadline |
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent-messages view.

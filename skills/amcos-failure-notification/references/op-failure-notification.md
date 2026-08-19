@@ -41,7 +41,7 @@ Trigger this operation when:
 - Error details are captured (error code, message, stack trace if available)
 - Affected agent(s) are identified
 - Recovery guidance is prepared
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 
 ## Procedure
 
@@ -64,7 +64,7 @@ Include these required elements:
 
 ### Step 3: Send Failure Notification
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" --priority <priority>`):
 - **Recipient**: the affected agent session name
 - **Subject**: `[Operation Type] Failed`
 - **Priority**: `high`
@@ -94,7 +94,7 @@ Copy this checklist and track your progress:
 - [ ] Captured complete error details
 - [ ] Composed failure message with all required elements
 - [ ] Included clear recovery guidance
-- [ ] Sent failure notification via `agent-messaging` skill
+- [ ] Sent failure notification via `amp-send` CLI
 - [ ] Logged failure for analysis
 - [ ] Initiated recovery action (if automated)
 - [ ] Escalated to user (if manual intervention needed)
@@ -105,7 +105,7 @@ Copy this checklist and track your progress:
 
 **Scenario:** security-audit skill installation failed due to validation error.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Skill Installation Failed`
 - **Priority**: `high`
@@ -115,7 +115,7 @@ Use the `agent-messaging` skill to send:
 
 **Scenario:** Agent did not come back online after restart.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `orchestrator-master`
 - **Subject**: `Agent Restart Failed: test-engineer-01`
 - **Priority**: `urgent`
@@ -125,7 +125,7 @@ Use the `agent-messaging` skill to send:
 
 **Scenario:** Settings update did not apply correctly.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Configuration Update Failed`
 - **Priority**: `high`
@@ -135,7 +135,7 @@ Use the `agent-messaging` skill to send:
 
 **Scenario:** Operation did not complete within expected time.
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Operation Timed Out`
 - **Priority**: `high`

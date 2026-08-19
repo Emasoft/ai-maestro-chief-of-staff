@@ -14,13 +14,13 @@ Send notifications to specific agents or all agents before or after operations v
 
 ## Usage
 
-Parse the provided arguments and send notifications to agents using the `agent-messaging` skill.
+Parse the provided arguments and send notifications to agents via the `amp-send` CLI.
 
 ## Messaging Integration
 
-This command uses the `agent-messaging` skill to send notifications to agents.
+This command sends notifications to agents via the `amp-send` CLI.
 
-For each target agent, send a notification message using the `agent-messaging` skill:
+For each target agent, send a notification message via `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent
 - **Subject**: `[NOTIFICATION] <operation>`
 - **Content**: the notification message with operation type
@@ -28,7 +28,7 @@ For each target agent, send a notification message using the `agent-messaging` s
 - **Priority**: `normal`
 - If `--require-ack` is set, include acknowledgment request in the message
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's delivery confirmation.
 
 ## Arguments
 
@@ -110,8 +110,8 @@ For each target agent, send a notification message using the `agent-messaging` s
 This command is implemented by:
 
 1. **Resolving target agents**: if `--all` is specified, use the `ai-maestro-agents-management` skill to list all own-team agents; otherwise use the explicit agent list (must be within own team)
-2. **Sending notifications**: for each target agent, send a message using the `agent-messaging` skill with the operation type and message content
-3. **Polling for acknowledgments** (if `--require-ack`): use the `agent-messaging` skill to check for incoming acknowledgment messages from each agent
+2. **Sending notifications**: for each target agent, send a message via the `amp-send` CLI with the operation type and message content
+3. **Polling for acknowledgments** (if `--require-ack`): use the `amp-inbox` CLI to check for incoming acknowledgment messages from each agent
 
 **Verify**: each target agent receives the notification. If `--require-ack`, confirm acknowledgments are received.
 
@@ -151,7 +151,7 @@ This command is implemented by:
 
 When `--require-ack` is specified, agents should respond with:
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Use the `amp-send` CLI to send messages. The JSON structure below shows the message content.
 
 ```json
 {

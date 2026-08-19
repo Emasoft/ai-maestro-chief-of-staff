@@ -39,7 +39,7 @@ version: 1.0.0
 - Agent exists and is registered in team registry
 - AI Maestro is running locally
 - The `ai-maestro-agents-management` skill is available
-- The `agent-messaging` skill is available
+- The `amp-send`/`amp-inbox` CLIs are available
 - Team registry is accessible
 
 ## Procedure
@@ -48,13 +48,10 @@ version: 1.0.0
 
 Before terminating, confirm the agent has no pending work.
 
-Use the `agent-messaging` skill to send a status request:
-- **Recipient**: the target agent session name
-- **Subject**: `Pre-Termination Status Check`
-- **Priority**: `high`
-- **Content**: type `status-request`, asking the agent to confirm all tasks are complete before termination
+Send a status request via the `amp-send` CLI:
+`amp-send <agent-session-name> "Pre-Termination Status Check" "<asking the agent to confirm all tasks are complete before termination>" --type status-request --priority high`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm delivery via the `amp-inbox` CLI.
 
 Wait for confirmation response.
 
@@ -62,23 +59,17 @@ Wait for confirmation response.
 
 If state preservation is needed for audit or handoff:
 
-Use the `agent-messaging` skill to request a state dump:
-- **Recipient**: the target agent session name
-- **Subject**: `State Dump Request`
-- **Priority**: `high`
-- **Content**: type `request`, asking the agent to save its current state to `~/.ai-maestro/agent-states/<session-name>-final.json` before termination
+Request a state dump via the `amp-send` CLI:
+`amp-send <agent-session-name> "State Dump Request" "<asking the agent to save its current state to ~/.ai-maestro/agent-states/<session-name>-final.json before termination>" --type request --priority high`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm delivery via the `amp-inbox` CLI.
 
 ### Step 3: Send Termination Warning
 
-Use the `agent-messaging` skill to send a termination notice:
-- **Recipient**: the target agent session name
-- **Subject**: `Termination Notice`
-- **Priority**: `urgent`
-- **Content**: type `hibernation-warning`, informing the agent it will be terminated in 60 seconds and should complete any final cleanup
+Send a termination notice via the `amp-send` CLI:
+`amp-send <agent-session-name> "Termination Notice" "<informing the agent it will be terminated in 60 seconds and should complete any final cleanup>" --type hibernation-warning --priority urgent`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm delivery via the `amp-inbox` CLI.
 
 ### Step 4: Execute Termination
 
@@ -101,7 +92,7 @@ Optionally remove the agent's working directory and local plugin cache. Keep the
 ### Step 7: Log Termination
 
 `amcos_team_registry.py` has no `log` subcommand — note the termination event in
-the team's coordination channel (`agent-messaging`) instead.
+the team's coordination channel via the `amp-send` CLI instead.
 
 ## Checklist
 
@@ -124,17 +115,11 @@ Copy this checklist and track your progress:
 
 For agent `dev-backend-alice`:
 
-1. Use the `agent-messaging` skill to send a pre-termination status check:
-   - **Recipient**: `dev-backend-alice`
-   - **Subject**: `Pre-Termination Status Check`
-   - **Priority**: `high`
-   - **Content**: type `status-request`, message: "Please confirm all tasks are complete."
+1. Send a pre-termination status check via the `amp-send` CLI:
+   `amp-send dev-backend-alice "Pre-Termination Status Check" "Please confirm all tasks are complete." --type status-request --priority high`
 2. Wait for response confirming work is done
-3. Use the `agent-messaging` skill to send a termination warning:
-   - **Recipient**: `dev-backend-alice`
-   - **Subject**: `Termination Notice`
-   - **Priority**: `urgent`
-   - **Content**: type `hibernation-warning`, message: "Termination in 60 seconds."
+3. Send a termination warning via the `amp-send` CLI:
+   `amp-send dev-backend-alice "Termination Notice" "Termination in 60 seconds." --type hibernation-warning --priority urgent`
 4. Wait 60 seconds
 5. Use the `ai-maestro-agents-management` skill to terminate agent `dev-backend-alice` with confirmation
 6. Update registry:
@@ -142,7 +127,7 @@ For agent `dev-backend-alice`:
    uv run python scripts/amcos_team_registry.py remove-agent --team "<team>" --agent-name "dev-backend-alice"
    ```
 7. Log the event (no `log` subcommand exists — send a team notification via
-   `agent-messaging` instead): "Task completed - backend API implementation finished."
+   the `amp-send` CLI instead): "Task completed - backend API implementation finished."
 
 ## Error Handling
 

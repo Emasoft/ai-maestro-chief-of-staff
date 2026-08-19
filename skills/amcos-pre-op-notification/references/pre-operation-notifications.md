@@ -11,7 +11,7 @@
 - 1.3 Pre-operation notification procedure - Step-by-step process
   - 1.3.1 Identify affected agents - Who needs to know
   - 1.3.2 Compose notification - What to tell them
-  - 1.3.3 Send notification - Using the `agent-messaging` skill
+  - 1.3.3 Send notification - Using the `amp-send` CLI
   - 1.3.4 Track acknowledgments - Monitor responses
   - 1.3.5 Handle timeouts - When agents don't respond
 - 1.4 Notification message format - Standard message structure
@@ -138,15 +138,15 @@ Pre-operation notifications are the first step in the notification protocol flow
 
 ### 1.3.3 Send notification
 
-**Purpose:** Deliver the notification using the `agent-messaging` skill.
+**Purpose:** Deliver the notification via the `amp-send` CLI.
 
-Use the `agent-messaging` skill to send the pre-operation notification:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]` — the pre-operation notification:
 - **Recipient**: the target agent session name
 - **Subject**: "[Operation Type] Pending"
 - **Priority**: `high`
 - **Content**: type `pre-operation`, message: "I will [operation description]. This requires [impact description]. Please [action required] and reply with 'ok' when ready. I will wait up to 2 minutes." Include fields: `operation`, `expected_downtime`, `requires_acknowledgment` (true).
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's confirmation output.
 
 Capture the message ID from the response for tracking.
 
@@ -154,7 +154,7 @@ Capture the message ID from the response for tracking.
 
 **Purpose:** Monitor for agent responses to the notification.
 
-Use the `agent-messaging` skill to periodically check for unread messages from the target agent. Poll every 10 seconds.
+Use the `amp-inbox` CLI to periodically check for unread messages from the target agent. Poll every 10 seconds.
 
 Look for messages from the target agent with type `acknowledgment` containing "ok".
 
@@ -171,13 +171,13 @@ If no response after 30 seconds, 60 seconds, and 90 seconds, send reminder messa
 4. Send timeout notice to agent
 5. Include timeout in operation report
 
-Use the `agent-messaging` skill to send a timeout notice:
+Send via the `amp-send` CLI a timeout notice:
 - **Recipient**: the target agent session name
 - **Subject**: `Proceeding Without Acknowledgment`
 - **Priority**: `high`
 - **Content**: type `timeout-notice`, message: "No response received after 2 minutes. Proceeding with [operation] now." Include fields: `operation`, `timeout_occurred` (true).
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's confirmation output.
 
 ---
 
@@ -221,7 +221,7 @@ Use the `agent-messaging` skill to send a timeout notice:
 
 ### Example 1: Skill Installation Pre-Operation
 
-Use the `agent-messaging` skill to send a pre-operation notification:
+Send via the `amp-send` CLI a pre-operation notification:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Skill Installation Pending`
 - **Priority**: `high`
@@ -229,7 +229,7 @@ Use the `agent-messaging` skill to send a pre-operation notification:
 
 ### Example 2: Plugin Installation Pre-Operation
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `test-engineer-01`
 - **Subject**: `Plugin Installation Pending`
 - **Priority**: `high`
@@ -237,7 +237,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 3: Broadcast Maintenance Pre-Operation
 
-For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`, `devops-ci`), use the `agent-messaging` skill to send:
+For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`, `devops-ci`), send via the `amp-send` CLI:
 - **Recipient**: the agent session name
 - **Subject**: `System Maintenance Scheduled`
 - **Priority**: `high`
@@ -276,7 +276,7 @@ For each agent in the team (`code-impl-auth`, `test-engineer-01`, `docs-writer`,
 1. Check polling interval (should be 10 seconds)
 2. Verify response message format matches expected
 3. Check for typos in agent name in filter
-4. Use the `agent-messaging` skill to manually check inbox for the response
+4. Use the `amp-inbox` CLI to manually check inbox for the response
 5. Review message query filters
 
 ### Issue: Priority not respected

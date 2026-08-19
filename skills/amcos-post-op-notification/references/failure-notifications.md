@@ -11,7 +11,7 @@
 - 4.3 Failure notification procedure - Step-by-step process
   - 4.3.1 Capture error details - What went wrong
   - 4.3.2 Compose failure message - What to tell agents
-  - 4.3.3 Send notification - Using the `agent-messaging` skill
+  - 4.3.3 Send notification - Using the `amp-send` CLI
   - 4.3.4 Provide recovery guidance - How to proceed
   - 4.3.5 Log failure - Record for analysis
 - 4.4 Failure message format - Standard error structure
@@ -230,15 +230,15 @@ EOF
 
 ### 4.3.3 Send notification
 
-**Purpose:** Deliver the failure notification using the `agent-messaging` skill.
+**Purpose:** Deliver the failure notification using the `amp-send` CLI.
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the affected agent session name
 - **Subject**: `[Operation] Failed`
 - **Priority**: `high`
 - **Content**: type `failure`, message: "The [operation] has failed. Error: [error_message]. [recovery_guidance]." Include `operation`, `status`: "failed", `error_code`, `error_details`, `recovery_action`.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
 ### 4.3.4 Provide recovery guidance
 
@@ -300,7 +300,7 @@ echo "$LOG_ENTRY" >> $LOG_FILE
 
 **Standard failure notification structure:**
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Use the `amp-send` CLI to send messages. The JSON structure below shows the message content.
 
 ```json
 {
@@ -407,7 +407,7 @@ echo "$LOG_ENTRY" >> $LOG_FILE
 
 ### Example 1: Skill Installation Failure
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI, send:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Skill Installation Failed`
 - **Priority**: `high`
@@ -415,7 +415,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 2: Agent Restart Failure
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI, send:
 - **Recipient**: `orchestrator-master`
 - **Subject**: `Agent Restart Failed`
 - **Priority**: `critical`
@@ -423,7 +423,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 3: Configuration Change Failure
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI, send:
 - **Recipient**: `devops-ci`
 - **Subject**: `Configuration Change Failed`
 - **Priority**: `high`
@@ -431,7 +431,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example 4: Operation Timeout Failure
 
-Use the `agent-messaging` skill to send:
+Via the `amp-send` CLI, send:
 - **Recipient**: `code-impl-auth`
 - **Subject**: `Operation Timeout`
 - **Priority**: `high`

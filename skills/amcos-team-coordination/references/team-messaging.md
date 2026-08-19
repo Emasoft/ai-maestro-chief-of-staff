@@ -127,7 +127,7 @@ AI Maestro supports three priority levels that affect delivery and processing:
 
 **Example:**
 
-Use the `agent-messaging` skill to send an urgent alert:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" --type T [--priority P]`:
 - **Recipient**: `orchestrator-master`
 - **Subject**: `URGENT: Production deployment failed`
 - **Priority**: `urgent`
@@ -148,7 +148,7 @@ Use the `agent-messaging` skill to send an urgent alert:
 
 **Example:**
 
-Use the `agent-messaging` skill to send a high-priority task:
+Send via the `amp-send` CLI:
 - **Recipient**: `helper-agent-generic`
 - **Subject**: `High Priority Task Assignment`
 - **Priority**: `high`
@@ -169,7 +169,7 @@ Use the `agent-messaging` skill to send a high-priority task:
 
 **Example:**
 
-Use the `agent-messaging` skill to send a normal-priority announcement:
+Send via the `amp-send` CLI:
 - **Recipient**: broadcast to all active agents
 - **Subject**: `Weekly Status Meeting Notes`
 - **Priority**: `normal`
@@ -193,7 +193,7 @@ Most broadcasts should be NORMAL priority. Use HIGH only for time-sensitive team
 
 **Step 3: Send via broadcast**
 
-Use the `agent-messaging` skill to broadcast:
+Send via the `amp-send` CLI to each active session (no native broadcast — repeat the send per recipient):
 - **Subject**: the message subject
 - **Priority**: `normal` (or as appropriate)
 - **Content**: structured object with `type` and `message` fields
@@ -217,7 +217,7 @@ Targeted messages are sent to specific agents.
 
 ### Single Recipient
 
-Use the `agent-messaging` skill to send a targeted message:
+Send via the `amp-send` CLI:
 - **Recipient**: the target agent session name
 - **Subject**: descriptive subject line
 - **Priority**: as appropriate
@@ -225,11 +225,11 @@ Use the `agent-messaging` skill to send a targeted message:
 
 ### Multiple Specific Recipients
 
-Send separate messages to each recipient (AI Maestro does not support multi-recipient in a single call). Use the `agent-messaging` skill to send individually to each target agent.
+Send separate messages to each recipient (AI Maestro does not support multi-recipient in a single call). Send via the `amp-send` CLI individually to each target agent.
 
 ### Role-Based Targeting
 
-To send to all agents with a specific role, query the team roster first, then use the `agent-messaging` skill to send to each matching agent.
+To send to all agents with a specific role, query the team roster first, then send via the `amp-send` CLI to each matching agent.
 
 ---
 
@@ -271,11 +271,11 @@ The Chief of Staff follows these routing rules to determine message recipients:
 
 ### Checking Delivery Status
 
-After sending a message, use the `agent-messaging` skill to check the delivery status of sent messages.
+After sending a message, use the `amp-inbox` CLI to check the delivery status of sent messages.
 
 ### Read Receipts
 
-Use the `agent-messaging` skill to check if the recipient has read the message (by message ID).
+Use the `amp-inbox` CLI to check if the recipient has read the message (by message ID).
 
 ### Handling Undelivered Messages
 
@@ -292,14 +292,14 @@ If a message is not delivered within expected timeframe:
 
 ### Example: Broadcasting Sprint Start
 
-Use the `agent-messaging` skill to broadcast:
+Send via the `amp-send` CLI to each active session:
 - **Subject**: `Sprint 5 Kickoff`
 - **Priority**: `normal`
 - **Content**: type `announcement`, message: "Sprint 5 has started. Duration: 2 weeks. Goal: Complete user authentication module. Check your individual task assignments in your inbox."
 
 ### Example: Requesting Status Update
 
-Use the `agent-messaging` skill to request status:
+Send via the `amp-send` CLI:
 - **Recipient**: `libs-svg-svgbbox`
 - **Subject**: `Status Request: SVG Parser Implementation`
 - **Priority**: `high`
@@ -307,7 +307,7 @@ Use the `agent-messaging` skill to request status:
 
 ### Example: Sending Alert
 
-Use the `agent-messaging` skill to send an alert:
+Send via the `amp-send` CLI:
 - **Recipient**: `orchestrator-master`
 - **Subject**: `ALERT: Test Suite Failing`
 - **Priority**: `urgent`
@@ -315,7 +315,7 @@ Use the `agent-messaging` skill to send an alert:
 
 ### Example: Sending Task Completion Update
 
-Use the `agent-messaging` skill to report completion:
+Send via the `amp-send` CLI:
 - **Recipient**: `orchestrator-master`
 - **Subject**: `Task Complete: API Documentation`
 - **Priority**: `normal`

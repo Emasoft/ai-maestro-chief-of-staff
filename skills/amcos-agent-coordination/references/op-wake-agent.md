@@ -40,7 +40,7 @@ version: 1.0.0
 - Hibernation state file exists at `~/.ai-maestro/agent-states/<session-name>-hibernation.json`
 - AI Maestro is running locally
 - The `ai-maestro-agents-management` skill is available
-- The `agent-messaging` skill is available
+- The `amp-send`/`amp-inbox`/`amp-read`/`amp-reply` CLIs are available
 - Sufficient resources available (check concurrent agent limit)
 
 ## Procedure
@@ -85,25 +85,25 @@ This resumes the suspended tmux session.
 
 Use the `ai-maestro-agents-management` skill to check the agent's status. Expected status: running.
 
-Then use the `agent-messaging` skill to send a wake notification:
+Then send via the `amp-send` CLI: `amp-send <target-session> "Wake Confirmation" "<message>" --type notification --priority high`
 - **Recipient**: the target agent session name
 - **Subject**: `Wake Confirmation`
 - **Priority**: `high`
 - **Content**: type `wake-notification`, informing the agent it has been woken from hibernation and asking it to confirm it is operational
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via `amp-send`'s output (message id).
 
 Wait for confirmation response.
 
 ### Step 5: Restore State (If Needed)
 
-If the agent needs context restoration, use the `agent-messaging` skill to send a state restoration request:
+If the agent needs context restoration, send via the `amp-send` CLI: `amp-send <target-session> "State Restoration" "<message>" --type request --priority high`
 - **Recipient**: the target agent session name
 - **Subject**: `State Restoration`
 - **Priority**: `high`
 - **Content**: type `request`, asking the agent to restore its state from `~/.ai-maestro/agent-states/<session-name>-hibernation.json`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via `amp-send`'s output (message id).
 
 ### Step 6: Update Team Registry
 
@@ -116,8 +116,8 @@ uv run python scripts/amcos_team_registry.py update-status \
 
 ### Step 7: Log Wake Event
 
-`amcos_team_registry.py` has no `log` subcommand — note the wake event in the
-team's coordination channel (`agent-messaging`) instead.
+`amcos_team_registry.py` has no `log` subcommand — note the wake event by
+sending a team notification via `amp-send` instead.
 
 ## Checklist
 
@@ -128,7 +128,7 @@ Copy this checklist and track your progress:
 - [ ] Check resource availability (running agent count)
 - [ ] Execute wake via `ai-maestro-agents-management` skill
 - [ ] Verify agent status is "running"
-- [ ] Send wake notification via `agent-messaging` skill
+- [ ] Send wake notification via `amp-send`
 - [ ] Wait for agent confirmation response
 - [ ] Request state restoration if needed
 - [ ] Update team registry to "running"
@@ -152,7 +152,7 @@ For agent `dev-frontend-bob`:
    ```
 3. Use the `ai-maestro-agents-management` skill to wake agent `dev-frontend-bob`
 4. Use the `ai-maestro-agents-management` skill to verify status is "running"
-5. Use the `agent-messaging` skill to send a wake notification:
+5. Send via the `amp-send` CLI: `amp-send dev-frontend-bob "Good Morning - Wake Notification" "You have been woken for the morning work session. Please confirm operational and restore your previous context." --type notification --priority high`
    - **Recipient**: `dev-frontend-bob`
    - **Subject**: `Good Morning - Wake Notification`
    - **Priority**: `high`
@@ -165,7 +165,7 @@ For agent `dev-frontend-bob`:
      --status "running"
    ```
 7. Log the event (no `log` subcommand exists — send a team notification via
-   `agent-messaging` instead): "Morning work session start."
+   `amp-send` instead): "Morning work session start."
 
 ## Error Handling
 

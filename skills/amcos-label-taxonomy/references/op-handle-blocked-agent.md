@@ -74,7 +74,7 @@ gh issue edit $ISSUE_NUMBER --add-label "assign:human"
 
 ### Step 5: Notify via AI Maestro
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" --priority <priority>`):
 - **Recipient**: `amama-main`
 - **Subject**: `Agent blocked on issue #[ISSUE_NUMBER]`
 - **Priority**: `high`

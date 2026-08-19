@@ -391,7 +391,7 @@ Reports must reach the right audience to be effective.
 ### Distribution Methods
 
 **Via AI Maestro Message:**
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `orchestrator-master`
 - **Subject**: `Weekly Performance Review - Week 5`
 - **Priority**: `normal`
@@ -408,7 +408,7 @@ design/memory/reports/
 
 **Via User Notification:**
 For critical issues or user-requested reports:
-Use the `agent-messaging` skill to send a user notification via AMAMA:
+Send a user notification via AMAMA using the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager` (for user escalation)
 - **Subject**: `Weekly Performance Report Available`
 - **Priority**: `normal`

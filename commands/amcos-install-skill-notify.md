@@ -31,7 +31,7 @@ Install a skill to an agent (or globally) with a complete notification workflow:
 ## Skill Integration
 
 This command combines two skills:
-1. **`agent-messaging` skill** - For notifications and acknowledgments
+1. **`amp-send`/`amp-inbox` CLIs** - For notifications and acknowledgments
 2. **`ai-maestro-agents-management` skill** - For plugin/skill installation
 
 ## Arguments
@@ -101,15 +101,15 @@ This command executes a 4-phase workflow:
 
 **Phase 1: Pre-installation Notification**
 - If `--global`, use the `ai-maestro-agents-management` skill to list all agents
-- For each target agent, send a notification using the `agent-messaging` skill:
+- For each target agent, send a notification via the `amp-send` CLI:
   - **Recipient**: the target agent
   - **Subject**: `[SKILL INSTALL] <skill-id>`
   - **Content**: "Skill installation starting. Your session will hibernate -> install -> wake. Please finish current work and reply 'ok' when ready."
   - **Priority**: `high`
 
 **Phase 2: Wait for Acknowledgment (if --wait-for-ok)**
-- For each agent, use the `agent-messaging` skill to poll for acknowledgment messages (timeout: 120s)
-- Send reminder messages every 30 seconds using the `agent-messaging` skill
+- For each agent, use the `amp-inbox` CLI to poll for acknowledgment messages (timeout: 120s)
+- Send reminder messages every 30 seconds via the `amp-send` CLI
 - If timeout reached, proceed with warning
 
 **Phase 3: Installation**
@@ -117,7 +117,7 @@ This command executes a 4-phase workflow:
 - This automatically handles hibernate -> install -> wake cycle
 
 **Phase 4: Post-installation Verification**
-- For each agent, send a verification notification using the `agent-messaging` skill:
+- For each agent, send a verification notification via the `amp-send` CLI:
   - **Subject**: `[VERIFY] Skill installed: <skill-id>`
   - **Content**: "Skill installation complete. Please verify the skill is active and working correctly."
 
@@ -163,7 +163,7 @@ Notifying: helper-python
 
 Agents should respond with:
 
-> **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+> **Note**: Use the `amp-send` CLI to send messages. The JSON structure below shows the message content.
 
 ```json
 {

@@ -54,7 +54,7 @@ Claude Code caches plugin state in memory. You MUST exit and relaunch.
 
 #### Step 1: Send Pre-Restart Warning
 
-Use the `agent-messaging` skill to send a message:
+Via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: `Restart Warning`
 - **Priority**: `urgent`
@@ -74,7 +74,7 @@ For slow systems, use a longer wait time option if available.
 
 Use the `ai-maestro-agents-management` skill to check the agent's status. Expected status: running.
 
-Then use the `agent-messaging` skill to send a confirmation request:
+Then via the `amp-send` CLI, send a confirmation request:
 - **Recipient**: the target agent session name
 - **Subject**: `Restart Complete`
 - **Priority**: `high`
@@ -83,7 +83,7 @@ Then use the `agent-messaging` skill to send a confirmation request:
 #### Step 5: Update Registry Status
 
 `amcos_team_registry.py` has no `log` subcommand — note the restart event in
-the team's coordination channel (`agent-messaging`) instead: "Plugin changes applied."
+the team's coordination channel (`ai-maestro-plugin:agent-messaging`) instead: "Plugin changes applied."
 
 ## Checklist
 
@@ -119,7 +119,7 @@ Copy this checklist and track your progress:
 
 For agent `dev-backend-alice`:
 
-1. Use the `agent-messaging` skill to send a restart warning:
+1. Via the `amp-send` CLI, send a restart warning:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Restart in 30s`
    - **Priority**: `urgent`
@@ -128,7 +128,7 @@ For agent `dev-backend-alice`:
 3. Use the `ai-maestro-agents-management` skill to restart agent `dev-backend-alice`
 4. Wait for restart to complete
 5. Use the `ai-maestro-agents-management` skill to check the agent's status (expected: running)
-6. Use the `agent-messaging` skill to send a confirmation request:
+6. Via the `amp-send` CLI, send a confirmation request:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Restart Complete`
    - **Priority**: `high`
@@ -138,7 +138,7 @@ For agent `dev-backend-alice`:
 
 For agents `dev-backend-alice` and `dev-frontend-bob`:
 
-1. Use the `agent-messaging` skill to send restart warnings to each agent:
+1. Via the `amp-send` CLI, send restart warnings to each agent:
    - **Priority**: `urgent`
    - **Content**: type `hibernation-warning`, message: "Batch restart for plugin updates in 30s."
 2. Wait 30 seconds

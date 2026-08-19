@@ -57,7 +57,7 @@ Attempt to restore a failed agent to operational status using appropriate recove
 R42 (messaging is the only cross-agent channel): ask the agent to restart *itself* — never inject
 a command/keystroke into its session.
 
-1. Use the `agent-messaging` skill to send the agent a graceful self-restart request (it saves
+1. via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, send the agent a graceful self-restart request (it saves
    state and restarts itself; R42.2 directive-as-message + R42.4 self-drive).
 2. Wait 2 minutes for the agent to acknowledge and restart
 3. Verify agent status

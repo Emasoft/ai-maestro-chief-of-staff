@@ -34,7 +34,7 @@ parent-skill: amcos-onboarding
 
 - Agent to be onboarded is created and running
 - AI Maestro is running locally
-- The `agent-messaging` skill is available
+- The `ai-maestro-plugin:agent-messaging` skill is available
 - Project documentation is available
 - Team registry is accessible
 - Role definition documents exist
@@ -43,7 +43,7 @@ parent-skill: amcos-onboarding
 
 ### Step 1: Initiate Onboarding Session
 
-Use the `agent-messaging` skill to send the onboarding initiation message:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, the onboarding initiation message:
 - **Recipient**: the target agent session name
 - **Subject**: `Welcome - Onboarding Session Starting`
 - **Priority**: `high`
@@ -53,7 +53,7 @@ Wait for confirmation response.
 
 ### Step 2: Verify Agent Identity
 
-Use the `agent-messaging` skill to request identity confirmation:
+Send via the `amp-send` CLI to request identity confirmation:
 - **Recipient**: the target agent session name
 - **Subject**: `Identity Verification`
 - **Priority**: `high`
@@ -61,11 +61,11 @@ Use the `agent-messaging` skill to request identity confirmation:
 
 ### Step 3: Work Through Core Checklist
 
-Send each checklist item using the `agent-messaging` skill and await acknowledgment:
+Send each checklist item via the `amp-send` CLI and await acknowledgment:
 
 **Item 1: Team Introduction**
 
-Use the `agent-messaging` skill:
+Via the `amp-send` CLI:
 - **Recipient**: the target agent session name
 - **Subject**: `Onboarding 1/6: Team Introduction`
 - **Priority**: `normal`
@@ -73,27 +73,27 @@ Use the `agent-messaging` skill:
 
 **Item 2: Communication Channels**
 
-Use the `agent-messaging` skill to explain how to use AI Maestro messaging, how to check inbox using the `agent-messaging` skill, and how to send messages.
+Via the `amp-send` CLI, explain how to use AI Maestro messaging: check the inbox with the `amp-inbox` CLI, and send messages with the `amp-send` CLI.
 
 **Item 3: Working Directory**
 
-Use the `agent-messaging` skill to explain the agent's working directory and project structure.
+Via the `amp-send` CLI, explain the agent's working directory and project structure.
 
 **Item 4: Key Resources**
 
-Use the `agent-messaging` skill to share locations of CLAUDE.md, project docs, and relevant files.
+Via the `amp-send` CLI, share locations of CLAUDE.md, project docs, and relevant files.
 
 **Item 5: Reporting Structure**
 
-Use the `agent-messaging` skill to explain who to report to and escalation paths.
+Via the `amp-send` CLI, explain who to report to and escalation paths.
 
 **Item 6: Initial Task Assignment**
 
-Use the `agent-messaging` skill to inform of first task or to await orchestrator assignment.
+Via the `amp-send` CLI, inform of first task or to await orchestrator assignment.
 
 ### Step 4: Confirm Completion
 
-Use the `agent-messaging` skill to request final confirmation:
+Send via the `amp-send` CLI to request final confirmation:
 - **Recipient**: the target agent session name
 - **Subject**: `Onboarding Complete`
 - **Priority**: `high`
@@ -103,13 +103,13 @@ Use the `agent-messaging` skill to request final confirmation:
 
 Log the onboarding completion: `amcos_team_registry.py` has no `log`
 subcommand — note the event in the team's coordination channel
-(`agent-messaging`) instead: "Initial onboarding for [role] on [project]."
+via the `amp-send` CLI instead: "Initial onboarding for [role] on [project]."
 
 ## Checklist
 
 Copy this checklist and track your progress:
 
-- [ ] Send onboarding initiation message via `agent-messaging` skill
+- [ ] Send onboarding initiation message via the `amp-send` CLI
 - [ ] Receive ready confirmation from agent
 - [ ] Verify agent identity
 - [ ] Send team introduction
@@ -127,49 +127,49 @@ Copy this checklist and track your progress:
 
 For agent `dev-backend-alice` on project `backend-api` with role `developer`:
 
-1. **Initiate**: Use the `agent-messaging` skill to send welcome message:
+1. **Initiate**: Send via the `amp-send` CLI, welcome message:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Welcome - Onboarding Starting`
    - **Priority**: `high`
    - **Content**: type `request`, message: "Welcome to the backend-api team. Ready to begin onboarding?"
 2. Wait for response
-3. **Team intro**: Use the `agent-messaging` skill:
+3. **Team intro**: Via the `amp-send` CLI:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 1/6: Your Team`
    - **Priority**: `normal`
    - **Content**: type `team-notification`, message: "Team members: dev-backend-bob (developer), amia-api-reviewer (integrator). Orchestrator: amoa-backend-orchestrator. Acknowledge."
-4. **Communication**: Use the `agent-messaging` skill:
+4. **Communication**: Via the `amp-send` CLI:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 2/6: Communication`
    - **Priority**: `normal`
-   - **Content**: type `request`, message: "Use AI Maestro for all team communication. Use the `agent-messaging` skill to check your inbox and send messages. Acknowledge."
-5. **Working directory**: Use the `agent-messaging` skill:
+   - **Content**: type `request`, message: "Use AI Maestro for all team communication. Use the `amp-inbox` CLI to check your inbox and the `amp-send` CLI to send messages. Acknowledge."
+5. **Working directory**: Via the `amp-send` CLI:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 3/6: Working Directory`
    - **Priority**: `normal`
    - **Content**: type `request`, message: "Your working directory is ~/agents/dev-backend-alice/. Project code is in ~/projects/backend-api/. Acknowledge."
-6. **Resources**: Use the `agent-messaging` skill:
+6. **Resources**: Via the `amp-send` CLI:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 4/6: Key Resources`
    - **Priority**: `normal`
    - **Content**: type `request`, message: "Key files: CLAUDE.md (project instructions), docs/API.md (API specs), tests/ (test directory). Acknowledge."
-7. **Reporting**: Use the `agent-messaging` skill:
+7. **Reporting**: Via the `amp-send` CLI:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 5/6: Reporting`
    - **Priority**: `normal`
    - **Content**: type `request`, message: "Report task progress to amoa-backend-orchestrator. Escalate blockers to amcos-chief-of-staff. Acknowledge."
-8. **Initial assignment**: Use the `agent-messaging` skill:
+8. **Initial assignment**: Via the `amp-send` CLI:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding 6/6: Initial Assignment`
    - **Priority**: `normal`
    - **Content**: type `request`, message: "Await task assignment from amoa-backend-orchestrator. They will contact you shortly. Acknowledge."
-9. **Completion**: Use the `agent-messaging` skill:
+9. **Completion**: Via the `amp-send` CLI:
    - **Recipient**: `dev-backend-alice`
    - **Subject**: `Onboarding Complete`
    - **Priority**: `high`
    - **Content**: type `request`, message: "Onboarding complete. Confirm understanding of all 6 items."
 10. **Log**: `amcos_team_registry.py` has no `log` subcommand — note the
-    completion in the team's coordination channel (`agent-messaging`)
+    completion in the team's coordination channel via the `amp-send` CLI
     instead: "Initial onboarding for developer on backend-api."
 
 ## Error Handling

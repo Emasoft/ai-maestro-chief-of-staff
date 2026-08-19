@@ -54,15 +54,15 @@ The AI Maestro Chief of Staff (AMCOS) uses four primary mechanisms to detect age
 
 AMCOS sends periodic "ping" messages to agents and expects "pong" responses. The AI Maestro messaging system tracks message delivery and response.
 
-**Heartbeat request**: Use the `agent-messaging` skill to send:
+**Heartbeat request**: via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: the target agent session name
 - **Subject**: `[HEARTBEAT] Health check`
 - **Priority**: `low`
 - **Content**: type `heartbeat`, message: "ping". Include `timestamp` (current ISO timestamp) and `sequence` (incrementing number).
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-inbox` CLI's sent messages feature.
 
-**Expected response from healthy agent**: The agent uses the `agent-messaging` skill to reply with:
+**Expected response from healthy agent**: The agent uses the `amp-reply` CLI to reply with:
 - **Recipient**: `amcos-chief-of-staff`
 - **Subject**: `[HEARTBEAT] Response`
 - **Priority**: `low`
@@ -125,7 +125,7 @@ Example configuration:
 
 ### 1.4.1 Detecting Undelivered Messages
 
-When using the `agent-messaging` skill to send a message, check the response for delivery errors. If the skill reports delivery failure, note the error type.
+When using the `amp-send` CLI to send a message, check the response for delivery errors. If it reports delivery failure, note the error type.
 
 **Common delivery failure reasons:**
 
@@ -139,7 +139,7 @@ When using the `agent-messaging` skill to send a message, check the response for
 
 Even when delivery succeeds, the agent may not acknowledge receipt. AMCOS tracks sent messages and monitors for acknowledgments.
 
-Use the `agent-messaging` skill to list sent messages filtered by status "unacknowledged" to identify messages that were delivered but not acknowledged.
+Use the `amp-inbox` CLI to list sent messages filtered by status "unacknowledged" to identify messages that were delivered but not acknowledged.
 
 ### 1.4.3 Timeout Thresholds for Message Acknowledgment
 
@@ -194,7 +194,7 @@ A task is considered stalled when:
 
 **CRITICAL**: A stalled task does not necessarily mean a failed agent. Before escalating:
 
-1. **Send a status inquiry message** using the `agent-messaging` skill:
+1. **Send a status inquiry message** via the `amp-send` CLI:
    - **Recipient**: the agent session name
    - **Subject**: `[STATUS CHECK] Task progress inquiry`
    - **Priority**: `high`

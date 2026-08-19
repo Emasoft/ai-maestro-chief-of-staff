@@ -13,9 +13,9 @@ Check the status of pending, approved, or rejected approval requests from the As
 ## Usage
 
 Check approval status by:
-1. Using the `agent-messaging` skill to check for incoming approval response messages matching the request ID
+1. Using the `amp-inbox` CLI to check for incoming approval response messages matching the request ID
 2. Checking local approval files in `~/.aimaestro/approvals/pending/`
-3. Using the `agent-messaging` skill to check for unread messages of type `approval_response`
+3. Using the `amp-inbox` CLI to check for unread messages of type `approval_response`
 
 ## Arguments
 
@@ -146,7 +146,7 @@ Check approval status by:
 
 ## Checking via Messages
 
-The command also checks for incoming messages using the `agent-messaging` skill, filtering for messages of type `approval_response` in the unread inbox.
+The command also checks for incoming messages using the `amp-inbox` CLI, filtering for messages of type `approval_response` in the unread inbox.
 
 ## Error Handling
 

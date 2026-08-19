@@ -148,7 +148,7 @@ Create an artifact inventory at `$CLAUDE_PROJECT_DIR/.amcos/agent-health/artifac
 
 AMCOS must request approval from the manager (AMAMA) before creating a replacement agent.
 
-Use the `agent-messaging` skill to send the replacement approval request:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]` — the replacement approval request:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUIRED] Agent replacement request`
 - **Priority**: `urgent`
@@ -162,7 +162,7 @@ Use the `agent-messaging` skill to send the replacement approval request:
   - Awaiting approval flag
   - Response requested by timestamp
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's confirmation output.
 
 ### 4.4.2 Required Information for Approval
 
@@ -240,7 +240,7 @@ The replacement agent should run on a stable host. Considerations:
 
 The replacement agent needs a fresh working directory. **The new agent will NOT inherit the old agent's local files.**
 
-Use the `agent-messaging` skill to request the user to create the folder:
+Send via the `amp-send` CLI a request to the user to create the folder:
 - **Recipient**: the user or admin
 - **Subject**: `[USER ACTION REQUIRED] Create folder for replacement agent`
 - **Priority**: `high`
@@ -250,7 +250,7 @@ Use the `agent-messaging` skill to request the user to create the folder:
 
 The new agent must clone the project repository to access code and history.
 
-Use the `agent-messaging` skill to request the user to clone the repository:
+Send via the `amp-send` CLI a request to the user to clone the repository:
 - **Recipient**: the user or admin
 - **Subject**: `[USER ACTION REQUIRED] Clone repository for replacement agent`
 - **Priority**: `high`
@@ -258,7 +258,7 @@ Use the `agent-messaging` skill to request the user to clone the repository:
 
 ### 4.5.4 Starting the New Claude Code Session
 
-Use the `agent-messaging` skill to request the user to start a new Claude Code session:
+Send via the `amp-send` CLI a request to the user to start a new Claude Code session:
 - **Recipient**: the user or admin
 - **Subject**: `[USER ACTION REQUIRED] Start Claude Code session for replacement agent`
 - **Priority**: `high`
@@ -285,7 +285,7 @@ AMCOS must notify the orchestrator (AMOA) that an agent has been replaced so tha
 1. The orchestrator can generate a handoff document for the new agent
 2. The GitHub Project kanban can be updated to reassign tasks
 
-Use the `agent-messaging` skill to notify the orchestrator:
+Send via the `amp-send` CLI to notify the orchestrator:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[AGENT REPLACED] Handoff required for new agent`
 - **Priority**: `high`
@@ -329,7 +329,7 @@ The orchestrator must update the GitHub Project kanban to:
 
 ### 4.7.1 Sending Handoff Documentation
 
-Once AMOA has generated the handoff document, use the `agent-messaging` skill to send it to the new agent:
+Once AMOA has generated the handoff document, send it via the `amp-send` CLI to the new agent:
 - **Recipient**: the new agent session name
 - **Subject**: `[ONBOARDING] Welcome - please read handoff documentation`
 - **Priority**: `urgent`
@@ -342,7 +342,7 @@ Once AMOA has generated the handoff document, use the `agent-messaging` skill to
 
 ### 4.7.2 Sending Task Assignments
 
-After the handoff document, use the `agent-messaging` skill to send specific task assignments:
+After the handoff document, send via the `amp-send` CLI specific task assignments:
 - **Recipient**: the new agent session name
 - **Subject**: `[TASK ASSIGNMENTS] Your assigned tasks`
 - **Priority**: `high`
@@ -369,17 +369,17 @@ The new agent MUST acknowledge the handoff before AMCOS considers the replacemen
 
 **If no acknowledgment within 15 minutes:**
 
-Use the `agent-messaging` skill to send a reminder:
+Send via the `amp-send` CLI a reminder:
 - **Recipient**: the new agent session name
 - **Subject**: `[REMINDER] Handoff acknowledgment required`
 - **Priority**: `urgent`
 - **Content**: type `acknowledgment-reminder`, requesting receipt acknowledgment and response deadline
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's confirmation output.
 
 ### 4.7.4 Verifying New Agent Understanding
 
-After acknowledgment, use the `agent-messaging` skill to verify understanding:
+After acknowledgment, send via the `amp-send` CLI to verify understanding:
 - **Recipient**: the new agent session name
 - **Subject**: `[VERIFICATION] Confirm task understanding`
 - **Priority**: `normal`
@@ -395,7 +395,7 @@ Record the complete incident with resolution in the incident log at `$CLAUDE_PRO
 
 ### 4.8.2 Notifying Manager of Completion
 
-Use the `agent-messaging` skill to inform the manager that replacement is complete:
+Send via the `amp-send` CLI to inform the manager that replacement is complete:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[RESOLVED] Agent replacement complete`
 - **Priority**: `normal`

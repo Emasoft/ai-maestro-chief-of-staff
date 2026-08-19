@@ -73,7 +73,7 @@ Therefore:
 ### Phase 2: Request Manager Approval
 
 1. **Notify AMAMA (Assistant Manager)**
-   > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+   > **Note**: via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`. The JSON structure below shows the message content.
 
    ```json
    {
@@ -112,7 +112,7 @@ Therefore:
 ### Phase 4: Notify Orchestrator
 
 1. **Send notification to AMOA**
-   > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+   > **Note**: via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`. The JSON structure below shows the message content.
 
    ```json
    {
@@ -137,7 +137,7 @@ Therefore:
 1. **Receive handoff docs from AMOA**
 
 2. **Send handoff to new agent**
-   > **Note**: Use the `agent-messaging` skill to send messages. The JSON structure below shows the message content.
+   > **Note**: via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`. The JSON structure below shows the message content.
 
    ```json
    {

@@ -36,7 +36,7 @@ parent-skill: amcos-agent-coordination
 - Agent exists and is in "running" state
 - AI Maestro is running locally
 - The `ai-maestro-agents-management` skill is available
-- The `agent-messaging` skill is available
+- The `amp-send` and `amp-inbox` CLIs are available
 - State storage directory is writable (`~/.ai-maestro/agent-states/`)
 - Team registry is accessible
 
@@ -46,35 +46,35 @@ parent-skill: amcos-agent-coordination
 
 Verify the agent has no active work before hibernating.
 
-Use the `agent-messaging` skill to send an idle check:
+Send via the `amp-send` CLI: `amp-send <recipient> "Idle Status Check" "<message>" --type status --priority normal`.
 - **Recipient**: the target agent session name
 - **Subject**: `Idle Status Check`
 - **Priority**: `normal`
 - **Content**: type `status-request`, asking the agent if it is currently working on any active tasks (reply with IDLE if no active work)
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 Wait for IDLE confirmation.
 
 ### Step 2: Send Hibernation Warning
 
-Use the `agent-messaging` skill to send a hibernation notice:
+Send via the `amp-send` CLI: `amp-send <recipient> "Hibernation Notice" "<message>" --type notification --priority high`.
 - **Recipient**: the target agent session name
 - **Subject**: `Hibernation Notice`
 - **Priority**: `high`
 - **Content**: type `hibernation-warning`, informing the agent it will be hibernated in 30 seconds and should save any transient state
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 ### Step 3: Request State Capture
 
-Use the `agent-messaging` skill to request state capture:
+Send via the `amp-send` CLI: `amp-send <recipient> "State Capture Request" "<message>" --type request --priority high`.
 - **Recipient**: the target agent session name
 - **Subject**: `State Capture Request`
 - **Priority**: `high`
 - **Content**: type `request`, asking the agent to save its current state to `~/.ai-maestro/agent-states/<session-name>-hibernation.json`
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `amp-send` CLI's output.
 
 ### Step 4: Execute Hibernation
 
@@ -93,16 +93,16 @@ uv run python scripts/amcos_team_registry.py update-status \
 
 ### Step 6: Log Hibernation Event
 
-`amcos_team_registry.py` has no `log` subcommand — note the hibernation event in
-the team's coordination channel (`agent-messaging`) instead.
+`amcos_team_registry.py` has no `log` subcommand — note the hibernation event
+via the `amp-send` CLI to the team's coordination channel instead.
 
 ## Checklist
 
 Copy this checklist and track your progress:
 
 - [ ] Verify agent is idle (no active tasks)
-- [ ] Send hibernation warning (30 second notice) via `agent-messaging` skill
-- [ ] Request state capture from agent via `agent-messaging` skill
+- [ ] Send hibernation warning (30 second notice) via `amp-send`
+- [ ] Request state capture from agent via `amp-send`
 - [ ] Wait for state capture confirmation
 - [ ] Execute hibernation via `ai-maestro-agents-management` skill
 - [ ] Verify agent status changed to "hibernated"
@@ -116,13 +116,13 @@ Copy this checklist and track your progress:
 
 For agent `dev-frontend-bob`:
 
-1. Use the `agent-messaging` skill to check idle status:
+1. Send via the `amp-send` CLI: `amp-send dev-frontend-bob "Idle Status Check" "Are you currently working on any active tasks?" --type status --priority normal`.
    - **Recipient**: `dev-frontend-bob`
    - **Subject**: `Idle Status Check`
    - **Priority**: `normal`
    - **Content**: type `status-request`, message: "Are you currently working on any active tasks?"
 2. Wait for IDLE response
-3. Use the `agent-messaging` skill to send hibernation warning:
+3. Send via the `amp-send` CLI: `amp-send dev-frontend-bob "Hibernation Notice" "End of day hibernation in 30 seconds." --type notification --priority high`.
    - **Recipient**: `dev-frontend-bob`
    - **Subject**: `Hibernation Notice`
    - **Priority**: `high`
@@ -137,7 +137,7 @@ For agent `dev-frontend-bob`:
      --status "hibernated"
    ```
 7. Log the event (no `log` subcommand exists — send a team notification via
-   `agent-messaging` instead): "End of day - scheduled hibernation."
+   `amp-send` instead): "End of day - scheduled hibernation."
 
 ## Error Handling
 

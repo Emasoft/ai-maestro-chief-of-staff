@@ -34,7 +34,7 @@ Transfer of essential project knowledge, conventions, and current state.
 
 ## Examples: Initiating Onboarding for New Developer
 
-Use the `agent-messaging` skill to send an onboarding initiation message:
+Send an onboarding initiation message via the `amp-send` CLI (`amp-send <recipient> "<subject>" "<message>" --priority <priority>`):
 - **Recipient**: `new-developer-agent`
 - **Subject**: `Welcome - Onboarding Session Starting`
 - **Priority**: `high`

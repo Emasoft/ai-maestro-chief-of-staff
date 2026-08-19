@@ -12,7 +12,7 @@ Send notifications to the Assistant Manager (AMAMA) about issues, status updates
 
 ## Usage
 
-Send a message to the Assistant Manager (AMAMA) using the `agent-messaging` skill:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`
 - **Recipient**: `ai-maestro-assistant-manager-agent` (AMAMA)
 - **Subject**: the provided subject
 - **Content**: structured message with type, message body, timestamp, and optional metadata

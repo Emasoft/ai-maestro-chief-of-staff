@@ -104,7 +104,7 @@ Replace a failed, terminated, or unhealthy agent with a new one. This command or
 
 ### Step 1: Request Approval from AMAMA
 
-Send an approval request to the AMAMA using the `agent-messaging` skill:
+Send an approval request to the AMAMA via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Replace Agent: <failed-agent>`
 - **Content**: approval request with failed agent details, new agent name, role, project, and reason
@@ -125,7 +125,7 @@ After approval, use the `ai-maestro-agents-management` skill to create a new age
 
 ### Step 3: Request Handoff from AMOA
 
-Send a handoff generation request to AMOA using the `agent-messaging` skill:
+Send a handoff generation request to AMOA via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[HANDOFF REQUEST] Generate handoff for <failed-agent> replacement`
 - **Content**: request to generate handoff documentation including failed and new agent names
@@ -135,7 +135,7 @@ Send a handoff generation request to AMOA using the `agent-messaging` skill:
 
 ### Step 4: Update GitHub Project Kanban
 
-Send a kanban update request to AMOA using the `agent-messaging` skill:
+Send a kanban update request to AMOA via the `amp-send` CLI:
 - **Recipient**: `amoa-orchestrator`
 - **Subject**: `[KANBAN UPDATE] Reassign cards from <old-agent> to <new-agent>`
 - **Content**: request to reassign all kanban cards
@@ -145,7 +145,7 @@ Send a kanban update request to AMOA using the `agent-messaging` skill:
 
 ### Step 5: Transfer Handoff to New Agent
 
-Send the handoff documentation to the new agent using the `agent-messaging` skill:
+Send the handoff documentation to the new agent via the `amp-send` CLI:
 - **Recipient**: the new agent
 - **Subject**: `[HANDOFF] Work transfer from <failed-agent>`
 - **Content**: handoff document with instructions to review and continue work

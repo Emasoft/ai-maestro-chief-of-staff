@@ -90,7 +90,7 @@ EOF
 
 ### Step 4: Send Request via AI Maestro
 
-Use the `agent-messaging` skill to send the approval request message to AMAMA with the composed request body.
+Via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, send the approval request message to AMAMA with the composed request body.
 
 ### Step 5: Register Pending Approval
 
@@ -107,7 +107,7 @@ aimaestro-governance.sh request \
 
 ### Step 6: Await Response
 
-Poll for response using the `agent-messaging` skill to check for unread messages matching the request ID. Check every 10 seconds for up to 120 seconds (2 minutes). When a message with the matching `request_id` is found, extract the `decision` field from the response content.
+Poll for response using the `amp-inbox` CLI to check for unread messages matching the request ID. Check every 10 seconds for up to 120 seconds (2 minutes). When a message with the matching `request_id` is found, extract the `decision` field from the response content.
 
 ### Step 7: Handle Decision
 
@@ -136,7 +136,7 @@ esac
 
 **Scenario:** Request approval to spawn agent `implementer-2` for issue #42.
 
-Generate a request ID, then use the `agent-messaging` skill to send:
+Generate a request ID, then via the `amp-send` CLI, send:
 - **Recipient**: `amama-main`
 - **Subject**: `[APPROVAL REQUIRED] spawn: implementer-2`
 - **Priority**: `high`

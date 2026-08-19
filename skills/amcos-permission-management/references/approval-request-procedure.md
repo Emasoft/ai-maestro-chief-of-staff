@@ -13,7 +13,7 @@
   - 1.3.1 Operation identification - Determining request type
   - 1.3.2 Justification preparation - Explaining why
   - 1.3.3 Message composition - Formatting the request
-  - 1.3.4 Transmission via `agent-messaging` skill - Sending to AMAMA
+  - 1.3.4 Transmission via the `amp-send` CLI - Sending to AMAMA
   - 1.3.5 Response awaiting - Waiting with timeout
 - 1.4 Request message format - Standard message structure
 - 1.5 Examples - Approval request scenarios
@@ -188,12 +188,12 @@ Examples:
 - `normal` - For terminate and hibernate operations (cleanup)
 - `urgent` - Only for escalation reminders (not initial request)
 
-### 1.3.4 Transmission via `agent-messaging` skill
+### 1.3.4 Transmission via the `amp-send` CLI
 
-**Step 5:** Use the `agent-messaging` skill to send the composed approval request message to AMAMA.
+**Step 5:** Send via the `amp-send` CLI the composed approval request message to AMAMA.
 
 **Verify transmission:**
-- Check the delivery confirmation from the skill
+- Check the delivery confirmation from the CLI
 - Record the message ID returned
 - Record transmission timestamp
 
@@ -214,7 +214,7 @@ Timeout schedule:
 
 **Check for response:**
 
-Use the `agent-messaging` skill to check for unread messages addressed to `amcos-chief-of-staff`. Filter for messages containing the matching `request_id` (e.g., `spawn-req-2025-02-02-001`).
+Use the `amp-inbox` CLI to check for unread messages addressed to `amcos-chief-of-staff`. Filter for messages containing the matching `request_id` (e.g., `spawn-req-2025-02-02-001`).
 
 **Valid response decisions:**
 - `approved` - Proceed with operation
@@ -228,7 +228,7 @@ Use the `agent-messaging` skill to check for unread messages addressed to `amcos
 
 ### Complete Request Schema
 
-The approval request message sent via the `agent-messaging` skill must contain:
+The approval request message sent via the `amp-send` CLI must contain:
 
 - **from**: string (required) - must be `amcos-chief-of-staff`
 - **to**: string (required) - must be `amama-assistant-manager`
@@ -285,7 +285,7 @@ The approval request message sent via the `agent-messaging` skill must contain:
 
 ### Example: Spawn Request
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Spawn: frontend-dev-02`
 - **Priority**: `high`
@@ -293,7 +293,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example: Hibernate Request
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Hibernate: api-tester-01`
 - **Priority**: `normal`
@@ -301,7 +301,7 @@ Use the `agent-messaging` skill to send:
 
 ### Example: Plugin Install Request
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[APPROVAL REQUEST] Plugin Install: perfect-skill-suggester`
 - **Priority**: `high`

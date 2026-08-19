@@ -131,13 +131,13 @@ Recoverable failures should be resolved within **2 hours** with appropriate inte
 
 **Response action - notify and recover:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[AGENT FAILURE] Recoverable failure detected`
 - **Priority**: `high`
 - **Content**: type `failure-report`, message: "Agent libs-svg-svgbbox has experienced a recoverable failure (session hibernated). Attempting wake recovery. Will report result in 10 minutes." Include `agent`: "libs-svg-svgbbox", `failure_type`: "recoverable", `failure_cause`: "session_hibernated", `planned_action`: "wake_via_terminal", `expected_recovery_time`: "10 minutes".
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `ai-maestro-plugin:agent-messaging` skill's sent messages feature.
 
 ---
 
@@ -185,13 +185,13 @@ A **terminal failure** is a catastrophic disruption from which the agent cannot 
 
 **Response action - request replacement:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[CRITICAL] Terminal failure - replacement required`
 - **Priority**: `urgent`
 - **Content**: type `replacement-request`, message: "Agent libs-svg-svgbbox has experienced a terminal failure and cannot be recovered. Host machine crashed and agent state is lost. Requesting approval to create replacement agent. Estimated replacement time: 30 minutes." Include `agent`: "libs-svg-svgbbox", `failure_type`: "terminal", `failure_cause`: "host_machine_crash", `recovery_attempts`: 0, `recoverable_artifacts`: ["git commits up to abc123", "logs at /var/log/agent-libs-svg.log"], `replacement_cost`: { `time_to_replace`: "30 minutes", `work_to_redo`: "2-3 hours of uncommitted work" }, `awaiting_approval`: true.
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `ai-maestro-plugin:agent-messaging` skill's sent messages feature.
 
 ---
 
@@ -258,13 +258,13 @@ AMCOS uses these thresholds to determine when to escalate to manager (AMAMA):
 
 **Escalation message to manager:**
 
-Use the `agent-messaging` skill to send:
+Send via the `amp-send` CLI:
 - **Recipient**: `amama-assistant-manager`
 - **Subject**: `[ESCALATION] Agent failure requires attention`
 - **Priority**: appropriate level (`normal`, `high`, or `urgent`)
 - **Content**: type `escalation`, message: description of the situation. Include `agent` (session name), `failure_type` ("transient", "recoverable", or "terminal"), `failure_details` with `first_detected` (ISO timestamp), `symptom` (what was observed), `diagnosis` (what AMCOS determined), `recommended_action` (what AMCOS proposes), `awaiting_approval` (true/false).
 
-**Verify**: confirm message delivery via the `agent-messaging` skill's sent messages feature.
+**Verify**: confirm message delivery via the `ai-maestro-plugin:agent-messaging` skill's sent messages feature.
 
 ---
 
