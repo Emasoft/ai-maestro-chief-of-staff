@@ -11,7 +11,7 @@
 - 2.3 Post-operation notification procedure - Step-by-step process
   - 2.3.1 Confirm operation success - Verify completion
   - 2.3.2 Compose confirmation - What to tell agents
-  - 2.3.3 Send notification - Using the `ai-maestro-plugin:agent-messaging` skill
+  - 2.3.3 Send notification - Using the `amp-send` CLI
   - 2.3.4 Request verification - Ask agent to confirm
   - 2.3.5 Log outcome - Record the result
 - 2.4 Verification request format - Asking agents to confirm
@@ -109,7 +109,7 @@ Post-operation notifications complete the notification protocol flow. They are s
 
 ### 2.3.3 Send notification
 
-**Purpose:** Deliver the confirmation using the `ai-maestro-plugin:agent-messaging` skill.
+**Purpose:** Deliver the confirmation using the `amp-send` CLI.
 
 Send via the `amp-send` CLI: `amp-send <recipient> "<subject>" "<message>" [--type T] [--priority P]`, with:
 - **Recipient**: the target agent session name
