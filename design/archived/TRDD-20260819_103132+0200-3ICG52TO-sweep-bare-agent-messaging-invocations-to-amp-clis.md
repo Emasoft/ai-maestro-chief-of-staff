@@ -1,9 +1,11 @@
 ---
 trdd-id: 3ICG52TO
 title: Sweep bare agent-messaging skill invocations to the frozen amp-* CLIs
-column: dev
+column: published
 created: 2026-08-19T10:31:32+0200
-updated: 2026-08-19T10:31:32+0200
+updated: 2026-08-19T14:45:29+0200
+release-via: publish
+implementation-commits: [0dda475, a59c331, f91367d]
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
@@ -39,9 +41,24 @@ recovery/failure/handoff reference sets 16-18× each).
 
 ## Acceptance criteria
 
-- [ ] Zero remaining bare-name INVOCATION teachings in live surfaces (skills/, agents/,
+- [x] Zero remaining bare-name INVOCATION teachings in live surfaces (skills/, agents/,
       commands/, scripts/, CLAUDE.md) — verified by grep re-measure, with any surviving hits
       individually justified as prose/pointer.
-- [ ] Converted teachings name the frozen CLI verbs, not the raw API and not SendMessage.
-- [ ] Suite green, ruff clean, `trddgrep validate` exit 0.
-- [ ] Published in the next release and reported to the hub.
+- [x] Converted teachings name the frozen CLI verbs, not the raw API and not SendMessage.
+- [x] Suite green, ruff clean, `trddgrep validate` exit 0.
+- [x] Published in the next release and reported to the hub.
+
+## Closure — 2026-08-19T14:45:29+0200
+
+Executed as 15 parallel lean-worker batches (per-batch reports in gitignored
+`reports/sweep-3ICG52TO/`): ~700 conversions across 145 files. Re-measure: 0 bare
+invocation teachings outside design/; survivors = namespaced pointers, TOC anchor slugs,
+and the `.agent.toml` `required_skills` identifier (machine-read list, bare by that list's
+convention — its sibling entry is bare too). Two follow-on gate fixes: post-op 2.3.3 TOC
+line desync (a59c331) and changelog privilege-escalation-shape devitalization via
+cliff.toml commit_preprocessors (f91367d). Published v2.32.7; hub report sent.
+
+## Approval log
+
+- 2026-08-19T14:45:29+0200 — PUBLISHED (release v2.32.7). Tier-0 sweep under hub SWEEP
+  directive (USER mandate 2026-08-19); publish under the standing USER GO of 2026-08-19.
