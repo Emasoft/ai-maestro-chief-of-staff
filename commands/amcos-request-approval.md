@@ -26,7 +26,7 @@ pending → local-approved / remote-approved → dual-approved → executed
 
 ## Operations Requiring GovernanceRequest
 
-| Operation | Scope | Approvers | Sudo gate |
+| Operation | Scope | Approvers | Elevation gate |
 |-----------|-------|-----------|-----------|
 | `spawn` | local | sourceManager | No |
 | `spawn` | cross-team | sourceManager + targetManager | No |
@@ -169,7 +169,7 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
 | Error | Cause | Solution |
 |-------|-------|----------|
 | Rate limited | Too many requests | Back off and retry |
-| Sudo gate pending | Critical op awaiting the USER's UI approval (R32) | Wait; do not attempt to supply a password |
+| Elevation gate pending | Critical op awaiting the USER's UI approval (R32) | Wait; do not attempt to supply a password |
 | Unknown target manager | Invalid targetManager | Query team registry |
 | Service unreachable | AI Maestro down | Check if AI Maestro is running |
 | Missing `--target-cos` | Cross-team without target | Provide target COS and manager |
