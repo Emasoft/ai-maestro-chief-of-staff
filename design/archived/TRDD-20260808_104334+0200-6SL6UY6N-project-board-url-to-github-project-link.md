@@ -1,9 +1,9 @@
 ---
 trdd-id: 6SL6UY6N
 title: Wire project_board_url through to githubProject instead of dropping it
-column: testing
+column: completed
 created: 2026-08-08T10:43:34+0200
-updated: 2026-08-19T09:30:00+0200
+updated: 2026-08-19T10:05:00+0200
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
@@ -171,5 +171,23 @@ working correctly, not an obstacle.
 
 - The `--gh-project` flag on `aimaestro-teams.sh create` is tracked in the COS residual list
   ai-maestro#76; the DECOUPLE-BLOCKED markers in this repo point there since `ae04e20`.
+- **Operational caveats from the live e2e (hub, 2026-08-19)**, kept because a future caller of
+  `aimaestro-teams.sh create` will hit all three: (a) the CreateTeam pipeline takes ~2 min
+  (auto-COS spawn) and the board linkage persists LAST — an early read of teams.json shows
+  `githubProject: null` and is not a failure; (b) slow verbs print
+  `Error: request to /api/teams failed (network)` exit 1 while SUCCEEDING server-side (CLI
+  `curl --max-time 30` < pipeline) — false-failure + duplicate-on-retry hazard, hub card
+  TRDD-ARY3NRFC; (c) `common.sh` `local -n` dies under macOS default bash 3.2 — the CLI needs
+  homebrew bash first on PATH (also folded into ARY3NRFC).
+
+## Approval log
+
+- 2026-08-19T10:05:00+0200 — COMPLETED by ai-maestro-chief-of-staff (tier 0, own-scope
+  self-mandate). Live round-trip executed by the hub session via the owner harness path
+  (aim_session + one-shot sudo tokens; no agent identity borrowed): repo-scoped URL persisted
+  `{"owner":"Emasoft","repo":"ai-maestro","number":7}`; org-level persisted
+  `{"owner":"Emasoft","number":5}` with the repo key ABSENT (browse-only per 21be3e96),
+  verified on two independent creates + one PUT update, read from ~/.aimaestro/teams/teams.json.
+  Verdict PASS relayed 2026-08-19; unit half was already green (17 tests, 5b5718a).
 - Verb surface to implement against: `scripts/build-script-manifest.mjs` on
   `ai-maestro@governance-rules` (tip `1ccbe9e0` at time of writing, fetchable).
