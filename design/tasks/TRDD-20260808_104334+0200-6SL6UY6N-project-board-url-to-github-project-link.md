@@ -3,7 +3,7 @@ trdd-id: 6SL6UY6N
 title: Wire project_board_url through to githubProject instead of dropping it
 column: testing
 created: 2026-08-08T10:43:34+0200
-updated: 2026-08-14T08:59:04+0200
+updated: 2026-08-19T09:30:00+0200
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
@@ -148,6 +148,12 @@ succeeded with a repo URL. Verified by reading the schema and the old CLI, not b
 this session cannot execute it (401, see below).
 
 ## Remaining before `complete`
+
+**2026-08-19: the e2e is now DELEGATED, not merely described.** Asked the hub session to have a
+REGISTERED COS agent run the round-trip (one repo-scoped URL → `{owner, repo, number}` CRUD link;
+one org URL → `{owner, number}` browse-only), since only a registered agent holds an AID and
+borrowing one is forbidden. On PASS this card closes complete; on FAIL the payload comes back
+here at `dev`. Until the reply, `testing` means "delegated verification pending", not local work.
 
 Live end-to-end against a real server, which this session **cannot** do: `aimaestro-teams.sh`
 returns `401 auth_required` here because this is a plugin-development session, not a registered
