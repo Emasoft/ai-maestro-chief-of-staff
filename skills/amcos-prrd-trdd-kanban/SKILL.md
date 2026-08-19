@@ -122,6 +122,23 @@ The publish/deploy tails follow each TRDD's `release-via:` (`publish` →
 `published`; `deploy` → `live` → `live_auditing` soak); `release-via: none`
 ends at `complete`.
 
+**Review-column ownership — the INTEGRATOR runs the review lanes; COS never
+absorbs them.** Per the exempt-transitions table (category A) and S7.1: the
+`testing → ai_review` transition belongs to the test runner / assignee MEMBER;
+`ai_review` itself — running the review, `ai_review → dev` on rejection, and
+requesting review on a PR — is the **INTEGRATOR's** job, on DIRECT ORCH↔INT
+edges (S7.1: the pre-PR gate is ORCHESTRATOR-owned in-team dialog; you guard
+the TEAM BOUNDARY only, R6 v3). `live_auditing` entries and soak windows are
+also INT's. Your coordination duty for these lanes is exactly three things:
+(1) the team HAS a configured INTEGRATOR (R31 freezes an incomplete team —
+provide one if it is missing, via the agents-management path); (2) cards do
+not STALL in `testing`/`ai_review` with nobody working them — a stalled review
+lane is a message to the ORCHESTRATOR, not a review you perform yourself;
+(3) escalations OUT of `ai_review` that would have gone to `human_review`
+route up your chain (MANAGER, or the hub where a program delegates that
+column). You never review code, never merge, and never move another agent's
+card through a review lane.
+
 **Status:** the file-based half is **live today** — the 14-stage `column:`
 pipeline + the `ama-kanban-render` skill. COS applies the schema to the team SERVER
 board via the deployed `kanban-config` CLI verb (`aimaestro-teams.sh
