@@ -39,8 +39,8 @@ pending → local-approved / remote-approved → dual-approved → executed
 | `replace` | any | sourceManager (+ targetManager) | No |
 | `critical` | any | dual-manager | **USER via UI (R32)** |
 
-Critical operations are additionally gated by a sudo password that is requested **only of the
-USER, only via the AI Maestro UI** (R32). The COS never holds, passes, or submits one — there is
+Critical operations are additionally gated by an elevation password that is requested **only of
+the USER, only via the AI Maestro UI** (R32). The COS never holds, passes, or submits one — there is
 no password argument on this command and no password field in the payload.
 
 ## Arguments
@@ -75,7 +75,7 @@ REQUEST_ID="GR-$(date +%Y%m%d%H%M%S)-$(openssl rand -hex 4)"
   --scope cross-team --target-cos amcos-backend --target-manager amama-backend \
   --reason "Need worker on backend team for data migration"
 
-# Critical operation (sudo gate: the USER approves via the UI — R32; no password argument exists)
+# Critical operation (server elevation gate: the USER approves via the UI — R32; no password argument exists)
 /amcos-request-approval --type critical --agent prod-deployer --urgent \
   --reason "Emergency production deployment"
 

@@ -23,7 +23,7 @@ external-refs: [ai-maestro TRDD-BRRJK57P]
 
 # Phase 1 self-audit of this plugin across the four mandated axes
 
-Phase 1 of the USER fleet program `TRDD-BRRJK57P` (`/Users/emanuelesabetta/ai-maestro/design/tasks/`),
+Phase 1 of the USER fleet program `TRDD-BRRJK57P` (`~/ai-maestro/design/tasks/`),
 relayed by the hub session. The mandate was read at its source rather than taken from the relay:
 `mandate: true`, `mandated-by: user`, `approved: true`, `approval-judge: user`. A read-only audit of
 this repo is Tier 0 in this repo's own scope, so nothing here waits on the authority question that

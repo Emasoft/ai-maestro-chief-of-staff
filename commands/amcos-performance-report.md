@@ -1,7 +1,7 @@
 ---
 name: amcos-performance-report
 description: "Generate agent performance report with metrics, strengths, and improvement areas"
-argument-hint: "(--agent SESSION_NAME | --project PROJECT_ID | --all) [--period DAYS] [--project-dir PATH] [--compact]"
+argument-hint: "(--agent NAME | --project ID | --all) [--period DAYS] [--project-dir PATH] [--compact]"
 user-invocable: true
 allowed-tools: ["Bash(python3 ${CLAUDE_PLUGIN_ROOT}/scripts/amcos_performance_report.py:*)"]
 ---
