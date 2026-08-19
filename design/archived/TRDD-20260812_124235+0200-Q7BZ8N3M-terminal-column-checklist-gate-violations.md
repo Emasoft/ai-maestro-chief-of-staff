@@ -1,9 +1,9 @@
 ---
 trdd-id: Q7BZ8N3M
 title: Resolve the nine terminal-column cards that fail the checklist gate
-column: todo
+column: completed
 created: 2026-08-12T12:42:35+0200
-updated: 2026-08-16T23:36:03+0200
+updated: 2026-08-19T04:55:00+0200
 current-owner: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
 task-type: docs
@@ -168,11 +168,13 @@ applied at all.
 - [x] A disposition chosen and recorded here with its rationale. → the DISPOSITION section
       above, 2026-08-16. The chosen answer is NONE of 1/2/3, because the premise the three
       options rested on was measured false.
-- [ ] Each of the nine cards resolved per that disposition, one at a time, no scripted sweep.
-      → eight are RESOLVED as "not violations, frozen pre-boundary, no action" (measured per
-      card, see the table). The ninth, `4FH9JP4U`, is deferred to Phase 2 of `TRDD-BRRJK57P`,
-      which forbids fixes during discovery. This box stays OPEN because that one card is not
-      yet resolved — it is not ticked on a plan.
+- [x] Each of the nine cards resolved per that disposition, one at a time, no scripted sweep.
+      → eight RESOLVED as "not violations, frozen pre-boundary, no action" (measured per
+      card, see the table). The ninth, `4FH9JP4U`, repaired 2026-08-18 via `TRDD-4HSTGXGB`
+      (Phase-2 dispatch f15f1df): reopened to `dev`, checklist written from its three recorded
+      checks, each ticked against the 2026-08-18T23:50:51 re-run, re-closed to `complete`;
+      `KNOWN_UNGATED` shrunk 9 → 8 (the shrink-only test forced the removal). Verified
+      first-hand 2026-08-19 in `design/archived/TRDD-…-4HSTGXGB-repair-4FH9JP4U-checklist.md`.
 - [x] No box ticked retroactively anywhere; any box that is checked is checked against
       named evidence. → held. The `4FH9JP4U` repair, when it runs, ticks its boxes against the
       2026-08-16 re-run of its own three recorded checks, never against its prose.
@@ -181,7 +183,8 @@ applied at all.
       (4 tests, suite 322 → 326). Done AHEAD of the disposition on purpose: it is the
       only box here that does not depend on which of 1/2/3 is chosen, since the tenth
       violation is prevented identically either way.
-- [ ] Suite green, ruff clean.
+- [x] Suite green, ruff clean. → re-run 2026-08-19T04:55: `uv run --with pytest pytest tests/`
+      → 341 passed, exit 0; `ruff check .` → all checks passed, exit 0.
 
 ## Notes
 
@@ -198,3 +201,10 @@ applied at all.
 - Whichever disposition is chosen, the mechanical work is now bounded: remove entries from
   `KNOWN_UNGATED` as cards are resolved, and the suite tells you when the list is wrong in
   either direction.
+
+## Approval log
+
+- 2026-08-19T04:55:00+0200 — COMPLETED by ai-maestro-chief-of-staff (tier 0, own-scope docs
+  card). All five acceptance boxes closed: disposition decided 2026-08-16, the one in-scope
+  violation (`4FH9JP4U`) repaired 2026-08-18 via TRDD-4HSTGXGB, guard test in place, suite
+  341 green + ruff clean re-run at close.
