@@ -1,9 +1,10 @@
 ---
 trdd-id: 3A0PSVPV
 title: Adopt R41 approval-vs-mandate + PRRD golden-silver citations and re-check G1.1 templates + memory contract
-column: todo
+column: complete
 created: 2026-08-18T20:07:39+0200
-updated: 2026-08-18T23:47:30+0200
+updated: 2026-08-19T04:30:55+0200
+implementation-commits: [ab0a5a6]
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
@@ -45,9 +46,17 @@ Re-check on the LIVE tree (not the installed cache):
 
 ## Acceptance criteria
 
-- [ ] Persona/decision surface cites R41 (approval vs mandate, no self-approval, checkable
-      approvals) and the golden/silver split — by number, no restatement.
-- [ ] Pattern A verified or fixed on the live tree, with the sweep command recorded.
-- [ ] Pattern B verified or fixed on the live tree.
-- [ ] Result reported on COS#30 (verified-clean is a valid result), with the COS byline, no `@`.
-- [ ] Suite green, ruff clean.
+- [x] Persona cites R41 (approval vs mandate, R41.5 no-self-approval, checkable approvals via
+      `aimaestro-trdd.sh verify`) + golden/silver split by number, no restatement → ab0a5a6.
+- [x] Pattern A verified clean on the live tree; sweep command recorded in the COS#30 comment.
+- [x] Pattern B verified clean (contract in CLAUDE.md + per-agent wiring in all 10 agents).
+- [x] Reported on COS#30 with the byline, no `@`:
+      https://github.com/Emasoft/ai-maestro-chief-of-staff/issues/30#issuecomment-5336785501
+- [x] Suite 341 green, ruff clean.
+
+## Approval log
+
+- 2026-08-19T04:30:55+0200 — COMPLETED. todo → dev → testing → ai_review (llm-ext ensemble;
+  one REJECT overruled at source — GOVERNANCE-RULES.md:1471 says MAESTRO/USER verbatim; report
+  reports/llm-externalizer/20260819_002645+0200-code_task-r41.diff-eb194d.md) → complete.
+  Implementation commit ab0a5a6.
