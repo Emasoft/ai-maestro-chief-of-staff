@@ -5,7 +5,7 @@ column: complete
 created: 2026-08-20T10:35:00+0200
 updated: 2026-08-20T10:52:00+0200
 release-via: none
-implementation-commits: [pending-local]
+implementation-commits: [524b921]
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
