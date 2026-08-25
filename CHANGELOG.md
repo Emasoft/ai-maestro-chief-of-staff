@@ -1,16 +1,24 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.32.8] - 2026-08-25
+    ## [2.33.0] - 2026-08-25
+
+### Bug Fixes
+
+- Sync label-taxonomy embedded TOC with the 22-column reference heading (TRDD-0YWTUXW7 follow-through)    
 
 ### Documentation
 
-- Archive TRDD-3ICG52TO → published (v2.32.7)    
-- Add TRDD-P4OB78ST — refresh SendMessage governance prose after harness deny (hub AMP-only directive)    
-- Refresh SendMessage governance prose after harness deny (TRDD-P4OB78ST)    
-- Archive TRDD-P4OB78ST → complete (524b921)    
-- Correct harness-lockdown prose to inbound-only (TRDD-EZUFLTOL)    
-- Archive TRDD-EZUFLTOL → complete    
-- Pin CC 2.1.236-2.1.239 transport surfaces in R6 + guard tests    
+- Add TRDD-0YWTUXW7 — adopt 3-pillars 3.0.0 22-column kanban vocabulary (hub fleet-prep mandate)    
+- Add TRDD-77M6SY47 — CC-adoption deferred follow-ups (re-entry conditions from the 23C5566E adjudication)    
+- Archive TRDD-0YWTUXW7 → complete (3c67fb1, 343 tests green)    
+- Archive TRDD-23C5566E → complete (backlog fully adjudicated vs CC 2.1.240; item C in 1870392)    
+- Archive TRDD-0N722ZCO → complete (recall measured 46% vs 2% baseline)    
+- Complete the TRDD-23C5566E closing edit with its acceptance checklist (board gate)    
+
+### Features
+
+- Migrate kanban vocabulary to 3-pillars 3.0.0 (TRDD-0YWTUXW7)    
+- Ring terminal bell on resource alerts via terminalSequence (TRDD-23C5566E)    
 
 
