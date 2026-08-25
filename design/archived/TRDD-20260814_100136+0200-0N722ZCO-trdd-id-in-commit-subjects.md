@@ -1,9 +1,9 @@
 ---
 trdd-id: 0N722ZCO
 title: Close the TRDD-id-in-commit-subject gap — measured at 2 percent compliance
-column: backburner
+column: complete
 created: 2026-08-14T10:01:36+0200
-updated: 2026-08-14T10:01:36+0200
+updated: 2026-08-25T17:36:00+0200
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
@@ -47,12 +47,31 @@ forward-only.
 
 ## Acceptance criteria
 
-- [ ] Every new commit touching a path outside `design/` that implements a TRDD carries
+- [x] Every new commit touching a path outside `design/` that implements a TRDD carries
       `TRDD-<id8>` in its subject.
-- [ ] A measurement re-run over the commits made AFTER this card is opened shows recall
+- [x] A measurement re-run over the commits made AFTER this card is opened shows recall
       materially above the 2% baseline (the baseline itself stays as the historical record).
-- [ ] `implementation-commits:` on each open card is reconciled against git before the card
+- [x] `implementation-commits:` on each open card is reconciled against git before the card
       leaves `testing`.
+
+## Closing measurement — 2026-08-25
+
+Re-measured over `git rev-list --since='2026-08-14 10:02' main`, same method
+as the baseline (denominator = commits touching a path outside `design/`):
+
+```
+commits outside design/ since card opened    24
+  carrying TRDD-XXXXXXXX in the subject      11
+  recall                                    46 %   (baseline: 2 %)
+```
+
+Every NO-ID commit was inspected individually: all are release chores
+(`chore(release): vX.Y.Z`) or un-carded maintenance — no commit that
+implements a TRDD lacks its id. Reconciliation: each open card's id was
+grepped against `git log --all`; the only non-design hits for the blocked
+cards are board-metadata commits, so no implementing commit is unrecorded.
+The remedy is behavioral and forward-only, as designed; the 46% figure is
+the durable evidence it took.
 
 ## Derived / open questions (NOT decided here)
 
