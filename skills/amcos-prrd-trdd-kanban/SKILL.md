@@ -103,20 +103,20 @@ absent from the board: per COS#11, **COS sets the team board's column
 SCHEMA once, at team creation** (the canonical column SET, not the card
 flow).
 
-**The ratified schema is the full 14-stage TRDD v2 pipeline plus the
-three exception lanes — 17 columns total, a 1:1 mirror of the TRDD
+**The ratified schema is the full 19-stage TRDD v3 pipeline plus the
+three exception lanes — 22 columns total, a 1:1 mirror of the TRDD
 `column:` enum, NOT a projection.** An earlier **8-column** model (v2.20.0) was **superseded**
-by the MANAGER's ai-maestro#2 decision (a) (COS#11): there is **NO 14→8
+by the MANAGER's ai-maestro#2 decision (a) (COS#11): there is **NO
 collapse** — a projection hid the human gate and the publish/deploy tails.
 A TRDD's frontmatter `column:` IS its board lane directly, so there is no
 mapping table to maintain.
 
-**The lanes** (the TRDD v2 `column:` values, in lifecycle order) —
+**The lanes** (the TRDD v3 `column:` values, in lifecycle order) —
 `ai_review` and `human_review` stay DISTINCT (the R26–R40 dual-review /
 human gate depends on it; collapsing them hides the human gate), and
 `blocked`/`failed`/`superseded` are first-class:
 
-`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
+`backburner · approval · design · design_ai_review · design_human_review · todo · verify_assumptions · plan · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
 
 The publish/deploy tails follow each TRDD's `release-via:` (`publish` →
 `published`; `deploy` → `live` → `live_auditing` soak); `release-via: none`
@@ -139,13 +139,13 @@ route up your chain (MANAGER, or the hub where a program delegates that
 column). You never review code, never merge, and never move another agent's
 card through a review lane.
 
-**Status:** the file-based half is **live today** — the 14-stage `column:`
+**Status:** the file-based half is **live today** — the 19-stage `column:`
 pipeline + the `ama-kanban-render` skill. COS applies the schema to the team SERVER
 board via the deployed `kanban-config` CLI verb (`aimaestro-teams.sh
 kanban-config <teamId> --set-file <schema.json>`); the remaining gate is
 the **backend — ai-maestro#2** (per-team column storage, still OPEN — the
 server holds only 5 hardcoded statuses, ai-maestro#40). So COS configures
-the 14-stage board at team creation the moment #2 is live; the
+the 22-column board at team creation the moment #2 is live; the
 velocity/distribution monitoring half of COS#11 (parts 2-4) rides the
 deployed `amp-kanban-*` CLIs.
 

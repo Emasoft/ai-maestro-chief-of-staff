@@ -313,17 +313,17 @@ amp-send.sh "svgbbox-orchestrator" "[REGISTRY UPDATE] Team contacts updated" "Ag
 
 ## Kanban System Reference
 
-> The team board **mirrors the 14-stage TRDD v2 `column:` pipeline 1:1** plus the
+> The team board **mirrors the 19-stage TRDD v3 `column:` pipeline 1:1** plus the
 > `blocked`/`failed`/`superseded` exception lanes — NOT a projection. An earlier
 > 8-column model (v2.20.0) was **superseded** by the MANAGER's ai-maestro#2
 > decision (a) (COS#11). COS sets this column schema once at team creation (via
 > the deployed `kanban-config` verb; the per-team column backend is gated on
 > ai-maestro#2).
 
-All projects use the canonical **14-stage board** (the TRDD `column:` values, in
-lifecycle order, + exceptions):
+All projects use the canonical **22-column board** (19 lifecycle + 3 exception,
+the TRDD `column:` values, in lifecycle order):
 
-`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
+`backburner · approval · design · design_ai_review · design_human_review · todo · verify_assumptions · plan · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
 
 The two governance review gates (`ai_review`, `human_review`) stay DISTINCT and
 `blocked`/`failed`/`superseded` are first-class lanes. A TRDD's frontmatter

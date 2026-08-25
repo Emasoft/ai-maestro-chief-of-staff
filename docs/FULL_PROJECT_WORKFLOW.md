@@ -79,7 +79,7 @@ All cross-team GovernanceRequests must be approved by both teams' managers (AMAM
 ## Kanban — the canonical TRDD `column:` pipeline
 
 > **Runtime source of truth.** The authoritative task lifecycle is the TRDD
-> v2 `column:` state machine (see `~/.claude/rules/trdd-design-tasks.md` and
+> v3 `column:` state machine (see `~/.claude/rules/trdd-design-tasks.md` and
 > the granular `ama-*` skills in `ai-maestro-plugin` >= 2.7.9 —
 > `ama-trdd-transition` et al., which replaced the monolithic
 > `prrd-trdd-kanban`). The per-team `amcos-prrd-trdd-kanban` skill defers to
@@ -91,9 +91,14 @@ Each task is a TRDD whose `column:` field advances through the pipeline below. T
 
 | Group | Column | A task lives here when… | Who advances it |
 |-------|--------|-------------------------|-----------------|
-| ENTRY | `backburner` | proto-TRDD parking lot | MANAGER (promotes) |
-| | `todo` | promoted, awaiting design | ORCHESTRATOR |
+| ENTRY | `backburner` | proto-TRDD parking lot, not yet approved | MANAGER (promotes) |
+| APPROVAL | `approval` | waiting on COS/MANAGER approval | COS / MANAGER |
 | DESIGN | `design` | ARCHITECT shapes proto → full TRDD (may 1→N split / N→1 group) | ARCHITECT |
+| | `design_ai_review` | design body reviewed by COS/MANAGER | COS / MANAGER |
+| | `design_human_review` | human reviews design (skipped when `min-approval-requirement: none`) | USER |
+| | `todo` | approved AND designed, awaiting planning | ORCHESTRATOR |
+| | `verify_assumptions` | every claim in the card verified | owner |
+| | `plan` | implementation planned non-interactively, complete plan file exists | owner |
 | | `dispatch` | full TRDD designed, awaiting assignment | ORCHESTRATOR |
 | WORK | `dev` | MEMBER implementing (new code OR fixes) — after the (A) handshake | MEMBER (assignee) |
 | | `testing` | tests + audits running; failures bounce back to `dev` | test runner / MEMBER |
@@ -108,13 +113,13 @@ Each task is a TRDD whose `column:` field advances through the pipeline below. T
 
 **Who flips to `complete` (critical).** Nobody self-marks a task completed. The **INTEGRATOR (AMIA)** owns the column→`complete` flip: it validates that the merged PR actually satisfies the TRDD (acceptance criteria, tests, design) and only then advances the column. The ORCHESTRATOR does **not** own the final flip — ORCH owns the in-team coordination and the three dialog loops, INT owns completion.
 
-### GitHub-Projects board (the ratified 14-stage pipeline — no projection)
+### GitHub-Projects board (the ratified 22-column pipeline — no projection)
 
-The team board **mirrors the 14-stage TRDD v2 pipeline above 1:1**, plus the `blocked`/`failed`/`superseded` exception lanes — there is **no projection**. An earlier 8-column model (v2.20.0) was **superseded** by the MANAGER's ai-maestro#2 decision (a) (COS#11): a 14→8 collapse hid the human gate and the publish/deploy tails, so the board carries every TRDD `column:` as its own lane. The two governance review gates (`ai_review`, `human_review`) stay DISTINCT and `blocked` stays first-class by construction. COS sets this column schema once at team creation (via the deployed `kanban-config` verb; the per-team column **backend** is gated on ai-maestro#2); the canonical column set is the single source of truth in the `amcos-prrd-trdd-kanban` skill.
+The team board **mirrors the 19-stage TRDD v3 pipeline above 1:1**, plus the `blocked`/`failed`/`superseded` exception lanes — there is **no projection**. An earlier 8-column model (v2.20.0) was **superseded** by the MANAGER's ai-maestro#2 decision (a) (COS#11): a collapsed board hid the human gate and the publish/deploy tails, so the board carries every TRDD `column:` as its own lane. The two governance review gates (`ai_review`, `human_review`) stay DISTINCT and `blocked` stays first-class by construction. COS sets this column schema once at team creation (via the deployed `kanban-config` verb; the per-team column **backend** is gated on ai-maestro#2); the canonical column set is the single source of truth in the `amcos-prrd-trdd-kanban` skill.
 
 The board lanes are exactly the TRDD `column:` values, in lifecycle order:
 
-`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
+`backburner · approval · design · design_ai_review · design_human_review · todo · verify_assumptions · plan · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
 
 A TRDD's frontmatter `column:` IS its board lane (no mapping table); the publish/deploy tails follow each TRDD's `release-via:`, and INT validates acceptance before the `complete` flip. `blocked` is a first-class lane: a blocked task returns to its `pre-block-column:` when unblocked. The operational `status:*` GitHub-issue labels AMCOS sets (in `amcos-label-taxonomy`) are a **separate, coarser** layer — not 1:1 with these lanes; expanding the label set to match is a separate MANAGER decision.
 

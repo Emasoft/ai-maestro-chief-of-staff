@@ -528,9 +528,9 @@ All operations use intent-based skill references:
 
 What the COS needs to know operationally:
 
-- A task is a TRDD; its `column:` advances `backburner → todo → design → dispatch → dev → testing → ai_review → human_review → complete`, then a **project-type-specific** release (`publish`→`published` for tools/libraries/apps, `deploy`→`live`→`live_auditing` for services). `blocked`, `failed`, and `superseded` are the exception states.
+- A task is a TRDD; its `column:` advances `backburner → approval → design → design_ai_review → design_human_review → todo → verify_assumptions → plan → dispatch → dev → testing → ai_review → human_review → complete`, then a **project-type-specific** release (`publish`→`published` for tools/libraries/apps, `deploy`→`live`→`live_auditing` for services). `blocked`, `failed`, and `superseded` are the exception states.
 - **The INTEGRATOR (AMIA) owns the column → `complete` flip** (validates the merged PR satisfies the TRDD). The ORCHESTRATOR drives the working transitions and the three in-team dialog loops but does NOT flip to `complete`; the COS owns no column at all.
-- The COS only touches **labels** it is responsible for (see `amcos-label-taxonomy`): it sets `status:blocked` when pausing/blocking work and `status:pending` when a blocker clears. The board itself **mirrors the 14-stage `column:` pipeline above 1:1** plus the `blocked`/`failed`/`superseded` exception lanes — NOT a projection (the v2.20.0 8-column model was superseded by the MANAGER's ai-maestro#2 decision (a); canonical set in the `amcos-prrd-trdd-kanban` skill); the `status:*` labels the COS sets are a separate, coarser layer (not 1:1 with these lanes).
+- The COS only touches **labels** it is responsible for (see `amcos-label-taxonomy`): it sets `status:blocked` when pausing/blocking work and `status:pending` when a blocker clears. The board itself **mirrors the 19-stage `column:` pipeline above 1:1** plus the `blocked`/`failed`/`superseded` exception lanes — NOT a projection (the v2.20.0 8-column model was superseded by the MANAGER's ai-maestro#2 decision (a); canonical set in the `amcos-prrd-trdd-kanban` skill); the `status:*` labels the COS sets are a separate, coarser layer (not 1:1 with these lanes).
 
 ---
 

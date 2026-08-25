@@ -6,14 +6,14 @@ is exactly the TRDD-v2 `column:` enum. The AI Maestro server owns the column
 PRESENTATION (label/color/icon) via its `DEFAULT_KANBAN_COLUMNS`. This module
 enforces that layer boundary:
 
-  - `KANBAN_14STAGE_COLUMN_IDS` is COS's single source of truth for the set
+  - `KANBAN_BOARD_COLUMN_IDS` is COS's single source of truth for the set
     (14 lifecycle stages + 3 orthogonal exception states).
   - `ensure_kanban_columns()` (design (c) "verify-and-correct") reads a team's
     live column config, compares the returned id SET to the canonical set, and
     only `--set`s a fallback config when they DRIFT. The common case — a team
     with no custom config renders the server default, which already matches —
     is a duplication-free no-op.
-  - The fallback `DEFAULT_14STAGE_COLUMNS` mirrors the server's label/color so
+  - The fallback `DEFAULT_BOARD_COLUMNS` mirrors the server's label/color so
     the rare drift-correct path can satisfy the PUT schema (`color` is
     REQUIRED). It is exercised ONLY on drift, keeping the steady state free of
     a label/color sync burden.
@@ -29,14 +29,23 @@ import json
 from collections import Counter
 from typing import Any, Callable
 
-# COS's source of truth for the column-ID SET == the TRDD-v2 `column:` enum.
-# 14 lifecycle stages, then 3 orthogonal exception states. Order is the
-# canonical lifecycle order; the assertion in ensure_kanban_columns compares as
-# a SET (a team may legitimately reorder), but the order documents the pipeline.
-KANBAN_14STAGE_COLUMN_IDS: list[str] = [
+# COS's source of truth for the BOARD column-ID SET == the 3-pillars 3.0.0
+# 22-column board (spec `@spec:kanban-columns v2`, 3P-KAN-01/04, USER-ratified
+# 2026-08-23): 19 lifecycle stages, then 3 orthogonal exception states. The 5
+# BRACKET values (proposal, planned, refused, completed, cancelled) are legal
+# `column:` values but sit OUTSIDE the board (3P-KAN-20), so they do not appear
+# here. Order is the canonical lifecycle order; the assertion in
+# ensure_kanban_columns compares as a SET (a team may legitimately reorder),
+# but the order documents the pipeline.
+KANBAN_BOARD_COLUMN_IDS: list[str] = [
     "backburner",
-    "todo",
+    "approval",
     "design",
+    "design_ai_review",
+    "design_human_review",
+    "todo",
+    "verify_assumptions",
+    "plan",
     "dispatch",
     "dev",
     "testing",
@@ -53,6 +62,11 @@ KANBAN_14STAGE_COLUMN_IDS: list[str] = [
     "superseded",
 ]
 
+# The 5 bracket values legal in `column:` but never board columns (3P-KAN-20).
+BRACKET_COLUMN_VALUES: frozenset[str] = frozenset(
+    {"proposal", "planned", "refused", "completed", "cancelled"}
+)
+
 # Fallback column config used ONLY on the drift-correct path. The PUT Zod schema
 # (ai-maestro/app/api/teams/[id]/kanban-config/route.ts) makes `color` REQUIRED,
 # so every entry MUST carry id+label+color. label/color/icon are MIRRORED from
@@ -60,10 +74,15 @@ KANBAN_14STAGE_COLUMN_IDS: list[str] = [
 # duplicated here only so the rare correction can pass validation.
 #
 # Keep in sync with ai-maestro types/team.ts DEFAULT_KANBAN_COLUMNS.
-DEFAULT_14STAGE_COLUMNS: list[dict[str, str]] = [
+DEFAULT_BOARD_COLUMNS: list[dict[str, str]] = [
     {"id": "backburner", "label": "Backburner", "color": "bg-gray-500", "icon": "Archive"},
-    {"id": "todo", "label": "To Do", "color": "bg-gray-400", "icon": "Circle"},
+    {"id": "approval", "label": "Approval", "color": "bg-fuchsia-400", "icon": "ShieldCheck"},
     {"id": "design", "label": "Design", "color": "bg-indigo-400", "icon": "PenTool"},
+    {"id": "design_ai_review", "label": "Design AI Review", "color": "bg-violet-400", "icon": "Bot"},
+    {"id": "design_human_review", "label": "Design Human Review", "color": "bg-rose-400", "icon": "UserCheck"},
+    {"id": "todo", "label": "To Do", "color": "bg-gray-400", "icon": "Circle"},
+    {"id": "verify_assumptions", "label": "Verify Assumptions", "color": "bg-sky-400", "icon": "BadgeCheck"},
+    {"id": "plan", "label": "Plan", "color": "bg-cyan-500", "icon": "ListTree"},
     {"id": "dispatch", "label": "Dispatch", "color": "bg-cyan-400", "icon": "Send"},
     {"id": "dev", "label": "Dev", "color": "bg-blue-400", "icon": "Code"},
     {"id": "testing", "label": "Testing", "color": "bg-amber-400", "icon": "FlaskConical"},
@@ -106,8 +125,8 @@ def ensure_kanban_columns(
 
     Design (c) verify-and-correct:
       1. `kanban-config <team_id> --get` and read the returned column-id SET.
-      2. If it equals KANBAN_14STAGE_COLUMN_IDS as a SET → no-op ("columns OK").
-      3. Otherwise (drift / empty) → `--set` DEFAULT_14STAGE_COLUMNS to correct.
+      2. If it equals KANBAN_BOARD_COLUMN_IDS as a SET → no-op ("columns OK").
+      3. Otherwise (drift / empty) → `--set` DEFAULT_BOARD_COLUMNS to correct.
 
     Fail-fast: a non-zero exit on EITHER CLI call propagates as
     {"success": False, "error": ...} — never silently swallowed. Idempotent:
@@ -130,7 +149,7 @@ def ensure_kanban_columns(
         return get_result
 
     current_ids = _extract_column_ids(get_result.get("data"))
-    if set(current_ids) == set(KANBAN_14STAGE_COLUMN_IDS):
+    if set(current_ids) == set(KANBAN_BOARD_COLUMN_IDS):
         # Common case: the team already renders the canonical set (server
         # default or an equivalent custom config). No duplication, no PUT.
         return {
@@ -142,7 +161,7 @@ def ensure_kanban_columns(
 
     # Drift (or empty/unparseable) — correct it with the mirrored fallback.
     # The CLI takes the columns JSON ARRAY and wraps it into {columns: ...}.
-    columns_json = json.dumps(DEFAULT_14STAGE_COLUMNS, separators=(",", ":"))
+    columns_json = json.dumps(DEFAULT_BOARD_COLUMNS, separators=(",", ":"))
     set_result = run_cli(
         [teams_cli, "kanban-config", team_id, "--set", columns_json],
         f"kanban-config --set for team '{team_id}'",

@@ -525,7 +525,7 @@ For detailed procedures, see skills:
 - **Failure notification to the team and MANAGER** → [amcos-failure-notification](../skills/amcos-failure-notification/SKILL.md)
 - **GitHub issue label taxonomy and registry sync** → [amcos-label-taxonomy](../skills/amcos-label-taxonomy/SKILL.md)
 - **Onboarding a new agent into the team** → [amcos-onboarding](../skills/amcos-onboarding/SKILL.md)
-- **The 3-pillar governance system (PRRD / TRDD / 17-column kanban)** → [amcos-prrd-trdd-kanban](../skills/amcos-prrd-trdd-kanban/SKILL.md)
+- **The 3-pillar governance system (PRRD / TRDD / 22-column kanban)** → [amcos-prrd-trdd-kanban](../skills/amcos-prrd-trdd-kanban/SKILL.md)
 - **Team-wide coordination and status rollups** → [amcos-team-coordination](../skills/amcos-team-coordination/SKILL.md)
 
 ## Quick Command Reference

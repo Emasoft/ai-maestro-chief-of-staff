@@ -1,7 +1,7 @@
 """Real unit tests for the SERVER-INDEPENDENT kanban logic (COS#11 / #26).
 
 These exercise ONLY the pure logic that needs no AI Maestro server and no real
-CLI: the canonical column-ID set, the fallback `DEFAULT_14STAGE_COLUMNS` shape,
+CLI: the canonical column-ID set, the fallback `DEFAULT_BOARD_COLUMNS` shape,
 the column-id extraction, the verify-and-correct branching in
 `ensure_kanban_columns`, and the `summarize_velocity` reducer.
 
@@ -30,18 +30,25 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 from amcos_kanban import (  # noqa: E402
-    DEFAULT_14STAGE_COLUMNS,
-    KANBAN_14STAGE_COLUMN_IDS,
+    DEFAULT_BOARD_COLUMNS,
+    KANBAN_BOARD_COLUMN_IDS,
     _extract_column_ids,
     ensure_kanban_columns,
     summarize_velocity,
 )
 
-# The TRDD-v2 `column:` enum, in lifecycle order — COS's source of truth.
+# The 3-pillars 3.0.0 22-column board enum, in lifecycle order — COS's source
+# of truth (spec `@spec:kanban-columns v2`, 3P-KAN-01/04; bracket values are
+# deliberately absent per 3P-KAN-20).
 EXPECTED_IDS = [
     "backburner",
-    "todo",
+    "approval",
     "design",
+    "design_ai_review",
+    "design_human_review",
+    "todo",
+    "verify_assumptions",
+    "plan",
     "dispatch",
     "dev",
     "testing",
@@ -60,31 +67,36 @@ EXPECTED_IDS = [
 
 
 # ───────────────────────── canonical column-ID set ──────────────────────────
-def test_canonical_ids_are_the_17_trdd_columns_in_order() -> None:
-    """KANBAN_14STAGE_COLUMN_IDS is the 17 TRDD-v2 column ids in lifecycle order."""
-    assert KANBAN_14STAGE_COLUMN_IDS == EXPECTED_IDS
+def test_canonical_ids_are_the_22_board_columns_in_order() -> None:
+    """KANBAN_BOARD_COLUMN_IDS is the 22 board column ids in 3.0.0 lifecycle order."""
+    assert KANBAN_BOARD_COLUMN_IDS == EXPECTED_IDS
+    assert len(EXPECTED_IDS) == 22
 
 
 def test_canonical_ids_have_no_duplicates() -> None:
     """The canonical id list has no duplicate entries (a SET-safe source of truth)."""
-    assert len(KANBAN_14STAGE_COLUMN_IDS) == len(set(KANBAN_14STAGE_COLUMN_IDS))
+    assert len(KANBAN_BOARD_COLUMN_IDS) == len(set(KANBAN_BOARD_COLUMN_IDS))
 
 
-# ──────────────────── DEFAULT_14STAGE_COLUMNS shape ─────────────────────────
-def test_default_columns_count_within_server_max() -> None:
-    """DEFAULT_14STAGE_COLUMNS has the 17 entries and stays within the server max of 20."""
-    assert len(DEFAULT_14STAGE_COLUMNS) == 17
-    assert len(DEFAULT_14STAGE_COLUMNS) <= 20
+# ──────────────────── DEFAULT_BOARD_COLUMNS shape ─────────────────────────
+def test_default_columns_mirror_the_ratified_board() -> None:
+    """DEFAULT_BOARD_COLUMNS carries the 22 ratified board entries (3-pillars 3.0.0)."""
+    # 22 mirrors the server's own DEFAULT_KANBAN_COLUMNS (3-pillars 3.0.0).
+    # The PUT route's Zod cap is .max(27) — the 3P-KAN-20 legal `column:` set —
+    # since ai-maestro e3446edf (2026-08-25; COS reported the stale .max(20),
+    # hub fixed same hour). No <=N assertion here: this repo aligns TO the
+    # ratified spec, and the server bound is the server's test to keep.
+    assert len(DEFAULT_BOARD_COLUMNS) == 22
 
 
 def test_default_columns_ids_equal_canonical_set() -> None:
-    """The fallback columns' ids (in order) equal KANBAN_14STAGE_COLUMN_IDS."""
-    assert [c["id"] for c in DEFAULT_14STAGE_COLUMNS] == KANBAN_14STAGE_COLUMN_IDS
+    """The fallback columns' ids (in order) equal KANBAN_BOARD_COLUMN_IDS."""
+    assert [c["id"] for c in DEFAULT_BOARD_COLUMNS] == KANBAN_BOARD_COLUMN_IDS
 
 
 def test_default_columns_every_entry_has_nonempty_id_label_color() -> None:
     """Every fallback column carries a non-empty id, label, AND color (PUT requires color)."""
-    for col in DEFAULT_14STAGE_COLUMNS:
+    for col in DEFAULT_BOARD_COLUMNS:
         for key in ("id", "label", "color"):
             assert key in col, f"column {col!r} missing required key {key!r}"
             assert isinstance(col[key], str) and col[key].strip(), (
@@ -94,8 +106,8 @@ def test_default_columns_every_entry_has_nonempty_id_label_color() -> None:
 
 def test_default_columns_serialize_as_a_json_array() -> None:
     """The fallback serializes to a JSON ARRAY — the exact shape `--set` accepts."""
-    payload = json.loads(json.dumps(DEFAULT_14STAGE_COLUMNS))
-    assert isinstance(payload, list) and len(payload) == 17
+    payload = json.loads(json.dumps(DEFAULT_BOARD_COLUMNS))
+    assert isinstance(payload, list) and len(payload) == 22
 
 
 # ─────────────────────────── _extract_column_ids ────────────────────────────
@@ -123,7 +135,7 @@ def test_ensure_noop_when_columns_already_match() -> None:
     def runner(argv: list[str], _ctx: str) -> dict:
         calls.append(argv)
         assert "--set" not in argv, "must NOT --set when columns already match"
-        return _ok_get(list(KANBAN_14STAGE_COLUMN_IDS))
+        return _ok_get(list(KANBAN_BOARD_COLUMN_IDS))
 
     result = ensure_kanban_columns("team-1", runner, "aimaestro-teams.sh")
     assert result == {"success": True, "action": "ok", "team_id": "team-1", "message": "columns OK"}
@@ -132,7 +144,7 @@ def test_ensure_noop_when_columns_already_match() -> None:
 
 def test_ensure_noop_ignores_column_order() -> None:
     """A reordered-but-complete board is still a no-op (the comparison is set-based)."""
-    reordered = list(reversed(KANBAN_14STAGE_COLUMN_IDS))
+    reordered = list(reversed(KANBAN_BOARD_COLUMN_IDS))
 
     def runner(argv: list[str], _ctx: str) -> dict:
         assert "--set" not in argv
@@ -151,14 +163,14 @@ def test_ensure_corrects_on_drift_with_set() -> None:
             return _ok_get(["todo", "dev", "done"])  # legacy / wrong set
         if "--set" in argv:
             set_payloads.append(argv[argv.index("--set") + 1])
-            return {"success": True, "data": {"columns": DEFAULT_14STAGE_COLUMNS}}
+            return {"success": True, "data": {"columns": DEFAULT_BOARD_COLUMNS}}
         raise AssertionError(f"unexpected argv {argv}")
 
     result = ensure_kanban_columns("team-2", runner, "aimaestro-teams.sh")
     assert result["success"] and result["action"] == "corrected"
     assert len(set_payloads) == 1
     sent = json.loads(set_payloads[0])
-    assert [c["id"] for c in sent] == KANBAN_14STAGE_COLUMN_IDS
+    assert [c["id"] for c in sent] == KANBAN_BOARD_COLUMN_IDS
 
 
 def test_ensure_corrects_on_empty_board() -> None:
@@ -169,7 +181,7 @@ def test_ensure_corrects_on_empty_board() -> None:
         if "--get" in argv:
             return {"success": True, "data": {"columns": []}}
         saw_set["v"] = True
-        return {"success": True, "data": {"columns": DEFAULT_14STAGE_COLUMNS}}
+        return {"success": True, "data": {"columns": DEFAULT_BOARD_COLUMNS}}
 
     result = ensure_kanban_columns("team-3", runner, "aimaestro-teams.sh")
     assert result["action"] == "corrected" and saw_set["v"]

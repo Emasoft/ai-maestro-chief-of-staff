@@ -134,16 +134,23 @@ def test_debt_list_may_only_shrink() -> None:
 
 
 def test_every_card_declares_a_column_in_the_ratified_enum() -> None:
-    """A column outside the 17-value vocabulary makes the board unreadable.
+    """A column outside the 27-value legal set (3P-KAN-20) makes the board unreadable.
 
     Cheap, and it is the precondition for every other assertion here: the gate keys
     on `column:`, so a typo'd value silently removes a card from the gate's scope
     rather than failing loudly.
     """
+    # 22 board columns (3-pillars 3.0.0, @spec:kanban-columns v2) + the 5
+    # bracket values legal in `column:` but outside the board (3P-KAN-20).
     ratified = {
         "backburner",
-        "todo",
+        "approval",
         "design",
+        "design_ai_review",
+        "design_human_review",
+        "todo",
+        "verify_assumptions",
+        "plan",
         "dispatch",
         "dev",
         "testing",

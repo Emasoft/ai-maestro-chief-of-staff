@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-- [Kanban Columns (ratified 14-stage pipeline)](#kanban-columns-ratified-14-stage-pipeline)
+- [Kanban Columns (ratified 22-column pipeline)](#kanban-columns-ratified-22-column-pipeline)
 - [Task Routing Rules](#task-routing-rules)
 - [Status Labels AMCOS Updates](#status-labels-amcos-updates)
 - [Labels AMCOS Monitors](#labels-amcos-monitors)
@@ -12,22 +12,22 @@
 
 ---
 
-## Kanban Columns (ratified 14-stage pipeline)
+## Kanban Columns (ratified 22-column pipeline)
 
 > The team board is a **1:1 mirror** of the authoritative TRDD `column:`
 > pipeline — not a separate workflow and NOT a projection. The TRDD `column:`
 > lifecycle is the source of truth; each lane IS one `column:` value. An earlier
 > **8-column** model (v2.20.0) was **superseded** by the MANAGER's ai-maestro#2
-> decision (a) (COS#11): a 14→8 collapse hid the human gate and the
+> decision (a) (COS#11): a collapse hid the human gate and the
 > publish/deploy tails, so the board now carries every `column:` as its own lane,
 > keeping the two governance review gates (`ai_review`, `human_review`) DISTINCT
 > and `blocked`/`failed`/`superseded` first-class.
 
 **The lanes** (the canonical column set lives in the `amcos-prrd-trdd-kanban`
-skill — the single source of truth; the TRDD `column:` values in lifecycle order,
-+ exceptions):
+skill — the single source of truth; 19 lifecycle + 3 exception, the TRDD
+`column:` values in lifecycle order):
 
-`backburner · todo · design · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
+`backburner · approval · design · design_ai_review · design_human_review · todo · verify_assumptions · plan · dispatch · dev · testing · ai_review · human_review · complete · publish · published · deploy · live · live_auditing` + exceptions `blocked · failed · superseded`
 
 COS sets this column schema once, at team creation, via the deployed
 `kanban-config` CLI verb (the per-team column **backend** is gated on
