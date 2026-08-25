@@ -34,6 +34,11 @@ CPU_THRESHOLD = 80
 MEMORY_THRESHOLD = 85
 DISK_THRESHOLD = 90
 
+# Terminal cue attached to alert output via the hook `terminalSequence` field
+# (Claude Code 2.1.141+): OSC 0 window-title + BEL. Terminals without OSC/BEL
+# support ignore it, so the cue is purely additive (TRDD-23C5566E item C).
+ALERT_TERMINAL_SEQUENCE = "\x1b]0;⚠ AMCOS resources\x07\x07"
+
 
 def get_cpu_usage() -> float | None:
     """Get current CPU usage percentage.
@@ -198,6 +203,19 @@ def format_resource_warning(alerts: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
+def build_alert_output(alerts: list[dict[str, Any]]) -> dict[str, Any]:
+    """Build the hook JSON output for triggered alerts.
+
+    Kept as a pure function so the shape (systemMessage + non-blocking continue
+    + terminalSequence bell) is unit-testable without exceeding real thresholds.
+    """
+    return {
+        "systemMessage": format_resource_warning(alerts),
+        "continue": True,  # Don't block, just warn
+        "terminalSequence": ALERT_TERMINAL_SEQUENCE,
+    }
+
+
 def main() -> int:
     """Main entry point for UserPromptSubmit hook.
 
@@ -252,14 +270,11 @@ def main() -> int:
 
     # Output warning ONLY if thresholds exceeded; silence on success
     if alerts:
-        warning = format_resource_warning(alerts)
         out.log(f"Resource alerts triggered: {len(alerts)}")
         out.log_json(alerts, label="resource_alerts")
-        # Output as JSON with systemMessage for Claude to see
-        output = {
-            "systemMessage": warning,
-            "continue": True,  # Don't block, just warn
-        }
+        # Output as JSON with systemMessage for Claude to see; terminalSequence
+        # rings the terminal bell / sets the window title (additive cue).
+        output = build_alert_output(alerts)
         # Hook stdout must be clean JSON only — log the summary instead
         out.log(f"[WARNING] {len(alerts)} resource threshold(s) exceeded")
         print(json.dumps(output))
