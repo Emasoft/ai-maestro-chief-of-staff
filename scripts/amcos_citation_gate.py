@@ -123,7 +123,7 @@ def is_terminal_card(text: str) -> bool:
     if end == -1:
         return False
     m = re.search(r"^column:\s*(\S+)\s*$", text[3:end], re.M)
-    return bool(m) and m.group(1) in TERMINAL_COLUMNS
+    return m is not None and m.group(1) in TERMINAL_COLUMNS
 
 
 def scan_citations(
