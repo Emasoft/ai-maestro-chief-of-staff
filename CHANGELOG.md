@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.35.0] - 2026-08-25
+    ## [2.35.1] - 2026-08-25
 
-### Features
+### Tests
 
-- Repoint the last DECOUPLE-BLOCKED ops to the frozen CLI (TRDD-8E8D6618)    
+- Pin the repointed CLI argvs via stub-CLI contract tests (TRDD-8E8D6618)    
 
 
