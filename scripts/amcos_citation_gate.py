@@ -64,6 +64,11 @@ TERMINAL_COLUMNS = {
 
 RULE_START_RE = re.compile(r"^- \*\*([GS])(\d+)\.(\d+)\*\*")
 PINNED_CITE_RE = re.compile(r"\bPRRD\s+([GS])(\d+)\.(\d+)\b")
+# Supersession narration: a PIN immediately followed by an arrow (`G1.1 → G1.2`),
+# never bare arrow presence — this repo's prose uses arrows constantly (kanban
+# flows, causal chains), so a load-bearing pin merely SHARING a line with an
+# arrow must still be checked (adversarial-review finding, 2026-08-25).
+NARRATION_RE = re.compile(r"[GS]\d+\.\d+\s*(?:→|->)")
 
 
 def parse_prrd_rules(text: str) -> dict[str, tuple[str, str]]:
@@ -147,8 +152,8 @@ def scan_citations(
                 # Grammar example: the citation sits inside an inline code span.
                 if line.count("`", 0, m.start()) % 2 == 1:
                     continue
-                # Historical narration: successor named in the same line.
-                if "→" in line or "->" in line or "fixed:" in line.lower():
+                # Historical narration: a pin-adjacent arrow or "fixed:" marker.
+                if NARRATION_RE.search(line) or "fixed:" in line.lower():
                     continue
                 citations += 1
                 letter, number, version = m.groups()
