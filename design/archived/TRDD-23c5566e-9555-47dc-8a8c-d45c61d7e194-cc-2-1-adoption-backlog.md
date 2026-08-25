@@ -1,9 +1,10 @@
 ---
 trdd-id: 23C5566E
 title: Claude Code v2.1 (.101 to .143) Adoption Backlog
-column: backburner
+column: complete
 created: 2026-05-16T00:00:00+0200
-updated: 2026-07-16T19:52:43+0200
+updated: 2026-08-25T17:35:00+0200
+implementation-commits: [1870392]
 current-owner: cos-ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
@@ -15,6 +16,26 @@ min-approval-requirement: none
 ---
 
 # TRDD-23c5566e — Claude Code v2.1 (.101→.143) Adoption Backlog
+
+## ⏵ CLOSING ADJUDICATION — 2026-08-25 (authoritative; supersedes the backlog below)
+
+Every item re-verified against Claude Code 2.1.240 LIVE docs (hooks,
+commands, plugins-reference — fetched, not recalled) and against this repo's
+actual code before deciding. Verdicts:
+
+| Item | Verdict | Verified basis |
+|---|---|---|
+| A PreCompact snapshot | **REJECTED — premise stale** | `WAITING_FOR_HANDOFF`, `state.md`, `.amcos-logs/handoffs/` exist NOWHERE in this repo — there is no on-disk coordination state to snapshot; registry state lives server-side via the hub CLI. PreCompact itself verified alive; if AMCOS ever grows on-disk coordination state, re-card. |
+| B monitors | **DEFERRED** → TRDD-77M6SY47 | `experimental.monitors` verified present but STILL experimental — the card's own graduation gate is unmet. |
+| C terminalSequence | **IMPLEMENTED** (1870392) | Field verified in live hooks docs. Scoped DOWN to `amcos_resource_check.py` — the notification-protocol script is a CLI, not a hook, so a hook-output field there would be inert. |
+| D tool telemetry | **REJECTED** | `duration_ms` absent from live hooks docs (half the premise); an every-tool-call PostToolUse hook is a standing per-turn tax for an unrequested dashboard. Re-entry condition recorded in TRDD-77M6SY47. |
+| E per-agent hooks | **DEFERRED** → TRDD-77M6SY47 | Cosmetic refactor, low urgency by this card's own text. |
+| F /goal rewrite | **DEFERRED** → TRDD-77M6SY47 | `/goal` verified to exist, but the "no regression" acceptance is unverifiable without a live approval flow. |
+| G OTEL correlation | **DEFERRED** → TRDD-77M6SY47 | Team-registry redesign dependency still unmet (registry is CRUD over the hub CLI). |
+| H PostToolUse scrubbing | **PARKED** | Speculative by this card's own text; acceptance TBD then, still TBD now. |
+
+Backlog fully adjudicated: 1 implemented, 2 rejected on verified stale
+premises, 4 deferred with re-entry conditions in TRDD-77M6SY47, 1 parked.
 
 **Filename:** `design/tasks/TRDD-23c5566e-9555-47dc-8a8c-d45c61d7e194-cc-2-1-adoption-backlog.md`
 **Tracked in:** this repo (`design/tasks/` is git-tracked)
