@@ -1,9 +1,9 @@
 ---
 trdd-id: 0YWTUXW7
 title: Adopt the 3-pillars 3.0.0 22-column kanban vocabulary across the plugin
-column: dev
+column: complete
 created: 2026-08-25T17:27:42+0200
-updated: 2026-08-25T17:27:42+0200
+updated: 2026-08-25T17:32:00+0200
 current-owner: ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: ai-maestro-chief-of-staff
@@ -14,7 +14,7 @@ mandate: true
 mandated-by: hub-fleet-prep
 min-approval-requirement: none
 external-refs: [ai-maestro:TRDD-UNTF690M, ai-maestro:governance-rules@c8b0e9cb]
-implementation-commits: []
+implementation-commits: [3c67fb1]
 ---
 
 # Adopt the 3-pillars 3.0.0 22-column kanban vocabulary
@@ -64,3 +64,7 @@ hub tree. This repo aligns TO the ratified spec, never to a stale validator.
 - [x] Full test suite green (343 passed).
 
 ## Approval log
+
+- 2026-08-25T17:32:00+0200 — COMPLETED by ai-maestro-chief-of-staff (Tier 0 /
+  min-approval-requirement none; USER-ordered fleet prep). 343 tests pass;
+  zero live stale references; implemented in 3c67fb1.
