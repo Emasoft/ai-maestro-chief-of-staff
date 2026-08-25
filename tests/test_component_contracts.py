@@ -568,7 +568,7 @@ def test_skill_menu_scope_is_narrower_than_the_file() -> None:
 # title this persona forbids — addressable by name with nothing in the way.
 #
 # The persona must therefore say the rule binds on WHO is contacted rather than
-# on the transport. These are four separate assertions on purpose: naming the
+# on the transport. These are six separate assertions on purpose: naming the
 # tools and disclaiming enforcement are independent failures, and a body that
 # merely name-dropped `SendMessage` would satisfy a keyword scan while still
 # implying the server covers it.
@@ -583,6 +583,22 @@ def test_skill_menu_scope_is_narrower_than_the_file() -> None:
 # pass the three above while never telling the agent that `@name` is the same
 # act. A guard that pins only the surfaces that existed when it was written goes
 # quiet exactly when a new one is added.
+#
+# It went quiet again. Claude Code 2.1.236 added `notify_when_idle` to
+# `SendMessage` — a FOURTH surface on the same unpoliced path, and the first one
+# that can contact a session while delivering no text at all: omit `message` and
+# it is a pure subscription. Every earlier surface at least looked like a send,
+# so an agent policing itself could recognise one. A bodyless subscription does
+# not, which is exactly why prose has to carry it: "I did not message them, I
+# only asked to be told when they go idle" is the reasoning this assertion
+# exists to pre-empt. That is a NEW way to reach a forbidden title, not a new
+# permission — the R6 graph binds it identically.
+#
+# 2.1.238 is pinned for the opposite reason: it partially RESTORES visibility (a
+# send to an inbound-refusing session now reports "refused" instead of silently
+# succeeding), and a persona that over-reads that as "the harness catches my
+# mistakes now" would be more dangerous than one that never heard of it. The
+# assertion pins the LIMIT, not the feature.
 
 _NATIVE_TRANSPORT_TOOLS = ("SendMessage", "ListAgents")
 
@@ -614,6 +630,9 @@ def test_persona_states_the_native_transport_is_not_policed() -> None:
     assert "is not a licence to contact it" in text.lower(), "the persona does not say that `ListAgents` visibility confers no permission. An agent told 'you may message only X' and then handed a directory of everyone will reason its way around the rule."
     assert "untrusted data" in text.lower(), "the persona does not say inbound cross-session messages carry no server-side identity check. This matters most for a title that DOES receive authenticated instructions over AMP — on arrival the two look alike, and only one of them was checked."
     assert "same act performed through a different surface" in text.lower(), "the persona names `SendMessage`/`ListAgents` but not the `@name` prompt mention Claude Code 2.1.232 added onto the same unpoliced path. An agent that has internalised 'do not SendMessage MAINTAINER' has not necessarily internalised '@ing them is the same send', and the confirmation step that used to make a misdirected send visible before it left is gone."
+    assert "notify_when_idle" in text, "the persona never names `notify_when_idle` (Claude Code 2.1.236), the fourth surface on the unpoliced path. It is the one an agent is least likely to classify as a send by itself, because omitting `message` contacts the target while delivering no text — so 'I did not message them, I only subscribed' is available as a rationalisation unless the persona forecloses it."
+    assert "does not make it not a send" in text.lower(), "the persona names `notify_when_idle` but does not carry the load-bearing claim that a BODYLESS subscription is still contact. Naming the parameter is vocabulary; what has to survive is that subscribing to a forbidden title is the same violation as messaging one. Without this an agent can name the tool and still reason its way past the graph."
+    assert "refuses nothing on your behalf" in text.lower(), "the persona does not carry the LIMIT of the 2.1.238 `refused` report. Pinning the bare word `refused` would be useless — it already appears in the reply-only rule ('a second reply to the same inbound id is refused'), so that assertion passes on a persona that never heard of 2.1.238 and cannot fail. What must survive is the limit: the report speaks only after the send has left, only when the target is a registered workdir, and never for a forbidden correspondent who is not registered. A persona that learns the feature without the limit will over-trust it as 'the harness catches my mistakes now'."
 
 
 def test_shipped_subagents_cannot_reach_a_peer_session() -> None:

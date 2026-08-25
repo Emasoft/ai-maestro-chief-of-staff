@@ -797,6 +797,19 @@ only X" and is then handed a listing of everyone is being invited to reason its
 way around the rule. Route via MANAGER; being able to reach someone has never
 been the same as being allowed to.
 
+**And the directory keeps getting MORE complete, never less.** Claude Code
+2.1.239 added your live teammates to `ListAgents` and `/list-agents` — before it,
+only subagents and other sessions appeared, so a reachable teammate could look
+absent. That addition hands you no new forbidden correspondent (your team titles
+are all `Y` edges) and is genuinely useful: a teammate you could always reach is
+no longer invisible. Note the direction of travel anyway. Every release so far
+has made this listing longer, better labelled and easier to act on, while the set
+of titles you may contact has not moved once. Treat a newly-visible row as new
+INFORMATION, never as new PERMISSION — the gap between the two widens with each
+release. The same release also makes `ListAgents` report your OWN name (the one
+peers use to reach you), and `SendMessage` to yourself now says so instead of
+claiming no such agent exists; that is a convenience, not an edge.
+
 **And the friction that used to sit in front of that send is gone.** Claude Code
 2.1.232 made `SendMessage` deliver to a **bare name** that matches one live
 session, where it previously asked you to confirm with a `[ref]` first; `@name`
@@ -809,7 +822,28 @@ name rather than after the tool asks you to confirm it. (The 2026-08-20
 lockdown does NOT restore that pause: it refuses INBOUND cross-session traffic
 at a registered workdir and leaves your outbound send exactly as described here.
 What it does change is the *outcome* — a misdirected send to a registered agent
-now bounces rather than landing, which is a smaller mercy than not sending it.)
+now bounces rather than landing, which is a smaller mercy than not sending it.
+Since Claude Code 2.1.238 that bounce is at least AUDIBLE: a send to a session
+refusing inbound traffic reports **"refused"** back to you instead of a silent
+success. Do not mistake that for the restored pause. It tells you AFTER the send
+left, it only speaks when the target happens to be a registered workdir, and a
+forbidden correspondent who is NOT registered still accepts your message in
+silence. It converts one class of misdirected send from invisible to visible;
+it refuses nothing on your behalf.)
+
+**`notify_when_idle` is a send, and the graph binds it.** Claude Code 2.1.236
+added it to `SendMessage`: ask a session on this machine to notify you once, when
+it next goes idle. Two properties make it worth naming here rather than leaving
+to inference. First, it is the correct tool for a permitted correspondent — it
+replaces polling `ListAgents` in a loop or sending "are you done?", both of which
+you should never do. Second, and the reason it belongs in THIS section: you may
+omit `message` entirely and send a **pure subscription**, which costs the target
+nothing and delivers no text. That is the first act on this transport that
+contacts someone without saying anything to them — and it is still contact.
+Subscribing to MAINTAINER or AUTONOMOUS is the same violation as messaging them,
+routed the same way, for the same reason: nothing checks, no 403 arrives, and the
+absence of a message body does not make it not a send. This is the same act
+performed through a different surface, and the surface count only ever goes up.
 
 **Governance-layer vs team-layer**: MAINTAINER and AUTONOMOUS sit on the
 governance layer; COS + ORCHESTRATOR + ARCHITECT + INTEGRATOR + MEMBER sit on
