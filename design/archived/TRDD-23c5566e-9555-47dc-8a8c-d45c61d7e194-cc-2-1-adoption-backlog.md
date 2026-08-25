@@ -37,6 +37,15 @@ actual code before deciding. Verdicts:
 Backlog fully adjudicated: 1 implemented, 2 rejected on verified stale
 premises, 4 deferred with re-entry conditions in TRDD-77M6SY47, 1 parked.
 
+### Closing acceptance checklist (evidence = the adjudication table above)
+
+- [x] Every backlog item (A–H) adjudicated against CC 2.1.240 LIVE docs and
+      this repo's actual code — no verdict rests on the changelog from memory.
+- [x] Item C implemented and unit-tested (commit 1870392,
+      `tests/test_resource_check_alert_output.py`).
+- [x] Every deferred item carries a re-entry condition in TRDD-77M6SY47.
+- [x] Full test suite green after the sprint (343 passed).
+
 **Filename:** `design/tasks/TRDD-23c5566e-9555-47dc-8a8c-d45c61d7e194-cc-2-1-adoption-backlog.md`
 **Tracked in:** this repo (`design/tasks/` is git-tracked)
 **Plugin:** ai-maestro-chief-of-staff
