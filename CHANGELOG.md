@@ -1,16 +1,16 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.32.7] - 2026-08-19
-
-### Bug Fixes
-
-- Sweep bare agent-messaging invocations to frozen amp-* CLIs (TRDD-3ICG52TO)    
-- Align post-op 2.3.3 TOC line + Purpose with amp-send CLI conversion (TRDD-3ICG52TO)    
-- Devitalize elevated-permissions literal in changelog rendering (TRDD-3ICG52TO)    
+    ## [2.32.8] - 2026-08-25
 
 ### Documentation
 
-- Add TRDD-3ICG52TO — sweep bare agent-messaging invocations to amp-* CLIs (hub SWEEP directive, USER mandate)    
+- Archive TRDD-3ICG52TO → published (v2.32.7)    
+- Add TRDD-P4OB78ST — refresh SendMessage governance prose after harness deny (hub AMP-only directive)    
+- Refresh SendMessage governance prose after harness deny (TRDD-P4OB78ST)    
+- Archive TRDD-P4OB78ST → complete (524b921)    
+- Correct harness-lockdown prose to inbound-only (TRDD-EZUFLTOL)    
+- Archive TRDD-EZUFLTOL → complete    
+- Pin CC 2.1.236-2.1.239 transport surfaces in R6 + guard tests    
 
 
