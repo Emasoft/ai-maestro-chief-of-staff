@@ -1,10 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-    ## [2.34.1] - 2026-08-25
+    ## [2.35.0] - 2026-08-25
 
-### Bug Fixes
+### Features
 
-- Narration exemption requires a pin-adjacent arrow, not bare arrow presence (TRDD-TH95SZFZ)    
+- Repoint the last DECOUPLE-BLOCKED ops to the frozen CLI (TRDD-8E8D6618)    
 
 
