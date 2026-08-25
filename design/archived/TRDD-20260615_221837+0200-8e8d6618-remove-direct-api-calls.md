@@ -1,12 +1,9 @@
 ---
 trdd-id: 8E8D6618
 title: Remove all direct /api/* calls from COS scripts — repoint to the immutable CLI layer (#20)
-column: blocked
-pre-block-column: backburner
-review-after: 2026-09-15
-blocked-by: [ai-maestro:TRDD-IBKR7F74]
+column: complete
 created: 2026-06-15T22:18:37+0200
-updated: 2026-08-19T05:20:00+0200
+updated: 2026-08-25T23:20:00+0200
 current-owner: cos-ai-maestro-chief-of-staff
 created-by: ai-maestro-chief-of-staff
 assignee: cos-ai-maestro-chief-of-staff
@@ -28,7 +25,47 @@ external-refs: ["github.com/Emasoft/ai-maestro-chief-of-staff/issues/20", "githu
 
 # TRDD-8e8d6618 — Remove direct /api/* calls from COS scripts (#20)
 
-## ⏵ STATE — READ THIS FIRST ON RESUME (authoritative) — 2026-08-19
+## ⏵ STATE — CLOSED COMPLETE 2026-08-25 (authoritative; supersedes everything below)
+
+Hub TRDD-IBKR7F74 landed (b2afaa15 + 6679475f, verified first-hand via gh api;
+deployed CLIs at ~/.local/bin dated 2026-08-25 22:56, verbs read from source).
+The three script DECOUPLE-BLOCKED residuals are resolved:
+
+- **approval decision** → `GovernanceAPI.decide()` calls AID-authenticated
+  `aimaestro-governance.sh approve/reject` (no password, no --approver — the
+  server forces identity from AID_AUTH; R32-clean). Generic status-PATCH stays
+  a PERMANENT graceful degrade (refused by the #76 ruling), not pending.
+- **add_agent** → `aimaestro-agent.sh create <name> --no-session --team
+  --title --plugin` (`--dir` optional since 82839c34; --no-session = "just
+  register" per the CLI's own help).
+- **update-status** → REFUSED by the #76 ruling (status reflects reality,
+  never independently writable); error now points at the lifecycle actions.
+- `docs/TEAM_REGISTRY_SPECIFICATION.md` reframed to the settled surface.
+
+## Closing acceptance checklist (evidence per box)
+
+- [x] `grep -rn '/api/' scripts/ skills/ agents/ commands/ docs/` = 0 direct-call
+      instructions (met since v2.18.4; unchanged by this pass).
+- [x] Zero `DECOUPLE-BLOCKED` markers left in `scripts/` (grep = 0 after repoint).
+- [x] Every inserted verb verified against the DEPLOYED CLI source, not a peer
+      table (cmd_create flags read from agent-commands.sh:650; AID approve/reject
+      read from aimaestro-governance.sh; per the verb-gotchas memory lesson).
+- [x] py_compile clean; full suite 350 passed.
+
+**Residual (NOT this card's scope, zero /api/):** ~11 prose markers for
+issue-label assignment + list-sessions-by-project remain in label-taxonomy /
+coordination reference docs — verbs verified absent from the deployed CLIs
+today; tracked upstream on ai-maestro#76 (verified OPEN 2026-08-25). When those
+verbs ship, a fresh small card repoints the prose.
+
+## Approval log
+
+- 2026-08-25T23:20:00+0200 — COMPLETED by ai-maestro-chief-of-staff (Tier 0 —
+  executing the USER's standing pre-authorization on this card: "execute, do NOT
+  stop for approval"; hub relayed the unblock). Upstream dependency IBKR7F74
+  verified landed before any repoint.
+
+## ⏵ prior STATE — 2026-08-19 (superseded)
 
 **⏸ BLOCKED 2026-08-19 on `blocked-by: [ai-maestro:TRDD-IBKR7F74]`** — the sanctioned
 cross-project-blocker spelling, adopted the moment hub TRDD-PTFPGSLV shipped (c242d4ca):

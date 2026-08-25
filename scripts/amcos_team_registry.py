@@ -311,27 +311,22 @@ def add_agent(
 
     governance_role = ROLE_CONSTRAINTS[role].governance_role
 
-    # DECOUPLE-BLOCKED ai-maestro#76: add-agent — aimaestro-agent.sh create
-    # requires a working directory (--dir <path>, hard-required) AND has NO
-    # --status flag (verified against agent-commands.sh cmd_create: the only
-    # --status is on `list`; create errors "Working directory is required").
-    # add_agent()'s signature carries no working-dir, and host/ai_maestro_address
-    # are server-inferred (dropped) — so the registry cannot synthesize a valid
-    # `agent create` invocation here without a --dir value it does not have.
-    # Pending MANAGER design call (same residual class as github_project /
-    # update-status): either agent-create gains a registry-mode that defaults
-    # --dir, or the registry grows a working-dir parameter. Fail-fast rather
-    # than emit a CLI call the frozen interface would reject.
-    _ = (governance_role, host, ai_maestro_address)  # referenced; intentionally unused until the verb ships
-    return {
-        "success": False,
-        "error": (
-            f"add-agent '{agent_name}' to team '{team_id}' DECOUPLE-BLOCKED ai-maestro#76: "
-            "aimaestro-agent.sh create requires --dir (no working-dir in "
-            "add_agent signature) and exposes no --status flag — no clean "
-            "registry-side mapping. Pending MANAGER design call."
-        ),
-    }
+    # UNBLOCKED by hub TRDD-IBKR7F74 (82839c34, verified in the deployed
+    # agent-commands.sh cmd_create): --dir is now OPTIONAL, defaulting to
+    # ~/agents/<name>/ (the only location the server accepts anyway), and
+    # create carries --title/--team/--plugin. --no-session = register only
+    # ("just register" per the CLI's own help) — a registry add must never
+    # spawn a live session as a side effect. host/ai_maestro_address stay
+    # server-inferred (dropped).
+    _ = (host, ai_maestro_address)  # server-inferred; kept in the signature for callers
+    argv = [
+        AGENT_CLI, "create", agent_name,
+        "--no-session",
+        "--team", team_id,
+        "--title", governance_role,
+        "--plugin", plugin,
+    ]
+    return _run_cli(argv, f"Add agent '{agent_name}' to team '{team_id}'")
 
 
 def remove_agent(team_id: str, agent_id: str) -> dict[str, Any]:
@@ -593,15 +588,18 @@ Examples:
                     f"Invalid status: {args.status}. Valid: {valid_statuses}"
                 )
 
-            # DECOUPLE-BLOCKED ai-maestro#76: update-status — no generic agent-status-set verb (agent update=tags/task/model only; hibernate/wake/restart are actions, not label-sets). Pending MANAGER design call (same class as approval_manager.sync_local_to_api).
+            # REFUSED by the ai-maestro#76 ruling (reaffirmed at TRDD-IBKR7F74
+            # close, 6679475f): registry status must REFLECT REALITY and is
+            # never independently writable — no status-set verb will ever ship.
+            # Change the reality instead, via lifecycle ACTIONS (hibernate /
+            # wake / delete); the status then follows. Permanent, not pending.
             result = {
                 "success": False,
                 "error": (
-                    "update-status DECOUPLE-BLOCKED ai-maestro#76: no generic "
-                    "agent-status-set verb in the frozen CLI (aimaestro-agent.sh "
-                    "update sets tags/task/model only; hibernate/wake/restart are "
-                    "lifecycle ACTIONS, not registry status-label sets). Pending "
-                    "MANAGER design call."
+                    "update-status REFUSED (ai-maestro#76 ruling): agent status "
+                    "reflects reality and is never independently writable. Use "
+                    "the lifecycle actions instead — amcos_hibernate_agent.py / "
+                    "amcos_wake_agent.py / aimaestro-agent.sh delete."
                 ),
             }
             out.log(f"update-status '{args.agent_name}' -> '{args.status}'")

@@ -215,17 +215,42 @@ class GovernanceAPI:
                 return record
         return None
 
+    def decide(
+        self, request_id: str, decision: str, reason: str = ""
+    ) -> Optional[dict[str, Any]]:
+        """Approve/reject via the AID-authenticated CLI verbs (hub TRDD-IBKR7F74).
+
+        With ``AID_AUTH`` exported the server authenticates the caller by AID,
+        resolves its governance title, and forces the decider identity — no
+        password anywhere (R32) and no ``--approver``/``--rejector`` from an
+        agent (those bind only the USER/UI password path). Self-approval is
+        refused server-side. Returns the CLI's parsed JSON, or None on failure
+        (callers fall back to YAML-mirror + AMP, as ever).
+        """
+        if decision == "approved":
+            argv = ["approve", request_id]
+        else:
+            argv = ["reject", request_id]
+            if reason:
+                argv.extend(["--reason", reason])
+        return self._run_gov(argv, "decide")
+
     def update(
         self, request_id: str, updates: dict[str, Any]
     ) -> Optional[dict[str, Any]]:
         """Generic status-PATCH — GRACEFUL-DEGRADE, never hard-fail.
 
-        # DECOUPLE-BLOCKED ai-maestro#76: generic password-less status-PATCH has no CLI verb (approve/reject are password-required formal endpoints, a different op COS doesn't use; a status-set verb is pending). Graceful-degrade: return None so respond_to_request/sync_local_to_api fall back to YAML-mirror + AMP (decision still recorded locally), same as the old api-unreachable path.
+        Decisions no longer route here: TRDD-IBKR7F74 shipped the AID
+        approve/reject verbs (see ``decide()``). The GENERIC status-PATCH stays
+        verbless BY RULING (ai-maestro#76: status reflects reality and is never
+        independently writable), so this degrade is permanent, not pending:
+        return None so callers fall back to YAML-mirror + AMP (state still
+        recorded locally), same as the old api-unreachable path.
         """
         print(
-            f"DECOUPLE-BLOCKED ai-maestro#76: no CLI verb for generic "
-            f"status-PATCH of {request_id} ({len(updates)} field(s)); deferring "
-            "server-side sync, recording decision locally (YAML + AMP).",
+            f"no CLI verb for generic status-PATCH of {request_id} "
+            f"({len(updates)} field(s)) — refused by the ai-maestro#76 ruling; "
+            "deferring server-side sync, recording state locally (YAML + AMP).",
             file=sys.stderr,
         )
         self.available = False
@@ -848,8 +873,13 @@ def respond_to_request(
         "updated_at": timestamp,
     }
 
-    # Step 1: PATCH API (primary authority)
-    api_response = api.update(request_id, update_payload)
+    # Step 1: server decision (primary authority). approved/rejected now ride
+    # the AID-authenticated approve/reject verbs (TRDD-IBKR7F74); any other
+    # status value still has no verb and takes update()'s graceful degrade.
+    if decision in ("approved", "rejected"):
+        api_response = api.decide(request_id, decision, reason=comment)
+    else:
+        api_response = api.update(request_id, update_payload)
     api_synced = api_response is not None
 
     # Step 2: Update local YAML mirror
